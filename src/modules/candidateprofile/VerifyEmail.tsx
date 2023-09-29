@@ -21,12 +21,13 @@ type Props = {
   open: boolean;
   cancel: () => void;
   close: () => void;
+  setshow:any;
 };
 type ParamsType = {
   empId: string;
 };
 
-const VerifyEmail = ({ open, cancel, close }: Props) => {
+const VerifyEmail = ({ open, cancel, close,setshow }: Props) => {
   const { empId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const [minutes, setMinutes] = useState<number>(1);
@@ -75,6 +76,7 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
             jd_id: localStorage.getItem('careerJobViewJobId'),
           }),
         );
+        setshow(true)
         setLoader(false);
         setValidOtp(false);
       } else if (res.payload.success === 0) {

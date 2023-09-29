@@ -59,7 +59,7 @@ const EmailScreen = ({ Emailsidebar, isprofileview, can_id }: Props) => {
   const [usermail, setUsermail] = useState('');
   const [sideroute, setsideroute] = useState(1);
   //chage loader state check //
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [mailfolders, setMailfolders] = useState<any>(0);

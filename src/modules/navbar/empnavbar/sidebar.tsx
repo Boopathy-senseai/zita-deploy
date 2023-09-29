@@ -2,7 +2,11 @@ import classNames from 'classnames/bind';
 import { useEffect, useState, createRef, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { meetingScheduler, reports } from '../../../appRoutesPath';
+import {
+  jobCreateNonDs,
+  meetingScheduler,
+  reports,
+} from '../../../appRoutesPath';
 import SvgRight1 from '../../../icons/SvgRight1';
 import SvgCommunication from '../../../icons/SvgCommunication';
 import SvgBranding from '../../../icons/SvgBranding';
@@ -17,14 +21,12 @@ import { LEAVE_THIS_SITE } from '../../constValue';
 import Button from '../../../uikit/Button/Button';
 import { routesPath } from '../../../routes/routesPath';
 import { AppDispatch, RootState } from '../../../store';
-import { jobSelect } from '../../../appRoutesPath';
 import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import SvgCollapse from '../../../icons/Svgcollapse';
 import styles from './notification.module.css';
-
 
 const cx = classNames.bind(styles);
 type props = {
@@ -180,7 +182,7 @@ const Sidebar = ({ changes, data }: props) => {
     setBrandDropdownOpen(false);
     setMyaccDropdownOpen(false);
     setOverviewPopupDropdownOpen(false);
-    setJobsPopupDropdownOpen(false);  
+    setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
     setCommPopupDropdownOpen(false);
     setBrandPopupDropdownOpen(false);
@@ -373,10 +375,17 @@ const Sidebar = ({ changes, data }: props) => {
     <>
       <div 
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
-        style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}
+        style={{
+          marginTop: '50px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignContent: 'space-between',
+        }}
       >
-        <div 
-        className={Expent === '0' ? styles.sidemenucontent : styles.sidemenucontentmini}
+        <div
+          className={
+            Expent === '0' ? styles.sidemenucontent : styles.sidemenucontentmini
+          }
         >
         <ul style={{width:'100%'}}>
 {/* Overview Dropdown */}
@@ -404,19 +413,23 @@ const Sidebar = ({ changes, data }: props) => {
                       </Text>
                       
                 </Flex>
-              {isOverviewDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                {isOverviewDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
               </div>
               </li>
@@ -619,22 +632,25 @@ const Sidebar = ({ changes, data }: props) => {
                   <li
                       title="Reports"
                       className={
-                        pathname.includes('/reports') ? styles.select_row : styles.select_item
+                        pathname.includes('/reports')
+                          ? styles.select_row
+                          : styles.select_item
                       }
-                      style={{cursor:'not-allowed'}}
+                      style={{ cursor: 'not-allowed' }}
                     >
-                    
                       <a
                         className={styles.hoverview}
                         href={' '}
-                        style={{cursor:'not-allowed'}}
+                        style={{ cursor: 'not-allowed' }}
                         onClick={(e) => {
                           e.preventDefault();
                         }}
                       >
                         <Text
                           onClick={() => handleNavigate(6)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
                           style={{
                             color: '#581845',
@@ -646,7 +662,7 @@ const Sidebar = ({ changes, data }: props) => {
                         </Text>
                       </a>
                     </li>
-                )}
+                  )}
                 </Flex>
               </>
             )}
@@ -661,29 +677,35 @@ const Sidebar = ({ changes, data }: props) => {
                 <Flex row>
                   <text style={{ verticalAlign: 'middle' }}>
                     <SvgJobPost height={16} width={16} />
-                    </text>
+                  </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer', marginLeft:"18px"}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer', marginLeft: '18px' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
                     Jobs
                   </Text>
                 </Flex>
                 {!isJobsDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
               </li>
             {isJobsDropdownOpen && (
@@ -1211,27 +1233,33 @@ const Sidebar = ({ changes, data }: props) => {
                         />
                     </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
                     Candidates
                   </Text>
+                </Flex>
+                {!isCandiDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isCandiDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
                   </li>
           {isCandiDropdownOpen && (
@@ -1507,29 +1535,33 @@ const Sidebar = ({ changes, data }: props) => {
                   <SvgCommunication width={21} height={21}/>
                     </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
                     style={{ cursor: 'Pointer', marginRight:"8px"}}
                     className={Expent === '0' ? styles.maintext : styles.classpan}
                   >
-                     Communications
+                    Communications
                   </Text>
+                </Flex>
+                {!isCommDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isCommDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-            </li>  
+            </li>
             {isCommDropdownOpen && (
                 <> 
                 <Flex style={{backgroundColor: "#f7f7f7", textIndent:"22px"}}
@@ -2050,7 +2082,9 @@ const Sidebar = ({ changes, data }: props) => {
 
                           <Text
                             onClick={() => handleNavigate(7)}
-                            className={Expent === '0' ? styles.text : styles.classpan}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
                             color="primary"
                             style={{ color: '#581845', marginRight: '10px' }}
                           >
@@ -2072,19 +2106,21 @@ const Sidebar = ({ changes, data }: props) => {
 
                         <Text
                           onClick={() => handleNavigate(7)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px'}}
+                          style={{ color: '#581845', marginRight: '10px' }}
                         >
                           Mailbox
                         </Text>
-                        </a>
+                      </a>
                     </li>
                   )}
-                  </Flex>
-                </>
+                </Flex>
+              </>
             )}
-{/* Branding Dropdown */}
+            {/* Branding Dropdown */}
             <li>
             <Flex row
                   title="Branding"
@@ -2096,29 +2132,35 @@ const Sidebar = ({ changes, data }: props) => {
                   <SvgBranding width={21} height={21}/>
                     </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
-                     Branding
+                    Branding
                   </Text>
+                </Flex>
+                {!isBrandDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isBrandDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-              </li>
+            </li>
             {isBrandDropdownOpen && (
               <>
               <Flex style={{backgroundColor:"#f7f7f7", textIndent:"22px"}}
@@ -2276,7 +2318,7 @@ const Sidebar = ({ changes, data }: props) => {
                 </Flex>
               </>
             )}
-{/* Account Settings*/}
+            {/* Account Settings*/}
             <li>
             <Flex row
                   title="My Account"
@@ -2289,29 +2331,35 @@ const Sidebar = ({ changes, data }: props) => {
                   <SvgMyAccount height={20} width={20}/>
                     </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
-                      My Account
+                    My Account
                   </Text>
+                </Flex>
+                {!isMyaccDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isMyaccDropdownOpen ? (
-                    <Flex
-                      className={Expent === '0' ? styles.maintext : styles.classpan}
-                      >
-                        <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                    </Flex>
-                  ) : (
-                    <Flex
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
-                    >
-                      <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                    </Flex>
-                  )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-              </li>
+            </li>
             {isMyaccDropdownOpen && (
               <>
               <Flex style={{backgroundColor:"#f7f7f7", textIndent:"22px"}}
@@ -2773,10 +2821,10 @@ const Sidebar = ({ changes, data }: props) => {
                 </Flex>  
               </>
             )}
-        </ul>
-      </div>                
+          </ul>
+        </div>
 
-        <ul className={styles.setting} >
+        <ul className={styles.setting}>
           {is_plan ? (
             <li
               title="Settings"
@@ -2799,8 +2847,7 @@ const Sidebar = ({ changes, data }: props) => {
           ) : (
             <li>
               <a
-              style={{    position: 'relative',
-                bottom: '20px'}}
+                style={{ position: 'relative', bottom: '20px' }}
                 href={' '}
                 onClick={(e) => {
                   e.preventDefault();
@@ -2819,7 +2866,7 @@ const Sidebar = ({ changes, data }: props) => {
           )}
           <li>
             {Expent === '0' ? (
-              <Flex  title='Collapse sidebar'>
+              <Flex title="Collapse sidebar">
                 <Button
                   style={{
                     height: '19px',
@@ -2835,17 +2882,15 @@ const Sidebar = ({ changes, data }: props) => {
                 </Button>
               </Flex>
             ) : (
-              <Flex title='Expand Sidebar'>
+              <Flex title="Expand Sidebar">
                 <Button
-                className={styles.Expend}
-                types="link"
-                onClick={() => handlecheck('0')}
-              >
-                <SvgExpand height={16} width={16} />
-              </Button>
-
+                  className={styles.Expend}
+                  types="link"
+                  onClick={() => handlecheck('0')}
+                >
+                  <SvgExpand height={16} width={16} />
+                </Button>
               </Flex>
-              
             )}
           </li>
         </ul>
@@ -2939,9 +2984,12 @@ const Sidebar = ({ changes, data }: props) => {
                             : 'Reports'
                         }
                         className={
-                          pathname.includes('/reports')&& plan_id===1 ? styles.selectpopup_row : plan_id===1?styles.select_item:""
+                          pathname.includes('/reports') && plan_id === 1
+                            ? styles.selectpopup_row
+                            : plan_id === 1
+                            ? styles.select_item
+                            : ''
                         }
-                        
                       >
                         <LinkWrapper
                           className={styles.hoverview}
@@ -2976,12 +3024,15 @@ const Sidebar = ({ changes, data }: props) => {
                         }
                         style={plan_id === 1?({cursor:'not-allowed !important'}):({width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"})}
                         className={
-                          pathname.includes('/reports') ? styles.selectpopup_row : ''
+                          pathname.includes('/reports')
+                            ? styles.selectpopup_row
+                            : ''
                         }
-                      
                       >
                         <LinkWrapper
-                          className={plan_id===1?styles.selectitem:styles.hoverview}
+                          className={
+                            plan_id === 1 ? styles.selectitem : styles.hoverview
+                          }
                           onClick={clearTab}
                           to={
                             plan_id === 1
@@ -2990,7 +3041,6 @@ const Sidebar = ({ changes, data }: props) => {
                               ? reports
                               : accountPath
                           }
-                          
                         >
                           <Text
                             onClick={() => handleNavigate(6)}
@@ -3010,7 +3060,9 @@ const Sidebar = ({ changes, data }: props) => {
                     <li
                       title="Reports"
                       className={
-                        pathname.includes('/reports') ? styles.selectpopup_row : styles.select_item
+                        pathname.includes('/reports')
+                          ? styles.selectpopup_row
+                          : styles.select_item
                       }
                       style={{cursor:'not-allowed',width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
                     >
@@ -3018,7 +3070,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <a
                         className={styles.hoverview}
                         href={' '}
-                        style={{cursor:'not-allowed'}}
+                        style={{ cursor: 'not-allowed' }}
                         onClick={(e) => {
                           e.preventDefault();
                         }}
@@ -4327,7 +4379,9 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 )}
                 </>
-              ):("")}
+              ) : (
+                ''
+              )}
               {/* Manage Users */}
               {super_user === true ? (
                 <>

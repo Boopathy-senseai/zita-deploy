@@ -380,6 +380,7 @@ const CandidateDatabaseTab = ({
                 handleCloseImportModal();
               }}
               color="link"
+              bold
             >
               log file
             </Text>{' '}
@@ -409,45 +410,40 @@ const CandidateDatabaseTab = ({
       </Modal>
 
       <Flex row between>
-      <Flex row center className={styles.inputConatiner}>
-        <InputText
-          className={styles.inputWidth}
-          inputConatinerClass={styles.inputStyle}
-          placeholder={'Search candidates by name or email'}
-          value={searchValue}
-          onChange={searchHandleChange}
-          id={'candidates__input'}
-          actionRight={() => (
-            <label style={{ margin: 0,marginTop:"3px" }}>
-              <SvgSearch width={14} height={14}/>
-            </label>
+        <Flex row center className={styles.inputConatiner}>
+          <InputText
+            className={styles.inputWidth}
+            inputConatinerClass={styles.inputStyle}
+            placeholder={'Search candidates by name or email'}
+            value={searchValue}
+            onChange={searchHandleChange}
+            id={'candidates__input'}
+            actionRight={() => (
+              <label style={{ margin: 0, marginTop: '3px' }}>
+                <SvgSearch width={14} height={14} />
+              </label>
+            )}
+            onKeyPress={handleKeyPress}
+          />
+          <Button
+            disabled={searchValue === '' ? true : false}
+            onClick={handleSubmit}
+          >
+            Find Candidates
+          </Button>
+        </Flex>
+        <Flex className={styles.inputConatiner}>
+          {isBulkLoaderprocess === 'true' ? (
+            <Flex row>
+              <Loader size="medium" withOutOverlay />
+              <Text color="gray" style={{ marginLeft: 16 }}>
+                Processing...
+              </Text>
+            </Flex>
+          ) : (
+            <Button onClick={() => setmodel(true)}>Bulk Import</Button>
           )}
-          onKeyPress={handleKeyPress}
-        />
-        <Button
-         
-          disabled={searchValue === '' ? true : false}
-          onClick={handleSubmit}
-        >
-          Find Candidates
-        </Button>
-      </Flex>
-      <Flex className={styles.inputConatiner}>
-      {isBulkLoaderprocess === 'true' ? (
-        <Flex row  >
-        <Loader size="medium" withOutOverlay />
-        <Text color="gray" style={{ marginLeft: 16 }}>
-          Processing...
-        </Text>
-      </Flex>
-      ):(
-      <Button
-      onClick={() => setmodel(true)}
-      >
-      Bulk Import
-     </Button>
-     )}
-      </Flex>
+        </Flex>
       </Flex>
 
       <Flex row center className={styles.filterStyle}>

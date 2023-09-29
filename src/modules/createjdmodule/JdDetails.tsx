@@ -67,7 +67,7 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
     },
     {
       title: 'Work Location:',
-      value: `${location.city__name}, ${location.state__name}, ${location.country__name}`,
+      value: location.city__name!==undefined&&location.state__name !==undefined&&location.country__name!==undefined ? `${location.city__name}, ${location.state__name}, ${location.country__name}`:'Not Specified',
       check: true,
     },
     {

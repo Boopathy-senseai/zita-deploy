@@ -93,7 +93,6 @@
     "react-doc-viewer": "^0.1.5",
     "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "17.0.2",
-    "react-file-viewer": "^1.2.1",
     "react-google-autocomplete": "^2.6.1",
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^1.0.7",
@@ -104,7 +103,6 @@
     "react-meta-tags": "^1.0.1",
     "react-multi-select-component": "^4.2.9",
     "react-pdf": "^5.5.0",
-    "react-pdf-js-infinite": "^1.2.0",
     "react-phone-input-2": "^2.14.0",
     "react-places-autocomplete": "^7.3.0",
     "react-quill": "^2.0.0",
@@ -201,3 +199,5 @@
     }
   }
 }
+
+

@@ -1,21 +1,35 @@
 .overAll {
-  padding: 16px;
+  /* padding: 16px; */
   overflow: scroll;
 }
 .progressStyle {
   margin-top: 8px;
   margin-bottom: 20px;
 }
+.dataListStyleai {
+  padding: 1px 4px 1px 4px;
+  box-sizing: border-box;
+  display: flex;
+  /* border-bottom: 1px solid var(--color-gary-7, #dfdfdf); */
+  align-items: center;
+}
 .dataListStyle {
-  padding: 8px 4px;
+  padding: 8px 0px;
   box-sizing: border-box;
   display: flex;
   /* border-bottom: 1px solid var(--color-gary-7, #dfdfdf); */
   align-items: flex-start;
 }
-.titleStyle {
-  margin-left: 8px;
+.titleStyle { 
   COLOR:#581845;
+  text-transform: capitalize;
+}
+.cardchanging{
+  margin-bottom: 10px;
+  margin-top: 2px;
+  margin-left: 1px;
+  margin-right: 2px;
+  padding: 5px;
 }
 .valueStyle {
   margin-right: 8px;
@@ -36,4 +50,12 @@
 }
 .svgStyle {
   margin-right: 12px;
+}
+.textwrap{
+  flex-wrap: wrap;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: wrap;
+  overflow-wrap: break-word;
+  font-size: 12;
 }

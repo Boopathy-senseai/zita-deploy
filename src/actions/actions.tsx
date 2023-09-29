@@ -103,6 +103,8 @@ export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
 export const JD_WHATJOBS = 'createjd/what_jobs_posting/';
+export const Industy_type='jd_industry_type'
+export const AIcreate='AI_create'
 
 // my_job_posting
 
@@ -136,6 +138,8 @@ export const ACCOUNT_SETTING_BUILD_CAREER_POST =
   'account/account_build_career_post';
 export const ACCOUNT_SETTING_CAREER_VIEW = 'account/account_career_view';
 export const RESUME_UPLOAD = 'candidate/candidate_resume_upload';
+export const CANDIDATA_PROFILE_RESUME_UPLOAD = 'candidate/candidate_profile_resume_upload';
+export const CANDIDATE_PROFESSIONAL_DATA = 'candidate/candidate_professional_data';
 export const CANDIDATE_PROFILE_BASIC_DETAILS =
   'candidate/candidate_profile_basic_details';
 export const CANDIDATE_PROFILE_EMAIL_VALIDATE =

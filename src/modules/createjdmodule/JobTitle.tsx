@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { AppDispatch } from '../../store';
+
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
@@ -17,6 +19,11 @@ import type { dsFormProps } from './formikTypes';
 import styles from './jobtitle.module.css';
 import { jobRoleData } from './mock';
 import { validateJobIDMiddleWare } from './store/middleware/createjdmiddleware';
+
+type ParamsType = {
+  jdId: string;
+  editJdId: string;
+};
 
 type Props = {
   values: dsFormProps;
@@ -50,13 +57,14 @@ const JobTitle = ({
   onDirty,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const { jdId, editJdId } = useParams<ParamsType>();
   useEffect(() => {
     setFieldValue('jobTitle', job_title);
   }, [job_title]);
 
   useEffect(() => {
     setFieldValue('jobTitle', jd_output.job_title);
+    console.log('%%%%%', jd_output.job_title);
     if (jd_output.job_role_id !== 0) {
       setFieldValue('jobRole', jd_output.job_role_id);
     }
@@ -75,8 +83,16 @@ const JobTitle = ({
     }
   }, [values.jobId]);
 
+  useEffect(() => {
+    if (jdId === undefined && editJdId === undefined) {
+      setFieldValue('jobId', '');
+      setFieldValue('jobTitle', '');
+    }
+  }, []);
+
   return (
     <Flex row top className={styles.overAll}>
+      {console.log('zzzzz', jdId, editJdId)}
       <Flex flex={!isNonDs ? 4 : 8} className={styles.jobTitleFlex}>
         <InputText
           id="jobtitle__jobtitle"
@@ -89,9 +105,11 @@ const JobTitle = ({
             setFieldValue('jobTitle', e.target.value);
             onDirty();
           }}
+          maxLength={51}
         />
-        {isEmpty(values.jobTitle) &&
-        <ErrorMessage name="jobTitle" touched={touched} errors={errors} />}
+        {isEmpty(values.jobTitle) && (
+          <ErrorMessage name="jobTitle" touched={touched} errors={errors} />
+        )}
         {!isEmpty(values.jobTitle) && values.jobTitle.length > 50 && (
           <Text color="error" size={12}>
             {JOB_TITLE_LIMIT}
@@ -119,8 +137,9 @@ const JobTitle = ({
               onDirty();
             }}
           />
-          {isEmpty(values.jobRole) &&
-          <ErrorMessage name="jobRole" touched={touched} errors={errors} />}
+          {isEmpty(values.jobRole) && (
+            <ErrorMessage name="jobRole" touched={touched} errors={errors} />
+          )}
         </Flex>
       )}
 
@@ -136,6 +155,7 @@ const JobTitle = ({
             setFieldValue('jobId', e.target.value);
             onDirty();
           }}
+          maxLength={51}
         />
         {!isEmpty(values.jobId) && is_taken === true && (
           <Text size={12} color="error" className={styles.errorMessage}>

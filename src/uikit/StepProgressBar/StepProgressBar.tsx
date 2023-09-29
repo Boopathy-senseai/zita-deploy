@@ -31,8 +31,8 @@ const StepProgressBar = ({
             roundeNonSelect: !roundFill,
           })}
         >
-          <Text bold size={16} color={roundFill ? 'white' : 'black'}>
-            {stepIndex}
+          <Text  size={13} color={roundFill ? 'white' : 'black'}>
+            {stepIndex}.{title}
           </Text>
         </div>
         <div
@@ -42,7 +42,7 @@ const StepProgressBar = ({
           })}
         />
       </Flex>
-      <Text bold className={titleclassName}>{title}</Text>
+      
     </Flex>
   );
 };

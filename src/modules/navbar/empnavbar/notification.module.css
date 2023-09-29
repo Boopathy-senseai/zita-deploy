@@ -27,7 +27,7 @@
 
 .listStyle {
   cursor: pointer;
-  width: 95%;
+  width:100%;
   display: flex;
   justify-content: space-between;
 }
@@ -47,13 +47,13 @@
   padding-left: 6px;
   border-radius: 4px;
   margin-left: 10px;
-  margin-right: 4px;
-  padding-right: 6px;
+  margin-right: 10px;
+  padding-right: 10px;
   display: flex;
   align-items: flex-start;
 }
 .hoverStyle:hover {
-  background-color: rgb(88 24 69 / 15%);
+  background-color: rgb(88 24 69 / 15%); 
 }
 
 .hr_line {
@@ -105,7 +105,7 @@
   right: 102px;
 }
 .hoverback:hover {
-  background-color: #d7c7d2;
+  /* background-color: #d7c7d2; */
 
   border-radius: 100%;
 }
@@ -480,4 +480,10 @@ font-family: 'Courier New', Courier, monospace;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   font-size: 20px;
+}
+.wordContainer {
+  max-width: 69%;
+  word-break:break-word;
+  hyphens: auto;
+
 }

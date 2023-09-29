@@ -8,11 +8,13 @@ import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
+import { Loader } from '../../uikit';
 import { CANCEL } from '../constValue';
 import Tabel from '../../uikit/Table/Table';
 import styles from './addedapplicantquestionnaire.module.css';
 import { QuestionnaireForJdEntity } from './createJdTypes';
 import { questionTitle } from './questionnaireTable';
+
 
 
 type Props = {
@@ -30,7 +32,9 @@ const AddedApplicantQuestionnaire = ({
   setDraftSave,
   onPristine,
 }: Props) => {
-
+  const [isBtnLoader, setBtnLoader] = useState(false)
+  const [isCancelLoader, setCancelLoader] = useState(false)
+  const [isPreviewLoader, setPreviewLoader] = useState(false)
   const columns = useMemo(() => questionTitle(jdId), [tabledata]);
   return (
     <Flex className={styles.cardOverAll}>
@@ -63,34 +67,55 @@ const AddedApplicantQuestionnaire = ({
         )}
 
         <Flex row center>
+        {isCancelLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <LinkWrapper 
           
           onClick = {setDraftSave}
 
           to={routesPath.MY_JOB_POSTING}>
-            <Button types="close">{CANCEL}</Button>
-          </LinkWrapper>
+            <Button types="close" onClick={()=>{setCancelLoader(true)}}>{CANCEL}</Button>
+          </LinkWrapper>)}
 
-          <LinkWrapper
-            
+      
+                 {isBtnLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <LinkWrapper   
             to={routesPath.MY_JOB_POSTING}
+            onClick={()=>{
+              setBtnLoader(true);
+            }}
           >
             <Button 
           // onClick={() => {onPristine()
           //   setDraftSave(true);
           // }}
+       
             types="secondary" className={styles.saveBtn}>
               Save as draft
             </Button>
-          </LinkWrapper>
+          </LinkWrapper>)}
 
+          {isPreviewLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <LinkWrapper
-            onClick={() => onPristine()}
+            onClick={() =>{ onPristine();
+            setPreviewLoader(true);}
+            }
             
             to={`/jobs/preview/${jdId}`}
           >
             <Button>Preview</Button>
-          </LinkWrapper>
+          </LinkWrapper>)}
         </Flex>
       </Flex>
     </Flex>

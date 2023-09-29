@@ -32,6 +32,7 @@ const JdTemplateList = ({
 
   // template copy function
   const handleCopy = () => {
+    console.log("zzzz",list)
     const expSplit = list?.experience.split('-').toString();
     if (expSplit?.length !== 0) {
       setFieldValue('minimumExperience', expSplit?.charAt(0));
@@ -41,12 +42,37 @@ const JdTemplateList = ({
     }
     setFieldValue('jobTitle', list?.job_title);
     setFieldValue('jobDescription', list?.job_description);
+ if(list?.skills!==null){
+ var d =[]
+   var a = list?.skills.split(",")
+   
+   a.map((val)=>{
+    var c ={"label":val ,"value": val}
+   d.push(c)
+   
+   })
+  
+   setFieldValue('nonDsSkill',d);
+  }
+   //console.log("ssss",...d)
+//     var a = []
+//     list?.skills.map((val)=>{
+//       let b ={"label":val ,"value":val}
+//      })  
+//      a.push(b)
+// console.log("======",a)
+    
+
+    
+   
+
     hanldeClose();
     setCollapse(false);
   };
 
   return (
     <Flex className={styles.listOverAll}>
+
       <Flex row center between>
         <Text bold className={styles.listHeadingStyle}>
           <HighlightText value={list.job_title} higlight={searchTerm} />

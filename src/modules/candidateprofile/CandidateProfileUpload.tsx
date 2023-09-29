@@ -72,6 +72,7 @@ const CandidateProfileUpload = () => {
       }
       dispatch(resumeUploadMiddleWare({ formData })).then((res) => {
         if (res.payload.success) {
+          console.log(res.payload)
           dispatch(
             loginMiddleWare({
               username: res.payload.user_details.username,
@@ -137,8 +138,8 @@ const CandidateProfileUpload = () => {
             )}
           </div>
 
-          <LinkWrapper
-            to="/login_candidate"
+          <a
+            href="/login_candidate"
             onClick={() => {
               dispatch(logOutMiddleWare()).then(() => {
                 localStorage.removeItem('token');              
@@ -146,7 +147,7 @@ const CandidateProfileUpload = () => {
             }}
           >
             <Button>Login</Button>
-          </LinkWrapper>
+          </a>
         </Flex>
         <Flex>
           <Flex columnFlex className={styles.cardOverAll}>

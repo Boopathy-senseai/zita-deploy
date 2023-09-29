@@ -16,6 +16,7 @@ import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdm
 import { zitaPath } from '../constValue';
 import { Modal } from '../../uikit';
 import RichText from '../common/RichText';
+import SvgInfo from '../../icons/SvgInfo';
 import AddandUpdateQualificationEdit from './AddandUpdateQualificationEdit';
 import AddandUpdateWorkExperienceEdit from './AddandUpdateWorkExperienceEdit';
 import CandidateNavBar from './CandidateNavBar';
@@ -33,6 +34,7 @@ import { profileEditMiddleWare } from './store/middleware/candidateprofilemiddle
 import VerifyEmail from './VerifyEmail';
 import WorkExperienceAddandCard from './WorkExperienceAddandCard';
 import OverViewSummary from './OverviewSummaryEdit';
+
 // import { applicantcandidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 type ParamsType = {
@@ -56,6 +58,7 @@ const CandidateProfileScreen = () => {
   const [isLoginShow, setLoginShow] = useState(false);
   const [isLoader, setLoader] = useState(true);
   const [showModel, setShowModel] = useState(false);
+  const [show, setshow] = useState(true);
   // initial api call
   useEffect(() => {
     dispatch(
@@ -64,7 +67,11 @@ const CandidateProfileScreen = () => {
       }),
     ).then((res) => {
       setInitialLoader(false);
-      if (isEmpty(res.payload.personal.email)) {
+      if (
+        isEmpty(res.payload.personal.current_country__name) ||
+        isEmpty(res.payload.personal.current_state__name) ||
+        isEmpty(res.payload.personal.current_city__name)
+      ) {
         setPersonal(true);
       }
     });
@@ -86,23 +93,29 @@ const CandidateProfileScreen = () => {
     career_page_setting,
     applied_status,
     Qualification,
-  } = useSelector(({ candidateProfileEditReducers }: RootState) => {
-    return {
-      isLoading: candidateProfileEditReducers.isLoading,
-      obj: candidateProfileEditReducers.obj,
-      additional_detail: candidateProfileEditReducers.additional_detail,
-      personal: candidateProfileEditReducers.personal,
-      personal_obj: candidateProfileEditReducers.personal_obj,
-      projects: candidateProfileEditReducers.projects,
-      experiences: candidateProfileEditReducers.experiences,
-      user_info: candidateProfileEditReducers.user_info,
-      career_page_setting: candidateProfileEditReducers.career_page_setting,
-      applied_status: candidateProfileEditReducers.applied_status,
-      Qualification:
-        candidateProfileEditReducers?.Qualification !== undefined &&
-        candidateProfileEditReducers?.Qualification[0]?.qualification,
-    };
-  });
+    overview,
+    techSkill,
+  } = useSelector(
+    ({ techSkillReducers, candidateProfileEditReducers }: RootState) => {
+      return {
+        isLoading: candidateProfileEditReducers.isLoading,
+        obj: candidateProfileEditReducers.obj,
+        overview: candidateProfileEditReducers.overview,
+        additional_detail: candidateProfileEditReducers.additional_detail,
+        personal: candidateProfileEditReducers.personal,
+        personal_obj: candidateProfileEditReducers.personal_obj,
+        projects: candidateProfileEditReducers.projects,
+        experiences: candidateProfileEditReducers.experiences,
+        user_info: candidateProfileEditReducers.user_info,
+        career_page_setting: candidateProfileEditReducers.career_page_setting,
+        applied_status: candidateProfileEditReducers.applied_status,
+        Qualification:
+          candidateProfileEditReducers?.Qualification !== undefined &&
+          candidateProfileEditReducers?.Qualification[0]?.qualification,
+        techSkill: techSkillReducers && techSkillReducers,
+      };
+    },
+  );
 
   // otp popup close function
   const handleCloseOtp = () => {
@@ -154,12 +167,15 @@ const CandidateProfileScreen = () => {
           open={isOtp}
           cancel={handleCloseOtp}
           close={() => setOtp(false)}
+          setshow={setshow}
         />
       )}
       <PersonalInformation
         empId={empId}
         open={isPersonal}
         cancel={handleOpenOtp}
+        personal={personal}
+        additional_detail={additional_detail}
         handleOpenLogin={handleOpenLogin}
         userInfo={user_info}
       />
@@ -190,7 +206,31 @@ const CandidateProfileScreen = () => {
         open={isCertiAdd}
         cancel={() => setCertiAdd(false)}
       />
-      <CandidateNavBar obj={obj} projects={projects} />
+      <CandidateNavBar obj={obj} projects={projects} personal={personal} />
+      {show&&(
+          <Flex middle center>
+          <Flex middle row center className={styles.warningFlex1}>
+            <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
+            
+            <Text size={13} className={styles.warningText1}>
+            <Text
+                  style={{
+                    color: '#2E6ADD',
+                    marginRight: '3px',
+                    fontSize: '13px',
+                  }}
+                  bold
+                >
+                  Heads Up!{' '}
+                </Text>
+            Your application has been pre-filled using your resume. Please take a moment to review and ensure before proceeding with your application.
+            </Text>
+            
+            <div id="toast-close" role="button" style={{padding:'0  0 0 5px'}} onClick={()=>setshow(false)}>&#10006;</div>
+          </Flex>
+          </Flex>
+          )
+       }
       <Flex
         columnFlex
         center
@@ -253,7 +293,7 @@ const CandidateProfileScreen = () => {
             <Text size={14} bold className={styles.titleStyle}>
               Professional Skills
             </Text>
-            <ProfessionalSkillsCard obj={obj} />
+            <ProfessionalSkillsCard obj={obj} techSkill={techSkill} />
           </div>
 
           <div id={'candidate_profile_screen___skill'}>
@@ -263,9 +303,9 @@ const CandidateProfileScreen = () => {
               className={styles.titleStyle}
               style={{ marginTop: '20px' }}
             >
-              Overview of the Resume
+            Resume Overview 
             </Text>
-            <OverViewSummary obj={obj} />
+            <OverViewSummary obj={obj} overview={overview} />
           </div>
 
           {/* <Flex marginTop={10} marginBottom={20}>
@@ -382,7 +422,14 @@ const CandidateProfileScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text bold color="theme" align="center" size={14} onClick={zitaPath} style={{marginTop:"30px"}}>
+          <Text
+            bold
+            color="theme"
+            align="center"
+            size={14}
+            onClick={zitaPath}
+            style={{ marginTop: '30px' }}
+          >
             Powered by Zita.ai
           </Text>
         </div>
