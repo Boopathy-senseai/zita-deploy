@@ -1,5 +1,6 @@
 import { FieldArray } from 'formik';
 import { memo, useEffect, useState, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import SvgRoundAdd from '../../icons/SvgRoundAdd';
 import SvgAdd from '../../icons/SvgAdd';
 import Button from '../../uikit/Button/Button';
@@ -20,8 +21,13 @@ type Props = {
     shouldValidate?: boolean | undefined,
   ) => void;
   updateQualification: QualificationEntity[];
-  isSelectOpen,
-  setIsSelectOpen,
+  isSelectOpen;
+  setIsSelectOpen;
+};
+
+type ParamsType = {
+  jdId: string;
+  editJdId: string;
 };
 
 const QulificationAdd = ({
@@ -33,7 +39,7 @@ const QulificationAdd = ({
 }: Props) => {
   const qulificationLength = values.qualification.length;
   const [isSelectOpen1, setIsSelectOpen1] = useState(false);
-
+  const { jdId, editJdId } = useParams<ParamsType>();
   const updateQuali = useMemo(
     () =>
       updateQualification.map((qualificationList) => {
@@ -48,7 +54,13 @@ const QulificationAdd = ({
   useEffect(() => {
     if (updateQuali.length !== 0) setFieldValue('qualification', updateQuali);
   }, [updateQualification]);
-  
+
+  useEffect(() => {
+    if (jdId === undefined && editJdId === undefined) {
+      setFieldValue('qualification', [{ education: '', specialization: '' }]);
+    }
+  }, []);
+
   return (
     <div>
       <FieldArray
@@ -56,7 +68,7 @@ const QulificationAdd = ({
         render={(arrayHelpers) => (
           <div style={{ paddingBottom: isSelectOpen1 ? '141px' : '0' }}>
             {values.qualification.length > 0 &&
-              values.qualification.map((paramList, index) => {                
+              values.qualification.map((paramList, index) => {
                 return (
                   <QualificationFieldArray
                     key={index + paramList.education}
@@ -83,30 +95,29 @@ const QulificationAdd = ({
                 )}
               >
                 <Flex row center>
-                  <div className={styles.svgadd} style={{ marginRight: 8 , bottom:1}}>
-                  <SvgAdd width={12} height={12} fill="#581854" />
+                  <div
+                    className={styles.svgadd}
+                    style={{ marginRight: 8, bottom: 1 }}
+                  >
+                    <SvgAdd width={12} height={12} fill="#581854" />
                   </div>
                   <Text color="link" bold>
                     Add Qualification
                   </Text>
                 </Flex>
               </Button>
-               ):(
-                <Button
-                className={styles.addBtn}
-                types="link"
-                disabled={true}
-                >
+            ) : (
+              <Button className={styles.addBtn} types="link" disabled={true}>
                 <Flex row center>
                   <div className={styles.svgadd} style={{ marginRight: 8 }}>
-                  <SvgAdd width={12} height={12} fill="#581854" />
+                    <SvgAdd width={12} height={12} fill="#581854" />
                   </div>
                   <Text color="link" bold>
                     Add Qualification
                   </Text>
                 </Flex>
-                </Button>
-               )}
+              </Button>
+            )}
           </div>
         )}
       />
