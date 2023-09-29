@@ -20,9 +20,11 @@ import styles from './bulkimport.module.css';
 
 export type FormProps = {
   searchValue: string;
+  parser:string;
 };
 const initial: FormProps = {
   searchValue: '',
+  parser:'',
 };
 
 

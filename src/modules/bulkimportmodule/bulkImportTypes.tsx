@@ -71,3 +71,6 @@ export interface UploadedTotalPayload {
   jd_id?: string;
   page?: number;
 }
+export interface ParserPayload {
+parser?:string;
+}
