@@ -19,6 +19,7 @@ import styles from './candidatedatabase.module.css';
 
 
 
+
 type MyProps = {
   hanldeParsing: () => void;
   setParse: () => void;
@@ -42,6 +43,7 @@ type MyState = {
   popups:boolean;
   value:string;
   count:number;
+  error:string;
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
@@ -59,6 +61,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       popups:false,
       value: '',
       count:this.props.Resume_parsing_count,
+      error:'',
     };
     this.fileUploaderRef = createRef();
   }
@@ -245,8 +248,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
-      this.props.setmodel(false);
-      this.props.verifymodel();
+     
+     
 
       if (
         this.props.candidatesLimit !== null &&
@@ -254,7 +257,12 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       ) {
         this.props.setUpgrade(true);
       } else {
+        console.log("false")
+        if(this.props.Resume_parsing_count>=unique.length)
+        {
         this.props.setParse();
+        
+          console.log("truuuuuuuuuuuuue")
         axios
           .post(bulkImportApi, formData)
           .then((res) => {
@@ -262,8 +270,15 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             handleClear();
             this.props.hanldeParsing();
             this.setState({ isMb: false});
+            this.props.setmodel(false);
+            this.props.verifymodel();
           })
           .catch(() => {});
+        }
+        else
+        {
+          this.setState({ error: 'You do not have enough parsing credits.' });
+        }
       }
     };
 
@@ -314,13 +329,12 @@ class CandidateDatabase extends Component<MyProps, MyState> {
   //     onSubmit: handleSubmit,
   //     enableReinitialize: true,
   //   });
-  
-  
+ 
     const checkSelectLength = this.state.files.length === 0 ? false : true;
     const checkSelectLength500 = this.state.files.length < 501 ? true : false;
     return (
       <>
-      {console.log("new:::new",this.state.value)}
+      {console.log("new:::new",this.state.value,this.state.files,unique.length)}
       <Modal open={this.state.popups} >
         <Flex className={styles.verifymodel1}>
           <Text type="titleMedium" align="center">
@@ -516,6 +530,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                 </Flex>
               </div>
             </Flex>
+            <Text color='error'>{this.state.error}</Text>
 
             {this.props.isBulkLoader === 'true' ? (
               <Flex row between className={styles.loaderStyle}>
@@ -538,7 +553,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                   >
                     {checkSelectLength && (
                       <Button
-                        onClick={() => this.setState({ bulkDelete: true })}
+                        onClick={() => this.setState({ bulkDelete: true,error:'' })}
                         types="secondary"
                       >
                         Clear All

@@ -37,6 +37,7 @@ type MyState = {
   verifymodel?: any;
   popups:boolean;
   value:string;
+  error:string;
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
@@ -52,6 +53,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       isMb: false,
       popups:false,
       value:'',
+      error:'',
     };
     this.fileUploaderRef = createRef();
   }
@@ -231,7 +233,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
-      this.props.setmodel(false);
       if (this.props.isjdId !== '0' 
         ){
            formData.append('jd_id', this.props.isjdId);
@@ -242,6 +243,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       ) {
         this.props.setUpgrade(true);
       } else {
+        if(this.props.Resume_parsing_count>=unique.length){
         this.props.setParse();
         axios
           .post(bulkImportApi, formData)
@@ -251,10 +253,14 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             this.setState({isMb:false})
           })
           .catch(() => {});
-          
+          this.props.setmodel(false);
+          this.props.verifymodel();
+        }
+        else{
+          this.setState({ error: 'You do not have enough parsing credits.' });
+        }
       }
-      this.props.setmodel(false);
-      this.props.verifymodel();
+
     };
 
     const dragOver = (e: { preventDefault: () => void }) => {
@@ -453,6 +459,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             )}
           </Flex>
         </div>
+        <Text color='error'>{this.state.error}</Text>
        
           {this.props.isBulkLoader === 'true' ? (
             <Flex  row  between className={styles.btnContainer}>
@@ -470,7 +477,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
            
             {checkSelectLength && (
               <Button
-                onClick={() => this.setState({ bulkDelete: true })}
+                onClick={() => this.setState({ bulkDelete: true,error:'' })}
                 className={styles.clearStyle}
                 width={'100%'}
                 types='secondary'
