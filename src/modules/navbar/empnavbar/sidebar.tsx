@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState, createRef } from 'react';
+import { useEffect, useState, createRef, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { meetingScheduler, reports } from '../../../appRoutesPath';
@@ -87,7 +87,6 @@ const Sidebar = ({ changes, data }: props) => {
         setMyaccPopupDropdownOpen(false);
     }
   };
-
   const toggleJobsDropdown = () => {
     if (Expent === "0") {
       const jobsdropdownvalue = !isJobsDropdownOpen;
@@ -160,6 +159,7 @@ const Sidebar = ({ changes, data }: props) => {
   };
 
 
+
   const handleNavigate = (val) => {};
   useEffect(() => {
     const toggle: any =
@@ -193,7 +193,6 @@ const Sidebar = ({ changes, data }: props) => {
         is_plan: permissionReducers.is_plan,
         isProfile: userProfileReducers.profile,
         plan_id: permissionReducers.plan_id,
-        // career_page_url: myJobPostingDataReducers.career_page_url,
         career_page_url: dashboardEmpReducers.career_page_url,
         super_user: permissionReducers.super_user,
         roles: permissionReducers.roles,
@@ -208,28 +207,149 @@ const Sidebar = ({ changes, data }: props) => {
     }
   }, [plan_id]);
   
-  const dropdownRef = createRef<any>();
 
-  const handleClickOutside = (event: { target: any }) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target)
-    ) {
+  let integrationnavpath = '/account_setting/settings'
+
+  if (super_user === true && roles === "Admin") {
+    integrationnavpath='/account_setting/settings?tab=4' 
+  } else if (super_user === false && roles === "Admin") {
+    integrationnavpath='/account_setting/settings?tab=2'
+  } else if (roles === "Hiring") {
+    integrationnavpath='/account_setting/settings?tab=2'
+  } else if (roles === "HR") {
+    integrationnavpath='/account_setting/settings?tab=1'
+  }
+
+  let profilenavpath = '/account_setting/settings'
+
+  if (super_user === true && roles === "Admin") {
+    profilenavpath='/account_setting/settings?tab=0' 
+  } else if (super_user === false && roles === "Admin") {
+    profilenavpath='/account_setting/settings?tab=0'
+  } else if (roles === "Hiring") {
+    profilenavpath='/account_setting/settings?tab=0'
+  } else if (roles === "HR") {
+    profilenavpath='/account_setting/settings?tab=0'
+  }
+
+  let workflownavpath = '/account_setting/settings'
+
+  if (super_user === true && roles === "Admin") {
+    workflownavpath='/account_setting/settings?tab=7' 
+  } else if (super_user === false && roles === "Admin") {
+    workflownavpath='/account_setting/settings?tab=3'
+  } else if (roles === "Hiring") {
+    workflownavpath='/account_setting/settings?tab=3'
+  } else if (roles === "HR") {
+    workflownavpath='/account_setting/settings?tab=2'
+  }
+  
+  const overviewdropdownRef = useRef(null);
+  const jobsdropdownRef = useRef(null);
+  const candidatesdropdownRef = useRef(null);
+  const communicationdropdownRef = useRef(null);
+  const brandingdropdownRef = useRef(null);
+  const myaccountdropdownRef = useRef(null);
+
+
+  const handleClickOutside = (event) => {
+    if (overviewdropdownRef.current && !overviewdropdownRef.current.contains(event.target)) {
       setOverviewPopupDropdownOpen(false);
+    } else if (jobsdropdownRef.current && !jobsdropdownRef.current.contains(event.target)) {
+      setJobsPopupDropdownOpen(false)
+    } else if (candidatesdropdownRef.current && !candidatesdropdownRef.current.contains(event.target)) {
+      setCandiPopupDropdownOpen(false)
+    } else if (communicationdropdownRef.current && !communicationdropdownRef.current.contains(event.target)) {
+      setCommPopupDropdownOpen(false)
+    } else if (brandingdropdownRef.current && !brandingdropdownRef.current.contains(event.target)) {
+      setBrandPopupDropdownOpen(false)
+    } else if (myaccountdropdownRef.current && !myaccountdropdownRef.current.contains(event.target)) {
+      setMyaccPopupDropdownOpen(false)
     }
   };
   useEffect(() => {
-    if (typeof Window === 'undefined') {
-      document.addEventListener('click', handleClickOutside, true);
-    }
-    return () => {
-      if (dropdownRef) {
-        if (typeof Window === 'undefined') {
-          document.removeEventListener('click', handleClickOutside, true);
-        }
-      }
+    const handleClick = (event) => {
+      handleClickOutside(event);
     };
-  });
+
+    if (isOverviewPopupDropdownOpen) {
+      document.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isOverviewPopupDropdownOpen]);
+  
+  useEffect(() => {
+    const handleClick = (event) => {
+      handleClickOutside(event);
+    };
+
+    if (isJobsPopupDropdownOpen) {
+      document.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isJobsPopupDropdownOpen]);
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      handleClickOutside(event);
+    };
+
+    if (isCandiPopupDropdownOpen) {
+      document.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isCandiPopupDropdownOpen]);
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      handleClickOutside(event);
+    };
+
+    if (isCommPopupDropdownOpen) {
+      document.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isCommPopupDropdownOpen]);
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      handleClickOutside(event);
+    };
+
+    if (isBrandPopupDropdownOpen) {
+      document.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isBrandPopupDropdownOpen]);
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      handleClickOutside(event);
+    };
+
+    if (isMyaccPopupDropdownOpen) {
+      document.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isMyaccPopupDropdownOpen]);
 
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
@@ -239,10 +359,6 @@ const Sidebar = ({ changes, data }: props) => {
     sessionStorage.removeItem('button');
     sessionStorage.removeItem('wk_id');
   };
-
-  const superUserTabTwo = sessionStorage.getItem('superUserTabTwo');
-  const superUserFalseTab = sessionStorage.getItem('superUserFalseTab');
-  const superUserTab = sessionStorage.getItem('superUserTab');
   
   const clearTabs = (e) => {
     e.stopPropagation();
@@ -252,15 +368,10 @@ const Sidebar = ({ changes, data }: props) => {
       e.preventDefault();
     }
   };
-  const handlepush=()=>{
-    history.push('/account_setting/settings?tab=0')
-  }
+
   return (
     <>
-      {console.log("careerurl", career_page_url)}
-      {console.log("Roles", roles)}
-      {console.log("ChangesConsole",changes)}
-      <div
+      <div 
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
         style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}
       >
@@ -271,7 +382,6 @@ const Sidebar = ({ changes, data }: props) => {
 {/* Overview Dropdown */}
           <li>
             <div
-              ref={dropdownRef}
               >
             <Flex row
               title="Overview"
@@ -287,11 +397,12 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         size= {13}
                         color="theme"
-                        style={{ cursor: 'Pointer', marginRight:"8px"}}
+                        style={{ cursor: 'Pointer', marginRight:"8px" }}
                         className={Expent === '0' ? styles.maintext : styles.classpan}
                       >
                       Overview
                       </Text>
+                      
                 </Flex>
               {isOverviewDropdownOpen ? (
                 <Flex
@@ -575,7 +686,7 @@ const Sidebar = ({ changes, data }: props) => {
               )}
               </Flex>
               </li>
-            {isJobsDropdownOpen && 
+            {isJobsDropdownOpen && (
             <>
             <Flex style={{backgroundColor:'#f7f7f7', textIndent:"22px"}}
             className={Expent === "0" ? "" : styles.classpan}>
@@ -781,8 +892,6 @@ const Sidebar = ({ changes, data }: props) => {
                       title="Tailor Workflow"
                       // className={pathname === '/' ? styles.select_row : ''}
                       className={
-                        // sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        // sessionStorage.getItem('superUserFalseTab') === '2' &&
                         sessionStorage.getItem('superUserTab') === '7'
                           ? styles.select_row
                           : ''}
@@ -791,9 +900,6 @@ const Sidebar = ({ changes, data }: props) => {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
-                          // sessionStorage.setItem('superUserTabTwo','3')
-                          // sessionStorage.setItem('superUserFalseTab', '2');
-                          sessionStorage.setItem('superUserTab', '7'); 
                         }}
                         to={"/account_setting/settings?tab=7"}
 
@@ -812,10 +918,7 @@ const Sidebar = ({ changes, data }: props) => {
                 ) : (
                   <li
                     title="Tailor Workflow"
-                    // className={pathname === '/' ? styles.select_row : ''}
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
                       sessionStorage.getItem('superUserTab') === '7'
                         ? styles.select_row
                         : ''}
@@ -846,11 +949,8 @@ const Sidebar = ({ changes, data }: props) => {
                   changes ? (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
+                        sessionStorage.getItem('superUserTab') === '3'
                           ? styles.select_row
                           : ''}
                     >
@@ -868,11 +968,8 @@ const Sidebar = ({ changes, data }: props) => {
                   ) : (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
+                        sessionStorage.getItem('superUserTab') === '3'
                           ? styles.select_row
                           : ''}
                     >
@@ -880,9 +977,6 @@ const Sidebar = ({ changes, data }: props) => {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
-                          sessionStorage.setItem('superUserTabTwo','3')
-                          // sessionStorage.setItem('superUserFalseTab', '2');
-                          // sessionStorage.setItem('superUserTab', '3'); 
                         }}
                         to={"/account_setting/settings?tab=3"}
 
@@ -901,11 +995,8 @@ const Sidebar = ({ changes, data }: props) => {
                 ) : (
                   <li
                     title="Tailor Workflow"
-                    // className={pathname === '/' ? styles.select_row : ''}
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '7'
+                      sessionStorage.getItem('superUserTab') === '3'
                         ? styles.select_row
                         : ''}
                   >
@@ -935,7 +1026,6 @@ const Sidebar = ({ changes, data }: props) => {
                   changes ? (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
                         sessionStorage.getItem('superUserTab') === '3'
                           ? styles.select_row
@@ -955,7 +1045,6 @@ const Sidebar = ({ changes, data }: props) => {
                   ) : (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
                         sessionStorage.getItem('superUserTabTwo') === '3'
                           ? styles.select_row
@@ -1056,7 +1145,7 @@ const Sidebar = ({ changes, data }: props) => {
                           sessionStorage.setItem('superUserFalseTab', '2');
                           sessionStorage.setItem('superUserTab', '7'); 
                         }}
-                        to={super_user === true ? "/account_setting/settings?tab=7" : "/account_setting/settings?tab=2"}
+                        to={"/account_setting/settings?tab=2"}
 
                       >
 
@@ -1103,7 +1192,7 @@ const Sidebar = ({ changes, data }: props) => {
                 )}
               </Flex>
             </>
-            }
+            )}
 {/* Candidates Dropdown */}
             <li>
               <Flex row
@@ -1560,8 +1649,7 @@ const Sidebar = ({ changes, data }: props) => {
                                   <LinkWrapper
                                     className={styles.hoverview}
                                     onClick={()=>{
-                                      clearTab()
-                                      sessionStorage.setItem('superUserTab', '4')}
+                                      clearTab()}
                                     }
                                     to={'/account_setting/settings?tab=4'}
                                   >
@@ -1579,7 +1667,6 @@ const Sidebar = ({ changes, data }: props) => {
                             ) : (
                               <li
                                 title="Integrations"
-                                // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
                                 className={
                                   sessionStorage.getItem('superUserTab') === '4'
                                     ? styles.select_row
@@ -1594,7 +1681,6 @@ const Sidebar = ({ changes, data }: props) => {
                                     >
             
                                   <Text
-                                    // onClick={() => handleNavigate(1)}
                                     className={Expent === '0' ? styles.text : styles.classpan}
                                     color="primary"
                                     style={{ color: '#581845'}}
@@ -1641,10 +1727,10 @@ const Sidebar = ({ changes, data }: props) => {
                       onClick={()=>{
                         clearTab()
                         // sessionStorage.setItem('superUserFalseTab', '2')
-                        sessionStorage.setItem('superUserTabTwo', '2')
+                        // sessionStorage.setItem('superUserTabTwo', '2')
                       }
                       }
-                      to={'/account_setting/settings?tab=2'}
+                      to={'/account_setting/setting?tab=2'}
                     >
                       <Text
                         // onClick={() => handleNavigate(1)}
@@ -1802,10 +1888,10 @@ const Sidebar = ({ changes, data }: props) => {
                     onClick={()=>{
                       clearTab()
                      
-                      sessionStorage.setItem('superUserFalseTab', '2')
+                      // sessionStorage.setItem('superUserFalseTab', '2')
                     }
                     }
-                    to={'/account_setting/settings?tab=2'}
+                    to={'/account_setting/settings?tab=1'}
                   >
                     <Text
                       // onClick={() => handleNavigate(1)}
@@ -2144,7 +2230,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <LinkWrapper
                         className={styles.hoverview}
                         onClick={clearTab}
-                        to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
+                        to={is_plan ? "/account_setting/settings?tab=1" : accountPath}
                       >
 
                         <Text
@@ -2263,7 +2349,6 @@ const Sidebar = ({ changes, data }: props) => {
                   >
                     <LinkWrapper
                       className={styles.hoverview}
-                     onClick={handlepush}
                       to={ '/account_setting/settings?tab=0'}
                     >
 
@@ -2338,9 +2423,9 @@ const Sidebar = ({ changes, data }: props) => {
                     <LinkWrapper
                       className={styles.hoverview}
                      onClick={()=>{
-                      sessionStorage.setItem ('superUserTabTwo','0')
+                      // sessionStorage.setItem ('superUserTabTwo','0')
                     }}
-                      to={ '/account_setting/settings'}
+                      to={ '/account_setting/settings?tab=0'}
                     >
 
                       <Text
@@ -2413,7 +2498,6 @@ const Sidebar = ({ changes, data }: props) => {
                   >
                     <LinkWrapper
                       className={styles.hoverview}
-                     onClick={handlepush}
                       to={ '/account_setting/settings?tab=0'}
                     >
 
@@ -2487,7 +2571,6 @@ const Sidebar = ({ changes, data }: props) => {
                   >
                     <LinkWrapper
                       className={styles.hoverview}
-                     onClick={handlepush}
                       to={'/account_setting/settings?tab=0'}
                     >
 
@@ -2663,8 +2746,6 @@ const Sidebar = ({ changes, data }: props) => {
                   <li
                     title="Manage Users"
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '3' &&
                       sessionStorage.getItem('superUserTab') === '3'
                         ? styles.select_row
                         : ''}
@@ -2771,7 +2852,8 @@ const Sidebar = ({ changes, data }: props) => {
       </div>
       <div>
       {isOverviewPopupDropdownOpen && (
-              <>
+        <div ref={overviewdropdownRef}
+              >
               <Flex
                className={styles.overviewpopupdropdown}
                >
@@ -2990,10 +3072,10 @@ const Sidebar = ({ changes, data }: props) => {
                     </li>
                 )}
                 </Flex>
-              </>
+          </div>
             )}
-      {isJobsPopupDropdownOpen && 
-            <>
+      {isJobsPopupDropdownOpen && (
+        <div ref={jobsdropdownRef}>
             <Flex 
               className={styles.jobspopupdropdown}
               >
@@ -3230,7 +3312,7 @@ const Sidebar = ({ changes, data }: props) => {
                           sessionStorage.setItem('superUserFalseTab', '2');
                           sessionStorage.setItem('superUserTab', '7'); 
                         }}
-                        to={accountPath}
+                        to={is_plan ? workflownavpath :accountPath}
                       >
 
                         <Text
@@ -3275,9 +3357,10 @@ const Sidebar = ({ changes, data }: props) => {
                 )} 
             </>
               </Flex>
-            </>
-            }
+          </div>
+            )}
       {isCandiPopupDropdownOpen && (
+        <div ref={candidatesdropdownRef}>
             <Flex 
             className={styles.candipopupdropdown}
             >
@@ -3548,9 +3631,10 @@ const Sidebar = ({ changes, data }: props) => {
             </>
           )}
             </Flex>
-          )}
+          </div>
+            )}
       {isCommPopupDropdownOpen && (
-                <> 
+        <div ref={communicationdropdownRef}> 
             <Flex 
             className={styles.commpopupdropdown}
             >
@@ -3680,12 +3764,8 @@ const Sidebar = ({ changes, data }: props) => {
                     >
                       <LinkWrapper
                         className={styles.hoverview}
-                        onClick={() => {
-                          sessionStorage.setItem('superUserTabTwo','2')
-                          sessionStorage.setItem('superUserFalseTab', '1');
-                          sessionStorage.setItem('superUserTab', '4'); 
-                        }}
-                        to= {accountPath}
+                        onClick={() => {clearTab()}}
+                        to= {is_plan ? integrationnavpath : accountPath}
                       >
 
                         <Text
@@ -3885,10 +3965,10 @@ const Sidebar = ({ changes, data }: props) => {
                     </li>
                   )}
                   </Flex>
-                </>
+          </div>
             )}
       {isBrandPopupDropdownOpen && (
-              <>
+        <div ref={brandingdropdownRef}>
             <Flex 
             className={styles.brandpopupdropdown}
             >
@@ -3968,7 +4048,7 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 )} 
               {/* Build Your Careers Page */}
-              {super_user === true &&
+              {roles !== "HR" &&
               <>
                 {is_plan ? (
                   changes ? (
@@ -4060,12 +4140,12 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 )}
               </>
-              }
+               }
                 </Flex>
-              </>
+          </div>
             )}
       {isMyaccPopupDropdownOpen && (
-              <>
+        <div ref={myaccountdropdownRef}>
             <Flex 
             className={styles.myaccpopupdropdown}
             >
@@ -4110,7 +4190,7 @@ const Sidebar = ({ changes, data }: props) => {
                         className={styles.hoverview}
                         onClick={clearTab}
                         // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=0' : accountPath}
+                        to={is_plan ? profilenavpath : accountPath}
                       >
 
                         <Text
@@ -4343,7 +4423,7 @@ const Sidebar = ({ changes, data }: props) => {
                 </>
               ):("")} 
                 </Flex>  
-              </>
+          </div>
             )}
             </div>
     </>

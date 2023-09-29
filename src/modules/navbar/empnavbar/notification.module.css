@@ -198,6 +198,8 @@
   display: flex;
   align-content: center;
   flex-wrap: wrap;
+  cursor: pointer;
+  margin-right: 8px;
 }
 
 .classpan {
@@ -208,13 +210,13 @@
   color: #581845;
   background-color: #eee8ec;
   border-radius: 5px 5px 5px 5px;
-  border-left: 6px solid #581845 !important;
+  /* border-left: 6px solid #581845 !important; */
   /* transition: width 0.3s ease; */
 }
 .selectpopup_row .hoverview {
   color: #581845;
   background-color: #eee8ec;
-  border-radius: 5px 5px 5px 5px;
+  border-radius: 0px 5px 5px 0px;
   /* transition: width 0.3s ease; */
   height: 100%;
   width: 100%;
@@ -374,6 +376,22 @@ font-family: 'Courier New', Courier, monospace;
 .filtername:hover{
   color: #581845;
   background-color: #eee8ec;
+  border-left: 6px solid #581845 !important;
+}
+
+.filterselect_row{
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  margin-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-left: 6px solid #ffffff !important;
+  border-radius:4px;
+  justify-content: space-between;
+  align-items: center;
+  color: #581845;
+  background-color: #eee8ec;
+  border-radius: 5px 5px 5px 5px;
   border-left: 6px solid #581845 !important;
 }
 
