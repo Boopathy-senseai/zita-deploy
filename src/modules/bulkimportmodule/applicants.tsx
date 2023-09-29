@@ -1,11 +1,11 @@
 import { useMemo, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import SvgSearch from '../../icons/SvgSearch';
 import { getBlur, getFocus, unlimitedHelper } from '../../uikit/helper';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
-import { Modal } from '../../uikit';
+import { Card, Modal } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Tabel from '../../uikit/Table/Table';
@@ -18,13 +18,14 @@ import SvgNewTab from '../../icons/SvgNewTab';
 import SvgRefresh from '../../icons/SvgRefresh';
 import SvgClose from '../../icons/SvgClose';
 import Pangination from '../../uikit/Pagination/Pangination';
-import { AppDispatch } from '../../store';
+import { AppDispatch,RootState  } from '../../store';
 import ProfileView from '../applicantpipelinemodule/ProfileView';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import { LINK } from '../../uikit/Colors/colors';
 import YesOrNoModal from '../common/YesOrNoModal';
 import Totalcount from '../../globulization/TotalCount';
 import { jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { dashBoardMiddleWare } from '../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import styles from './candidatedatabasetab.module.css';
 import ApplicantDatabase from './applicantDatabase';
 import { applicantTable } from './uploadedCandidateTable';
@@ -39,6 +40,7 @@ import {
 } from './store/middleware/bulkImportMiddleware';
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
+
 
 
 type Tabs = 'total' | 'completed' | 'inCompleted';
@@ -105,6 +107,7 @@ const ApplicantsTab = ({
   const [model, setmodel] = useState(false);
   const [withoutjderror,setwithoutjderror] = useState(false);
   const [verify, setverify] = useState(false);
+
   // Profile View Function
   const hanldeEditProfileView = (id: number) => {
     setCanId(id);
@@ -141,6 +144,21 @@ const ApplicantsTab = ({
     onSubmit: handleSubmitWithJd,
     enableReinitialize: true,
   });
+
+  const {
+  
+    Resume_parsing_count,
+  } = useSelector(
+    ({
+
+      dashboardEmpReducers
+    }: RootState) => {
+      return {
+
+        Resume_parsing_count:dashboardEmpReducers.Resume_parsing_count
+      };
+    },
+  );
 
   const handleCompletedWithJd = () => {
     dispatch(
@@ -357,6 +375,15 @@ const ApplicantsTab = ({
     );
   };
 
+  useEffect(() => {
+    dispatch(dashBoardMiddleWare()).then((res1) => {
+      setcount(res1.payload.Resume_parsing_count)
+    });
+   
+  }, []);
+
+ 
+  const [count, setcount] = useState(Resume_parsing_count);
   const hanldeMatch = () => {
     setCandiTableLoader(true);
     const formData = new FormData();
@@ -373,7 +400,8 @@ const ApplicantsTab = ({
 
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then(() => {
+    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then((response) => {
+      setcount(response.payload.ai_resume_balance_count)
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -461,11 +489,11 @@ const ApplicantsTab = ({
 
   const handlefunction=()=>{
     setverify(true)
-    formik.setFieldValue('parser', '1')
+    formik.setFieldValue('parser', '0')
    }
    const handlefunction1=()=>{
     setverify(true)
-    formik.setFieldValue('parser', '0')
+    formik.setFieldValue('parser', '1')
    }
    const closemodel = () => {
     setverify(false);
@@ -569,43 +597,74 @@ const ApplicantsTab = ({
             isBulkLoader={localStorage.getItem('bulk_loader')}
             setUpgrade={setUpgrade}
             candidatesLimit={features_balance}
+            Resume_parsing_count={Resume_parsing_count}
           />
           ) : (
-            <Flex >
+            <Flex style={{ marginTop: '10px' }}>
               <Flex end onClick={() => closemodel()}>
-                  <SvgClose
-                    width={10}
-                    height={10}
-                    fill={'#888888'}
-                    cursor={'pointer'}
-                  />
-                </Flex>
-              <Text bold size={14}>
-                Choose the Parser to parse your resume
-              </Text>
-              <Text style={{ marginTop: '10px' }}>
-                You don’t have enough parser credits, do you wish to buy
-                credits?
+                <SvgClose
+                  width={10}
+                  height={10}
+                  fill={'#888888'}
+                  cursor={'pointer'}
+                />
+               </Flex>
+              <Text size={14}>
+              Which parsing method would you like to use?
               </Text>
               <Flex column>
                 <Flex
                   row
-                  style={{ justifyContent: 'space-evenly', marginTop: '25px' }}
+                  style={{  marginTop: '15px' }}
                 >
-                  <Button
-                    types="secondary"
-                    className={styles.verifybutton}
-                    onClick={handlefunction}
-                  >
-                    Basic Parser
-                  </Button>
-                  <Button
-                    className={styles.verifybutton}
-                    types="secondary"
-                    onClick={handlefunction1}
-                  >
-                    Advanced Parser
-                  </Button>
+                          <Flex>
+                          <Card className={styles.overAll} > 
+                          <Text size={14} bold style={{padding:'10px 0'}}>
+                            Basic Parser
+                          </Text>
+                          <ul  className={styles.dot}>
+                            <li>
+                            A foundational parsing system designed for general use.
+                            </li>
+                            <li>
+                            Efficient for general use but might overlook intricate details occasionally.
+                            </li>
+                            <li>
+                            May occasionally miss out on intricate details.
+                            </li>
+                          </ul>
+                          <Button
+                            onClick={handlefunction}
+                          >
+                            Select
+                          </Button>
+                          </Card>
+                          </Flex>
+                          
+                          <Flex style={{paddingLeft:'30px'}}>
+                          <Card className={styles.overAll}  > 
+                          <div className={`${styles.ribbon} ${styles.ribbonTopRight}`}><span className={styles.ribbontopright}>Paid</span></div>
+                          <Text size={14} bold style={{padding:'10px 0'}}>
+                           Advanced AI Parser
+                          </Text>
+                          <ul className={styles.dot}>
+                            <li>
+                            Powered by cutting-edge artificial intelligence.
+                            </li>
+                            <li>
+                            Offers superior accuracy and can understand complex structures.
+                            </li>
+                            <li>
+                            ecommended for precision and comprehensive data extraction.
+                            </li>
+                          </ul>
+                          <Button
+                            onClick={handlefunction1}
+                          >
+                            Select
+                          </Button>
+                          </Card>
+                          </Flex>
                 </Flex>
               </Flex>
             </Flex>

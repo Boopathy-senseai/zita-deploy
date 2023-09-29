@@ -38,6 +38,7 @@ const dashBoardState: DashBoardEmpReducerState = {
   contact_count: 0,
   rejected_last_update: '',
   invite_to_apply_last_update: '',
+  Resume_parsing_count:0,
   shortlisted_last_update: '',
   selected_last_update: '',
   applicants: 0,
@@ -99,6 +100,7 @@ const dashboardEmpReducer = createSlice({
       state.selected_last_update = action.payload.selected_last_update;
       state.applicants = action.payload.applicants;
       state.shortlisted = action.payload.shortlisted;
+      state.Resume_parsing_count=action.payload.Resume_parsing_count;
       state.selected = action.payload.selected;
       state.viewed = action.payload.viewed;
       state.plan = action.payload.plan;

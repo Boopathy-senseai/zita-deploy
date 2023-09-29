@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from '../../store';
 import Totalcount from '../../globulization/TotalCount';
 import SvgSearch from '../../icons/SvgSearch';
 import { getBlur, getFocus, unlimitedHelper } from '../../uikit/helper';
-import { Modal } from '../../uikit';
+import { Card, Modal } from '../../uikit';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
@@ -19,6 +19,7 @@ import Pangination from '../../uikit/Pagination/Pangination';
 import ZitaMatchCandidateDrawer from '../zitamatchcandidatemodule/ZitaMatchCandidateDrawer';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import YesOrNoModal from '../common/YesOrNoModal';
+import { dashBoardMiddleWare } from '../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import styles from './candidatedatabasetab.module.css';
 import CandidateDatabase from './CandidateDatabase';
 import { title } from './uploadedCandidateTable';
@@ -28,8 +29,10 @@ import {
   bulkuploadedCandidatesMiddleWare,
   bulkuploadedParsingMiddleWare,uploadedProfileViewMiddleWare
 } from './store/middleware/bulkImportMiddleware';
+
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
+
 
 
 type Tabs = 'total' | 'completed' | 'inCompleted';
@@ -85,6 +88,7 @@ const CandidateDatabaseTab = ({
   const [model, setmodel] = useState(false);
   const [Relocate, setRelocate] = useState(false);
   const [verify, setverify] = useState(false);
+
 // const history=useHistory()
   // Profile View Function
 
@@ -105,15 +109,22 @@ const CandidateDatabaseTab = ({
       setFile(res.payload.resume_file_path);
     });
   };
-  // useEffect(() => {
-  //   dispatch(bulkuploadedCandidatesMiddleWare({}));
-  // }, []);
+
+  
 
   useEffect(() => {
     if(searchValue === '' ){
       dispatch(bulkuploadedCandidatesMiddleWare({}));
     }
   }, [searchValue]);
+
+
+  const handlechange=()=>{
+    setmodel(true)
+    dispatch(dashBoardMiddleWare())
+    
+  }
+  
 
   const {
     emp_pool,
@@ -122,10 +133,12 @@ const CandidateDatabaseTab = ({
     incompleted,
     features_balance,
     upDateloader,
+    Resume_parsing_count,
   } = useSelector(
     ({
       bulkUploadedCandidatesReducers,
       bulkImportReducers,
+      dashboardEmpReducers
     }: RootState) => {
       return {
         emp_pool: bulkUploadedCandidatesReducers.emp_pool,
@@ -134,10 +147,21 @@ const CandidateDatabaseTab = ({
         incompleted: bulkUploadedCandidatesReducers.incompleted,
         features_balance: bulkImportReducers.features_balance,
         upDateloader: bulkUploadedCandidatesReducers.isLoading,
+        Resume_parsing_count:dashboardEmpReducers.Resume_parsing_count
       };
     },
   );
+  const [count, setcount] = useState(Resume_parsing_count);
+  useEffect(() => {
+    dispatch(dashBoardMiddleWare()).then((res1) => {
+      setcount(res1.payload.Resume_parsing_count)
+    });
+   
+  }, []);
+
+ 
  const [isPageTab, setPageTab] = useState(total_count);
+
 
   const columns = useMemo(
     () =>
@@ -286,7 +310,8 @@ const CandidateDatabaseTab = ({
   };
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then(() => {
+    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then((response) => {
+      setcount(response.payload.Resume_parsing_count)
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then(() => {
         setPageNumber(0);
       });
@@ -333,18 +358,19 @@ const CandidateDatabaseTab = ({
   };
   const handlefunction=()=>{
     setverify(true);
-    formik.setFieldValue('parser', '1')
+    formik.setFieldValue('parser', '0')
   }
   const handlefunction1=()=>{
     setverify(true);
-    formik.setFieldValue('parser', '0')
+    formik.setFieldValue('parser', '1')
   }
+  
   const value=emp_pool.length;
   const value1=value>4;
   const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
   return (
     <Flex className={styles.candidatedatabase}>
-      {console.log("formik:::::formik",formik.values,Relocate)}
+      {console.log("formik:::::formik",formik.values,Resume_parsing_count)}
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -428,9 +454,10 @@ const CandidateDatabaseTab = ({
               isBulkLoader={localStorage.getItem('bulk_loader')}
               setUpgrade={setUpgrade}
               candidatesLimit={features_balance}
+              Resume_parsing_count={count}
             />
           ) : (
-            <Flex style={{ marginTop: '10px' }}>
+            <Flex >
               <Flex end onClick={() => closemodel()}>
                 <SvgClose
                   width={10}
@@ -439,32 +466,62 @@ const CandidateDatabaseTab = ({
                   cursor={'pointer'}
                 />
                </Flex>
-              <Text bold size={14}>
-                Choose the Parser to parse your resume
-              </Text>
-              <Text style={{ marginTop: '10px' }}>
-                You don’t have enough parser credits, do you wish to buy
-                credits?
+              <Text size={14}>
+              Which parsing method would you like to use?
               </Text>
               <Flex column>
                 <Flex
                   row
-                  style={{ justifyContent: 'space-evenly', marginTop: '25px' }}
+                  style={{  marginTop: '15px' }}
                 >
-                  <Button
-                    types="secondary"
-                    className={styles.verifybutton}
-                    onClick={handlefunction}
-                  >
-                    Basic Parser
-                  </Button>
-                  <Button
-                    className={styles.verifybutton}
-                    types="secondary"
-                    onClick={handlefunction1}
-                  >
-                    Advanced Parser
-                  </Button>
+                          <Flex>
+                          <Card className={styles.overAll} > 
+                          <Text size={14} bold style={{padding:'15px 0'}}>
+                            Basic Parser
+                          </Text>
+                          <ul  className={styles.dot}>
+                            <li>
+                            A foundational parsing system designed for general use.
+                            </li>
+                            <li>
+                            Efficient for general use but might overlook intricate details occasionally.
+                            </li>
+                            <li>
+                            May occasionally miss out on intricate details.
+                            </li>
+                          </ul>
+                          <Button
+                            onClick={handlefunction}
+                          >
+                            Select
+                          </Button>
+                          </Card>
+                          </Flex>
+                          
+                          <Flex style={{paddingLeft:'30px'}}>
+                          <Card className={styles.overAll}  > 
+                          <div className={`${styles.ribbon} ${styles.ribbonTopRight}`}><span className={styles.ribbontopright}>Paid</span></div>
+                          <Text size={14} bold style={{padding:'15px 0'}}>
+                           Advanced AI Parser
+                          </Text>
+                          <ul className={styles.dot}>
+                            <li>
+                            Powered by cutting-edge artificial intelligence.
+                            </li>
+                            <li>
+                            Offers superior accuracy and can understand complex structures.
+                            </li>
+                            <li>
+                            ecommended for precision and comprehensive data extraction.
+                            </li>
+                          </ul>
+                          <Button
+                            onClick={handlefunction1}
+                          >
+                            Select
+                          </Button>
+                          </Card>
+                          </Flex>
                 </Flex>
               </Flex>
             </Flex>
@@ -506,7 +563,7 @@ const CandidateDatabaseTab = ({
       </Flex>
       ):(
       <Button
-      onClick={() => setmodel(true)}
+      onClick={handlechange}
       >
       Bulk Import
      </Button>
