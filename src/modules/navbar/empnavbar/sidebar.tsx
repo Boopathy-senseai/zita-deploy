@@ -809,7 +809,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <li
                     title="Post Jobs"
                     className={
-                      pathname === jobSelect
+                      pathname === jobCreateNonDs
                         ? styles.select_row
                         : ''
                     }
@@ -817,7 +817,7 @@ const Sidebar = ({ changes, data }: props) => {
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTabs}
-                      to={is_plan ? jobSelect : accountPath}
+                      to={is_plan ? jobCreateNonDs : accountPath}
                     >
 
                       <Text
@@ -834,7 +834,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <li
                     title="Post Jobs"
                     className={
-                      pathname === jobSelect
+                      pathname === jobCreateNonDs
                         ? styles.select_row
                         : ''
                     }
@@ -842,7 +842,7 @@ const Sidebar = ({ changes, data }: props) => {
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTab}
-                      to={is_plan ? jobSelect : accountPath}
+                      to={is_plan ? jobCreateNonDs : accountPath}
                     >
 
                       <Text
@@ -860,7 +860,7 @@ const Sidebar = ({ changes, data }: props) => {
                 <li
                   title="Post Jobs"
                   className={
-                    pathname === jobSelect
+                    pathname === jobCreateNonDs
                       ? styles.select_row
                       : ''
                   }
@@ -3232,7 +3232,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <li
                     title="Post Jobs"
                     className={
-                      pathname === jobSelect
+                      pathname === jobCreateNonDs
                         ? styles.selectpopup_row
                         : ''
                     }
@@ -3241,7 +3241,7 @@ const Sidebar = ({ changes, data }: props) => {
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTabs}
-                      to={is_plan ? jobSelect : accountPath}
+                      to={is_plan ? jobCreateNonDs : accountPath}
                     >
 
                       <Text
@@ -3270,7 +3270,7 @@ const Sidebar = ({ changes, data }: props) => {
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTab}
-                      to={is_plan ? jobSelect : accountPath}
+                      to={is_plan ? jobCreateNonDs : accountPath}
                     >
 
                       <Text
