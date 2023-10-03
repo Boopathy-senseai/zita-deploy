@@ -176,7 +176,7 @@ const MatchingAnalysisTab = () => {
                 verticalWidth={'100px'}
                 roundProgressHeight={45}
                 type="round"
-                percentage={aidata && aidata[0].overall_percentage}
+                percentage={ Math.round(aidata && aidata[0].overall_percentage)}
               />
             </Flex>
           ) : (
