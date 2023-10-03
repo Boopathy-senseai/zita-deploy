@@ -98,6 +98,20 @@ export const CandidatejobidMatchMiddleWare = createAsyncThunk(
     }
   },
 );
+export const AiMatchMiddleWare = createAsyncThunk(
+  "match_canid_jdid",
+  async ({jd_id, can_id, matching}: {jd_id: string,can_id: string , matching?:boolean}, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(Bothcandidateidjobid, {
+        params: { jd_id, can_id, matching },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 export const candidateMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_MATCH,
   async ({can_id}:{can_id:string}, { rejectWithValue }) => {

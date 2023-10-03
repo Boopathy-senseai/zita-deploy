@@ -24,7 +24,7 @@ import {
 } from './matchAnalysisTab';
 import styles from './matchinganalysistab.module.css';
 import AllMatchTab from './AllMatchTab';
-import { CandidatejobidMatchMiddleWare } from './store/middleware/applicantProfileMiddleware';
+import { CandidatejobidMatchMiddleWare,AiMatchMiddleWare } from './store/middleware/applicantProfileMiddleware';
 
 const colorCode = [WHITE, GARY_7];
 export interface DateEntity {
@@ -73,51 +73,25 @@ const MatchingAnalysisTab = () => {
         match: candidatejdmatchReducers.match
           ? candidatejdmatchReducers.match
           : [],
-        matchql:
-          typeof candidatejdmatchReducers.matched_data.matched_qualification !==
-            'undefined' &&
-          candidatejdmatchReducers.matched_data.matched_qualification,
-        data:
-          typeof candidatejdmatchReducers.matched_data.matched_skills !==
-            'undefined' && candidatejdmatchReducers.matched_data.matched_skills,
-        overall_percentage:
-          typeof candidatejdmatchReducers.overall_percentage !== 'undefined' &&
-          candidatejdmatchReducers.overall_percentage,
-        Notmatch:
-          typeof candidatejdmatchReducers.not_matched_data
-            .not_matched_skills !== 'undefined' &&
-          candidatejdmatchReducers.not_matched_data.not_matched_skills,
-        Notmatchql:
-          typeof candidatejdmatchReducers.not_matched_data
-            .not_matched_qualification !== 'undefined' &&
-          candidatejdmatchReducers.not_matched_data.not_matched_qualification,
+        matchql:candidatejdmatchReducers.matched_data.matched_qualification,
+        data:candidatejdmatchReducers.matched_data.matched_skills,
+        overall_percentage:candidatejdmatchReducers.overall_percentage,
+        Notmatch:candidatejdmatchReducers.not_matched_data.not_matched_skills,
+        Notmatchql:candidatejdmatchReducers.not_matched_data.not_matched_qualification,
         qualification_percent: candidatejdmatchReducers.qualification_percent,
         skills_percent: candidatejdmatchReducers.skills_percent,
-        overallskill:
-          typeof candidatejdmatchReducers.source.jd_skills !== 'undefined' &&
-          candidatejdmatchReducers.source.jd_skills,
-        overallQualification:
-          typeof candidatejdmatchReducers.source.qualification !==
-            'undefined' && candidatejdmatchReducers.source.qualification,
-        matchedlocation:
-          typeof candidatejdmatchReducers.matched_data.matched_location !==
-            'undefined' &&
-          candidatejdmatchReducers.matched_data.matched_location,
-        notmatchedlocation:
-          typeof candidatejdmatchReducers.not_matched_data
-            .not_matched_location !== 'undefined' &&
-          candidatejdmatchReducers.not_matched_data.not_matched_location,
-        location:
-          typeof candidatejdmatchReducers.source.jd_location !== 'undefined' &&
-          candidatejdmatchReducers.source.jd_location,
-        location_percent:
-          typeof candidatejdmatchReducers.location_percent !== 'undefined' &&
-          candidatejdmatchReducers.location_percent,
+        overallskill:candidatejdmatchReducers.source.jd_skills,
+        overallQualification:candidatejdmatchReducers.source.qualification,
+        matchedlocation:candidatejdmatchReducers.matched_data.matched_location,
+        notmatchedlocation:candidatejdmatchReducers.not_matched_data.not_matched_location,
+        location:candidatejdmatchReducers.source.jd_location,
+        location_percent:candidatejdmatchReducers.location_percent,
       };
     },
   );
   const [isCollapse, setCollapse] = useState(false);
   const [isloadings, setisloading] = useState(false);
+  const [afterresponseAi,setafterresponseAi] = useState<any>();
   const [expandedIndex, setExpandedIndex] = useState([]);
   const dispatch: AppDispatch = useDispatch();
 
@@ -142,12 +116,14 @@ const MatchingAnalysisTab = () => {
   });
   const dispatchhandling = () => {
     dispatch(
-      CandidatejobidMatchMiddleWare({
+      AiMatchMiddleWare({
         jd_id: jd_id,
         can_id: can_id,
         matching: true,
-      }),
-    );
+      })
+    ).then((res)=>{   
+      setafterresponseAi(res)
+    })
   };
   const checkMatch = overall_percentage === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : overall_percentage;
