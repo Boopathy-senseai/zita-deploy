@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import SvgRoundClose from '../../icons/SvgRoundClose';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
 import SvgClose from '../../icons/SvgClose';
-import { ErrorMessage, InputText, Loader, Modal, SelectTag } from '../../uikit';
+import { ErrorMessage, InputSearch, InputText, Loader, Modal, SelectTag } from '../../uikit';
 import { getFocus, isEmpty } from '../../uikit/helper';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -146,7 +146,7 @@ const UploadJd = ({
   const initialValues: MyFormValues = {
     work_space_type1: '',
     jobTitle1: '',
-    Industry_and_Domain: '',
+    industryType1:'',
     country1: '',
     city1: '',
     state1: '',
@@ -157,7 +157,7 @@ const UploadJd = ({
   interface MyFormValues {
     work_space_type1: string;
     jobTitle1: string;
-    Industry_and_Domain: string;
+    industryType1: string;
     country1: string;
     city1: string;
     state1: string;
@@ -176,8 +176,8 @@ const UploadJd = ({
     if (formik.values.jobTitle1 === '') {
       errors.jobTitle1 = THIS_FIELD_REQUIRED;
     }
-    if (formik.values.Industry_and_Domain === '') {
-      errors.Industry_and_Domain = THIS_FIELD_REQUIRED;
+    if (formik.values.industryType1 === '') {
+      errors.industryType1 = THIS_FIELD_REQUIRED;
     }
     if (
       formik.values.country1 === '' &&
@@ -203,7 +203,7 @@ const UploadJd = ({
     dispatch(
       AioutputApimiddleware({
         jobTitle: formik.values.jobTitle1,
-        Industry_and_Domain: formik.values.Industry_and_Domain,
+        Industry_and_Domain: formik.values.industryType1,
         Work_Space_Type: formik.values.work_space_type1,
         Country: formik.values.country1,
         State: formik.values.state1,
@@ -213,6 +213,7 @@ const UploadJd = ({
           formik.values.Department_and_reporting,
       }),
     ).then((res) => {
+      setSubmitLoader(false);
       setFieldValue('jobDescription', res.payload.job_description);
       setFieldValue('jobTitle', res.payload.job_title);
       if (typeof res.payload?.skills === 'string') {
@@ -254,8 +255,9 @@ const UploadJd = ({
       setFieldValue('country', res.payload.country.toString());
       setFieldValue('city', res.payload.city.toString());
       setFieldValue('state', res.payload.state.toString());
-      setFieldValue('jobTitle1', '');
-      setFieldValue('Industry_and_Domain', '');
+      setFieldValue('state', res.payload.state.toString());
+      setFieldValue('industryType', formik.values.industryType1);
+      setFieldValue('industryType1', '');
       setFieldValue('work_space_type1', '');
       setFieldValue('country1', '');
       setFieldValue('city1', '');
@@ -315,9 +317,15 @@ const UploadJd = ({
   setpopup(false)
  }
 
+ const { data } = useSelector(({ getindustery }: RootState) => {
+  return {
+    data: getindustery.data,
+  };
+});
+
   const upload_hide =
     formik.values.jobTitle1 !== '' ||
-    formik.values.Industry_and_Domain !== '' ||
+    formik.values.industryType1 !== '' ||
     formik.values.work_space_type1 !== '' ||
     formik.values.country1 !== '' ||
     formik.values.state1 !== '' ||
@@ -542,24 +550,24 @@ const UploadJd = ({
                         )}
                       </Flex>
                       <Flex flex={2} style={{ marginRight: '15px' }}>
-                        <InputText
-                          id="jobtitle__jobtitle"
-                          name="Industry_and_Domain"
-                          label="Industry and Domain"
+                      <InputSearch
+                          placeholder="e.g. Industry Type"
+                          options={data}
+                          setFieldValue={formik.setFieldValue}
                           required
-                          placeholder={'e.g. IT Sector'}
-                          value={formik.values.Industry_and_Domain}
+                          name="industryType1"
+                          label="Industry Type"
+                          initialValue={formik.values.industryType1}
                           onChange={(e) => {
-                            formik.setFieldValue(
-                              'Industry_and_Domain',
-                              e.target.value,
-                            );
+                            
+                            formik.setFieldValue('industryType1', e.target.value);
+                          
                             onDirty();
                           }}
                         />
-                        {formik.values.Industry_and_Domain === '' && (
+                        {formik.values.industryType1 === '' && (
                           <ErrorMessage
-                            name={'Industry_and_Domain'}
+                            name={'industryType1'}
                             errors={formik.errors}
                             touched={formik.touched}
                           />
