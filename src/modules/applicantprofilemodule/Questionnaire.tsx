@@ -23,8 +23,7 @@ const Questionnaire = ({issingletab}:Props) => {
     <Flex row> 
     <Flex
     flex={6}
-      columnFlex
-      height={window.innerHeight - 120}
+      columnFlex 
       className={styles.overAll}
     >
       {/* {questionnaire && questionnaire.length !== 0 && (
