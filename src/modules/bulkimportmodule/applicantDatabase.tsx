@@ -25,6 +25,7 @@ type MyProps = {
   setmodel?:any;
   verifymodel?: any;
   Resume_parsing_count:any;
+  formik:any;
 
 };
 
@@ -293,6 +294,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
  const checkSelectLength500 = this.state.files.length < 501 ? true : false;
     return (
       <>
+      {console.log("this...this......this",this.props.formik)}
         <Modal open={this.state.popups} >
         <Flex className={styles.verifymodel1}>
           <Text type="titleMedium" align="center">
@@ -342,9 +344,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </Flex>
         </Flex>
       </Modal>
-      <Flex  center >
+      <Flex  center  >
         <Text  bold size={14}> Add Attachment </Text>
-        <Flex row between>
+        { this.props.formik==='1'&&(
+         <Flex row between>
             <Flex row>
               <Text>
               You can parse 10 resume for this limit. Do you wish to 
@@ -358,6 +361,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </Text>
             </Flex>
           </Flex>
+        )
+         }
         <CancelAndDeletePopup
           title={'Are you sure want to delete the files?'}
           btnCancel={() => this.setState({ bulkDelete: false })}
@@ -459,8 +464,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             )}
           </Flex>
         </div>
+        {this.props.formik==='1'&&(
         <Text color='error'>{this.state.error}</Text>
-       
+        )
+        }
           {this.props.isBulkLoader === 'true' ? (
             <Flex  row  between className={styles.btnContainer}>
             <Flex row center className={styles.loaderStyle} style={{marginTop:'0px'}}>
@@ -472,7 +479,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             </Flex>
           ) : (
             <Fragment>
-            <Flex  row  between style={{marginTop:'10px'}} >
+            <Flex  row  between style={{marginTop:this.props.formik==='1'?'20px':'10px'}} >
             <Flex>
            
             {checkSelectLength && (

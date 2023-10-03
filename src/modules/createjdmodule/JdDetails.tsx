@@ -67,7 +67,8 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
     },
     {
       title: 'Work Location:',
-      value: location.city__name!==undefined&&location.state__name !==undefined&&location.country__name!==undefined ? `${location.city__name}, ${location.state__name}, ${location.country__name}`:'Not Specified',
+      
+      value: (location.city__name!==undefined&&location.state__name !==undefined&&location.country__name!==undefined) ? ((location.city__name!=="" &&location.state__name !=="" &&location.country__name!=="")?`${location.city__name}, ${location.state__name}, ${location.country__name}`:'Not Specified'):'Not Specified',
       check: true,
     },
     {
@@ -101,6 +102,7 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
 
   return (
     <Card className={styles.cardStyle}>
+     
       <Flex row wrap top>
         {jdData.map((list, index) => {
           return (
