@@ -73,46 +73,19 @@ const MatchingAnalysisTab = () => {
         match: candidatejdmatchReducers.match
           ? candidatejdmatchReducers.match
           : [],
-        matchql:
-          typeof candidatejdmatchReducers.matched_data.matched_qualification !==
-            'undefined' &&
-          candidatejdmatchReducers.matched_data.matched_qualification,
-        data:
-          typeof candidatejdmatchReducers.matched_data.matched_skills !==
-            'undefined' && candidatejdmatchReducers.matched_data.matched_skills,
-        overall_percentage:
-          typeof candidatejdmatchReducers.overall_percentage !== 'undefined' &&
-          candidatejdmatchReducers.overall_percentage,
-        Notmatch:
-          typeof candidatejdmatchReducers.not_matched_data
-            .not_matched_skills !== 'undefined' &&
-          candidatejdmatchReducers.not_matched_data.not_matched_skills,
-        Notmatchql:
-          typeof candidatejdmatchReducers.not_matched_data
-            .not_matched_qualification !== 'undefined' &&
-          candidatejdmatchReducers.not_matched_data.not_matched_qualification,
+        matchql:candidatejdmatchReducers.matched_data.matched_qualification,
+        data:candidatejdmatchReducers.matched_data.matched_skills,
+        overall_percentage:candidatejdmatchReducers.overall_percentage,
+        Notmatch:candidatejdmatchReducers.not_matched_data.not_matched_skills,
+        Notmatchql:candidatejdmatchReducers.not_matched_data.not_matched_qualification,
         qualification_percent: candidatejdmatchReducers.qualification_percent,
         skills_percent: candidatejdmatchReducers.skills_percent,
-        overallskill:
-          typeof candidatejdmatchReducers.source.jd_skills !== 'undefined' &&
-          candidatejdmatchReducers.source.jd_skills,
-        overallQualification:
-          typeof candidatejdmatchReducers.source.qualification !==
-            'undefined' && candidatejdmatchReducers.source.qualification,
-        matchedlocation:
-          typeof candidatejdmatchReducers.matched_data.matched_location !==
-            'undefined' &&
-          candidatejdmatchReducers.matched_data.matched_location,
-        notmatchedlocation:
-          typeof candidatejdmatchReducers.not_matched_data
-            .not_matched_location !== 'undefined' &&
-          candidatejdmatchReducers.not_matched_data.not_matched_location,
-        location:
-          typeof candidatejdmatchReducers.source.jd_location !== 'undefined' &&
-          candidatejdmatchReducers.source.jd_location,
-        location_percent:
-          typeof candidatejdmatchReducers.location_percent !== 'undefined' &&
-          candidatejdmatchReducers.location_percent,
+        overallskill:candidatejdmatchReducers.source.jd_skills,
+        overallQualification:candidatejdmatchReducers.source.qualification,
+        matchedlocation:candidatejdmatchReducers.matched_data.matched_location,
+        notmatchedlocation:candidatejdmatchReducers.not_matched_data.not_matched_location,
+        location:candidatejdmatchReducers.source.jd_location,
+        location_percent:candidatejdmatchReducers.location_percent,
       };
     },
   );
@@ -537,7 +510,7 @@ const MatchingAnalysisTab = () => {
         height={window.innerHeight - 115}
         style={{
           border: '0.3px solid #C3C3C3',
-          width: '1px',
+          width: '0.5px',
           margin: '15px 5px 10px 5px',
           paddingTop: '10px',
           paddingBottom: '10px',
