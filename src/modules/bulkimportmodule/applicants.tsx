@@ -586,6 +586,8 @@ const ApplicantsTab = ({
               <Modal open={model}>
         <Flex
           className={verify === true ? styles.bulkmodel : styles.verifymodel}
+          style={{ height:formik.values.parser === '1'? '363px' : '' }}
+
         >
           
           {verify === true ? (
@@ -599,6 +601,7 @@ const ApplicantsTab = ({
             setUpgrade={setUpgrade}
             candidatesLimit={features_balance}
             Resume_parsing_count={Resume_parsing_count}
+            formik={formik.values.parser}
           />
           ) : (
             <Flex style={{ marginTop: '10px' }}>

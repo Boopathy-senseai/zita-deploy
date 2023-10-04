@@ -633,7 +633,7 @@ const ProfileNavBar = ({
           )}
         </Flex>
         <Flex
-          style={{ overflow: 'scroll', padding: '0px 0px 0px 8px' }}
+          style={{ overflow: 'scroll', padding: '0px 5.5px' }}
           height={window.innerHeight - 320}
         >
           <Flex>

@@ -100,7 +100,7 @@ const JobTitle = ({
           label="Job Title"
           required
           placeholder={isNonDs ? 'e.g. Sales Executive' : 'e.g. Data Scientist'}
-          value={values.jobTitle}
+          value={values.jobTitle.toLowerCase().replace('job title:','')}
           onChange={(e) => {
             setFieldValue('jobTitle', e.target.value);
             onDirty();

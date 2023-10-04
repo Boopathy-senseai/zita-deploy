@@ -344,7 +344,8 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                         style={{ fontSize: 13, width: 200, fontWeight: 400 }}
                         className={styles.padchanges}
                       >
-                        {list.location}
+                        {console.log("list.location++list.location",list.location)}
+                        { list.location!==null?(list.location):("Remote")}
                       </td>
 
                       {list.jd_status__label_name === 'Inactive' ? (

@@ -35,6 +35,8 @@ const InviteModal = (props) => {
   const [isAutoDropDown, setAutoDropDown] = useState();
   const myRef = useRef();
 
+  const [mailerr,setmailerror]=useState(false)
+
   ////////// Form Validation ////////////
   const schema = yup.object().shape({
     first_name: yup
@@ -52,12 +54,14 @@ const InviteModal = (props) => {
     email: yup
       .string()
       .required('This field is required.')
+     
       .email('Enter a valid email.'),
+      
     role: yup.string().required('This field is required.'),
     contact: yup
       .string()
       .required('This field is required.')
-      .max(15, 'Enter a valid contact number.')
+      .max(15, 'Contact should be a maximum of 15 characters.')
       .min(10, 'Enter a valid contact number.'),
 
     department: yup
@@ -81,6 +85,7 @@ const InviteModal = (props) => {
   });
   ////////// Submit Form ////////////
   const onSubmit = (data) => {
+  if(mailerr !== true){
     var checkedValue = [];
     var inputElements = document.getElementsByClassName(
       'custom-control-inputs',
@@ -92,6 +97,7 @@ const InviteModal = (props) => {
     }
     data['permissions'] = checkedValue;
     props.onInviteSend(data);
+  }
   };
 
   ////////// Get Role ////////////
@@ -227,6 +233,7 @@ const InviteModal = (props) => {
   const getContact = getValues('contact');
   const getDepartment = getValues('department');
 
+
   const checkValue =
     !isEmpty(getFname) &&
     !isEmpty(getLname) &&
@@ -286,9 +293,21 @@ const InviteModal = (props) => {
     };
   });
 
+ const emailupdate=(e)=>{
+  if(e.target.value.length >50){
+      setMail(e.target.value)
+       setmailerror(true)
+ }else{
+setmailerror(false)
+setMail(e.target.value)
+  }
+  }
+
   return (
     props.show && (
       <>
+
+      {console.log("asas",checkValue,checkFillValue,isGetMail)}
         <Modal
           show={props.show}
           onHide={onCloseModal}
@@ -359,10 +378,9 @@ const InviteModal = (props) => {
                           placeholder="Enter user's active email id"
                           type="text"
                           name="email"
+                          maxLength={51}
                           {...register('email')}
-                          onChange={(e) => {
-                            setMail(e.target.value);
-                          }}
+                          onChange={(e)=>emailupdate(e)}
                         />
                       </LabelWrapper>
                       <Text size={12} color="error">
@@ -373,6 +391,13 @@ const InviteModal = (props) => {
                           This email id already exist
                         </Text>
                       )}
+                        {mailerr && (
+                        <Text size={12} color="error">
+                          Email should be a maximum of 50 characters
+                        </Text>
+                      )}
+
+                      
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -382,6 +407,7 @@ const InviteModal = (props) => {
                           className={styles.inputStyle}
                           placeholder="Enter user's active contact number"
                           name="contact"
+                           maxLength={16}
                           {...register('contact')}
                         />
                       </LabelWrapper>

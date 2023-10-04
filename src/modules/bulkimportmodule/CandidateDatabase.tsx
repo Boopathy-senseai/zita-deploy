@@ -30,6 +30,7 @@ type MyProps = {
   setmodel?: any;
   verifymodel?: any;
   Resume_parsing_count?:any;
+  formik:any;
 };
 
 type MyState = {
@@ -389,6 +390,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           <Text bold size={14}>
             Add Attachment
           </Text>
+          { this.props.formik==='1'&&(
           <Flex row between>
             <Flex row>
               <Text>
@@ -403,6 +405,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </Text>
             </Flex>
           </Flex>
+          )}
           <CancelAndDeletePopup
             title={'Are you sure want to delete the files?'}
             btnCancel={() => this.setState({ bulkDelete: false })}
@@ -530,7 +533,9 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                 </Flex>
               </div>
             </Flex>
+            {this.props.formik==='1'&&(
             <Text color='error'>{this.state.error}</Text>
+            )}
 
             {this.props.isBulkLoader === 'true' ? (
               <Flex row between className={styles.loaderStyle}>
@@ -546,7 +551,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </Flex>
             ) : (
               <Fragment>
-                <Flex row between>
+                <Flex row between style={{marginTop:this.props.formik==='1'?'20px':'10px'}}>
                   <Flex
                     className={styles.btnContainer1}
                     style={{ justifyContent: 'none' }}
