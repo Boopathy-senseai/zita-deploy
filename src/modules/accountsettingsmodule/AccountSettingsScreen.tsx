@@ -93,6 +93,8 @@ const AccountSettingsScreen = ({ value }: props) => {
       sessionStorage.setItem('superUserFalseTab', tab);
       sessionStorage.setItem('superUserTabTwo', tab);
       setKey(tab);
+      setKeyTwo(tab);
+      setKeyOne(tab);
       if (query.has('tab')) {
         query.delete('tab');
         history.replace({

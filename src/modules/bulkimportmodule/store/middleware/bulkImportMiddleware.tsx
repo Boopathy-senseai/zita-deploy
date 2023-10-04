@@ -28,7 +28,7 @@ import {
   bulkUploadEducationEdit,
   bulkUploadExpUpdate,
 } from '../../../../routes/apiRoutes';
-import { UploadedTotalPayload } from '../../bulkImportTypes';
+import { ParserPayload, UploadedTotalPayload } from '../../bulkImportTypes';
 const querystring = require('qs');
 export const bulkImportMiddleWare = createAsyncThunk(
   BULK_IMPORT_INITIAL,
@@ -144,9 +144,13 @@ export const uploadedDeleteMiddleWare = createAsyncThunk(
 
 export const bulkuploadedParsingMiddleWare = createAsyncThunk(
   BULK_UPLOADED_PARSING,
-  async (_a, { rejectWithValue }) => {
+  async ({
+    parser
+  }: ParserPayload, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(bulkUploadParsingApi);
+      const { data } = await axios.get(bulkUploadParsingApi,{
+        params: { parser } 
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;

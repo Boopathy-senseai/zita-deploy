@@ -424,21 +424,25 @@ const MyDataBaseScreen = () => {
 
   return (
     <>
-      <Flex row className={styles.ribbon} between>
-        <Flex className={styles.titleContainer}>
-          <Text size={16} bold color="theme">
-            Database
-          </Text>
-        </Flex>
-        <Flex>
-          <div className={styles.triangle}></div>
-        </Flex>
-      </Flex>
-      <Flex row className={styles.overAll}>
-        {initalLoader && <Loader />}
-        {/* {dataLoader && <Loader  />} */}
-        {isInviteLoader && <Loader />}
-        {isDownloadLoader && <Loader />}
+    <Flex row className={styles.ribbon} between>
+          
+
+    <Flex className={styles.titleContainer}  >
+      <Text size={16} bold color="theme" >
+      Database
+      </Text>
+
+    </Flex>
+    <Flex >
+      <div className={styles.triangle}></div>
+    </Flex>
+
+   </Flex>
+    <Flex row>
+      {initalLoader && <Loader  />}
+      {/* {dataLoader && <Loader  />} */}
+      {isInviteLoader && <Loader />}
+      {isDownloadLoader && <Loader />}
 
         <div className={cx('tabsContainer')}>
           <MyDataBaseSearchAction

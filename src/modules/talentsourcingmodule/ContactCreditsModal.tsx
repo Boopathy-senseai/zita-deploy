@@ -127,7 +127,7 @@ const ContactCreditsModal = ({
             <Text bold>Total: $ {disPlayValue}</Text>
           </Flex>
         </Flex>
-        <Flex row center middle className={styles.btnConatiner}>
+        <Flex row end  style={{padding:'0 5px 0 0'}} className={styles.btnConatiner}>
           <Button
           className={styles.btnCancelStyle}
           types="close"

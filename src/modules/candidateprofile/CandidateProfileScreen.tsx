@@ -58,7 +58,8 @@ const CandidateProfileScreen = () => {
   const [isLoginShow, setLoginShow] = useState(false);
   const [isLoader, setLoader] = useState(true);
   const [showModel, setShowModel] = useState(false);
-  const [show, setshow] = useState(true);
+  const [show, setshow] = useState(false);
+  const [show1, setshow1] = useState(false);
   // initial api call
   useEffect(() => {
     dispatch(
@@ -154,6 +155,10 @@ const CandidateProfileScreen = () => {
   if (initialLoader || isLoader) {
     return <Loader />;
   }
+  const handlefunction=()=>{
+    setshow(false)
+    setshow1(false)
+  }
   return (
     <Flex className={styles.overAll}>
       {isLoading && <Loader />}
@@ -208,7 +213,7 @@ const CandidateProfileScreen = () => {
       />
       <CandidateNavBar obj={obj} projects={projects} personal={personal} />
       {show&&(
-          <Flex middle center>
+          <Flex  style={{marginLeft: '150px'}}>
           <Flex middle row center className={styles.warningFlex1}>
             <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
             
@@ -226,7 +231,7 @@ const CandidateProfileScreen = () => {
             Your application has been pre-filled using your resume. Please take a moment to review and ensure before proceeding with your application.
             </Text>
             
-            <div id="toast-close" role="button" style={{padding:'0  0 0 5px'}} onClick={()=>setshow(false)}>&#10006;</div>
+            <div id="toast-close" role="button" style={{padding:'0  0 0 5px'}} onClick={handlefunction}>&#10006;</div>
           </Flex>
           </Flex>
           )
@@ -242,7 +247,7 @@ const CandidateProfileScreen = () => {
           between
           center
           width={'100%'}
-          style={{ padding: '10px 30px 0px 105px' }}
+          style={{ padding:show? '0px':'10px 30px 0px 105px' }}
         >
           <Text size={13}>
             Updating your resume will exclusively associate it with your
