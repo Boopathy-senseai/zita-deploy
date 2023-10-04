@@ -399,7 +399,7 @@ const AboutTab = () => {
         height={window.innerHeight - 115}
         style={{
           border: '0.3px solid #C3C3C3',
-          width: '1px',
+          width: '0.5px',
           margin: '15px 5px 10px 5px',
           paddingTop: '10px',
           paddingBottom:'10px'
