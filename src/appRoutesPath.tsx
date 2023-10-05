@@ -23,6 +23,7 @@ export const jobCreateNonDs = `${routesPath.JOBS}/create_non_ds`;
 export const jobCreateNonDsUpdate = `${routesPath.JOBS}/create_non_ds/:jdId`;
 export const jobCreateNonDsEdit = `${routesPath.JOBS}/create_non_ds_edit/:editJdId`;
 export const jobQuestionnaire = `${routesPath.JOBS}/questionnaire/:jd_id`;
+export const weightagematching = `${routesPath.JOBS}/weightagematching/:jd_id`;
 export const jobPreview = `${routesPath.JOBS}/preview/:jdId`;
 
 // profile view

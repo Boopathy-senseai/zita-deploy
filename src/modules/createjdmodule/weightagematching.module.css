@@ -1,0 +1,28 @@
+.step {
+    /* position: relative; */
+    /* margin: 0 400px; */
+    /* margin-bottom: 36px; */
+    margin-left: 45px;
+    padding: 10px 0 20px 0;
+  }
+  .stepOne {
+    position: relative;
+    left: 0px;
+    top: 0px;
+  }
+  
+  .stepTwo {
+    position: relative;
+    right: 10px;
+    top: 0px;
+  }
+  .stepThree {
+    position: relative;
+    top: 0px;
+    right: 21px;
+  }
+  .stepFour {
+    position: relative;
+    top: 0px;
+    right: 32px;
+  }
