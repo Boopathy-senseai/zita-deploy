@@ -576,7 +576,7 @@ export const WeightagematchingMiddleWare = createAsyncThunk(
   'weightage_matching',
   async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(weightagemating(jd_id));
+      const { data } = await axios.get(weightagemating);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -590,10 +590,12 @@ export const WeightagematchingMiddleWare = createAsyncThunk(
 
 
 export const WeightagematchingpostMiddleWare = createAsyncThunk('weightage_matching/',
-  async ({ formData ,jd_id }: any, { rejectWithValue }) => {
+  
+  async ({ formData }: any, { rejectWithValue }) => {
+    
     try {
       const { data } = await axios.post(
-        weightagemating(jd_id),
+        weightagemating,
         formData
       );
       return data;

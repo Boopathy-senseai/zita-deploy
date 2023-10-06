@@ -2,34 +2,50 @@
 import React, { useEffect, useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import "react-circular-progressbar/dist/styles.css";
-import { Button, LinkWrapper, Text } from '../../uikit';
+import { useDispatch } from 'react-redux';
+
+import { useParams } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../store';
+
+import { Button, LinkWrapper, Loader, Text } from '../../uikit';
 import { Flex } from '../../uikit'
 
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
 import styles from '../createjdmodule/weightagematching.module.css'
 import SvgInfo from '../../icons/SvgInfo';
 import { routesPath } from '../../routes/routesPath';
+
 import { CANCEL } from '../constValue';
+import { WeightagematchingpostMiddleWare } from './store/middleware/createjdmiddleware';
+
+
+type ParamsType = {
+  jd_id: string;
+};
 
 
 const Weightagematching = () => {
+  const dispatch: AppDispatch = useDispatch();
+  let formData = new FormData();   
+  const { jd_id } = useParams<ParamsType>();
+
+  const [isBtnLoader, setBtnLoader] = useState(false)
+
+  const [rangeValueskill, setRangeValueskill] = useState<any>(10);
+  const [rangeValuerolles, setRangeValuerolles] = useState<any>(20);
+  const [rangeValueexperience, setRangeValueexperience] = useState<any>(30);
+  const [rangeValueQualifications, setRangeValueQualifications] = useState<any>(40);
+  const [rangeValueTechnical, setRangeValueTechnical] = useState<any>(50);
+  const [rangeValueSoft, setRangeValueSoft] = useState<any>(60);
 
 
-  const [rangeValueskill, setRangeValueskill] = useState(10);
-  const [rangeValuerolles, setRangeValuerolles] = useState(20);
-  const [rangeValueexperience, setRangeValueexperience] = useState(30);
-  const [rangeValueQualifications, setRangeValueQualifications] = useState(40);
-  const [rangeValueTechnical, setRangeValueTechnical] = useState(50);
-  const [rangeValueSoft, setRangeValueSoft] = useState(60);
 
-
-
-  const [rangeValueIndustry, setRangeValueIndustry] = useState(10);
-  const [rangeValueDomain, setRangeValueDomain] = useState(20);
-  const [rangeValueCertifications, setRangeValueCertifications] = useState(30);
-  const [rangeValueLocation, setRangeValueLocation] = useState(40);
-  const [rangeValueCultural, setRangeValueCultural] = useState(60);
-  const [rangeValueReferences, setRangeValueReferences] = useState(50);
+  const [rangeValueIndustry, setRangeValueIndustry] = useState<any>(10);
+  const [rangeValueDomain, setRangeValueDomain] = useState<any>(20);
+  const [rangeValueCertifications, setRangeValueCertifications] = useState<any>(30);
+  const [rangeValueLocation, setRangeValueLocation] = useState<any>(40);
+  const [rangeValueCultural, setRangeValueCultural] = useState<any>(60);
+  const [rangeValueReferences, setRangeValueReferences] = useState<any>(50);
 
 
 
@@ -64,59 +80,91 @@ const Weightagematching = () => {
   }, []); // Empty dependency array ensures this runs only once after initial render
 
 
+const nextfunction=()=>{
+
+  
+  
+  const list = [{
+    'skills': rangeValueskill,  
+    'roles':rangeValuerolles,
+    'exp':rangeValueexperience,
+    'qualification':rangeValueQualifications,
+    'tech_tools':rangeValueTechnical,
+    'soft_skills':rangeValueSoft,
+    'industry_exp':rangeValueIndustry,
+    'domain_exp':rangeValueDomain,
+    'certification':rangeValueCertifications,
+    'location':rangeValueLocation,
+    'cultural_fit':rangeValueCultural,
+    'ref':rangeValueReferences
+
+  }]
+  formData.append("tech",JSON.stringify(list))
+  formData.append("jd_id",jd_id) 
+
+  dispatch(
+    WeightagematchingpostMiddleWare({
+       formData
+    }),
+  ).then((res) => {
+    console.log("res",res)
+  })
+
+}
 
 
   const handleRangeChange = (e) => {
-    setRangeValueskill(e.target.value);
+    setRangeValueskill(parseInt(e.target.value));
     console.log("target",e.target.value)
     updateTechnicalPercent()
   };
   const handleRangeChangerole = (e) => {
     
-    setRangeValuerolles(e.target.value);
+    
+    setRangeValuerolles(parseInt(e.target.value));
     updateTechnicalPercent()
   };
   const handleRangeChangeexperience = (e) => {
-    setRangeValueexperience(e.target.value);
+    setRangeValueexperience(parseInt(e.target.value));
     updateTechnicalPercent()
   };
   const handleRangeChangequalifications = (e) => {
-    setRangeValueQualifications(e.target.value);
+    setRangeValueQualifications(parseInt(e.target.value));
     updateTechnicalPercent()
   };
   const handleRangeChangetechnical = (e) => {
-    setRangeValueTechnical(e.target.value);
+    setRangeValueTechnical(parseInt(e.target.value));
     updateTechnicalPercent()
   };
   const handleRangeChangesoft = (e) => {
-    setRangeValueSoft(e.target.value);
+    setRangeValueSoft(parseInt(e.target.value));
     updateTechnicalPercent()
   };
 
 
 
   const handleRangeChangeindustry = (e) => {
-    setRangeValueIndustry(e.target.value);
+    setRangeValueIndustry(parseInt(e.target.value));
     updateNonTechnicalPercent()
   };
   const handleRangeChangedomain = (e) => {
-    setRangeValueDomain(e.target.value);
+    setRangeValueDomain(parseInt(e.target.value));
     updateNonTechnicalPercent()
   };
   const handleRangeChangecertification = (e) => {
-    setRangeValueCertifications(e.target.value);
+    setRangeValueCertifications(parseInt(e.target.value));
     updateNonTechnicalPercent()
   };
   const handleRangeChangelocation = (e) => {
-    setRangeValueLocation(e.target.value);
+    setRangeValueLocation(parseInt(e.target.value));
     updateNonTechnicalPercent()
   };
   const handleRangeChangecultural = (e) => {
-    setRangeValueCultural(e.target.value);
+    setRangeValueCultural(parseInt(e.target.value));
     updateNonTechnicalPercent()
   };
   const handleRangeChangereferences = (e) => {
-    setRangeValueReferences(e.target.value);
+    setRangeValueReferences(parseInt(e.target.value));
     updateNonTechnicalPercent()
   };
 
@@ -592,7 +640,7 @@ const Weightagematching = () => {
       
       <Flex row center end className={styles.bottombtnContainer} marginTop={110} >
         <Flex row center>
-          <LinkWrapper >
+          <LinkWrapper    to={`/jobs/create_non_ds_edit/${jd_id}`}>
             <Button types="secondary">{'Back'}</Button>
           </LinkWrapper>
         </Flex>
@@ -604,26 +652,36 @@ const Weightagematching = () => {
               {CANCEL}
             </Button>
           </LinkWrapper>
-          <Button
+          {/* <Button
             types="secondary"
             className={styles.draftBtn}
           >
             Save as draft
-          </Button>
+          </Button> */}
+             {isBtnLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <LinkWrapper   
+            to={routesPath.MY_JOB_POSTING}
+            onClick={()=>{
+              setBtnLoader(true);
+            }}
+          >
+            <Button 
+            types="secondary" className={styles.draftBtn}>
+              Save as draft
+            </Button>
+          </LinkWrapper>)}
+          <LinkWrapper to={`/jobs/questionnaire/${jd_id}`}>
           <Button
-          //   onClick={() => {
-          //     onPristine();
-          //     loaderfunctionnext();
-          //     setDraftSave(false);
-          //     setVacancies(true);
-          //     hanldeErrorFocus();
-          //     setTimeout(() => {
-          //       handleSubmit();
-          //     }, 200);
-          //   }}
+             onClick={() => {
+              nextfunction()
+             }}
           >
             Next
-          </Button>
+          </Button></LinkWrapper>
         </Flex>
       </Flex>
     </div>
