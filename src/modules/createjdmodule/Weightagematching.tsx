@@ -1,13 +1,16 @@
 
-import React, { useState } from 'react'
-import { Range, getTrackBackground } from 'react-range';
+import React, { useEffect, useState } from 'react'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import "react-circular-progressbar/dist/styles.css";
 import { Button, LinkWrapper, Text } from '../../uikit';
 import { Flex } from '../../uikit'
+
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
 import styles from '../createjdmodule/weightagematching.module.css'
 import SvgInfo from '../../icons/SvgInfo';
 import { routesPath } from '../../routes/routesPath';
 import { CANCEL } from '../constValue';
+
 
 const Weightagematching = () => {
 
@@ -30,45 +33,95 @@ const Weightagematching = () => {
 
 
 
+  const [technicalPercent, setTechnicalPercent] = useState(0);
+  const [nonTechnicalPercent, setNonTechnicalPercent] = useState(0);
+
+  const updateTechnicalPercent = () => {
+    const totalTechnicalPercent =
+      rangeValueskill +
+      rangeValuerolles +
+      rangeValueexperience +
+      rangeValueQualifications +
+      rangeValueTechnical +
+      rangeValueSoft;
+    setTechnicalPercent(totalTechnicalPercent);
+  };
+
+  const updateNonTechnicalPercent = () => {
+    const totalNonTechnicalPercent =
+      rangeValueIndustry +
+      rangeValueDomain +
+      rangeValueCertifications +
+      rangeValueLocation +
+      rangeValueCultural +
+      rangeValueReferences;
+    setNonTechnicalPercent(totalNonTechnicalPercent);
+  };
+
+  useEffect(() => {
+    updateTechnicalPercent();
+    updateNonTechnicalPercent();
+  }, []); // Empty dependency array ensures this runs only once after initial render
+
+
+
 
   const handleRangeChange = (e) => {
     setRangeValueskill(e.target.value);
+    console.log("target",e.target.value)
+    updateTechnicalPercent()
   };
   const handleRangeChangerole = (e) => {
+    
     setRangeValuerolles(e.target.value);
+    updateTechnicalPercent()
   };
   const handleRangeChangeexperience = (e) => {
     setRangeValueexperience(e.target.value);
+    updateTechnicalPercent()
   };
   const handleRangeChangequalifications = (e) => {
     setRangeValueQualifications(e.target.value);
+    updateTechnicalPercent()
   };
   const handleRangeChangetechnical = (e) => {
     setRangeValueTechnical(e.target.value);
+    updateTechnicalPercent()
   };
   const handleRangeChangesoft = (e) => {
     setRangeValueSoft(e.target.value);
+    updateTechnicalPercent()
   };
+
 
 
   const handleRangeChangeindustry = (e) => {
     setRangeValueIndustry(e.target.value);
+    updateNonTechnicalPercent()
   };
   const handleRangeChangedomain = (e) => {
     setRangeValueDomain(e.target.value);
+    updateNonTechnicalPercent()
   };
   const handleRangeChangecertification = (e) => {
     setRangeValueCertifications(e.target.value);
+    updateNonTechnicalPercent()
   };
   const handleRangeChangelocation = (e) => {
     setRangeValueLocation(e.target.value);
+    updateNonTechnicalPercent()
   };
   const handleRangeChangecultural = (e) => {
     setRangeValueCultural(e.target.value);
+    updateNonTechnicalPercent()
   };
   const handleRangeChangereferences = (e) => {
     setRangeValueReferences(e.target.value);
+    updateNonTechnicalPercent()
   };
+
+
+
 
   return (
 
@@ -114,10 +167,49 @@ const Weightagematching = () => {
 
         </Flex>
       </Flex>
-      <Flex className={styles.parent}>
-        <Flex style={{ width: "50%" }}>
+      <Flex className={styles.parent} mt-30>
+        
+        <Flex style={{ width: "49%" }}>
+          <Flex className={styles.progressbarstyle}>
+            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
+            <Flex style={{
+              width: "100px",
+              height: "100px"
+            
+            }}>
+              <CircularProgressbar
+                value={technicalPercent}
+                text={`${technicalPercent}/100%`}
+                strokeWidth={10}
+                styles={buildStyles({
+                  // Rotation of path and trail, in number of turns (0-1)
+                  //rotation: 0.25,
+              
+                  // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                //  strokeLinecap: 'butt',
+              
+                  // Text size
+                  textSize: '16px',
+              
+                  // How long animation takes to go from one percentage to another, in seconds
+                  pathTransitionDuration: 0.5,
+              
+                  // Can specify path transition in more detail, or remove it entirely
+                  // pathTransition: 'none',
+              
+                  // Colors
+                  pathColor: `rgba(0,190,75, ${technicalPercent / 100})`,
+                  textColor: 'black',
+                  trailColor: '#d6d6d6',
+                  
+                  backgroundColor: '#3e98c7',
+                  
+                })}
+              />
+            </Flex>
+          </Flex>
 
-          <Flex className={styles.sliderstyle}>
+          <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
               <Text>Skills</Text>
             </Flex>
@@ -131,7 +223,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChange}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'white', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -140,7 +232,7 @@ const Weightagematching = () => {
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{ padding: "0px 20px 0px 20px" }}>{rangeValueskill}</Text>
+              <Text style={{ padding: "0px 10px 0px 20px" }}>{rangeValueskill}</Text>
             </Flex>
           </Flex>
 
@@ -158,7 +250,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangerole}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -169,7 +261,7 @@ const Weightagematching = () => {
                 }}
 
               />
-              <Text style={{ padding: "0px 20px 0px 20px" }}>{rangeValuerolles}</Text>
+              <Text style={{ padding: "0px 10px 0px 20px" }}>{rangeValuerolles}</Text>
             </Flex>
           </Flex>
 
@@ -188,7 +280,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangeexperience}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -197,7 +289,7 @@ const Weightagematching = () => {
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{ padding: "0px 20px 0px 20px" }}>{rangeValueexperience}</Text>
+              <Text style={{ padding: "0px 10px 0px 20px" }}>{rangeValueexperience}</Text>
             </Flex>
           </Flex>
 
@@ -216,7 +308,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangequalifications}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -226,7 +318,7 @@ const Weightagematching = () => {
                 }}
 
               />
-              <Text style={{ padding: "0px 20px 0px 20px" }}>{rangeValueQualifications}</Text>
+              <Text style={{ padding: "0px 10px 0px 20px" }}>{rangeValueQualifications}</Text>
             </Flex>
           </Flex>
 
@@ -245,7 +337,7 @@ const Weightagematching = () => {
                 className={styles.customrange}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -254,7 +346,7 @@ const Weightagematching = () => {
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{ padding: "0px 20px 0px 20px" }}>{rangeValueTechnical}</Text>
+              <Text style={{ padding: "0px 10px 0px 20px" }}>{rangeValueTechnical}</Text>
             </Flex>
           </Flex>
 
@@ -273,7 +365,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangesoft}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -283,16 +375,48 @@ const Weightagematching = () => {
                 }}
 
               />
-              <Text style={{ padding: "0px 20px 0px 20px" }}>{rangeValueSoft}</Text>
+              <Text style={{ padding: "0px 10px 0px 20px" }}>{rangeValueSoft}</Text>
             </Flex>
           </Flex>
         </Flex>
 
         {/* nonds */}
+        <Flex className={styles.splitline}>
+
+        </Flex>
+
+<Flex className={styles.split}>
+
+</Flex>
 
 
-        <Flex style={{ width: "50%" }}>
-          <Flex className={styles.sliderstyle}>
+        <Flex style={{ width: "49%" }}>
+
+          
+          <Flex className={styles.progressbarstyle}>
+            
+            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
+            <Flex style={{
+              width: "100px",
+              height: "100px"
+            }}>
+              <CircularProgressbar
+                value={nonTechnicalPercent}
+                text={`${nonTechnicalPercent}/100%`}
+                strokeWidth={10}
+                styles={buildStyles({
+                  textSize: '16px',
+                  pathColor: `rgba(0,190,75, ${ nonTechnicalPercent / 100})`,
+                  textColor: 'black',
+                  trailColor: '#d6d6d6',   
+                  backgroundColor: '#3e98c7',
+                })}
+              />
+            </Flex>
+          </Flex>
+
+
+          <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
               <Text>Industry Specific Experience </Text>
             </Flex>
@@ -306,7 +430,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangeindustry}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'white', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -333,11 +457,10 @@ const Weightagematching = () => {
                 onChange={handleRangeChangedomain}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
-
                   cursor: 'pointer', // Show pointer cursor
                   background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
                   borderRadius: '5px', // Add border radius
@@ -363,7 +486,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangecertification}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -391,7 +514,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangelocation}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -420,7 +543,7 @@ const Weightagematching = () => {
                 className={styles.customrange}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -448,7 +571,7 @@ const Weightagematching = () => {
                 onChange={handleRangeChangereferences}
                 style={{
                   // Styling with violet color
-                  width: '300px', // Set the width as needed
+                  width: '200px', // Set the width as needed
                   color: 'violet', // Violet color
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
@@ -466,42 +589,43 @@ const Weightagematching = () => {
         </Flex>
       </Flex>
 
-      <Flex row center end className={styles.bottombtnContainer}>
+      
+      <Flex row center end className={styles.bottombtnContainer} marginTop={110} >
         <Flex row center>
-        <LinkWrapper>
+          <LinkWrapper >
             <Button types="secondary">{'Back'}</Button>
           </LinkWrapper>
         </Flex>
         <Flex row center>
-        <LinkWrapper
-           to={routesPath.MY_JOB_POSTING}
-            >
-              <Button className={styles.cancelbtn} types="close">
-                {CANCEL}
-              </Button>
-            </LinkWrapper>
-            <Button
-              types="secondary"
-              className={styles.draftBtn}
-            >
-              Save as draft
+          <LinkWrapper
+            to={routesPath.MY_JOB_POSTING}
+          >
+            <Button className={styles.cancelbtn} types="close">
+              {CANCEL}
             </Button>
-            <Button
-            //   onClick={() => {
-            //     onPristine();
-            //     loaderfunctionnext();
-            //     setDraftSave(false);
-            //     setVacancies(true);
-            //     hanldeErrorFocus();
-            //     setTimeout(() => {
-            //       handleSubmit();
-            //     }, 200);
-            //   }}
-            >
-              Next
-            </Button>
+          </LinkWrapper>
+          <Button
+            types="secondary"
+            className={styles.draftBtn}
+          >
+            Save as draft
+          </Button>
+          <Button
+          //   onClick={() => {
+          //     onPristine();
+          //     loaderfunctionnext();
+          //     setDraftSave(false);
+          //     setVacancies(true);
+          //     hanldeErrorFocus();
+          //     setTimeout(() => {
+          //       handleSubmit();
+          //     }, 200);
+          //   }}
+          >
+            Next
+          </Button>
         </Flex>
-        </Flex>
+      </Flex>
     </div>
 
 
@@ -509,3 +633,4 @@ const Weightagematching = () => {
 }
 
 export default Weightagematching
+
