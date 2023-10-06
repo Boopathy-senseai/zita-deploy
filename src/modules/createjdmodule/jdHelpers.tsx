@@ -17,7 +17,7 @@ import {
 
 const questionnairePath = (jd_id: string) => {
   return window.location.replace(
-    window.origin + `/jobs/questionnaire/${jd_id}`,
+    window.origin + `/jobs/weightagematching/${jd_id}`,
   );
 };
 
