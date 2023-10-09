@@ -87,8 +87,8 @@ const ValueAddName = ({
           candidateMatchMiddleWare({
             can_id: id.toString(),
           }),
-        ).then((res)=>{
-          if(res.payload.success === false){
+        ).then((response)=>{
+          if(response.payload.success === false){
 Toast('Sorry for the inconvinience, The token has been completed.')
           }
         })

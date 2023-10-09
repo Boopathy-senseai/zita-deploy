@@ -12,6 +12,7 @@ import { getFocus, isEmpty } from '../../../uikit/helper';
 import InputText from '../../../uikit/InputText/InputText';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import Text from '../../../uikit/Text/Text';
+import { Toast } from '../../../uikit';
 import { genderOptions } from '../../candidateprofile/mock';
 import { mediaPath, THIS_FIELD_REQUIRED } from '../../constValue';
 import { applicantMatchMiddleWare, candidateMatchMiddleWare } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
@@ -37,7 +38,7 @@ import styles from './applicationform.module.css';
 import { JdForm } from './buildCareerPageTypes';
 import { aboutUsOptions } from './mock';
 import { applocationFormPostMiddleWare } from './store/middleware/buildyourcareerpagemiddleware';
-import { Toast } from '../../../uikit';
+
 
 const inital: applicationFormikForms = {
   qualification: '',
@@ -152,8 +153,8 @@ const ApplicationForm = ({
         //  jd_id:jobId,
          can_id:res.payload.candidate_id[0].id,
           }),
-        ).then((res)=>{
-          if(res.payload.success === false){
+        ).then((response)=>{
+          if(response.payload.success === false){
 Toast('Sorry for the inconvinience, The token has been completed.')
           }
         })

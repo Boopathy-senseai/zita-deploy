@@ -128,8 +128,8 @@ Props) => {
             candidateMatchMiddleWare({
               can_id: canId,
             }),
-          ).then((res)=>{
-            if(res.payload.success === false){
+          ).then((response)=>{
+            if(response.payload.success === false){
   Toast('Sorry for the inconvinience, The token has been completed.')
             }
           })

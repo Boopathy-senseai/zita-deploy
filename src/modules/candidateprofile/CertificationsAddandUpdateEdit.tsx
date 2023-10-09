@@ -81,8 +81,8 @@ const CertificationsAddandUpdateEdit = ({
           candidateMatchMiddleWare({ 
              can_id:res.payload?.can_id[0]?.id.toString(),
           }),
-        ).then((res)=>{
-          if(res.payload.success === false){
+        ).then((response)=>{
+          if(response.payload.success === false){
 Toast('Sorry for the inconvinience, The token has been completed.')
           }
         })
@@ -112,8 +112,8 @@ Toast('Sorry for the inconvinience, The token has been completed.')
             candidateMatchMiddleWare({ 
                can_id:res.payload?.can_id.toString(),
             }),
-          ).then((res)=>{
-            if(res.payload.success === false){
+          ).then((response)=>{
+            if(response.payload.success === false){
   Toast('Sorry for the inconvinience, The token has been completed.')
             }
           })

@@ -9,6 +9,7 @@ import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
 import SvgTick from '../../icons/SvgTick';
 import Loader from '../../uikit/Loader/Loader';
 import { copyToClipboard, isEmpty } from '../../uikit/helper';
+import Toast from '../../uikit/Toast/Toast';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { routesPath } from '../../routes/routesPath';
 import SvgCopy from '../../icons/SvgCopy';
@@ -133,8 +134,8 @@ const JdPreviewScreen = () => {
 
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((res)=>{
-            if(res.payload.success === false){
+          dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((response)=>{
+            if(response.payload.success === false){
   Toast('Sorry for the inconvinience, The token has been completed.')
             }
           })
@@ -147,8 +148,8 @@ const JdPreviewScreen = () => {
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((res)=>{
-            if(res.payload.success === false){
+          dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((response)=>{
+            if(response.payload.success === false){
   Toast('Sorry for the inconvinience, The token has been completed.')
             }
           })
