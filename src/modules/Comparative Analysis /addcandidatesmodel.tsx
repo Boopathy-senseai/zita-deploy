@@ -12,7 +12,11 @@ import { mediaPath } from '../constValue';
 import { Comparativeanalysis } from './mock';
 import styles from './addcandidates.module.css';
 const cx = classNames.bind(styles);
-const AddcandidatesModal = () => {
+type Props = {
+  model?: any;
+  openfunction?: any;
+};
+const AddcandidatesModal = ({ model, openfunction }: Props) => {
   const [isColor, setColor] = useState<string[]>([]);
   const originalData = [
     {
@@ -46,7 +50,7 @@ const AddcandidatesModal = () => {
   }, []);
   return (
     <Flex>
-      <Modal open={false}>
+      <Modal open={model}>
         <Flex width={750} className={styles.candidatesellectoverall}>
           <Flex
             style={{

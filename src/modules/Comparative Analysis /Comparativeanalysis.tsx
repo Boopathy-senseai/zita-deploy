@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { Card, Modal } from '../../uikit';
+import { Card, Modal, Button } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgClose from '../../icons/SvgClose';
 import styles from './Recommendationscreen.module.css';
+import Addcandidatesmodal from './addcandidatesmodel';
 
 const ComparativeanalysisModal = () => {
+  const [addmodel, setaddmodel] = useState(false);
+
+  const openaddmodel = (val) => {
+    setaddmodel(val);
+  };
   return (
     <Flex>
-      <Modal open={false}>
+      <Modal open={true}>
         <Flex columnFlex className={styles.overAll}>
           <Flex row end>
             <SvgClose
@@ -53,10 +59,12 @@ const ComparativeanalysisModal = () => {
                   </Text>
                 </Flex>
               </Flex>
+              <Button onClick={() => openaddmodel(true)}>click</Button>
             </Card>
           </Flex>
         </Flex>
       </Modal>
+      <Addcandidatesmodal model={addmodel} openfunction={openaddmodel} />
     </Flex>
   );
 };
