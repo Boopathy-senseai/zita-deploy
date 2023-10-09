@@ -120,7 +120,11 @@ const MatchingAnalysisTab = () => {
         can_id: can_id,
         matching: true,
       }),
-    );
+    ).then((res)=>{
+      if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+      }
+    })
   };
   const checkMatch = overall_percentage === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : overall_percentage;

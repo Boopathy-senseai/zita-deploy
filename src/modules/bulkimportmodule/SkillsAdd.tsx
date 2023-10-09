@@ -89,7 +89,11 @@ const SkillsAdd = ({
           candidateMatchMiddleWare({
             can_id: id.toString(),
           }),
-        );
+        ).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
         if (tabKey === 'total') {
           if (jdId === undefined) {
             dispatch(

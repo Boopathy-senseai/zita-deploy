@@ -128,7 +128,11 @@ Props) => {
             candidateMatchMiddleWare({
               can_id: canId,
             }),
-          );
+          ).then((res)=>{
+            if(res.payload.success === false){
+  Toast('Sorry for the inconvinience, The token has been completed.')
+            }
+          })
           dispatch(uploadedProfileViewMiddleWare({ id: canId }));
           Toast('Personal Info updated successfully');
           setReload(false);

@@ -75,7 +75,11 @@ const CandidateScreen = () => {
             jd_id: res.payload.jd_id,
             can_id: res.payload.can_id,
           }),
-        );
+        ).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
         dispatch(
           candidateMessageMiddleWare({
             jd_id: res.payload.jd_id,

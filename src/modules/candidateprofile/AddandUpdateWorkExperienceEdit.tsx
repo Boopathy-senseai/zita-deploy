@@ -107,7 +107,11 @@ const AddandUpdateWorkExperienceEdit = ({
           candidateMatchMiddleWare({ 
              can_id:res.payload?.can_id[0]?.id.toString(),
           }),
-        )
+        ).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           setReload(false);
           formik.resetForm();

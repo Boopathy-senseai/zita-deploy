@@ -388,14 +388,18 @@ const ApplicantsTab = ({
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
-    dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then(() => { 
+    dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res) => {  
+        if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+        }
+    else{
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
         setPageNumber(0);
         setCandiTableLoader(false);
       });
-    });
+  }});
   };
 
   // Bulk Upload Parsing Function
@@ -406,7 +410,11 @@ const ApplicantsTab = ({
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
         setPageNumber(0);
-        dispatch(jdMatchMiddleWare({ jd_id:isJdId }))
+        dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
       });
       dispatch(bulkImportMiddleWare()).then((res) => {
         setFeaturesBalance(res.payload.features_balance);
@@ -415,7 +423,11 @@ const ApplicantsTab = ({
       localStorage.setItem('isImport', 'true');
       setParse(false);
     }).then(()=>{
-      dispatch(jdMatchMiddleWare({ jd_id:isJdId }))
+      dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res)=>{
+        if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+        }
+      })
     })
   };
 

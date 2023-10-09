@@ -112,7 +112,11 @@ const MyJobPreferenceEdit = ({
           candidateMatchMiddleWare({
             can_id: res.payload?.can_id[0]?.id.toString(),
           }),
-        );
+        ).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
         setReload(false);
         Toast('Job Preference updated successfully');
         dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));

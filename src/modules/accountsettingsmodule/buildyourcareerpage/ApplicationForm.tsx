@@ -37,6 +37,7 @@ import styles from './applicationform.module.css';
 import { JdForm } from './buildCareerPageTypes';
 import { aboutUsOptions } from './mock';
 import { applocationFormPostMiddleWare } from './store/middleware/buildyourcareerpagemiddleware';
+import { Toast } from '../../../uikit';
 
 const inital: applicationFormikForms = {
   qualification: '',
@@ -151,7 +152,11 @@ const ApplicationForm = ({
         //  jd_id:jobId,
          can_id:res.payload.candidate_id[0].id,
           }),
-        )
+        ).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
         setSuccess(true);
         setLoader(false);
       }

@@ -133,7 +133,11 @@ const JdPreviewScreen = () => {
 
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdMatchMiddleWare({ jd_id: jdId }))
+          dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((res)=>{
+            if(res.payload.success === false){
+  Toast('Sorry for the inconvinience, The token has been completed.')
+            }
+          })
         }
       });
     }
@@ -143,7 +147,11 @@ const JdPreviewScreen = () => {
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdMatchMiddleWare({ jd_id: jdId }))
+          dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((res)=>{
+            if(res.payload.success === false){
+  Toast('Sorry for the inconvinience, The token has been completed.')
+            }
+          })
         }
       });
     }

@@ -187,7 +187,11 @@ const PersonalInformationEdit = ({
           candidateMatchMiddleWare({
             can_id: res.payload?.can_id[0]?.id.toString(),
           }),
-        );
+        ).then((res)=>{
+          if(res.payload.success === false){
+Toast('Sorry for the inconvinience, The token has been completed.')
+          }
+        })
         Toast('Personal Info updated successfully');
         dispatch(
           profileEditMiddleWare({
