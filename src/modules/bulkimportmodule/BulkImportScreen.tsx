@@ -20,11 +20,11 @@ import styles from './bulkimport.module.css';
 
 export type FormProps = {
   searchValue: string;
-  parser:string;
+  parser: string;
 };
 const initial: FormProps = {
   searchValue: '',
-  parser:'',
+  parser: '',
 };
 
 
@@ -38,9 +38,13 @@ const BulkImportScreen = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem('freeCheck','true');
+    localStorage.setItem('freeCheck', 'true');
     dispatch(bulkImportMiddleWare());
-    dispatch(bulkuploadedCandidatesMiddleWare({}));
+    dispatch(bulkuploadedCandidatesMiddleWare({})).then((res) => {
+      if (res.payload.success === false) {
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+      }
+    });
   }, []);
 
   const {
@@ -88,7 +92,12 @@ const BulkImportScreen = () => {
   const handleSubmit = (values: FormProps) => {
     dispatch(bulkuploadedCandidatesMiddleWare({ search: values.searchValue }))
       .then((response) => {
-        setSearch(response.payload.search);
+        if (response.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+        else {
+          setSearch(response.payload.search);
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -100,8 +109,8 @@ const BulkImportScreen = () => {
     initialValues: initial,
     onSubmit: handleSubmit,
     enableReinitialize: true,
-  }); 
-  
+  });
+
 
   // Filter Total Candidates
   const handleTotal = () => {
@@ -112,10 +121,15 @@ const BulkImportScreen = () => {
         page: pageNumber + 1,
       }),
     )
-      .then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -134,10 +148,15 @@ const BulkImportScreen = () => {
         page: pageNumber + 1,
       }),
     )
-      .then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -153,74 +172,79 @@ const BulkImportScreen = () => {
         page: pageNumber + 1,
       }),
     )
-      .then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-  let value=unlimitedHelper(isFeaturesBalance)
+  let value = unlimitedHelper(isFeaturesBalance)
   let value1 = value as number;
 
   return (
     <>
-    <div
-      className={styles.overAllContainer}
-    >
-      <Flex className={styles.overAlll}>
-        {bulkInitalLoader && <Loader />}
+      <div
+        className={styles.overAllContainer}
+      >
+        <Flex className={styles.overAlll}>
+          {bulkInitalLoader && <Loader />}
 
-        <Flex row className={styles.ribbon} between>
-          <Flex marginTop={9} marginLeft={8} >
-            <Text size={16} bold color="theme" >
-             Import Candidates
-            </Text>
+          <Flex row className={styles.ribbon} between>
+            <Flex marginTop={9} marginLeft={8} >
+              <Text size={16} bold color="theme" >
+                Import Candidates
+              </Text>
+
+            </Flex>
+            <Flex >
+
+              <div className={styles.triangle}></div>
+            </Flex>
 
           </Flex>
-          <Flex >
 
-            <div className={styles.triangle}></div>
+          <p style={{ color: '#333333', marginBottom: '0px', padding: '10px 0px', fontSize: '13px' }}>Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.</p>
+
+          <Flex className={styles.tabFlex}>
+            <Flex className={styles.candidatesText}>
+              <Totalcount
+                name="Candidates Limit"
+                numbers={value1}
+              />
+            </Flex>
+            <BulkImportTabs
+              emp_pool={emp_pool}
+              jd_id={jdId}
+              total_count={total_count}
+              completed={completed}
+              incompleted={incompleted}
+              handleTotal={handleTotal}
+              handleSubmit={formik.handleSubmit}
+
+              handleCompleted={handleCompleted}
+              handleInCompeleted={handleInCompeleted}
+              searchValue={formik.values.searchValue}
+              searchHandleChange={formik.handleChange('searchValue')}
+              features_balance={isFeaturesBalance}
+              setFeaturesBalance={setFeaturesBalance}
+              isSearch={isSearch}
+              formik={formik}
+
+              setPageNumber={setPageNumber}
+              pageNumber={pageNumber}
+              upDateloader={upDateloader}
+            />
           </Flex>
-
         </Flex>
-        
-        <p style={{color:'#333333',marginBottom:'0px',padding:'10px 0px',fontSize:'13px'}}>Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.</p>
-         
-        <Flex className={styles.tabFlex}>
-        <Flex className={styles.candidatesText}>
-          <Totalcount
-          name= "Candidates Limit"
-           numbers={value1} 
-          />
-        </Flex>
-          <BulkImportTabs
-            emp_pool={emp_pool}
-            jd_id={jdId}
-            total_count={total_count}
-            completed={completed}
-            incompleted={incompleted}
-            handleTotal={handleTotal}
-            handleSubmit={formik.handleSubmit}
- 
-            handleCompleted={handleCompleted}
-            handleInCompeleted={handleInCompeleted}
-            searchValue={formik.values.searchValue}
-            searchHandleChange={formik.handleChange('searchValue')}
-            features_balance={isFeaturesBalance}
-            setFeaturesBalance={setFeaturesBalance}
-            isSearch={isSearch}
-            formik={formik}
-
-            setPageNumber={setPageNumber}
-            pageNumber={pageNumber}
-            upDateloader={upDateloader}
-          />
-        </Flex>
-      </Flex>
-    </div>
+      </div>
     </>
   );
 };

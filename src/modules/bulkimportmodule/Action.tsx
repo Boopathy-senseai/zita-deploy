@@ -77,9 +77,14 @@ const Action = ({
               total: total_count,
               page: pageNumber + 1,
             }),
-          ).then(() => {
-            setLoader(false);
-            Toast('Candidate deleted successfully', 'SHORT', 'success');
+          ).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            }
+            else {
+              setLoader(false);
+              Toast('Candidate deleted successfully', 'SHORT', 'success');
+            }
           });
         }
         if (tabKey === 'completed') {
@@ -89,9 +94,14 @@ const Action = ({
               completed,
               page: pageNumber + 1,
             }),
-          ).then(() => {
-            setLoader(false);
-            Toast('Candidate deleted successfully', 'SHORT', 'success');
+          ).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            }
+            else {
+              setLoader(false);
+              Toast('Candidate deleted successfully', 'SHORT', 'success');
+            }
           });
         }
         if (tabKey === 'inCompleted') {
@@ -101,9 +111,14 @@ const Action = ({
               incompleted,
               page: pageNumber + 1,
             }),
-          ).then(() => {
-            setLoader(false);
-            Toast('Candidate deleted successfully', 'SHORT', 'success');
+          ).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            }
+            else {
+              setLoader(false);
+              Toast('Candidate deleted successfully', 'SHORT', 'success');
+            }
           });
         }
         return Promise.resolve(response);
@@ -138,9 +153,14 @@ const Action = ({
                 total: total_count,
                 page: pageNumber + 1,
               }),
-            ).then(() => {
-              setLoader(false);
-              Toast('Email sent successfully', 'SHORT', 'success');
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+              else {
+                setLoader(false);
+                Toast('Email sent successfully', 'SHORT', 'success');
+              }
             });
           } else {
             dispatch(
@@ -150,9 +170,14 @@ const Action = ({
                 jd_id: jdId,
                 page: pageNumber + 1,
               }),
-            ).then(() => {
-              setLoader(false);
-              Toast('Email sent successfully', 'SHORT', 'success');
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+              else {
+                setLoader(false);
+                Toast('Email sent successfully', 'SHORT', 'success');
+              }
             });
           }
         }
@@ -164,9 +189,14 @@ const Action = ({
                 completed,
                 page: pageNumber + 1,
               }),
-            ).then(() => {
-              setLoader(false);
-              Toast('Email sent successfully', 'SHORT', 'success');
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+              else {
+                setLoader(false);
+                Toast('Email sent successfully', 'SHORT', 'success');
+              }
             });
           } else {
             dispatch(
@@ -176,9 +206,14 @@ const Action = ({
                 jd_id: jdId,
                 page: pageNumber + 1,
               }),
-            ).then(() => {
-              setLoader(false);
-              Toast('Email sent successfully', 'SHORT', 'success');
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+              else {
+                setLoader(false);
+                Toast('Email sent successfully', 'SHORT', 'success');
+              }
             });
           }
         }
@@ -190,9 +225,14 @@ const Action = ({
                 incompleted,
                 page: pageNumber + 1,
               }),
-            ).then(() => {
-              setLoader(false);
-              Toast('Email sent successfully', 'SHORT', 'success');
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+              else {
+                setLoader(false);
+                Toast('Email sent successfully', 'SHORT', 'success');
+              }
             });
           } else {
             dispatch(
@@ -202,9 +242,14 @@ const Action = ({
                 jd_id: jdId,
                 page: pageNumber + 1,
               }),
-            ).then(() => {
-              setLoader(false);
-              Toast('Email sent successfully', 'SHORT', 'success');
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+              else {
+                setLoader(false);
+                Toast('Email sent successfully', 'SHORT', 'success');
+              }
             });
           }
         }
@@ -259,7 +304,7 @@ const Action = ({
         <Loader withOutOverlay size="small" />
       ) : (
         <>
-        <Dropdown drop="down" className="dropdownButton dropleft" >
+          <Dropdown drop="down" className="dropdownButton dropleft" >
             <Dropdown.Toggle
               // onClick={handleOpenPopup}
               style={{
@@ -267,7 +312,7 @@ const Action = ({
                 backgroundColor: 'unset',
                 boxShadow: 'none',
                 padding: '0px',
-               marginRight: '5px',
+                marginRight: '5px',
               }}
               id="dropdown-basic"
             >
@@ -277,100 +322,100 @@ const Action = ({
             <Dropdown.Menu style={{ minWidth: '5rem' }}>
               <Dropdown.Item  >
                 <Flex row center className={styles.dropDownListStyle}>
-                <div
-                title="Open profile"
-                className={styles.svgExternal}
-                onClick={() => {
-                  hanldeProfileView(value.id);
-                }}
-                 tabIndex={-1}
-                 role={'button'}
-                 onKeyPress={() => {}}
-                 >
-                View Profile
-                </div>
+                  <div
+                    title="Open profile"
+                    className={styles.svgExternal}
+                    onClick={() => {
+                      hanldeProfileView(value.id);
+                    }}
+                    tabIndex={-1}
+                    role={'button'}
+                    onKeyPress={() => { }}
+                  >
+                    View Profile
+                  </div>
                 </Flex>
               </Dropdown.Item>
-              <Dropdown.Item  
+              <Dropdown.Item
               >
                 <Flex row center className={styles.dropDownListStyle}>
-                {/* <Fragment> */}
-                {!applicant && (
-                  <>
-                    {value.applicant !== null && (
-                      <div
-                        title="Candidate Applied for a Job."
-                        role={'button'}
-                        // onClick={handleOpenModal}
-                        className={cx('pointerEvent')}
-                        style={{fontSize:'13px'}}
-                      >
-                        Delete
-                      </div>
-                    )}
-                    {value.applicant === null && (
-                      <div
-                        onClick={handleOpenModal}
-                        tabIndex={-1}
-                        role={'button'}
-                        onKeyPress={() => {}}
-                        style={{fontSize:'13px'}}
-                      >
-                      Delete
-                      </div>
-                    )}
-                  </>
-                )}
-                {applicant && (
-                  <>
-                    {value.login_shared === true ? (
-                      <div
-                        title="Login credentials already sent to the applicant"
-                        onClick={handleOpenEmail}
-                        tabIndex={-1}
-                        role={'button'}
-                        onKeyPress={() => {}}
-                        style={{fontSize:'13px'}}
-                      >
-                        Mail
-                      </div>
-                    ) : (
-                      <>
-                        {(value.email !== null && value.first_name !== null)  ? (
-                          <div
-                            title="Login credentials not yet sent"
-                            onClick={handleOpenEmail}
-                           
-                            style={{fontSize:'13px'}}
-                            tabIndex={-1}
-                            role={'button'}
-                            onKeyPress={() => {}}
-                          >
-                            Mail
-                          </div>
-                        ) : (
-                          <div
-                            title="Add name and email to send the login credentials"
-                            className={cx('pointerEvent')}
-                            style={{fontSize:'13px'}}
-                          >
-                           Mail
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              {/* </Fragment> */}
+                  {/* <Fragment> */}
+                  {!applicant && (
+                    <>
+                      {value.applicant !== null && (
+                        <div
+                          title="Candidate Applied for a Job."
+                          role={'button'}
+                          // onClick={handleOpenModal}
+                          className={cx('pointerEvent')}
+                          style={{ fontSize: '13px' }}
+                        >
+                          Delete
+                        </div>
+                      )}
+                      {value.applicant === null && (
+                        <div
+                          onClick={handleOpenModal}
+                          tabIndex={-1}
+                          role={'button'}
+                          onKeyPress={() => { }}
+                          style={{ fontSize: '13px' }}
+                        >
+                          Delete
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {applicant && (
+                    <>
+                      {value.login_shared === true ? (
+                        <div
+                          title="Login credentials already sent to the applicant"
+                          onClick={handleOpenEmail}
+                          tabIndex={-1}
+                          role={'button'}
+                          onKeyPress={() => { }}
+                          style={{ fontSize: '13px' }}
+                        >
+                          Mail
+                        </div>
+                      ) : (
+                        <>
+                          {(value.email !== null && value.first_name !== null) ? (
+                            <div
+                              title="Login credentials not yet sent"
+                              onClick={handleOpenEmail}
+
+                              style={{ fontSize: '13px' }}
+                              tabIndex={-1}
+                              role={'button'}
+                              onKeyPress={() => { }}
+                            >
+                              Mail
+                            </div>
+                          ) : (
+                            <div
+                              title="Add name and email to send the login credentials"
+                              className={cx('pointerEvent')}
+                              style={{ fontSize: '13px' }}
+                            >
+                              Mail
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+                  {/* </Fragment> */}
 
                 </Flex>
               </Dropdown.Item>
-              
+
             </Dropdown.Menu>
 
           </Dropdown>
-        
-          </>
+
+        </>
       )}
     </Flex>
   );

@@ -55,7 +55,7 @@ const QualificationAdd = ({
 
   const checkName: any =
     (value && value.qualification === null) ||
-    (value && value.qualification && value.qualification === '')
+      (value && value.qualification && value.qualification === '')
       ? ''
       : value.qualification;
 
@@ -65,7 +65,7 @@ const QualificationAdd = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
 
@@ -83,97 +83,133 @@ const QualificationAdd = ({
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
         dispatch(
-          candidateMatchMiddleWare({ 
-            can_id:id.toString(),
+          candidateMatchMiddleWare({
+            can_id: id.toString(),
           }),
-        ).then((res)=>{
-          if(res.payload.success === false){
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        ).then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
           }
         })
         if (tabKey === 'total') {
-           if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => { 
-            Toast('Qualification updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => { 
-            Toast('Qualification updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                total: total_count,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Qualification updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                total: total_count,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Qualification updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          }
         }
         if (tabKey === 'completed') {
-           if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => { 
-            Toast('Qualification updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => { 
-            Toast('Qualification updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                completed,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Qualification updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                completed,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Qualification updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          }
         }
         if (tabKey === 'inCompleted') {
-          if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => { 
-            Toast('Qualification updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => { 
-            Toast('Qualification updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                incompleted,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Qualification updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                incompleted,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Qualification updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          }
         }
       })
       .catch(() => {
@@ -183,17 +219,23 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
           'error',
         );
         setLoader(false);
-      }).then(()=>{ 
-        setTimeout(() =>  dispatch(
+      }).then(() => {
+        setTimeout(() => dispatch(
           bulkuploadedCandidatesMiddleWare({
-            search: searchValue, 
-            jd_id:jdId,
-            page: pageNumber ,
+            search: searchValue,
+            jd_id: jdId,
+            page: pageNumber,
           })
-        ), 1000);  
-      }) 
+        ).then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+        })
+
+          , 1000);
+      })
   };
-// close input function
+  // close input function
   const handleOpenInput = () => {
     setInput(true);
   };
@@ -201,13 +243,13 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
   const handleCloseInput = () => {
     setInput(false);
   };
-// outside close input function
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setInput(false);
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -222,7 +264,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
   });
 
   return (
-    <div className={styles.overAll} style={{width:'90%'}}>
+    <div className={styles.overAll} style={{ width: '90%' }}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
@@ -231,7 +273,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
-              style={{width:'100%'}}
+              style={{ width: '100%' }}
             >
               Add Qualification
             </Text>
@@ -256,7 +298,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
         </>
       )}
       {isInput && (
-        <div ref={myRef} className={`width73,${cx('inputOverAll')}` } style={{width:'85px'}}>
+        <div ref={myRef} className={`width73,${cx('inputOverAll')}`} style={{ width: '85px' }}>
           <SelectTag
             id={'qualificationAdd__optional'}
             placeholder={'Optional'}
@@ -278,7 +320,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               onClick={handleCloseInput}
               tabIndex={-1}
               role={'button'}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
               <SvgCloseBox className={styles.tickStyle} />
             </div>

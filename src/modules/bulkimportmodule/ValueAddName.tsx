@@ -67,7 +67,7 @@ const ValueAddName = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
   // form submit function
@@ -87,9 +87,9 @@ const ValueAddName = ({
           candidateMatchMiddleWare({
             can_id: id.toString(),
           }),
-        ).then((response)=>{
-          if(response.payload.success === false){
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        ).then((response) => {
+          if (response.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
           }
         })
       }
@@ -102,10 +102,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               page: pageNumber + 1,
             }),
           )
-            .then(() => {
-              Toast('Name updated successfully', 'LONG', 'success');
-              setLoader(false);
-              setInput(false);
+            .then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Name updated successfully', 'LONG', 'success');
+                setLoader(false);
+                setInput(false);
+              }
             })
             .catch(() => {
               Toast(
@@ -124,10 +130,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               page: pageNumber + 1,
             }),
           )
-            .then(() => {
-              Toast('Name updated successfully', 'LONG', 'success');
-              setLoader(false);
-              setInput(false);
+            .then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Name updated successfully', 'LONG', 'success');
+                setLoader(false);
+                setInput(false);
+              }
             })
             .catch(() => {
               Toast(
@@ -148,10 +160,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               page: pageNumber + 1,
             }),
           )
-            .then(() => {
-              Toast('Name updated successfully', 'LONG', 'success');
-              setInput(false);
-              setInput(false);
+            .then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Name updated successfully', 'LONG', 'success');
+                setInput(false);
+                setInput(false);
+              }
             })
             .catch(() => {
               Toast(
@@ -170,10 +188,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               page: pageNumber + 1,
             }),
           )
-            .then(() => {
-              Toast('Name updated successfully', 'LONG', 'success');
-              setInput(false);
-              setInput(false);
+            .then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Name updated successfully', 'LONG', 'success');
+                setInput(false);
+                setInput(false);
+              }
             })
             .catch(() => {
               Toast(
@@ -194,10 +218,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               page: pageNumber + 1,
             }),
           )
-            .then(() => {
-              Toast('Name updated successfully', 'LONG', 'success');
-              setLoader(false);
-              setInput(false);
+            .then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Name updated successfully', 'LONG', 'success');
+                setLoader(false);
+                setInput(false);
+              }
             })
             .catch(() => {
               Toast(
@@ -216,10 +246,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               page: pageNumber + 1,
             }),
           )
-            .then(() => {
-              Toast('Name updated successfully', 'LONG', 'success');
-              setLoader(false);
-              setInput(false);
+            .then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Name updated successfully', 'LONG', 'success');
+                setLoader(false);
+                setInput(false);
+              }
             })
             .catch(() => {
               Toast(
@@ -231,14 +267,18 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
             });
         }
       }
-    }).then(()=>{
+    }).then(() => {
       dispatch(
         bulkuploadedCandidatesMiddleWare({
-          search: searchValue, 
-          jd_id:jdId,
+          search: searchValue,
+          jd_id: jdId,
           page: pageNumber + 1,
         }),
-      )
+      ).then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+      })
     })
   };
   // open input function
@@ -273,10 +313,11 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
   // enter key submit function
   const [inputLengthError, setInputLengthError] = useState(false);
   const handleKeyPress = (event: { key: string }, id: number) => {
-    if(inputLengthError===false){
-    if (event.key === 'Enter' && formik.values.name !== '') {
-      handleCellSubmit(event, id);
-    }}
+    if (inputLengthError === false) {
+      if (event.key === 'Enter' && formik.values.name !== '') {
+        handleCellSubmit(event, id);
+      }
+    }
   };
 
 
@@ -335,8 +376,8 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
             // eslint-disable-next-line
             autoFocus
             value={formik.values.name}
-          //  onChange={formik.handleChange('name')}
-          onChange={handleInputChange}
+            //  onChange={formik.handleChange('name')}
+            onChange={handleInputChange}
             lineInput
             size={13}
             placeholder={'Required'}
@@ -357,7 +398,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
               >
                 <SvgTickBox />
               </div>
@@ -368,7 +409,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               onClick={handleCloseInput}
               tabIndex={-1}
               role={'button'}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
               <SvgCloseBox className={styles.tickStyle} />
             </div>

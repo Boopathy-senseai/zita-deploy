@@ -54,7 +54,7 @@ const ExperienceAdd = ({
 
   const checkName: any =
     (value && value.work_exp === null) ||
-    (value && value.work_exp && value.work_exp === '')
+      (value && value.work_exp && value.work_exp === '')
       ? ''
       : value.work_exp;
 
@@ -64,10 +64,10 @@ const ExperienceAdd = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
-// form submit function
+  // form submit function
   const handleCellSubmit = (id: number, selectValue: string) => {
     setLoader(true);
     const data = querystring.stringify({
@@ -80,89 +80,125 @@ const ExperienceAdd = ({
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
         if (tabKey === 'total') {
-           if(jdId === undefined){
+          if (jdId === undefined) {
 
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                total: total_count,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Experience updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                total: total_count,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Experience updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          }
         }
         if (tabKey === 'completed') {
-            if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                completed,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Experience updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                completed,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Experience updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          }
         }
         if (tabKey === 'inCompleted') {
-          if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Experience spdated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Experience spdated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                incompleted,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Experience spdated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                incompleted,
+              }),
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Experience spdated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
+            });
+          }
         }
       })
       .catch(() => {
@@ -183,13 +219,13 @@ const ExperienceAdd = ({
   const handleCloseInput = () => {
     setInput(false);
   };
-// outside close input function
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setInput(false);
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -210,7 +246,7 @@ const ExperienceAdd = ({
     : '';
 
   return (
-    <div className={styles.overAll} style={{width:'90%'}}>
+    <div className={styles.overAll} style={{ width: '90%' }}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
@@ -243,7 +279,7 @@ const ExperienceAdd = ({
         </>
       )}
       {isInput && (
-        <div ref={myRef} className={`width100,${cx('inputOverAll')}`} style={{width:'85px'}}>
+        <div ref={myRef} className={`width100,${cx('inputOverAll')}`} style={{ width: '85px' }}>
           <SelectTag
             id={'experienceAdd__optional'}
             placeholder={'Optional'}
@@ -266,7 +302,7 @@ const ExperienceAdd = ({
               onClick={handleCloseInput}
               tabIndex={-1}
               role={'button'}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
               <SvgCloseBox className={styles.tickStyle} />
             </div>

@@ -33,7 +33,7 @@ type Props = {
   total_count: number;
   completed: number;
   incompleted: number;
-  jdId?:string,
+  jdId?: string,
   tabKey: string;
   pageNumber: number;
 };
@@ -52,7 +52,7 @@ const EmailAdd = ({
   const [isError, setError] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const [isEmailId,setEmailId]=useState(false)
+  const [isEmailId, setEmailId] = useState(false)
   const myRef = createRef<any>();
 
   const checkName: any =
@@ -66,7 +66,7 @@ const EmailAdd = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
 
@@ -85,120 +85,145 @@ const EmailAdd = ({
       axios
         .post(uploadedCandidatesApi, data, config)
         .then((response) => {
-          if(response.data.first_name=== true){
+          if (response.data.first_name === true) {
             dispatch(
-              candidateMatchMiddleWare({ 
-                can_id:id.toString(),
+              candidateMatchMiddleWare({
+                can_id: id.toString(),
               }),
-            ).then((res)=>{
-              if(res.payload.success === false){
-    Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
-            })}
+            })
+          }
           if (tabKey === 'total') {
-            if(jdId === undefined){
+            if (jdId === undefined) {
 
-            dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                total: total_count,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              if (response.data.success === true) {
-                setEmailId(false)
-                Toast('Email updated successfully', 'LONG', 'success');
-                setInput(false);
-              }
-              setLoader(false);
-            });
-            }else{
-               dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                total: total_count,
-                jd_id:jdId,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              if (response.data.success === true) {
-                setEmailId(false)
-                Toast('Email updated successfully', 'LONG', 'success');
-                setInput(false);
-              }
-              setLoader(false);
-            });
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  total: total_count,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else if (response.data.success === true) {
+                  setEmailId(false)
+                  Toast('Email updated successfully', 'LONG', 'success');
+                  setInput(false);
+                }
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  total: total_count,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else if (response.data.success === true) {
+                  setEmailId(false)
+                  Toast('Email updated successfully', 'LONG', 'success');
+                  setInput(false);
+                }
+                setLoader(false);
+              });
             }
           }
 
           if (tabKey === 'completed') {
-              if(jdId === undefined){
-            dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                completed,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              if (response.data.success === true) {
-                setEmailId(false)
-                Toast('Email updated successfully', 'LONG', 'success');
-                setInput(false);
-              }
-              setLoader(false);
-            });
-          }else{
-             dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                completed,
-                jd_id:jdId,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              if (response.data.success === true) {
-                setEmailId(false)
-                Toast('Email updated successfully', 'LONG', 'success');
-                setInput(false);
-              }
-              setLoader(false);
-            });
-          }
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  completed,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else if (response.data.success === true) {
+                  setEmailId(false)
+                  Toast('Email updated successfully', 'LONG', 'success');
+                  setInput(false);
+                }
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  completed,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else if (response.data.success === true) {
+                  setEmailId(false)
+                  Toast('Email updated successfully', 'LONG', 'success');
+                  setInput(false);
+                }
+                setLoader(false);
+              });
+            }
           }
 
           if (tabKey === 'inCompleted') {
-              if(jdId === undefined){
-            dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                incompleted,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              if (response.data.success === true) {
-                setEmailId(false)
-                Toast('Email updated successfully', 'LONG', 'success');
-                setInput(false);
-              }
-              setLoader(false);
-            });
-          }else{
+            if (jdId === undefined) {
               dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                incompleted,
-                jd_id:jdId,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              if (response.data.success === true) {
-                setEmailId(false)
-                Toast('Email updated successfully', 'LONG', 'success');
-                setInput(false);
-              }
-              setLoader(false);
-            });
-          }
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  incompleted,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else if (response.data.success === true) {
+                  setEmailId(false)
+                  Toast('Email updated successfully', 'LONG', 'success');
+                  setInput(false);
+                }
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  incompleted,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else if (response.data.success === true) {
+                  setEmailId(false)
+                  Toast('Email updated successfully', 'LONG', 'success');
+                  setInput(false);
+                }
+                setLoader(false);
+              });
+            }
           }
 
           if (response.data.success === false) {
@@ -212,14 +237,18 @@ const EmailAdd = ({
             'SHORT',
             'error',
           );
-        }).then(()=>{
+        }).then(() => {
           dispatch(
             bulkuploadedCandidatesMiddleWare({
-              search: searchValue, 
-              jd_id:jdId,
+              search: searchValue,
+              jd_id: jdId,
               page: pageNumber + 1,
             }),
-          )
+          ).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            }
+          })
         })
     } else {
       setError(true);
@@ -231,20 +260,20 @@ const EmailAdd = ({
       setError(false);
     }
   }, [formik.values.mail]);
- // open input function
+  // open input function
   const handleOpenInput = () => {
     setInput(true);
     formik.resetForm();
     setError(false);
   };
- // close input function
+  // close input function
   const handleCloseInput = () => {
     formik.setFieldValue('mail', value.email);
     setInput(false);
     formik.resetForm();
     setEmailId(false)
   };
-// outside close input function
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       formik.setFieldValue('mail', value.email);
@@ -265,7 +294,7 @@ const EmailAdd = ({
       formik.handleChange('mail')(event); // Update the formik value
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -278,12 +307,13 @@ const EmailAdd = ({
       }
     };
   });
-// enter key contact submit function
+  // enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
-    if(inputLengthError===false){
-    if (event.key === 'Enter' && formik.values.mail !== '') {
-      handleCellSubmit(event, id);
-    }}
+    if (inputLengthError === false) {
+      if (event.key === 'Enter' && formik.values.mail !== '') {
+        handleCellSubmit(event, id);
+      }
+    }
   };
 
   return (
@@ -327,11 +357,11 @@ const EmailAdd = ({
             // eslint-disable-next-line
             autoFocus
             value={formik.values.mail}
-           // onChange={formik.handleChange('mail')}
+            // onChange={formik.handleChange('mail')}
             lineInput
             size={13}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
-            style={{width:'67%'}}
+            style={{ width: '67%' }}
             onChange={handleInputChange}
           />
           {isError && (
@@ -344,14 +374,14 @@ const EmailAdd = ({
           )}
           {
             !isEmpty(formik.values.mail) && isEmailId &&
-            <Text  style={{
+            <Text style={{
               display: "flex",
               alignSelf: 'flex-start'
             }} size={10} color="error" align='left'>
               Email already exist
             </Text>
           }
-                     {inputLengthError && (
+          {inputLengthError && (
             <Text
               style={{
                 display: 'flex',
@@ -374,7 +404,7 @@ const EmailAdd = ({
               zIndex: 11
             }}
           >
-           
+
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {isLoader ? (
                 <div className={styles.svgTick}>
@@ -389,7 +419,7 @@ const EmailAdd = ({
                   onClick={(e) => handleCellSubmit(e, value.id)}
                   tabIndex={-1}
                   role={'button'}
-                  onKeyPress={() => {}}
+                  onKeyPress={() => { }}
                 >
                   <SvgTickBox />
                 </div>
@@ -399,7 +429,7 @@ const EmailAdd = ({
                 onClick={handleCloseInput}
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
               >
                 <SvgCloseBox className={styles.tickStyle} />
               </div>

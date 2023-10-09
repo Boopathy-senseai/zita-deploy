@@ -18,7 +18,7 @@ import SvgNewTab from '../../icons/SvgNewTab';
 import SvgRefresh from '../../icons/SvgRefresh';
 import SvgClose from '../../icons/SvgClose';
 import Pangination from '../../uikit/Pagination/Pangination';
-import { AppDispatch,RootState  } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import ProfileView from '../applicantpipelinemodule/ProfileView';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import { LINK } from '../../uikit/Colors/colors';
@@ -47,12 +47,12 @@ type Tabs = 'total' | 'completed' | 'inCompleted';
 export type FormProps = {
   searchValue: string;
   jd_id: string;
-  parser:string;
+  parser: string;
 };
 const initial: FormProps = {
   searchValue: '',
   jd_id: '',
-  parser:'',
+  parser: '',
 };
 
 type Props = {
@@ -105,7 +105,7 @@ const ApplicantsTab = ({
   const [isPageTab, setPageTab] = useState(total_count);
   const dispatch: AppDispatch = useDispatch();
   const [model, setmodel] = useState(false);
-  const [withoutjderror,setwithoutjderror] = useState(false);
+  const [withoutjderror, setwithoutjderror] = useState(false);
   const [verify, setverify] = useState(false);
 
   // Profile View Function
@@ -131,8 +131,14 @@ const ApplicantsTab = ({
     dispatch(
       bulkuploadedCandidatesMiddleWare({ search: searchValue, jd_id: isJdId }),
     )
-      .then((response) => {
-        setSearch(response.payload.search);
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+
+        else {
+          setSearch(res.payload.search);
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -146,7 +152,7 @@ const ApplicantsTab = ({
   });
 
   const {
-  
+
     Resume_parsing_count,
   } = useSelector(
     ({
@@ -155,7 +161,7 @@ const ApplicantsTab = ({
     }: RootState) => {
       return {
 
-        Resume_parsing_count:dashboardEmpReducers.Resume_parsing_count
+        Resume_parsing_count: dashboardEmpReducers.Resume_parsing_count
       };
     },
   );
@@ -169,10 +175,16 @@ const ApplicantsTab = ({
         page: pageNumber + 1,
       }),
     )
-      .then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -188,10 +200,16 @@ const ApplicantsTab = ({
         page: pageNumber + 1,
       }),
     )
-      .then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -207,10 +225,16 @@ const ApplicantsTab = ({
         page: pageNumber + 1,
       }),
     )
-      .then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
+      .then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+        }
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -277,10 +301,16 @@ const ApplicantsTab = ({
           search: searchValue,
         }),
       )
-        .then(() => {
-          getFocus('candidates__input');
-          getBlur('candidates__input');
-          setTableLoader(false);
+        .then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+
+          else {
+            getFocus('candidates__input');
+            getBlur('candidates__input');
+            setTableLoader(false);
+          }
         })
         .catch(() => {
           setTableLoader(false);
@@ -296,10 +326,16 @@ const ApplicantsTab = ({
           search: searchValue,
         }),
       )
-        .then(() => {
-          getFocus('candidates__input');
-          getBlur('candidates__input');
-          setTableLoader(false);
+        .then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+
+          else {
+            getFocus('candidates__input');
+            getBlur('candidates__input');
+            setTableLoader(false);
+          }
         })
         .catch(() => {
           setTableLoader(false);
@@ -315,10 +351,16 @@ const ApplicantsTab = ({
           search: searchValue,
         }),
       )
-        .then(() => {
-          getFocus('candidates__input');
-          getBlur('candidates__input');
-          setTableLoader(false);
+        .then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+
+          else {
+            getFocus('candidates__input');
+            getBlur('candidates__input');
+            setTableLoader(false);
+          }
         })
         .catch(() => {
           setTableLoader(false);
@@ -334,10 +376,16 @@ const ApplicantsTab = ({
           search: searchValue,
         }),
       )
-        .then(() => {
-          getFocus('candidates__input');
-          getBlur('candidates__input');
-          setTableLoader(false);
+        .then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+
+          else {
+            getFocus('candidates__input');
+            getBlur('candidates__input');
+            setTableLoader(false);
+          }
         })
         .catch(() => {
           setTableLoader(false);
@@ -350,11 +398,17 @@ const ApplicantsTab = ({
     if (searchValue === '' && isJdId !== '0') {
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
-      ).then(() => {
-        getFocus('candidates__input');
-        setPageNumber(0);
-        getBlur('candidates__input');
-        setCandiTableLoader(false);
+      ).then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+
+        else {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+          setCandiTableLoader(false);
+        }
       });
     }
   }, [searchValue]);
@@ -365,13 +419,18 @@ const ApplicantsTab = ({
     formik.setFieldValue('searchValue', '');
     setTab('total');
     e.preventDefault();
-    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then(
-      () => {
+    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then((res) => {
+      if (res.payload.success === false) {
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+      }
+
+      else {
         getFocus('candidates__input');
         setPageNumber(0);
         getBlur('candidates__input');
         setCandiTableLoader(false);
-      },
+      }
+    },
     );
   };
 
@@ -379,42 +438,55 @@ const ApplicantsTab = ({
     dispatch(dashBoardMiddleWare()).then((res1) => {
       setcount(res1.payload.Resume_parsing_count)
     });
-   
+
   }, []);
 
- 
+
   const [count, setcount] = useState(Resume_parsing_count);
   const hanldeMatch = () => {
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
-    dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res) => {  
-        if(res.payload.success === false){
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
-        }
-    else{
-      dispatch(
-        bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
-      ).then(() => {
-        setPageNumber(0);
-        setCandiTableLoader(false);
-      });
-  }});
+    dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
+      if (res.payload.success === false) {
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+      }
+      else {
+        dispatch(
+          bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
+        ).then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+
+          else {
+            setPageNumber(0);
+            setCandiTableLoader(false);
+          }
+        });
+      }
+    });
   };
 
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then((response) => {
+    dispatch(bulkuploadedParsingMiddleWare({ parser: formik.values.parser })).then((response) => {
       setcount(response.payload.ai_resume_balance_count)
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
-      ).then(() => {
-        setPageNumber(0);
-        dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res)=>{
-          if(res.payload.success === false){
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
-          }
-        })
+      ).then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+
+        else {
+          setPageNumber(0);
+          dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            }
+          })
+        }
       });
       dispatch(bulkImportMiddleWare()).then((res) => {
         setFeaturesBalance(res.payload.features_balance);
@@ -422,10 +494,10 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    }).then(()=>{
-      dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res)=>{
-        if(res.payload.success === false){
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+    }).then(() => {
+      dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
+        if (res.payload.success === false) {
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
         }
       })
     })
@@ -434,14 +506,19 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
   // Bulk Upload Parsing Function
   const hanldeApplicant = (jdId: string) => {
     setLoad(true);
-    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: jdId })).then(
-      (res) => {
+    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: jdId })).then((res) => {
+      if (res.payload.success === false) {
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+      }
+
+      else {
         setJob(res.payload.job);
         setUrl(res.payload.career_url);
         setSearch(res.payload.search);
         setPageNumber(0);
         setLoad(false);
-      },
+      }
+    },
     );
   };
 
@@ -468,27 +545,33 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
     formik.setFieldValue('searchValue', '');
     setTab('total');
     e.preventDefault();
-    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then(
-      () => {
+    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then((res) => {
+      if (res.payload.success === false) {
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+      }
+
+      else {
         getFocus('candidates__input');
         setPageNumber(0);
         getBlur('candidates__input');
         setCandiTableLoader(false);
-      },
+      }
+    },
     );
   };
-  const handleopenmodal =()=>{ 
-    if(Number(isJdId) !==0 ){
-    setmodel(true)}
-    if(Number(isJdId) ===0 ){ 
-    setwithoutjderror(true)
+  const handleopenmodal = () => {
+    if (Number(isJdId) !== 0) {
+      setmodel(true)
+    }
+    if (Number(isJdId) === 0) {
+      setwithoutjderror(true)
     }
   }
-  useEffect(()=>{
-    if(isJdId){
+  useEffect(() => {
+    if (isJdId) {
       setwithoutjderror(false)
     }
-  },[isJdId])
+  }, [isJdId])
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === 'Enter') {
       formik.handleSubmit();
@@ -499,15 +582,15 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
   };
 
 
-  const handlefunction=()=>{
+  const handlefunction = () => {
     setverify(true)
     formik.setFieldValue('parser', '0')
-   }
-   const handlefunction1=()=>{
+  }
+  const handlefunction1 = () => {
     setverify(true)
     formik.setFieldValue('parser', '1')
-   }
-   const closemodel = () => {
+  }
+  const closemodel = () => {
     setverify(false);
     setmodel(false);
   };
@@ -516,10 +599,10 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
   const value1 = value > 4;
   return (
     <Flex
-     
+
       className={styles.Applicantdatabase}
-    > 
-    {console.log("applicant formik:::::",formik.values)}
+    >
+      {console.log("applicant formik:::::", formik.values)}
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -554,7 +637,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
         // bulkId={isCanId}
         candidateId={isCanId.toString()}
         inviteIconNone={true}
-        // hanldeEditProfileView={hanldeEditProfileView}
+      // hanldeEditProfileView={hanldeEditProfileView}
       />
       <ParsingLoadingModal
         loader
@@ -595,26 +678,26 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
         }
       />
 
-              <Modal open={model}>
+      <Modal open={model}>
         <Flex
           className={verify === true ? styles.bulkmodel : styles.verifymodel}
-          style={{ height:formik.values.parser === '1'? '363px' : '' }}
+          style={{ height: formik.values.parser === '1' ? '363px' : '' }}
 
         >
-          
+
           {verify === true ? (
             <ApplicantDatabase
-            setmodel={setmodel}
-            verifymodel={update}
-            hanldeParsing={hanldeParsing}
-            isjdId={isJdId}
-            setParse={handleOpenParse}
-            isBulkLoader={localStorage.getItem('bulk_loader')}
-            setUpgrade={setUpgrade}
-            candidatesLimit={features_balance}
-            Resume_parsing_count={Resume_parsing_count}
-            formik={formik.values.parser}
-          />
+              setmodel={setmodel}
+              verifymodel={update}
+              hanldeParsing={hanldeParsing}
+              isjdId={isJdId}
+              setParse={handleOpenParse}
+              isBulkLoader={localStorage.getItem('bulk_loader')}
+              setUpgrade={setUpgrade}
+              candidatesLimit={features_balance}
+              Resume_parsing_count={Resume_parsing_count}
+              formik={formik.values.parser}
+            />
           ) : (
             <Flex style={{ marginTop: '10px' }}>
               <Flex end onClick={() => closemodel()}>
@@ -624,63 +707,63 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                   fill={'#888888'}
                   cursor={'pointer'}
                 />
-               </Flex>
+              </Flex>
               <Text size={14}>
-              Which parsing method would you like to use?
+                Which parsing method would you like to use?
               </Text>
               <Flex column>
                 <Flex
                   row
-                  style={{  marginTop: '15px' }}
+                  style={{ marginTop: '15px' }}
                 >
-                          <Flex>
-                          <Card className={styles.overAll} > 
-                          <Text size={14} bold style={{padding:'10px 0'}}>
-                            Basic Parser
-                          </Text>
-                          <ul  className={styles.dot}>
-                            <li>
-                            A foundational parsing system designed for general use.
-                            </li>
-                            <li>
-                            Efficient for general use but might overlook intricate details occasionally.
-                            </li>
-                            <li>
-                            May occasionally miss out on intricate details.
-                            </li>
-                          </ul>
-                          <Button
-                            onClick={handlefunction}
-                          >
-                            Select
-                          </Button>
-                          </Card>
-                          </Flex>
-                          
-                          <Flex style={{paddingLeft:'30px'}}>
-                          <Card className={styles.overAll}  > 
-                          <div className={`${styles.ribbon} ${styles.ribbonTopRight}`}><span className={styles.ribbontopright}>Paid</span></div>
-                          <Text size={14} bold style={{padding:'10px 0'}}>
-                           Advanced AI Parser
-                          </Text>
-                          <ul className={styles.dot}>
-                            <li>
-                            Powered by cutting-edge artificial intelligence.
-                            </li>
-                            <li>
-                            Offers superior accuracy and can understand complex structures.
-                            </li>
-                            <li>
-                            ecommended for precision and comprehensive data extraction.
-                            </li>
-                          </ul>
-                          <Button
-                            onClick={handlefunction1}
-                          >
-                            Select
-                          </Button>
-                          </Card>
-                          </Flex>
+                  <Flex>
+                    <Card className={styles.overAll} >
+                      <Text size={14} bold style={{ padding: '10px 0' }}>
+                        Basic Parser
+                      </Text>
+                      <ul className={styles.dot}>
+                        <li>
+                          A foundational parsing system designed for general use.
+                        </li>
+                        <li>
+                          Efficient for general use but might overlook intricate details occasionally.
+                        </li>
+                        <li>
+                          May occasionally miss out on intricate details.
+                        </li>
+                      </ul>
+                      <Button
+                        onClick={handlefunction}
+                      >
+                        Select
+                      </Button>
+                    </Card>
+                  </Flex>
+
+                  <Flex style={{ paddingLeft: '30px' }}>
+                    <Card className={styles.overAll}  >
+                      <div className={`${styles.ribbon} ${styles.ribbonTopRight}`}><span className={styles.ribbontopright}>Paid</span></div>
+                      <Text size={14} bold style={{ padding: '10px 0' }}>
+                        Advanced AI Parser
+                      </Text>
+                      <ul className={styles.dot}>
+                        <li>
+                          Powered by cutting-edge artificial intelligence.
+                        </li>
+                        <li>
+                          Offers superior accuracy and can understand complex structures.
+                        </li>
+                        <li>
+                          ecommended for precision and comprehensive data extraction.
+                        </li>
+                      </ul>
+                      <Button
+                        onClick={handlefunction1}
+                      >
+                        Select
+                      </Button>
+                    </Card>
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
@@ -694,22 +777,22 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
           <Text className={styles.importText}>Import applicants for*</Text>
           <Flex row>
             <Flex>
-            <Flex className={styles.skillContainer}>
-              <SelectTag
-                labelBold
-                options={jd_id}
-                noOptionsMessage={({}) => 'No active jobs'}
-                placeholder="Select a job to import applicants"
-                getOptionValue={(option: { id: number }) => `${option.id}`}
-                getOptionLabel={(option: { job_title: string }) =>
-                  option.job_title
-                }
-                onChange={(option) => {
-                  setJdId(option.id.toString());
-                  hanldeApplicant(option.id.toString());
-                }}
-              />
-            </Flex>  {withoutjderror && <Text color='error'>Select a job to import applicants</Text>}
+              <Flex className={styles.skillContainer}>
+                <SelectTag
+                  labelBold
+                  options={jd_id}
+                  noOptionsMessage={({ }) => 'No active jobs'}
+                  placeholder="Select a job to import applicants"
+                  getOptionValue={(option: { id: number }) => `${option.id}`}
+                  getOptionLabel={(option: { job_title: string }) =>
+                    option.job_title
+                  }
+                  onChange={(option) => {
+                    setJdId(option.id.toString());
+                    hanldeApplicant(option.id.toString());
+                  }}
+                />
+              </Flex>  {withoutjderror && <Text color='error'>Select a job to import applicants</Text>}
             </Flex>
             <InputText
               className={styles.inputWidth}
@@ -719,8 +802,8 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               onChange={searchHandleChange}
               id={'applicant__input'}
               actionRight={() => (
-                <label style={{ margin: 0,marginTop:"3px" }}>
-                  <SvgSearch width={14} height={14}/>
+                <label style={{ margin: 0, marginTop: "3px" }}>
+                  <SvgSearch width={14} height={14} />
                 </label>
               )}
               onKeyPress={handleKeyPress}
@@ -871,7 +954,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               <div
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
                 className={styles.svgRefresh}
                 onClick={(e) => {
                   hanldeSvgRefresh(e);
@@ -892,30 +975,30 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
           </Flex>
           {/* <SvgSearch/> */}
           {isCandiTableLoader ? (
-            <Flex center middle height={100}> 
+            <Flex center middle height={100}>
               <Loader withOutOverlay size={'medium'} />
             </Flex>
           ) : (
-            <Flex  flex={1} >
+            <Flex flex={1} >
               <Tabel
-              empty={
-                isSearch === 1
-                  ? 'No applicants imported yet'
-                  : 'No applicants found'
-              }
-              dataSource={emp_pool}
-              columns={columns}
-              isLoader={isTableLoader}
-              pageCount={pageCount}
-              pageNumber={pageNumber}
-              handleSetPagination={handleSetPagination}
-              isCandiTableLoader={isCandiTableLoader}
-              isPageTab ={isPageTab}
-            />
+                empty={
+                  isSearch === 1
+                    ? 'No applicants imported yet'
+                    : 'No applicants found'
+                }
+                dataSource={emp_pool}
+                columns={columns}
+                isLoader={isTableLoader}
+                pageCount={pageCount}
+                pageNumber={pageNumber}
+                handleSetPagination={handleSetPagination}
+                isCandiTableLoader={isCandiTableLoader}
+                isPageTab={isPageTab}
+              />
             </Flex>
-            
+
           )}
-          
+
         </>
       ) : (
         <Flex center middle height={100}>

@@ -14,7 +14,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
-import { 
+import {
   candidateMatchMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
@@ -58,7 +58,7 @@ const LocationAdd = ({
 
   const checkName: any =
     (value && value.location === null) ||
-    (value && value.location && value.location === '')
+      (value && value.location && value.location === '')
       ? ''
       : value.location;
 
@@ -68,7 +68,7 @@ const LocationAdd = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
 
@@ -92,9 +92,9 @@ const LocationAdd = ({
             candidateMatchMiddleWare({
               can_id: id.toString(),
             }),
-          ).then((res)=>{
-            if(res.payload.success === false){
-  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          ).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
             }
           })
           if (tabKey === 'total') {
@@ -105,10 +105,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   total: total_count,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             } else {
               dispatch(
@@ -118,10 +124,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   total: total_count,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             }
           }
@@ -133,10 +145,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   completed,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             } else {
               dispatch(
@@ -146,10 +164,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   completed,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             }
           }
@@ -161,10 +185,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   incompleted,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             } else {
               dispatch(
@@ -174,10 +204,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   incompleted,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             }
           }
@@ -198,9 +234,9 @@ const LocationAdd = ({
             candidateMatchMiddleWare({
               can_id: id.toString(),
             }),
-          ).then((res)=>{
-            if(res.payload.success === false){
-  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          ).then((res) => {
+            if (res.payload.success === false) {
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
             }
           })
           if (tabKey === 'total') {
@@ -211,10 +247,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   total: total_count,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             } else {
               dispatch(
@@ -224,10 +266,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   total: total_count,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             }
           }
@@ -239,10 +287,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   completed,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             } else {
               dispatch(
@@ -252,10 +306,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   completed,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             }
           }
@@ -267,10 +327,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   incompleted,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             } else {
               dispatch(
@@ -280,10 +346,16 @@ const LocationAdd = ({
                   page: pageNumber + 1,
                   incompleted,
                 }),
-              ).then(() => {
-                Toast('Location updated successfully', 'LONG', 'success');
-                setInput(false);
-                setLoader(false);
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+
+                else {
+                  Toast('Location updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
               });
             }
           }
@@ -408,7 +480,7 @@ const LocationAdd = ({
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
               >
                 <SvgTickBox className={styles.tickStyle} />
               </div>
@@ -419,7 +491,7 @@ const LocationAdd = ({
               onClick={handleCloseInput}
               tabIndex={-1}
               role={'button'}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
               <SvgCloseBox className={styles.tickStyle} />
             </div>

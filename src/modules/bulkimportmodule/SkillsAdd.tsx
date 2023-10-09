@@ -14,7 +14,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
-import { 
+import {
   candidateMatchMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
@@ -57,7 +57,7 @@ const SkillsAdd = ({
 
   const checkName: any =
     (value && value.skills === null) ||
-    (value && value.skills && value.skills === '')
+      (value && value.skills && value.skills === '')
       ? ''
       : value.skills;
 
@@ -67,7 +67,7 @@ const SkillsAdd = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
 
@@ -88,9 +88,9 @@ const SkillsAdd = ({
           candidateMatchMiddleWare({
             can_id: id.toString(),
           }),
-        ).then((res)=>{
-          if(res.payload.success === false){
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        ).then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
           }
         })
         if (tabKey === 'total') {
@@ -101,10 +101,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 page: pageNumber + 1,
                 total: total_count,
               }),
-            ).then(() => {
-              Toast('Skills updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Skills updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
             });
           } else {
             dispatch(
@@ -114,10 +120,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 page: pageNumber + 1,
                 total: total_count,
               }),
-            ).then(() => {
-              Toast('Skills updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Skills updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
             });
           }
         }
@@ -129,10 +141,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 page: pageNumber + 1,
                 completed,
               }),
-            ).then(() => {
-              Toast('Skills updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Skills updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
             });
           } else {
             dispatch(
@@ -142,10 +160,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 page: pageNumber + 1,
                 completed,
               }),
-            ).then(() => {
-              Toast('Skills updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Skills updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
             });
           }
         }
@@ -157,10 +181,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 page: pageNumber + 1,
                 incompleted,
               }),
-            ).then(() => {
-              Toast('Skills updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Skills updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
             });
           } else {
             dispatch(
@@ -170,10 +200,16 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 page: pageNumber + 1,
                 incompleted,
               }),
-            ).then(() => {
-              Toast('Skills updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
+            ).then((res) => {
+              if (res.payload.success === false) {
+                Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              }
+
+              else {
+                Toast('Skills updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              }
             });
           }
         }
@@ -185,16 +221,20 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
           'error',
         );
         setLoader(false);
-      }) 
-        .then(()=>{ 
-          setTimeout(() =>  dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue, 
-              jd_id:jdId,
-              page: pageNumber ,
-            })
-          ), 1000);  
-        }) 
+      })
+      .then(() => {
+        setTimeout(() => dispatch(
+          bulkuploadedCandidatesMiddleWare({
+            search: searchValue,
+            jd_id: jdId,
+            page: pageNumber,
+          })
+        ).then((res) => {
+          if (res.payload.success === false) {
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          }
+        }), 1000);
+      })
   }
 
   // open input function
@@ -295,7 +335,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
               >
                 <SvgTickBox className={styles.tickStyle} />
               </div>
@@ -306,7 +346,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
               onClick={handleCloseInput}
               tabIndex={-1}
               role={'button'}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
               <SvgCloseBox className={styles.tickStyle} />
             </div>

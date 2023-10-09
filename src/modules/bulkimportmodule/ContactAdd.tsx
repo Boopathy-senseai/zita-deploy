@@ -67,7 +67,7 @@ const ContactAdd = ({
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
     enableReinitialize: true,
   });
 
@@ -92,89 +92,119 @@ const ContactAdd = ({
         .post(uploadedCandidatesApi, data, config)
         .then(() => {
           if (tabKey === 'total') {
-             if(jdId === undefined){
-            dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                total: total_count,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              Toast('Contact updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
-            });
-          }else{
-                dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                total: total_count,
-                jd_id: jdId,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              Toast('Contact updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
-            });
-          }
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  total: total_count,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+                else {
+                  Toast('Contact updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  total: total_count,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+                else {
+                  Toast('Contact updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
+              });
+            }
           }
           if (tabKey === 'completed') {
-            if(jdId === undefined){
-            dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                completed,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              Toast('Contact updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
-            });
-          }else{
-             dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                completed,
-                jd_id: jdId,
-                page: pageNumber + 1,
-              }),
-            ).then(() => {
-              Toast('Contact updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
-            });
-          }
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  completed,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+                else {
+                  Toast('Contact updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  completed,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+                else {
+                  Toast('Contact updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
+              });
+            }
           }
           if (tabKey === 'inCompleted') {
-               if(jdId === undefined){
-            dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                page: pageNumber + 1,
-                incompleted,
-              }),
-            ).then(() => {
-              Toast('Contact updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
-            });
-          }else{
+            if (jdId === undefined) {
               dispatch(
-              bulkuploadedCandidatesMiddleWare({
-                search: searchValue,
-                page: pageNumber + 1,
-                jd_id:jdId,
-                incompleted,
-              }),
-            ).then(() => {
-              Toast('Contact updated successfully', 'LONG', 'success');
-              setInput(false);
-              setLoader(false);
-            });
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+                else {
+                  Toast('Contact updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  jd_id: jdId,
+                  incompleted,
+                }),
+              ).then((res) => {
+                if (res.payload.success === false) {
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                }
+                else {
+                  Toast('Contact updated successfully', 'LONG', 'success');
+                  setInput(false);
+                  setLoader(false);
+                }
+              });
+            }
           }
-        }
         })
         .catch(() => {
           Toast(
@@ -207,7 +237,7 @@ const ContactAdd = ({
       setInput(false);
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -220,12 +250,13 @@ const ContactAdd = ({
       }
     };
   });
-// enter key contact submit function
+  // enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
-    if(inputLengthError===false){
-    if (event.key === 'Enter' && formik.values.name !== '') {
-      handleCellSubmit(event, id);
-    }}
+    if (inputLengthError === false) {
+      if (event.key === 'Enter' && formik.values.name !== '') {
+        handleCellSubmit(event, id);
+      }
+    }
   };
 
   useEffect(() => {
@@ -252,22 +283,21 @@ const ContactAdd = ({
 
   const numberchange = (e: any) => {
     const newValue = e.target.value;
-  
+
     // Check if the input consists of only digits
     const isOnlyDigits = /^\d*$/.test(newValue);
-  
+
     // Check if the input has a maximum length of 15 characters
     const isWithinMaxLength = newValue.length <= 15;
-  
-    if (isOnlyDigits )
-    
-    {
-      if(isWithinMaxLength){
-      formik.setFieldValue("name", newValue);
-      setInputLengthError(false);
-    } else {
-      setInputLengthError(true);
-    }}
+
+    if (isOnlyDigits) {
+      if (isWithinMaxLength) {
+        formik.setFieldValue("name", newValue);
+        setInputLengthError(false);
+      } else {
+        setInputLengthError(true);
+      }
+    }
   };
   return (
     <div className={styles.overAll}>
@@ -307,15 +337,15 @@ const ContactAdd = ({
           <InputText
             // eslint-disable-next-line
             autoFocus
-          
+
             value={formik.values.name}
-            onChange={(e)=>numberchange(e)}
+            onChange={(e) => numberchange(e)}
             lineInput
             size={13}
             placeholder={'Optional'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
             id="contactAdd__contactId"
-            style={{width:'66%'}}
+            style={{ width: '66%' }}
           />
 
           <div
@@ -327,7 +357,7 @@ const ContactAdd = ({
             }}
             className={styles.svgContainer}
           >
-            
+
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {isLoader ? (
                 <div className={styles.svgTick}>
@@ -342,7 +372,7 @@ const ContactAdd = ({
                   onClick={(e) => handleCellSubmit(e, value.id)}
                   tabIndex={-1}
                   role={'button'}
-                  onKeyPress={() => {}}
+                  onKeyPress={() => { }}
                 >
                   <SvgTickBox className={styles.tickStyle} />
                 </div>
@@ -353,7 +383,7 @@ const ContactAdd = ({
                 onClick={handleCloseInput}
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
               >
                 <SvgCloseBox className={styles.tickStyle} />
               </div>
@@ -361,7 +391,7 @@ const ContactAdd = ({
           </div>
         </div>
       )}
-         {inputLengthError && (
+      {inputLengthError && (
         <Text style={{
           display: "flex",
           alignSelf: 'flex-start'
@@ -370,13 +400,13 @@ const ContactAdd = ({
         </Text>
       )}
       {isError && (
-              <Text style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error">
-                Enter valid contact
-              </Text>
-            )}
+        <Text style={{
+          display: "flex",
+          alignSelf: 'flex-start'
+        }} size={10} color="error">
+          Enter valid contact
+        </Text>
+      )}
     </div>
   );
 };
