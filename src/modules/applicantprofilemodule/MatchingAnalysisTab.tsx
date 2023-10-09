@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import { Card } from '../../uikit';
+import { Card, Toast } from '../../uikit';
 import SvgDone from '../../icons/SvgDone';
 import SvgClose from '../../icons/Svgnotmatch';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
@@ -122,7 +122,7 @@ const MatchingAnalysisTab = () => {
       }),
     ).then((res)=>{
       if(res.payload.success === false){
-Toast('Sorry for the inconvinience, The token has been completed.')
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
       }
     })
   };

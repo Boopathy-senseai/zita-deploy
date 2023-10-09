@@ -390,7 +390,7 @@ const ApplicantsTab = ({
     formData.append('jd_id', isJdId);
     dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res) => {  
         if(res.payload.success === false){
-Toast('Sorry for the inconvinience, The token has been completed.')
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
         }
     else{
       dispatch(
@@ -412,7 +412,7 @@ Toast('Sorry for the inconvinience, The token has been completed.')
         setPageNumber(0);
         dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res)=>{
           if(res.payload.success === false){
-Toast('Sorry for the inconvinience, The token has been completed.')
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
           }
         })
       });
@@ -425,7 +425,7 @@ Toast('Sorry for the inconvinience, The token has been completed.')
     }).then(()=>{
       dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then((res)=>{
         if(res.payload.success === false){
-Toast('Sorry for the inconvinience, The token has been completed.')
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
         }
       })
     })

@@ -136,7 +136,7 @@ const JdPreviewScreen = () => {
           setOpen(true);
           dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((response)=>{
             if(response.payload.success === false){
-  Toast('Sorry for the inconvinience, The token has been completed.')
+  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
             }
           })
         }
@@ -150,7 +150,7 @@ const JdPreviewScreen = () => {
           setOpen(true);
           dispatch(jdMatchMiddleWare({ jd_id: jdId })).then((response)=>{
             if(response.payload.success === false){
-  Toast('Sorry for the inconvinience, The token has been completed.')
+  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
             }
           })
         }
