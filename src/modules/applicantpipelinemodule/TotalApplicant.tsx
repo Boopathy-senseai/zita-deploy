@@ -22,6 +22,7 @@ import SvgFavourites from '../../icons/SvgFavourties';
 import SvgHeart from '../../icons/SvgHeart';
 import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
+import SvgComparative from '../../icons/Svgcomparative';
 import SvgCsvDownload from '../../icons/SvgCsvDownload';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
@@ -41,6 +42,7 @@ type Props = {
   onExport?: () => void;
   onMove?: (stageId: number) => void;
   onCSVDownload?: () => void;
+  onComparative?: any;
 };
 
 const TotalApplicant = ({
@@ -54,6 +56,7 @@ const TotalApplicant = ({
   onExport,
   onMove,
   onCSVDownload,
+  onComparative,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const [movePopup, setMovePopup] = useState(false);
@@ -126,7 +129,8 @@ const TotalApplicant = ({
                     height={12}
                     fill={moveDisabled ? '#AB8BA2' : undefined}
                   />
-                  <Text bold
+                  <Text
+                    bold
                     style={{ marginLeft: '10px' }}
                     color={moveDisabled ? 'disabled' : 'theme'}
                   >
@@ -142,10 +146,26 @@ const TotalApplicant = ({
                     cursor: 'pointer',
                   }}
                   onClick={onExport}
+                  marginRight={10}
                 >
                   <SvgDownload width={14} height={14} />
                   <Text bold style={{ marginLeft: '10px' }} color="theme">
                     Export Resumes
+                  </Text>
+                </Flex>
+                <Flex
+                  row
+                  center
+                  style={{
+                    paddingLeft: '5px',
+                    borderLeft: '1px solid #581845',
+                    cursor: 'pointer',
+                  }}
+                  onClick={onComparative}
+                >
+                  <SvgComparative />
+                  <Text bold style={{ marginLeft: '10px' }} color="theme">
+                    Compare
                   </Text>
                 </Flex>
               </Flex>
@@ -169,7 +189,7 @@ const TotalApplicant = ({
           >
             <Flex row center style={{ cursor: 'pointer' }}>
               <SvgHeart width={13} height={12} filled={isTotalFav} />
-              <Text 
+              <Text
                 style={{ marginLeft: '5px' }}
                 color="theme"
                 title={'Favourite Applicants'}

@@ -117,3 +117,7 @@
 .line_OR {
   padding: 10px;
 }
+
+.profile_image {
+  border-radius: 50%;
+}

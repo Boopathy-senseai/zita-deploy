@@ -1,0 +1,41 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  width: 1300px;
+  height: 650px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.card {
+  height: 120px;
+}
+
+.cardheader {
+  background: #581845;
+  height: 30px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+}
+
+.part1 {
+  flex-basis: 10%;
+}
+
+.part2 {
+  flex-basis: 3%;
+}
+
+.part3 {
+  flex-basis: 87%;
+}
+
+.profile {
+  object-fit: contain;
+  background-color: #eee8ec;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}

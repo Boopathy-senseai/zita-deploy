@@ -21,6 +21,8 @@ import { ERROR_MESSAGE } from '../constValue';
 import SvgIntomark from '../../icons/SvgCancel';
 import { checkAuthMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { routesPath } from '../../routes/routesPath';
+import ComparativeModal from '../../modules/Comparative Analysis /RecommendationScreen';
+
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -79,7 +81,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     new Map(),
   );
 
-  const [change,setchange]=useState(false);
+  const [change, setchange] = useState(false);
+  const [aimodel, setaimodel] = useState(false);
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
@@ -216,7 +219,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       newCardSelection.set(task.id, { task, section, columnId }),
     );
     setCardSelection(newCardSelection);
-    
   };
   const handleColumnUnselect = (data: IStageColumn) => {
     const { section, columnId } = data;
@@ -245,11 +247,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setDoctorate(!isDoctorate);
     setAny(false);
   };
- // filter diploma function
- const handleDiploma = () => {
-  setDiploma(!isDiploma);
-  setAny(false);
-};
+  // filter diploma function
+  const handleDiploma = () => {
+    setDiploma(!isDiploma);
+    setAny(false);
+  };
   // filter master function
   const handleMaster = () => {
     setMasters(!isMasters);
@@ -314,12 +316,12 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       isBachelors === false &&
       isDoctorate === false &&
       isMasters === false &&
-      isOther === false&&
+      isOther === false &&
       isDiploma === false
     ) {
       setAny(true);
     }
-  }, [isBachelors, isDoctorate,isDiploma, isMasters, isOther]);
+  }, [isBachelors, isDoctorate, isDiploma, isMasters, isOther]);
 
   const qaValue = qualificationFilterHelper(
     isAny,
@@ -357,8 +359,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // filter api call
   useEffect(() => {
-    if(!change){
-    getApplicanPipelineData();
+    if (!change) {
+      getApplicanPipelineData();
     }
   }, [
     isSkillOption,
@@ -373,7 +375,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     favLoader,
     isTotalFav,
     isSortApplicant,
-    change
+    change,
     // updateLoader,
   ]);
 
@@ -425,25 +427,25 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // filter experience function
   const handleExperience = (selectedValue: string) => {
-    if(change===false){
-    dispatch(
-      applicantPipeLineDataMiddleWare({
-        jd_id: jdId,
-        profile_match: isMatchRadio,
-        candidate: isSearch,
-        work_experience: selectedValue,
-        profile_view: isProfile,
-        education_level: qaValue,
-        skill_match: optionsList,
-        fav: favAdd,
-        sortApplicant: isSortApplicant,
-        sortSortList: isSortApplicant,
-        sortInterview: isSortApplicant,
-        sortSelected: isSortApplicant,
-        sortRejected: isSortApplicant,
-        location: formik.values.location,
-      }),
-    );
+    if (change === false) {
+      dispatch(
+        applicantPipeLineDataMiddleWare({
+          jd_id: jdId,
+          profile_match: isMatchRadio,
+          candidate: isSearch,
+          work_experience: selectedValue,
+          profile_view: isProfile,
+          education_level: qaValue,
+          skill_match: optionsList,
+          fav: favAdd,
+          sortApplicant: isSortApplicant,
+          sortSortList: isSortApplicant,
+          sortInterview: isSortApplicant,
+          sortSelected: isSortApplicant,
+          sortRejected: isSortApplicant,
+          location: formik.values.location,
+        }),
+      );
     }
   };
   // filter fav function
@@ -614,8 +616,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             taskId: removed.id,
             candidateId: removed.candidate_id_id,
           });
-        }
-         else {
+        } else {
           handleCardUpdate({
             stage_name: columns[destinationDropId].stage_name,
             taskId: removed.id,
@@ -948,7 +949,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     }
   };
 
-
   const handleBulkDownload = () => {
     const candidate_id = getSelectedCandidateList();
     dispatch(
@@ -966,6 +966,10 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     );
   };
 
+  const onComparative = () => {
+    setaimodel(true);
+  };
+
   return (
     <>
       {showPipelinePopup && showStagesPopup === null && (
@@ -975,7 +979,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           onClose={() => {
             handleClosePipelinePopup();
             // history.goBack();
-            history.push(routesPath.MY_JOB_POSTING)
+            history.push(routesPath.MY_JOB_POSTING);
           }}
           onSuccessClose={handleClosePipelinePopup}
           onNewPipeline={handleNewPipeline}
@@ -988,16 +992,16 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           onClose={() => {
             handleClosePipelinePopup();
             // history.goBack();
-            history.push(routesPath.MY_JOB_POSTING)
+            history.push(routesPath.MY_JOB_POSTING);
           }}
           onSuccessClose={handleClosePipelinePopup}
           onNewPipeline={handleNewPipeline}
         />
-      )} 
+      )}
       {/* <Flex row className={styles.overAll} style={{marginLeft:'12%'}}> */}
       <Flex row className={styles.overAll}>
         {applicantDataLoader || (favLoader && <Loader />)}
-        {pipeLineLoader && <Loader />} 
+        {pipeLineLoader && <Loader />}
         {getAppliedView === 'true' && (
           <ProfileView
             open={isApplicantView}
@@ -1106,7 +1110,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             </Flex>
           </Flex>
           <ApplicantPipeLineFilter
-
             setchange={setchange}
             isSkillOption={isSkillOption}
             isSkills={isSkills}
@@ -1138,6 +1141,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             onExport={handleBulkDownload}
             onMove={handleMove}
             onCSVDownload={handleCSVDownload}
+            onComparative={onComparative}
           />
           {isNotEmpty() ? (
             <div
@@ -1201,6 +1205,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         </Flex>
       </Flex>
       {isLoading && <Loader />}
+      {aimodel && <ComparativeModal />}
     </>
   );
 

@@ -1,0 +1,37 @@
+.modal {
+  background-color: var(--color-white, #ffffff);
+  width: 650px;
+  padding: 25px 25px 20px 25px;
+  border-radius: 4px;
+}
+.matchRadioStyle {
+  width: 300px;
+  margin-top: 10px;
+}
+.candidatesellectoverall {
+  background-color: var(--color-white, #ffffff);
+  padding: 25px 25px 20px 25px;
+}
+.inputchanges {
+  padding-left: 25px;
+  height: 30px;
+  width: 200px;
+  border-radius: 4px;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 8px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+}
+.changingtexts {
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 250px;
+}
