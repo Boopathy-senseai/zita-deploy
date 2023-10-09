@@ -394,7 +394,10 @@ setshow(val)
               parsedTextMiddleWare({
                 unlock_can_list: response.payload.unlock_can_list,
               }),
-            );
+            ).then((res) => {
+              if(res.payload.success === false){ 
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  } })
             setCandiList(response.payload.candi_list);
             setSourceLimit(response.payload.source_limit);
             setCandidatesLimit(response.payload.candi_limit);

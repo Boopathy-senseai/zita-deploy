@@ -102,8 +102,8 @@ const ValueAddName = ({
               page: pageNumber + 1,
             }),
           )
-            .then((res) => {
-              if (res.payload.success === false) {
+            .then((response) => {
+              if (response.payload.success === false) {
                 Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
 
@@ -130,8 +130,8 @@ const ValueAddName = ({
               page: pageNumber + 1,
             }),
           )
-            .then((res) => {
-              if (res.payload.success === false) {
+            .then((response) => {
+              if (response.payload.success === false) {
                 Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
 
@@ -160,8 +160,8 @@ const ValueAddName = ({
               page: pageNumber + 1,
             }),
           )
-            .then((res) => {
-              if (res.payload.success === false) {
+            .then((response) => {
+              if (response.payload.success === false) {
                 Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
 
@@ -188,8 +188,8 @@ const ValueAddName = ({
               page: pageNumber + 1,
             }),
           )
-            .then((res) => {
-              if (res.payload.success === false) {
+            .then((response) => {
+              if (response.payload.success === false) {
                 Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
 
@@ -218,8 +218,8 @@ const ValueAddName = ({
               page: pageNumber + 1,
             }),
           )
-            .then((res) => {
-              if (res.payload.success === false) {
+            .then((response) => {
+              if (response.payload.success === false) {
                 Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
 
@@ -246,8 +246,8 @@ const ValueAddName = ({
               page: pageNumber + 1,
             }),
           )
-            .then((res) => {
-              if (res.payload.success === false) {
+            .then((response) => {
+              if (response.payload.success === false) {
                 Toast('Sorry, there was a problem connecting to the API. Please try again later.')
               }
 

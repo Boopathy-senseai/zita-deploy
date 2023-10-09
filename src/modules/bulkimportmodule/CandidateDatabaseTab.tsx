@@ -346,6 +346,11 @@ const CandidateDatabaseTab = ({
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
     dispatch(bulkuploadedParsingMiddleWare({ parser: formik.values.parser })).then((response) => {
+      if(response.payload.success === false){ 
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          } 
+      
+      else {
       setcount(response.payload.Resume_parsing_count)
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then((res) => {
         if (res.payload.success === false) {
@@ -361,7 +366,7 @@ const CandidateDatabaseTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    }).then(() => {
+    }}).then(() => {
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then((res) => {
         if (res.payload.success === false) {
           Toast('Sorry, there was a problem connecting to the API. Please try again later.')

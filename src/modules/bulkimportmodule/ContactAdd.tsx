@@ -91,7 +91,7 @@ const ContactAdd = ({
       axios
         .post(uploadedCandidatesApi, data, config)
         .then(() => {
-          if (tabKey === 'total') {
+                    if (tabKey === 'total') {
             if (jdId === undefined) {
               dispatch(
                 bulkuploadedCandidatesMiddleWare({
@@ -100,6 +100,7 @@ const ContactAdd = ({
                   page: pageNumber + 1,
                 }),
               ).then((res) => {
+                console.log(res,'ddsdvsvsvdsfbvdvdsfbvadbdfbdfb')
                 if (res.payload.success === false) {
                   Toast('Sorry, there was a problem connecting to the API. Please try again later.')
                 }

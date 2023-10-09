@@ -454,7 +454,7 @@ const ApplicantsTab = ({
       else {
         dispatch(
           bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
-        ).then((res) => {
+        ).then((response) => {
           if (res.payload.success === false) {
             Toast('Sorry, there was a problem connecting to the API. Please try again later.')
           }
@@ -471,6 +471,11 @@ const ApplicantsTab = ({
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
     dispatch(bulkuploadedParsingMiddleWare({ parser: formik.values.parser })).then((response) => {
+      if(response.payload.success === false){ 
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          } 
+      
+      else {
       setcount(response.payload.ai_resume_balance_count)
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
@@ -481,8 +486,8 @@ const ApplicantsTab = ({
 
         else {
           setPageNumber(0);
-          dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
-            if (res.payload.success === false) {
+          dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((respond) => {
+            if (respond.payload.success === false) {
               Toast('Sorry, there was a problem connecting to the API. Please try again later.')
             }
           })
@@ -494,7 +499,7 @@ const ApplicantsTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    }).then(() => {
+    }}).then(() => {
       dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
         if (res.payload.success === false) {
           Toast('Sorry, there was a problem connecting to the API. Please try again later.')

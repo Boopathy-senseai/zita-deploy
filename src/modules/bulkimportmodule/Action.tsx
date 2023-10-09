@@ -142,6 +142,7 @@ const Action = ({
     axios
       .post(uploadedCandidatesApi, data, config)
       .then((response) => {
+        console.log(response,'ddddddvvvvfffggghhkjkkk')
         dispatch(bulkImportMiddleWare()).then((res) => {
           setFeaturesBalance(res.payload.features_balance);
         });
