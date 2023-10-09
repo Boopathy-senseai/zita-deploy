@@ -14,8 +14,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
-import {
-  applicantcandidateMatchMiddleWare,
+import { 
   candidateMatchMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';

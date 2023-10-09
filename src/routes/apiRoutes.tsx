@@ -41,7 +41,7 @@ export const bulkUploadSkills = (id: number) => {
 //   return url;
 // };
 //Matching with cand_id
-export const candidatematch = `job_matching_api`;
+// export const candidatematch = `job_matching_api`;
 // Applicant Profile View API
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
@@ -147,7 +147,7 @@ export const dsOrNotApi = (jdId?: string) => {
   return url;
 };
 //Matching Based on jd
-export const matchingoverallApi = `matching_algorithm`;
+// export const matchingoverallApi = `matching_algorithm`;
 
 //Matching Based on candidate_id,jd_id and candidate_jd_id
 export const onlycandidateid = `match_canid`;

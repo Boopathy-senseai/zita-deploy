@@ -9,8 +9,7 @@ import {
   jdPreviewApi,
   jdProfileApi,
   jdTemplatesApi,
-  locationApi,
-  matchingoverallApi,
+  locationApi, 
   missSkillsApi,
   postJdApi,
   questionnaireForJdApi,
@@ -88,20 +87,6 @@ export const jdProfileMiddleWare = createAsyncThunk(
   async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(jdProfileApi(jd_id));
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-export const jdProfileMiddleWares = createAsyncThunk(
-  JD_PROFILES,
-  async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(matchingoverallApi, {
-        params: { pk: jd_id },
-      });
       return data;
     } catch (error) {
       const typedError = error as Error;

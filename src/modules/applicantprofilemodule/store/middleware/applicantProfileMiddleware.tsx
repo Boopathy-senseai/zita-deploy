@@ -37,8 +37,7 @@ import {
   intergrationmailApi,
   outlookSyncApi,
   outlookAdd,
-  calbackurlApi,
-  candidatematch,
+  calbackurlApi, 
   onlycandidateid,
   onlyjobid,
   Bothcandidateidjobid,
@@ -127,20 +126,7 @@ export const jdMatchMiddleWare = createAsyncThunk(
   },
 );
 
-export const applicantcandidateMatchMiddleWare = createAsyncThunk(
-  JOB_MATCHING_API,
-  async ({ can_id }:candidatematchtypes, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(candidatematch, {
-        params: {can_id },
-      });
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
+ 
 export const applicantNotesMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_NOTES,
   async ({ can_id }: { can_id: number | string }, { rejectWithValue }) => {

@@ -13,7 +13,7 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
-import { applicantcandidateMatchMiddleWare,candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { qualificationOption } from './bulkImportScreenMock';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';

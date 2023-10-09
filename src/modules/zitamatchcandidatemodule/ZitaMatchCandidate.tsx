@@ -94,8 +94,12 @@ const ZitaMatchCandidate = () => {
   const favAdd = isTotalFav ? 'add' : '';
 
   useEffect(() => {
-    dispatch(zitaMatchCandidateMiddleWare({ jd_id: jdId })).then(() => {
-      if (!isEmpty(getCandiId)) {
+    dispatch(zitaMatchCandidateMiddleWare({ jd_id: jdId })).then((res) => {
+        if(res.payload.success === false){
+Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        }
+    
+      else if (!isEmpty(getCandiId)) {
         setProfileView(true);
       }
     });
