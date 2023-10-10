@@ -32,11 +32,11 @@
 .step {
   /* position: relative;
   margin: 0 400px;
-  margin-bottom: 36px;
-  margin-top: 24px; */
+  margin-bottom: 36px; */
+  margin-right: -32px;
   padding: 10px 0 20px 0;
 }
-.stepOne {
+/* .stepOne {
   position: relative;
   left: -23px;
   top: 22px;
@@ -50,9 +50,30 @@
   position: relative;
   top: 47px;
   left: 46px;
-}
+} */
 .step3Flex {
   position: absolute;
   right: 0;
   top: -20px;
+}
+.stepOne {
+  position: relative;
+  left: 0px;
+  top: 0px;
+}
+
+.stepTwo {
+  position: relative;
+  right: 10px;
+  top: 0px;
+}
+.stepThree {
+  position: relative;
+  top: 0px;
+  right: 21px;
+}
+.stepFour {
+  position: relative;
+  top: 0px;
+  right: 32px;
 }
