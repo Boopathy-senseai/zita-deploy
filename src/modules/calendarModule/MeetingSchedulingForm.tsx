@@ -5,14 +5,18 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
 import { momentLocalizer } from 'react-big-calendar';
 import { useDispatch } from 'react-redux';
 import { SvgAddInterviewers, SvgCalendar } from '../../icons';
+import SvgAdd from '../../icons/SvgAdd';
 import { AppDispatch } from '../../store';
-import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
+import { Button, Flex, InputSearch, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { CrossButton } from '../../uikit/v2';
 import { isEmpty } from '../../uikit/helper';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
+import { THIS_FIELD_REQUIRED } from '../constValue';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -29,6 +33,9 @@ import {
   UserType,
 } from './types';
 import { formatTime, getNewDateTimes } from './util';
+
+
+
 
 interface Props {
   meetingForm: meetingFormProps;
@@ -80,87 +87,43 @@ const MeetingSchedulingForm = ({
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
   );
+  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
-  const eventMeetingTypes: {
-    value: EventMeetingType;
-    label: EventMeetingType;
-  }[] = [
-    {
-      value: 'Onsite interview',
-      label: 'Onsite interview',
-    },
-    {
-      value: 'Phone interview',
-      label: 'Phone interview',
-    },
-  ];
-
-  if (calendarProvider === CALENDAR.Google) {
-    eventMeetingTypes.push({
-      value: 'Google Meet interview',
-      label: 'Google Meet interview',
-    });
-  } else if (calendarProvider === CALENDAR.Outlook) {
-    eventMeetingTypes.push({
-      value: 'Microsoft Teams interview',
-      label: 'Microsoft Teams interview',
-    });
+  interface Interviewer {
+    firstName?: string;
+    lastName?: string;
+    role: string;
   }
-
-  useEffect(() => {
-    updateCurrentApplicantId(currentApplicantId);
-  }, [currentApplicantId]);
-
-  useEffect(() => {
-    const timezones = moment.tz.names();
-    localStorage.setItem('remTime', 'mins');
-    [
-      'applicant',
-      'applicant_id',
-      'jd',
-      'jd_id',
-      'eDate',
-      'timezone',
-      'event_type',
-      'notes',
-      'privateNotes',
-      'location',
-      'interviewers',
-      'remMin',
-    ].forEach((item) => localStorage.removeItem(item));
-
-    localStorage.setItem(
-      'timezone',
-      Intl.DateTimeFormat().resolvedOptions().timeZone,
-    );
-    localStorage.setItem('sDate', new Date().toString());
-    localStorage.setItem('remMin', '15');
-
-    if (editEventDetails) {
-      setCurrentUserLabel(editEventDetails.applicant.name);
-    } else if (cand_name && jd_name && cand_id && jd_id && cand_email) {
-      setCurrentApplicantId(cand_id);
-      setCurrentUserLabel(cand_name);
-      setMeetingForm((form) => ({
-        ...form,
-        applicant: { ...form.applicant, email: cand_email },
-        job: { ...form.job, label: jd_name, value: jd_id },
-      }));
-    }
-
-    setGlobalZones(
-      timezones.map((timezone) => {
-        return { label: timezone, value: timezone };
-      }),
-    );
-  }, []);
-
-  const closeAddInterviewerSlider = () => {
-    setOpenAddInterviewerModal(!openAddInterviewerModal);
+  
+  interface MyFormValues {
+    interviewers: Interviewer[];
+  }
+  
+  const initialValues: MyFormValues = {
+    interviewers: [
+      { firstName: "", lastName: "", role: "" },
+    ],
   };
+ 
 
-  const handleContinue = () => {
-    if (localStorage.getItem('Applicantname') !== '') {
+  const handleValidation = (formValues: MyFormValues) => {
+  
+}
+
+  
+const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
+  const { resetForm, errors } = formikHelpers;
+  
+
+  
+  
+
+
+
+
+
+ 
+   if (localStorage.getItem('Applicantname') !== '') {
       localStorage.setItem(
         'Applicantsname',
         localStorage.getItem('Applicantname'),
@@ -283,7 +246,219 @@ const MeetingSchedulingForm = ({
       }
     }
    }
+  }
+  const formik = useFormik({
+    initialValues: initialValues,
+    validate: handleValidation,
+    onSubmit: handleSubmit,
+   
+  });
+
+
+
+  const eventMeetingTypes: {
+    value: EventMeetingType;
+    label: EventMeetingType;
+  }[] = [
+    {
+      value: 'Onsite interview',
+      label: 'Onsite interview',
+    },
+    {
+      value: 'Phone interview',
+      label: 'Phone interview',
+    },
+  ];
+
+  if (calendarProvider === CALENDAR.Google) {
+    eventMeetingTypes.push({
+      value: 'Google Meet interview',
+      label: 'Google Meet interview',
+    });
+  } else if (calendarProvider === CALENDAR.Outlook) {
+    eventMeetingTypes.push({
+      value: 'Microsoft Teams interview',
+      label: 'Microsoft Teams interview',
+    });
+  }
+
+  useEffect(() => {
+    updateCurrentApplicantId(currentApplicantId);
+  }, [currentApplicantId]);
+
+  useEffect(() => {
+    const timezones = moment.tz.names();
+    localStorage.setItem('remTime', 'mins');
+    [
+      'applicant',
+      'applicant_id',
+      'jd',
+      'jd_id',
+      'eDate',
+      'timezone',
+      'event_type',
+      'notes',
+      'privateNotes',
+      'location',
+      'interviewers',
+      'remMin',
+    ].forEach((item) => localStorage.removeItem(item));
+
+    localStorage.setItem(
+      'timezone',
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
+    );
+    localStorage.setItem('sDate', new Date().toString());
+    localStorage.setItem('remMin', '15');
+
+    if (editEventDetails) {
+      setCurrentUserLabel(editEventDetails.applicant.name);
+    } else if (cand_name && jd_name && cand_id && jd_id && cand_email) {
+      setCurrentApplicantId(cand_id);
+      setCurrentUserLabel(cand_name);
+      setMeetingForm((form) => ({
+        ...form,
+        applicant: { ...form.applicant, email: cand_email },
+        job: { ...form.job, label: jd_name, value: jd_id },
+      }));
+    }
+
+    setGlobalZones(
+      timezones.map((timezone) => {
+        return { label: timezone, value: timezone };
+      }),
+    );
+  }, []);
+
+  const closeAddInterviewerSlider = () => {
+    setOpenAddInterviewerModal(!openAddInterviewerModal);
   };
+
+  // const handleContinue = () => {
+  //   if (localStorage.getItem('Applicantname') !== '') {
+  //     localStorage.setItem(
+  //       'Applicantsname',
+  //       localStorage.getItem('Applicantname'),
+  //     );
+  //   }
+  //   localStorage.setItem('Applicantname', '');
+  //   localStorage.setItem('Jdname', '');
+  //   localStorage.setItem('jdid', '');
+  //   setMeetingForm((form) => {
+  //     let jobError = !form.job.label ? true : false;
+  //     let applicantError = !form.applicant.name ? true : false;
+  //     let eventTypeError = !form.eventType.value ? true : false;
+  //     let timeZoneError = !editEventDetails
+  //       ? form.timeZone.value === null
+  //         ? true
+  //         : false
+  //       : false;
+  //     let dateError = form.date.value === null ? true : false;
+  //     let locationError =
+  //       form.eventType.value === 'Onsite interview' &&
+  //       isEmpty(form.location.value)
+  //         ? true
+  //         : false;
+  //     return {
+  //       ...form,
+  //       job: { ...form.job, error: jobError },
+  //       location: {...form.location, error: locationError},
+  //       applicant: { ...form.applicant, error: applicantError },
+  //       eventType: { ...form.eventType, error: eventTypeError },
+  //       timeZone: { ...form.timeZone, error: timeZoneError },
+  //       date: { ...form.date, error: dateError },
+  //       startTime: {
+  //         ...form.startTime,
+  //         errorMessage: !form.startTime.value ? 'Start time is required' : null,
+  //       },
+  //       endTime: {
+  //         ...form.endTime,
+  //         errorMessage: !form.endTime.value ? 'End time is required' : null,
+  //       },
+  //     };
+  //   });
+
+  //   if (editEventDetails) {
+  //     if (
+  //       meetingForm.eventType.value &&
+  //       meetingForm.startTime.value &&
+  //       meetingForm.date.value !== null &&
+  //       meetingForm.endTime.value &&
+  //       new Date(meetingForm.startTime.value) <
+  //         new Date(meetingForm.endTime.value)
+  //     ) {
+  //       setMeetingForm((form) => {
+  //         const { startDateTime, endDateTime } = getNewDateTimes(
+  //           form.date.value,
+  //           form.startTime.value,
+  //           form.endTime.value,
+  //         );
+  //         return {
+  //           ...form,
+  //           startDateTime,
+  //           endDateTime,
+  //         };
+  //       });
+  //       setViewMeetingSummary(true);
+  //     }
+  //   } else {
+  //     if (meetingForm.eventType.value === 'Onsite interview') {
+  //       if (
+  //         meetingForm.applicant.name &&
+  //         meetingForm.job.label &&
+  //         meetingForm.location.value &&
+  //         meetingForm.eventType.value &&
+  //         meetingForm.timeZone.value &&
+  //         meetingForm.date.value !== null &&
+  //         meetingForm.startTime.value &&
+  //         meetingForm.endTime.value &&
+  //         new Date(meetingForm.startTime.value) <
+  //           new Date(meetingForm.endTime.value)
+  //       ) {
+  //         setMeetingForm((form) => {
+  //           const { startDateTime, endDateTime } = getNewDateTimes(
+  //             form.date.value,
+  //             form.startTime.value,
+  //             form.endTime.value,
+  //           );
+  //           return {
+  //             ...form,
+  //             startDateTime,
+  //             endDateTime,
+  //           };
+  //         });
+  //         setViewMeetingSummary(true);
+  //       } 
+  //   }
+  //   else {
+  //     if (
+  //       meetingForm.applicant.name &&
+  //       meetingForm.job.label && 
+  //       meetingForm.eventType.value &&
+  //       meetingForm.timeZone.value &&
+  //       meetingForm.date.value !== null &&
+  //       meetingForm.startTime.value &&
+  //       meetingForm.endTime.value &&
+  //       new Date(meetingForm.startTime.value) <
+  //         new Date(meetingForm.endTime.value)
+  //     ) {
+  //       setMeetingForm((form) => {
+  //         const { startDateTime, endDateTime } = getNewDateTimes(
+  //           form.date.value,
+  //           form.startTime.value,
+  //           form.endTime.value,
+  //         );
+  //         return {
+  //           ...form,
+  //           startDateTime,
+  //           endDateTime,
+  //         };
+  //       });
+  //       setViewMeetingSummary(true);
+  //     }
+  //   }
+  //  }
+  // };
 
   const handleJobRole = (value: number, label: string) => {
     localStorage.setItem('jd', label);
@@ -729,29 +904,104 @@ const MeetingSchedulingForm = ({
       </div>
     </div>
   );
+  const data = [
+    "Software Developer",
+    "System Administrator",
+    "Database Administrator",
+    "Network Engineer",
+    "IT Support Specialist",
+    "Security Analyst",
+    "Cloud Architect",
+    "DevOps Engineer",
+    "Front-end Developer",
+    "Back-end Developer",
+    "Full-stack Developer",
+    "QA Engineer",
+    "Mobile App Developer",
+    "Web Developer",
+    "Data Scientist",
+    "Machine Learning Engineer",
+    "IT Project Manager",
+    "Business Analyst",
+    "UI/UX Designer",
+    "Application Support Analyst",
+    "Technical Writer",
+    "IT Manager",
+    "CTO",
+    "CIO",
+    "Help Desk Technician",
+    "System Architect",
+    "Network Administrator",
+    "IT Consultant",
+    "SEO Specialist",
+    "Data Analyst",
+    "ERP Specialist",
+    "CRM Developer",
+    "Embedded Systems Engineer",
+    "Cybersecurity Specialist",
+    "Game Developer",
+    "Hardware Engineer",
+    "IT Auditor",
+    "Infrastructure Engineer",
+    "IT Coordinator",
+    "IT Sales Representative",
+    "IT Trainer",
+    "Java Developer",
+    "JavaScript Developer",
+    "PHP Developer",
+    "Python Developer",
+    "Ruby Developer",
+    "Solutions Architect",
+    "Technical Support Engineer",
+    "Virtualization Engineer",
+    "Web Designer",
+    "Wireless Communication Engineer",
+    "IoT Developer",
+    "AI Specialist",
+    "Blockchain Developer",
+    "Cloud Solutions Developer",
+    "Digital Transformation Consultant",
+    "E-commerce Specialist",
+    "Network Security Specialist",
+    "RPA Developer",
+    "SaaS Developer",
+    "Virtual Reality Developer",
+  ]
+  function splitName(username1) {
+    const parts = username1.trim().split(/\s+/); 
+    const firstName = parts[0] || "";
+    const lastName = parts.slice(1).join(" ") || ""; 
+    return {
+      firstName,
+      lastName
+    };
+  }
 
+  
   const AddInterviewerView = (
-    <div className={styles.addInterviewer}>
-      <label className={styles.label}>Interviewers</label>
-      <div className={styles.icons}>
-        <>
-          <div
+    <div className={styles.notes1}>
+      <label
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: '7px',
+        }}
+      >
+        <p style={{ color: '#581845', fontSize: '13px' }}>Interviewers</p>
+        <div
             role={'button'}
             tabIndex={0}
             onClick={closeAddInterviewerSlider}
             style={{ cursor: 'pointer', marginTop: '3px' }}
           >
-            <SvgAddInterviewers />
+             <SvgAdd width={10} height={10} fill="#581854" />
+            <Text style={{padding:'0 0 0 5px'}} color='link'>Add Interviewers</Text>
           </div>
-          {username && <InterviewerIcon name={username} />}
-          {meetingForm.interviewer.length > 0 &&
-            meetingForm.interviewer.map((user, index) => (
-              <InterviewerIcon
-                name={`${user.firstName} ${user.lastName}`}
-                key={index}
-                index={index}
-              />
-            ))}
+      </label>
+      
+            
+        <>     
           {openAddInterviewerModal && (
             <AddInterviewerSlider
               currentUserEvents={currentUserEvents}
@@ -768,7 +1018,7 @@ const MeetingSchedulingForm = ({
             />
           )}
         </>
-      </div>
+      
     </div>
   );
 
@@ -868,9 +1118,9 @@ const MeetingSchedulingForm = ({
         </button>
       </div>
       <div>
-        <button onClick={handleContinue} className={styles.continueButton}>
+        <Button onClick={formik.handleSubmit} className={styles.continueButton}>
           Continue
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -969,10 +1219,10 @@ const MeetingSchedulingForm = ({
         {TimingView}
         {<DurationView />}
         {<TimeZoneView />}
-        {EventTypeView}
-        {AddInterviewerView}
+          {EventTypeView}
+          {RemindarView}
+          {AddInterviewerView}
         {LocationView}
-        {RemindarView}
         {NotesView}
         {PrivateNotesView}
       </div>

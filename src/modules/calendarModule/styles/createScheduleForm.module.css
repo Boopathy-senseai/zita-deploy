@@ -46,6 +46,21 @@
   grid-column: 1 / span 2;
   white-space: nowrap;
 }
+.notes1{
+  color: rgba(26, 26, 26, 0.5);
+  grid-column: 1 / span 2;
+  white-space: nowrap;
+}
+.notes2{
+    color: rgba(26, 26, 26, 0.5);
+    grid-column: 1 / span 2;
+    white-space: nowrap;
+    display: grid;
+    grid-template-columns: [one] 1fr [two] 1fr [three];
+    grid-template-rows: auto;
+    grid-gap: 20px 20px;
+    padding: 0 0 10px 0;
+}
 
 .notes div:first-child {
   display: flex;
