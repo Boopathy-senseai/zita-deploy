@@ -59,3 +59,67 @@
   overflow-wrap: break-word;
   font-size: 12;
 }
+
+
+.btnwithContent{
+  justify-content: space-between;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.overallScore{
+  justify-content: space-between;
+}
+
+.sliderstyle{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 15px;
+  flex-wrap: wrap;
+}
+.innerstyle{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center 
+}
+
+
+.customrange {
+  width: 100%;
+  height: 10px;
+  background: #d3d3d3;
+  outline: none;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* Style for the movable part (thumb) */
+.customrange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #ffffff; /* White color */
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #cccccc;
+}
+
+.customrange:focus {
+  outline: none;
+}
+.parent{
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+margin-top: 15px;
+justify-content: space-between;
+
+}
+
+.techcardstyles{
+  padding-left: 16px
+}
