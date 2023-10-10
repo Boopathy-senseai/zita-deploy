@@ -304,6 +304,34 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                                 />
                               </div>
                             </Flex>
+                          
+                          )}
+                               {list.jd_status__label_name === 'weightage' && (
+                            <Flex row top>
+                              <LinkWrapper
+                                to={`/jobs/weightagematching/${list.id}`}
+                                className={styles.maxwidthjobtype}
+                              >
+                                <Text color="link" bold title={list.job_title}>
+                                  {list.job_title}
+                                </Text>
+                              </LinkWrapper>{' '}
+                              <div
+                                tabIndex={0}
+                                role={'button'}
+                                style={{
+                                  marginLeft: 8,
+                                  marginTop: 1,
+                                  cursor: 'default',
+                                }}
+                              >
+                                <SvgCopy
+                                  width={11.33}
+                                  height={13.33}
+                                  fill={'rgb(88 24 69/30%)'}
+                                />
+                              </div>
+                            </Flex>
                           )}
                           {list.jd_status__label_name === 'Preview' && (
                             <Flex row top>

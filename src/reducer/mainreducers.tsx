@@ -50,6 +50,7 @@ import {
   questionnaireForJdReducers,
   selectDsorNonDsReducers,
   validateJobIDReducers,
+  weightageReducers,
 } from '../modules/createjdmodule/store/reducer/createjdreducer';
 import {
   jdViewReducers,
@@ -224,5 +225,6 @@ export const reducers = {
   calendarEventsReducers,
   googleConflictReducers,
   outlookConflictReducers,
-  calendarConfigurationReducers
+  calendarConfigurationReducers,
+  weightageReducers,
 };

@@ -2,7 +2,7 @@
     /* position: relative; */
     /* margin: 0 400px; */
     /* margin-bottom: 36px; */
-    margin-left: 45px;
+    margin-right: -32px;
     padding: 10px 0 20px 0;
   }
   .stepOne {
@@ -27,6 +27,7 @@
     right: 32px;
   
   }
+  
   .sliderstyle{
     display: flex;
     justify-content: space-between;
@@ -35,6 +36,7 @@
     padding-top: 15px;
     flex-wrap: wrap;
   }
+
   .innerstyle{
     display: flex;
     align-items: center;
@@ -81,6 +83,7 @@
   margin-top: 15px;
 }
 .bottombtnContainer {
+position: absolute;
 
   margin-top: 8px;
   bottom: 10px;

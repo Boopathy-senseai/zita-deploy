@@ -43,7 +43,7 @@ import {
   questionnaireSavePayload,
   AIoutput,
 } from '../../createJdTypes';
-import { weightagematching } from '../../../../appRoutesPath';
+import { weightagematching, weightagematchingurl } from '../../../../appRoutesPath';
 var querystring = require('qs');
 
 export const jdParserMiddleWare = createAsyncThunk(
@@ -572,11 +572,12 @@ export const selectDsorNonDsMiddleWare = createAsyncThunk(
 
 
 // );
-export const WeightagematchingMiddleWare = createAsyncThunk(
+export const WeightagematchinggetMiddleWare = createAsyncThunk(
   'weightage_matching',
-  async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
+  async ( jd_id: string | undefined , { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(weightagemating);
+      const url = jd_id ? `${weightagematchingurl}?pk=${jd_id}` : weightagematchingurl;
+      const { data } = await axios.get(url);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -595,7 +596,7 @@ export const WeightagematchingpostMiddleWare = createAsyncThunk('weightage_match
     
     try {
       const { data } = await axios.post(
-        weightagemating,
+        weightagematchingurl,
         formData
       );
       return data;
