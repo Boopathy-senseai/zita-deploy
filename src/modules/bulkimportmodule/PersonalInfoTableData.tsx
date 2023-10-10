@@ -130,7 +130,7 @@ Props) => {
             }),
           ).then((response)=>{
             if(response.payload.success === false){
-  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
             }
           })
           dispatch(uploadedProfileViewMiddleWare({ id: canId }));

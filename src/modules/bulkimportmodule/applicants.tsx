@@ -133,7 +133,7 @@ const ApplicantsTab = ({
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
         else {
@@ -177,7 +177,7 @@ const ApplicantsTab = ({
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
         else {
@@ -202,7 +202,7 @@ const ApplicantsTab = ({
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
         else {
@@ -227,7 +227,7 @@ const ApplicantsTab = ({
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
         else {
@@ -303,7 +303,7 @@ const ApplicantsTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
 
           else {
@@ -328,7 +328,7 @@ const ApplicantsTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
 
           else {
@@ -353,7 +353,7 @@ const ApplicantsTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
 
           else {
@@ -378,7 +378,7 @@ const ApplicantsTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
 
           else {
@@ -400,7 +400,7 @@ const ApplicantsTab = ({
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
         else {
@@ -421,7 +421,7 @@ const ApplicantsTab = ({
     e.preventDefault();
     dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then((res) => {
       if (res.payload.success === false) {
-        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
       }
 
       else {
@@ -449,14 +449,14 @@ const ApplicantsTab = ({
     formData.append('jd_id', isJdId);
     dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
       if (res.payload.success === false) {
-        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
       }
       else {
         dispatch(
           bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
         ).then((response) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
 
           else {
@@ -472,7 +472,7 @@ const ApplicantsTab = ({
   const hanldeParsing = () => {
     dispatch(bulkuploadedParsingMiddleWare({ parser: formik.values.parser })).then((response) => {
       if(response.payload.success === false){ 
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           } 
       
       else {
@@ -481,14 +481,14 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
         else {
           setPageNumber(0);
           dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((respond) => {
             if (respond.payload.success === false) {
-              Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+              Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
             }
           })
         }
@@ -502,7 +502,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
     }}).then(() => {
       dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
       })
     })
@@ -513,7 +513,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
     setLoad(true);
     dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: jdId })).then((res) => {
       if (res.payload.success === false) {
-        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
       }
 
       else {

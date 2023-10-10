@@ -102,7 +102,7 @@ const ContactAdd = ({
               ).then((res) => {
                 console.log(res,'ddsdvsvsvdsfbvdvdsfbvadbdfbdfb')
                 if (res.payload.success === false) {
-                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
                 }
                 else {
                   Toast('Contact updated successfully', 'LONG', 'success');
@@ -120,7 +120,7 @@ const ContactAdd = ({
                 }),
               ).then((res) => {
                 if (res.payload.success === false) {
-                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
                 }
                 else {
                   Toast('Contact updated successfully', 'LONG', 'success');
@@ -140,7 +140,7 @@ const ContactAdd = ({
                 }),
               ).then((res) => {
                 if (res.payload.success === false) {
-                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
                 }
                 else {
                   Toast('Contact updated successfully', 'LONG', 'success');
@@ -158,7 +158,7 @@ const ContactAdd = ({
                 }),
               ).then((res) => {
                 if (res.payload.success === false) {
-                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
                 }
                 else {
                   Toast('Contact updated successfully', 'LONG', 'success');
@@ -178,7 +178,7 @@ const ContactAdd = ({
                 }),
               ).then((res) => {
                 if (res.payload.success === false) {
-                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
                 }
                 else {
                   Toast('Contact updated successfully', 'LONG', 'success');
@@ -196,7 +196,7 @@ const ContactAdd = ({
                 }),
               ).then((res) => {
                 if (res.payload.success === false) {
-                  Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+                  Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
                 }
                 else {
                   Toast('Contact updated successfully', 'LONG', 'success');

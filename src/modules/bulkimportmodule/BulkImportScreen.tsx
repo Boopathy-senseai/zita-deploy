@@ -42,7 +42,7 @@ const BulkImportScreen = () => {
     dispatch(bulkImportMiddleWare());
     dispatch(bulkuploadedCandidatesMiddleWare({})).then((res) => {
       if (res.payload.success === false) {
-        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
       }
     });
   }, []);
@@ -93,7 +93,7 @@ const BulkImportScreen = () => {
     dispatch(bulkuploadedCandidatesMiddleWare({ search: values.searchValue }))
       .then((response) => {
         if (response.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
         else {
           setSearch(response.payload.search);
@@ -123,7 +123,7 @@ const BulkImportScreen = () => {
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
         else {
           getFocus('candidates__input');
@@ -150,7 +150,7 @@ const BulkImportScreen = () => {
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
         else {
           getFocus('candidates__input');
@@ -174,7 +174,7 @@ const BulkImportScreen = () => {
     )
       .then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
         else {
           getFocus('candidates__input');

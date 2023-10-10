@@ -116,7 +116,7 @@ const CandidateDatabaseTab = ({
     if (searchValue === '') {
       dispatch(bulkuploadedCandidatesMiddleWare({})).then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
       })
@@ -220,7 +220,7 @@ const CandidateDatabaseTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
           else {
             getFocus('candidates__input');
@@ -243,7 +243,7 @@ const CandidateDatabaseTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
           else {
             getFocus('candidates__input');
@@ -266,7 +266,7 @@ const CandidateDatabaseTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
           else {
             getFocus('candidates__input');
@@ -289,7 +289,7 @@ const CandidateDatabaseTab = ({
       )
         .then((res) => {
           if (res.payload.success === false) {
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           }
           else {
             getFocus('candidates__input');
@@ -312,7 +312,7 @@ const CandidateDatabaseTab = ({
     e.preventDefault();
     dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then((res) => {
       if (res.payload.success === false) {
-        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
       }
       else {
         getFocus('candidates__input');
@@ -333,7 +333,7 @@ const CandidateDatabaseTab = ({
     e.preventDefault();
     dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then((res) => {
       if (res.payload.success === false) {
-        Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+        Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
       }
       else {
         getFocus('candidates__input');
@@ -347,14 +347,14 @@ const CandidateDatabaseTab = ({
   const hanldeParsing = () => {
     dispatch(bulkuploadedParsingMiddleWare({ parser: formik.values.parser })).then((response) => {
       if(response.payload.success === false){ 
-Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
           } 
       
       else {
       setcount(response.payload.Resume_parsing_count)
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
         else {
           setPageNumber(0);
@@ -369,7 +369,7 @@ Toast('Sorry, there was a problem connecting to the API. Please try again later.
     }}).then(() => {
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then((res) => {
         if (res.payload.success === false) {
-          Toast('Sorry, there was a problem connecting to the API. Please try again later.')
+          Toast('Sorry, there was a problem connecting to the API. Please try again later.','LONG','error')
         }
 
       })
