@@ -59,6 +59,7 @@
 .customrange::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 20px;
+    cursor: none;
     height: 20px;
     background: #ffffff; /* White color */
     border-radius: 50%;

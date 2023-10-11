@@ -575,6 +575,19 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                         ) : (
                           ''
                         )}
+                          {list.jd_status__label_name === 'weightage' ? (
+                          <div
+                            style={{
+                              color: '#FCC203',
+                              fontWeight: 600,
+                              fontSize: 13,
+                            }}
+                          >
+                            {'Draft'}{' '}
+                          </div>
+                        ) : (
+                          ''
+                        )}
                         {list.jd_status__label_name === 'Inactive' ? (
                           <div
                             style={{

@@ -7,7 +7,7 @@ import { useDispatch ,useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 
-import { Button, LinkWrapper, Loader, Text } from '../../uikit';
+import { Button, LinkWrapper, Loader, Text, Toast } from '../../uikit';
 import { Flex } from '../../uikit'
 
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
@@ -46,7 +46,6 @@ const Weightagematching = () => {
   const [rangeValueQualifications, setRangeValueQualifications] = useState<any>(10);
   const [rangeValueTechnical, setRangeValueTechnical] = useState<any>(20);
   const [rangeValueSoft, setRangeValueSoft] = useState<any>(10);
-
 
 
   const [rangeValueIndustry, setRangeValueIndustry] = useState<any>(20);
@@ -161,9 +160,15 @@ const nextfunction=()=>{
        formData
     }),
   ).then((res) => {
-    setnextLoader(false);
-    questionnairePath(jd_id);
-    console.log("res",res)
+    if (res.payload.success === false) {
+      setnextLoader(false);
+      Toast('Error saving weightage settings. Please try again.', 'LONG', 'error');
+    }
+    else {
+      setnextLoader(false);
+      questionnairePath(jd_id);
+      console.log("res",res)
+    }
   })}
 }
 
@@ -300,8 +305,13 @@ const saveasdraftfunction=()=>{
        formData
     }),
   ).then((res) => {
-    setBtnLoader(false);
-    console.log("res",res)
+    if (res.payload.success === false) {
+      Toast('Error saving weightage settings. Please try again.', 'LONG', 'error');
+    }
+    else {     
+     // Toast('Weightage settings saved successfully!', 'LONG');
+      console.log("res", res)
+    }
   })
 }
 
