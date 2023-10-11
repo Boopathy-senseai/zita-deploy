@@ -146,7 +146,7 @@
   overflow: hidden;
   padding-top: 16px;
   box-shadow: 1px 2px 2px #d7c7d2;
-  border-top-right-radius: 0px;
+  /* border-top-right-radius: 0px; */
 }
 .sidemenucontent{
   overflow-x: hidden;
@@ -175,16 +175,18 @@
   width: 3px;
 }
 .sidebar a {
-  padding: 1px 10px 1px 10px;
+  padding: 1px 0px 1px 10px;
   text-decoration: none;
   font-size: 20px;
   color: #581845;
   display: block;
   margin-bottom: 4px;
-  margin-left: 4px;
+  /* margin-left: 4px; */
   margin-right: 4px;
-  border-left: 6px solid #ffffff !important;
+  /* border-left: 6px solid #ffffff !important; */
   /* transition: width 0.3s ease; */
+  width: 95%;
+  border-radius: 5px;
 }
 
 .text {
@@ -199,7 +201,7 @@
   align-content: center;
   flex-wrap: wrap;
   cursor: pointer;
-  margin-right: 8px;
+  /* margin-right: 8px; */
 }
 
 .classpan {
@@ -217,15 +219,49 @@
   color: #581845;
   background-color: #eee8ec;
   border-radius: 0px 5px 5px 0px;
-  /* transition: width 0.3s ease; */
-  height: 100%;
+}
+
+.overviewpopupdropdown .hoverview:hover {
+  border-radius: 0px 5px 5px 0px;
+  color: #581845;
+  background-color: #eee8ec;
+  width: 100%;
+}
+.jobspopupdropdown .hoverview:hover {
+  border-radius: 0px 5px 5px 0px;
+  color: #581845;
+  background-color: #eee8ec;
+  width: 100%;
+}
+.candipopupdropdown .hoverview:hover {
+  border-radius: 0px 5px 5px 0px;
+  color: #581845;
+  background-color: #eee8ec;
+  width: 100%;
+}
+.commpopupdropdown .hoverview:hover {
+  border-radius: 0px 5px 5px 0px;
+  color: #581845;
+  background-color: #eee8ec;
+  width: 100%;
+}
+.brandpopupdropdown .hoverview:hover {
+  border-radius: 0px 5px 5px 0px;
+  color: #581845;
+  background-color: #eee8ec;
+  width: 100%;
+}
+.myaccpopupdropdown .hoverview:hover {
+  border-radius: 0px 5px 5px 0px;
+  color: #581845;
+  background-color: #eee8ec;
   width: 100%;
 }
 .selectitem.hoverview {
   border-radius: 5px 5px 5px 5px;
   color: #581845;
   background-color: #eee8ec;
-  border-left: 6px solid #581845 !important;
+  /* border-left: 6px solid #581845 !important; */
   cursor: not-allowed;
 }
 .selectitem {
@@ -236,7 +272,7 @@
   border-radius: 5px 5px 5px 5px;
   color: #581845;
   background-color: #eee8ec;
-  border-left: 6px solid #581845 !important;
+  /* border-left: 6px solid #581845 !important; */
   /* transition: width 0.3s ease; */
 }
 
@@ -486,4 +522,49 @@ font-family: 'Courier New', Courier, monospace;
   word-break:break-word;
   hyphens: auto;
 
+}
+
+.select_row .newhoverview{
+  color: #581845;
+  background-color: #eee8ec;
+  border-radius: 5px 5px 5px 5px;
+  /* border-left: 6px solid #581845 !important; */
+  /* transition: width 0.3s ease; */
+  /* width: 75%; */
+}
+
+.liflex{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.overviewdropdownline{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+
+.jobsdropdownline{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+
+.candidatesdropdownline{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+
+.communicationdropdownline{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 140px;
+}
+
+.brandingdropdownline{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+
+.myaccountdropdownline{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
 }

@@ -44,7 +44,8 @@ const Sidebar = ({ changes, data }: props) => {
   const [checkplan, setcheckplan] = useState(false);
 
 // PopupDropdown Set State
-  const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(false);
+
+const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(false);
   const [isJobsPopupDropdownOpen, setJobsPopupDropdownOpen] = useState(false);
   const [isCandiPopupDropdownOpen, setCandiPopupDropdownOpen] = useState(false);
   const [isCommPopupDropdownOpen, setCommPopupDropdownOpen] = useState(false);
@@ -189,7 +190,7 @@ const Sidebar = ({ changes, data }: props) => {
     setMyaccPopupDropdownOpen(false);
   };
   const { permission, is_plan, isProfile, plan_id, career_page_url, super_user, roles } = useSelector(
-    ({ permissionReducers, userProfileReducers, myJobPostingDataReducers,dashboardEmpReducers }: RootState) => {
+    ({ permissionReducers, userProfileReducers,dashboardEmpReducers }: RootState) => {
       return {
         permission: permissionReducers.Permission,
         is_plan: permissionReducers.is_plan,
@@ -390,8 +391,7 @@ const Sidebar = ({ changes, data }: props) => {
         <ul style={{width:'100%'}}>
 {/* Overview Dropdown */}
           <li>
-            <div
-              >
+            <div>
             <Flex row
               title="Overview"
               className={styles.filtername}
@@ -406,12 +406,11 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         size= {13}
                         color="theme"
-                        style={{ cursor: 'Pointer', marginRight:"8px" }}
+                        style={{ cursor: 'Pointer', marginRight:"49px" }}
                         className={Expent === '0' ? styles.maintext : styles.classpan}
                       >
                       Overview
                       </Text>
-                      
                 </Flex>
                 {isOverviewDropdownOpen ? (
                   <Flex
@@ -434,10 +433,15 @@ const Sidebar = ({ changes, data }: props) => {
               </div>
               </li>
             {isOverviewDropdownOpen && (
-              <>
-              <Flex style={{backgroundColor: "#f7f7f7", textIndent:"22px"}}
+              
+              <Flex className={styles.liflex}>
+                <Flex 
+                  className={styles.overviewdropdownline}></Flex>
+              <Flex 
+              style={{ width: "166px",}}
               className={Expent === "0" ? "" : styles.classpan}
               >
+                <div style={{marginLeft:"14px"}}>
               {/* DashBoard */}
                 {is_plan ? (
                   changes ? (
@@ -446,14 +450,15 @@ const Sidebar = ({ changes, data }: props) => {
                       className={pathname === '/' ? styles.select_row : ''}
                     >
                       <Flex>
-                      <LinkWrapper className={styles.hoverview} 
+                      <LinkWrapper
+                      className={styles.hoverview} 
                       onClick={clearTabs}
                       >
                         <Text
                           onClick={() => {handleNavigate(1)}} 
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Dashboard
                         </Text>
@@ -476,7 +481,7 @@ const Sidebar = ({ changes, data }: props) => {
                           onClick={() => {handleNavigate(1)}}
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Dashboard
                         </Text>
@@ -502,7 +507,7 @@ const Sidebar = ({ changes, data }: props) => {
                         onClick={() => {handleNavigate(1)}}
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Dashboard
                       </Text>
@@ -546,8 +551,7 @@ const Sidebar = ({ changes, data }: props) => {
                             color="primary"
                             style={{
                               color: '#581845',
-                              marginRight: '10px',
-                              // marginLeft: '18px' 
+                              marginLeft: '3px'
                             }}
                           >
                             Reports
@@ -587,7 +591,7 @@ const Sidebar = ({ changes, data }: props) => {
                             style={{
                               color: '#581845',
                               marginRight: '10px',
-                              // marginLeft: '18px' 
+                              marginLeft: '3px'
                             }}
                           >
                             Reports
@@ -619,6 +623,7 @@ const Sidebar = ({ changes, data }: props) => {
                           style={{
                             color: '#581845',
                             marginRight: '10px',
+                            marginLeft: '3px',
                             cursor:'not-allowed'
                           }}
                         >
@@ -655,6 +660,7 @@ const Sidebar = ({ changes, data }: props) => {
                           style={{
                             color: '#581845',
                             marginRight: '10px',
+                            marginLeft: '3px',
                             cursor:'not-allowed'
                           }}
                         >
@@ -663,8 +669,9 @@ const Sidebar = ({ changes, data }: props) => {
                       </a>
                     </li>
                   )}
+                  </div>
                 </Flex>
-              </>
+              </Flex>
             )}
 {/* Jobs Dropdown */}
           <li>
@@ -709,9 +716,15 @@ const Sidebar = ({ changes, data }: props) => {
               </Flex>
               </li>
             {isJobsDropdownOpen && (
-            <>
-            <Flex style={{backgroundColor:'#f7f7f7', textIndent:"22px"}}
+            <Flex className={styles.liflex}>
+              <Flex 
+                className={styles.jobsdropdownline}
+                style={{display: isJobsDropdownOpen ? "" : "none" }}
+                  ></Flex>
+            <Flex 
+            style={{ width: "166px"}}
             className={Expent === "0" ? "" : styles.classpan}>
+              <div style={{marginLeft:"14px"}}>
             {/* Job Posting */}
               {is_plan ? (
                 changes ? (
@@ -735,7 +748,7 @@ const Sidebar = ({ changes, data }: props) => {
                         onClick={() => handleNavigate(2)}
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Job Postings
                       </Text>
@@ -763,7 +776,7 @@ const Sidebar = ({ changes, data }: props) => {
                         onClick={() => handleNavigate(2)}
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Job Posting
                       </Text>
@@ -794,7 +807,7 @@ const Sidebar = ({ changes, data }: props) => {
                       onClick={() => handleNavigate(2)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginLeft: '3px' }}
                     >
                       Job Postings
                     </Text>
@@ -821,10 +834,9 @@ const Sidebar = ({ changes, data }: props) => {
                     >
 
                       <Text
-                        // onClick={() => handleNavigate(2)}
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Post Jobs
                       </Text>
@@ -846,10 +858,9 @@ const Sidebar = ({ changes, data }: props) => {
                     >
 
                       <Text
-                        // onClick={() => handleNavigate(2)}
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Post Jobs
                       </Text>
@@ -874,10 +885,9 @@ const Sidebar = ({ changes, data }: props) => {
                   >
 
                     <Text
-                      // onClick={() => handleNavigate(2)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginLeft: '3px' }}
                     >
                       Post Jobs
                     </Text>
@@ -903,7 +913,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -912,7 +922,6 @@ const Sidebar = ({ changes, data }: props) => {
                   ) : (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
                         sessionStorage.getItem('superUserTab') === '7'
                           ? styles.select_row
@@ -923,14 +932,14 @@ const Sidebar = ({ changes, data }: props) => {
                         onClick={() => {
                           clearTab();
                         }}
-                        to={"/account_setting/settings?tab=7"}
+                        to={is_plan ? "/account_setting/settings?tab=7" : accountPath}
 
                       >
 
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -956,7 +965,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Tailor Workflow
                       </Text>
@@ -981,7 +990,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -1000,14 +1009,14 @@ const Sidebar = ({ changes, data }: props) => {
                         onClick={() => {
                           clearTab();
                         }}
-                        to={"/account_setting/settings?tab=3"}
+                        to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
 
                       >
 
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -1033,7 +1042,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Tailor Workflow
                       </Text>
@@ -1058,7 +1067,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -1076,16 +1085,15 @@ const Sidebar = ({ changes, data }: props) => {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
-                          sessionStorage.setItem('superUserTab', '3'); 
                         }}
-                        to={"/account_setting/settings?tab=3"}
+                        to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
 
                       >
 
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -1095,7 +1103,6 @@ const Sidebar = ({ changes, data }: props) => {
                 ) : (
                   <li
                     title="Tailor Workflow"
-                    // className={pathname === '/' ? styles.select_row : ''}
                     className={
                       sessionStorage.getItem('superUserTabTwo') === '3' &&
                       sessionStorage.getItem('superUserFalseTab') === '2' &&
@@ -1114,7 +1121,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Tailor Workflow
                       </Text>
@@ -1129,7 +1136,6 @@ const Sidebar = ({ changes, data }: props) => {
                   changes ? (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
                         sessionStorage.getItem('superUserTabTwo') === '3' &&
                         sessionStorage.getItem('superUserFalseTab') === '2' &&
@@ -1142,7 +1148,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -1151,7 +1157,6 @@ const Sidebar = ({ changes, data }: props) => {
                   ) : (
                     <li
                       title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
                       className={
                         sessionStorage.getItem('superUserTabTwo') === '3' &&
                         sessionStorage.getItem('superUserFalseTab') === '2' &&
@@ -1163,18 +1168,15 @@ const Sidebar = ({ changes, data }: props) => {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
-                          sessionStorage.setItem('superUserTabTwo','3')
-                          sessionStorage.setItem('superUserFalseTab', '2');
-                          sessionStorage.setItem('superUserTab', '7'); 
                         }}
-                        to={"/account_setting/settings?tab=2"}
+                        to={is_plan ? "/account_setting/settings?tab=2" : accountPath}
 
                       >
 
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Tailor Workflow
                         </Text>
@@ -1184,7 +1186,6 @@ const Sidebar = ({ changes, data }: props) => {
                 ) : (
                   <li
                     title="Tailor Workflow"
-                    // className={pathname === '/' ? styles.select_row : ''}
                     className={
                       sessionStorage.getItem('superUserTabTwo') === '3' &&
                       sessionStorage.getItem('superUserFalseTab') === '2' &&
@@ -1203,7 +1204,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Tailor Workflow
                       </Text>
@@ -1212,8 +1213,9 @@ const Sidebar = ({ changes, data }: props) => {
                 )}
               </> 
                 )}
+              </div>
               </Flex>
-            </>
+            </Flex>
             )}
 {/* Candidates Dropdown */}
             <li>
@@ -1221,7 +1223,6 @@ const Sidebar = ({ changes, data }: props) => {
                   title="Candidates"
                   className={styles.filtername}
                   onClick={() => {toggleCandiDropdown()}}
-                  // onClick={Expent === "0" ? ()=>{toggleCandiDropdown()} : ()=>{toggleCandiPopupDropdown()}}
 
                 >
                   <Flex row>
@@ -1263,8 +1264,15 @@ const Sidebar = ({ changes, data }: props) => {
               </Flex>
                   </li>
           {isCandiDropdownOpen && (
-            <Flex style={{backgroundColor:'#f7f7f7', textIndent:"22px"}}
+            <Flex className={styles.liflex}>
+              <Flex 
+                className={styles.candidatesdropdownline}
+                style={{display: isCandiDropdownOpen ? "" : "none" }}
+                  ></Flex>
+            <Flex 
+            style={{ width: "166px"}}
             className={Expent === "0" ? "" : styles.classpan}>
+            <div style={{marginLeft:"14px"}}>
             {permission.includes('my_database') && (
             <>
               {is_plan ? (
@@ -1289,7 +1297,7 @@ const Sidebar = ({ changes, data }: props) => {
                         color="primary"
                         style={{
                           color: '#581845',
-                          marginRight: '10px',
+                          marginLeft: '3px',
                         }}
                       >
                         Database
@@ -1317,7 +1325,7 @@ const Sidebar = ({ changes, data }: props) => {
                         color="primary"
                         style={{
                           color: '#581845',
-                          marginRight: '10px',
+                          marginLeft: '3px',
                         }}
                       >
                         Database
@@ -1346,7 +1354,7 @@ const Sidebar = ({ changes, data }: props) => {
                       color="primary"
                       style={{
                         color: '#581845',
-                        marginRight: '10px',
+                        marginLeft: '3px',
                       }}
                     >
                       Database
@@ -1378,7 +1386,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Talent Sourcing
                       </Text>
@@ -1403,7 +1411,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Talent Sourcing
                       </Text>
@@ -1429,7 +1437,7 @@ const Sidebar = ({ changes, data }: props) => {
                       onClick={() => handleNavigate(4)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginLeft: '3px' }}
                     >
                       Talent Sourcing
                     </Text>
@@ -1461,7 +1469,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Import Candidates
                       </Text>
@@ -1486,7 +1494,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Import Candidates
                       </Text>
@@ -1511,7 +1519,7 @@ const Sidebar = ({ changes, data }: props) => {
                       onClick={() => handleNavigate(5)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginLeft: '3px' }}
                     >
                       Import Candidates
                     </Text>
@@ -1520,6 +1528,8 @@ const Sidebar = ({ changes, data }: props) => {
               )}
             </>
           )}
+          </div>
+            </Flex>
             </Flex>
           )}
 {/* Communications Dropdown */}
@@ -1537,7 +1547,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <Text
                     size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer', marginRight:"8px"}}
+                    style={{ cursor: 'Pointer'}}
                     className={Expent === '0' ? styles.maintext : styles.classpan}
                   >
                     Communications
@@ -1563,10 +1573,16 @@ const Sidebar = ({ changes, data }: props) => {
               </Flex>
             </li>
             {isCommDropdownOpen && (
-                <> 
-                <Flex style={{backgroundColor: "#f7f7f7", textIndent:"22px"}}
+                <Flex className={styles.liflex}> 
+                  <Flex 
+                    className={styles.communicationdropdownline}
+                    style={{display: isCommDropdownOpen ? "" : "none" }}
+                      ></Flex>
+                <Flex
+                style={{ width: "166px"}}
                 className={Expent === "0" ? "" : styles.classpan}>
             {/* Calendar */}
+            <div style={{marginLeft: "14px"}}>
                 {(
                   <>
                     {is_plan ? (
@@ -1589,7 +1605,7 @@ const Sidebar = ({ changes, data }: props) => {
                                 Expent === '0' ? styles.text : styles.classpan
                               }
                               color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
+                              style={{ color: '#581845', marginLeft: '3px'}}
                             >
                               Calendar
                             </Text>
@@ -1614,7 +1630,7 @@ const Sidebar = ({ changes, data }: props) => {
                                 Expent === '0' ? styles.text : styles.classpan
                               }
                               color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
+                              style={{ color: '#581845', marginLeft: '3px'}}
                             >
                               Calendar
                             </Text>
@@ -1638,7 +1654,7 @@ const Sidebar = ({ changes, data }: props) => {
                             onClick={() => handleNavigate(7)}
                             className={Expent === '0' ? styles.text : styles.classpan}
                             color="primary"
-                            style={{ color: '#581845', marginRight: '10px'}}
+                            style={{ color: '#581845', marginLeft: '3px'}}
                           >
                             Calendar
                           </Text>
@@ -1664,7 +1680,7 @@ const Sidebar = ({ changes, data }: props) => {
                             <Text
                               className={Expent === '0' ? styles.text : styles.classpan}
                               color="primary"
-                              style={{ color: '#581845' }}
+                              style={{ color: '#581845', marginLeft: "3px" }}
                               >
                                 Integrations
                                 </Text> 
@@ -1689,7 +1705,7 @@ const Sidebar = ({ changes, data }: props) => {
                                       // onClick={() => handleNavigate(1)}
                                       className={Expent === '0' ? styles.text : styles.classpan}
                                       color="primary"
-                                      style={{ color: '#581845'}}
+                                      style={{ color: '#581845',marginLeft: "3px"}}
                                     >
                                       Integrations
                                     </Text>
@@ -1715,7 +1731,7 @@ const Sidebar = ({ changes, data }: props) => {
                                   <Text
                                     className={Expent === '0' ? styles.text : styles.classpan}
                                     color="primary"
-                                    style={{ color: '#581845'}}
+                                    style={{ color: '#581845',marginLeft: "3px"}}
                                   >
                                     Integrations
                                   </Text>
@@ -1740,7 +1756,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845' }}
+                        style={{ color: '#581845',marginLeft: "3px" }}
                       >
                         Integrations
                       </Text> 
@@ -1768,7 +1784,7 @@ const Sidebar = ({ changes, data }: props) => {
                         // onClick={() => handleNavigate(1)}
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845'}}
+                        style={{ color: '#581845',marginLeft: "3px"}}
                       >
                         Integrations
                       </Text>
@@ -1796,7 +1812,7 @@ const Sidebar = ({ changes, data }: props) => {
                       // onClick={() => handleNavigate(1)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845'}}
+                      style={{ color: '#581845',marginLeft: "3px"}}
                     >
                       Integrations
                     </Text>
@@ -1821,7 +1837,7 @@ const Sidebar = ({ changes, data }: props) => {
                     <Text
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845' }}
+                      style={{ color: '#581845',marginLeft: "3px" }}
                     >
                       Integrations
                     </Text> 
@@ -1847,7 +1863,7 @@ const Sidebar = ({ changes, data }: props) => {
                       // onClick={() => handleNavigate(1)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845'}}
+                      style={{ color: '#581845',marginLeft: "3px"}}
                     >
                       Integrations
                     </Text>
@@ -1875,7 +1891,7 @@ const Sidebar = ({ changes, data }: props) => {
                     // onClick={() => handleNavigate(1)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845'}}
+                    style={{ color: '#581845',marginLeft: "3px"}}
                   >
                     Integrations
                   </Text>
@@ -1886,7 +1902,6 @@ const Sidebar = ({ changes, data }: props) => {
             )}
             {roles === "HR" && (
             <>
-            {console.log("HRConsole", roles)}
             {is_plan ? (
               changes ? (
                 <li
@@ -1901,7 +1916,7 @@ const Sidebar = ({ changes, data }: props) => {
                     <Text
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845' }}
+                      style={{ color: '#581845',marginLeft: "3px" }}
                     >
                       Integrations
                     </Text> 
@@ -1929,7 +1944,7 @@ const Sidebar = ({ changes, data }: props) => {
                       // onClick={() => handleNavigate(1)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845'}}
+                      style={{ color: '#581845',marginLeft: "3px"}}
                     >
                       Integrations
                     </Text>
@@ -1957,7 +1972,7 @@ const Sidebar = ({ changes, data }: props) => {
                     // onClick={() => handleNavigate(1)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845'}}
+                    style={{ color: '#581845',marginLeft: "3px"}}
                   >
                     Integrations
                   </Text>
@@ -1989,7 +2004,7 @@ const Sidebar = ({ changes, data }: props) => {
                                 Expent === '0' ? styles.text : styles.classpan
                               }
                               color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
+                              style={{ color: '#581845', marginLeft: '3px'}}
                             >
                               Interview Scheduler
                             </Text>
@@ -2014,7 +2029,7 @@ const Sidebar = ({ changes, data }: props) => {
                                 Expent === '0' ? styles.text : styles.classpan
                               }
                               color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
+                              style={{ color: '#581845', marginLeft: '3px'}}
                             >
                               Interview Scheduler
                             </Text>
@@ -2040,7 +2055,7 @@ const Sidebar = ({ changes, data }: props) => {
                             onClick={() => handleNavigate(8)}
                             className={Expent === '0' ? styles.text : styles.classpan}
                             color="primary"
-                            style={{ color: '#581845', marginRight: '10px'}}
+                            style={{ color: '#581845', marginLeft: '3px'}}
                           >
                             Interview Scheduler
                           </Text>
@@ -2065,7 +2080,7 @@ const Sidebar = ({ changes, data }: props) => {
                           onClick={() => handleNavigate(7)}
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px'}}
+                          style={{ color: '#581845', marginLeft: '3px'}}
                         >
                           Mailbox
                         </Text>
@@ -2086,7 +2101,7 @@ const Sidebar = ({ changes, data }: props) => {
                               Expent === '0' ? styles.text : styles.classpan
                             }
                             color="primary"
-                            style={{ color: '#581845', marginRight: '10px' }}
+                            style={{ color: '#581845', marginLeft: '3px' }}
                           >
                             Mailbox
                           </Text>
@@ -2110,17 +2125,18 @@ const Sidebar = ({ changes, data }: props) => {
                             Expent === '0' ? styles.text : styles.classpan
                           }
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Mailbox
                         </Text>
                       </a>
                     </li>
                   )}
+                  </div>
                 </Flex>
-              </>
+              </Flex>
             )}
-            {/* Branding Dropdown */}
+{/* Branding Dropdown */}
             <li>
             <Flex row
                   title="Branding"
@@ -2162,15 +2178,21 @@ const Sidebar = ({ changes, data }: props) => {
               </Flex>
             </li>
             {isBrandDropdownOpen && (
-              <>
-              <Flex style={{backgroundColor:"#f7f7f7", textIndent:"22px"}}
-              className={Expent === "0" ? "" : styles.classpan}>
+              <Flex className={styles.liflex}>
+                <Flex 
+                  className={styles.brandingdropdownline}
+                  style={{display: isBrandDropdownOpen ? "" : "none" }}
+                    ></Flex>
+              <Flex
+                style={{ width: "166px"}}
+                className={Expent === "0" ? "" : styles.classpan}>
+              <div style={{marginLeft: "14px"}}>
               {/* Careers Page */}
                 {is_plan ? (
                   changes ? (
                     <li
                       title="Careers Page"
-                      className={pathname === `/${career_page_url}/careers` ? styles.select_row : ''}
+                      // className={pathname === `/${career_page_url}/careers` ? styles.select_row : ''}
                     >
                       <LinkWrapper className={styles.hoverview}
                       onClick={clearTabs}
@@ -2179,7 +2201,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Careers Page
                         </Text>
@@ -2188,7 +2210,7 @@ const Sidebar = ({ changes, data }: props) => {
                   ) : (
                     <li
                       title="Careers Page"
-                      className={pathname === `/${career_page_url}/careers` ? styles.select_row : ''}
+                      // className={pathname === `/${career_page_url}/careers` ? styles.select_row : ''}
                     > 
                       <LinkWrapper
                         className={styles.hoverview}
@@ -2204,7 +2226,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Careers Page
                         </Text>
@@ -2214,7 +2236,7 @@ const Sidebar = ({ changes, data }: props) => {
                 ) : (
                   <li
                     title="Careers Page"
-                    className={pathname === `/${career_page_url}/careers` ? styles.select_row : ''}
+                    // className={pathname === `/${career_page_url}/careers` ? styles.select_row : ''}
                   >
                     <a
                       className={styles.hoverview}
@@ -2227,7 +2249,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
                         Careers Page
                       </Text>
@@ -2253,7 +2275,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
                           Setup Careers Page
                         </Text> 
@@ -2278,7 +2300,7 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845'}}
+                          style={{ color: '#581845' , marginLeft: '3px'}}
                         >
                           Setup Careers Page
                         </Text>
@@ -2306,7 +2328,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845'}}
+                        style={{ color: '#581845' , marginLeft: '3px'}}
                       >
                         Setup Careers Page
                       </Text>
@@ -2315,10 +2337,11 @@ const Sidebar = ({ changes, data }: props) => {
                 )}
               </>
               }
+              </div>
                 </Flex>
-              </>
+              </Flex>
             )}
-            {/* Account Settings*/}
+{/* Account Settings*/}
             <li>
             <Flex row
                   title="My Account"
@@ -2333,7 +2356,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <Text
                     size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer' }}
+                    style={{ cursor: 'Pointer', marginLeft:"14px" }}
                     className={
                       Expent === '0' ? styles.maintext : styles.classpan
                     }
@@ -2361,363 +2384,67 @@ const Sidebar = ({ changes, data }: props) => {
               </Flex>
             </li>
             {isMyaccDropdownOpen && (
-              <>
-              <Flex style={{backgroundColor:"#f7f7f7", textIndent:"22px"}}
-              className={Expent === "0" ? "" : styles.classpan}>
-              {/* Profile */}
-              {super_user === true && roles === "Admin" && (
-              <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={ '/account_setting/settings?tab=0'}
-                    >
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Profile"
-                  className={
-                    sessionStorage.getItem('superUserTab') === '0'
-                      ? styles.select_row
-                      : ''}
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-
-                    <Text
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Profile
-                    </Text>
-                  </a>
-                </li>
-              )}
-              </>
-              )} 
-              {super_user === false && roles === "Admin" && (
-              <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                     onClick={()=>{
-                      // sessionStorage.setItem ('superUserTabTwo','0')
-                    }}
-                      to={ '/account_setting/settings?tab=0'}
-                    >
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Profile"
-                  className={
-                    sessionStorage.getItem('superUserTab') === '0'
-                      ? styles.select_row
-                      : ''}
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-
-                    <Text
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Profile
-                    </Text>
-                  </a>
-                </li>
-              )}
-              </>
-              )} 
-              {roles === "Hiring" && (
-              <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={ '/account_setting/settings?tab=0'}
-                    >
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Profile"
-                  className={
-                    sessionStorage.getItem('superUserTab') === '0'
-                      ? styles.select_row
-                      : ''}
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-
-                    <Text
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Profile
-                    </Text>
-                  </a>
-                </li>
-              )}
-              </>
-              )}
-              {roles === "HR" && (
-              <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Profile"
-                    className={
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={'/account_setting/settings?tab=0'}
-                    >
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profile
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Profile"
-                  className={
-                    sessionStorage.getItem('superUserTab') === '0'
-                      ? styles.select_row
-                      : ''}
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-
-                    <Text
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Profile
-                    </Text>
-                  </a>
-                </li>
-              )}
-              </>
-              )}
-
-              {/* Subscription */}
-              {super_user === true ? (
+              <Flex className={styles.liflex}>
+                <Flex 
+                  className={styles.myaccountdropdownline}
+                  style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                    ></Flex>
+                <Flex 
+                style={{ width: "166px"}}
+                  className={Expent === "0" ? "" : styles.classpan}>
+                    
+                  <div style={{marginLeft: "14px"}}>
+                {/* Profile */}
+                {super_user === true && roles === "Admin" && (
                 <>
-                { is_plan ? (
+                {is_plan ? (
                   changes ? (
                     <li
-                      title="Subscription"
+                      title="Profile"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '2'
+                        sessionStorage.getItem('superUserTab') === '0'
                           ? styles.select_row
                           : ''}
                     >
                       <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
 
                         <Text
-                          onClick={() => handleNavigate(1)}
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
-                          Subscription
+                          Profile
                         </Text>
                       </LinkWrapper>
                     </li>
                   ) : (
                     <li
-                      title="Subscription"
+                      title="Profile"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '2'
+                        sessionStorage.getItem('superUserTab') === '0'
                           ? styles.select_row
                           : ''}
                     >
                       <LinkWrapper
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        to={is_plan ? '/account_setting/settings?tab=2' : accountPath}
+                        to={ '/account_setting/settings?tab=0'}
                       >
 
                         <Text
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
-                          Subscription
+                          Profile
                         </Text>
                       </LinkWrapper>
                     </li>
                   )
                 ) : (
                   <li
-                    title="Subscription"
+                    title="Profile"
                     className={
-                      sessionStorage.getItem('superUserTab') === '2'
+                      sessionStorage.getItem('superUserTab') === '0'
                         ? styles.select_row
                         : ''}
                   >
@@ -2732,69 +2459,68 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
-                        Subscription
+                        Profile
                       </Text>
                     </a>
                   </li>
                 )}
                 </>
-              ):("")}
-              {/* Manage Users */}
-              {super_user === true ? (
+                )} 
+                {super_user === false && roles === "Admin" && (
                 <>
                 {is_plan ? (
                   changes ? (
                     <li
-                      title="Manage Users"
+                      title="Profile"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('superUserTab') === '0'
                           ? styles.select_row
                           : ''}
                     >
                       <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
 
                         <Text
-                          onClick={() => handleNavigate(1)}
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
-                          Manage Users
+                          Profile
                         </Text>
                       </LinkWrapper>
                     </li>
                   ) : (
                     <li
-                      title="Manage Users"
+                      title="Profile"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('superUserTab') === '0'
                           ? styles.select_row
                           : ''}
                     >
                       <LinkWrapper
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        to={is_plan ? '/account_setting/settings?tab=3' : accountPath}
+                      onClick={()=>{
+                        // sessionStorage.setItem ('superUserTabTwo','0')
+                      }}
+                        to={ '/account_setting/settings?tab=0'}
                       >
 
                         <Text
-                          onClick={() => handleNavigate(1)}
                           className={Expent === '0' ? styles.text : styles.classpan}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                          style={{ color: '#581845', marginLeft: '3px' }}
                         >
-                          Manage Users
+                          Profile
                         </Text>
                       </LinkWrapper>
                     </li>
                   )
                 ) : (
                   <li
-                    title="Manage Users"
+                    title="Profile"
                     className={
-                      sessionStorage.getItem('superUserTab') === '3'
+                      sessionStorage.getItem('superUserTab') === '0'
                         ? styles.select_row
                         : ''}
                   >
@@ -2809,17 +2535,322 @@ const Sidebar = ({ changes, data }: props) => {
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginLeft: '3px' }}
                       >
-                        Manage Users
+                        Profile
                       </Text>
                     </a>
                   </li>
-                )} 
+                )}
                 </>
-              ):("")} 
-                </Flex>  
-              </>
+                )} 
+                {roles === "Hiring" && (
+                <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Profile"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '0'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Profile
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Profile"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '0'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        to={ '/account_setting/settings?tab=0'}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Profile
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Profile"
+                    className={
+                      sessionStorage.getItem('superUserTab') === '0'
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845', marginLeft: '3px' }}
+                      >
+                        Profile
+                      </Text>
+                    </a>
+                  </li>
+                )}
+                </>
+                )}
+                {roles === "HR" && (
+                <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Profile"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '0'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Profile
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Profile"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '0'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        to={'/account_setting/settings?tab=0'}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Profile
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Profile"
+                    className={
+                      sessionStorage.getItem('superUserTab') === '0'
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845', marginLeft: '3px' }}
+                      >
+                        Profile
+                      </Text>
+                    </a>
+                  </li>
+                )}
+                </>
+                )}
+
+                {/* Subscription */}
+                {super_user === true ? (
+                  <>
+                  { is_plan ? (
+                    changes ? (
+                      <li
+                        title="Subscription"
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '2' &&
+                          sessionStorage.getItem('superUserFalseTab') === '2' &&
+                          sessionStorage.getItem('superUserTab') === '2'
+                            ? styles.select_row
+                            : ''}
+                      >
+                        <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={Expent === '0' ? styles.text : styles.classpan}
+                            color="primary"
+                            style={{ color: '#581845', marginLeft: '3px' }}
+                          >
+                            Subscription
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Subscription"
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '2' &&
+                          sessionStorage.getItem('superUserFalseTab') === '2' &&
+                          sessionStorage.getItem('superUserTab') === '2'
+                            ? styles.select_row
+                            : ''}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? '/account_setting/settings?tab=2' : accountPath}
+                        >
+
+                          <Text
+                            className={Expent === '0' ? styles.text : styles.classpan}
+                            color="primary"
+                            style={{ color: '#581845', marginLeft: '3px' }}
+                          >
+                            Subscription
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
+                  ) : (
+                    <li
+                      title="Subscription"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '2'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Subscription
+                        </Text>
+                      </a>
+                    </li>
+                  )}
+                  </>
+                ):("")}
+                {/* Manage Users */}
+                {super_user === true ? (
+                  <>
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Manage Users"
+                        className={
+                          sessionStorage.getItem('superUserTab') === '3'
+                            ? styles.select_row
+                            : ''}
+                      >
+                        <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={Expent === '0' ? styles.text : styles.classpan}
+                            color="primary"
+                            style={{ color: '#581845', marginLeft: '3px' }}
+                          >
+                            Manage Users
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Manage Users"
+                        className={
+                          sessionStorage.getItem('superUserTab') === '3'
+                            ? styles.select_row
+                            : ''}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? '/account_setting/settings?tab=3' : accountPath}
+                        >
+
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={Expent === '0' ? styles.text : styles.classpan}
+                            color="primary"
+                            style={{ color: '#581845', marginLeft: '3px' }}
+                          >
+                            Manage Users
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
+                  ) : (
+                    <li
+                      title="Manage Users"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '3'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Manage Users
+                        </Text>
+                      </a>
+                    </li>
+                  )} 
+                  </>
+                ):("")} 
+                </div>
+                  </Flex>  
+              </Flex>
             )}
           </ul>
         </div>
@@ -2832,6 +2863,7 @@ const Sidebar = ({ changes, data }: props) => {
                 Expent === '0' ? styles.sidebarexpand : styles.sidebarmin
               }
             >
+              <Flex style={{marginLeft: Expent === "0" ? "10px": "0px" }}>
               <LinkWrapper onClick={clearTab} to={'/account_setting/settings'}>
                 <SvgSetting fill={'#581845'} height={20} width={20} />
 
@@ -2843,6 +2875,7 @@ const Sidebar = ({ changes, data }: props) => {
                   Settings
                 </Text>
               </LinkWrapper>
+              </Flex>
             </li>
           ) : (
             <li>
@@ -2853,6 +2886,7 @@ const Sidebar = ({ changes, data }: props) => {
                   e.preventDefault();
                 }}
               >
+              <Flex style={{marginLeft: Expent === "0" ? "10px": "0px" }}>
                 <SvgSetting fill={'#581845'} height={20} width={20} />
                 <Text
                   className={Expent === '0' ? styles.text : styles.classpan}
@@ -2861,6 +2895,7 @@ const Sidebar = ({ changes, data }: props) => {
                 >
                   Settings
                 </Text>
+                </Flex>
               </a>
             </li>
           )}
@@ -2899,16 +2934,14 @@ const Sidebar = ({ changes, data }: props) => {
       {isOverviewPopupDropdownOpen && (
         <div ref={overviewdropdownRef}
               >
-              <Flex
-               className={styles.overviewpopupdropdown}
-               >
+              <Flex className={styles.overviewpopupdropdown}>
               {/* DashBoard */}
                 {is_plan ? (
                   changes ? (
                     <li
                       title="Dashboard"
                       className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
                       <LinkWrapper className={styles.hoverview}
@@ -2927,15 +2960,18 @@ const Sidebar = ({ changes, data }: props) => {
                     <li
                       title="Dashboard"
                       className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         to={is_plan ? '/' : accountPath}
                       >
+                        <div 
+                        style={{width:"100%"}}
+                        className={styles.hoverview}>
+
                         <Text
                           onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -2944,6 +2980,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Dashboard
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -2951,7 +2988,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <li
                     title="Dashboard"
                     className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
                   >
                     <a
                       className={styles.hoverview}
@@ -2977,7 +3014,7 @@ const Sidebar = ({ changes, data }: props) => {
                   {is_plan ? (
                     changes ? (
                       <li
-                      style={plan_id === 1?({cursor:'not-allowed !important'}):({width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"})}
+                      style={plan_id === 1?({cursor:'not-allowed !important'}):({ textIndent:"10px"})}
                         title={
                           plan_id === 1
                             ? 'Please subscribe to any of the paid plans to view the job metrics'
@@ -2992,7 +3029,7 @@ const Sidebar = ({ changes, data }: props) => {
                         }
                       >
                         <LinkWrapper
-                          className={styles.hoverview}
+                          
                           onClick={clearTabs}
                           to={
                             plan_id === 1
@@ -3002,6 +3039,7 @@ const Sidebar = ({ changes, data }: props) => {
                               : accountPath
                           }
                         >
+                          <div className={styles.hoverview}>
                           <Text
                             onClick={() => handleNavigate(6)}
                             className={styles.text}
@@ -3013,6 +3051,7 @@ const Sidebar = ({ changes, data }: props) => {
                           >
                             Reports
                           </Text>
+                          </div>
                         </LinkWrapper>
                       </li>
                     ) : (
@@ -3022,7 +3061,7 @@ const Sidebar = ({ changes, data }: props) => {
                             ? 'Please subscribe to any of the paid plans to view the job metrics'
                             : 'Reports'
                         }
-                        style={plan_id === 1?({cursor:'not-allowed !important'}):({width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"})}
+                        style={plan_id === 1?({cursor:'not-allowed !important'}):({ textIndent:"10px"})}
                         className={
                           pathname.includes('/reports')
                             ? styles.selectpopup_row
@@ -3030,9 +3069,9 @@ const Sidebar = ({ changes, data }: props) => {
                         }
                       >
                         <LinkWrapper
-                          className={
-                            plan_id === 1 ? styles.selectitem : styles.hoverview
-                          }
+                          // className={
+                          //   plan_id === 1 ? styles.selectitem : styles.hoverview
+                          // }
                           onClick={clearTab}
                           to={
                             plan_id === 1
@@ -3042,6 +3081,11 @@ const Sidebar = ({ changes, data }: props) => {
                               : accountPath
                           }
                         >
+                          <div
+                          
+                          className={
+                            plan_id === 1 ? styles.selectitem : styles.hoverview
+                          }>
                           <Text
                             onClick={() => handleNavigate(6)}
                             className={styles.text}
@@ -3053,6 +3097,7 @@ const Sidebar = ({ changes, data }: props) => {
                           >
                             Reports
                           </Text>
+                          </div>
                         </LinkWrapper>
                       </li>
                     )
@@ -3064,7 +3109,7 @@ const Sidebar = ({ changes, data }: props) => {
                           ? styles.selectpopup_row
                           : styles.select_item
                       }
-                      style={{cursor:'not-allowed',width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                      style={{cursor:'not-allowed', textIndent:"10px"}}
                     >
                     
                       <a
@@ -3097,7 +3142,7 @@ const Sidebar = ({ changes, data }: props) => {
                       className={
                         pathname.includes('/reports') ? styles.selectpopup_row : styles.select_item
                       }
-                      style={{cursor:'not-allowed',width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                      style={{cursor:'not-allowed', textIndent:"10px"}}
                     >
                     
                       <a
@@ -3128,9 +3173,7 @@ const Sidebar = ({ changes, data }: props) => {
             )}
       {isJobsPopupDropdownOpen && (
         <div ref={jobsdropdownRef}>
-            <Flex 
-              className={styles.jobspopupdropdown}
-              >
+            <Flex className={styles.jobspopupdropdown}>
             {/* Job Posting */}
               {is_plan ? (
                 changes ? (
@@ -3144,14 +3187,14 @@ const Sidebar = ({ changes, data }: props) => {
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
+                      
                       onClick={clearTabs}
                       to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
                     >
-
+                      <div className={styles.hoverview}>
                       <Text
                         onClick={() => handleNavigate(2)}
                         className={styles.text}
@@ -3160,6 +3203,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Job Postings
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 ) : (
@@ -3173,14 +3217,14 @@ const Sidebar = ({ changes, data }: props) => {
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
                       onClick={clearTab}
                       to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
                     >
-
+                      <div 
+                      className={styles.hoverview}>
                       <Text
                         onClick={() => handleNavigate(2)}
                         className={styles.text}
@@ -3189,6 +3233,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Job Posting
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 )
@@ -3212,7 +3257,6 @@ const Sidebar = ({ changes, data }: props) => {
                       e.preventDefault();
                     }}
                   >
-
                     <Text
                       onClick={() => handleNavigate(2)}
                       className={styles.text}
@@ -3236,14 +3280,14 @@ const Sidebar = ({ changes, data }: props) => {
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
+                      
                       onClick={clearTabs}
                       to={is_plan ? jobCreateNonDs : accountPath}
                     >
-
+                      <div className={styles.hoverview}>
                       <Text
                         className={Expent === '0' ? styles.text : styles.classpan}
                         color="primary"
@@ -3251,28 +3295,24 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Post Jobs
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 ) : (
                   <li
                     title="Post Jobs"
                     className={
-                      pathname === '/job_list' ||
-                      pathname.includes('/jobs') ||
-                      pathname.includes('/job_view') ||
-                      pathname.includes('/zita_match_candidate') ||
-                      pathname.includes('/applicant_pipe_line')
+                      pathname === jobCreateNonDs
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
                       onClick={clearTab}
                       to={is_plan ? jobCreateNonDs : accountPath}
                     >
-
+                      <div className={styles.hoverview}>
                       <Text
                         className={styles.text}
                         color="primary"
@@ -3280,6 +3320,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Post Jobs
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 )
@@ -3287,15 +3328,11 @@ const Sidebar = ({ changes, data }: props) => {
                 <li
                   title="Post Jobs"
                   className={
-                    pathname === '/job_list' ||
-                    pathname.includes('/jobs') ||
-                    pathname.includes('/job_view') ||
-                    pathname.includes('/zita_match_candidate') ||
-                    pathname.includes('/applicant_pipe_line')
+                    pathname === jobCreateNonDs
                       ? styles.selectpopup_row
                       : ''
                   }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                  style={{ textIndent:"10px"}}
 
                 >
                   <a
@@ -3330,11 +3367,11 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '7'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div className={styles.hoverview}>
                         <Text
                           className={styles.text}
                           color="primary"
@@ -3342,6 +3379,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Tailor Workflow
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
@@ -3353,11 +3391,10 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '7'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={() => {
                           clearTab();
                           sessionStorage.setItem('superUserTabTwo','3')
@@ -3366,7 +3403,9 @@ const Sidebar = ({ changes, data }: props) => {
                         }}
                         to={is_plan ? workflownavpath :accountPath}
                       >
-
+                        <div
+                          className={styles.hoverview}
+                          >
                         <Text
                           className={styles.text}
                           color="primary"
@@ -3374,6 +3413,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Tailor Workflow
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -3386,7 +3426,7 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserTab') === '7'
                         ? styles.selectpopup_row
                         : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                   >
                     <a
@@ -3413,9 +3453,7 @@ const Sidebar = ({ changes, data }: props) => {
             )}
       {isCandiPopupDropdownOpen && (
         <div ref={candidatesdropdownRef}>
-            <Flex 
-            className={styles.candipopupdropdown}
-            >
+            <Flex className={styles.candipopupdropdown}>
             {permission.includes('my_database') && (
             <>
               {is_plan ? (
@@ -3425,7 +3463,7 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/mydatabase' ? styles.selectpopup_row : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                   >
                     <LinkWrapper
                       className={styles.hoverview}
@@ -3454,14 +3492,14 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/mydatabase' ? styles.selectpopup_row : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
+                      
                       to={is_plan ? routesPath.MYDATABASE : accountPath}
                       onClick={clearTab}
                     >
-
+                      <div className={styles.hoverview}>
                       <Text
                         onClick={() => handleNavigate(3)}
                         className={
@@ -3475,6 +3513,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Database
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 )
@@ -3484,7 +3523,7 @@ const Sidebar = ({ changes, data }: props) => {
                   className={
                     pathname === '/mydatabase' ? styles.selectpopup_row : ''
                   }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                  style={{textIndent:"10px"}}
                 >
                   <a
                     className={styles.hoverview}
@@ -3519,14 +3558,15 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/talent_sourcing' ? styles.selectpopup_row : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
                       onClick={clearTabs}
                       to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
                     >
-
+                      <div
+                      className={styles.hoverview}
+                      >
                       <Text
                         onClick={() => handleNavigate(4)}
                         className={
@@ -3537,6 +3577,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Talent Sourcing
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 ) : (
@@ -3545,14 +3586,15 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/talent_sourcing' ? styles.selectpopup_row : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
                       onClick={clearTab}
                       to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
                     >
-
+                      <div
+                      className={styles.hoverview}
+                      >
                       <Text
                         onClick={() => handleNavigate(4)}
                         className={
@@ -3563,6 +3605,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Talent Sourcing
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 )
@@ -3572,7 +3615,7 @@ const Sidebar = ({ changes, data }: props) => {
                   className={
                     pathname === '/talent_sourcing' ? styles.selectpopup_row : ''
                   }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                  style={{ textIndent:"10px"}}
                 >
                   <a
                     className={styles.hoverview}
@@ -3605,14 +3648,15 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/bulk_import' ? styles.selectpopup_row : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
+                      
                       onClick={clearTabs}
                       to={is_plan ? routesPath.BULK_IMPORT : accountPath}
                     >
-
+                      <div
+                      className={styles.hoverview}>
                       <Text
                         onClick={() => handleNavigate(5)}
                         className={
@@ -3623,6 +3667,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Import Candidates
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 ) : (
@@ -3631,15 +3676,16 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/bulk_import' ? styles.selectpopup_row : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                   >
                     <LinkWrapper
-                      className={styles.hoverview}
                       onClick={clearTab}
                       to={is_plan ? routesPath.BULK_IMPORT : accountPath}
                     >
-
+                      <div
+                      className={styles.hoverview}
+                      >
                       <Text
                         onClick={() => handleNavigate(5)}
                         className={
@@ -3650,6 +3696,7 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Import Candidates
                       </Text>
+                      </div>
                     </LinkWrapper>
                   </li>
                 )
@@ -3659,7 +3706,7 @@ const Sidebar = ({ changes, data }: props) => {
                   className={
                     pathname === '/bulk_import' ? styles.selectpopup_row : ''
                   }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                  style={{ textIndent:"10px"}}
 
                 >
                   <a
@@ -3687,9 +3734,7 @@ const Sidebar = ({ changes, data }: props) => {
             )}
       {isCommPopupDropdownOpen && (
         <div ref={communicationdropdownRef}> 
-            <Flex 
-            className={styles.commpopupdropdown}
-            >
+            <Flex className={styles.commpopupdropdown}>
             {/* Calendar */}
                 {(
                   <>
@@ -3700,15 +3745,16 @@ const Sidebar = ({ changes, data }: props) => {
                             pathname === '/calendar' ? styles.selectpopup_row : ''
                           }
                           title="Calendar"
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                         >
                           <LinkWrapper
-                            className={styles.hoverview}
                             onClick={clearTabs}
                             to={is_plan ? routesPath.CALENDAR : accountPath}
                           >
-
+                            <div
+                            className={styles.hoverview}
+                            >
                             <Text
                               onClick={() => handleNavigate(7)}
                               className={styles.text
@@ -3718,6 +3764,7 @@ const Sidebar = ({ changes, data }: props) => {
                             >
                               Calendar
                             </Text>
+                            </div>
                           </LinkWrapper>
                         </li>
                       ) : (
@@ -3726,15 +3773,16 @@ const Sidebar = ({ changes, data }: props) => {
                             pathname === '/calendar' ? styles.selectpopup_row : ''
                           }
                           title="Calendar"
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                         >
                           <LinkWrapper
-                            className={styles.hoverview}
                             onClick={clearTab}
                             to={is_plan ? routesPath.CALENDAR : accountPath}
                           >
-
+                            <div
+                            className={styles.hoverview}
+                            >
                             <Text
                               onClick={() => handleNavigate(7)}
                               className={styles.text
@@ -3744,6 +3792,7 @@ const Sidebar = ({ changes, data }: props) => {
                             >
                               Calendar
                             </Text>
+                            </div>
                           </LinkWrapper>
                         </li>
                       )
@@ -3751,7 +3800,7 @@ const Sidebar = ({ changes, data }: props) => {
                       <li
                         className={pathname === '/calendar' ? styles.selectpopup_row : ''}
                         title="Calendar"
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                       >
                         <a
@@ -3787,11 +3836,12 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '4'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
                         <Text
                           className={styles.text}
                           color="primary"
@@ -3799,6 +3849,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Integrations
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
@@ -3811,15 +3862,16 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '4'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={() => {clearTab()}}
                         to= {is_plan ? integrationnavpath : accountPath}
                       >
-
+                        <div
+                        className={styles.hoverview}
+                        >
                         <Text
                           className={styles.text}
                           color="primary"
@@ -3827,6 +3879,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Integrations
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -3840,7 +3893,7 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserTab') === '4'
                         ? styles.selectpopup_row
                         : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                   >
                     <a
@@ -3871,14 +3924,16 @@ const Sidebar = ({ changes, data }: props) => {
                           className={
                             pathname === meetingScheduler ? styles.selectpopup_row : ''
                           }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                         >
                           <LinkWrapper
-                            className={styles.hoverview}
                             onClick={clearTabs}
                             to={is_plan ? meetingScheduler : accountPath}
                           >
+                            <div
+                            className={styles.hoverview}
+                            >
                             <Text
                               onClick={() => handleNavigate(8)}
                               className={styles.text
@@ -3888,6 +3943,7 @@ const Sidebar = ({ changes, data }: props) => {
                             >
                               Interview Scheduler
                             </Text>
+                            </div>
                           </LinkWrapper>
                         </li>
                       ) : (
@@ -3896,7 +3952,7 @@ const Sidebar = ({ changes, data }: props) => {
                           className={
                             pathname === meetingScheduler ? styles.selectpopup_row : ''
                           }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                         >
                           <LinkWrapper
@@ -3904,7 +3960,9 @@ const Sidebar = ({ changes, data }: props) => {
                             onClick={clearTab}
                             to={is_plan ? meetingScheduler : accountPath}
                           >
-
+                            <div
+                            className={styles.hoverview}
+                            >
                             <Text
                               onClick={() => handleNavigate(8)}
                               className={styles.text
@@ -3914,6 +3972,7 @@ const Sidebar = ({ changes, data }: props) => {
                             >
                               Interview Scheduler
                             </Text>
+                            </div>
                           </LinkWrapper>
                         </li>
                       )
@@ -3923,7 +3982,7 @@ const Sidebar = ({ changes, data }: props) => {
                         className={
                           pathname === meetingScheduler ? styles.selectpopup_row : ''
                         }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                       >
                         <a
@@ -3952,15 +4011,15 @@ const Sidebar = ({ changes, data }: props) => {
                     <li
                       title="MailBox"
                       className={pathname === '/mail' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTabs}
                         to={is_plan ? routesPath.MAIL : accountPath}
                       >
-
+                        <div
+                        className={styles.hoverview}>
                         <Text
                           onClick={() => handleNavigate(7)}
                           className={styles.text}
@@ -3969,19 +4028,20 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Mailbox
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
                     <li title='Mailbox' className={pathname === '/mail' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         to={is_plan ? routesPath.MAIL : accountPath}
                       >
-
-
+                        <div
+                        className={styles.hoverview}
+                        >
                           <Text
                             onClick={() => handleNavigate(7)}
                             className={styles.text}
@@ -3990,12 +4050,13 @@ const Sidebar = ({ changes, data }: props) => {
                           >
                             Mailbox
                           </Text>
+                          </div>
                         </LinkWrapper>
                       </li>
                     )
                   ) : (
                     <li title='Mailbox' className={pathname === '/mail' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
                     >
                         <a
                           className={styles.hoverview}
@@ -4021,19 +4082,19 @@ const Sidebar = ({ changes, data }: props) => {
             )}
       {isBrandPopupDropdownOpen && (
         <div ref={brandingdropdownRef}>
-            <Flex 
-            className={styles.brandpopupdropdown}
-            >
+            <Flex className={styles.brandpopupdropdown}>
               {/* Careers Page */}
                 {is_plan ? (
                   changes ? (
                     <li
                       title="Careers Page"
-                      className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                      // className={pathname === '/' ? styles.selectpopup_row : ''}
+                    style={{textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+                      <LinkWrapper onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
                         <Text
                           className={styles.text}
                           color="primary"
@@ -4041,17 +4102,17 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Careers Page
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
                     <li
                       title="Careers Page"
-                      className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                      // className={pathname === '/' ? styles.selectpopup_row : ''}
+                    style={{textIndent:"10px"}}
 
                     > 
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         target={isEmpty(career_page_url) ? '_parent' : '_blank'}
                         to={
@@ -4060,7 +4121,9 @@ const Sidebar = ({ changes, data }: props) => {
                             : `/${career_page_url}/careers`
                         }
                       >
-
+                        <div
+                        className={styles.hoverview}
+                        >
                         <Text
                           onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4069,14 +4132,15 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Careers Page
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
                 ) : (
                   <li
                     title="Careers Page"
-                    className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    // className={pathname === '/' ? styles.selectpopup_row : ''}
+                    style={{textIndent:"10px"}}
 
                   >
                     <a
@@ -4113,11 +4177,12 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '1'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
                         <Text
                           // onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4126,6 +4191,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Setup Careers Page
                         </Text> 
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
@@ -4138,16 +4204,17 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '1'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         // onClick={changeurlss}
                         to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
                       >
-
+                        <div
+                        className={styles.hoverview}
+                        >
                         <Text
                           // onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4156,6 +4223,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Setup Careers Page
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -4169,7 +4237,7 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserTab') === '1'
                         ? styles.selectpopup_row
                         : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                   >
                     <a
@@ -4198,9 +4266,7 @@ const Sidebar = ({ changes, data }: props) => {
             )}
       {isMyaccPopupDropdownOpen && (
         <div ref={myaccountdropdownRef}>
-            <Flex 
-            className={styles.myaccpopupdropdown}
-            >
+            <Flex className={styles.myaccpopupdropdown}>
               {/* Profile */}
                 {is_plan ? (
                   changes ? (
@@ -4212,11 +4278,12 @@ const Sidebar = ({ changes, data }: props) => {
                           ? styles.selectpopup_row
                           : ''}
                       
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
+                      <LinkWrapper onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
                         <Text
                           // onClick={() => handleNavigate(9)}
                           className={styles.text}
@@ -4225,6 +4292,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Profile
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
@@ -4235,16 +4303,17 @@ const Sidebar = ({ changes, data }: props) => {
                           sessionStorage.getItem('superUserTab') === '0'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         // onClick={changeurlss}
                         to={is_plan ? profilenavpath : accountPath}
                       >
-
+                        <div
+                        className={styles.hoverview}
+                        >
                         <Text
                           // onClick={() => handleNavigate(9)}
                           className={styles.text}
@@ -4253,6 +4322,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Profile
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -4264,7 +4334,7 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserTab') === '0'
                         ? styles.selectpopup_row
                         : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                   >
                     <a
@@ -4300,11 +4370,11 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '2'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
+                      <LinkWrapper onClick={clearTabs}>
+                        <div className={styles.hoverview}>
                         <Text
                           onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4313,6 +4383,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Subscription
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
@@ -4325,16 +4396,17 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '2'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         // onClick={changeurlss}
                         to={is_plan ? '/account_setting/settings?tab=2' : accountPath}
                       >
-
+                        <div
+                        className={styles.hoverview}
+                        >
                         <Text
                           // onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4343,6 +4415,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Subscription
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -4356,7 +4429,7 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserTab') === '2'
                         ? styles.selectpopup_row
                         : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                   >
                     <a
@@ -4396,11 +4469,11 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '3'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div className={styles.hoverview}>
                         <Text
                           onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4409,6 +4482,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Manage Users
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   ) : (
@@ -4421,16 +4495,17 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserTab') === '3'
                           ? styles.selectpopup_row
                           : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{ textIndent:"10px"}}
 
                     >
                       <LinkWrapper
-                        className={styles.hoverview}
                         onClick={clearTab}
                         // onClick={changeurlss}
                         to={is_plan ? '/account_setting/settings?tab=3' : accountPath}
                       >
-
+                        <div
+                        className={styles.hoverview}
+                        >
                         <Text
                           onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -4439,6 +4514,7 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Manage Users
                         </Text>
+                        </div>
                       </LinkWrapper>
                     </li>
                   )
@@ -4452,7 +4528,7 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserTab') === '3'
                         ? styles.selectpopup_row
                         : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"10px"}}
+                    style={{textIndent:"10px"}}
 
                   >
                     <a

@@ -301,7 +301,7 @@ const CandidateProfileScreen = () => {
             <ProfessionalSkillsCard obj={obj} techSkill={techSkill} />
           </div>
 
-          <div id={'candidate_profile_screen___skill'}>
+          <div id={'candidate_profile_screen___resume_overview'}>
             <Text
               size={14}
               bold
