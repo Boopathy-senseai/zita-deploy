@@ -14,3 +14,8 @@ export interface searchingdata {
        "profile_image":string
     }];
   }
+  export interface Comparativedata {
+    job_id: string;
+    candidate_ids:[]
+     categories:[]
+  }
