@@ -126,6 +126,7 @@ import { pipelinePageReducers } from '../modules/accountsettingsmodule/templates
 import { schedulerReducers, slotterReducers, timezoneReducers } from '../modules/meetingscheduler/events/store/reducer/eventreducer';
 import { scheduledEventsReducers } from '../modules/meetingscheduler/scheduledevents/store/reducer/evetsreducer';
 import { calendarEventsReducers } from '../modules/meetingscheduler/calendarEvents/store/reducer/evetsreducer';
+import { ComparativesearchingdataReducers } from '../modules/Comparative Analysis /store/reducer/comparativereducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -224,5 +225,6 @@ export const reducers = {
   calendarEventsReducers,
   googleConflictReducers,
   outlookConflictReducers,
-  calendarConfigurationReducers
+  calendarConfigurationReducers,
+  ComparativesearchingdataReducers
 };

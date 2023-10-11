@@ -61,6 +61,9 @@ export const SYNC_OUTLOOK = 'applicant/sync_outlook';
 // Candidate Profile Action
 export const CANDIDATE_PROFILE_MESSAGE = 'candidate/candidate_profile_message';
 
+// Comparative Analysis
+export const  CANDIDATE_SEARCHING_DATA = 'candidate_searching_api';
+export const  COMPARATIVE_ANALYSIS_DATA = 'get_comparative_analysis';
 // Applicant Pipe Line
 export const APPLICANT_PIPE_LINE = 'applicantpipe/applicant_pipe_line';
 export const APPLICANT_PIPE_LINE_DATA =
