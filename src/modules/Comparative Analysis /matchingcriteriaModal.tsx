@@ -126,15 +126,17 @@ const MatchingcriteriaModal = ({
           </Flex>
         </Flex>
       </Modal>
-
-      <Comparativeanalysismodal
-        Comparative={Comparative}
-        update_alysismodal={update_alysismodal}
-        resetdata={resetdata}
-        updatemodel={updatemodel}
-        Matching={Matching}
-        job_details={job_details}
-      />
+      {Comparative && (
+        <Comparativeanalysismodal
+          Comparative={Comparative}
+          update_alysismodal={update_alysismodal}
+          resetdata={resetdata}
+          updatemodel={updatemodel}
+          Matching={Matching}
+          job_details={job_details}
+          isData={isData}
+        />
+      )}
     </Flex>
   );
 };

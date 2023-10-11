@@ -24,6 +24,7 @@ type Props = {
   resetdata: any;
   Matching: any;
   job_details: any;
+  isData: any;
 };
 const ComparativeanalysisModal = ({
   Comparative,
@@ -32,6 +33,7 @@ const ComparativeanalysisModal = ({
   resetdata,
   Matching,
   job_details,
+  isData,
 }: Props) => {
   const [addmodel, setaddmodel] = useState(false);
 
@@ -48,6 +50,13 @@ const ComparativeanalysisModal = ({
     updatemodel(false, 1);
     update_alysismodal(false);
   };
+
+  useEffect(() => {
+    console.log('1', Matching);
+    console.log('2', job_details.job_id);
+    console.log('3', isData.map((item) => item.label).join(','));
+  }, []);
+
   const overall_percentage = 25;
   const data = [
     {
