@@ -61,6 +61,14 @@ const MatchingcriteriaModal = ({
     }
   };
 
+  const selectall = () => {
+    setData(Comparativeanalysis);
+  };
+
+  const clear = () => {
+    setData([]);
+  };
+
   return (
     <Flex>
       <Modal open={matchmodel}>
@@ -108,19 +116,32 @@ const MatchingcriteriaModal = ({
                 <Text style={{ color: 'red' }}>{Error}</Text>
               </Flex>
             </Flex>
-            <Flex row end>
-              <Flex
-                center
-                marginRight={10}
-                marginTop={10}
-                className={styles.centerali}
-              >
-                <Button types="secondary" onClick={() => cancelmodel(false)}>
-                  Cancel
-                </Button>
+            <Flex>
+              <Flex>
+                {isData.length === 0 ? (
+                  <Button types="secondary" onClick={() => selectall()}>
+                    Select All
+                  </Button>
+                ) : (
+                  <Button types="secondary" onClick={() => clear()}>
+                    Clear
+                  </Button>
+                )}
               </Flex>
-              <Flex center marginTop={10} className={styles.centerali}>
-                <Button onClick={() => compare()}>Compare</Button>
+              <Flex row end>
+                <Flex
+                  center
+                  marginRight={10}
+                  marginTop={10}
+                  className={styles.centerali}
+                >
+                  <Button types="secondary" onClick={() => cancelmodel(false)}>
+                    Cancel
+                  </Button>
+                </Flex>
+                <Flex center marginTop={10} className={styles.centerali}>
+                  <Button onClick={() => compare()}>Analyse</Button>
+                </Flex>
               </Flex>
             </Flex>
           </Flex>
