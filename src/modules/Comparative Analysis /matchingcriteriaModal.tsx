@@ -10,9 +10,16 @@ import Comparativeanalysismodal from './Comparativeanalysis';
 type Props = {
   matchmodel?: any;
   updatemodel?: (val: any, id: any) => void;
+  Matching: any;
+  job_details: any;
 };
 
-const MatchingcriteriaModal = ({ matchmodel, updatemodel }: Props) => {
+const MatchingcriteriaModal = ({
+  matchmodel,
+  updatemodel,
+  Matching,
+  job_details,
+}: Props) => {
   const [cardSelectioncomparative, setCardSelectioncomparative] = useState<any>(
     [],
   );
@@ -125,6 +132,8 @@ const MatchingcriteriaModal = ({ matchmodel, updatemodel }: Props) => {
         update_alysismodal={update_alysismodal}
         resetdata={resetdata}
         updatemodel={updatemodel}
+        Matching={Matching}
+        job_details={job_details}
       />
     </Flex>
   );

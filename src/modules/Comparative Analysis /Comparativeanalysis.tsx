@@ -22,17 +22,25 @@ type Props = {
   update_alysismodal?: (val: any) => void;
   updatemodel?: (val: any, id: any) => void;
   resetdata: any;
+  Matching: any;
+  job_details: any;
 };
 const ComparativeanalysisModal = ({
   Comparative,
   update_alysismodal,
   updatemodel,
   resetdata,
+  Matching,
+  job_details,
 }: Props) => {
   const [addmodel, setaddmodel] = useState(false);
 
   const openaddmodel = (val) => {
     setaddmodel(val);
+  };
+
+  const Edit = () => {
+    update_alysismodal(false);
   };
 
   const closemodel = () => {
@@ -227,7 +235,7 @@ const ComparativeanalysisModal = ({
                   </Flex>
                   <Flex marginLeft={7}>
                     <Text size={13} color="theme">
-                      Senior Devops Engineer - JD001
+                      {job_details.job_title} - {job_details.job_id}
                     </Text>
                   </Flex>
                 </Flex>
@@ -238,7 +246,8 @@ const ComparativeanalysisModal = ({
                   </Flex>
                   <Flex marginLeft={7}>
                     <Text size={13} color="theme">
-                      California, US
+                      {job_details.city}, {job_details.state},
+                      {job_details.country}
                     </Text>
                   </Flex>
                 </Flex>
@@ -252,7 +261,11 @@ const ComparativeanalysisModal = ({
                   }}
                 >
                   <Flex> Criteria </Flex>
-                  <Flex marginLeft={15} style={{ cursor: 'pointer' }}>
+                  <Flex
+                    marginLeft={15}
+                    style={{ cursor: 'pointer' }}
+                    onClick={Edit}
+                  >
                     <Svgeditingnotes height={14} width={14} fill={'#581845'} />
                   </Flex>
                 </Flex>

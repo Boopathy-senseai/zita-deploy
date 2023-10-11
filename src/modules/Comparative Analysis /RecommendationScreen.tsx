@@ -13,12 +13,14 @@ type Props = {
   Comparmodel?: any;
   updatemodel?: (val: any, id: any) => void;
   Matching: any;
+  job_details: any;
 };
 
 const RecommendationScreen = ({
   Comparmodel,
   updatemodel,
   Matching,
+  job_details,
 }: Props) => {
   return (
     <Flex>
@@ -26,6 +28,7 @@ const RecommendationScreen = ({
         matchmodel={Comparmodel}
         updatemodel={updatemodel}
         Matching={Matching}
+        job_details={job_details}
       />
     </Flex>
   );

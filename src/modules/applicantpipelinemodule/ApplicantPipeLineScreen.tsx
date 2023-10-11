@@ -205,17 +205,33 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       var selectdata = {
         id: data.task.id,
         candidate_id: data.task.candidate_id_id,
-        stage_name: 'Interviewed',
-        stage_color: '#F29111',
         first_name: data.task.first_name,
         last_name: data.task.last_name,
         email: data.task.email,
         profile_image: data.task.image,
       };
       setmatching([...Matching, selectdata]);
-    } else {
+    } else if (verify === 0) {
       var NewArray = Matching.filter((item) => item.id !== data.task.id);
       setmatching(NewArray);
+    } else if (verify === 2) {
+      var arr = [];
+      data.map((val) => {
+        var selectdata1 = {
+          id: val.id,
+          candidate_id: val.candidate_id_id,
+          first_name: val.first_name,
+          last_name: val.last_name,
+          email: val.email,
+          profile_image: val.image,
+        };
+        arr.push(selectdata1);
+      });
+      setmatching([...Matching, ...arr]);
+    } else if (verify === 3) {
+      let uniqueIds = new Set(data.map((item) => item.id));
+      let newArray1 = Matching.filter((item) => !uniqueIds.has(item.id));
+      setmatching(newArray1);
     }
   };
 
@@ -228,8 +244,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     columnId: number;
     job_details: JobDetailsEntity;
   }) => {
-    console.log('ddddd', data);
-
     const newCardSelection = new Map(cardSelection);
     if (cardSelection.has(data.task.id)) {
       select_candidate(data, 0);
@@ -253,6 +267,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     newList.forEach((task) =>
       newCardSelection.set(task.id, { task, section, columnId }),
     );
+
+    select_candidate(newList, 2);
     setCardSelection(newCardSelection);
   };
   const handleColumnUnselect = (data: IStageColumn) => {
@@ -261,6 +277,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     const newCardSelection = new Map(cardSelection);
     const newList = list.filter((doc) => cardSelection.has(doc.id));
     newList.forEach((task) => newCardSelection.delete(task.id));
+    select_candidate(newList, 3);
     setCardSelection(newCardSelection);
   };
 
@@ -1256,10 +1273,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           Comparmodel={Comparmodel}
           updatemodel={updatemodel}
           Matching={Matching}
+          job_details={job_details}
         />
       )}
-
-      {console.log('Matching', Matching)}
     </>
   );
 
