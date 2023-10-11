@@ -5,10 +5,11 @@
   padding: 25px;
   border-radius: 4px;
 }
-.card {
-  height: 120px;
+.overallmodal {
+  padding: 25px;
+  height: auto;
+  border-radius: 4px;
 }
-
 .cardheader {
   background: #581845;
   height: 30px;
@@ -17,7 +18,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  margin-top: 5px;
+  margin: 5px;
 }
 
 .part1 {
@@ -38,4 +39,75 @@
   border-radius: 50%;
   width: 60px;
   height: 60px;
+}
+.countStyle1 {
+  position: RELATIVE;
+  top: -70px;
+  left: 38px;
+  background-color: #ed4857;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+}
+.countStyle2 {
+  position: RELATIVE;
+  top: -70px;
+  left: 38px;
+  background-color: #eeac17;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+}
+.countStyle3 {
+  position: RELATIVE;
+  top: -70px;
+  left: 38px;
+  background-color: #00be4b;
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  rotate: 90deg;
+  border-top: 10px solid transparent;
+  border-right: 15px solid white;
+  border-bottom: 10px solid transparent;
+  position: relative;
+  top: -1px;
+  right: -2.5px;
+}
+.cardstructureforprofile {
+  /* height: 300px; */
+  width: 200px;
+}
+.starratingoverall ul li {
+  font-size: 16px !important;
+  cursor: default !important;
+}
+.starratingoverall ul {
+  margin-top: -35px;
+  margin-bottom: 20px;
+}
+.changingtexts {
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 164px;
 }

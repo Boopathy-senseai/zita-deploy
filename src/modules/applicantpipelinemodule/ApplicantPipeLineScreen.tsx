@@ -83,6 +83,10 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const [change, setchange] = useState(false);
   const [aimodel, setaimodel] = useState(false);
+  const [Comparmodel, setComparmodel] = useState(false);
+
+  const [Matching, setmatching] = useState<any>([]);
+
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
@@ -158,6 +162,12 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   }, []);
 
   useEffect(() => {
+    if (Comparmodel === true) {
+      setComparmodel(true);
+    }
+  }, [Comparmodel]);
+
+  useEffect(() => {
     if (!workflow_id) {
       setShowPipelinePopup(true);
     } else {
@@ -188,6 +198,27 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     );
   }, [formik.values]);
 
+  // select card //
+  const select_candidate = (data, verify) => {
+    console.log('sdsd', data);
+    if (verify === 1) {
+      var selectdata = {
+        id: data.task.id,
+        candidate_id: data.task.candidate_id_id,
+        stage_name: 'Interviewed',
+        stage_color: '#F29111',
+        first_name: data.task.first_name,
+        last_name: data.task.last_name,
+        email: data.task.email,
+        profile_image: data.task.image,
+      };
+      setmatching([...Matching, selectdata]);
+    } else {
+      var NewArray = Matching.filter((item) => item.id !== data.task.id);
+      setmatching(NewArray);
+    }
+  };
+
   //card selection
 
   const handleCardSelection = (data: {
@@ -197,10 +228,14 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     columnId: number;
     job_details: JobDetailsEntity;
   }) => {
+    console.log('ddddd', data);
+
     const newCardSelection = new Map(cardSelection);
     if (cardSelection.has(data.task.id)) {
+      select_candidate(data, 0);
       newCardSelection.delete(data.task.id);
     } else {
+      select_candidate(data, 1);
       newCardSelection.set(data.task.id, {
         task: data.task,
         section: data.section,
@@ -968,6 +1003,17 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const onComparative = () => {
     setaimodel(true);
+    setComparmodel(true);
+  };
+  const updatemodel = (val, id) => {
+    if (val === true) {
+      setComparmodel(val);
+    } else {
+      if (id === 1) {
+        setCardSelection(new Map());
+      }
+      setComparmodel(val);
+    }
   };
 
   return (
@@ -1205,7 +1251,15 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         </Flex>
       </Flex>
       {isLoading && <Loader />}
-      {aimodel && <ComparativeModal />}
+      {aimodel && (
+        <ComparativeModal
+          Comparmodel={Comparmodel}
+          updatemodel={updatemodel}
+          Matching={Matching}
+        />
+      )}
+
+      {console.log('Matching', Matching)}
     </>
   );
 

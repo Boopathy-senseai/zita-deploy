@@ -8,14 +8,25 @@ import Matchingmodal from './matchingcriteriaModal';
 import Comparativeanalysismodal from './Comparativeanalysis';
 
 import styles from './Recommendationscreen.module.css';
-const RecommendationScreen = () => {
-  const [model, setmodel] = useState(0);
-  useEffect(() => {}, []);
 
+type Props = {
+  Comparmodel?: any;
+  updatemodel?: (val: any, id: any) => void;
+  Matching: any;
+};
+
+const RecommendationScreen = ({
+  Comparmodel,
+  updatemodel,
+  Matching,
+}: Props) => {
   return (
     <Flex>
-      <Matchingmodal />
-      <Comparativeanalysismodal />
+      <Matchingmodal
+        matchmodel={Comparmodel}
+        updatemodel={updatemodel}
+        Matching={Matching}
+      />
     </Flex>
   );
 };

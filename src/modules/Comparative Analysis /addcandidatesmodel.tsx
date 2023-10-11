@@ -48,6 +48,10 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
 
     setColor(colorCode);
   }, []);
+
+  const close = () => {
+    openfunction(false);
+  };
   return (
     <Flex>
       <Modal open={model}>
@@ -134,6 +138,27 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
                 </Flex>
               );
             })}
+          </Flex>
+          <Flex
+            style={{
+              borderBottom: '1px solid rgb(195, 195, 195)',
+              paddingBottom: '10px',
+            }}
+          ></Flex>
+          <Flex row end>
+            <Flex
+              center
+              marginRight={10}
+              marginTop={10}
+              className={styles.centerali}
+            >
+              <Button types="secondary" onClick={() => close()}>
+                Cancel
+              </Button>
+            </Flex>
+            <Flex center marginTop={10} className={styles.centerali}>
+              <Button>Compare</Button>
+            </Flex>
           </Flex>
         </Flex>
       </Modal>
