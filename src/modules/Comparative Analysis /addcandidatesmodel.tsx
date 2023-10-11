@@ -127,13 +127,29 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
                       />
                     )}
                   </Flex>
-                  <Flex marginLeft={10}>
-                    <Flex>{e.name}</Flex>
-                    <Flex>
+
+                  <Flex marginLeft={10}  row >
+                  <Flex
+                        width={4}
+                        style={{
+                          backgroundColor: '#581845',
+                          borderRadius: '4px',
+                        }}
+                        height={16}
+                        marginRight={5}
+                        marginTop={3}
+                      ></Flex>
+                    <Flex 
+                      >
+                      
+                      <Flex>{e.name}</Flex>
+                      <Flex>
                       <Text className={styles.changingtexts} title={e.mail}>
                         {e.mail}
                       </Text>
                     </Flex>
+                    </Flex>
+                    
                   </Flex>
                 </Flex>
               );

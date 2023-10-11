@@ -361,7 +361,7 @@ const ComparativeanalysisModal = ({
                           <Flex
                             width={4}
                             style={{
-                              backgroundColor: '#581845',
+                              backgroundColor:'#581845',
                               borderRadius: '4px',
                             }}
                             height={16}

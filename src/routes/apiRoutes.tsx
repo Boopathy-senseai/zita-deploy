@@ -58,6 +58,10 @@ export const inviteToApplyApi = `invite_to_apply`;
 export const favouriteApi = `favourite`;
 export const candiDateMessageApi = `message_non_applicants`;
 
+//Comparative Analysis 
+export const ComparativesearchingdataApi=`candidate_searching_api`;
+export const ComparativeAnalysisApi=`get_comparative_analysis`;
+
 // applicant pipe line module
 export const applicantPipeLineApi = (jd_id: string) => {
   const url = `applicants_pipline/${jd_id}`;
