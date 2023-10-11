@@ -82,7 +82,7 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
   return (
     <Flex>
       <Modal open={model}>
-        <Flex width={750} className={styles.candidatesellectoverall}>
+        <Flex width={750} height={680} className={styles.candidatesellectoverall}>
           <Flex
             style={{
               borderBottom: '1px solid rgb(195, 195, 195)',
@@ -113,8 +113,11 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
               </Flex>
             </Flex>
           </Flex>
-          <Flex row center wrap marginTop={10}>
-            {filteredData && filteredData.map((e, index) => {
+          <Flex row center wrap marginTop={10} height={500} style={{overflowY:'scroll'}}>
+            {console.log(filteredData,'filteredDatafilteredDatafilteredDatafilteredData')}
+            {filteredData.length === 0?
+            <Flex middle center flex={1}><Text color='gray'>No data found</Text></Flex> : 
+            filteredData.map((e, index) => {
               return (
                 <Flex
                   key={index}
