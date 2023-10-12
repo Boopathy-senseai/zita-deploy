@@ -16,6 +16,6 @@ export interface searchingdata {
   }
   export interface Comparativedata {
     job_id: string;
-    candidate_ids:[]
-     categories:[]
+    candidate_ids:any;
+     categories:any;
   }

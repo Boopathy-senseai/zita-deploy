@@ -10,7 +10,7 @@ import SvgClose from '../../icons/SvgClose';
 import SvgSearch from '../../icons/SvgSearch';
 import { isEmpty } from '../../uikit/helper';
 import { mediaPath } from '../constValue';
-import { AppDispatch, RootState } from '../../store'; 
+import { AppDispatch, RootState } from '../../store';
 import { Comparativeanalysis } from './mock';
 import styles from './addcandidates.module.css';
 import { comparativesearchingdatamiddleware } from './store/middleware/comparativemiddleware';
@@ -23,15 +23,15 @@ type ParamsType = {
   jdId: string;
 };
 const AddcandidatesModal = ({ model, openfunction }: Props) => {
-  const { jdId } = useParams<ParamsType>(); 
+  const { jdId } = useParams<ParamsType>();
   const [searchQuery, setSearchQuery] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isColor, setColor] = useState<string[]>([]);
-  const [searchResults, setSearchResults] = useState<any>(); 
+  const [searchResults, setSearchResults] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
-   
-   
+
+
   //dispatching the searchdata middleware
   useEffect(() => {
     dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
@@ -65,20 +65,18 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
       };
     },
   );
- //setting the data in setstate
-  useEffect(()=>{
+  //setting the data in setstate
+  useEffect(() => {
     setSearchResults(data)
-  },[data])
+  }, [data, model])
+  const filteredData = data && data.filter(item => {
+    return item['first_name'].toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
-  
-  const filteredData = data.filter(item => { 
-      return item['first_name'].toLowerCase().includes(searchQuery.toLowerCase());
-    });
-  
 
   const close = () => {
     openfunction(false);
-  }; 
+  };
   return (
     <Flex>
       <Modal open={model}>
@@ -113,77 +111,76 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
               </Flex>
             </Flex>
           </Flex>
-          <Flex row center wrap marginTop={10} height={500} style={{overflowY:'scroll'}}>
-            {console.log(filteredData,'filteredDatafilteredDatafilteredDatafilteredData')}
-            {filteredData.length === 0?
-            <Flex middle center flex={1}><Text color='gray'>No data found</Text></Flex> : 
-            filteredData.map((e, index) => {
-              return (
-                <Flex
-                  key={index}
-                  row
-                  width={340}
-                  style={{ padding: '7px 0px' }}
-                  center
-                >
-                  <Flex>
-                    <InputCheckBox />
-                  </Flex>
-                  <Flex marginLeft={10}>
-                    {isEmpty(e.profile_image) || e.profile_image === 'default.jpg' ? (
-                      <div
-                        className={cx('profile')}
-                        style={{
-                          backgroundColor: isColor[index % isColor.length],
-                        }}
-                      >
-                        <Text
-                          color="white"
-                          transform="uppercase"
-                          className={styles.firstlastchar}
-                        >
-                          {`${e.first_name?.charAt(0)}${e?.last_name ? e?.last_name?.charAt(0) : ''}`}
-                        </Text>
-                      </div>
-                    ) : (
-                      <img
-                        alt="profile"
-                        style={{
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                          marginRight: 8,
-                          height: 40,
-                          width: 40,
-                        }}
-                        src={mediaPath + e.profile_image}
-                      />
-                    )}
-                  </Flex>
-                  <Flex marginLeft={10} row >
-                    <Flex
-                      width={4}
-                      style={{
-                        backgroundColor: e.stage_color,
-                        borderRadius: '4px',
-                      }}
-                      height={16}
-                      marginRight={5}
-                      marginTop={3}
-                      title={e.stage_name}
-                    ></Flex>
+          <Flex row center wrap marginTop={10} height={500} className={styles.fixingsearchdata}>
+            {filteredData && filteredData.length === 0 ?
+              <Flex middle center flex={1}><Text color='gray'>No data found</Text></Flex> :
+              filteredData && filteredData.map((e, index) => {
+                return (
+                  <Flex
+                    key={index}
+                    row
+                    width={340}
+                    style={{ padding: '7px 0px' }}
+                    center
+                  >
                     <Flex>
-                      <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}</Flex>
-                      <Flex>
-                        <Text className={styles.changingtexts} title={e.email}>
-                          {e.email}
-                        </Text>
-                      </Flex>
+                      <InputCheckBox />
                     </Flex>
+                    <Flex marginLeft={10}>
+                      {isEmpty(e.profile_image) || e.profile_image === 'default.jpg' ? (
+                        <div
+                          className={cx('profile')}
+                          style={{
+                            backgroundColor: isColor[index % isColor.length],
+                          }}
+                        >
+                          <Text
+                            color="white"
+                            transform="uppercase"
+                            className={styles.firstlastchar}
+                          >
+                            {`${e.first_name?.charAt(0)}${e?.last_name ? e?.last_name?.charAt(0) : ''}`}
+                          </Text>
+                        </div>
+                      ) : (
+                        <img
+                          alt="profile"
+                          style={{
+                            borderRadius: '100%',
+                            objectFit: 'cover',
+                            marginRight: 8,
+                            height: 40,
+                            width: 40,
+                          }}
+                          src={mediaPath + e.profile_image}
+                        />
+                      )}
+                    </Flex>
+                    <Flex marginLeft={10} row >
+                      <Flex
+                        width={4}
+                        style={{
+                          backgroundColor: e.stage_color,
+                          borderRadius: '4px',
+                        }}
+                        height={16}
+                        marginRight={5}
+                        marginTop={3}
+                        title={e.stage_name}
+                      ></Flex>
+                      <Flex>
+                        <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}</Flex>
+                        <Flex>
+                          <Text className={styles.changingtexts} title={e.email}>
+                            {e.email}
+                          </Text>
+                        </Flex>
+                      </Flex>
 
+                    </Flex>
                   </Flex>
-                </Flex>
-              );
-            })}
+                );
+              })}
           </Flex>
           <Flex
             style={{

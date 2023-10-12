@@ -116,8 +116,8 @@ const MatchingcriteriaModal = ({
                 <Text style={{ color: 'red' }}>{Error}</Text>
               </Flex>
             </Flex>
-            <Flex>
-              <Flex>
+            <Flex row between >
+              <Flex marginTop={10}>
                 {isData.length === 0 ? (
                   <Button types="secondary" onClick={() => selectall()}>
                     Select All
