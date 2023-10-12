@@ -115,3 +115,26 @@ justify-content: space-between;
 .spacepadding{
   padding-top: 15px;
 }
+
+.InfoiconchangeStyle{
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+
+.infoInnerCard{
+  padding: 25px;
+}
+.infoOuterCard{
+  position: absolute;
+  left: 360px;
+  top: 51px;
+}
+.cardfront1 {
+  z-index: 10000;
+  padding: 5px 10px 5px;
+  margin-left: 9px;
+  font-size: 13px;
+  margin-top: 1vh;
+  max-width: 425px;
+  position: absolute;
+}

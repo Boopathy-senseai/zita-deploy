@@ -403,25 +403,10 @@ const MatchingAnalysisTab = () => {
       {isloadings && <Loader />}
       <Flex flex={6} className={styles.overAll}>
 
-        <Flex between style={{ padding: '16px 16px 0px 16px' }}>
+        <Flex row between style={{ padding: '16px 16px 0px 16px' }}>
           <Text bold style={{ fontSize: '14px', marginBottom: '5px' }}>
             Matching Analysis
           </Text>
-        </Flex>
-
-        <Flex row className={styles.btnwithContent}>
-          <Flex>
-            <Text>Adjust the weightage for job-candidate matching criteria</Text>
-          </Flex>
-          <Flex>
-            <label
-              onMouseEnter={() => setInfoPopupOpen(true)}
-              onMouseLeave={() => setInfoPopupOpen(false)}
-              className={styles.changeStyle11}
-            >
-              <SvgModuleicon />
-            </label>
-          </Flex>
           <Flex>
             <Button onClick={handleWeightageOpen} types="primary">
               Adjust Matching Criteria
@@ -429,13 +414,31 @@ const MatchingAnalysisTab = () => {
           </Flex>
         </Flex>
 
-        {isInfoPopupOpen && (
-<Flex>
-<Card>
-<Text>Info</Text>
-</Card>
-</Flex>
-            )}
+        <Flex row className={styles.btnwithContent}>
+          <Flex row>
+          <Flex>
+            <Text>Adjust the weightage for job-candidate matching criteria</Text>
+          </Flex>
+          <Flex marginLeft={7}>
+            <label
+              onMouseEnter={() => setInfoPopupOpen(true)}
+              onMouseLeave={() => setInfoPopupOpen(false)}
+              className={styles.InfoiconchangeStyle}
+            >
+              <SvgModuleicon />
+            </label>
+          </Flex>
+          </Flex>
+          <Flex >
+          {isInfoPopupOpen && (
+            <Card className={styles.cardfront1}>
+              <Flex>
+                <Text>Info</Text>
+                </Flex>
+                  </Card>
+                   )}
+                  </Flex>
+        </Flex>
 
         <Flex row className={styles.overallScore}>
 
@@ -494,7 +497,7 @@ const MatchingAnalysisTab = () => {
 
               >
 
-                <Text size={13} bold color="primary">{overall_percentage}</Text>
+                <Text size={13} bold color="primary">{overall_percentage}%</Text>
 
               </Flex>
 
@@ -537,7 +540,7 @@ const MatchingAnalysisTab = () => {
                   </Flex>
                   <Flex>
                     <Flex className={styles.sliderstyle}>
-                      <Flex className={styles.matchdescription}>
+                      <Flex>
                         <Text>Skills</Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>
@@ -580,7 +583,7 @@ const MatchingAnalysisTab = () => {
 
 
                     <Flex className={styles.sliderstyle}>
-                      <Flex className={styles.matchdescription}>
+                      <Flex >
                         <Text>Roles and Responsibilities </Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>
@@ -623,7 +626,7 @@ const MatchingAnalysisTab = () => {
 
 
                     <Flex className={styles.sliderstyle}>
-                      <Flex className={styles.matchdescription}>
+                      <Flex >
                         <Text>Experience</Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>
@@ -665,7 +668,7 @@ const MatchingAnalysisTab = () => {
 
 
                     <Flex className={styles.sliderstyle}>
-                      <Flex className={styles.matchdescription}>
+                      <Flex>
                         <Text>Technical Tools and Languages </Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>
@@ -705,7 +708,7 @@ const MatchingAnalysisTab = () => {
 
 
                     <Flex className={styles.sliderstyle}>
-                      <Flex className={styles.matchdescription}>
+                      <Flex >
                         <Text>Soft Skills </Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>
@@ -744,7 +747,7 @@ const MatchingAnalysisTab = () => {
 
 
                     <Flex className={styles.sliderstyle}>
-                      <Flex className={styles.matchdescription}>
+                      <Flex>
                         <Text>Qualifications</Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>

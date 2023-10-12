@@ -7,7 +7,7 @@ import { useDispatch ,useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 
-import { Button, LinkWrapper, Loader, Text, Toast } from '../../uikit';
+import { Button, Card, LinkWrapper, Loader, Text, Toast } from '../../uikit';
 import { Flex } from '../../uikit'
 
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
@@ -17,6 +17,7 @@ import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { routesPath } from '../../routes/routesPath';
 
 import { CANCEL } from '../constValue';
+import SvgModuleicon from '../../icons/SvgModuleicon';
 import { WeightagematchingpostMiddleWare,WeightagematchinggetMiddleWare } from './store/middleware/createjdmiddleware';
 
 
@@ -64,6 +65,8 @@ const Weightagematching = () => {
   const[totalnontechnical,settotalnontechnical]=useState(0);
 
   const [technicalError, setTechnicalError] = useState(false);
+
+  const [isInfoPopupOpen, setInfoPopupOpen] = useState(false);
 
 
   const {
@@ -344,11 +347,27 @@ const saveasdraftfunction=()=>{
       <Flex row center className={styles.btnContainer}>
         <Flex row center>
           <Text>
-            Adjust the weightage for job-candidate matching  criteria
+            Adjust the weightage for job-candidate matching criteria
 
           </Text>
-          <Flex marginLeft={7}><SvgInfo height={15} width={15} fill={"#FFC203"} />
+          <Flex marginLeft={7}>
+          <label
+              onMouseEnter={() => setInfoPopupOpen(true)}
+              onMouseLeave={() => setInfoPopupOpen(false)}
+              className={styles.InfoiconchangeStyle}
+            >
+              <SvgModuleicon />
+            </label>
           </Flex>
+          <Flex>
+          {isInfoPopupOpen && (
+            <Card className={styles.cardfront1}>
+              <Flex>
+                <Text>Info</Text>
+                </Flex>
+                  </Card>
+                   )}
+                  </Flex>
 
         </Flex>
         <Flex>
