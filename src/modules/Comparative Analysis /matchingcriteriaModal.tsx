@@ -75,7 +75,7 @@ const MatchingcriteriaModal = ({
   return (
     <Flex>
       <Modal open={matchmodel}>
-        <Flex className={styles.modal}>
+        <Flex className={Matching.length <= 5 && styles.modal}>
           <Flex center>
             {Matching.length > 5 ? (
 
