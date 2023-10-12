@@ -25,6 +25,7 @@ type Props = {
   Matching: any;
   job_details: any;
   isData: any;
+  select_candidate?: (val: any, id: any) => void;
 };
 const ComparativeanalysisModal = ({
   Comparative,
@@ -34,6 +35,7 @@ const ComparativeanalysisModal = ({
   Matching,
   job_details,
   isData,
+  select_candidate,
 }: Props) => {
   const [addmodel, setaddmodel] = useState(false);
 
@@ -383,7 +385,7 @@ const ComparativeanalysisModal = ({
                           <Flex
                             width={4}
                             style={{
-                              backgroundColor:'#581845',
+                              backgroundColor: '#581845',
                               borderRadius: '4px',
                             }}
                             height={16}
@@ -454,7 +456,12 @@ const ComparativeanalysisModal = ({
           </Flex>
         </Flex>
       </Modal>
-      <Addcandidatesmodal model={addmodel} openfunction={openaddmodel} />
+      <Addcandidatesmodal
+        model={addmodel}
+        openfunction={openaddmodel}
+        Matching={Matching}
+        select_candidate={select_candidate}
+      />
     </Flex>
   );
 };

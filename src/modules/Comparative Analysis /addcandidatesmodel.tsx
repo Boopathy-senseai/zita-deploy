@@ -10,7 +10,7 @@ import SvgClose from '../../icons/SvgClose';
 import SvgSearch from '../../icons/SvgSearch';
 import { isEmpty } from '../../uikit/helper';
 import { mediaPath } from '../constValue';
-import { AppDispatch, RootState } from '../../store'; 
+import { AppDispatch, RootState } from '../../store';
 import { Comparativeanalysis } from './mock';
 import styles from './addcandidates.module.css';
 import { comparativesearchingdatamiddleware } from './store/middleware/comparativemiddleware';
@@ -18,24 +18,33 @@ const cx = classNames.bind(styles);
 type Props = {
   model?: any;
   openfunction?: any;
+  Matching: any;
+  select_candidate?: (val: any, id: any) => void;
 };
 type ParamsType = {
   jdId: string;
 };
-const AddcandidatesModal = ({ model, openfunction }: Props) => {
-  const { jdId } = useParams<ParamsType>(); 
+const AddcandidatesModal = ({
+  model,
+  openfunction,
+  Matching,
+  select_candidate,
+}: Props) => {
+  const { jdId } = useParams<ParamsType>();
   const [searchQuery, setSearchQuery] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isColor, setColor] = useState<string[]>([]);
-  const [searchResults, setSearchResults] = useState<any>(); 
+  const [searchResults, setSearchResults] = useState<any>();
+  const [olddata, setolddata] = useState([]);
+
   const dispatch: AppDispatch = useDispatch();
-   
-   
+
   //dispatching the searchdata middleware
   useEffect(() => {
     dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
-  }, [])
+    setolddata(Matching);
+  }, []);
 
   useEffect(() => {
     const colorCode = [
@@ -54,35 +63,54 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
     setColor(colorCode);
   }, []);
 
-  const {
-    data
-  } = useSelector(
-    ({
-      ComparativesearchingdataReducers
-    }: RootState) => {
+  const { data } = useSelector(
+    ({ ComparativesearchingdataReducers }: RootState) => {
       return {
-        data: ComparativesearchingdataReducers.data
+        data: ComparativesearchingdataReducers.data,
       };
     },
   );
- //setting the data in setstate
-  useEffect(()=>{
-    setSearchResults(data)
-  },[data])
+  //setting the data in setstate
+  useEffect(() => {
+    setSearchResults(data);
+  }, [data]);
 
-  
-  const filteredData = data.filter(item => { 
-      return item['first_name'].toLowerCase().includes(searchQuery.toLowerCase());
-    });
-  
+  const filteredData = data.filter((item) => {
+    return item['first_name'].toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   const close = () => {
+    select_candidate(olddata, 6);
     openfunction(false);
-  }; 
+  };
+
+  const handleInputChangepass = (val) => {
+    const Exist = Matching.some(
+      (item) => item.candidate_id === val.candidate_id,
+    );
+    if (!Exist) {
+      select_candidate(val, 4);
+    } else {
+      select_candidate(val, 5);
+    }
+  };
+
+  const Compare_candidate = () => {
+    if (!(Matching.length > 5)) {
+      console.log('yes');
+    } else {
+      console.log('no');
+    }
+  };
+
   return (
     <Flex>
       <Modal open={model}>
-        <Flex width={750} height={680} className={styles.candidatesellectoverall}>
+        <Flex
+          width={750}
+          height={680}
+          className={styles.candidatesellectoverall}
+        >
           <Flex
             style={{
               borderBottom: '1px solid rgb(195, 195, 195)',
@@ -99,7 +127,7 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
               <InputText
                 placeholder="search candidates"
                 className={styles.inputchanges}
-                onChange={e => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 value={searchQuery}
               />
               <Flex
@@ -113,78 +141,105 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
               </Flex>
             </Flex>
           </Flex>
-          <Flex row center wrap marginTop={10} height={500} style={{overflowY:'scroll'}}>
-            {console.log(filteredData,'filteredDatafilteredDatafilteredDatafilteredData')}
-            {filteredData.length === 0?
-            <Flex middle center flex={1}><Text color='gray'>No data found</Text></Flex> : 
-            filteredData.map((e, index) => {
-              return (
-                <Flex
-                  key={index}
-                  row
-                  width={340}
-                  style={{ padding: '7px 0px' }}
-                  center
-                >
-                  <Flex>
-                    <InputCheckBox />
-                  </Flex>
-                  <Flex marginLeft={10}>
-                    {isEmpty(e.profile_image) || e.profile_image === 'default.jpg' ? (
-                      <div
-                        className={cx('profile')}
-                        style={{
-                          backgroundColor: isColor[index % isColor.length],
-                        }}
-                      >
-                        <Text
-                          color="white"
-                          transform="uppercase"
-                          className={styles.firstlastchar}
-                        >
-                          {`${e.first_name?.charAt(0)}${e?.last_name ? e?.last_name?.charAt(0) : ''}`}
-                        </Text>
-                      </div>
-                    ) : (
-                      <img
-                        alt="profile"
-                        style={{
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                          marginRight: 8,
-                          height: 40,
-                          width: 40,
-                        }}
-                        src={mediaPath + e.profile_image}
-                      />
-                    )}
-                  </Flex>
-                  <Flex marginLeft={10} row >
-                    <Flex
-                      width={4}
-                      style={{
-                        backgroundColor: e.stage_color,
-                        borderRadius: '4px',
-                      }}
-                      height={16}
-                      marginRight={5}
-                      marginTop={3}
-                      title={e.stage_name}
-                    ></Flex>
+          <Flex
+            row
+            center
+            wrap
+            marginTop={10}
+            height={500}
+            style={{ overflowY: 'scroll' }}
+          >
+            {filteredData.length === 0 ? (
+              <Flex middle center flex={1}>
+                <Text color="gray">No data found</Text>
+              </Flex>
+            ) : (
+              filteredData.map((e, index) => {
+                return (
+                  <Flex
+                    key={index}
+                    row
+                    width={340}
+                    style={{ padding: '7px 0px' }}
+                    center
+                  >
                     <Flex>
-                      <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}</Flex>
+                      <InputCheckBox
+                        checked={Matching.some(
+                          (item) => item.candidate_id === e.candidate_id,
+                        )}
+                        onChange={() => handleInputChangepass(e)}
+                      />
+                    </Flex>
+                    <Flex marginLeft={10}>
+                      {isEmpty(e.profile_image) ||
+                      e.profile_image === 'default.jpg' ? (
+                        <div
+                          className={cx('profile')}
+                          style={{
+                            backgroundColor: isColor[index % isColor.length],
+                          }}
+                        >
+                          <Text
+                            color="white"
+                            transform="uppercase"
+                            className={styles.firstlastchar}
+                          >
+                            {`${e.first_name?.charAt(0)}${
+                              e?.last_name ? e?.last_name?.charAt(0) : ''
+                            }`}
+                          </Text>
+                        </div>
+                      ) : (
+                        <img
+                          alt="profile"
+                          style={{
+                            borderRadius: '100%',
+                            objectFit: 'cover',
+                            marginRight: 8,
+                            height: 40,
+                            width: 40,
+                          }}
+                          src={mediaPath + e.profile_image}
+                        />
+                      )}
+                    </Flex>
+                    <Flex marginLeft={10} row>
+                      <Flex
+                        width={4}
+                        style={{
+                          backgroundColor: e.stage_color,
+                          borderRadius: '4px',
+                        }}
+                        height={16}
+                        marginRight={5}
+                        marginTop={3}
+                        title={e.stage_name}
+                      ></Flex>
                       <Flex>
-                        <Text className={styles.changingtexts} title={e.email}>
-                          {e.email}
-                        </Text>
+                        <Flex>{`${e.first_name} ${
+                          e?.last_name ? e?.last_name : ''
+                        }`}</Flex>
+                        <Flex>
+                          <Text
+                            className={styles.changingtexts}
+                            title={e.email}
+                          >
+                            {e.email}
+                          </Text>
+                        </Flex>
                       </Flex>
                     </Flex>
-
                   </Flex>
-                </Flex>
-              );
-            })}
+                );
+              })
+            )}
           </Flex>
+          {Matching.length > 5 ? (
+            <Text color="error"> select only 5 candidate </Text>
+          ) : (
+            ''
+          )}
           <Flex
             style={{
               borderBottom: '1px solid rgb(195, 195, 195)',
@@ -203,7 +258,7 @@ const AddcandidatesModal = ({ model, openfunction }: Props) => {
               </Button>
             </Flex>
             <Flex center marginTop={10} className={styles.centerali}>
-              <Button>Compare</Button>
+              <Button onClick={Compare_candidate}>Compare</Button>
             </Flex>
           </Flex>
         </Flex>

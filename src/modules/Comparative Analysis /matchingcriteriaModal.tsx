@@ -12,6 +12,7 @@ type Props = {
   updatemodel?: (val: any, id: any) => void;
   Matching: any;
   job_details: any;
+  select_candidate?: (val: any, id: any) => void;
 };
 
 const MatchingcriteriaModal = ({
@@ -19,6 +20,7 @@ const MatchingcriteriaModal = ({
   updatemodel,
   Matching,
   job_details,
+  select_candidate,
 }: Props) => {
   const [cardSelectioncomparative, setCardSelectioncomparative] = useState<any>(
     [],
@@ -74,76 +76,98 @@ const MatchingcriteriaModal = ({
       <Modal open={matchmodel}>
         <Flex className={styles.modal}>
           <Flex center>
-            <Flex
-              style={{
-                borderBottom: '1px solid rgb(195, 195, 195)',
-                paddingBottom: '5px',
-              }}
-            >
-              <Text size={14}>Comparative Analysis & AI Recommendation</Text>
-            </Flex>
-            <Flex>
-              <Flex row>
+            {Matching.length > 5 ? (
+              <>
+                <Flex>
+                  <Text>
+                    only select 5 candidates and access for Comparative Analysis
+                    & AI Recommendation
+                  </Text>
+
+                  <Flex style={{ marginTop: '15px', justifyContent: 'center' }}>
+                    <Button onClick={() => cancelmodel(false)}>ok</Button>
+                  </Flex>
+                </Flex>
+              </>
+            ) : (
+              <>
                 <Flex
-                  row
-                  center
-                  wrap
                   style={{
                     borderBottom: '1px solid rgb(195, 195, 195)',
-                    paddingBottom: '10px',
+                    paddingBottom: '5px',
                   }}
                 >
-                  {Comparativeanalysis.map((e) => {
-                    return (
-                      <Flex
-                        key={e.value}
-                        className={styles.matchRadioStyle}
-                        column
+                  <Text size={14}>
+                    Comparative Analysis & AI Recommendation
+                  </Text>
+                </Flex>
+                <Flex>
+                  <Flex row>
+                    <Flex
+                      row
+                      center
+                      wrap
+                      style={{
+                        borderBottom: '1px solid rgb(195, 195, 195)',
+                        paddingBottom: '10px',
+                      }}
+                    >
+                      {Comparativeanalysis.map((e) => {
+                        return (
+                          <Flex
+                            key={e.value}
+                            className={styles.matchRadioStyle}
+                            column
+                          >
+                            <InputCheckBox
+                              label={e.label}
+                              checked={isData.some(
+                                (item) => item.value === e.value,
+                              )}
+                              onChange={() => handleInputChangepass(e)}
+                            />
+                          </Flex>
+                        );
+                      })}
+                    </Flex>
+                  </Flex>
+                  <Flex>
+                    <Text style={{ color: 'red' }}>{Error}</Text>
+                  </Flex>
+                </Flex>
+                <Flex>
+                  <Flex>
+                    {isData.length === 0 ? (
+                      <Button types="secondary" onClick={() => selectall()}>
+                        Select All
+                      </Button>
+                    ) : (
+                      <Button types="secondary" onClick={() => clear()}>
+                        Clear
+                      </Button>
+                    )}
+                  </Flex>
+                  <Flex row end>
+                    <Flex
+                      center
+                      marginRight={10}
+                      marginTop={10}
+                      className={styles.centerali}
+                    >
+                      <Button
+                        types="secondary"
+                        onClick={() => cancelmodel(false)}
                       >
-                        <InputCheckBox
-                          label={e.label}
-                          checked={isData.some(
-                            (item) => item.value === e.value,
-                          )}
-                          onChange={() => handleInputChangepass(e)}
-                        />
-                      </Flex>
-                    );
-                  })}
+                        Cancel
+                      </Button>
+                    </Flex>
+                    <Flex center marginTop={10} className={styles.centerali}>
+                      <Button onClick={() => compare()}>Analyse</Button>
+                    </Flex>
+                  </Flex>
                 </Flex>
-              </Flex>
-              <Flex>
-                <Text style={{ color: 'red' }}>{Error}</Text>
-              </Flex>
-            </Flex>
-            <Flex>
-              <Flex>
-                {isData.length === 0 ? (
-                  <Button types="secondary" onClick={() => selectall()}>
-                    Select All
-                  </Button>
-                ) : (
-                  <Button types="secondary" onClick={() => clear()}>
-                    Clear
-                  </Button>
-                )}
-              </Flex>
-              <Flex row end>
-                <Flex
-                  center
-                  marginRight={10}
-                  marginTop={10}
-                  className={styles.centerali}
-                >
-                  <Button types="secondary" onClick={() => cancelmodel(false)}>
-                    Cancel
-                  </Button>
-                </Flex>
-                <Flex center marginTop={10} className={styles.centerali}>
-                  <Button onClick={() => compare()}>Analyse</Button>
-                </Flex>
-              </Flex>
-            </Flex>
+              </>
+            )}
           </Flex>
         </Flex>
       </Modal>
@@ -156,6 +180,7 @@ const MatchingcriteriaModal = ({
           Matching={Matching}
           job_details={job_details}
           isData={isData}
+          select_candidate={select_candidate}
         />
       )}
     </Flex>

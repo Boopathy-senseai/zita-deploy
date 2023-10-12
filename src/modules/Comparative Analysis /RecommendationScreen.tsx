@@ -14,6 +14,7 @@ type Props = {
   updatemodel?: (val: any, id: any) => void;
   Matching: any;
   job_details: any;
+  select_candidate?: (val: any, id: any) => void;
 };
 
 const RecommendationScreen = ({
@@ -21,6 +22,7 @@ const RecommendationScreen = ({
   updatemodel,
   Matching,
   job_details,
+  select_candidate,
 }: Props) => {
   return (
     <Flex>
@@ -29,6 +31,7 @@ const RecommendationScreen = ({
         updatemodel={updatemodel}
         Matching={Matching}
         job_details={job_details}
+        select_candidate={select_candidate}
       />
     </Flex>
   );

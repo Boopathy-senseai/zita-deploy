@@ -200,10 +200,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // select card //
   const select_candidate = (data, verify) => {
-    console.log('sdsd', data);
     if (verify === 1) {
       var selectdata = {
-        id: data.task.id,
         candidate_id: data.task.candidate_id_id,
         first_name: data.task.first_name,
         last_name: data.task.last_name,
@@ -212,13 +210,15 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       };
       setmatching([...Matching, selectdata]);
     } else if (verify === 0) {
-      var NewArray = Matching.filter((item) => item.id !== data.task.id);
+      var NewArray = Matching.filter(
+        (item) => item.candidate_id !== data.task.candidate_id_id,
+      );
+      console.log('sadasd', NewArray);
       setmatching(NewArray);
     } else if (verify === 2) {
       var arr = [];
       data.map((val) => {
         var selectdata1 = {
-          id: val.id,
           candidate_id: val.candidate_id_id,
           first_name: val.first_name,
           last_name: val.last_name,
@@ -229,9 +229,28 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       });
       setmatching([...Matching, ...arr]);
     } else if (verify === 3) {
-      let uniqueIds = new Set(data.map((item) => item.id));
-      let newArray1 = Matching.filter((item) => !uniqueIds.has(item.id));
+      let uniqueIds = new Set(data.map((item) => item.candidate_id_id));
+      let newArray1 = Matching.filter(
+        (item) => !uniqueIds.has(item.candidate_id),
+      );
       setmatching(newArray1);
+    } else if (verify === 4) {
+      var selectdata4 = {
+        candidate_id: data.candidate_id,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        profile_image: data.profile_image,
+      };
+      setmatching([...Matching, selectdata4]);
+    } else if (verify === 5) {
+      var Newvalue = Matching.filter(
+        (item) => item.candidate_id !== data.candidate_id,
+      );
+      setmatching(Newvalue);
+    } else if (verify === 6) {
+      console.log('dada', data);
+      setmatching(data);
     }
   };
 
@@ -1028,6 +1047,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     } else {
       if (id === 1) {
         setCardSelection(new Map());
+        setmatching([]);
       }
       setComparmodel(val);
     }
@@ -1274,6 +1294,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           updatemodel={updatemodel}
           Matching={Matching}
           job_details={job_details}
+          select_candidate={select_candidate}
         />
       )}
     </>
