@@ -259,3 +259,44 @@ justify-content: space-between;
     max-width: 425px;
     position: absolute;
   }
+  .labelpadding{
+
+    padding: 0px 0px 0px 11px;
+
+    font-size: 13px;
+
+ 
+
+  }
+
+  .labelpadding2{
+
+    margin: 0px -9px 0px 0px;
+
+    padding: 0px 0px 0px 5px;
+
+    font-size: 13px;
+
+  }
+
+ 
+
+  .labelpadding3{
+
+    padding: 0px 0px 0px 5px;
+
+    font-size: 13px;
+
+  
+  }
+  .threediv{
+    display: flex;
+  
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .centervalue{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

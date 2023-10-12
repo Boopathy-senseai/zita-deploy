@@ -32,6 +32,7 @@ import AllMatchTab from './AllMatchTab';
 import { CandidatejobidMatchMiddleWare } from './store/middleware/applicantProfileMiddleware';
 
 
+
 const colorCode = [WHITE, GARY_7];
 export interface DateEntity {
   not_matched_skills: [];
@@ -416,28 +417,28 @@ const MatchingAnalysisTab = () => {
 
         <Flex row className={styles.btnwithContent}>
           <Flex row>
-          <Flex>
-            <Text>Adjust the weightage for job-candidate matching criteria</Text>
-          </Flex>
-          <Flex marginLeft={7}>
-            <label
-              onMouseEnter={() => setInfoPopupOpen(true)}
-              onMouseLeave={() => setInfoPopupOpen(false)}
-              className={styles.InfoiconchangeStyle}
-            >
-              <SvgModuleicon />
-            </label>
-          </Flex>
+            <Flex>
+              <Text>Adjust the weightage for job-candidate matching criteria</Text>
+            </Flex>
+            <Flex marginLeft={7}>
+              <label
+                onMouseEnter={() => setInfoPopupOpen(true)}
+                onMouseLeave={() => setInfoPopupOpen(false)}
+                className={styles.InfoiconchangeStyle}
+              >
+                <SvgModuleicon />
+              </label>
+            </Flex>
           </Flex>
           <Flex >
-          {isInfoPopupOpen && (
-            <Card className={styles.cardfront1}>
-              <Flex>
-                <Text>Info</Text>
+            {isInfoPopupOpen && (
+              <Card className={styles.cardfront1}>
+                <Flex>
+                  <Text>Info</Text>
                 </Flex>
-                  </Card>
-                   )}
-                  </Flex>
+              </Card>
+            )}
+          </Flex>
         </Flex>
 
         <Flex row className={styles.overallScore}>
@@ -527,275 +528,73 @@ const MatchingAnalysisTab = () => {
             <Flex className={styles.techcardstyles}>
               <Card>
                 <Flex style={{ padding: "25px" }}>
-                  <Flex row className={styles.sliderheaderstyle}>
-                    <Flex className={styles.sliderheadertext1}>
+                  <Flex className={styles.threediv}>
+                    <Flex style={{width:"45%"}}>
                       <Text bold>Technical Matching</Text>
                     </Flex>
-                    <Flex className={styles.sliderheadertext2}>
+                    <Flex style={{width:'45%'}}>
                       <Text bold>Score (100)</Text>
                     </Flex>
-                    <Flex className={styles.sliderheadertext3}>
+                    <Flex style={{width:'10%'}}>
                       <Text bold>Weightage</Text>
                     </Flex>
                   </Flex>
                   <Flex>
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Skills</Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueskill}
-                          className={styles.customrangeoutput}
-                          onChange={handleRangeChange}
-                          style={{
-                            // Styling with violet color
 
-                            width: '200px',
-                            // Set the width as needed
-                            color: 'white', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browser
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
 
-                          }}
+                    <Flex >
+                      {outputtech.map((skill, index) => (
+                        <Flex className={styles.threediv} key={index} style={{padding:'10px 0px 10px 0px'}}>
+                          <Flex style={{ width: "45%" }}>
 
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueskill < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueskill >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueskill}%</Text>
-                      </Flex>
+                            <Flex >
+
+                              <Text>{skill.title}</Text>
+                            </Flex>
+                          </Flex>
+                          <Flex style={{ width: "45%" }}>
+                            <ProgressBar
+
+                              completed={`${skill.percentage}`}
+
+                              bgColor="#581845"
+
+                              width="170px"
+
+                              height='10px'
+
+                              borderRadius='4px'
+
+                              labelColor="black"
+
+                              labelAlignment="outside"
+
+                              labelClassName={
+
+                                rangeValueskill < 10
+
+                                  ? styles.labelpadding
+
+                                  : rangeValueskill >= 100
+
+                                    ? styles.labelpadding2
+
+                                    : styles.labelpadding3}
+
+                            >
+
+                            </ProgressBar>
+                          </Flex>
+                          <Flex style={{ width: "10%" }} className={styles.centervalue}>
+
+                       <Text>{skill.skill_percentage}</Text>
+
+                          </Flex>
+                        </Flex>))}
                     </Flex>
 
 
 
-                    <Flex className={styles.sliderstyle}>
-                      <Flex >
-                        <Text>Roles and Responsibilities </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          className={styles.customrangeoutput}
-                          value={rangeValuerolles}
-                          onChange={handleRangeChangerole}
-                          style={{
-                            // Styling with violet color
-
-                            width: '200px',
-                            // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValuerolles < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValuerolles >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValuerolles}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex >
-                        <Text>Experience</Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueexperience}
-                          className={styles.customrangeoutput}
-                          onChange={handleRangeChangeexperience}
-                          style={{
-                            width: '200px',// Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueexperience < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueexperience >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueexperience}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-
-
-
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Technical Tools and Languages </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueTechnical}
-                          onChange={handleRangeChangetechnical}
-                          className={styles.customrangeoutput}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueTechnical < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueTechnical >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueTechnical}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex >
-                        <Text>Soft Skills </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          className={styles.customrangeoutput}
-                          value={rangeValueSoft}
-                          onChange={handleRangeChangesoft}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueSoft < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueSoft >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueSoft}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Qualifications</Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueQualifications}
-                          className={styles.customrangeoutput}
-                          onChange={handleRangeChangequalifications}
-                          style={{
-                            // Styling with violet color
-                            width: '200px',// Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueQualifications < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueQualifications >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueQualifications}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-                    {/* <Flex className={styles.sliderstyle}>
-                    
-                    {totaltechnical!==100 &&
-                      <Text style={{
-                        display: "flex",
-                        alignSelf: 'flex-between'
-                      }} size={11} color="error">
-                            Technical percentages must equal 100
-                      </Text>
-                    }
-                   </Flex> */}
 
                   </Flex>
                 </Flex>
@@ -803,266 +602,77 @@ const MatchingAnalysisTab = () => {
             </Flex>
             <Flex style={{ height: "20px" }}></Flex>
             {/* Non-Technical */}
-            <Flex className={styles.nontechcardstyles}>
+            <Flex className={styles.techcardstyles}>
               <Card>
                 <Flex style={{ padding: "25px" }}>
-                  <Flex row className={styles.sliderheaderstyle}>
-                    <Flex className={styles.sliderheadertext1}>
+                  <Flex className={styles.threediv}>
+                    <Flex style={{width:"45%"}}>
                       <Text bold>Non-Technical Matching</Text>
                     </Flex>
-                    <Flex className={styles.sliderheadertext2}>
+                    <Flex style={{width:'45%'}}>
                       <Text bold>Score (100)</Text>
                     </Flex>
-                    <Flex className={styles.sliderheadertext3}>
+                    <Flex style={{width:'10%'}}>
                       <Text bold>Weightage</Text>
                     </Flex>
                   </Flex>
                   <Flex>
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Industry Specific Experience </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueIndustry}
-                          className={styles.customrangeoutput}
-                          onChange={handleRangeChangeindustry}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'white', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueIndustry < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueIndustry >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueIndustry}%</Text>
-                      </Flex>
-                    </Flex>
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Domain Specific Experience  </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          className={styles.customrangeoutput}
-                          value={rangeValueDomain}
-                          onChange={handleRangeChangedomain}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueDomain < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueDomain >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueDomain}%</Text>
-                      </Flex>
-                    </Flex>
 
 
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Certifications </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueCertifications}
-                          className={styles.customrangeoutput}
-                          onChange={handleRangeChangecertification}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
+                    <Flex >
+                      {outputnontech.map((skill, index) => (
+                        <Flex className={styles.threediv} key={index} style={{padding:'10px 0px 10px 0px'}}>
+                          <Flex style={{ width: "45%" }}>
 
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueCertifications < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueCertifications >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueCertifications}%</Text>
-                      </Flex>
+                            <Flex >
+
+                              <Text>{skill.title}</Text>
+                            </Flex>
+                          </Flex>
+                          <Flex style={{ width: "45%" }}>
+                            <ProgressBar
+
+                              completed={`${skill.percentage}`}
+
+                              bgColor="#581845"
+
+                              width="170px"
+
+                              height='10px'
+
+                              borderRadius='4px'
+
+                              labelColor="black"
+
+                              labelAlignment="outside"
+
+                              labelClassName={
+
+                                rangeValueskill < 10
+
+                                  ? styles.labelpadding
+
+                                  : rangeValueskill >= 100
+
+                                    ? styles.labelpadding2
+
+                                    : styles.labelpadding3}
+
+                            >
+
+                            </ProgressBar>
+                          </Flex>
+                          <Flex style={{ width: "10%" }} className={styles.centervalue}>
+
+                       <Text>{skill.skill_percentage}</Text>
+
+                          </Flex>
+                        </Flex>))}
                     </Flex>
 
 
 
 
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Cultural Fit</Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueCultural}
-                          onChange={handleRangeChangecultural}
-                          className={styles.customrangeoutput}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueCultural < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueCultural >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueCultural}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>References and Recommendations </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          className={styles.customrangeoutput}
-                          value={rangeValueReferences}
-                          onChange={handleRangeChangereferences}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueReferences < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueReferences >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueReferences}%</Text>
-                      </Flex>
-                    </Flex>
-
-                    <Flex className={styles.sliderstyle}>
-                      <Flex>
-                        <Text>Location Alignment </Text>
-                      </Flex>
-                      <Flex className={styles.innerstyle}>
-                        <input
-                          type="range"
-                          min="5"
-                          max="100"
-                          value={rangeValueLocation}
-                          className={styles.customrangeoutput}
-                          onChange={handleRangeChangelocation}
-                          style={{
-                            // Styling with violet color
-                            width: '200px', // Set the width as needed
-                            color: 'violet', // Violet color
-                            WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                            margin: '10px 0', // Add margin for spacing
-                            cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                            borderRadius: '5px', // Add border radius
-                          }}
-
-                        />
-                        <Text style={{
-                          padding:
-                            rangeValueLocation < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueLocation >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                          width: "79px",
-                          display: "flex",
-                          justifyContent: "center"
-                        }}>{rangeValueLocation}%</Text>
-                      </Flex>
-                    </Flex>
-
-
-                    {/* <Flex className={styles.sliderstyle}>
-                    {totalnontechnical!==100 &&
-                      <Text style={{
-                        display: "flex",
-                        alignSelf: 'flex-between'
-                      }} size={11} color="error">
-                          Non-Technical percentages must equal 100
-                      </Text>
-                    }
-                   </Flex> */}
                   </Flex>
                 </Flex>
               </Card>
@@ -1093,27 +703,37 @@ const MatchingAnalysisTab = () => {
                                 <Text>{skill.title}</Text>
                               </Flex>
                               <Flex>
-                                <input
-                                  type="range"
-                                  min="5"
-                                  max="100"
-                                  value={skill.skill_percentage}
-                                  className={styles.customrangeoutput}
-                                  onChange={handleRangeChange}
-                                  style={{
-                                    // Styling with violet color
+                                <ProgressBar
 
-                                    width: '140px',
-                                    // Set the width as needed
-                                    color: 'white', // Violet color
-                                    WebkitAppearance: 'none', // Remove default styling in Webkit browser
-                                    margin: '10px 0', // Add margin for spacing
-                                    cursor: 'pointer', // Show pointer cursor
-                                    background: `linear-gradient(to right, #581845 0%, #581845 ${(skill.skill_percentage / 100) * 100}%, #d3d3d3 ${(skill.skill_percentage / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                                    borderRadius: '5px', // Add border radius
+                                  completed={skill.percentage}
 
-                                  }}
-                                />
+                                  bgColor="#581845"
+
+                                  width="170px"
+
+                                  height='10px'
+
+                                  borderRadius='4px'
+
+                                  labelColor="black"
+
+                                  labelAlignment="outside"
+
+                                  labelClassName={
+
+                                    rangeValueskill < 10
+
+                                      ? styles.labelpadding
+
+                                      : rangeValueskill >= 100
+
+                                        ? styles.labelpadding2
+
+                                        : styles.labelpadding3}
+
+                                >
+
+                                </ProgressBar>
                               </Flex>
                               <Text>
                                 Weightage: {skill.skill_percentage}%
@@ -1123,7 +743,8 @@ const MatchingAnalysisTab = () => {
                           <Flex className={styles.chatgptoutput}>
                             {/* ChatGPT Content */}
 
-                            {skill.description === "" ? (<Text> No Data Available</Text>
+
+                            {skill.percentage === 0 ? (<Text> No Data Available</Text>
                             ) : (<Text>  Weightage:{skill.description}</Text>)}
                           </Flex>
                         </Flex>))}
@@ -1156,31 +777,44 @@ const MatchingAnalysisTab = () => {
                               <Text>  {skill.title}</Text>
                             </Flex>
                             <Flex>
-                              <input
-                                type="range"
-                                min="5"
-                                max="100"
-                                value={skill.skill_percentage}
-                                className={styles.customrangeoutput}
-                                onChange={handleRangeChangeindustry}
-                                style={{
-                                  // Styling with violet color
-                                  width: '140px', // Set the width as needed
-                                  color: 'white', // Violet color
-                                  WebkitAppearance: 'none', // Remove default styling in Webkit browsers
-                                  margin: '10px 0', // Add margin for spacing
-                                  cursor: 'pointer', // Show pointer cursor
-                                  background: `linear-gradient(to right, #581845 0%, #581845 ${(skill.skill_percentage / 100) * 100}%, #d3d3d3 ${(skill.skill_percentage / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
-                                  borderRadius: '5px', // Add border radius
-                                }}
-                              />
+                              <ProgressBar
+
+                                completed={skill.percentage}
+
+                                bgColor="#581845"
+
+                                width="170px"
+
+                                height='10px'
+
+                                borderRadius='4px'
+
+                                labelColor="black"
+
+                                labelAlignment="outside"
+
+                                labelClassName={
+
+                                  rangeValueskill < 10
+
+                                    ? styles.labelpadding
+
+                                    : rangeValueskill >= 100
+
+                                      ? styles.labelpadding2
+
+                                      : styles.labelpadding3}
+
+                              >
+
+                              </ProgressBar>
                               <Text>{skill.skill_percentage}%</Text>
                             </Flex>
                           </Flex>
 
 
                           <Flex className={styles.chatgptoutput}>
-                            {skill.description === "" ? (<Text>No Data Available</Text>
+                            {skill.percentage === 0 ? (<Text>No Data Available</Text>
                             ) : (<Text>  Weightage:{skill.description}</Text>)}
                           </Flex>
                         </Flex>))}
@@ -1274,7 +908,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueskill >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueskill}%</Text>
+                    }}>{rangeValueskill}</Text>
                   </Flex>
                 </Flex>
 
@@ -1313,7 +947,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValuerolles >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValuerolles}%</Text>
+                    }}>{rangeValuerolles}</Text>
                   </Flex>
                 </Flex>
 
@@ -1347,7 +981,8 @@ const MatchingAnalysisTab = () => {
                           : rangeValueexperience >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueexperience}%</Text>
+                    
+                    }}>{rangeValueexperience}</Text>
                   </Flex>
                 </Flex>
 
@@ -1386,7 +1021,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueTechnical >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueTechnical}%</Text>
+                    }}>{rangeValueTechnical}</Text>
                   </Flex>
                 </Flex>
 
@@ -1422,7 +1057,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueSoft >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueSoft}%</Text>
+                    }}>{rangeValueSoft}</Text>
                   </Flex>
                 </Flex>
                 <Flex className={styles.sliderstyle}>
@@ -1456,7 +1091,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueQualifications >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueQualifications}%</Text>
+                    }}>{rangeValueQualifications}</Text>
                   </Flex>
                 </Flex>
                 <Flex className={styles.sliderstyle}>
@@ -1540,7 +1175,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueIndustry >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueIndustry}%</Text>
+                    }}>{rangeValueIndustry}</Text>
                   </Flex>
                 </Flex>
 
@@ -1575,7 +1210,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueDomain >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueDomain}%</Text>
+                    }}>{rangeValueDomain}</Text>
                   </Flex>
                 </Flex>
 
@@ -1610,7 +1245,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueCertifications >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueCertifications}%</Text>
+                    }}>{rangeValueCertifications}</Text>
                   </Flex>
                 </Flex>
 
@@ -1644,7 +1279,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueCultural >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueCultural}%</Text>
+                    }}>{rangeValueCultural}</Text>
                   </Flex>
                 </Flex>
 
@@ -1680,7 +1315,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueReferences >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueReferences}%</Text>
+                    }}>{rangeValueReferences}</Text>
                   </Flex>
                 </Flex>
                 <Flex className={styles.sliderstyle}>
@@ -1714,7 +1349,7 @@ const MatchingAnalysisTab = () => {
                           : rangeValueLocation >= 100
                             ? '0px 10px 0px 12px'
                             : '0px 10px 0px 20px',
-                    }}>{rangeValueLocation}%</Text>
+                    }}>{rangeValueLocation}</Text>
                   </Flex>
                 </Flex>
                 <Flex className={styles.sliderstyle}>

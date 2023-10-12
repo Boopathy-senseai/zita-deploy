@@ -1446,7 +1446,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueskill >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueskill}%</Text>
+                        }}>{rangeValueskill}</Text>
                       </Flex>
                     </Flex>
 
@@ -1485,7 +1485,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValuerolles >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValuerolles}%</Text>
+                        }}>{rangeValuerolles}</Text>
                       </Flex>
                     </Flex>
 
@@ -1519,7 +1519,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueexperience >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueexperience}%</Text>
+                        }}>{rangeValueexperience}</Text>
                       </Flex>
                     </Flex>
 
@@ -1558,7 +1558,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueTechnical >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueTechnical}%</Text>
+                        }}>{rangeValueTechnical}</Text>
                       </Flex>
                     </Flex>
 
@@ -1594,7 +1594,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueSoft >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueSoft}%</Text>
+                        }}>{rangeValueSoft}</Text>
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
@@ -1628,7 +1628,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueQualifications >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueQualifications}%</Text>
+                        }}>{rangeValueQualifications}</Text>
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
@@ -1712,7 +1712,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueIndustry >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueIndustry}%</Text>
+                        }}>{rangeValueIndustry}</Text>
                       </Flex>
                     </Flex>
 
@@ -1747,7 +1747,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueDomain >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueDomain}%</Text>
+                        }}>{rangeValueDomain}</Text>
                       </Flex>
                     </Flex>
 
@@ -1782,7 +1782,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueCertifications >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueCertifications}%</Text>
+                        }}>{rangeValueCertifications}</Text>
                       </Flex>
                     </Flex>
 
@@ -1816,7 +1816,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueCultural >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueCultural}%</Text>
+                        }}>{rangeValueCultural}</Text>
                       </Flex>
                     </Flex>
 
@@ -1852,7 +1852,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueReferences >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueReferences}%</Text>
+                        }}>{rangeValueReferences}</Text>
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
@@ -1878,6 +1878,7 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
 
+
                         />
                         <Text style={{
                           padding:
@@ -1886,7 +1887,7 @@ const ApplicantPipeLineScreen = ({
                               : rangeValueLocation >= 100
                                 ? '0px 10px 0px 12px'
                                 : '0px 10px 0px 20px',
-                        }}>{rangeValueLocation}%</Text>
+                        }}>{rangeValueLocation}</Text>
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
