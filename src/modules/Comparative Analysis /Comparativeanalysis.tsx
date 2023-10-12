@@ -87,6 +87,7 @@ const ComparativeanalysisModal = ({
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
       } else {
+        setLoader(false);
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
           'LONG',
