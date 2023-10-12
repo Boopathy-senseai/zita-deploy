@@ -29,9 +29,11 @@ type Props = {
 };
 export type FormProps = {
   resume_overview: string;
+  text_overview: string;
 };
 const initial: FormProps = {
   resume_overview: '',
+  text_overview: '',
 };
 
 const UpdateOverviewSummaryEdit = ({ open, cancel, obj, overview }: Props) => {
@@ -39,23 +41,7 @@ const UpdateOverviewSummaryEdit = ({ open, cancel, obj, overview }: Props) => {
   const editorRef = useRef<any>(null);
   const [isLoader, setLoader] = useState(false);
   const [isReload, setReload] = useState(false);
-  const handleSubmit = (values: FormProps) => {
-    const formData = new FormData();
-    formData.append('resume_overview', values.resume_overview);
-    dispatch(
-      updatereumeoverviewMiddleWare({
-        formData,
-      }),
-    ).then((res) => {
-      cancel();
-      Toast('Resume overview updated successfully');
-      dispatch(
-        profileEditMiddleWare({
-          jd_id: localStorage.getItem('careerJobViewJobId'),
-        }),
-      );
-    });
-  };
+
   type error = {
     resume_overview: string;
   };
@@ -71,11 +57,38 @@ const UpdateOverviewSummaryEdit = ({ open, cancel, obj, overview }: Props) => {
       'text/html',
     );
     const textNodes = doc.querySelectorAll('body')[0].textContent;
+    console.log(textNodes, 'heelooo');
     const texttrim = textNodes.trim();
     if (texttrim === '') {
       errors.resume_overview = 'Enter valid resume overview.';
     }
     return errors;
+  };
+  const formatData = (resume) => {
+    const doc = parser.parseFromString(
+      formik.values.resume_overview,
+      'text/html',
+    );
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    return textNodes;
+  };
+  const handleSubmit = (values: FormProps) => {
+    const formData = new FormData();
+    formData.append('resume_overview', values.resume_overview);
+    formData.append('text_overview', formatData(values.resume_overview));
+    dispatch(
+      updatereumeoverviewMiddleWare({
+        formData,
+      }),
+    ).then((res) => {
+      cancel();
+      Toast('Resume overview updated successfully');
+      dispatch(
+        profileEditMiddleWare({
+          jd_id: localStorage.getItem('careerJobViewJobId'),
+        }),
+      );
+    });
   };
   const formik = useFormik({
     initialValues: initial,
