@@ -347,7 +347,24 @@ const applicantMatchState: MatchReducerState = {
     percentage: 0,
     description: '',
     overall_percentage:0
+    
   }], 
+  technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    overall_percentage: 0,
+    jd_id: 0,
+    skill_percentage:0,
+  }], 
+  non_technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    overall_percentage: 0,
+    jd_id: 0,
+    skill_percentage:0,
+  }],   
   ai_matching:false
 };
 
@@ -422,6 +439,25 @@ const candidatejobidMatchState: MatchReducerState = {
     description: '',
     overall_percentage:0
   }], 
+  technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    overall_percentage: 0,
+    jd_id: 0,
+    skill_percentage:0,
+  
+  }], 
+  non_technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    overall_percentage: 0,
+    jd_id: 0,
+    
+    skill_percentage:0,
+  }],   
+
   ai_matching:false
 };
 
@@ -447,6 +483,9 @@ const candidatejobidMatchReducer = createSlice({
         state.source = action.payload.source;
         state.location_percent = action.payload.location_percent;
         state.data = action.payload.data;
+        state.technical=action.payload.technical;
+        state.non_technical=action.payload.non_technical;
+        
         state.ai_matching= action.payload.ai_matching;
         // state.data = action.payload.matched_data;location_percent
       },

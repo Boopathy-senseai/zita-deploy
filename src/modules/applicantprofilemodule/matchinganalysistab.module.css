@@ -1,6 +1,7 @@
 .overAll {
   /* padding: 16px; */
   /* overflow: scroll; */
+
 }
 .progressStyle {
   margin-top: 8px;
@@ -238,5 +239,21 @@ justify-content: space-between;
     outline: none;
   }
 
+  .progressbarlabel{
+
+    padding: 4px 5px 0px 5px;
+
+    font-weight: bold;
+
+    display: none;
+
+  }
+  .changeStyle11{
+
+    margin-bottom: 0px;
+
+    cursor: pointer;
+
+  }
 
 
