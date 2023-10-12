@@ -98,7 +98,7 @@ const ComparativeanalysisModal = ({
   };
   return (
     <>
-      <Flex width={700} middle>
+      <Flex  middle>
         {isLoader ? (
           <Loader />
         ) : (
@@ -125,6 +125,7 @@ const ComparativeanalysisModal = ({
               <Flex
                 className={styles.fixingcontent}
                 height={window.innerHeight - 70}
+                width={window.innerWidth - 100}
               >
                 <Card className={styles.card}>
                   <Flex className={styles.cardheader}>
@@ -178,7 +179,7 @@ const ComparativeanalysisModal = ({
                           }`}</Text>
                         </Flex>
                       </Flex>
-                      <Flex className={styles.part2}></Flex>
+                      {/* <Flex className={styles.part2}></Flex> */}
                       <Flex className={styles.part3}>
                         <Text style={{ marginTop: '15px' }}>
                           {' '}
