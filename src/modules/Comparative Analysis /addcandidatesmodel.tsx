@@ -73,9 +73,9 @@ const AddcandidatesModal = ({
   //setting the data in setstate
   useEffect(() => {
     setSearchResults(data);
-  }, [data]);
+  }, [data,model]);
 
-  const filteredData = data.filter((item) => {
+  const filteredData = data && data.filter((item) => {
     return item['first_name'].toLowerCase().includes(searchQuery.toLowerCase());
   });
 
