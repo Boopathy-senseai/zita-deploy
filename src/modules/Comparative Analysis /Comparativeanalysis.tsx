@@ -312,11 +312,12 @@ const ComparativeanalysisModal = ({
                                 />
                               </Flex>
                             </Flex>
-                            <Flex row middle center>
+                            <Flex row middle center> 
                               <Flex
                                 width={4}
+                                title={e.stage_name}
                                 style={{
-                                  backgroundColor: '#581845',
+                                  backgroundColor: e.stage_color,
                                   borderRadius: '4px',
                                 }}
                                 height={16}
