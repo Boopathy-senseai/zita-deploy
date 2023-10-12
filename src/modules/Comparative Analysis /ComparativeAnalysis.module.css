@@ -111,3 +111,9 @@
   overflow: hidden;
   max-width: 164px;
 }
+.fixingcontent{
+  overflow-y: scroll;
+  display: flex;
+  align-content: flex-start;
+  padding: 25px;
+}

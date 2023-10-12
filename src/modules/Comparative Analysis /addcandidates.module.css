@@ -35,3 +35,8 @@
   overflow: hidden;
   max-width: 235px;
 }
+.fixingsearchdata{
+  overflow-y: scroll;
+  display: flex;
+  align-content: flex-start;
+}

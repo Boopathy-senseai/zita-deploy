@@ -147,13 +147,14 @@ const AddcandidatesModal = ({
             wrap
             marginTop={10}
             height={500}
-            style={{ overflowY: 'scroll' }}
+            className={styles.fixingsearchdata}
           >
-            {filteredData.length === 0 ? (
+            {filteredData && filteredData.length === 0 ? (
               <Flex middle center flex={1}>
                 <Text color="gray">No data found</Text>
               </Flex>
             ) : (
+              filteredData &&
               filteredData.map((e, index) => {
                 return (
                   <Flex
