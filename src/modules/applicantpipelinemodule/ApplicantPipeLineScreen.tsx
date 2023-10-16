@@ -245,11 +245,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       setmatching([...Matching, selectdata4]);
     } else if (verify === 5) {
       var Newvalue = Matching.filter(
-        (item) => item.candidate_id !== data.candidate_id,
+        (item) => item.candidate_id !== parseInt(data.candidate_id),
       );
+
       setmatching(Newvalue);
     } else if (verify === 6) {
-      console.log('dada', data);
       setmatching(data);
     }
   };

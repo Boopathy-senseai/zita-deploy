@@ -56,7 +56,10 @@ const ComparativeanalysisModal = ({
   const [selectedcandidate, setselectedcandidate] = useState<any>();
   const [selectedcriteria, setresponsibledateria] = useState<any>();
   const [isLoader, setLoader] = useState(false);
+  const [verify, setverify] = useState(false);
+  const [olddata, setolddata] = useState([]);
   const dispatch: AppDispatch = useDispatch();
+
   const openaddmodel = (val) => {
     setaddmodel(val);
   };
@@ -71,8 +74,10 @@ const ComparativeanalysisModal = ({
   };
 
   useEffect(() => {
+    setolddata(Matching);
     dispatchcomparativeApi();
   }, []);
+
   const dispatchcomparativeApi = () => {
     setLoader(true);
     let candidateids = Matching.map((item) => item.candidate_id).join(',');
@@ -101,6 +106,23 @@ const ComparativeanalysisModal = ({
   const DownloadCsv = () => {
     dispatch(comparativecsvdownloadmiddleware({ response_json: selectedcriteria }));
   }
+  const remove_user = (val) => {
+    var data = {
+      candidate_id: val.candidateid,
+    };
+    select_candidate(data, 5);
+    setverify(true);
+  };
+
+  const removeprofile = () => {
+    setverify(false);
+    dispatchcomparativeApi();
+  };
+
+  const cancelverify = () => {
+    setverify(false);
+    select_candidate(olddata, 6);
+  };
   return (
     <>
       <Flex middle>
@@ -154,7 +176,7 @@ const ComparativeanalysisModal = ({
                               }}
                               avatar={
                                 selectedcriteria.payload.analysis[0].image &&
-                                  selectedcriteria.payload.analysis[0].image !==
+                                selectedcriteria.payload.analysis[0].image !==
                                   'default.jpg'
                                   ? `${process.env.REACT_APP_HOME_URL}media/${selectedcriteria.payload.analysis[0].image}`
                                   : undefined
@@ -162,33 +184,34 @@ const ComparativeanalysisModal = ({
                               initials={`${selectedcriteria.payload.analysis[0]?.first_name?.charAt(
                                 0,
                               )}
-                          ${!isEmpty(
-                                selectedcriteria.payload.analysis[0].last_name,
-                              )
-                                  ? selectedcriteria.payload.analysis[0].last_name?.charAt(
-                                    0,
-                                  )
-                                  : ''
-                                }`}
+                          ${
+                            !isEmpty(
+                              selectedcriteria.payload.analysis[0].last_name,
+                            )
+                              ? selectedcriteria.payload.analysis[0].last_name?.charAt(
+                                  0,
+                                )
+                              : ''
+                          }`}
                             />
                           </Flex>
                           <Flex middle>
-                            <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name
-                              }${!isEmpty(
+                            <Text style={{ padding: '2px 0px 0px 0px' }}>{`${
+                              selectedcriteria.payload.analysis[0]?.first_name
+                            }${
+                              !isEmpty(
                                 selectedcriteria.payload.analysis[0].last_name,
                               )
                                 ? selectedcriteria.payload.analysis[0].last_name
                                 : ''
-                              }`}</Text>
+                            }`}</Text>
                           </Flex>
                         </Flex>
-                      </Flex>
-                      <Flex className={styles.part3}>
+                      </Flex> 
+                       <Flex className={styles.part3}> 
                         <Text >
                           {' '}
-                          {
-                            selectedcriteria.payload.analysis[0]?.Pros
-                          }{' '}
+                          {selectedcriteria.payload.analysis[0]?.Pros}{' '}
                         </Text>
                       </Flex>
                     </Flex>
@@ -276,7 +299,9 @@ const ComparativeanalysisModal = ({
                       <>
                         {selectedcriteria &&
                           selectedcriteria.payload.analysis.length > 0 &&
-                          Object.keys(selectedcriteria.payload.analysis[0].categories).map((key, index) => (
+                          Object.keys(
+                            selectedcriteria.payload.analysis[0].categories,
+                          ).map((key, index) => (
                             <Flex
                               marginTop={6}
                               style={{
@@ -284,8 +309,8 @@ const ComparativeanalysisModal = ({
                                 paddingBottom: '6px',
                               }}
                               key={index}
-                            >{`${key}`}
-
+                            >
+                              {`${key}`}
                             </Flex>
                           ))}
                       </>
@@ -347,10 +372,11 @@ const ComparativeanalysisModal = ({
                                         ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                         : undefined
                                     }
-                                    initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
-                                      ? e.last_name?.charAt(0)
-                                      : ''
-                                      }`}
+                                    initials={`${e?.first_name?.charAt(0)}${
+                                      !isEmpty(e.last_name)
+                                        ? e.last_name?.charAt(0)
+                                        : ''
+                                    }`}
                                   />
                                   <Flex
                                     className={cx({
@@ -461,6 +487,8 @@ const ComparativeanalysisModal = ({
           openfunction={openaddmodel}
           Matching={Matching}
           select_candidate={select_candidate}
+          dispatchcomparativeApi={dispatchcomparativeApi}
+          update_alysismodal={update_alysismodal}
         />
       </Flex>
     </>
