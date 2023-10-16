@@ -58,7 +58,7 @@ const ComparativeanalysisModal = ({
   const [iskey, setkey] = useState(0);
   const [selectedcriteria, setresponsibledateria] = useState<any>();
   const [isPros, setPros] = useState(false);
-  const [isLoader, setLoader] = useState(false);
+  const [isLoader, setLoader] = useState(true);
   const [verify, setverify] = useState(false);
   const [olddata, setolddata] = useState([]);
   const [errormsg, seterrormsg] = useState('');
@@ -109,7 +109,10 @@ const ComparativeanalysisModal = ({
   };
   const DownloadCsv = () => {
     dispatch(
-      comparativecsvdownloadmiddleware({ response_json: selectedcriteria }),
+      comparativecsvdownloadmiddleware({
+        response_json: selectedcriteria.payload,
+        jd_id: jdId,
+      }),
     );
   };
   const remove_user = (val) => {
@@ -138,7 +141,6 @@ const ComparativeanalysisModal = ({
   return (
     <>
       <Flex middle>
-        {console.log('111111111111', Matching.length)}
         {isLoader ? (
           <Loader />
         ) : (
