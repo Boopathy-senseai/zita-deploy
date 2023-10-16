@@ -57,6 +57,7 @@ const ComparativeanalysisModal = ({
   const { jdId } = useParams<ParamsType>();
   const [iskey, setkey] = useState(0);
   const [selectedcriteria, setresponsibledateria] = useState<any>();
+  const [isDatastore, setDatastore] = useState<any>();
   const [isPros, setPros] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [verify, setverify] = useState(false);
@@ -132,9 +133,11 @@ const ComparativeanalysisModal = ({
 
   const cancelverify = () => {
     setverify(false);
+    seterrormsg('')
     select_candidate(olddata, 6);
   };
   let totalSum = 0;
+
   return (
     <>
       <Flex middle>
@@ -188,7 +191,7 @@ const ComparativeanalysisModal = ({
                                 }}
                                 avatar={
                                   selectedcriteria.payload.analysis[0].image &&
-                                  selectedcriteria.payload.analysis[0].image !==
+                                    selectedcriteria.payload.analysis[0].image !==
                                     'default.jpg'
                                     ? `${process.env.REACT_APP_HOME_URL}media/${selectedcriteria.payload.analysis[0].image}`
                                     : undefined
@@ -196,29 +199,26 @@ const ComparativeanalysisModal = ({
                                 initials={`${selectedcriteria.payload.analysis[0]?.first_name?.charAt(
                                   0,
                                 )}
-                          ${
-                            !isEmpty(
-                              selectedcriteria.payload.analysis[0].last_name,
-                            )
-                              ? selectedcriteria.payload.analysis[0].last_name?.charAt(
-                                  0,
+                          ${!isEmpty(
+                                  selectedcriteria.payload.analysis[0].last_name,
                                 )
-                              : ''
-                          }`}
+                                    ? selectedcriteria.payload.analysis[0].last_name?.charAt(
+                                      0,
+                                    )
+                                    : ''
+                                  }`}
                               />
                             </Flex>
                             <Flex middle>
-                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${
-                                selectedcriteria.payload.analysis[0]?.first_name
-                              }${
-                                !isEmpty(
+                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name
+                                }${!isEmpty(
                                   selectedcriteria.payload.analysis[0]
                                     .last_name,
                                 )
                                   ? selectedcriteria.payload.analysis[0]
-                                      .last_name
+                                    .last_name
                                   : ''
-                              }`}</Text>
+                                }`}</Text>
                             </Flex>
                           </Flex>
                         </Flex>
@@ -395,11 +395,10 @@ const ComparativeanalysisModal = ({
                                           ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                           : undefined
                                       }
-                                      initials={`${e?.first_name?.charAt(0)}${
-                                        !isEmpty(e.last_name)
-                                          ? e.last_name?.charAt(0)
-                                          : ''
-                                      }`}
+                                      initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
+                                        ? e.last_name?.charAt(0)
+                                        : ''
+                                        }`}
                                     />
                                     <Flex
                                       className={cx({
@@ -527,6 +526,7 @@ const ComparativeanalysisModal = ({
                     selectedcriteria.payload.analysis.map((data, index) => {
                       if (iskey.toString().includes(index)) {
                         return (
+
                           <Flex key={index} marginBottom={15}>
                             <Flex row between>
                               <Flex row center>
@@ -538,6 +538,7 @@ const ComparativeanalysisModal = ({
                                 <Flex
                                   onClick={() => setPros(!isPros)}
                                   marginLeft={8}
+                                  style={{ cursor: 'pointer' }}
                                 >
                                   <SvgAngle
                                     width={12}
@@ -567,7 +568,7 @@ const ComparativeanalysisModal = ({
                                   style={{ cursor: 'pointer' }}
                                   disabled={
                                     selectedcriteria.payload.analysis.length -
-                                      1 ===
+                                    1 ===
                                     iskey
                                   }
                                 >
@@ -581,42 +582,50 @@ const ComparativeanalysisModal = ({
                             </Flex>
                             {isPros && (
                               <Flex>
-                                <Flex row between flex={12}>
-                                  <Flex flex={4}>
-                                    Overall Score based on the criteria :{' '}
-                                    {data.Average_match_percentage <= 3 && (
-                                      <Text color="error">
-                                        {data.Average_match_percentage}/10
-                                      </Text>
-                                    )}
-                                    {data.Average_match_percentage > 7 && (
-                                      <Text color="success">
-                                        {data.Average_match_percentage}/10
-                                      </Text>
-                                    )}
-                                    {data.Average_match_percentage > 3 &&
-                                      data.Average_match_percentage <= 7 && (
-                                        <Text style={{ color: '#F29111' }}>
+                                <Flex row between flex={12} marginBottom={8}>
+                                  <Flex flex={4} row center >
+                                    <Flex>
+                                      Overall Score based on the criteria :{' '}
+                                    </Flex>
+                                    <Flex marginLeft={6}>
+                                      {data.Average_match_percentage <= 3 && (
+                                        <Text color="error">
                                           {data.Average_match_percentage}/10
                                         </Text>
                                       )}
-                                  </Flex>
-                                  <Flex flex={3}>
-                                    Recommended to Hire :{' '}
-                                    {data.Average_match_percentage <= 3 && (
-                                      <Text color="error">No</Text>
-                                    )}
-                                    {data.Average_match_percentage > 7 && (
-                                      <Text color="success">Yes</Text>
-                                    )}
-                                    {data.Average_match_percentage > 3 &&
-                                      data.Average_match_percentage <= 7 && (
-                                        <Text style={{ color: '#F29111' }}>
-                                          Neutral
+                                      {data.Average_match_percentage > 7 && (
+                                        <Text color="success">
+                                          {data.Average_match_percentage}/10
                                         </Text>
                                       )}
+                                      {data.Average_match_percentage > 3 &&
+                                        data.Average_match_percentage <= 7 && (
+                                          <Text style={{ color: '#F29111' }}>
+                                            {data.Average_match_percentage}/10
+                                          </Text>
+                                        )}
+                                    </Flex>
                                   </Flex>
-                                  <Flex flex={5}></Flex>
+                                  <Flex flex={4} row center >
+                                    <Flex>
+                                      Recommended to Hire :{' '}
+                                    </Flex>
+                                    <Flex marginLeft={6}>
+                                      {data.Average_match_percentage <= 3 && (
+                                        <Text color="error">No</Text>
+                                      )}
+                                      {data.Average_match_percentage > 7 && (
+                                        <Text color="success">Yes</Text>
+                                      )}
+                                      {data.Average_match_percentage > 3 &&
+                                        data.Average_match_percentage <= 7 && (
+                                          <Text style={{ color: '#F29111' }}>
+                                            Neutral
+                                          </Text>
+                                        )}
+                                    </Flex>
+                                  </Flex>
+                                  <Flex flex={4}></Flex>
                                 </Flex>
                                 <Flex row flex={12}>
                                   <Flex flex={6}>
@@ -658,23 +667,20 @@ const ComparativeanalysisModal = ({
                   column
                   style={{
                     backgroundColor: 'white',
-                    width: '500px',
-                    height: '250px',
                     padding: '25px',
                   }}
                 >
-                  <Flex center>
+                  {errormsg && <Flex center>
                     <Text color="error">{errormsg}</Text>
-                  </Flex>
+                  </Flex>}
                   <Flex
                     row
                     center
-                    marginTop={10}
                     style={{ justifyContent: 'center' }}
                   >
                     This action will remove the candidate from the comparison.
                   </Flex>
-                  <Flex row end>
+                  <Flex row end marginTop={20}>
                     <Button
                       onClick={cancelverify}
                       types="secondary"
