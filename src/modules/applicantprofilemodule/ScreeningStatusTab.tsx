@@ -6,6 +6,7 @@ import { getDateString } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import styles from './screeningstatustab.module.css';
 import InterviewScorecardTab from './InterviewScorecardTab';
+import AllMatchTab from './AllMatchTab';
 
 type Props = {
   title: string;
@@ -128,6 +129,20 @@ console.log(invite,'ffffffffffffffffffffffffff')
           <InterviewScorecardTab />
         </Flex>
       )}
+      <Flex
+        height={window.innerHeight - 115}
+        style={{
+          border: '0.3px solid #C3C3C3',
+          width: '0.5px',
+          margin: '15px 5px 10px 5px',
+          paddingTop: '10px',
+          paddingBottom: '10px',
+
+        }}
+      ></Flex>
+      <Flex flex={6.4}>
+        <AllMatchTab title={''} inviteMessage={''} />
+      </Flex>
     </Flex>
   );
 };

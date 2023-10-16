@@ -131,6 +131,24 @@ const MatchingAnalysisTab = () => {
     dispatch(WeightagematchinggetMiddleWare(jd_id));
   }, [success])
 
+  // // const TruncatedText = ({ text }) => {
+  //   const [isExpanded, setIsExpanded] = useState(false);
+  
+   
+  
+  //   const toggleExpansion = () => {
+  //     setIsExpanded(!isExpanded);
+  //   };
+
+    const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
+
+    const handleViewMoreClick = () => {
+      setIsViewMoreClicked(true);
+    };
+
+    const handleViewLessClick = () => {
+      setIsViewMoreClicked(false);
+    };
   const [isCollapse, setCollapse] = useState(false);
   const [isloadings, setisloading] = useState(false);
 
@@ -532,10 +550,10 @@ const MatchingAnalysisTab = () => {
                     <Flex style={{width:"45%"}}>
                       <Text bold>Technical Matching</Text>
                     </Flex>
-                    <Flex style={{width:'45%'}}>
+                    <Flex style={{width:'40%'}}>
                       <Text bold>Score (100)</Text>
                     </Flex>
-                    <Flex style={{width:'10%'}}>
+                    <Flex style={{width:'15%'}}>
                       <Text bold>Weightage</Text>
                     </Flex>
                   </Flex>
@@ -552,16 +570,16 @@ const MatchingAnalysisTab = () => {
                               <Text>{skill.title}</Text>
                             </Flex>
                           </Flex>
-                          <Flex style={{ width: "45%" }}>
+                          <Flex style={{ width: "40%" }}>
                             <ProgressBar
 
                               completed={`${skill.percentage}`}
 
                               bgColor="#581845"
 
-                              width="170px"
+                              width="140px"
 
-                              height='10px'
+                              height='6px'
 
                               borderRadius='4px'
 
@@ -585,7 +603,7 @@ const MatchingAnalysisTab = () => {
 
                             </ProgressBar>
                           </Flex>
-                          <Flex style={{ width: "10%" }} className={styles.centervalue}>
+                          <Flex style={{ width: "15%" }} className={styles.centervalue}>
 
                        <Text>{skill.skill_percentage}</Text>
 
@@ -604,15 +622,15 @@ const MatchingAnalysisTab = () => {
             {/* Non-Technical */}
             <Flex className={styles.techcardstyles}>
               <Card>
-                <Flex style={{ padding: "25px" }}>
+                <Flex style={{ padding: "20px 20px 15px 20px" }}>
                   <Flex className={styles.threediv}>
                     <Flex style={{width:"45%"}}>
                       <Text bold>Non-Technical Matching</Text>
                     </Flex>
-                    <Flex style={{width:'45%'}}>
+                    <Flex style={{width:'40%'}}>
                       <Text bold>Score (100)</Text>
                     </Flex>
-                    <Flex style={{width:'10%'}}>
+                    <Flex style={{width:'15%'}}>
                       <Text bold>Weightage</Text>
                     </Flex>
                   </Flex>
@@ -629,16 +647,16 @@ const MatchingAnalysisTab = () => {
                               <Text>{skill.title}</Text>
                             </Flex>
                           </Flex>
-                          <Flex style={{ width: "45%" }}>
+                          <Flex style={{ width: "40%" }}>
                             <ProgressBar
 
                               completed={`${skill.percentage}`}
 
                               bgColor="#581845"
 
-                              width="170px"
+                              width="140px"
 
-                              height='10px'
+                              height='6px'
 
                               borderRadius='4px'
 
@@ -662,7 +680,7 @@ const MatchingAnalysisTab = () => {
 
                             </ProgressBar>
                           </Flex>
-                          <Flex style={{ width: "10%" }} className={styles.centervalue}>
+                          <Flex style={{ width: "15%" }} className={styles.centervalue}>
 
                        <Text>{skill.skill_percentage}</Text>
 
@@ -687,66 +705,93 @@ const MatchingAnalysisTab = () => {
             <Flex className={styles.techcardstyles}>
               <Card>
                 <Flex style={{ padding: "25px" }}>
-                  <Flex>
-                    <Flex style={{ borderBottom: "1px solid #581845" }}>
+                  <Flex row>
+                    {/* <Flex style={{ borderBottom: "1px solid #581845" }}>
+                      <Text bold>Technical Matching</Text>
+                    </Flex> */}
+                    {/* <Flex> */}
+                    <Flex style={{width:"20%"}}>
                       <Text bold>Technical Matching</Text>
                     </Flex>
+                    <Flex style={{width:'20%'}}>
+                      <Text bold>Score (100)</Text>
+                    </Flex>
+                    <Flex center style={{width:'10%', display: "flex"}}>
+                      <Text bold>Weightage</Text>
+                    </Flex>
+                    <Flex style={{width:'50%'}}>
+                      <Text bold>Description</Text>
+                    </Flex>
+                  {/* </Flex> */}
                   </Flex>
                   <Flex>
                     <div>
 
                       {outputtech.map((skill, index) => (
                         <Flex className={styles.innerSliderbarStyle} key={index}>
-                          <Flex>
-                            <Flex>
-                              <Flex>
+                          {/* <Flex> */}
+                            {/* <Flex> */}
+
+                              <Flex className={styles.infohead1}>
                                 <Text>{skill.title}</Text>
                               </Flex>
-                              <Flex>
+
+                              <Flex className={styles.infohead2}>
                                 <ProgressBar
-
-                                  completed={skill.percentage}
-
+                                  completed={`${skill.percentage}`}
                                   bgColor="#581845"
-
-                                  width="170px"
-
-                                  height='10px'
-
+                                  width="200px"
+                                  height='6px'
                                   borderRadius='4px'
-
                                   labelColor="black"
-
                                   labelAlignment="outside"
-
                                   labelClassName={
-
                                     rangeValueskill < 10
-
                                       ? styles.labelpadding
-
                                       : rangeValueskill >= 100
-
                                         ? styles.labelpadding2
-
                                         : styles.labelpadding3}
-
                                 >
-
                                 </ProgressBar>
                               </Flex>
-                              <Text>
-                                Weightage: {skill.skill_percentage}%
-                              </Text>
-                            </Flex>
-                          </Flex>
-                          <Flex className={styles.chatgptoutput}>
+
+                              <Flex className={styles.infohead3}>
+                                <Text>
+                                  {skill.skill_percentage}
+                                </Text>
+                              </Flex>
+
+                            {/* </Flex> */}
+                          {/* </Flex> */}
+                          <Flex 
+                          // className={styles.chatgptoutput}
+                          width={"50%"}
+                          // height={40}
+                          >
                             {/* ChatGPT Content */}
 
 
                             {skill.percentage === 0 ? (<Text> No Data Available</Text>
-                            ) : (<Text>  Weightage:{skill.description}</Text>)}
+                            ) : (
+                            <Flex className={expandedIndex?.includes(index) ? "" : styles.chatgptoutput1}>
+                              <Text>  Weightage:{skill.description}</Text>
+                              </Flex>)}
+                          {skill.percentage !== 0 && !expandedIndex?.includes(index) ? (
+                            <Flex
+                              onClick={()=>handleToggleCollapse(index)}
+                              style={{cursor:"pointer"}}>
+                                <Text bold> View More</Text>
+                                  </Flex>
+                          ) : (
+                            skill.percentage !== 0 &&
+                          <Flex
+                            onClick={()=>handleToggleCollapse(index)}
+                            style={{cursor:"pointer"}}>
+                              <Text bold> View Less</Text>
+                            </Flex>)}
                           </Flex>
+
+                          {/* {console.log("skillsskills", skill.description.split('\n').length)} */}
                         </Flex>))}
 
                     </div>
@@ -761,9 +806,21 @@ const MatchingAnalysisTab = () => {
             <Flex className={styles.nontechcardstyles}>
               <Card>
                 <Flex style={{ padding: "25px" }}>
-                  <Flex>
-                    <Flex style={{ borderBottom: "1px solid #581845" }}>
+                  <Flex row>
+                    {/* <Flex>
                       <Text bold>Non-Technical Matching</Text>
+                    </Flex> */}
+                    <Flex style={{width:"20%"}}>
+                      <Text bold>Non-Technical Matching</Text>
+                    </Flex>
+                    <Flex style={{width:'20%'}}>
+                      <Text bold>Score (100)</Text>
+                    </Flex>
+                    <Flex center style={{width:'10%', display: "flex"}}>
+                      <Text bold>Weightage</Text>
+                    </Flex>
+                    <Flex style={{width:'50%'}}>
+                      <Text bold>Description</Text>
                     </Flex>
                   </Flex>
                   <Flex>
@@ -772,45 +829,32 @@ const MatchingAnalysisTab = () => {
                     <div>
                       {outputnontech.map((skill, index) => (
                         <Flex className={styles.innerSliderbarStyle} key={index}>
-                          <Flex>
-                            <Flex>
+                          {/* <Flex> */}
+                            <Flex className={styles.infohead1}>
                               <Text>  {skill.title}</Text>
                             </Flex>
-                            <Flex>
+                            <Flex className={styles.infohead2}>
                               <ProgressBar
-
-                                completed={skill.percentage}
-
+                                completed={`${skill.percentage}`}
                                 bgColor="#581845"
-
-                                width="170px"
-
-                                height='10px'
-
+                                width="200px"
+                                height='6px'
                                 borderRadius='4px'
-
                                 labelColor="black"
-
                                 labelAlignment="outside"
-
                                 labelClassName={
-
                                   rangeValueskill < 10
-
                                     ? styles.labelpadding
-
                                     : rangeValueskill >= 100
-
                                       ? styles.labelpadding2
-
                                       : styles.labelpadding3}
-
                               >
-
                               </ProgressBar>
-                              <Text>{skill.skill_percentage}%</Text>
                             </Flex>
-                          </Flex>
+                            <Flex className={styles.infohead3}>
+                              <Text>{skill.skill_percentage}</Text>
+                              </Flex>
+                          {/* </Flex> */}
 
 
                           <Flex className={styles.chatgptoutput}>
@@ -897,6 +941,7 @@ const MatchingAnalysisTab = () => {
                         cursor: 'pointer', // Show pointer cursor
                         background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueskill / 100) * 100}%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
                         borderRadius: '5px', // Add border radius
+                        height:"6px",
 
 
                       }}
@@ -1166,6 +1211,7 @@ const MatchingAnalysisTab = () => {
                         cursor: 'pointer', // Show pointer cursor
                         background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
                         borderRadius: '5px', // Add border radius
+                        height:"6px"
                       }}
                     />
                     <Text style={{
@@ -1393,7 +1439,7 @@ const MatchingAnalysisTab = () => {
           </Flex>
         </Flex>
       </Modal>
-      <Flex
+      {/* <Flex
         height={window.innerHeight - 115}
         style={{
           border: '0.3px solid #C3C3C3',
@@ -1406,7 +1452,7 @@ const MatchingAnalysisTab = () => {
       ></Flex>
       <Flex flex={6.4}>
         <AllMatchTab title={''} inviteMessage={''} />
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
