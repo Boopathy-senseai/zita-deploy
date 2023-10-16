@@ -561,7 +561,10 @@ const ComparativeanalysisModal = ({
                                   />
                                 </Flex>
                                 <Flex marginLeft={7} marginRight={7}>
-                                  {data.first_name}
+                                {`${data?.first_name} ${!isEmpty(data.last_name)
+                                        ? data.last_name
+                                        : ''
+                                        }`} 
                                 </Flex>
                                 <Flex
                                   onClick={() => setkey(iskey + 1)}
