@@ -12,7 +12,8 @@
 }
 .cardheader {
   background: #581845;
-  height: 30px;
+  height: 40px;
+  border-radius: 4px;
 }
 
 .container {

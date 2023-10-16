@@ -10,6 +10,7 @@ import Loader from '../../uikit/Loader/Loader';
 import { Toast } from '../../uikit';
 import SvgClose from '../../icons/SvgClose';
 import SvgshareIcon from '../../icons/SvgShareIconview';
+import SvgCSV from '../../icons/SvgCSV';
 import SvgLocationicon from '../../icons/SvgLocationicon';
 import Svgeditingnotes from '../../icons/editingnotes';
 import SvgJobselection from '../../icons/SvgJobselection';
@@ -85,7 +86,6 @@ const ComparativeanalysisModal = ({
     ).then((response) => {
       if (response.payload.success === true) {
         setresponsibledateria(response);
-        dispatch(comparativecsvdownloadmiddleware({response_json:response}));
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
       } else {
@@ -98,6 +98,9 @@ const ComparativeanalysisModal = ({
       }
     });
   };
+  const DownloadCsv = () => {
+    dispatch(comparativecsvdownloadmiddleware({ response_json: selectedcriteria }));
+  }
   return (
     <>
       <Flex middle>
@@ -126,13 +129,13 @@ const ComparativeanalysisModal = ({
               </Flex>
               <Flex
                 className={styles.fixingcontent}
-                height={window.innerHeight - 70}
+                height={window.innerHeight - 100}
                 width={window.innerWidth - 100}
               >
                 <Card className={styles.card}>
-                  <Flex className={styles.cardheader}>
+                  <Flex className={styles.cardheader} center>
                     <Text
-                      style={{ color: 'white', padding: ' 5px 0px 0px 20px' }}
+                      style={{ color: 'white', paddingLeft: '10px', }}
                     >
                       {' '}
                       AI Recommendation{' '}
@@ -179,23 +182,24 @@ const ComparativeanalysisModal = ({
                               }`}</Text>
                           </Flex>
                         </Flex>
-                      </Flex> 
-                       <Flex className={styles.part3}>
+                      </Flex>
+                      <Flex className={styles.part3}>
                         <Text >
                           {' '}
                           {
                             selectedcriteria.payload.analysis[0]?.Pros
                           }{' '}
                         </Text>
-                      </Flex>  
+                      </Flex>
                     </Flex>
                   ) : (
                     ''
                   )}
                 </Card>
                 <Flex row between marginTop={20} marginBottom={13}>
-                  <Flex>
-                    <Text>Comparative Analysis</Text>
+                  <Flex row>
+                    <Flex><Text>Comparative Analysis</Text></Flex>
+                    <Flex marginLeft={15} onClick={DownloadCsv} title='Download CSV' style={{ cursor: "pointer" }}><SvgCSV height={16} width={16} /></Flex>
                   </Flex>
                   <Flex
                     onClick={() => openaddmodel(true)}
@@ -269,7 +273,7 @@ const ComparativeanalysisModal = ({
                       </Flex>
                     </Flex>
                     {selectedcriteria ? (
-                      <>  
+                      <>
                         {selectedcriteria &&
                           selectedcriteria.payload.analysis.length > 0 &&
                           Object.keys(selectedcriteria.payload.analysis[0].categories).map((key, index) => (
@@ -427,10 +431,10 @@ const ComparativeanalysisModal = ({
                                   count={5}
                                 />
                               </Flex>
-                              <Flex marginTop={20}> 
+                              <Flex marginTop={20}>
                                 <Flex
-                                  key={indexnum} 
-                                > 
+                                  key={indexnum}
+                                >
                                   {Object.keys(e.categories).map((key, subIndex) => (
                                     <Flex center
                                       middle
@@ -440,7 +444,7 @@ const ComparativeanalysisModal = ({
                                         padding: '4px',
                                       }} key={subIndex}>{`${e.categories[key]}`}</Flex>
                                   ))}
-                                </Flex>  
+                                </Flex>
                               </Flex>
                             </Card>
                           </Flex>
