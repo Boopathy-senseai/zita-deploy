@@ -11,9 +11,12 @@ import { Toast } from '../../uikit';
 import SvgClose from '../../icons/SvgClose';
 import SvgshareIcon from '../../icons/SvgShareIconview';
 import SvgCSV from '../../icons/SvgCSV';
+import SvgRight from '../../icons/SvgRight';
 import SvgLocationicon from '../../icons/SvgLocationicon';
+import SvgLeft from '../../icons/SvgLeft';
 import Svgeditingnotes from '../../icons/editingnotes';
 import SvgJobselection from '../../icons/SvgJobselection';
+import SvgAngle from '../../icons/SvgAngle';
 import SvgAdd from '../../icons/SvgAdd';
 import Avatar from '../../uikit/Avatar';
 import { isEmpty } from '../../uikit/helper';
@@ -52,9 +55,9 @@ const ComparativeanalysisModal = ({
 }: Props) => {
   const [addmodel, setaddmodel] = useState(false);
   const { jdId } = useParams<ParamsType>();
-  const [responsibledata, a] = useState<any>();
-  const [selectedcandidate, setselectedcandidate] = useState<any>();
+  const [iskey, setkey] = useState(0);
   const [selectedcriteria, setresponsibledateria] = useState<any>();
+  const [isPros, setPros] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [verify, setverify] = useState(false);
   const [olddata, setolddata] = useState([]);
@@ -123,6 +126,7 @@ const ComparativeanalysisModal = ({
     setverify(false);
     select_candidate(olddata, 6);
   };
+  let totalSum = 0;
   return (
     <>
       <Flex middle>
@@ -176,7 +180,7 @@ const ComparativeanalysisModal = ({
                               }}
                               avatar={
                                 selectedcriteria.payload.analysis[0].image &&
-                                selectedcriteria.payload.analysis[0].image !==
+                                  selectedcriteria.payload.analysis[0].image !==
                                   'default.jpg'
                                   ? `${process.env.REACT_APP_HOME_URL}media/${selectedcriteria.payload.analysis[0].image}`
                                   : undefined
@@ -184,31 +188,28 @@ const ComparativeanalysisModal = ({
                               initials={`${selectedcriteria.payload.analysis[0]?.first_name?.charAt(
                                 0,
                               )}
-                          ${
-                            !isEmpty(
-                              selectedcriteria.payload.analysis[0].last_name,
-                            )
-                              ? selectedcriteria.payload.analysis[0].last_name?.charAt(
-                                  0,
-                                )
-                              : ''
-                          }`}
+                          ${!isEmpty(
+                                selectedcriteria.payload.analysis[0].last_name,
+                              )
+                                  ? selectedcriteria.payload.analysis[0].last_name?.charAt(
+                                    0,
+                                  )
+                                  : ''
+                                }`}
                             />
                           </Flex>
                           <Flex middle>
-                            <Text style={{ padding: '2px 0px 0px 0px' }}>{`${
-                              selectedcriteria.payload.analysis[0]?.first_name
-                            }${
-                              !isEmpty(
+                            <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name
+                              }${!isEmpty(
                                 selectedcriteria.payload.analysis[0].last_name,
                               )
                                 ? selectedcriteria.payload.analysis[0].last_name
                                 : ''
-                            }`}</Text>
+                              }`}</Text>
                           </Flex>
                         </Flex>
-                      </Flex> 
-                       <Flex className={styles.part3}> 
+                      </Flex>
+                      <Flex className={styles.part3}>
                         <Text >
                           {' '}
                           {selectedcriteria.payload.analysis[0]?.Pros}{' '}
@@ -244,7 +245,7 @@ const ComparativeanalysisModal = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row flex={12}>
+                <Flex row >
                   <Flex>
                     <Flex row marginTop={20} flex={4}>
                       <Flex>
@@ -372,11 +373,10 @@ const ComparativeanalysisModal = ({
                                         ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                         : undefined
                                     }
-                                    initials={`${e?.first_name?.charAt(0)}${
-                                      !isEmpty(e.last_name)
-                                        ? e.last_name?.charAt(0)
-                                        : ''
-                                    }`}
+                                    initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
+                                      ? e.last_name?.charAt(0)
+                                      : ''
+                                      }`}
                                   />
                                   <Flex
                                     className={cx({
@@ -395,7 +395,7 @@ const ComparativeanalysisModal = ({
                                         marginTop: ' 2px',
                                       }}
                                     >
-                                      {e.Total_matching_percentage}
+                                      {Math.round(e.Total_matching_percentage)}
                                     </Text>
                                   </Flex>
                                 </Flex>
@@ -468,7 +468,9 @@ const ComparativeanalysisModal = ({
                                       style={{
                                         borderTop: '1px solid rgb(195, 195, 195)',
                                         padding: '4px',
-                                      }} key={subIndex}>{`${e.categories[key]}`}</Flex>
+                                      }} key={subIndex}> {e.categories[key] <= 3 && <Text>{`${e.categories[key]}/10(Low)`}</Text>}
+                                      {e.categories[key] > 7 && <Text>{`${e.categories[key]}/10(High)`}</Text>}
+                                      {e.categories[key] > 3 && e.categories[key] <= 7 && <Text>{`${e.categories[key]}/10(Medium)`}</Text>}</Flex>
                                   ))}
                                 </Flex>
                               </Flex>
@@ -478,6 +480,57 @@ const ComparativeanalysisModal = ({
                       })}
                   </Flex>
                 </Flex>
+                {selectedcriteria &&
+                  selectedcriteria.payload.analysis.map((data, index) => {
+                    if (iskey.toString().includes(index)) {
+                      return (
+                        <Flex key={index} marginBottom={15}>
+                          <Flex row between>
+                            <Flex row center>
+                              <Flex style={{ fontsize: '14px', color: '#581845' }}>Detailed Information</Flex>
+                              <Flex onClick={() => setPros(!isPros)} marginLeft={8}><SvgAngle
+                                width={12}
+                                height={12}
+                                fill="#581845"
+                                up={isPros}
+                              /></Flex>
+                            </Flex>
+                            <Flex row end center>
+                              <Flex onClick={() => setkey(iskey - 1)} disabled={iskey === 0} style={{ cursor: 'pointer' }}><SvgLeft fill={'#581845'} height={14} width={14} /></Flex>
+                              <Flex marginLeft={7} marginRight={7}>{data.first_name}</Flex>
+                              <Flex onClick={() => setkey(iskey + 1)} style={{ cursor: 'pointer' }} disabled={selectedcriteria.payload.analysis.length - 1 === iskey}><SvgRight fill={'#581845'} height={14} width={14} /></Flex>
+                            </Flex>
+                          </Flex>
+                          {isPros &&
+                            <Flex>
+                              <Flex row between flex={12}>
+                                <Flex flex={4}>Overall Score based on the criteria : {data.Average_match_percentage <= 3 && <Text color='error'>{data.Average_match_percentage}/10</Text>}
+                                  {data.Average_match_percentage > 7 && <Text color='success'>{data.Average_match_percentage}/10</Text>}
+                                  {data.Average_match_percentage > 3 && data.Average_match_percentage <= 7 && <Text style={{ color: '#F29111' }}>{data.Average_match_percentage}/10</Text>}
+                                </Flex>
+                                <Flex flex={3}>Recommended to Hire : {data.Average_match_percentage <= 3 && <Text color='error'>No</Text>}
+                                  {data.Average_match_percentage > 7 && <Text color='success'>Yes</Text>}
+                                  {data.Average_match_percentage > 3 && data.Average_match_percentage <= 7 && <Text style={{ color: '#F29111' }}>Neutral</Text>}
+                                </Flex>
+                                <Flex flex={5}></Flex>
+                              </Flex>
+                              <Flex row flex={12}>
+                                <Flex flex={6}>
+                                  <Flex className={styles.tableboarder} middle>Skills Evaluation</Flex>
+                                  <Flex className={styles.tableboarders}>{data.Pros}</Flex>
+                                </Flex>
+                                <Flex flex={6} marginLeft={-0.5}>
+                                  <Flex className={styles.tableboarder} middle>Enhancement Analysis</Flex>
+                                  <Flex className={styles.tableboarders}>{data.Cons}</Flex>
+                                </Flex>
+                              </Flex>
+                            </Flex>}
+                          <Flex>
+                          </Flex>
+                        </Flex>
+                      )
+                    }
+                  })}
               </Flex>
             </Flex>
           </Modal>
