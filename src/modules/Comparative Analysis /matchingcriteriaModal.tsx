@@ -3,6 +3,7 @@ import { Button, Card, InputCheckBox, Modal } from '../../uikit';
 import SvgClose from '../../icons/SvgClose';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import SingleButton from '../common/SingleButton';
 import { Comparativeanalysis } from './mock';
 import styles from './matchingcriteria.module.css';
 import Comparativeanalysismodal from './Comparativeanalysis';
@@ -74,20 +75,18 @@ const MatchingcriteriaModal = ({
   return (
     <Flex>
       <Modal open={matchmodel}>
-        <Flex className={styles.modal}>
+        <Flex className={Matching.length <= 5 && styles.modal}>
           <Flex center>
             {Matching.length > 5 ? (
               <>
-                <Flex>
-                  <Text>
-                    only select 5 candidates and access for Comparative Analysis
-                    & AI Recommendation
-                  </Text>
-
-                  <Flex style={{ marginTop: '15px', justifyContent: 'center' }}>
-                    <Button onClick={() => cancelmodel(false)}>ok</Button>
-                  </Flex>
-                </Flex>
+                <SingleButton
+                  btnTitle="OK"
+                  title={
+                    'only select 5 candidates and access for Comparative Analysis & AI Recommendation'
+                  }
+                  open={Matching.length > 5}
+                  btnOnclick={() => cancelmodel(false)}
+                />
               </>
             ) : (
               <>
