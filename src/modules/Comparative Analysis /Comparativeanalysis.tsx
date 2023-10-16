@@ -21,6 +21,7 @@ import styles from './ComparativeAnalysis.module.css';
 import Addcandidatesmodal from './addcandidatesmodel';
 import {
   comparativeanalysismiddleware,
+  comparativecsvdownloadmiddleware,
   comparativesearchingdatamiddleware,
 } from './store/middleware/comparativemiddleware';
 
@@ -84,6 +85,7 @@ const ComparativeanalysisModal = ({
     ).then((response) => {
       if (response.payload.success === true) {
         setresponsibledateria(response);
+        dispatch(comparativecsvdownloadmiddleware({response_json:response}));
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
       } else {
@@ -98,7 +100,7 @@ const ComparativeanalysisModal = ({
   };
   return (
     <>
-      <Flex  middle>
+      <Flex middle>
         {isLoader ? (
           <Loader />
         ) : (
@@ -149,7 +151,7 @@ const ComparativeanalysisModal = ({
                               }}
                               avatar={
                                 selectedcriteria.payload.analysis[0].image &&
-                                selectedcriteria.payload.analysis[0].image !==
+                                  selectedcriteria.payload.analysis[0].image !==
                                   'default.jpg'
                                   ? `${process.env.REACT_APP_HOME_URL}media/${selectedcriteria.payload.analysis[0].image}`
                                   : undefined
@@ -157,37 +159,35 @@ const ComparativeanalysisModal = ({
                               initials={`${selectedcriteria.payload.analysis[0]?.first_name?.charAt(
                                 0,
                               )}
-                          ${
-                            !isEmpty(
-                              selectedcriteria.payload.analysis[0].last_name,
-                            )
-                              ? selectedcriteria.payload.analysis[0].last_name?.charAt(
-                                  0,
-                                )
-                              : ''
-                          }`}
+                          ${!isEmpty(
+                                selectedcriteria.payload.analysis[0].last_name,
+                              )
+                                  ? selectedcriteria.payload.analysis[0].last_name?.charAt(
+                                    0,
+                                  )
+                                  : ''
+                                }`}
                             />
                           </Flex>
-                          <Text style={{ padding: '2px 0px 0px 0px' }}>{`${
-                            selectedcriteria.payload.analysis[0]?.first_name
-                          }${
-                            !isEmpty(
-                              selectedcriteria.payload.analysis[0].last_name,
-                            )
-                              ? selectedcriteria.payload.analysis[0].last_name
-                              : ''
-                          }`}</Text>
+                          <Flex middle>
+                            <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name
+                              }${!isEmpty(
+                                selectedcriteria.payload.analysis[0].last_name,
+                              )
+                                ? selectedcriteria.payload.analysis[0].last_name
+                                : ''
+                              }`}</Text>
+                          </Flex>
                         </Flex>
-                      </Flex>
-                      {/* <Flex className={styles.part2}></Flex> */}
-                      <Flex className={styles.part3}>
-                        <Text style={{ marginTop: '15px' }}>
+                      </Flex> 
+                       <Flex className={styles.part3}>
+                        <Text >
                           {' '}
                           {
-                            selectedcriteria.payload.analysis[0]?.Description
+                            selectedcriteria.payload.analysis[0]?.Pros
                           }{' '}
                         </Text>
-                      </Flex>
+                      </Flex>  
                     </Flex>
                   ) : (
                     ''
@@ -269,9 +269,10 @@ const ComparativeanalysisModal = ({
                       </Flex>
                     </Flex>
                     {selectedcriteria ? (
-                      <>
-                        {selectedcriteria.payload.analysis[0].categories.map(
-                          (item, index) => (
+                      <>  
+                        {selectedcriteria &&
+                          selectedcriteria.payload.analysis.length > 0 &&
+                          Object.keys(selectedcriteria.payload.analysis[0].categories).map((key, index) => (
                             <Flex
                               marginTop={6}
                               style={{
@@ -279,13 +280,10 @@ const ComparativeanalysisModal = ({
                                 paddingBottom: '6px',
                               }}
                               key={index}
-                            >
-                              {Object.keys(item).map((key, subIndex) => (
-                                <div key={subIndex}>{`${key}`}</div>
-                              ))}
+                            >{`${key}`}
+
                             </Flex>
-                          ),
-                        )}
+                          ))}
                       </>
                     ) : (
                       ''
@@ -345,11 +343,10 @@ const ComparativeanalysisModal = ({
                                         ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                         : undefined
                                     }
-                                    initials={`${e?.first_name?.charAt(0)}${
-                                      !isEmpty(e.last_name)
-                                        ? e.last_name?.charAt(0)
-                                        : ''
-                                    }`}
+                                    initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
+                                      ? e.last_name?.charAt(0)
+                                      : ''
+                                      }`}
                                   />
                                   <Flex
                                     className={cx({
@@ -430,25 +427,20 @@ const ComparativeanalysisModal = ({
                                   count={5}
                                 />
                               </Flex>
-                              <Flex marginTop={20}>
-                                {e.categories.map((item, index) => (
-                                  <Flex
-                                    key={index}
-                                    center
-                                    middle
-                                    height={34}
-                                    style={{
-                                      borderTop: '1px solid rgb(195, 195, 195)',
-                                      padding: '4px',
-                                    }}
-                                  >
-                                    {Object.keys(item).map((key, subIndex) => (
-                                      <Flex key={subIndex}>
-                                        {`${item[key]}`}
-                                      </Flex>
-                                    ))}
-                                  </Flex>
-                                ))}
+                              <Flex marginTop={20}> 
+                                <Flex
+                                  key={indexnum} 
+                                > 
+                                  {Object.keys(e.categories).map((key, subIndex) => (
+                                    <Flex center
+                                      middle
+                                      height={34}
+                                      style={{
+                                        borderTop: '1px solid rgb(195, 195, 195)',
+                                        padding: '4px',
+                                      }} key={subIndex}>{`${e.categories[key]}`}</Flex>
+                                  ))}
+                                </Flex>  
                               </Flex>
                             </Card>
                           </Flex>
