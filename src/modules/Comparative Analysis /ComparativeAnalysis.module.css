@@ -12,7 +12,8 @@
 }
 .cardheader {
   background: #581845;
-  height: 30px;
+  height: 40px;
+  border-radius: 4px;
 }
 
 .container {
@@ -116,4 +117,14 @@
   display: flex;
   align-content: flex-start;
   padding: 25px;
+}
+.tableboarder{
+  border: 1px solid #A5889C;
+}
+.tableboarders{
+  border-left: 1px solid #A5889C;
+  border-right:1px solid #A5889C;
+  border-bottom: 1px solid #A5889C;
+  min-height: 100px;
+  padding: 5px;
 }

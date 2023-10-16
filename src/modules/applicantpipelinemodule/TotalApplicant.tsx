@@ -225,7 +225,7 @@ const TotalApplicant = ({
 
               <Dropdown.Item onClick={onCSVDownload}>
                 <Flex row center className={styles.dropDownListStyle}>
-                  <SvgCsvDownload height={16} width={16} />
+                  <SvgCsvDownload height={16} width={16} fill={'#1a1a1a'}  />
                   <Text style={{ marginLeft: 10 }}>Download CSV</Text>
                 </Flex>
               </Dropdown.Item>
