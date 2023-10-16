@@ -14,7 +14,7 @@ import { SUNRAY } from '../../uikit/Colors/colors';
 import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
-import { InputSearch, Toast } from '../../uikit';
+import { InputSearch, Modal, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import { ERROR_MESSAGE } from '../constValue';
@@ -213,7 +213,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       var NewArray = Matching.filter(
         (item) => item.candidate_id !== data.task.candidate_id_id,
       );
-      console.log('sadasd', NewArray);
+
       setmatching(NewArray);
     } else if (verify === 2) {
       var arr = [];
@@ -1287,6 +1287,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           )}
         </Flex>
       </Flex>
+
       {isLoading && <Loader />}
       {aimodel && (
         <ComparativeModal

@@ -20,8 +20,9 @@ type Props = {
   openfunction?: any;
   Matching: any;
   select_candidate?: (val: any, id: any) => void;
-  dispatchcomparativeApi?: () => void;
+  dispatchcomparativeApi?: (val: any, id: any) => void;
   update_alysismodal?: (val: any) => void;
+  isData?: any;
 };
 type ParamsType = {
   jdId: string;
@@ -33,6 +34,7 @@ const AddcandidatesModal = ({
   select_candidate,
   dispatchcomparativeApi,
   update_alysismodal,
+  isData,
 }: Props) => {
   const { jdId } = useParams<ParamsType>();
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,9 +107,9 @@ const AddcandidatesModal = ({
 
   const Compare_candidate = () => {
     if (!(Matching.length > 5)) {
-      update_alysismodal(false);
+      // update_alysismodal(false);
       openfunction(false);
-      dispatchcomparativeApi();
+      dispatchcomparativeApi(Matching, isData);
     } else {
       console.log('no');
     }
