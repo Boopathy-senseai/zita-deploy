@@ -503,15 +503,15 @@ const ComparativeanalysisModal = ({
                                           key={subIndex}
                                         >
                                           {' '}
-                                          {e.categories[key] <= 3 && (
-                                            <Text>{`${e.categories[key]}/10(Low)`}</Text>
+                                          {e.categories[key].lowerCase() === null ?0:e.categories[key] <= 3 && (
+                                            <Text>{`${e.categories[key].lowerCase() === null ?0:e.categories[key]}/10(Low)`}</Text>
                                           )}
-                                          {e.categories[key] > 7 && (
-                                            <Text>{`${e.categories[key]}/10(High)`}</Text>
+                                          {e.categories[key].lowerCase() === null ?0:e.categories[key] > 7 && (
+                                            <Text>{`${e.categories[key].lowerCase() === null ?0:e.categories[key]}/10(High)`}</Text>
                                           )}
-                                          {e.categories[key] > 3 &&
-                                            e.categories[key] <= 7 && (
-                                              <Text>{`${e.categories[key]}/10(Medium)`}</Text>
+                                          {e.categories[key].lowerCase() === null ?0:e.categories[key] > 3 &&
+                                            e.categories[key].lowerCase() === null ?0:e.categories[key] <= 7 && (
+                                              <Text>{`${e.categories[key].lowerCase() === null ?0:e.categories[key]}/10(Medium)`}</Text>
                                             )}
                                         </Flex>
                                       ),
