@@ -15,6 +15,7 @@ import { Loader } from '../../uikit';
 import { Button, LinkWrapper } from '../../uikit';
 import Tabs from '../../uikit/Tabs/Tabs';
 import SvgAngle from '../../icons/SvgAngle';
+import SvgNoData from '../../icons/SvgNoData';
 import SvgModuleicon from '../../icons/SvgModuleicon';
 
 import { removeUnderScores, lowerCase } from '../../uikit/helper';
@@ -30,6 +31,7 @@ import {
 import styles from './matchinganalysistab.module.css';
 import AllMatchTab from './AllMatchTab';
 import { CandidatejobidMatchMiddleWare } from './store/middleware/applicantProfileMiddleware';
+
 
 
 
@@ -200,6 +202,7 @@ const MatchingAnalysisTab = () => {
     setTechnicalPercent(totalTechnicalPercent);
     settotaltechnical(totalTechnicalPercent)
   };
+  const text2="The candidate has experience in performing general ledger management duties, reconciling bank statements, recording journal entries, and preparing financial statements.The candidate has experience in performing general ledger management duties, reconciling bank statements, recording journal entries, and preparing financial statements.The candidate has experience in performing general ledger management duties, reconciling bank statements, recording journal entries, and preparing financial statements."
 
   const updateNonTechnicalPercent = () => {
     const totalNonTechnicalPercent =
@@ -367,7 +370,7 @@ const MatchingAnalysisTab = () => {
   };
 
 
-
+  const [expandedIndex2, setExpandedIndex2] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState([]);
   const dispatch: AppDispatch = useDispatch();
 
@@ -378,9 +381,17 @@ const MatchingAnalysisTab = () => {
         : [...prevIndexes, index]
     );
   };
+  const handleToggleCollapse2 = (index) => {
+    setExpandedIndex2((prevIndexes) =>
+      prevIndexes.includes(index)
+        ? prevIndexes.filter((prevIndex) => prevIndex !== index)
+        : [...prevIndexes, index]
+    );
+  };
 
   useEffect(() => {
     setExpandedIndex([]);
+    setExpandedIndex2([]);
   }, []);
 
   useEffect(() => {
@@ -524,188 +535,24 @@ const MatchingAnalysisTab = () => {
 
           </Flex>
           <Flex>
-            <Flex>
-              {!isShowMoreInfo ? (
-                <Flex style={{ cursor: "pointer" }} onClick={handleMoreInfo}>
-                  <Text bold size={14} color="theme">View More Info</Text>
-                </Flex>
-              ) : (
-                <Flex style={{ cursor: "pointer" }} onClick={handleLessInfo}>
-                  <Text bold size={14} color="theme">View Less Info</Text>
-                </Flex>)}
-            </Flex>
           </Flex>
         </Flex>
 
-        {!isShowMoreInfo ? (
+      
           <Flex
             height={window.innerHeight - 184}
             style={{ overflow: "scroll", padding: "10px 0px 10px 0px" }}
+            className={outputnontech.length<=0?(outputtech.length<=0?(styles.nodata):("")):("")}
           >
             {/* Technical */}
+           {
+            outputtech.length>0 && outputnontech.length>0?(<>
+           
             <Flex className={styles.techcardstyles}>
               <Card>
+              {outputtech.length>0 ?(
                 <Flex style={{ padding: "25px" }}>
-                  <Flex className={styles.threediv}>
-                    <Flex style={{width:"45%"}}>
-                      <Text bold>Technical Matching</Text>
-                    </Flex>
-                    <Flex style={{width:'40%'}}>
-                      <Text bold>Score (100)</Text>
-                    </Flex>
-                    <Flex style={{width:'15%'}}>
-                      <Text bold>Weightage</Text>
-                    </Flex>
-                  </Flex>
-                  <Flex>
-
-
-                    <Flex >
-                      {outputtech.map((skill, index) => (
-                        <Flex className={styles.threediv} key={index} style={{padding:'10px 0px 10px 0px'}}>
-                          <Flex style={{ width: "45%" }}>
-
-                            <Flex >
-
-                              <Text>{skill.title}</Text>
-                            </Flex>
-                          </Flex>
-                          <Flex style={{ width: "40%" }}>
-                            <ProgressBar
-
-                              completed={`${skill.percentage}`}
-
-                              bgColor="#581845"
-
-                              width="140px"
-
-                              height='6px'
-
-                              borderRadius='4px'
-
-                              labelColor="black"
-
-                              labelAlignment="outside"
-
-                              labelClassName={
-
-                                rangeValueskill < 10
-
-                                  ? styles.labelpadding
-
-                                  : rangeValueskill >= 100
-
-                                    ? styles.labelpadding2
-
-                                    : styles.labelpadding3}
-
-                            >
-
-                            </ProgressBar>
-                          </Flex>
-                          <Flex style={{ width: "15%" }} className={styles.centervalue}>
-
-                       <Text>{skill.skill_percentage}</Text>
-
-                          </Flex>
-                        </Flex>))}
-                    </Flex>
-
-
-
-
-                  </Flex>
-                </Flex>
-              </Card>
-            </Flex>
-            <Flex style={{ height: "20px" }}></Flex>
-            {/* Non-Technical */}
-            <Flex className={styles.techcardstyles}>
-              <Card>
-                <Flex style={{ padding: "20px 20px 15px 20px" }}>
-                  <Flex className={styles.threediv}>
-                    <Flex style={{width:"45%"}}>
-                      <Text bold>Non-Technical Matching</Text>
-                    </Flex>
-                    <Flex style={{width:'40%'}}>
-                      <Text bold>Score (100)</Text>
-                    </Flex>
-                    <Flex style={{width:'15%'}}>
-                      <Text bold>Weightage</Text>
-                    </Flex>
-                  </Flex>
-                  <Flex>
-
-
-                    <Flex >
-                      {outputnontech.map((skill, index) => (
-                        <Flex className={styles.threediv} key={index} style={{padding:'10px 0px 10px 0px'}}>
-                          <Flex style={{ width: "45%" }}>
-
-                            <Flex >
-
-                              <Text>{skill.title}</Text>
-                            </Flex>
-                          </Flex>
-                          <Flex style={{ width: "40%" }}>
-                            <ProgressBar
-
-                              completed={`${skill.percentage}`}
-
-                              bgColor="#581845"
-
-                              width="140px"
-
-                              height='6px'
-
-                              borderRadius='4px'
-
-                              labelColor="black"
-
-                              labelAlignment="outside"
-
-                              labelClassName={
-
-                                rangeValueskill < 10
-
-                                  ? styles.labelpadding
-
-                                  : rangeValueskill >= 100
-
-                                    ? styles.labelpadding2
-
-                                    : styles.labelpadding3}
-
-                            >
-
-                            </ProgressBar>
-                          </Flex>
-                          <Flex style={{ width: "15%" }} className={styles.centervalue}>
-
-                       <Text>{skill.skill_percentage}</Text>
-
-                          </Flex>
-                        </Flex>))}
-                    </Flex>
-
-
-
-
-                  </Flex>
-                </Flex>
-              </Card>
-            </Flex>
-          </Flex>
-        ) : (
-          <Flex
-            height={window.innerHeight - 184}
-            style={{ overflow: "scroll", padding: "10px 0px 10px 0px" }}
-          >
-            {/* Technical */}
-            <Flex className={styles.techcardstyles}>
-              <Card>
-                <Flex style={{ padding: "25px" }}>
-                  <Flex row>
+                  <Flex row marginBottom={5}>
                     {/* <Flex style={{ borderBottom: "1px solid #581845" }}>
                       <Text bold>Technical Matching</Text>
                     </Flex> */}
@@ -716,10 +563,10 @@ const MatchingAnalysisTab = () => {
                     <Flex style={{width:'20%'}}>
                       <Text bold>Score (100)</Text>
                     </Flex>
-                    <Flex center style={{width:'20%', display: "flex"}}>
+                    <Flex center style={{width:'10%', display: "flex"}}>
                       <Text bold>Weightage</Text>
                     </Flex>
-                    <Flex style={{width:'40%'}}>
+                    <Flex style={{width:'50%'}}>
                       <Text bold>Description</Text>
                     </Flex>
                   {/* </Flex> */}
@@ -764,7 +611,7 @@ const MatchingAnalysisTab = () => {
                             {/* </Flex> */}
                           {/* </Flex> */}
                           <Flex 
-                          width={"40%"}
+                          width={"50%"}
                           >
                             {/* ChatGPT Content */}
                             {skill.percentage === 0 ? (<Text> No Data Available</Text>
@@ -776,6 +623,7 @@ const MatchingAnalysisTab = () => {
                                       <Flex>
                                         <Text>
                                           {skill.description}
+                                       
                                         </Text>
                                       </Flex>
                                       <Flex
@@ -786,15 +634,15 @@ const MatchingAnalysisTab = () => {
                                       </Flex></>
                                   ) : (
                                     <>
-                                      {skill.description.length > 70 ? (
+                                      {skill.description.length >175 ? (
                                         <>
-                                          <Flex className={styles.ellipcess}>
-                                            {skill.description}
+                                          <Flex  >
+                                          <Text className={styles.textellipces}>{skill.description}</Text>
                                           </Flex>
                                           <Flex
                                             onClick={() => handleToggleCollapse(index)}
                                             style={{ cursor: "pointer" }}>
-                                            <Text bold>...View More</Text>
+                                            <Text bold>View More</Text>
                                           </Flex></>) : (<>
                                             <Flex >
                                               {skill.description}
@@ -806,37 +654,27 @@ const MatchingAnalysisTab = () => {
                               </Flex>)
 
                             }
-                          {/* {skill.percentage !== 0 && !expandedIndex?.includes(index) ? (
-                            <Flex
-                              onClick={()=>handleToggleCollapse(index)}
-                              style={{cursor:"pointer"}}>
-                                <Text bold> View More</Text>
-                                  </Flex>
-                          ) : (
-                            skill.percentage !== 0 &&
-                          <Flex
-                            onClick={()=>handleToggleCollapse(index)}
-                            style={{cursor:"pointer"}}>
-                              <Text bold> View Less</Text>
-                            </Flex>)} */}
+                    
                           </Flex>
 
-                          {/* {console.log("skillsskills", skill.description.split('\n').length)} */}
                         </Flex>))}
 
                     </div>
 
 
                   </Flex>
-                </Flex>
+                </Flex>):( <Text>No Data Available</Text>)}
               </Card>
             </Flex>
+
             <Flex style={{ height: "20px" }}></Flex>
             {/* Non-Technical */}
             <Flex className={styles.nontechcardstyles}>
               <Card>
+               
+                {outputnontech.length>0 ?(
                 <Flex style={{ padding: "25px" }}>
-                  <Flex row>
+                  <Flex row marginBottom={5}>
                     {/* <Flex>
                       <Text bold>Non-Technical Matching</Text>
                     </Flex> */}
@@ -856,51 +694,110 @@ const MatchingAnalysisTab = () => {
                   <Flex>
 
 
-                    <div>
-                      {outputnontech.map((skill, index) => (
+                  {outputnontech.map((skill, index) => (
                         <Flex className={styles.innerSliderbarStyle} key={index}>
-                          {/* <Flex> */}
-                            <Flex className={styles.infohead1}>
-                              <Text>  {skill.title}</Text>
-                            </Flex>
-                            <Flex className={styles.infohead2}>
-                              <ProgressBar
-                                completed={`${skill.percentage}`}
-                                bgColor="#581845"
-                                width="200px"
-                                height='6px'
-                                borderRadius='4px'
-                                labelColor="black"
-                                labelAlignment="outside"
-                                labelClassName={
-                                  rangeValueskill < 10
-                                    ? styles.labelpadding
-                                    : rangeValueskill >= 100
-                                      ? styles.labelpadding2
-                                      : styles.labelpadding3}
-                              >
-                              </ProgressBar>
-                            </Flex>
-                            <Flex className={styles.infohead3}>
-                              <Text>{skill.skill_percentage}</Text>
+
+                              <Flex className={styles.infohead1}>
+                                <Text>{skill.title}</Text>
                               </Flex>
+
+                              <Flex className={styles.infohead2}>
+                                <ProgressBar
+                                  completed={`${skill.percentage}`}
+                                  bgColor="#581845"
+                                  width="200px"
+                                  height='6px'
+                                  borderRadius='4px'
+                                  labelColor="black"
+                                  labelAlignment="outside"
+                                  labelClassName={
+                                    rangeValueskill < 10
+                                      ? styles.labelpadding
+                                      : rangeValueskill >= 100
+                                        ? styles.labelpadding2
+                                        : styles.labelpadding3}
+                                >
+                                </ProgressBar>
+                              </Flex>
+
+                              <Flex className={styles.infohead3}>
+                                <Text>
+                                  {skill.skill_percentage}
+                                </Text>
+                              </Flex>
+
+                            {/* </Flex> */}
                           {/* </Flex> */}
+                          <Flex 
+                          width={"50%"}
+                          >
+                            {/* ChatGPT Content */}
+                            {skill.percentage === 0 ? (<Text> No Data Available</Text>
+                            ) : (
+                              <Flex >
+                                {
+                                  expandedIndex2?.includes(index) ? (
+                                    <>
+                                      <Flex>
+                                        <Text>
+                                          {skill.description}
+                                        </Text>
+                                      </Flex>
+                                      <Flex
+                                        onClick={() => handleToggleCollapse2(index)}
+                                        style={{ cursor: "pointer" }}>
 
+                                        <Text bold> View Less</Text>
+                                      </Flex></>
+                                  ) : (
+                                    <>
+                                      {skill.description.length > 175 ? (
+                                        <>
+                                          <Flex >
+                                            <Text  className={styles.textellipces}>
+                                            {skill.description}</Text>
+                                          </Flex>
+                                          <Flex
+                                            onClick={() => handleToggleCollapse2(index)}
+                                            style={{ cursor: "pointer" }}>
+                                            <Text bold>View More</Text>
+                                          </Flex></>) : (<>
+                                            <Flex >
+                                              <Text>
+                                              {skill.description}
+                                              </Text>
+                                            </Flex>
+                                          </>)
+                                      }
+                                    </>)
+                                }
+                              </Flex>)
 
-                          <Flex className={styles.chatgptoutput}>
-                            {skill.percentage === 0 ? (<Text>No Data Available</Text>
-                            ) : (<Text>  Weightage:{skill.description}</Text>)}
+                            }
+                    
                           </Flex>
-                        </Flex>))}
-                    </div>
 
+                        </Flex>))}
 
                   </Flex>
-                </Flex>
+                </Flex>):(
+                  <Flex>
+                    <Text>No Data Available</Text>
+                  </Flex>
+                )}
               </Card>
-            </Flex>
+            </Flex></>):(<Flex className={styles.rarecase}>
+              <Flex>
+              <SvgNoData width={16} height={16} fill={"#888"} />
+                </Flex>
+                <Flex marginTop={3}>
+                <Text>
+                  No data available.
+                </Text></Flex>
+              
+              </Flex>)}
           </Flex>
-        )}
+       
       </Flex>
       <Modal open={model}>
         <Flex className={styles.weightagepopup}>
@@ -955,7 +852,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueskill}
                       className={styles.customrange}
@@ -969,9 +866,9 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueskill / 100) * 100}%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
-                        height:"6px",
+                        height:"10px",
 
 
                       }}
@@ -995,7 +892,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       className={styles.customrange}
                       value={rangeValuerolles}
@@ -1010,7 +907,7 @@ const MatchingAnalysisTab = () => {
                         margin: '10px 0', // Add margin for spacing
 
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
 
@@ -1034,7 +931,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueexperience}
                       className={styles.customrange}
@@ -1045,7 +942,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
                     />
@@ -1073,7 +970,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueTechnical}
                       onChange={handleRangeChangetechnical}
@@ -1085,7 +982,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
                     />
@@ -1108,7 +1005,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       className={styles.customrange}
                       value={rangeValueSoft}
@@ -1120,7 +1017,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
 
@@ -1142,7 +1039,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueQualifications}
                       className={styles.customrange}
@@ -1154,7 +1051,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
 
@@ -1227,7 +1124,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueIndustry}
                       className={styles.customrange}
@@ -1239,9 +1136,9 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
-                        height:"6px"
+                        height:"10px"
                       }}
                     />
                     <Text style={{
@@ -1262,7 +1159,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       className={styles.customrange}
                       value={rangeValueDomain}
@@ -1274,7 +1171,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
 
@@ -1298,7 +1195,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueCertifications}
                       className={styles.customrange}
@@ -1310,7 +1207,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
                     />
@@ -1332,7 +1229,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueCultural}
                       onChange={handleRangeChangecultural}
@@ -1344,7 +1241,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
                     />
@@ -1367,7 +1264,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       className={styles.customrange}
                       value={rangeValueReferences}
@@ -1379,7 +1276,7 @@ const MatchingAnalysisTab = () => {
                         WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                         margin: '10px 0', // Add margin for spacing
                         cursor: 'pointer', // Show pointer cursor
-                        background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                        background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
                         borderRadius: '5px', // Add border radius
                       }}
 
@@ -1401,7 +1298,7 @@ const MatchingAnalysisTab = () => {
                   <Flex className={styles.innerstyle}>
                     <input
                       type="range"
-                      min="5"
+                      min="0"
                       max="100"
                       value={rangeValueLocation}
                       className={styles.customrange}

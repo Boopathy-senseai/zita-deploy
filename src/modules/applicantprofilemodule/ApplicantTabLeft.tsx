@@ -19,6 +19,7 @@ import InterviewScorecardTab from './InterviewScorecardTab';
 import MatchingAnalysisTab from './MatchingAnalysisTab';
 import Questionnaire from './Questionnaire';
 import ScreeningStatusTab from './ScreeningStatusTab';
+import ScreeningStatusandAllMatchJobTab from './ScreeningStatusandAllMatchJobTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
@@ -97,6 +98,9 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
           <Tab title={'Mailbox'}>
             <EmailScreen isprofileview={true} can_id={can_id}/>
           </Tab>
+          <Tab title={'Screening Status/All Matching Jobs'}>
+            <ScreeningStatusandAllMatchJobTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
+          </Tab> 
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab> 
