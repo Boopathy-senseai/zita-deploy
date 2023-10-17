@@ -34,6 +34,7 @@ import {
 } from './types';
 import { formatTime, getNewDateTimes } from './util';
 
+
 interface Props {
   meetingForm: meetingFormProps;
   applicants: UserType[];
@@ -54,6 +55,10 @@ interface Props {
   currentUser: UserInfo;
   handleCloseSchedulingForm: () => void;
   updateCurrentApplicantId: (applicantId: number) => void;
+  setOpenScheduleForm:any;
+  setopenmodel:any;
+  openmodel:any;
+  formik:any;
 }
 
 const MeetingSchedulingForm = ({
@@ -76,6 +81,10 @@ const MeetingSchedulingForm = ({
   calendarProvider,
   updateCurrentApplicantId,
   currentUser,
+  setOpenScheduleForm,
+  setopenmodel,
+  openmodel,
+  formik,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [applicantJDList, setApplicantJDList] = useState([]);
@@ -89,53 +98,39 @@ const MeetingSchedulingForm = ({
   const [errors, setErrors] = useState([]);
 
 
+
   const  [names,setname]=useState<any>([])
-  interface Interviewer {
-    firstName?: string;
-    lastName?: string;
-    role?: string;
+
+
+
+
+
+
+
+const updatestate = (val) => {
+  const interviewerExists = formik.values.interviewers.some(item => item.userId === val.userId);
+  if (!interviewerExists) {
+    const newInterviewer = {
+      firstName: val.firstName,
+      lastName: val.lastName,
+      role: '',
+      userId: val.userId
+    };
+    formik.setFieldValue('interviewers', [...formik.values.interviewers, newInterviewer]);
+    console.log("add");
+  } else {
+    const updatedInterviewers = formik.values.interviewers.filter(item => item.userId !== val.userId);
+    formik.setFieldValue('interviewers', updatedInterviewers);
+    console.log("sub");
   }
-  
-  interface MyFormValues {
-    interviewers: Interviewer[];
-  }
-  
-  const initialValues: MyFormValues = {
-    interviewers: [
-      { firstName: "", lastName: "", role: "" },
-    ],
-  };
- 
+};
 
 
-useEffect(()=>{
-  var object=[]
-  const { firstName, lastName } = splitName(username);
-var data = {firstname:firstName,lastname:lastName,role:""}
-object.push(data)
-// setname(object)
-formik.setFieldValue('interviewers', [object]);
-},[])  
-
-const updatestate=(val)=>{
-   var a = {firstname:val.firstName,lastname:val.lastName,role:''}
-   setname([...names,a])
-}
 
 
-const handleValidation = (formValues: MyFormValues) => {
-  
-}
-
-const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
-  }
-  const formik = useFormik({
-    initialValues: initialValues,
-    validate: handleValidation,
-    onSubmit: handleSubmit,
-   
-  });
-
+  useEffect(()=>{
+    localStorage.setItem('role',JSON.stringify(formik.values.interviewers))
+  },[formik.values])
 
 
   const eventMeetingTypes: {
@@ -218,7 +213,7 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
 
   const handleContinue = () => {
 
-    const newErrors = names.map((item, idx) => {
+    const newErrors = formik.values.interviewers.map((item, idx) => {
       if (!item.role) {
         return "Role is required";
       }
@@ -290,7 +285,9 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
             endDateTime,
           };
         });
-        setViewMeetingSummary(true);
+       console.log("openform", openmodel)
+        setopenmodel(true)
+
       }
     } else {
       if (meetingForm.eventType.value === 'Onsite interview') {
@@ -318,7 +315,10 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
               endDateTime,
             };
           });
-          setViewMeetingSummary(true);
+          console.log("openform1111", openmodel)
+          setViewMeetingSummary(true)
+          setopenmodel(true)
+  
         } 
     }
     else {
@@ -345,7 +345,10 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
             endDateTime,
           };
         });
+        console.log("openform2222", openmodel)
+        setopenmodel(true)
         setViewMeetingSummary(true);
+       
       }
     }
    }
@@ -859,29 +862,17 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
     "SaaS Developer",
     "Virtual Reality Developer",
   ]
-  function splitName(username1) {
-    const parts = username1.trim().split(/\s+/); 
-    const firstName = parts[0] || "";
-    const lastName = parts.slice(1).join(" ") || ""; 
-    return {
-      firstName,
-      lastName
-    };
-  }
+  
   const handleChange=(ind,e)=>{
     const updatedRole = e.target.value;
-    let updatedNames = [...names];
+    let updatedNames = [...formik.values.interviewers];
     updatedNames[ind].role = updatedRole;
 
-    setname(updatedNames);
-    localStorage.setItem('role',JSON.stringify(names))
-    // let newErrors = [...errors];
-    // if (updatedRole) { // if role has value, clear the error
-    //   newErrors[ind] = null;
-    // } else {
-    //   newErrors[ind] = "Role is required";
-    // }
-    // setErrors(newErrors);
+    // setname(updatedNames);
+    formik.setFieldValue('interviewers',updatedNames)
+  
+    localStorage.setItem('role',JSON.stringify(formik.values.interviewers))
+    onDirty();
 
   }
   const localString = localStorage.getItem('role');
@@ -909,44 +900,35 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
             <Text style={{padding:'0 0 0 5px'}} color='link'>Add Interviewers</Text>
           </div>
       </label>
-      {console.log('logggggg',meetingForm,names,errors)}
-      {names.length>0&&
-       names.map((user, index) => ( 
-      
-
-          <div key={index} className={styles.notes2}> 
-            {console.log("hello")}
-            <InputText
-              label="Interviewer Name"
-              required
-              value={user.firstname+' '+user.lastname}
-              disabled
-            />
-            <Flex>
+      {/* {  console.log("interviewwww",meetingForm.interviewer)} */}
+      {formik.values.interviewers.length > 0 && formik.values.interviewers.map((user, index) => (
+       <div key={index} className={styles.notes2}>
+        <InputText
+            label="Interviewer Name"
+            required
+            value={`${user.firstName} ${user.lastName}`}
+            disabled
+        />
+        <Flex>
             <InputSearch
-              options={data}
-             
-              required
-              label="Role"
-              name={`names[${index}].role`}
-              onChange={(e) => {
-                  handleChange(index,e)
-              }}
-              setFieldValue={formik.setFieldValue}
+                options={data}
+                setFieldValue={formik.setFieldValue}
+                required
+                name={`interviewers[${index}].role`}
+                label="Role"
+                initialValue={formik.values.interviewers[index]?.role}
+                onChange={(e) => handleChange(index, e)}
             />
-           
-            { local[index] && local[index].role=== "" && errors[index] && (
-    <div className={styles.warn}>
-        {errors[index]}
-    </div>
-)}
-
-              
-
-            </Flex>
+               { local[index] && local[index].role === "" && errors[index] && (
+            <div className={styles.warn}>
+                {errors[index]}
             </div>
-            ))}
- 
+        )}
+        </Flex>
+     
+    </div>
+))}
+
             
         <>     
           {openAddInterviewerModal && (
@@ -1129,6 +1111,7 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
         overflow: 'unset',
       }}
     >
+      {console.log('formik:::::::',formik.values)}
       {/* <CrossButton
         onClick={handleCloseSchedulingForm}
         size={10}
@@ -1178,9 +1161,9 @@ const handleSubmit = (formValues: MyFormValues, formikHelpers: any) => {
         {PrivateNotesView}
       </div>
       <Flex style={{ padding: '0px 25px 25px 25px' }}>{ActionButtonView}</Flex>
-
-      {console.log("aaaaaa",names,names.length)}
+      
     </div>
+    
   );
 };
 

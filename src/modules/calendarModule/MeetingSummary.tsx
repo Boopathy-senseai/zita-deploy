@@ -47,6 +47,8 @@ interface Props {
   setIsTopLineLoading: React.Dispatch<React.SetStateAction<boolean>>;
   nextEvent: () => void;
   handleCloseSchedulingForm: () => void;
+  setOpenScheduleForm:any;
+  setopenmodel:any;
 }
 
 const MeetingSummary = ({
@@ -64,6 +66,8 @@ const MeetingSummary = ({
   // extraNotes,
   currentApplicantId,
   setIsTopLineLoading,
+  setOpenScheduleForm,
+  setopenmodel
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
@@ -258,7 +262,7 @@ const MeetingSummary = ({
   const MeetingTitleView = (
     <p>
       {meetingForm.eventType.value} on{' '}
-      <b>{meetingForm.startDateTime.toDateString()}</b> from{' '}
+      <b>{meetingForm?.startDateTime?.toDateString()}</b> from{' '}
       <b>{formatTo12HrClock(meetingForm.startDateTime)}</b> to{' '}
       <b>{formatTo12HrClock(meetingForm.endDateTime)}</b> with{' '}
       {/* <b>{currentUserLabel}</b> */}
