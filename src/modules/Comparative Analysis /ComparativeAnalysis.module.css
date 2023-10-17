@@ -15,25 +15,14 @@
   height: 40px;
   border-radius: 4px;
 }
-
+.part1{
+  min-width: 130px;
+}
 .container {
   display: flex;
   flex-direction: row;
   margin: 5px;
 }
-
-.part1 {
-  flex-basis: 7%;
-}
-
-.part2 {
-  flex-basis: 3%;
-}
-
-.part3 {
-  flex-basis: 87%;
-}
-
 .profile {
   object-fit: contain;
   background-color: #eee8ec;

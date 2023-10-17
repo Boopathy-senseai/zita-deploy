@@ -29,6 +29,7 @@ const MatchingcriteriaModal = ({
   const [isData, setData] = useState<any>([]);
   const [Error, setError] = useState('');
   const [Comparative, setComparative] = useState(false);
+  const [edit, setedit] = useState(false);
 
   const update_alysismodal = (val) => {
     setComparative(val);
@@ -54,6 +55,7 @@ const MatchingcriteriaModal = ({
   const cancelmodel = (val) => {
     updatemodel(val, 0);
     setData([]);
+    setedit(false);
   };
 
   const compare = () => {
@@ -66,6 +68,10 @@ const MatchingcriteriaModal = ({
 
   const selectall = () => {
     setData(Comparativeanalysis);
+  };
+
+  const edit_function = (val) => { 
+    setedit(val); 
   };
 
   const clear = () => {
@@ -180,6 +186,8 @@ const MatchingcriteriaModal = ({
           job_details={job_details}
           isData={isData}
           select_candidate={select_candidate}
+          edit={edit} 
+          edit_function={edit_function}
         />
       )}
     </Flex>

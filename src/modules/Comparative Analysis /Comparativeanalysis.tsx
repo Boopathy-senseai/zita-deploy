@@ -41,6 +41,8 @@ type Props = {
   Matching: any;
   job_details: any;
   isData: any;
+  edit?:any;
+  edit_function?: (val: any) => void;
   select_candidate?: (val: any, id: any) => void;
 };
 const ComparativeanalysisModal = ({
@@ -52,6 +54,8 @@ const ComparativeanalysisModal = ({
   job_details,
   isData,
   select_candidate,
+  edit,
+  edit_function
 }: Props) => {
   const [addmodel, setaddmodel] = useState(false);
   const { jdId } = useParams<ParamsType>();
@@ -69,6 +73,7 @@ const ComparativeanalysisModal = ({
     setaddmodel(val);
   };
   const Edit = () => {
+    edit_function(true);
     update_alysismodal(false);
   };
 
@@ -98,6 +103,14 @@ const ComparativeanalysisModal = ({
         setresponsibledateria(response);
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
+        if (edit === true) { 
+          Toast( 
+            'Criteria for the comparison updated successfully', 
+            'LONG', 
+            'success', 
+          ); 
+        } 
+        edit_function(false);
       } else {
         setLoader(false);
         Toast(
@@ -105,6 +118,7 @@ const ComparativeanalysisModal = ({
           'LONG',
           'error',
         );
+        edit_function(false);
       }
     });
   };
@@ -212,19 +226,19 @@ const ComparativeanalysisModal = ({
                               />
                             </Flex>
                             <Flex middle>
-                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name.uppercase()
+                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name.toUpperCase()
                                 }${!isEmpty(
                                   selectedcriteria.payload.analysis[0]
                                     .last_name,
                                 )
                                   ? selectedcriteria.payload.analysis[0]
-                                    .last_name.uppercase()
+                                    .last_name.toUpperCase()
                                   : ''
                                 }`}</Text>
                             </Flex>
                           </Flex>
                         </Flex>
-                        <Flex className={styles.part3} center>
+                        <Flex className={styles.part3} center marginLeft={15} >
                           <Text>
                             {' '}
                             {selectedcriteria.payload.analysis[0]?.Pros}{' '}
@@ -452,8 +466,8 @@ const ComparativeanalysisModal = ({
                                   ></Flex>
                                   <Flex>
                                     <Text className={styles.changingtexts}>
-                                      {e.first_name.uppercase()}{' '}
-                                      {e.last_name ? e.last_name.uppercase() : ''}
+                                      {e.first_name.toUpperCase()}{' '}
+                                      {e.last_name ? e.last_name.toUpperCase() : ''}
                                     </Text>
                                   </Flex>
                                   <LinkWrapper
@@ -564,8 +578,8 @@ const ComparativeanalysisModal = ({
                                   />
                                 </Flex>
                                 <Flex marginLeft={7} marginRight={7}>
-                                  {`${data?.first_name.uppercase()} ${!isEmpty(data.last_name)
-                                    ? data.last_name.uppercase()
+                                  {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
+                                    ? data.last_name.toUpperCase()
                                     : ''
                                     }`}
                                 </Flex>
