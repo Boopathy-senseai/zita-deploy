@@ -716,10 +716,10 @@ const MatchingAnalysisTab = () => {
                     <Flex style={{width:'20%'}}>
                       <Text bold>Score (100)</Text>
                     </Flex>
-                    <Flex center style={{width:'10%', display: "flex"}}>
+                    <Flex center style={{width:'20%', display: "flex"}}>
                       <Text bold>Weightage</Text>
                     </Flex>
-                    <Flex style={{width:'50%'}}>
+                    <Flex style={{width:'40%'}}>
                       <Text bold>Description</Text>
                     </Flex>
                   {/* </Flex> */}
@@ -764,19 +764,49 @@ const MatchingAnalysisTab = () => {
                             {/* </Flex> */}
                           {/* </Flex> */}
                           <Flex 
-                          // className={styles.chatgptoutput}
-                          width={"50%"}
-                          // height={40}
+                          width={"40%"}
                           >
                             {/* ChatGPT Content */}
-
-
                             {skill.percentage === 0 ? (<Text> No Data Available</Text>
                             ) : (
-                            <Flex className={expandedIndex?.includes(index) ? "" : styles.chatgptoutput1}>
-                              <Text>  Weightage:{skill.description}</Text>
-                              </Flex>)}
-                          {skill.percentage !== 0 && !expandedIndex?.includes(index) ? (
+                              <Flex >
+                                {
+                                  expandedIndex?.includes(index) ? (
+                                    <>
+                                      <Flex>
+                                        <Text>
+                                          {skill.description}
+                                        </Text>
+                                      </Flex>
+                                      <Flex
+                                        onClick={() => handleToggleCollapse(index)}
+                                        style={{ cursor: "pointer" }}>
+
+                                        <Text bold> View Less</Text>
+                                      </Flex></>
+                                  ) : (
+                                    <>
+                                      {skill.description.length > 70 ? (
+                                        <>
+                                          <Flex className={styles.ellipcess}>
+                                            {skill.description}
+                                          </Flex>
+                                          <Flex
+                                            onClick={() => handleToggleCollapse(index)}
+                                            style={{ cursor: "pointer" }}>
+                                            <Text bold>...View More</Text>
+                                          </Flex></>) : (<>
+                                            <Flex >
+                                              {skill.description}
+                                            </Flex>
+                                          </>)
+                                      }
+                                    </>)
+                                }
+                              </Flex>)
+
+                            }
+                          {/* {skill.percentage !== 0 && !expandedIndex?.includes(index) ? (
                             <Flex
                               onClick={()=>handleToggleCollapse(index)}
                               style={{cursor:"pointer"}}>
@@ -788,7 +818,7 @@ const MatchingAnalysisTab = () => {
                             onClick={()=>handleToggleCollapse(index)}
                             style={{cursor:"pointer"}}>
                               <Text bold> View Less</Text>
-                            </Flex>)}
+                            </Flex>)} */}
                           </Flex>
 
                           {/* {console.log("skillsskills", skill.description.split('\n').length)} */}
