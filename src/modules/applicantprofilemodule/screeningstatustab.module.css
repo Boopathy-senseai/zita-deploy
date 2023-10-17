@@ -33,7 +33,52 @@
   position: relative;
 }
 .screenText {
-  margin-bottom: 20px;
+  margin-bottom: 4px;
   font-size: 14px;
   color: #333333;
+}
+.addButton{
+  cursor: pointer;
+}
+.input{
+  font-size: 13px;
+}
+.svgContainer {
+  display: flex;
+  /* align-items: center; */
+  margin-left: 5px;
+  top: 16px;
+  right: 0;
+}
+
+.svgTick {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.svgTickMargin {
+  margin-right: 4px;
+  cursor: pointer;
+  z-index: 11;
+}
+.svgTickDisable {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+.tickStyle:hover path {
+  fill: var(--color-gary-4, #979797) !important;
+}
+.svgClose {
+  cursor: pointer;
+  z-index: 11;
+}
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  width: 550px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.insertStyles {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #581845;
 }
