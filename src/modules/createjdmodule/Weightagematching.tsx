@@ -431,7 +431,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueskill}
                 className={styles.customrange}
@@ -445,7 +445,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browser
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueskill / 100) * 100}%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 
                 }}
@@ -468,7 +468,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 className={styles.customrange}
                 value={rangeValuerolles}
@@ -483,7 +483,7 @@ const saveasdraftfunction=()=>{
                   margin: '10px 0', // Add margin for spacing
 
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -506,7 +506,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueexperience}
                 className={styles.customrange}
@@ -517,7 +517,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -542,7 +542,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueTechnical}
                 onChange={handleRangeChangetechnical}
@@ -554,7 +554,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -576,7 +576,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 className={styles.customrange}
                 value={rangeValueSoft}
@@ -588,7 +588,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -610,7 +610,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueQualifications}
                 className={styles.customrange}
@@ -622,7 +622,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -697,7 +697,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueIndustry}
                 className={styles.customrange}
@@ -709,7 +709,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -729,7 +729,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 className={styles.customrange}
                 value={rangeValueDomain}
@@ -741,7 +741,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -763,7 +763,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueCertifications}
                 className={styles.customrange}
@@ -775,7 +775,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -799,7 +799,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueCultural}
                 onChange={handleRangeChangecultural}
@@ -811,7 +811,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -832,7 +832,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 className={styles.customrange}
                 value={rangeValueReferences}
@@ -844,7 +844,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -865,7 +865,7 @@ const saveasdraftfunction=()=>{
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
-                min="5"
+                min="0"
                 max="100"
                 value={rangeValueLocation}
                 className={styles.customrange}
@@ -877,7 +877,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #581845 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`, // Add a gradient background
+                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 

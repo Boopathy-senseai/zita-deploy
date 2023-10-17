@@ -57,7 +57,7 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
       <Tab title={'Mailbox'}>
             <EmailScreen isprofileview={true} can_id={can_id}/>
           </Tab>
-      <Tab title={'Invitation Status'}>
+      <Tab title={'Invitation Status/All Matching Jobs'}>
       <ScreeningStatusTab title={'Invitation Status'} issingletab   />
       </Tab>
     </Tabs>

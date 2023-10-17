@@ -150,16 +150,12 @@ justify-content: space-between;
 .innerSliderbarStyle{
   display: flex;
   flex-direction: row;
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 .chatgptoutput{
   width: 50%;
-  /* display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  height: 40px; */
+
 }
 .chatgptoutput1{
   display: -webkit-box;
@@ -346,13 +342,24 @@ justify-content: space-between;
   .text-container.expanded .text {
     -webkit-line-clamp: initial;
   }
-  
-   
-  
-  button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+
+  .textellipces{
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+  }
+  .nodata{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #c3c3c3;
+    margin-top: 10px;
+  }
+  .rarecase{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
