@@ -98,8 +98,9 @@
   cursor: default !important;
 }
 .starratingoverall ul {
-  margin-top: -35px;
-  margin-bottom: 20px;
+  margin-top: -63px;
+  /* margin-bottom: 20px; */
+  height: 10px;
 }
 .changingtexts {
   font-size: 13px;

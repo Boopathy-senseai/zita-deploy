@@ -195,7 +195,7 @@ const ComparativeanalysisModal = ({
                       </Text>
                     </Flex>
                     {selectedcriteria ? (
-                      <Flex className={styles.container}>
+                      <Flex className={styles.container} >
                         <Flex className={styles.part1}>
                           <Flex style={{ justifyContent: 'center' }}>
                             <Flex middle>
@@ -366,17 +366,22 @@ const ComparativeanalysisModal = ({
                         overflowX: 'scroll',
                         margin: '5px',
                       }}
-                    >
-                      {selectedcriteria &&
-                        selectedcriteria.payload.analysis.map((e, indexnum) => {
+                    > 
+                    {selectedcriteria &&
+                        selectedcriteria.payload.analysis.sort((data1, data2) => {
+                          // Replace 'someProperty' with the property you want to sort by
+                          if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                          if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
+                          return 0;
+                        }).reverse().map((e, indexnum) => {
                           return (
                             <Flex
                               key=""
                               row
-                              marginRight={20}
+                              marginRight={10}
                               marginBottom={2}
                               marginTop={2}
-                              marginLeft={1}
+                              marginLeft={10}
                             >
                               <Card className={styles.cardstructureforprofile}>
                                 <Flex row between>
@@ -455,13 +460,13 @@ const ComparativeanalysisModal = ({
                                 </Flex>
                                 <Flex row middle center>
                                   <Flex
-                                    width={4}
+                                    width={12}
                                     title={e.stage_name}
                                     style={{
                                       backgroundColor: e.stage_color,
-                                      borderRadius: '4px',
+                                      borderRadius: '50%',
                                     }}
-                                    height={16}
+                                    height={12}
                                     marginRight={5}
                                   ></Flex>
                                   <Flex>

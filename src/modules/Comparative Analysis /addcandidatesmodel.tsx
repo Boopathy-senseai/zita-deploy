@@ -186,7 +186,7 @@ const AddcandidatesModal = ({
                     </Flex>
                     <Flex marginLeft={10}>
                       {isEmpty(e.profile_image) ||
-                      e.profile_image === 'default.jpg' ? (
+                        e.profile_image === 'default.jpg' ? (
                         <div
                           className={cx('profile')}
                           style={{
@@ -198,9 +198,8 @@ const AddcandidatesModal = ({
                             transform="uppercase"
                             className={styles.firstlastchar}
                           >
-                            {`${e.first_name?.charAt(0)}${
-                              e?.last_name ? e?.last_name?.charAt(0) : ''
-                            }`}
+                            {`${e.first_name?.charAt(0)}${e?.last_name ? e?.last_name?.charAt(0) : ''
+                              }`}
                           </Text>
                         </div>
                       ) : (
@@ -219,20 +218,20 @@ const AddcandidatesModal = ({
                     </Flex>
                     <Flex marginLeft={10} row>
                       <Flex
-                        width={4}
+                        width={12}
                         style={{
                           backgroundColor: e.stage_color,
-                          borderRadius: '4px',
+                          borderRadius: '50%',
                         }}
-                        height={16}
+                        height={12}
                         marginRight={5}
-                        marginTop={3}
+                        marginTop={5.2}
                         title={e.stage_name}
                       ></Flex>
                       <Flex>
-                        <Flex>{`${e.first_name} ${
-                          e?.last_name ? e?.last_name : ''
-                        }`}</Flex>
+                        <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''
+                          }`}
+                        </Flex>
                         <Flex>
                           <Text
                             className={styles.changingtexts}
@@ -266,7 +265,7 @@ const AddcandidatesModal = ({
               marginTop={10}
               className={styles.centerali}
             >
-              <Button  types='close' onClick={() => close()}>
+              <Button types='close' onClick={() => close()}>
                 Cancel
               </Button>
             </Flex>
