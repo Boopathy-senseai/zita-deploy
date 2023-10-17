@@ -43,6 +43,7 @@ type Props = {
   onMove?: (stageId: number) => void;
   onCSVDownload?: () => void;
   onComparative?: any;
+  Matching?:any;
 };
 
 const TotalApplicant = ({
@@ -57,6 +58,7 @@ const TotalApplicant = ({
   onMove,
   onCSVDownload,
   onComparative,
+  Matching
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const [movePopup, setMovePopup] = useState(false);
@@ -161,10 +163,11 @@ const TotalApplicant = ({
                     borderLeft: '1px solid #581845',
                     cursor: 'pointer',
                   }}
-                  onClick={onComparative}
+                  onClick={Matching.length <= 5 && onComparative} 
+                  title={Matching.length > 5 && 'only select 5 candidates and access for Comparative Analysis & AI Recommendation'}
                 >
-                  <SvgComparative />
-                  <Text bold style={{ marginLeft: '10px' }} color="theme">
+                  <SvgComparative fill={Matching.length > 5 ?'#AB8BA2':'#581845'} />
+                  <Text bold style={{ marginLeft: '10px' }}  color={Matching.length > 5 ? 'disabled' : 'theme'}>
                   Comparative Analysis
                   </Text>
                 </Flex>

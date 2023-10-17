@@ -1216,6 +1216,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           <TotalApplicant
             jd_id={parseInt(jdId)}
             columns={columns}
+            Matching={Matching}
             total={total_applicants}
             moveDisabled={getIsMultiMoveDisabled()}
             filterTotalFav={filterTotalFav}
