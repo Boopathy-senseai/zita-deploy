@@ -212,13 +212,13 @@ const ComparativeanalysisModal = ({
                               />
                             </Flex>
                             <Flex middle>
-                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name
+                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name.uppercase()
                                 }${!isEmpty(
                                   selectedcriteria.payload.analysis[0]
                                     .last_name,
                                 )
                                   ? selectedcriteria.payload.analysis[0]
-                                    .last_name
+                                    .last_name.uppercase()
                                   : ''
                                 }`}</Text>
                             </Flex>
@@ -452,8 +452,8 @@ const ComparativeanalysisModal = ({
                                   ></Flex>
                                   <Flex>
                                     <Text className={styles.changingtexts}>
-                                      {e.first_name}{' '}
-                                      {e.last_name ? e.last_name : ''}
+                                      {e.first_name.uppercase()}{' '}
+                                      {e.last_name ? e.last_name.uppercase() : ''}
                                     </Text>
                                   </Flex>
                                   <LinkWrapper
@@ -564,8 +564,8 @@ const ComparativeanalysisModal = ({
                                   />
                                 </Flex>
                                 <Flex marginLeft={7} marginRight={7}>
-                                  {`${data?.first_name} ${!isEmpty(data.last_name)
-                                    ? data.last_name
+                                  {`${data?.first_name.uppercase()} ${!isEmpty(data.last_name)
+                                    ? data.last_name.uppercase()
                                     : ''
                                     }`}
                                 </Flex>
