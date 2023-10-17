@@ -1,0 +1,140 @@
+.step {
+    /* position: relative; */
+    /* margin: 0 400px; */
+    /* margin-bottom: 36px; */
+    margin-right: -32px;
+    padding: 10px 0 20px 0;
+  }
+  .stepOne {
+    position: relative;
+    left: 0px;
+    top: 0px;
+  }
+  
+  .stepTwo {
+    position: relative;
+    right: 10px;
+    top: 0px;
+  }
+  .stepThree {
+    position: relative;
+    top: 0px;
+    right: 21px;
+  }
+  .stepFour {
+    position: relative;
+    top: 0px;
+    right: 32px;
+  
+  }
+  
+  .sliderstyle{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 15px;
+    flex-wrap: wrap;
+  }
+
+  .innerstyle{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center 
+  }
+
+  
+  .customrange {
+    width: 100%;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+/* Style for the movable part (thumb) */
+.customrange::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    cursor: none;
+    height: 20px;
+    background: #ffffff; /* White color */
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #cccccc;
+}
+
+.customrange:focus {
+    outline: none;
+}
+.parent{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  justify-content: space-between;
+
+}
+
+.btnContainer{
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.bottombtnContainer {
+position: absolute;
+
+  margin-top: 8px;
+  bottom: 10px;
+  right: 0;
+  left: 2px;
+border-top: 0.5 solid #c3c3c3;
+  /* border-top: 1px solid #dfdfdf; */
+
+  padding: 5px;
+justify-content: space-between;
+  background-color: #ffffff;
+
+}
+.progressbarstyle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.draftBtn {
+  margin: 0 16px;
+}
+.splitline{
+  border :0.5px solid #c3c3c3;
+  height: 450px;
+  
+}
+.spacepadding{
+  padding-top: 15px;
+}
+
+.InfoiconchangeStyle{
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+
+.infoInnerCard{
+  padding: 25px;
+}
+.infoOuterCard{
+  position: absolute;
+  left: 360px;
+  top: 51px;
+}
+.cardfront1 {
+  z-index: 10000;
+  padding: 5px 10px 5px;
+  margin-left: 9px;
+  font-size: 13px;
+  margin-top: 1vh;
+  max-width: 425px;
+  position: absolute;
+}

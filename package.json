@@ -85,6 +85,7 @@
     "react-bootstrap-daterangepicker": "^8.0.0",
     "react-bootstrap-icons": "^1.5.0",
     "react-calendar": "^3.7.0",
+    "react-circular-progressbar": "^2.1.0",
     "react-color": "^2.19.3",
     "react-content-loader": "^6.2.0",
     "react-custom-share": "^0.4.8",

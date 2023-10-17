@@ -58,9 +58,10 @@ const AddedApplicantQuestionnaire = ({
           </LinkWrapper>
         )}
         {ds_role !== true && (
+          
           <LinkWrapper
             
-            to={`/jobs/create_non_ds_edit/${jdId}`}
+            to={`/jobs/weightagematching/${jdId}`}
           >
             <Button types="secondary">{'Back'}</Button>
           </LinkWrapper>

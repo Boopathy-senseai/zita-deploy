@@ -283,6 +283,23 @@ export interface Match {
     overall_percentage:number
   }],
   ai_matching:boolean;
+  
+  non_technical:[{
+    title:string,
+    percentage: number,
+    description:string,
+    overall_percentage: number,
+    jd_id: number,
+    skill_percentage:number,
+}];
+  technical:[{
+    title:string,
+    percentage: number,
+    description:string,
+    overall_percentage: number,
+    jd_id: number,
+    skill_percentage:number,
+ } ];
 }
 export interface overall {
   jd_skills: [];

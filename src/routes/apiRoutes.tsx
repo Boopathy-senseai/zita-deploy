@@ -99,6 +99,14 @@ export const googleAddEvent = 'google_add_event/';
 export const checkAuth = 'check_auth/';
 export const addOauth = 'add_google_oauth/';
 export const outlookAdd = 'outlook_add_event/';
+//Weightage matching
+// export const weightagemating = (jdId?: string) => {
+  
+//   const url = `weightage_matching/${jdId}`;
+//   return url;
+// };
+export const weightagemating ='weightage_matching';
+
 
 // Create Jd
 export const jdParserApi = `jd_parser`;
