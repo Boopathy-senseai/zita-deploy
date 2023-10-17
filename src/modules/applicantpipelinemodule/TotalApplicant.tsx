@@ -165,7 +165,7 @@ const TotalApplicant = ({
                 >
                   <SvgComparative />
                   <Text bold style={{ marginLeft: '10px' }} color="theme">
-                    Compare
+                  Comparative Analysis
                   </Text>
                 </Flex>
               </Flex>

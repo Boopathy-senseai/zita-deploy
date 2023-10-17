@@ -154,7 +154,7 @@ const MatchingcriteriaModal = ({
                       className={styles.centerali}
                     >
                       <Button
-                        types="secondary"
+                        types='close'
                         onClick={() => cancelmodel(false)}
                       >
                         Cancel

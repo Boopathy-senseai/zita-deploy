@@ -266,7 +266,7 @@ const AddcandidatesModal = ({
               marginTop={10}
               className={styles.centerali}
             >
-              <Button types="secondary" onClick={() => close()}>
+              <Button  types='close' onClick={() => close()}>
                 Cancel
               </Button>
             </Flex>

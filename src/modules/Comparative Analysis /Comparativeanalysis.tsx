@@ -159,7 +159,7 @@ const ComparativeanalysisModal = ({
                 >
                   <Flex></Flex>
                   <Flex>Comparative Analysis & AI Recommendation</Flex>
-                  <Flex end onClick={closemodel}>
+                  <Flex end onClick={closemodel} marginRight={15}>
                     <SvgClose
                       width={10}
                       height={10}
@@ -175,7 +175,7 @@ const ComparativeanalysisModal = ({
                 >
                   <Card className={styles.card}>
                     <Flex className={styles.cardheader} center>
-                      <Text style={{ color: 'white', paddingLeft: '10px' }}>
+                      <Text style={{ color: 'white', paddingLeft: '10px' }} size={14} bold>
                         {' '}
                         AI Recommendation{' '}
                       </Text>
@@ -186,9 +186,9 @@ const ComparativeanalysisModal = ({
                           <Flex style={{ justifyContent: 'center' }}>
                             <Flex middle>
                               <Avatar
-                                className={styles.profile}
+                                className={styles.profilehead}
                                 style={{
-                                  fontSize: '26px',
+                                  fontSize: '15px',
                                   textTransform: 'uppercase',
                                 }}
                                 avatar={
@@ -201,7 +201,7 @@ const ComparativeanalysisModal = ({
                                 initials={`${selectedcriteria.payload.analysis[0]?.first_name?.charAt(
                                   0,
                                 )}
-                          ${!isEmpty(
+                                ${!isEmpty(
                                   selectedcriteria.payload.analysis[0].last_name,
                                 )
                                     ? selectedcriteria.payload.analysis[0].last_name?.charAt(
@@ -224,7 +224,7 @@ const ComparativeanalysisModal = ({
                             </Flex>
                           </Flex>
                         </Flex>
-                        <Flex className={styles.part3}>
+                        <Flex className={styles.part3} center>
                           <Text>
                             {' '}
                             {selectedcriteria.payload.analysis[0]?.Pros}{' '}
@@ -238,7 +238,7 @@ const ComparativeanalysisModal = ({
                   <Flex row between marginTop={20} marginBottom={13}>
                     <Flex row>
                       <Flex>
-                        <Text>Comparative Analysis</Text>
+                        <Text bold size={14}>Comparative Analysis</Text>
                       </Flex>
                       <Flex
                         marginLeft={15}
@@ -263,6 +263,7 @@ const ComparativeanalysisModal = ({
                           color="theme"
                           size={13}
                           style={{ cursor: 'pointer' }}
+                          bold
                         >
                           Add Candidate
                         </Text>
@@ -271,7 +272,7 @@ const ComparativeanalysisModal = ({
                   </Flex>
                   <Flex row>
                     <Flex>
-                      <Flex row marginTop={20} flex={4}>
+                      <Flex row marginTop={5} flex={4}>
                         <Flex>
                           {' '}
                           <SvgJobselection width={15} height={15} />
@@ -300,7 +301,7 @@ const ComparativeanalysisModal = ({
                       </Flex>
                       <Flex
                         row
-                        marginTop={67}
+                        marginTop={62.7}
                         center
                         style={{
                           borderBottom: '1px solid rgb(195, 195, 195)',
@@ -426,7 +427,7 @@ const ComparativeanalysisModal = ({
                                     </Flex>
                                   </Flex>
                                   <Flex
-                                    marginRight={10}
+                                    marginRight={16}
                                     marginTop={10}
                                     onClick={() => remove_user(e)}
                                   >
@@ -487,7 +488,7 @@ const ComparativeanalysisModal = ({
                                     count={5}
                                   />
                                 </Flex>
-                                <Flex marginTop={20}>
+                                <Flex >
                                   <Flex key={indexnum}>
                                     {Object.keys(e.categories).map(
                                       (key, subIndex) => (
@@ -503,15 +504,15 @@ const ComparativeanalysisModal = ({
                                           key={subIndex}
                                         >
                                           {' '}
-                                          {e.categories[key].lowerCase() === null ?0:e.categories[key] <= 3 && (
-                                            <Text>{`${e.categories[key].lowerCase() === null ?0:e.categories[key]}/10(Low)`}</Text>
+                                          {Math.round(e.categories[key]) <= 3 && (
+                                            <Text size={12}>{`${Math.round(e.categories[key])}/10 (Low)`}</Text>
                                           )}
-                                          {e.categories[key].lowerCase() === null ?0:e.categories[key] > 7 && (
-                                            <Text>{`${e.categories[key].lowerCase() === null ?0:e.categories[key]}/10(High)`}</Text>
+                                          {Math.round(e.categories[key]) > 7 && (
+                                            <Text size={12}>{`${Math.round(e.categories[key])}/10 (High)`}</Text>
                                           )}
-                                          {e.categories[key].lowerCase() === null ?0:e.categories[key] > 3 &&
-                                            e.categories[key].lowerCase() === null ?0:e.categories[key] <= 7 && (
-                                              <Text>{`${e.categories[key].lowerCase() === null ?0:e.categories[key]}/10(Medium)`}</Text>
+                                          {Math.round(e.categories[key]) > 3 &&
+                                            Math.round(e.categories[key]) <= 7 && (
+                                              <Text size={12}>{`${Math.round(e.categories[key])}/10 (Medium)`}</Text>
                                             )}
                                         </Flex>
                                       ),
@@ -535,7 +536,7 @@ const ComparativeanalysisModal = ({
                                 <Flex
                                   style={{ fontsize: '14px', color: '#581845' }}
                                 >
-                                  Detailed Information
+                                  <Text size={14} bold color='theme'> Detailed Information</Text>
                                 </Flex>
                                 <Flex
                                   onClick={() => setPros(!isPros)}
@@ -550,23 +551,23 @@ const ComparativeanalysisModal = ({
                                   />
                                 </Flex>
                               </Flex>
-                              <Flex row end center>
+                              {isPros && (<Flex row end center>
                                 <Flex
                                   onClick={() => setkey(iskey - 1)}
                                   disabled={iskey === 0}
                                   style={{ cursor: 'pointer' }}
                                 >
                                   <SvgLeft
-                                    fill={'#581845'}
+                                    fill={iskey === 0 ? '#888888' : '#581845'}
                                     height={14}
                                     width={14}
                                   />
                                 </Flex>
                                 <Flex marginLeft={7} marginRight={7}>
-                                {`${data?.first_name} ${!isEmpty(data.last_name)
-                                        ? data.last_name
-                                        : ''
-                                        }`} 
+                                  {`${data?.first_name} ${!isEmpty(data.last_name)
+                                    ? data.last_name
+                                    : ''
+                                    }`}
                                 </Flex>
                                 <Flex
                                   onClick={() => setkey(iskey + 1)}
@@ -578,59 +579,61 @@ const ComparativeanalysisModal = ({
                                   }
                                 >
                                   <SvgRight
-                                    fill={'#581845'}
+                                    fill={selectedcriteria.payload.analysis.length -
+                                      1 ===
+                                      iskey ? '#888888' : '#581845'}
                                     height={14}
                                     width={14}
                                   />
                                 </Flex>
-                              </Flex>
+                              </Flex>)}
                             </Flex>
                             {isPros && (
                               <Flex>
                                 <Flex row between flex={12} marginBottom={8}>
-                                  <Flex flex={4} row center >
+                                  <Flex flex={3} row center >
                                     <Flex>
                                       Overall Score based on the criteria :{' '}
                                     </Flex>
                                     <Flex marginLeft={6}>
-                                      {data.Average_match_percentage <= 3 && (
+                                      {Math.round(data.Average_match_percentage) <= 3 && (
                                         <Text color="error">
-                                          {data.Average_match_percentage}/10
+                                          {Math.round(data.Average_match_percentage)}/10
                                         </Text>
                                       )}
-                                      {data.Average_match_percentage > 7 && (
+                                      {Math.round(data.Average_match_percentage) > 7 && (
                                         <Text color="success">
-                                          {data.Average_match_percentage}/10
+                                          {Math.round(data.Average_match_percentage)}/10
                                         </Text>
                                       )}
-                                      {data.Average_match_percentage > 3 &&
-                                        data.Average_match_percentage <= 7 && (
+                                      {Math.round(data.Average_match_percentage) > 3 &&
+                                        Math.round(data.Average_match_percentage) <= 7 && (
                                           <Text style={{ color: '#F29111' }}>
-                                            {data.Average_match_percentage}/10
+                                            {Math.round(data.Average_match_percentage)}/10
                                           </Text>
                                         )}
                                     </Flex>
                                   </Flex>
-                                  <Flex flex={4} row center >
+                                  <Flex flex={3} row center >
                                     <Flex>
                                       Recommended to Hire :{' '}
                                     </Flex>
                                     <Flex marginLeft={6}>
-                                      {data.Average_match_percentage <= 3 && (
+                                      {Math.round(data.Average_match_percentage) <= 3 && (
                                         <Text color="error">No</Text>
                                       )}
-                                      {data.Average_match_percentage > 7 && (
+                                      {Math.round(data.Average_match_percentage) > 7 && (
                                         <Text color="success">Yes</Text>
                                       )}
-                                      {data.Average_match_percentage > 3 &&
-                                        data.Average_match_percentage <= 7 && (
+                                      {Math.round(data.Average_match_percentage) > 3 &&
+                                        Math.round(data.Average_match_percentage) <= 7 && (
                                           <Text style={{ color: '#F29111' }}>
                                             Neutral
                                           </Text>
                                         )}
                                     </Flex>
                                   </Flex>
-                                  <Flex flex={4}></Flex>
+                                  <Flex flex={6}></Flex>
                                 </Flex>
                                 <Flex row flex={12}>
                                   <Flex flex={6}>
@@ -644,7 +647,7 @@ const ComparativeanalysisModal = ({
                                       {data.Pros}
                                     </Flex>
                                   </Flex>
-                                  <Flex flex={6} marginLeft={-0.5}>
+                                  <Flex flex={6} marginLeft={-1}>
                                     <Flex
                                       className={styles.tableboarder}
                                       middle
@@ -688,7 +691,7 @@ const ComparativeanalysisModal = ({
                   <Flex row end marginTop={20}>
                     <Button
                       onClick={cancelverify}
-                      types="secondary"
+                      types='close'
                       style={{ marginRight: '20px' }}
                     >
                       cancel
