@@ -105,7 +105,6 @@ const AddInterviewersUI = ({
     setlist(member)
     updatestate(member)
 
-    console.log("valllllllll",member)
     if (
       selectedInterviewers.filter((user) => user.userId === member.userId)
         .length === 0
