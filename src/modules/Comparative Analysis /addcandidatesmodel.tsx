@@ -162,7 +162,7 @@ const AddcandidatesModal = ({
             className={styles.fixingsearchdata}
           >
             {filteredData && filteredData.length === 0 ? (
-              <Flex middle center flex={1}>
+              <Flex middle center flex={1} height={window.innerHeight -200}>
                 <Text color="gray">No data found</Text>
               </Flex>
             ) : (

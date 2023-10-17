@@ -107,7 +107,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 164px;
+  max-width: 150px;
 }
 .fixingcontent{
   overflow-y: scroll;

@@ -196,7 +196,7 @@ const ComparativeanalysisModal = ({
                     </Flex>
                     {selectedcriteria ? (
                       <Flex className={styles.container} >
-                        <Flex className={styles.part1}>
+                        <Flex className={styles.part1} center>
                           <Flex style={{ justifyContent: 'center' }}>
                             <Flex middle>
                               <Avatar
