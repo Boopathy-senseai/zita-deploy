@@ -173,12 +173,12 @@ const ComparativeanalysisModal = ({
         ) : (
           <>
             <Modal open={Comparative}>
-              <Flex style={{ backgroundColor: 'white', boarderRadius: '4px' }}>
+              <Flex style={{ backgroundColor: 'white', borderRadius: '4px' }}>
                 <Flex
                   center
                   row
                   between
-                  style={{ backgroundColor: '#EEE8EC', padding: '10px' }}
+                  style={{ backgroundColor: '#EEE8EC', padding: '10px' , borderRadius: '4px 4px 0px 0px'}}
                   flex={1}
                 >
                   <Flex></Flex>
@@ -265,8 +265,7 @@ const ComparativeanalysisModal = ({
                           .reverse()
                           .map((e, index) => (
                             index === 0 && (
-                              <Flex className={styles.part3} center marginLeft={15} key={''}>
-                                {console.log(e, 'gggggggggffdgdgvdvdvdvdvbdbvdb')}
+                              <Flex className={styles.part3} center marginLeft={15} key={''}> 
                                 <Text> {e?.Pros} </Text>
                               </Flex>
                             )
