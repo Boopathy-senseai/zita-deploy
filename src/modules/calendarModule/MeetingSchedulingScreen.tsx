@@ -15,6 +15,7 @@ import {
   InputCheckBox,
   InputRadio,
   InputText,
+  ErrorMessage,
 } from '../../uikit';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
@@ -359,7 +360,12 @@ const MeetingSchedulingScreen = ({
       setViewMeetingSummary(false)
       setShowPopup(true)
     }
-  };
+    else{
+      setViewMeetingSummary(true)
+      setopenmodel(false)
+    }
+
+  }
   const nextEvent = () => {
     if (
       formik.values.LevelType !== '' ||
@@ -594,7 +600,16 @@ const MeetingSchedulingScreen = ({
                     formik.setFieldValue('brieftext', e.target.value);
                   }}
                 />
-              </Flex>
+               <ErrorMessage
+                          name={'brieftext'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+            </Flex>
+
+        {(formik.errors.LevelType===''||formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
+          <Text color='error'>All the above files are required</Text>
+        ):('')}
               <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
                 <Flex row between marginTop={10}>
                   <Button types="secondary" onClick={handlefunction}>
@@ -607,7 +622,7 @@ const MeetingSchedulingScreen = ({
                     </Button>
                     <Button
                       style={{ margin: '0 0 0 10px' }}
-                      onClick={handleSubmit}
+                      onClick={formik.handleSubmit}
                     >
                       {formik.values.LevelType !== '' ||
                       formik.values.brieftext !== '' ||
