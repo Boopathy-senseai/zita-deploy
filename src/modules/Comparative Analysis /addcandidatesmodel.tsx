@@ -20,7 +20,7 @@ type Props = {
   openfunction?: any;
   Matching: any;
   select_candidate?: (val: any, id: any) => void;
-  dispatchcomparativeApi?: (val: any, id: any,value:any) => void;
+  dispatchcomparativeApi?: (val: any, id: any, value: any) => void;
   update_alysismodal?: (val: any) => void;
   add_candidates?: (val: any) => void;
   isData?: any;
@@ -114,14 +114,14 @@ const AddcandidatesModal = ({
       // update_alysismodal(false);
       add_candidates(true)
       openfunction(false);
-      dispatchcomparativeApi(Matching, isData,sample);
+      dispatchcomparativeApi(Matching, isData, sample);
     } else {
       console.log('no');
     }
   };
 
   return (
-    <Flex>
+    <Flex> 
       <Modal open={model}>
         <Flex
           width={750}
@@ -233,9 +233,8 @@ const AddcandidatesModal = ({
                         marginTop={5.2}
                         title={e.stage_name}
                       ></Flex>
-                      <Flex>
-                        <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''
-                          }`}
+                      <Flex title={`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}>
+                        <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}
                         </Flex>
                         <Flex>
                           <Text

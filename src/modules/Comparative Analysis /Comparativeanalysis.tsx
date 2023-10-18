@@ -255,7 +255,7 @@ const ComparativeanalysisModal = ({
                                       }`}</Text>
                                   </Flex>
                                   <Flex className={styles.part3} center marginLeft={15} key={''}>
-                                    <Text> {e?.Pros} </Text>
+                                   <Text>{e?.Pros.join('. ')}</Text> 
                                   </Flex>
                                 </Flex>
                               </Flex>
@@ -486,7 +486,7 @@ const ComparativeanalysisModal = ({
                                     height={12}
                                     marginRight={5}
                                   ></Flex>
-                                  <Flex>
+                                  <Flex title={`${e.first_name.toUpperCase()} ${e.last_name ? e.last_name.toUpperCase() : ''}`}>
                                     <Text className={styles.changingtexts}>
                                       {e.first_name.toUpperCase()}{' '}
                                       {e.last_name ? e.last_name.toUpperCase() : ''}
@@ -685,7 +685,7 @@ const ComparativeanalysisModal = ({
                                       Skills Evaluation
                                     </Flex>
                                     <Flex className={styles.tableboarders}>
-                                      {data.Pros}
+                                      {data.Pros.join('. ')} 
                                     </Flex>
                                   </Flex>
                                   <Flex flex={6} marginLeft={-1}>
@@ -696,7 +696,7 @@ const ComparativeanalysisModal = ({
                                       Enhancement Analysis
                                     </Flex>
                                     <Flex className={styles.tableboarders}>
-                                      {data.Cons}
+                                      {data.Cons.join('. ')} 
                                     </Flex>
                                   </Flex>
                                 </Flex>
