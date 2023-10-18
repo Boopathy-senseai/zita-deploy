@@ -391,7 +391,7 @@ const ComparativeanalysisModal = ({
                         display: 'flex',
                         flexDirection: 'row',
                         overflowX: 'scroll',
-                        margin: '5px',
+                        margin: '5px 5px 5px 0px;',
                       }}
                     >
                       {selectedcriteria &&
