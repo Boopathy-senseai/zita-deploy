@@ -79,6 +79,17 @@
   border-radius: 4px;
 }
 .insertStyles {
-  margin-bottom: 15px;
-  border-bottom: 1px solid #581845;
+  margin-bottom: 10px;
+  border-bottom: 0.5px solid #581845;
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  /* margin-top: 20px; */
+}
+.cancel:active, .cancel:focus{
+  background-color: #888888;
+  border: none;
 }

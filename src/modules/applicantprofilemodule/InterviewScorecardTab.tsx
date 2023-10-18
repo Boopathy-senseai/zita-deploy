@@ -332,7 +332,7 @@ const InterviewScorecardTab = () => {
       <Flex column  style={{ padding: '0px 16px 0px 16px' }}>
         <Flex>
           <Text className={styles.addText}>
-            You can add the interview rating and comment here for the applicant
+          {"Interviewer's Overall Ratings for Each Interview"}.
           </Text>
         </Flex>
         <Flex>

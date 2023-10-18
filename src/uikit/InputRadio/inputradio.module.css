@@ -2,7 +2,7 @@
   cursor: pointer !important;
 }
 .svgRadio:hover path {
-  fill: var(--color-gary-6, #b3b3b3);
+  fill: #58184570 !important;
 }
 .labelStyle {
   margin-left: 6px;

@@ -101,7 +101,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
           <Tab title={'Screening Status/All Matching Jobs'}>
             <ScreeningStatusandAllMatchJobTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab> 
-          <Tab title={'Screening Status/Scorecard'}>
+          <Tab title={'Interview Question/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab> 
         </Tabs>
