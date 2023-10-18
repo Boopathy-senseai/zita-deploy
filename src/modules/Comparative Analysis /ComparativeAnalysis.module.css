@@ -126,3 +126,13 @@
   min-height: 140px;
   padding: 5px;
 }
+.prosdata{
+  float: inline-start;
+  border-right: 0.5px solid #A5889C;
+  padding: 5px;
+}
+.Consdata{
+  float: inline-start;
+  border-Left: 0.5px solid #A5889C;
+  padding: 5px;
+}

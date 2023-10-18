@@ -246,7 +246,7 @@ const ComparativeanalysisModal = ({
                                   />
                                 </Flex>
                                 <Flex>
-                                  <Flex  marginLeft={15}>
+                                  <Flex marginLeft={15}>
                                     <Text bold size={14} style={{ padding: '2px 0px 0px 0px' }}>{`${e?.first_name.toUpperCase()
                                       }${!isEmpty(
                                         e.last_name,
@@ -256,13 +256,13 @@ const ComparativeanalysisModal = ({
                                       }`}</Text>
                                   </Flex>
                                   <Flex className={styles.part3} center marginLeft={15} key={''}>
-                                   <Text>{e?.Pros.join('. ')}</Text> 
+                                    <Text>{e?.Pros.join('. ')}</Text>
                                   </Flex>
                                 </Flex>
                               </Flex>
                             )
                           ))}
-                      </> 
+                      </>
                     ) : (
                       ''
                     )}
@@ -486,7 +486,7 @@ const ComparativeanalysisModal = ({
                                     marginRight={5}
                                     marginBottom={1}
                                   ></Flex>
-                                  <Flex title={`${e.first_name.toUpperCase()} ${e.last_name ? e.last_name.toUpperCase() : ''}`}>
+                                  <Flex title={`${e.first_name.toLowerCase()} ${e.last_name ? e.last_name.toUpperCase() : ''}`}>
                                     <Text className={styles.changingtexts}>
                                       {e.first_name.toUpperCase()}{' '}
                                       {e.last_name ? e.last_name.toUpperCase() : ''}
@@ -676,7 +676,7 @@ const ComparativeanalysisModal = ({
                                   </Flex>
                                   <Flex flex={6}></Flex>
                                 </Flex>
-                                <Flex row flex={12}>
+                                {/* <Flex row flex={12}>
                                   <Flex flex={6}>
                                     <Flex
                                       className={styles.tableboarder}
@@ -699,7 +699,26 @@ const ComparativeanalysisModal = ({
                                       {data.Cons.join('. ')} 
                                     </Flex>
                                   </Flex>
-                                </Flex>
+                                </Flex> */}
+
+                                <table className="parallel-columns-table" style={{ border: '1px solid #A5889C' }}>
+                                  <colgroup>
+                                    <col style={{ width: '50%' }} />
+                                    <col style={{ width: '50%' }} />
+                                  </colgroup>
+                                  <thead style={{ border: '1px solid #A5889C' }}>
+                                    <tr style={{ border: '1px solid #A5889C' }}>
+                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{padding:'3px'}}>Skills Evaluation</Flex></th>
+                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{padding:'3px'}}>Enhancement Analysis</Flex></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody style={{ border: '1px solid #A5889C' }}>
+                                    <tr style={{display:'-webkit-box' }}>
+                                      <td className={styles.prosdata}> {data.Pros.join('. ')}</td>
+                                      <td className={styles.Consdata}> {data.Cons.join('. ')}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
                               </Flex>
                             )}
                             <Flex></Flex>
