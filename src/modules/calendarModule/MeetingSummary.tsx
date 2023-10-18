@@ -47,8 +47,8 @@ interface Props {
   setIsTopLineLoading: React.Dispatch<React.SetStateAction<boolean>>;
   nextEvent: () => void;
   handleCloseSchedulingForm: () => void;
-  setOpenScheduleForm:any;
-  setopenmodel:any;
+  setOpenScheduleForm: any;
+  setopenmodel: any;
 }
 
 const MeetingSummary = ({
@@ -67,7 +67,7 @@ const MeetingSummary = ({
   currentApplicantId,
   setIsTopLineLoading,
   setOpenScheduleForm,
-  setopenmodel
+  setopenmodel,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
@@ -285,12 +285,12 @@ const MeetingSummary = ({
           position: 'relative',
         }}
       >
-        <CrossButton
+        {/* <CrossButton
           onClick={handleCloseSchedulingForm}
           size={10}
           style={{ position: 'absolute', top: '12px', right: '15px' }}
           fill={'#333'}
-        />
+        /> */}
         <div style={{ padding: '25px' }}>
           <Flex
             row
@@ -300,9 +300,9 @@ const MeetingSummary = ({
               borderBottom: '0.5px solid #581845',
             }}
           >
-            <Flex marginBottom={5}>
+            {/* <Flex marginBottom={5}>
               <SvgCalendar1 size={14} fill="#333" />
-            </Flex>
+            </Flex> */}
 
             <Text
               size={14}
@@ -389,13 +389,15 @@ const MeetingSummary = ({
                     // )}
                     email={[
                       // ...(userProfile?.email ? [userProfile?.email] : []),
-                      ...teamMembers.filter(doc=>doc.userId === userProfile?.id),
-                      ...meetingForm.interviewer
+                      ...teamMembers.filter(
+                        (doc) => doc.userId === userProfile?.id,
+                      ),
+                      ...meetingForm.interviewer,
                     ].map((interview, index: Key) =>
-                    interview.calendarEmail
-                      ? interview.calendarEmail
-                      : interview.email,
-                  )}
+                      interview.calendarEmail
+                        ? interview.calendarEmail
+                        : interview.email,
+                    )}
                     notes={meetingForm.privateNotes}
                     applicantInfo={meetingForm.applicant}
                     onSave={(value) => {
@@ -408,43 +410,66 @@ const MeetingSummary = ({
               )}
             </Flex>
           </Flex>
-          <div
+          {/* <div
             className={styles.actionButtonWrapper}
             style={{ borderTop: '1px solid #c3c3c3' }}
+          > */}
+          <Flex
+            // className={styles.actionButtonWrapper}
+            style={{ borderTop: '0.5px solid #c3c3c3' }}
+            // marginTop={5}
           >
-            <Button
-              onClick={nextEvent}
-              className={styles.cancel}
-              types={'primary'}
-            >
-              Back
-            </Button>
-            {editEventDetails ? (
-              isloading ? (
-                <Flex middle center style={{ width: '70px' }} marginTop={15}>
-                  <Loader size="small" withOutOverlay />
-                </Flex>
-              ) : (
-                <Button
-                  onClick={handleUpdateEvent}
-                  className={styles.continueButton}
-                >
-                  Update Invite
-                </Button>
-              )
-            ) : isloading ? (
-              <Flex middle center style={{ width: '70px' }} marginTop={15}>
-                <Loader size="small" withOutOverlay />
-              </Flex>
-            ) : (
+            <Flex row between marginTop={10}>
               <Button
-                onClick={handleScheduleEvent}
-                className={styles.continueButton}
+                onClick={nextEvent}
+                // className={styles.cancel}
+                types={'secondary'}
+                style={{ marginTop: '5px' }}
               >
-                Send Invite
+                Back
               </Button>
-            )}
-          </div>
+              <Flex row>
+                <Button
+                  types="close"
+                  className={styles.continueButton}
+                  onClick={handleCloseSchedulingForm}
+                  style={{ marginRight: '8px' }}
+                >
+                  Cancel
+                </Button>
+                {editEventDetails ? (
+                  isloading ? (
+                    <Flex
+                      middle
+                      center
+                      style={{ width: '70px' }}
+                      marginTop={15}
+                    >
+                      <Loader size="small" withOutOverlay />
+                    </Flex>
+                  ) : (
+                    <Button
+                      onClick={handleUpdateEvent}
+                      className={styles.continueButton}
+                    >
+                      Update Invite
+                    </Button>
+                  )
+                ) : isloading ? (
+                  <Flex middle center style={{ width: '70px' }} marginTop={15}>
+                    <Loader size="small" withOutOverlay />
+                  </Flex>
+                ) : (
+                  <Button
+                    onClick={handleScheduleEvent}
+                    className={styles.continueButton}
+                  >
+                    Send Invite
+                  </Button>
+                )}
+              </Flex>
+            </Flex>
+          </Flex>
         </div>
       </div>
     </>

@@ -39,7 +39,6 @@ import './styles/addInterviewers.css';
 import MeetingSchedulingForm from './MeetingSchedulingForm';
 import MeetingSummary from './MeetingSummary';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
-
 moment.tz.setDefault(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
 interface Props {
@@ -488,131 +487,151 @@ const MeetingSchedulingScreen = ({
             setopenmodel={setopenmodel}
           />
         ) : (
-          <Flex
-            style={{
-              backgroundColor: '#FFF',
-              width: '500px',
-              height: 'auto',
-              padding: '25px',
-            }}
-          >
-            <Flex
-              onClick={handlefunction1}
-              style={{ display: 'flex', alignItems: 'flex-end' }}
-            >
-              <SvgClose height={9} width={8} fill={'#581845'} />
-            </Flex>
-
-            <Text size={14} bold>
-              Generate Question by AI
-            </Text>
-            <Text color="theme">Choose the level of the interview</Text>
-            <Flex row>
-              {level.map((jobList) => {
-                return (
-                  <Flex
-                    key={jobList.value}
-                    style={{ margin: '0  20px  10px 0 ' }}
-                  >
-                    <InputRadio
-                      // className={styles.checkbox}
-                      label={jobList.value}
-                      checked={jobList.label === formik.values.LevelType}
-                      onClick={() =>
-                        formik.setFieldValue('LevelType', jobList.label)
-                      }
-                    />
-                  </Flex>
-                );
-              })}
-            </Flex>
-            <Text color="theme">
-              Pick the interviewer for question generation.
-            </Text>
-
-            <Flex row style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {formik.values.interviewers.map((user) => {
-                const isChecked = formik.values.checkedValues.some(
-                  (cv) => cv.userId === user.userId,
-                );
-
-                const handleCheckboxChange = () => {
-                  const updatedValues = [...formik.values.checkedValues];
-
-                  if (isChecked) {
-                    const userIndex = updatedValues.findIndex(
-                      (cv) => cv.userId === user.userId,
-                    );
-                    updatedValues.splice(userIndex, 1);
-                  } else {
-                    updatedValues.push({
-                      userId: user.userId,
-                      value: true,
-                      firstName: user.firstName,
-                      lastName: user.lastName,
-                      role: user.role,
-                    });
-                  }
-
-                  formik.setFieldValue('checkedValues', updatedValues);
-                };
-
-                return (
-                  <Flex
-                    row
-                    key={user.userId}
-                    style={{ margin: '0 0 10px 0', width: '50%' }}
-                  >
-                    <InputCheckBox
-                      checked={isChecked}
-                      onChange={handleCheckboxChange}
-                    />
-                    <Text
-                      style={{ margin: '0 0px 0 6px' }}
-                    >{`${user.firstName} ${user.lastName}`}</Text>
-                  </Flex>
-                );
-              })}
-            </Flex>
-
-            <Flex style={{ margin: '0 0 10px 0' }}>
-              <InputText
-                label={'A brief summary of the interview '}
-                value={formik.values.brieftext}
-                onChange={(e) => {
-                  formik.setFieldValue('brieftext', e.target.value);
-                }}
+          <>
+            {/* <Flex>
+              <CrossButton
+                onClick={handlefunction1}
+                size={10}
+                style={{ position: 'absolute', top: '12px', right: '15px' }}
+                fill={'#333'}
               />
-            </Flex>
-
-            <Flex between row>
-              <Flex>
-                {/* <Button types='secondary' onClick={handlefunction}>
-                back
-              </Button> */}
+            </Flex> */}
+            <Flex
+              style={{
+                backgroundColor: '#FFF',
+                width: '500px',
+                height: 'auto',
+                padding: '25px',
+              }}
+            >
+              <Flex
+                style={{ borderBottom: '0.5px solid #581845' }}
+                marginBottom={10}
+              >
+                <Text size={14} bold style={{ marginBottom: '5px' }}>
+                  Generate Question by AI
+                </Text>
               </Flex>
+
+              <Text color="theme" style={{ marginBottom: '4px' }}>
+                Choose the level of the interview.
+              </Text>
               <Flex row>
-                <Button types="close" onClick={handlefunction}>
-                  Back
-                </Button>
+                {level.map((jobList) => {
+                  return (
+                    <Flex
+                      key={jobList.value}
+                      style={{ margin: '0  20px  10px 0 ' }}
+                    >
+                      <InputRadio
+                        // className={styles.checkbox}
+                        label={jobList.value}
+                        checked={jobList.label === formik.values.LevelType}
+                        onClick={() =>
+                          formik.setFieldValue('LevelType', jobList.label)
+                        }
+                      />
+                    </Flex>
+                  );
+                })}
+              </Flex>
+              <Text color="theme" style={{ marginBottom: '4px' }}>
+                Pick the interviewer for question generation.
+              </Text>
 
-                <Button style={{ margin: '0 0 0 10px' }} onClick={handlevalid}>
-                  {formik.values.LevelType !== '' ||
-                  formik.values.brieftext !== '' ||
-                  formik.values.checkedValues.length !== 0
-                    ? 'Genrate'
-                    : 'skip'}
-                </Button>
+              <Flex row style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {formik.values.interviewers.map((user) => {
+                  const isChecked = formik.values.checkedValues.some(
+                    (cv) => cv.userId === user.userId,
+                  );
+
+                  const handleCheckboxChange = () => {
+                    const updatedValues = [...formik.values.checkedValues];
+
+                    if (isChecked) {
+                      const userIndex = updatedValues.findIndex(
+                        (cv) => cv.userId === user.userId,
+                      );
+                      updatedValues.splice(userIndex, 1);
+                    } else {
+                      updatedValues.push({
+                        userId: user.userId,
+                        value: true,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        role: user.role,
+                      });
+                    }
+
+                    formik.setFieldValue('checkedValues', updatedValues);
+                  };
+
+                  return (
+                    <Flex
+                      row
+                      key={user.userId}
+                      style={{ margin: '0 0 10px 0', width: '50%' }}
+                    >
+                      <InputCheckBox
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                      <Text
+                        style={{ margin: '0 0px 0 6px' }}
+                      >{`${user.firstName} ${user.lastName}`}</Text>
+                    </Flex>
+                  );
+                })}
+              </Flex>
+
+              <Flex style={{ margin: '0 0 10px 0' }}>
+                <label
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginBottom: '4px',
+                  }}
+                >
+                  <p style={{ color: '#581845', fontSize: '13px' }}>
+                    A brief summary of the interview.
+                  </p>
+                </label>
+                <InputText
+                  // label={'A brief summary of the interview.'}
+                  value={formik.values.brieftext}
+                  placeholder="Add a brief summary of the interview."
+                  style={{ marginBottom: '5px' }}
+                  onChange={(e) => {
+                    formik.setFieldValue('brieftext', e.target.value);
+                  }}
+                />
+              </Flex>
+              <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
+                <Flex row between marginTop={10}>
+                  <Button types="secondary" onClick={handlefunction}>
+                    Back
+                  </Button>
+
+                  <Flex row>
+                    <Button types="close" onClick={handlefunction1}>
+                      Cancel
+                    </Button>
+                    <Button
+                      style={{ margin: '0 0 0 10px' }}
+                      onClick={handlevalid}
+                    >
+                      {formik.values.LevelType !== '' ||
+                      formik.values.brieftext !== '' ||
+                      formik.values.checkedValues.length !== 0
+                        ? 'Generate'
+                        : 'Skip'}
+                    </Button>
+                  </Flex>
+                </Flex>
               </Flex>
             </Flex>
-            {console.log(
-              "formik.values.LevelType!==''&&formik.values.brieftext!==''&&formik.values.checkedValues.length!==0 ",
-              formik.values.interviewers.length > 1,
-              formik.values.LevelType !== '',
-              formik.values.brieftext !== '',
-              formik.values.checkedValues.length !== 0,
-            )}
-          </Flex>
+          </>
         )}
         {/* </div> */}
       </Modal>
