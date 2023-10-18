@@ -2,6 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IEventNotes, ZitaEventSchedulerType } from '../../types';
 import { stringifyParams } from '../../../../uikit/helper';
+import { Role_value } from '../../../../appRoutesPath';
+import { Interview_role } from '../../../../routes/apiRoutes';
 var querystring = require('qs');
 
 export const getUpdateEventByIdMiddleWare = createAsyncThunk<
@@ -259,3 +261,16 @@ export const getUrlMiddleware = createAsyncThunk(
     }
   },
 );
+export const rolevaluemiddleware = createAsyncThunk(
+  Role_value,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(Interview_role);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+

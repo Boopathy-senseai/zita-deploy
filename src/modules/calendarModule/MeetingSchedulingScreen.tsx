@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { Modal, CrossButton } from '../../uikit/v2';
 import { AppDispatch } from '../../store';
 import { level } from '../myjobposting/mock';
-import { Flex,Text,Button, CheckBox, InputCheckBox, InputRadio, InputText } from '../../uikit';
+import { Flex,Text,Button, CheckBox, InputCheckBox, InputRadio, InputText, ErrorMessage } from '../../uikit';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
 import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
@@ -312,6 +312,7 @@ const MeetingSchedulingScreen = ({
     checkedValues:checkedValues[];
     LevelType:string;
     brieftext:string;
+    checkedValuesError?: string; 
   }
   
   const initialValues: MyFormValues = {
@@ -319,33 +320,44 @@ const MeetingSchedulingScreen = ({
     checkedValues:[],
     LevelType:'',
     brieftext:'',
-  };
-  const handleCompanyPageValid = (values: MyFormValues) => {
-    const errors: Partial<MyFormValues> = {};
-    if(formik.values.LevelType!==''&&formik.values.brieftext!==''&&formik.values.checkedValues.length!==0){
    
-    }
-    else if(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0){
-     
-        errors.brieftext = THIS_FIELD_REQUIRED;
-      
-      if(formik.values.LevelType!=='' ){
-        errors.LevelType = THIS_FIELD_REQUIRED;
+  };
+ 
+
+  const handleCompanyPageValid = (values: MyFormValues): Partial<MyFormValues> => {
+    const errors: Partial<MyFormValues> = {};
+
+    // Check if all fields are blank
+    const allFieldsBlank = values.LevelType === '' && values.brieftext === '' && values.checkedValues.length === 0;
+
+    // If not all fields are blank, validate each field
+    if (!allFieldsBlank) {
+        if (values.brieftext === '') {
+            errors.brieftext = '';
+        }
+        if (values.LevelType === '') {
+          errors.LevelType = '';
       }
-      // if(formik.values.checkedValues.length!==0){
-      //   errors.checkedValues =THIS_FIELD_REQUIRED;
-      // } 
+      if (values.checkedValues.length === 0) {
+        
+        errors.checkedValuesError = '';
     }
-  }
+       
+    }
+    if(formik.values.brieftext.length>150){
+      errors.brieftext = 'Length should not exceed 150 charector';
+    }
+    return errors;
+};
+
  
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit:()=>{},
+    onSubmit: () => handleSubmit(),
     validate: handleCompanyPageValid,
-   
   });
-  const handlevalid=()=>{
+  const handleSubmit=()=>{
     if(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
     {
       setViewMeetingSummary(false)
@@ -381,7 +393,7 @@ const MeetingSchedulingScreen = ({
 
   return (
     <>
-    {console.log('form::::+++form',formik.values)}
+    {console.log('form::::+++form',formik.values,formik.errors,formik.touched)}
     <Modal
       onClose={handleCloseSchedulingForm}
       open={openScheduleForm}
@@ -540,7 +552,16 @@ const MeetingSchedulingScreen = ({
           value={formik.values.brieftext}
           onChange={(e)=>{formik.setFieldValue('brieftext',e.target.value)}}
         />
+        <ErrorMessage
+                          name={'brieftext'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
             </Flex>
+
+        {(formik.errors.LevelType===''||formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
+          <Text color='error'>All the above files are required</Text>
+        ):('')}
 
           <Flex between row>
             <Flex>
@@ -553,8 +574,8 @@ const MeetingSchedulingScreen = ({
                 Back
               </Button>
               
-              <Button style={{margin:'0 0 0 10px'}} onClick={handlevalid}>
-              {(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)?("Genrate"):("skip") }
+              <Button style={{margin:'0 0 0 10px'}} onClick={formik.handleSubmit}>
+              {(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)?("Generate"):("skip") }
               </Button>
             </Flex>
           </Flex>

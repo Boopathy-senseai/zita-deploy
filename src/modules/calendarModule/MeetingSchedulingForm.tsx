@@ -13,10 +13,12 @@ import SvgAdd from '../../icons/SvgAdd';
 import { AppDispatch } from '../../store';
 import { Button, Flex, InputSearch, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+
 import { CrossButton } from '../../uikit/v2';
 import { isEmpty } from '../../uikit/helper';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { rolevaluemiddleware } from './store/middleware/calendarmiddleware';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -97,15 +99,7 @@ const MeetingSchedulingForm = ({
   const [list,setlist] = useState('');
   const [errors, setErrors] = useState([]);
 
-
-
-  const  [names,setname]=useState<any>([])
-
-
-
-
-
-
+  const  [role,setrole]=useState<any>([])
 
 const updatestate = (val) => {
   const interviewerExists = formik.values.interviewers.some(item => item.userId === val.userId);
@@ -162,6 +156,13 @@ const updatestate = (val) => {
   useEffect(() => {
     updateCurrentApplicantId(currentApplicantId);
   }, [currentApplicantId]);
+  useEffect(() => {
+  dispatch(rolevaluemiddleware()).then(
+    (res)=>{
+      setrole(res.payload)
+    }
+  )
+  },[]);
 
   useEffect(() => {
     const timezones = moment.tz.names();
@@ -911,7 +912,7 @@ const updatestate = (val) => {
         />
         <Flex>
             <InputSearch
-                options={data}
+                options={role}
                 setFieldValue={formik.setFieldValue}
                 required
                 name={`interviewers[${index}].role`}
