@@ -16,6 +16,7 @@ import {
   InputRadio,
   InputText,
   ErrorMessage,
+  Loader,
 } from '../../uikit';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
@@ -40,7 +41,8 @@ import './styles/addInterviewers.css';
 import MeetingSchedulingForm from './MeetingSchedulingForm';
 import MeetingSummary from './MeetingSummary';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
-moment.tz.setDefault(Intl.DateTimeFormat().resolvedOptions().timeZone);
+import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
+
 
 interface Props {
   username: string;
@@ -128,6 +130,7 @@ const MeetingSchedulingScreen = ({
   const updateCurrentApplicantId = (applicantId: number) => {
     setCurrentApplicantId(applicantId);
   };
+  const [isSubmitLoader,setSubmitLoader]=useState(false);
 
   useEffect(() => {
     if (editEventDetails) {
@@ -299,7 +302,7 @@ const MeetingSchedulingScreen = ({
     role?: string;
   }
   interface checkedValues {
-    userId: any;
+    id: any;
     value: any;
     firstName?: string;
     lastName?: string;
@@ -357,12 +360,30 @@ const MeetingSchedulingScreen = ({
   const handleSubmit=()=>{
     if(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
     {
-      setViewMeetingSummary(false)
-      setShowPopup(true)
+      setSubmitLoader(true)
+      const formData = new FormData();
+      const transformedData= formik.values.checkedValues.map(item => ({
+        id: item.id,
+        role: item.role
+      }));
+      formData.append('role',JSON.stringify(transformedData));
+      formData.append('level',formik.values.LevelType);
+      formData.append('summary',formik.values.brieftext);
+      formData.append('can_id',meetingForm.applicant.id);
+      formData.append('jd_id',meetingForm.job.value);
+      dispatch(
+        Interview_question_middleware({
+          formData,
+        })).then((response)=>{
+          setSubmitLoader(false)
+          setViewMeetingSummary(false)
+          setShowPopup(true)
+        })
     }
     else{
       setViewMeetingSummary(true)
       setopenmodel(false)
+
     }
 
   }
@@ -390,7 +411,8 @@ const MeetingSchedulingScreen = ({
 
   return (
     <>
-    {console.log('form::::+++form',formik.values,formik.errors,formik.touched)}
+    {console.log('form::::+++form',formik.values,formik.errors,formik.touched,meetingForm)}
+    {isSubmitLoader && <Loader />}
     <Modal
       onClose={handleCloseSchedulingForm}
       open={openScheduleForm}
@@ -536,7 +558,7 @@ const MeetingSchedulingScreen = ({
               <Flex row style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {formik.values.interviewers.map((user) => {
                   const isChecked = formik.values.checkedValues.some(
-                    (cv) => cv.userId === user.userId,
+                    (cv) => cv.id === user.userId,
                   );
 
                   const handleCheckboxChange = () => {
@@ -544,12 +566,12 @@ const MeetingSchedulingScreen = ({
 
                     if (isChecked) {
                       const userIndex = updatedValues.findIndex(
-                        (cv) => cv.userId === user.userId,
+                        (cv) => cv.id === user.userId,
                       );
                       updatedValues.splice(userIndex, 1);
                     } else {
                       updatedValues.push({
-                        userId: user.userId,
+                        id: user.userId,
                         value: true,
                         firstName: user.firstName,
                         lastName: user.lastName,

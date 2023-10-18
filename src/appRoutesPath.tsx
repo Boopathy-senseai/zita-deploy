@@ -15,6 +15,7 @@ export const inbox = '/mail';
 // Calendar
 export const calendarRoute = '/calendar';
 export const Role_value = '/rolevalue';
+export const Interview_question='/interview_question'
 // My Job Posting
 export const jobSelect = `${routesPath.JOBS}/select`;
 export const jobCreateDs = `${routesPath.JOBS}/create_ds`;
