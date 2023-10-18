@@ -267,7 +267,7 @@ const ComparativeanalysisModal = ({
                     )}
                   </Card>
                   <Flex row between marginTop={20} marginBottom={13}>
-                    <Flex row>
+                    <Flex row center>
                       <Flex>
                         <Text bold size={14}>Comparative Analysis</Text>
                       </Flex>
@@ -404,8 +404,7 @@ const ComparativeanalysisModal = ({
                                 <Flex row between>
                                   <Flex
                                     style={{
-                                      backgroundColor: '#581845',
-                                      borderRadius: '2px 2px 0px 0px',
+                                      backgroundColor: '#581845', 
                                     }}
                                     width={20}
                                     height={37}
@@ -567,7 +566,7 @@ const ComparativeanalysisModal = ({
                         return (
 
                           <Flex key={index} marginBottom={15}>
-                            <Flex row between>
+                            <Flex row between center>
                               <Flex row center>
                                 <Flex
                                   style={{ fontsize: '14px', color: '#581845' }}
@@ -650,7 +649,7 @@ const ComparativeanalysisModal = ({
                                         )}
                                     </Flex>
                                   </Flex>
-                                  <Flex flex={3} row center >
+                                  <Flex flex={3} row center  marginLeft={20}>
                                     <Flex>
                                       Recommended to Hire :{' '}
                                     </Flex>
