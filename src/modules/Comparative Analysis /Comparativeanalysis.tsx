@@ -484,6 +484,7 @@ const ComparativeanalysisModal = ({
                                     }}
                                     height={12}
                                     marginRight={5}
+                                    marginBottom={1}
                                   ></Flex>
                                   <Flex title={`${e.first_name.toUpperCase()} ${e.last_name ? e.last_name.toUpperCase() : ''}`}>
                                     <Text className={styles.changingtexts}>
