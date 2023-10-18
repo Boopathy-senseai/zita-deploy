@@ -226,7 +226,7 @@ const AddcandidatesModal = ({
                         width={12}
                         style={{
                           backgroundColor: e.stage_color,
-                          borderRadius: '50%',
+                          borderRadius: '2px',
                         }}
                         height={12}
                         marginRight={5}

@@ -56,6 +56,7 @@ const MatchingcriteriaModal = ({
     updatemodel(val, 0);
     setData([]);
     setedit(false);
+    setError('')
   };
 
   const compare = () => {

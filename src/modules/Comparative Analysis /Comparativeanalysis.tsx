@@ -124,6 +124,7 @@ const ComparativeanalysisModal = ({
       }
       else {
         setLoader(false);
+        closemodel()
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
           'LONG',
@@ -215,7 +216,7 @@ const ComparativeanalysisModal = ({
                           .reverse()
                           .map((e, index) => (
                             index === 0 && (
-                              <Flex row style={{ margin: '5px' }} center>
+                              <Flex row style={{ margin: '10px' }} center>
 
                                 <Flex center middle>
                                   <Avatar
@@ -261,9 +262,7 @@ const ComparativeanalysisModal = ({
                               </Flex>
                             )
                           ))}
-                      </>
-
-
+                      </> 
                     ) : (
                       ''
                     )}
@@ -481,7 +480,7 @@ const ComparativeanalysisModal = ({
                                     title={e.stage_name}
                                     style={{
                                       backgroundColor: e.stage_color,
-                                      borderRadius: '50%',
+                                      borderRadius: '2px',
                                     }}
                                     height={12}
                                     marginRight={5}
