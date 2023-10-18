@@ -210,14 +210,19 @@ const CreateJdWithNonDs = () => {
         <Flex row center className={styles.step}>
           <StepProgressBar roundFill />
           <StepProgressBar
-            title="Applicant Questionnaire"
+            title="Match Weightage"
             titleclassName={styles.stepTwo}
             stepIndex="2"
           />
           <StepProgressBar
-            title="Preview & Post Job"
-            titleclassName={styles.stepTwo}
+            title="Applicant Questionnaire"
+            titleclassName={styles.stepThree}
             stepIndex="3"
+          />
+          <StepProgressBar
+            title="Preview & Post Job"
+            titleclassName={styles.stepFour}
+            stepIndex="4"
           />
         </Flex>
 

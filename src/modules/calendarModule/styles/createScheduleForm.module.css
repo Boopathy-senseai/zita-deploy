@@ -59,7 +59,7 @@
     grid-template-columns: [one] 1fr [two] 1fr [three];
     grid-template-rows: auto;
     grid-gap: 20px 20px;
-    padding: 0 0 10px 0;
+    /* padding: 0 0 10px 0; */
 }
 
 .notes div:first-child {
@@ -233,7 +233,7 @@ label > p {
   background-color: #888888;
   border: none;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
   color: #ffffff;
   font-size: 13px;
   font-weight: bold;
@@ -247,7 +247,7 @@ label > p {
 .continueButton{
   border: none;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 13px;
   font-weight: bold;
 }

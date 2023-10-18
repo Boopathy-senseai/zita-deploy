@@ -2,7 +2,7 @@
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#cccccc',
+  fill: '#D7C7D2',
   width: 22,
   height: 22,
   className: '',

@@ -7,7 +7,15 @@ import { useFormik } from 'formik';
 import { Modal, CrossButton } from '../../uikit/v2';
 import { AppDispatch } from '../../store';
 import { level } from '../myjobposting/mock';
-import { Flex,Text,Button, CheckBox, InputCheckBox, InputRadio, InputText, ErrorMessage } from '../../uikit';
+import {
+  Flex,
+  Text,
+  Button,
+  CheckBox,
+  InputCheckBox,
+  InputRadio,
+  InputText,
+} from '../../uikit';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
 import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
@@ -31,13 +39,6 @@ import './styles/addInterviewers.css';
 import MeetingSchedulingForm from './MeetingSchedulingForm';
 import MeetingSummary from './MeetingSummary';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
-
-
-
-
-
-
-
 moment.tz.setDefault(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
 interface Props {
@@ -52,7 +53,7 @@ interface Props {
   eventId?: any;
   recurringEventId?: string | null;
   openScheduleForm: boolean;
-  setOpenScheduleForm:any;
+  setOpenScheduleForm: any;
   teamMembers: TeamMemberType[];
   editEventDetails?: EditEventDetails | null;
   calendarProvider: CALENDAR | null;
@@ -63,11 +64,11 @@ interface Props {
   params?: URLSearchParams;
   setIsTopLineLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   handleEventScheduleForm: () => void;
-  openmodel:any;
-  setopenmodel:any;
-  setMeetingForm:any;
-  meetingForm:any
-  value:any;
+  openmodel: any;
+  setopenmodel: any;
+  setMeetingForm: any;
+  meetingForm: any;
+  value: any;
 }
 
 const MeetingSchedulingScreen = ({
@@ -100,16 +101,16 @@ const MeetingSchedulingScreen = ({
   value,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
-  const {search} = useLocation();
+  const { search } = useLocation();
 
   const dispatch: AppDispatch = useDispatch();
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
   );
   const tabInitial: any =
-  sessionStorage.getItem('interviewer') === null
-    ? '0'
-    : sessionStorage.getItem('interviewer');
+    sessionStorage.getItem('interviewer') === null
+      ? '0'
+      : sessionStorage.getItem('interviewer');
 
   const [interviewer, setinterviewer] = useState<any>(tabInitial);
   // const [applicants, setApplicants] = useState<UserType[]>([]);
@@ -121,10 +122,7 @@ const MeetingSchedulingScreen = ({
   //     '\r\n' +
   //     'We would like to confirm your interview. Please find all the relevant details below.',
   // );
-  const queryParams =new URLSearchParams(search)
-  
-  
-
+  const queryParams = new URLSearchParams(search);
 
   const updateCurrentApplicantId = (applicantId: number) => {
     setCurrentApplicantId(applicantId);
@@ -187,8 +185,7 @@ const MeetingSchedulingScreen = ({
           job: { ...form.job, label: localStorage.getItem('Jdname') },
         };
       });
-    }
-    else if(queryParams.get('id')){
+    } else if (queryParams.get('id')) {
       setMeetingForm((form) => {
         return {
           ...form,
@@ -196,13 +193,16 @@ const MeetingSchedulingScreen = ({
             ...form.applicant,
             id: JSON.parse(queryParams.get('id')),
             name: queryParams.get('name'),
-
           },
-          job: { ...form.job, label:queryParams.get('jobTitle'), value: JSON.parse(queryParams.get('jobId'))},
+          job: {
+            ...form.job,
+            label: queryParams.get('jobTitle'),
+            value: JSON.parse(queryParams.get('jobId')),
+          },
         };
       });
     }
-  }, [APPLY,cand_id]);
+  }, [APPLY, cand_id]);
   // useEffect(()=>{
   //   // dispatch(userProfileMiddleWare());
 
@@ -227,25 +227,24 @@ const MeetingSchedulingScreen = ({
     return () => setMeetingForm(meetingFormInitialState);
   }, []);
   function splitName(username1) {
-    const parts = username1.trim().split(/\s+/); 
-    const firstName = parts[0] || "";
-    const lastName = parts.slice(1).join(" ") || ""; 
+    const parts = username1.trim().split(/\s+/);
+    const firstName = parts[0] || '';
+    const lastName = parts.slice(1).join(' ') || '';
     return {
       firstName,
-      lastName
+      lastName,
     };
   }
-  const [value1,setvalue1]=useState(value)
-  
+  const [value1, setvalue1] = useState(value);
+
   useEffect(() => {
-   
     const { firstName, lastName } = splitName(username);
-    console.log("value1111",value1)
-    const newData = { firstName, lastName, role: "",userId:value1 };
+    console.log('value1111', value1);
+    const newData = { firstName, lastName, role: '', userId: value1 };
     const updatedInterviewers = [...formik.values.interviewers, newData];
     formik.setFieldValue('interviewers', updatedInterviewers);
     sessionStorage.setItem('interviewer', '0');
-}, []);
+  }, []);
 
   useEffect(() => {
     if (slotRange.date) {
@@ -259,8 +258,6 @@ const MeetingSchedulingScreen = ({
       return () => setMeetingForm(meetingFormInitialState);
     }
   }, [slotRange]);
-
-
 
   const handleCloseSchedulingForm = () => {
     [
@@ -283,18 +280,18 @@ const MeetingSchedulingScreen = ({
     setMeetingForm(meetingFormInitialState);
     handleEventScheduleForm();
   };
-  const handlefunction=()=>{
-    setopenmodel(false)
-    setViewMeetingSummary(false)
-    setShowPopup(false)
-    setOpenScheduleForm(true)
-   }
-   const handlefunction1=()=>{
-    setopenmodel(false)
-    setOpenScheduleForm(false)
-   }
+  const handlefunction = () => {
+    setopenmodel(false);
+    setViewMeetingSummary(false);
+    setShowPopup(false);
+    setOpenScheduleForm(true);
+  };
+  const handlefunction1 = () => {
+    setopenmodel(false);
+    setOpenScheduleForm(false);
+  };
 
-   interface Interviewer {
+  interface Interviewer {
     userId: any;
     firstName?: string;
     lastName?: string;
@@ -302,7 +299,7 @@ const MeetingSchedulingScreen = ({
   }
   interface checkedValues {
     userId: any;
-    value:any;
+    value: any;
     firstName?: string;
     lastName?: string;
     role?: string;
@@ -314,13 +311,12 @@ const MeetingSchedulingScreen = ({
     brieftext:string;
     checkedValuesError?: string; 
   }
-  
+
   const initialValues: MyFormValues = {
     interviewers: [],
-    checkedValues:[],
-    LevelType:'',
-    brieftext:'',
-   
+    checkedValues: [],
+    LevelType: '',
+    brieftext: '',
   };
  
 
@@ -363,33 +359,28 @@ const MeetingSchedulingScreen = ({
       setViewMeetingSummary(false)
       setShowPopup(true)
     }
-    else{
-      setViewMeetingSummary(true)
-      setopenmodel(false)
-    }
-
-  }
-  const nextEvent = () => {
-    if(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
-    {
-    setViewMeetingSummary(false);
-    setShowPopup(true)
-    }else{
-      setViewMeetingSummary(true);
-      setopenmodel(true)
-    }
-    
   };
-  const handlechange=()=>{
-    setViewMeetingSummary(true)
-    setopenmodel(false)
-
-  }
-  const handlechange1=()=>{
-    setViewMeetingSummary(true)
-    setopenmodel(true)
-  }
-
+  const nextEvent = () => {
+    if (
+      formik.values.LevelType !== '' ||
+      formik.values.brieftext !== '' ||
+      formik.values.checkedValues.length !== 0
+    ) {
+      setViewMeetingSummary(false);
+      setShowPopup(true);
+    } else {
+      setViewMeetingSummary(true);
+      setopenmodel(true);
+    }
+  };
+  const handlechange = () => {
+    setViewMeetingSummary(true);
+    setopenmodel(false);
+  };
+  const handlechange1 = () => {
+    setViewMeetingSummary(true);
+    setopenmodel(true);
+  };
 
   return (
     <>
@@ -454,142 +445,186 @@ const MeetingSchedulingScreen = ({
               </Tabs>
             </Flex>
 
-          <Flex row  style={{display:'flex',justifyContent:'end'}}>
-            <Button types='close' onClick={handlechange1} >Back</Button>
-            <Button style={{margin:'0 0 0 10px'}} onClick={handlechange}>Continue</Button>
-          </Flex>
-          </Flex>
-        )
-      ) : (
-        openmodel ===false ?(
-        <MeetingSummary
-          currentUserLabel={currentUserLabel}
-          applicants={applicants}
-          meetingForm={meetingForm}
-          username={username}
-          nextEvent={nextEvent}
-          teamMembers={teamMembers}
-          editEventDetails={editEventDetails}
-          handleCloseSchedulingForm={handleCloseSchedulingForm}
-          currentApplicantId={currentApplicantId}
-          // extraNotes={extraNotes}
-          EventId={EventId}
-          eventId={eventId}
-          recurringEventId={recurringEventId}
-          setIsTopLineLoading={setIsTopLineLoading}
-          setOpenScheduleForm={setOpenScheduleForm}
-          setopenmodel={setopenmodel}
-         
-        />
-        ):(
-        <Flex style={{backgroundColor:'#FFF',width:'500px',height:'auto',padding:'25px'}}>
-          <Flex
-            onClick={handlefunction1}
-            style={{display:'flex',alignItems:'flex-end'}}
-          >
-            <SvgClose height={9} width={8} fill={"#581845"}/>
-          </Flex>
+              <Flex row style={{ display: 'flex', justifyContent: 'end' }}>
+                <Button types="close" onClick={handlechange1}>
+                  Back
+                </Button>
+                <Button style={{ margin: '0 0 0 10px' }} onClick={handlechange}>
+                  Continue
+                </Button>
+              </Flex>
+            </Flex>
+          )
+        ) : openmodel === false ? (
+          <MeetingSummary
+            currentUserLabel={currentUserLabel}
+            applicants={applicants}
+            meetingForm={meetingForm}
+            username={username}
+            nextEvent={nextEvent}
+            teamMembers={teamMembers}
+            editEventDetails={editEventDetails}
+            handleCloseSchedulingForm={handleCloseSchedulingForm}
+            currentApplicantId={currentApplicantId}
+            // extraNotes={extraNotes}
+            EventId={EventId}
+            eventId={eventId}
+            recurringEventId={recurringEventId}
+            setIsTopLineLoading={setIsTopLineLoading}
+            setOpenScheduleForm={setOpenScheduleForm}
+            setopenmodel={setopenmodel}
+          />
+        ) : (
+          <>
+            {/* <Flex>
+              <CrossButton
+                onClick={handlefunction1}
+                size={10}
+                style={{ position: 'absolute', top: '12px', right: '15px' }}
+                fill={'#333'}
+              />
+            </Flex> */}
+            <Flex
+              style={{
+                backgroundColor: '#FFF',
+                width: '500px',
+                height: 'auto',
+                padding: '25px',
+              }}
+            >
+              <Flex
+                style={{ borderBottom: '0.5px solid #581845' }}
+                marginBottom={10}
+              >
+                <Text size={14} bold style={{ marginBottom: '5px' }}>
+                  Generate Question by AI
+                </Text>
+              </Flex>
 
-          <Text size={14} bold>
-          Generate Question by AI
-          </Text>
-          <Text color='theme'>
-          Choose the level of the interview
-          </Text>
-          <Flex row >
-          {level.map((jobList) => {
-                    return (
-                      <Flex
-                        key={jobList.value}
-                        style={{margin:'0  20px  10px 0 '}}
-                      >
-                        <InputRadio
-                          // className={styles.checkbox}
-                          label={jobList.value}
-                          checked={jobList.label === formik.values.LevelType}
-                          onClick={() => (
-                            formik.setFieldValue('LevelType', jobList.label)
-                          )}
-                        />
-                      </Flex>
-                    );
-                  })}
-          </Flex>
-          <Text color='theme'>
-          Pick the interviewer for question generation.
-          </Text>
+              <Text color="theme" style={{ marginBottom: '4px' }}>
+                Choose the level of the interview.
+              </Text>
+              <Flex row>
+                {level.map((jobList) => {
+                  return (
+                    <Flex
+                      key={jobList.value}
+                      style={{ margin: '0  20px  10px 0 ' }}
+                    >
+                      <InputRadio
+                        // className={styles.checkbox}
+                        label={jobList.value}
+                        checked={jobList.label === formik.values.LevelType}
+                        onClick={() =>
+                          formik.setFieldValue('LevelType', jobList.label)
+                        }
+                      />
+                    </Flex>
+                  );
+                })}
+              </Flex>
+              <Text color="theme" style={{ marginBottom: '4px' }}>
+                Pick the interviewer for question generation.
+              </Text>
 
-          <Flex row  style={{display:'flex',flexWrap:'wrap'}}>
-   
-          {formik.values.interviewers.map((user) => {
-              const isChecked = formik.values.checkedValues.some(cv => cv.userId === user.userId);
+              <Flex row style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {formik.values.interviewers.map((user) => {
+                  const isChecked = formik.values.checkedValues.some(
+                    (cv) => cv.userId === user.userId,
+                  );
 
-              const handleCheckboxChange = () => {
-                const updatedValues = [...formik.values.checkedValues];
-                
-                if (isChecked) {
-                  const userIndex = updatedValues.findIndex(cv => cv.userId === user.userId);
-                  updatedValues.splice(userIndex, 1);
-                } else {
-                  updatedValues.push({ userId: user.userId, value: true ,firstName: user.firstName,lastName:user.lastName,role:user.role}); 
-                }
+                  const handleCheckboxChange = () => {
+                    const updatedValues = [...formik.values.checkedValues];
 
-                formik.setFieldValue('checkedValues', updatedValues);
-              };
+                    if (isChecked) {
+                      const userIndex = updatedValues.findIndex(
+                        (cv) => cv.userId === user.userId,
+                      );
+                      updatedValues.splice(userIndex, 1);
+                    } else {
+                      updatedValues.push({
+                        userId: user.userId,
+                        value: true,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        role: user.role,
+                      });
+                    }
 
-              return (
-                <Flex row key={user.userId} style={{margin:'0 0 10px 0',width:'50%'}}>
-                  <InputCheckBox checked={isChecked} onChange={handleCheckboxChange} />
-                  <Text style={{margin:'0 0px 0 6px'}}>{`${user.firstName} ${user.lastName}`}</Text>
+                    formik.setFieldValue('checkedValues', updatedValues);
+                  };
+
+                  return (
+                    <Flex
+                      row
+                      key={user.userId}
+                      style={{ margin: '0 0 10px 0', width: '50%' }}
+                    >
+                      <InputCheckBox
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                      <Text
+                        style={{ margin: '0 0px 0 6px' }}
+                      >{`${user.firstName} ${user.lastName}`}</Text>
+                    </Flex>
+                  );
+                })}
+              </Flex>
+
+              <Flex style={{ margin: '0 0 10px 0' }}>
+                <label
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginBottom: '4px',
+                  }}
+                >
+                  <p style={{ color: '#581845', fontSize: '13px' }}>
+                    A brief summary of the interview.
+                  </p>
+                </label>
+                <InputText
+                  // label={'A brief summary of the interview.'}
+                  value={formik.values.brieftext}
+                  placeholder="Add a brief summary of the interview."
+                  style={{ marginBottom: '5px' }}
+                  onChange={(e) => {
+                    formik.setFieldValue('brieftext', e.target.value);
+                  }}
+                />
+              </Flex>
+              <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
+                <Flex row between marginTop={10}>
+                  <Button types="secondary" onClick={handlefunction}>
+                    Back
+                  </Button>
+
+                  <Flex row>
+                    <Button types="close" onClick={handlefunction1}>
+                      Cancel
+                    </Button>
+                    <Button
+                      style={{ margin: '0 0 0 10px' }}
+                      onClick={handleSubmit}
+                    >
+                      {formik.values.LevelType !== '' ||
+                      formik.values.brieftext !== '' ||
+                      formik.values.checkedValues.length !== 0
+                        ? 'Generate'
+                        : 'Skip'}
+                    </Button>
+                  </Flex>
                 </Flex>
-              );
-            })}
-          </Flex>
-      
-            <Flex style={{margin:'0 0 10px 0'}}>
-            <InputText
-          label={'A brief summary of the interview '}
-          value={formik.values.brieftext}
-          onChange={(e)=>{formik.setFieldValue('brieftext',e.target.value)}}
-        />
-        <ErrorMessage
-                          name={'brieftext'}
-                          errors={formik.errors}
-                          touched={formik.touched}
-                        />
+              </Flex>
             </Flex>
-
-        {(formik.errors.LevelType===''||formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
-          <Text color='error'>All the above files are required</Text>
-        ):('')}
-
-          <Flex between row>
-            <Flex>
-              {/* <Button types='secondary' onClick={handlefunction}>
-                back
-              </Button> */}
-            </Flex>
-            <Flex row>
-            <Button types='close' onClick={handlefunction}>
-                Back
-              </Button>
-              
-              <Button style={{margin:'0 0 0 10px'}} onClick={formik.handleSubmit}>
-              {(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)?("Generate"):("skip") }
-              </Button>
-            </Flex>
-          </Flex>
-          {console.log("formik.values.LevelType!==''&&formik.values.brieftext!==''&&formik.values.checkedValues.length!==0 ",formik.values.interviewers.length>1,formik.values.LevelType!=='',formik.values.brieftext!=='',formik.values.checkedValues.length!==0 )}
-        </Flex>
-        )
-      )}
-      {/* </div> */}
-    </Modal>
-    
-
+          </>
+        )}
+        {/* </div> */}
+      </Modal>
     </>
   );
- 
 };
 
 export default MeetingSchedulingScreen;

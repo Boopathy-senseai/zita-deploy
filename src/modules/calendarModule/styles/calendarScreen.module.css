@@ -55,7 +55,6 @@
   align-self: center;
 } */
 
-
 .dropDownCard {
   display: none;
   position: absolute;
@@ -184,7 +183,7 @@
   padding: 9px;
   background-color: #eee8ec;
   font-size: 12px;
- 
+
   display: flex;
   color: #581845;
   justify-content: space-between;

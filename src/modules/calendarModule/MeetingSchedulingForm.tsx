@@ -11,7 +11,15 @@ import { useDispatch } from 'react-redux';
 import { SvgAddInterviewers, SvgCalendar } from '../../icons';
 import SvgAdd from '../../icons/SvgAdd';
 import { AppDispatch } from '../../store';
-import { Button, Flex, InputSearch, InputText, Modal, SelectTag, Text } from '../../uikit';
+import {
+  Button,
+  Flex,
+  InputSearch,
+  InputText,
+  Modal,
+  SelectTag,
+  Text,
+} from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 import { CrossButton } from '../../uikit/v2';
@@ -36,7 +44,6 @@ import {
 } from './types';
 import { formatTime, getNewDateTimes } from './util';
 
-
 interface Props {
   meetingForm: meetingFormProps;
   applicants: UserType[];
@@ -57,10 +64,10 @@ interface Props {
   currentUser: UserInfo;
   handleCloseSchedulingForm: () => void;
   updateCurrentApplicantId: (applicantId: number) => void;
-  setOpenScheduleForm:any;
-  setopenmodel:any;
-  openmodel:any;
-  formik:any;
+  setOpenScheduleForm: any;
+  setopenmodel: any;
+  openmodel: any;
+  formik: any;
 }
 
 const MeetingSchedulingForm = ({
@@ -96,7 +103,7 @@ const MeetingSchedulingForm = ({
     null,
   );
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
-  const [list,setlist] = useState('');
+  const [list, setlist] = useState('');
   const [errors, setErrors] = useState([]);
 
   const  [role,setrole]=useState<any>([])
@@ -209,16 +216,15 @@ const updatestate = (val) => {
   }, []);
 
   const closeAddInterviewerSlider = () => {
-    setOpenAddInterviewerModal(!openAddInterviewerModal);  
+    setOpenAddInterviewerModal(!openAddInterviewerModal);
   };
 
   const handleContinue = () => {
-
     const newErrors = formik.values.interviewers.map((item, idx) => {
       if (!item.role) {
-        return "Role is required";
+        return 'Role is required';
       }
-      return null; 
+      return null;
     });
     setErrors(newErrors);
 
@@ -249,7 +255,7 @@ const updatestate = (val) => {
       return {
         ...form,
         job: { ...form.job, error: jobError },
-        location: {...form.location, error: locationError},
+        location: { ...form.location, error: locationError },
         applicant: { ...form.applicant, error: applicantError },
         eventType: { ...form.eventType, error: eventTypeError },
         timeZone: { ...form.timeZone, error: timeZoneError },
@@ -264,42 +270,12 @@ const updatestate = (val) => {
         },
       };
     });
-    if (!newErrors.some(error => error)) {
-    if (editEventDetails) {
-      if (
-        meetingForm.eventType.value &&
-        meetingForm.startTime.value &&
-        meetingForm.date.value !== null &&
-        meetingForm.endTime.value &&
-        new Date(meetingForm.startTime.value) <
-          new Date(meetingForm.endTime.value)
-      ) {
-        setMeetingForm((form) => {
-          const { startDateTime, endDateTime } = getNewDateTimes(
-            form.date.value,
-            form.startTime.value,
-            form.endTime.value,
-          );
-          return {
-            ...form,
-            startDateTime,
-            endDateTime,
-          };
-        });
-       console.log("openform", openmodel)
-        setopenmodel(true)
-
-      }
-    } else {
-      if (meetingForm.eventType.value === 'Onsite interview') {
+    if (!newErrors.some((error) => error)) {
+      if (editEventDetails) {
         if (
-          meetingForm.applicant.name &&
-          meetingForm.job.label &&
-          meetingForm.location.value &&
           meetingForm.eventType.value &&
-          meetingForm.timeZone.value &&
-          meetingForm.date.value !== null &&
           meetingForm.startTime.value &&
+          meetingForm.date.value !== null &&
           meetingForm.endTime.value &&
           new Date(meetingForm.startTime.value) <
             new Date(meetingForm.endTime.value)
@@ -316,44 +292,70 @@ const updatestate = (val) => {
               endDateTime,
             };
           });
-          console.log("openform1111", openmodel)
-          setViewMeetingSummary(true)
-          setopenmodel(true)
-  
-        } 
-    }
-    else {
-      if (
-        meetingForm.applicant.name &&
-        meetingForm.job.label && 
-        meetingForm.eventType.value &&
-        meetingForm.timeZone.value &&
-        meetingForm.date.value !== null &&
-        meetingForm.startTime.value &&
-        meetingForm.endTime.value &&
-        new Date(meetingForm.startTime.value) <
-          new Date(meetingForm.endTime.value)
-      ) {
-        setMeetingForm((form) => {
-          const { startDateTime, endDateTime } = getNewDateTimes(
-            form.date.value,
-            form.startTime.value,
-            form.endTime.value,
-          );
-          return {
-            ...form,
-            startDateTime,
-            endDateTime,
-          };
-        });
-        console.log("openform2222", openmodel)
-        setopenmodel(true)
-        setViewMeetingSummary(true);
-       
+          console.log('openform', openmodel);
+          setopenmodel(true);
+        }
+      } else {
+        if (meetingForm.eventType.value === 'Onsite interview') {
+          if (
+            meetingForm.applicant.name &&
+            meetingForm.job.label &&
+            meetingForm.location.value &&
+            meetingForm.eventType.value &&
+            meetingForm.timeZone.value &&
+            meetingForm.date.value !== null &&
+            meetingForm.startTime.value &&
+            meetingForm.endTime.value &&
+            new Date(meetingForm.startTime.value) <
+              new Date(meetingForm.endTime.value)
+          ) {
+            setMeetingForm((form) => {
+              const { startDateTime, endDateTime } = getNewDateTimes(
+                form.date.value,
+                form.startTime.value,
+                form.endTime.value,
+              );
+              return {
+                ...form,
+                startDateTime,
+                endDateTime,
+              };
+            });
+            console.log('openform1111', openmodel);
+            setViewMeetingSummary(true);
+            setopenmodel(true);
+          }
+        } else {
+          if (
+            meetingForm.applicant.name &&
+            meetingForm.job.label &&
+            meetingForm.eventType.value &&
+            meetingForm.timeZone.value &&
+            meetingForm.date.value !== null &&
+            meetingForm.startTime.value &&
+            meetingForm.endTime.value &&
+            new Date(meetingForm.startTime.value) <
+              new Date(meetingForm.endTime.value)
+          ) {
+            setMeetingForm((form) => {
+              const { startDateTime, endDateTime } = getNewDateTimes(
+                form.date.value,
+                form.startTime.value,
+                form.endTime.value,
+              );
+              return {
+                ...form,
+                startDateTime,
+                endDateTime,
+              };
+            });
+            console.log('openform2222', openmodel);
+            setopenmodel(true);
+            setViewMeetingSummary(true);
+          }
+        }
       }
     }
-   }
-   }
   };
 
   const handleJobRole = (value: number, label: string) => {
@@ -801,85 +803,83 @@ const updatestate = (val) => {
     </div>
   );
   const data = [
-    "Software Developer",
-    "System Administrator",
-    "Database Administrator",
-    "Network Engineer",
-    "IT Support Specialist",
-    "Security Analyst",
-    "Cloud Architect",
-    "DevOps Engineer",
-    "Front-end Developer",
-    "Back-end Developer",
-    "Full-stack Developer",
-    "QA Engineer",
-    "Mobile App Developer",
-    "Web Developer",
-    "Data Scientist",
-    "Machine Learning Engineer",
-    "IT Project Manager",
-    "Business Analyst",
-    "UI/UX Designer",
-    "Application Support Analyst",
-    "Technical Writer",
-    "IT Manager",
-    "CTO",
-    "CIO",
-    "Help Desk Technician",
-    "System Architect",
-    "Network Administrator",
-    "IT Consultant",
-    "SEO Specialist",
-    "Data Analyst",
-    "ERP Specialist",
-    "CRM Developer",
-    "Embedded Systems Engineer",
-    "Cybersecurity Specialist",
-    "Game Developer",
-    "Hardware Engineer",
-    "IT Auditor",
-    "Infrastructure Engineer",
-    "IT Coordinator",
-    "IT Sales Representative",
-    "IT Trainer",
-    "Java Developer",
-    "JavaScript Developer",
-    "PHP Developer",
-    "Python Developer",
-    "Ruby Developer",
-    "Solutions Architect",
-    "Technical Support Engineer",
-    "Virtualization Engineer",
-    "Web Designer",
-    "Wireless Communication Engineer",
-    "IoT Developer",
-    "AI Specialist",
-    "Blockchain Developer",
-    "Cloud Solutions Developer",
-    "Digital Transformation Consultant",
-    "E-commerce Specialist",
-    "Network Security Specialist",
-    "RPA Developer",
-    "SaaS Developer",
-    "Virtual Reality Developer",
-  ]
-  
-  const handleChange=(ind,e)=>{
+    'Software Developer',
+    'System Administrator',
+    'Database Administrator',
+    'Network Engineer',
+    'IT Support Specialist',
+    'Security Analyst',
+    'Cloud Architect',
+    'DevOps Engineer',
+    'Front-end Developer',
+    'Back-end Developer',
+    'Full-stack Developer',
+    'QA Engineer',
+    'Mobile App Developer',
+    'Web Developer',
+    'Data Scientist',
+    'Machine Learning Engineer',
+    'IT Project Manager',
+    'Business Analyst',
+    'UI/UX Designer',
+    'Application Support Analyst',
+    'Technical Writer',
+    'IT Manager',
+    'CTO',
+    'CIO',
+    'Help Desk Technician',
+    'System Architect',
+    'Network Administrator',
+    'IT Consultant',
+    'SEO Specialist',
+    'Data Analyst',
+    'ERP Specialist',
+    'CRM Developer',
+    'Embedded Systems Engineer',
+    'Cybersecurity Specialist',
+    'Game Developer',
+    'Hardware Engineer',
+    'IT Auditor',
+    'Infrastructure Engineer',
+    'IT Coordinator',
+    'IT Sales Representative',
+    'IT Trainer',
+    'Java Developer',
+    'JavaScript Developer',
+    'PHP Developer',
+    'Python Developer',
+    'Ruby Developer',
+    'Solutions Architect',
+    'Technical Support Engineer',
+    'Virtualization Engineer',
+    'Web Designer',
+    'Wireless Communication Engineer',
+    'IoT Developer',
+    'AI Specialist',
+    'Blockchain Developer',
+    'Cloud Solutions Developer',
+    'Digital Transformation Consultant',
+    'E-commerce Specialist',
+    'Network Security Specialist',
+    'RPA Developer',
+    'SaaS Developer',
+    'Virtual Reality Developer',
+  ];
+
+  const handleChange = (ind, e) => {
     const updatedRole = e.target.value;
     let updatedNames = [...formik.values.interviewers];
     updatedNames[ind].role = updatedRole;
 
     // setname(updatedNames);
-    formik.setFieldValue('interviewers',updatedNames)
-  
-    localStorage.setItem('role',JSON.stringify(formik.values.interviewers))
-    onDirty();
+    formik.setFieldValue('interviewers', updatedNames);
 
-  }
+    localStorage.setItem('role', JSON.stringify(formik.values.interviewers));
+    onDirty();
+  };
   const localString = localStorage.getItem('role');
   const local = localString ? JSON.parse(localString) : [];
-  
-  
+
   const AddInterviewerView = (
     <div className={styles.notes1}>
       <label
@@ -887,31 +887,50 @@ const updatestate = (val) => {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: '7px',
+          marginBottom: '5px',
+          marginTop: '10px',
         }}
       >
-        <p style={{ color: '#581845', fontSize: '13px' }}>Interviewers</p>
-        <div
-            role={'button'}
-            tabIndex={0}
-            onClick={closeAddInterviewerSlider}
-            style={{ cursor: 'pointer', marginTop: '3px' }}
-          >
-             <SvgAdd width={10} height={10} fill="#581854" />
-            <Text style={{padding:'0 0 0 5px'}} color='link'>Add Interviewers</Text>
-          </div>
+        <Text bold size={13}>
+          Interviewers
+        </Text>
+
+        <Flex
+          row
+          center
+          onClick={closeAddInterviewerSlider}
+          style={{ cursor: 'pointer' }}
+        >
+          <SvgAdd width={10} height={10} fill="#581854" />
+          <Text bold style={{ padding: '0 0 0 5px' }} color="link">
+            Add Interviewers
+          </Text>
+        </Flex>
       </label>
-      {/* {  console.log("interviewwww",meetingForm.interviewer)} */}
-      {formik.values.interviewers.length > 0 && formik.values.interviewers.map((user, index) => (
-       <div key={index} className={styles.notes2}>
-        <InputText
-            label="Interviewer Name"
-            required
-            value={`${user.firstName} ${user.lastName}`}
-            disabled
-        />
-        <Flex>
-            <InputSearch
+      <div
+        style={{ borderBottom: '0.5px solid #581845', marginBottom: '10px' }}
+      ></div>
+
+      {formik.values.interviewers.length > 0 &&
+        formik.values.interviewers.map((user, index) => (
+          <div
+            key={index}
+            className={styles.notes2}
+            style={{
+              marginBottom:
+                index !== formik.values.interviewers.length - 1
+                  ? '10px'
+                  : '0px',
+            }}
+          >
+            <InputText
+              label="Interviewer Name"
+              required
+              value={`${user.firstName} ${user.lastName}`}
+              disabled
+            />
+            <Flex>
+              <InputSearch
                 options={role}
                 setFieldValue={formik.setFieldValue}
                 required
@@ -919,40 +938,33 @@ const updatestate = (val) => {
                 label="Role"
                 initialValue={formik.values.interviewers[index]?.role}
                 onChange={(e) => handleChange(index, e)}
-            />
-               { local[index] && local[index].role === "" && errors[index] && (
-            <div className={styles.warn}>
-                {errors[index]}
-            </div>
+              />
+              {local[index] && local[index].role === '' && errors[index] && (
+                <div className={styles.warn}>{errors[index]}</div>
+              )}
+            </Flex>
+          </div>
+        ))}
+
+      <>
+        {openAddInterviewerModal && (
+          <AddInterviewerSlider
+            currentUserEvents={currentUserEvents}
+            currentUser={currentUser}
+            removeTeamInterviewer={removeTeamInterviewer}
+            addTeamInterviewer={addTeamInterviewer}
+            teamMembers={teamMembers}
+            userLabel={currentUserLabel}
+            jd={meetingForm.job.label}
+            username={username}
+            setlist={setlist}
+            openAddInterviewerModal={openAddInterviewerModal}
+            closeAddInterviewerSlider={closeAddInterviewerSlider}
+            selectedInterviewers={meetingForm.interviewer}
+            updatestate={updatestate}
+          />
         )}
-        </Flex>
-     
-    </div>
-))}
-
-            
-        <>     
-          {openAddInterviewerModal && (
-            <AddInterviewerSlider
-              currentUserEvents={currentUserEvents}
-              currentUser={currentUser}
-              removeTeamInterviewer={removeTeamInterviewer}
-              addTeamInterviewer={addTeamInterviewer}
-              teamMembers={teamMembers}
-              userLabel={currentUserLabel}
-              jd={meetingForm.job.label}
-              username={username}
-              setlist={setlist}
-              openAddInterviewerModal={openAddInterviewerModal}
-              closeAddInterviewerSlider={closeAddInterviewerSlider}
-              selectedInterviewers={meetingForm.interviewer}
-                updatestate={updatestate}
-  
-
-            />
-          )}
-        </>
-      
+      </>
     </div>
   );
 
@@ -1112,7 +1124,6 @@ const updatestate = (val) => {
         overflow: 'unset',
       }}
     >
-      {console.log('formik:::::::',formik.values)}
       {/* <CrossButton
         onClick={handleCloseSchedulingForm}
         size={10}
@@ -1154,17 +1165,15 @@ const updatestate = (val) => {
         {TimingView}
         {<DurationView />}
         {<TimeZoneView />}
-          {EventTypeView}
-          {RemindarView}
-          {AddInterviewerView}
+        {EventTypeView}
+        {RemindarView}
+        {AddInterviewerView}
         {LocationView}
         {NotesView}
         {PrivateNotesView}
       </div>
       <Flex style={{ padding: '0px 25px 25px 25px' }}>{ActionButtonView}</Flex>
-      
     </div>
-    
   );
 };
 
