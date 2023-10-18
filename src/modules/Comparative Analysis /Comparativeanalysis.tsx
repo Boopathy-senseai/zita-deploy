@@ -67,6 +67,8 @@ const ComparativeanalysisModal = ({
   const [verify, setverify] = useState(false);
   const [olddata, setolddata] = useState([]);
   const [errormsg, seterrormsg] = useState('');
+  const [addcandidate, setaddcandidate] = useState(false);
+  const [value, setval] = useState(false);
   const dispatch: AppDispatch = useDispatch();
 
   const openaddmodel = (val) => {
@@ -85,10 +87,10 @@ const ComparativeanalysisModal = ({
 
   useEffect(() => {
     setolddata(Matching);
-    dispatchcomparativeApi(Matching, isData);
+    dispatchcomparativeApi(Matching, isData, value);
   }, []);
 
-  const dispatchcomparativeApi = (match, Data) => {
+  const dispatchcomparativeApi = (match, Data, values) => {
     setLoader(true);
     let candidateids = match.map((item) => item.candidate_id).join(',');
     let selectcriteria = Data.map((item) => item.label).join(',');
@@ -110,8 +112,17 @@ const ComparativeanalysisModal = ({
             'success',
           );
         }
+        if (values === true) {
+          Toast(
+            'Candidates successfully updated for comparison.',
+            'LONG',
+            'success',
+          );
+        }
+        setaddcandidate(false);
         edit_function(false);
-      } else {
+      }
+      else {
         setLoader(false);
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
@@ -139,13 +150,12 @@ const ComparativeanalysisModal = ({
   };
 
   const removeprofile = () => {
-    if (Matching.length === 1) {
-      seterrormsg('Please select at least two candidate to compare.');
-    } else {
-      // update_alysismodal(false);
-      setverify(false);
-      dispatchcomparativeApi(Matching, isData);
-    }
+    setverify(false);
+    dispatchcomparativeApi(Matching, isData, value);
+
+  };
+  const add_candidates = (val) => {
+    setaddcandidate(val);
   };
 
   const cancelverify = () => {
@@ -163,7 +173,7 @@ const ComparativeanalysisModal = ({
         ) : (
           <>
             <Modal open={Comparative}>
-              <Flex style={{ backgroundColor: 'white' }}>
+              <Flex style={{ backgroundColor: 'white', boarderRadius: '4px' }}>
                 <Flex
                   center
                   row
@@ -395,7 +405,6 @@ const ComparativeanalysisModal = ({
                             <Flex
                               key=""
                               row
-                              marginRight={10}
                               marginBottom={2}
                               marginTop={2}
                               marginLeft={10}
@@ -404,7 +413,7 @@ const ComparativeanalysisModal = ({
                                 <Flex row between>
                                   <Flex
                                     style={{
-                                      backgroundColor: '#581845', 
+                                      backgroundColor: '#581845',
                                     }}
                                     width={20}
                                     height={37}
@@ -649,7 +658,7 @@ const ComparativeanalysisModal = ({
                                         )}
                                     </Flex>
                                   </Flex>
-                                  <Flex flex={3} row center  marginLeft={20}>
+                                  <Flex flex={3} row center marginLeft={20}>
                                     <Flex>
                                       Recommended to Hire :{' '}
                                     </Flex>
@@ -713,26 +722,39 @@ const ComparativeanalysisModal = ({
                     padding: '25px',
                   }}
                 >
-                  {errormsg && <Flex center>
-                    <Text color="error">{errormsg}</Text>
-                  </Flex>}
-                  <Flex
-                    row
-                    center
-                    style={{ justifyContent: 'center' }}
-                  >
-                    This action will remove the candidate from the comparison.
-                  </Flex>
-                  <Flex row end marginTop={20}>
-                    <Button
-                      onClick={cancelverify}
-                      types='close'
-                      style={{ marginRight: '20px' }}
-                    >
-                      cancel
-                    </Button>
-                    <Button onClick={removeprofile}>Remove</Button>
-                  </Flex>
+                  {Matching.length === 1 ? (
+                    <>
+                      <Flex row>
+                        You cannot eliminate the candidate because a comparison
+                        requires at least two candidates
+                      </Flex>
+                      <Flex style={{ justifyContent: 'center' }}>
+                        <Button
+                          style={{ marginTop: '15px' }}
+                          onClick={cancelverify}
+                        >
+                          ok
+                        </Button>
+                      </Flex>
+                    </>
+                  ) : (
+                    <>
+                      <Flex row center style={{ justifyContent: 'center' }}>
+                        This action will remove the candidate from the
+                        comparison.
+                      </Flex>
+                      <Flex row end marginTop={20}>
+                        <Button
+                          onClick={cancelverify}
+                          types="close"
+                          style={{ marginRight: '8px' }}
+                        >
+                          Cancel
+                        </Button>
+                        <Button onClick={removeprofile}>Remove</Button>
+                      </Flex>
+                    </>
+                  )}
                 </Flex>
               </Modal>
             </Flex>
@@ -744,6 +766,7 @@ const ComparativeanalysisModal = ({
           Matching={Matching}
           select_candidate={select_candidate}
           dispatchcomparativeApi={dispatchcomparativeApi}
+          add_candidates={add_candidates}
           update_alysismodal={update_alysismodal}
           isData={isData}
         />

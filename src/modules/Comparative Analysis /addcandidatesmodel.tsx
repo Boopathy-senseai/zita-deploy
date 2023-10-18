@@ -20,8 +20,9 @@ type Props = {
   openfunction?: any;
   Matching: any;
   select_candidate?: (val: any, id: any) => void;
-  dispatchcomparativeApi?: (val: any, id: any) => void;
+  dispatchcomparativeApi?: (val: any, id: any,value:any) => void;
   update_alysismodal?: (val: any) => void;
+  add_candidates?: (val: any) => void;
   isData?: any;
 };
 type ParamsType = {
@@ -34,6 +35,7 @@ const AddcandidatesModal = ({
   select_candidate,
   dispatchcomparativeApi,
   update_alysismodal,
+  add_candidates,
   isData,
 }: Props) => {
   const { jdId } = useParams<ParamsType>();
@@ -42,6 +44,7 @@ const AddcandidatesModal = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isColor, setColor] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<any>();
+  const [sample, setsample] = useState(true);
   const [olddata, setolddata] = useState([]);
 
   const dispatch: AppDispatch = useDispatch();
@@ -91,6 +94,7 @@ const AddcandidatesModal = ({
 
   const close = () => {
     select_candidate(olddata, 6);
+    add_candidates(false)
     openfunction(false);
   };
 
@@ -108,8 +112,9 @@ const AddcandidatesModal = ({
   const Compare_candidate = () => {
     if (!(Matching.length > 5)) {
       // update_alysismodal(false);
+      add_candidates(true)
       openfunction(false);
-      dispatchcomparativeApi(Matching, isData);
+      dispatchcomparativeApi(Matching, isData,sample);
     } else {
       console.log('no');
     }
