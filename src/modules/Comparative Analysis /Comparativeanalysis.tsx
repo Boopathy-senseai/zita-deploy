@@ -178,7 +178,7 @@ const ComparativeanalysisModal = ({
                   center
                   row
                   between
-                  style={{ backgroundColor: '#EEE8EC', padding: '10px' , borderRadius: '4px 4px 0px 0px'}}
+                  style={{ backgroundColor: '#EEE8EC', padding: '10px', borderRadius: '4px 4px 0px 0px' }}
                   flex={1}
                 >
                   <Flex></Flex>
@@ -205,7 +205,7 @@ const ComparativeanalysisModal = ({
                       </Text>
                     </Flex>
                     {selectedcriteria ? (
-                      <Flex className={styles.container} >
+                      <>
                         {selectedcriteria.payload.analysis
                           .sort((data1, data2) => {
                             if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
@@ -215,37 +215,38 @@ const ComparativeanalysisModal = ({
                           .reverse()
                           .map((e, index) => (
                             index === 0 && (
-                              <Flex className={styles.part1} center>
-                                <Flex style={{ justifyContent: 'center' }}>
-                                  <Flex middle>
-                                    <Avatar
-                                      className={styles.profilehead}
-                                      style={{
-                                        fontSize: '15px',
-                                        textTransform: 'uppercase',
-                                      }}
-                                      avatar={
-                                        e.image &&
-                                          e.image !==
-                                          'default.jpg'
-                                          ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
-                                          : undefined
-                                      }
-                                      initials={`${e?.first_name?.charAt(
-                                        0,
-                                      )}
-                                ${!isEmpty(
-                                        e.last_name,
-                                      )
-                                          ? e.last_name?.charAt(
-                                            0,
-                                          )
-                                          : ''
-                                        }`}
-                                    />
-                                  </Flex>
-                                  <Flex middle>
-                                    <Text style={{ padding: '2px 0px 0px 0px' }}>{`${e?.first_name.toUpperCase()
+                              <Flex row style={{ margin: '5px' }} center>
+
+                                <Flex center middle>
+                                  <Avatar
+                                    className={styles.profilehead}
+                                    style={{
+                                      fontSize: '22px',
+                                      textTransform: 'uppercase',
+                                    }}
+                                    avatar={
+                                      e.image &&
+                                        e.image !==
+                                        'default.jpg'
+                                        ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
+                                        : undefined
+                                    }
+                                    initials={`${e?.first_name?.charAt(
+                                      0,
+                                    )}
+                                     ${!isEmpty(
+                                      e.last_name,
+                                    )
+                                        ? e.last_name?.charAt(
+                                          0,
+                                        )
+                                        : ''
+                                      }`}
+                                  />
+                                </Flex>
+                                <Flex>
+                                  <Flex  marginLeft={15}>
+                                    <Text bold size={14} style={{ padding: '2px 0px 0px 0px' }}>{`${e?.first_name.toUpperCase()
                                       }${!isEmpty(
                                         e.last_name,
                                       )
@@ -253,24 +254,16 @@ const ComparativeanalysisModal = ({
                                         : ''
                                       }`}</Text>
                                   </Flex>
+                                  <Flex className={styles.part3} center marginLeft={15} key={''}>
+                                    <Text> {e?.Pros} </Text>
+                                  </Flex>
                                 </Flex>
-                              </Flex>)
-                          ))}
-                        {selectedcriteria.payload.analysis
-                          .sort((data1, data2) => {
-                            if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
-                            if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
-                            return 0;
-                          })
-                          .reverse()
-                          .map((e, index) => (
-                            index === 0 && (
-                              <Flex className={styles.part3} center marginLeft={15} key={''}> 
-                                <Text> {e?.Pros} </Text>
                               </Flex>
                             )
                           ))}
-                      </Flex>
+                      </>
+
+
                     ) : (
                       ''
                     )}
@@ -569,7 +562,12 @@ const ComparativeanalysisModal = ({
                     </Flex>
                   </Flex>
                   {selectedcriteria &&
-                    selectedcriteria.payload.analysis.map((data, index) => {
+                    selectedcriteria.payload.analysis.sort((data1, data2) => {
+                      // Replace 'someProperty' with the property you want to sort by
+                      if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                      if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
+                      return 0;
+                    }).reverse().map((data, index) => {
                       if (iskey.toString().includes(index)) {
                         return (
 

@@ -70,8 +70,8 @@ const MatchingcriteriaModal = ({
     setData(Comparativeanalysis);
   };
 
-  const edit_function = (val) => { 
-    setedit(val); 
+  const edit_function = (val) => {
+    setedit(val);
   };
 
   const clear = () => {
@@ -107,13 +107,14 @@ const MatchingcriteriaModal = ({
                   </Text>
                 </Flex>
                 <Flex>
-                  <Flex row>
+                  <Flex style={{
+                    borderBottom: '1px solid rgb(195, 195, 195)',
+                  }}>
                     <Flex
                       row
                       center
                       wrap
                       style={{
-                        borderBottom: '1px solid rgb(195, 195, 195)',
                         paddingBottom: '10px',
                       }}
                     >
@@ -135,9 +136,9 @@ const MatchingcriteriaModal = ({
                         );
                       })}
                     </Flex>
-                  </Flex>
-                  <Flex>
-                    <Text style={{ color: 'red' }}>{Error}</Text>
+                    <Flex>
+                      <Text style={{ color: 'red' }}>{Error}</Text>
+                    </Flex>
                   </Flex>
                 </Flex>
                 <Flex row between>
@@ -186,7 +187,7 @@ const MatchingcriteriaModal = ({
           job_details={job_details}
           isData={isData}
           select_candidate={select_candidate}
-          edit={edit} 
+          edit={edit}
           edit_function={edit_function}
         />
       )}

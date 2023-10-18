@@ -220,7 +220,7 @@ export const downloadApplicantsMiddleware = createAsyncThunk<
   {
     jd_id: string;
     candidate_id?: number[];
-    download?: 'download';
+    download?: 'download'; 
     csvdownload?: 'csvdownload';
   }
 >(DOWNLOAD_APPLICANTS, async (payload, { rejectWithValue }) => {

@@ -11,7 +11,8 @@ import {
   ComparativecsvdownloadApi,
 } from '../../../../routes/apiRoutes';
 import { searchingdata, Comparativedata } from '../../comparativeTypes';
-
+import { handleDownload } from '../../../applicantpipelinemodule/dndBoardHelper';
+import Toast from '../../../../uikit/Toast/Toast';
 export const comparativesearchingdatamiddleware = createAsyncThunk(
   CANDIDATE_SEARCHING_DATA,
   async ({ jd_id }: searchingdata, { rejectWithValue }) => {
@@ -53,6 +54,12 @@ export const comparativecsvdownloadmiddleware = createAsyncThunk(
       const { data } = await axios.get(ComparativecsvdownloadApi, {
         params: { response_json, jd_id },
       });
+      if (
+         data.success === true 
+      ) {
+        handleDownload(data?.FilePath);
+        Toast('CSV downloaded successfully', 'LONG', 'success');
+      } 
       return data;
     } catch (error) {
       const typedError = error as Error;
