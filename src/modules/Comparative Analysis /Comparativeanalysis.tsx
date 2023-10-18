@@ -41,7 +41,7 @@ type Props = {
   Matching: any;
   job_details: any;
   isData: any;
-  edit?:any;
+  edit?: any;
   edit_function?: (val: any) => void;
   select_candidate?: (val: any, id: any) => void;
 };
@@ -103,13 +103,13 @@ const ComparativeanalysisModal = ({
         setresponsibledateria(response);
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
-        if (edit === true) { 
-          Toast( 
-            'Criteria for the comparison updated successfully', 
-            'LONG', 
-            'success', 
-          ); 
-        } 
+        if (edit === true) {
+          Toast(
+            'Criteria for the comparison updated successfully',
+            'LONG',
+            'success',
+          );
+        }
         edit_function(false);
       } else {
         setLoader(false);
@@ -125,7 +125,7 @@ const ComparativeanalysisModal = ({
   const DownloadCsv = () => {
     dispatch(
       comparativecsvdownloadmiddleware({
-        response_json: selectedcriteria.payload,
+        response_json: JSON.stringify(selectedcriteria.payload),
         jd_id: jdId,
       }),
     );
@@ -196,54 +196,71 @@ const ComparativeanalysisModal = ({
                     </Flex>
                     {selectedcriteria ? (
                       <Flex className={styles.container} >
-                        <Flex className={styles.part1} center>
-                          <Flex style={{ justifyContent: 'center' }}>
-                            <Flex middle>
-                              <Avatar
-                                className={styles.profilehead}
-                                style={{
-                                  fontSize: '15px',
-                                  textTransform: 'uppercase',
-                                }}
-                                avatar={
-                                  selectedcriteria.payload.analysis[0].image &&
-                                    selectedcriteria.payload.analysis[0].image !==
-                                    'default.jpg'
-                                    ? `${process.env.REACT_APP_HOME_URL}media/${selectedcriteria.payload.analysis[0].image}`
-                                    : undefined
-                                }
-                                initials={`${selectedcriteria.payload.analysis[0]?.first_name?.charAt(
-                                  0,
-                                )}
+                        {selectedcriteria.payload.analysis
+                          .sort((data1, data2) => {
+                            if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                            if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
+                            return 0;
+                          })
+                          .reverse()
+                          .map((e, index) => (
+                            index === 0 && (
+                              <Flex className={styles.part1} center>
+                                <Flex style={{ justifyContent: 'center' }}>
+                                  <Flex middle>
+                                    <Avatar
+                                      className={styles.profilehead}
+                                      style={{
+                                        fontSize: '15px',
+                                        textTransform: 'uppercase',
+                                      }}
+                                      avatar={
+                                        e.image &&
+                                          e.image !==
+                                          'default.jpg'
+                                          ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
+                                          : undefined
+                                      }
+                                      initials={`${e?.first_name?.charAt(
+                                        0,
+                                      )}
                                 ${!isEmpty(
-                                  selectedcriteria.payload.analysis[0].last_name,
-                                )
-                                    ? selectedcriteria.payload.analysis[0].last_name?.charAt(
-                                      0,
-                                    )
-                                    : ''
-                                  }`}
-                              />
-                            </Flex>
-                            <Flex middle>
-                              <Text style={{ padding: '2px 0px 0px 0px' }}>{`${selectedcriteria.payload.analysis[0]?.first_name.toUpperCase()
-                                }${!isEmpty(
-                                  selectedcriteria.payload.analysis[0]
-                                    .last_name,
-                                )
-                                  ? selectedcriteria.payload.analysis[0]
-                                    .last_name.toUpperCase()
-                                  : ''
-                                }`}</Text>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                        <Flex className={styles.part3} center marginLeft={15} >
-                          <Text>
-                            {' '}
-                            {selectedcriteria.payload.analysis[0]?.Pros}{' '}
-                          </Text>
-                        </Flex>
+                                        e.last_name,
+                                      )
+                                          ? e.last_name?.charAt(
+                                            0,
+                                          )
+                                          : ''
+                                        }`}
+                                    />
+                                  </Flex>
+                                  <Flex middle>
+                                    <Text style={{ padding: '2px 0px 0px 0px' }}>{`${e?.first_name.toUpperCase()
+                                      }${!isEmpty(
+                                        e.last_name,
+                                      )
+                                        ? e.last_name.toUpperCase()
+                                        : ''
+                                      }`}</Text>
+                                  </Flex>
+                                </Flex>
+                              </Flex>)
+                          ))}
+                        {selectedcriteria.payload.analysis
+                          .sort((data1, data2) => {
+                            if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                            if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
+                            return 0;
+                          })
+                          .reverse()
+                          .map((e, index) => (
+                            index === 0 && (
+                              <Flex className={styles.part3} center marginLeft={15} key={''}>
+                                {console.log(e, 'gggggggggffdgdgvdvdvdvdvbdbvdb')}
+                                <Text> {e?.Pros} </Text>
+                              </Flex>
+                            )
+                          ))}
                       </Flex>
                     ) : (
                       ''
@@ -366,8 +383,8 @@ const ComparativeanalysisModal = ({
                         overflowX: 'scroll',
                         margin: '5px',
                       }}
-                    > 
-                    {selectedcriteria &&
+                    >
+                      {selectedcriteria &&
                         selectedcriteria.payload.analysis.sort((data1, data2) => {
                           // Replace 'someProperty' with the property you want to sort by
                           if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
