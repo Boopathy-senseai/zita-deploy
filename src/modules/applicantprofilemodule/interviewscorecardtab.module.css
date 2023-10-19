@@ -87,7 +87,8 @@
   width: 150px;
   padding: 5px;
 }
-.feedbackstyle{
+.cardStyle{
+  border-left: 6px solid #A5889C;
   margin-top: 10px;
   padding:5px 10px 0px 10px;
 }
@@ -132,10 +133,18 @@ font-size: 22px;
   .starstylehead ul{
     height: 30px;
   }
+  .ratingStar ul li{
+    font-size: 16px;
+    cursor: default;
+  }
+  /* .ratingStar ul{
+    height: 10px;
+  } */
   .starnotes ul li{
     font-size: 18px;
     cursor: default;
   }
+ 
   .starnotes ul {
      margin-bottom: none !important;
      height: 20px;

@@ -16,3 +16,9 @@ export const jobTypeData = [
   { value: 'Draft', label: '2,5,6', width: 92,paddingleft:50 },
  
 ];
+
+export const level = [
+  { value: 'Entry Level', label: 'Entry Level',  paddingleft:50},
+  { value: 'Mid Level', label: 'Mid Level', paddingleft:50 },
+  { value: 'Senior Level', label: 'Senior Level',  paddingleft:50 },
+];

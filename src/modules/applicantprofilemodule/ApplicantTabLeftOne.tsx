@@ -26,12 +26,13 @@ const defaultProps = {
 };
 
 const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
-  const { status_id ,stages,can_id} = useSelector(
+  const { status_id ,stages,can_id,jd_id} = useSelector(
     ({ applicantProfileInitalReducers,applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
-        can_id: applicantProfileInitalReducers.can_id
+        can_id: applicantProfileInitalReducers.can_id,
+        jd_id: applicantProfileInitalReducers.jd_id,
       };
     },
   );
@@ -92,7 +93,7 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
             <EmailScreen isprofileview={true} can_id={can_id}/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} can_id={can_id} jd_id= {jd_id}/>
           </Tab>  
         </Tabs>
       )}

@@ -225,30 +225,30 @@ const CandidateNavBar = ({
                 obj?.edu.length !== 0 && (
                   <Text
                     onClick={() =>
-                      handleFocus('candidate_profile_screen___qualification')
+                      handleFocus('candidate_profile_screen___resume_overview')
                     }
                     color="white"
                     bold
                     style={{ marginRight: 30, cursor: 'pointer' }}
                   >
-                    Qualification
+                    Resume Overview
                   </Text>
                 )}
 
               {!isProfileView && (
                 <Text
                   onClick={() =>
-                    handleFocus('candidate_profile_screen___qualification')
+                    handleFocus('candidate_profile_screen___resume_overview')
                   }
                   color="white"
                   bold
                   style={{ marginRight: 30, cursor: 'pointer' }}
                 >
-                  Qualification
+                  Resume Overview
                 </Text>
               )}
 
-              {isProfileView &&
+              {/* {isProfileView &&
                 Array.isArray(obj?.exp) &&
                 obj?.exp.length !== 0 && (
                   <Text
@@ -261,8 +261,8 @@ const CandidateNavBar = ({
                   >
                     Work Experience
                   </Text>
-                )}
-              {!isProfileView && (
+                )} */}
+              {/* {!isProfileView && (
                 <Text
                   onClick={() =>
                     handleFocus('candidate_profile_screen___work_exp')
@@ -273,8 +273,8 @@ const CandidateNavBar = ({
                 >
                   Work Experience
                 </Text>
-              )}
-              {Array.isArray(projects) &&
+              )} */}
+              {/* {Array.isArray(projects) &&
                 projects.length !== 0 &&
                 isProfileView && (
                   <Text
@@ -299,7 +299,7 @@ const CandidateNavBar = ({
                 >
                   Projects
                 </Text>
-              )}
+              )} */}
             </Flex>
           </Flex>
         </Flex>

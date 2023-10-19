@@ -125,6 +125,9 @@ const CreateNewQuestion = ({
 
   return (
     <Flex className={styles.overAll}>
+      <Flex style={{display:'flex',alignItems:'flex-end',padding:'10px 0 0 0'}}>
+      <Button>Generating Interview Questions</Button>
+      </Flex>
       <div className={styles.questionStyle}>
         <InputText
           label="Question"
