@@ -110,7 +110,7 @@ const AddcandidatesModal = ({
   };
 
   const Compare_candidate = () => {
-    if (!(Matching.length > 5)) {
+    if (!(Matching.length > 5) && Matching.length !== 1) {
       // update_alysismodal(false);
       add_candidates(true)
       openfunction(false);
@@ -121,7 +121,7 @@ const AddcandidatesModal = ({
   };
 
   return (
-    <Flex> 
+    <Flex>
       <Modal open={model}>
         <Flex
           width={750}
@@ -233,8 +233,8 @@ const AddcandidatesModal = ({
                         marginTop={5.2}
                         title={e.stage_name}
                       ></Flex>
-                      <Flex title={`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}>
-                        <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}
+                      <Flex style={{ textTransform: 'capitalize' }} title={`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}>
+                        <Flex>{`${e.first_name.toLowerCase()} ${e?.last_name? e?.last_name.toLowerCase() : ''}`}
                         </Flex>
                         <Flex>
                           <Text
@@ -250,16 +250,25 @@ const AddcandidatesModal = ({
                 );
               })
             )}
+
           </Flex>
+
           {Matching.length > 5 ? (
-            <Text color="error"> select only 5 candidate </Text>
+            <Flex>
+              <Text color="error">You have the option to choose up to five candidates for the Comparative Analysis.</Text>
+            </Flex>) : (
+            ''
+          )}
+          {Matching.length === 1 ? (
+            <Flex><Text color="error">You cannot eliminate the candidate because a comparison
+              requires at least two candidates.</Text></Flex>
           ) : (
             ''
           )}
+
           <Flex
             style={{
-              borderBottom: '1px solid rgb(195, 195, 195)',
-              paddingBottom: '10px',
+              borderBottom: '1px solid rgb(195, 195, 195)', 
             }}
           ></Flex>
           <Flex row end>
@@ -278,8 +287,8 @@ const AddcandidatesModal = ({
             </Flex>
           </Flex>
         </Flex>
-      </Modal>
-    </Flex>
+      </Modal >
+    </Flex >
   );
 };
 

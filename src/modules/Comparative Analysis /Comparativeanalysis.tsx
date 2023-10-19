@@ -247,11 +247,11 @@ const ComparativeanalysisModal = ({
                                 </Flex>
                                 <Flex>
                                   <Flex marginLeft={15}>
-                                    <Text bold size={14} style={{ padding: '2px 0px 0px 0px' }}>{`${e?.first_name.toUpperCase()
+                                    <Text bold size={14} style={{ padding: '2px 0px 0px 0px',textTransform: 'capitalize' }}>{`${e?.first_name.toLowerCase()
                                       }${!isEmpty(
                                         e.last_name,
                                       )
-                                        ? e.last_name.toUpperCase()
+                                        ? e.last_name.toLowerCase()
                                         : ''
                                       }`}</Text>
                                   </Flex>
@@ -486,10 +486,10 @@ const ComparativeanalysisModal = ({
                                     marginRight={5}
                                     marginBottom={1}
                                   ></Flex>
-                                  <Flex title={`${e.first_name.toLowerCase()} ${e.last_name ? e.last_name.toUpperCase() : ''}`}>
-                                    <Text className={styles.changingtexts}>
-                                      {e.first_name.toUpperCase()}{' '}
-                                      {e.last_name ? e.last_name.toUpperCase() : ''}
+                                  <Flex style={{ textTransform: 'capitalize' }} title={`${e.first_name.toLowerCase()} ${e.last_name ? e.last_name.toLowerCase() : ''}`}>
+                                    <Text className={styles.changingtexts} style={{ textTransform: 'capitalize' }}>
+                                      {e.first_name.toLowerCase()}{' '}
+                                      {e.last_name ? e.last_name.toLowerCase() : ''}
                                     </Text>
                                   </Flex>
                                   <LinkWrapper
@@ -604,9 +604,9 @@ const ComparativeanalysisModal = ({
                                     width={14}
                                   />
                                 </Flex>
-                                <Flex marginLeft={7} marginRight={7}>
-                                  {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
-                                    ? data.last_name.toUpperCase()
+                                <Flex marginLeft={7} marginRight={7} style={{ textTransform: 'capitalize' }}>
+                                  {`${data?.first_name.toLowerCase()} ${!isEmpty(data.last_name)
+                                    ? data.last_name.toLowerCase()
                                     : ''
                                     }`}
                                 </Flex>
@@ -708,15 +708,15 @@ const ComparativeanalysisModal = ({
                                   </colgroup>
                                   <thead style={{ border: '1px solid #A5889C' }}>
                                     <tr style={{ border: '1px solid #A5889C' }}>
-                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{padding:'3px'}}>Skills Evaluation</Flex></th>
-                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{padding:'3px'}}>Enhancement Analysis</Flex></th>
+                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{ padding: '3px' }}>Skills Evaluation</Flex></th>
+                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{ padding: '3px' }}>Enhancement Analysis</Flex></th>
                                     </tr>
                                   </thead>
                                   <tbody style={{ border: '1px solid #A5889C' }}>
-                                    <tr style={{display:'-webkit-box' }}>
-                                      <td className={styles.prosdata}> {data.Pros.join('. ')}</td>
-                                      <td className={styles.Consdata}> {data.Cons.join('. ')}</td>
-                                    </tr>
+                                    <tr style={{ display: '-webkit-box' }}>
+                                    {data.Pros.length !== 0 ?<td className={styles.prosdata} style={{width:'100%'}} >{data.Pros.map((Pros,indexno)=> (<ul key={indexno}><li  className="indented-list">{Pros}</li></ul>))}</td>:<td style={{textAlign:'center'}}>No data found</td> }
+                                     {data.Cons.length !== 0 ?<td className={styles.Consdata} style={{width:'100%'}}> {data.Cons.map((Cons,indexval)=> (<ul key={indexval}><li  className="indented-list">{Cons}</li></ul>))}</td>:<td style={{textAlign:'center'}}>No data found</td>}
+                                      </tr> 
                                   </tbody>
                                 </table>
                               </Flex>
