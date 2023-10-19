@@ -32,6 +32,7 @@ const MatchingcriteriaModal = ({
   const [edit, setedit] = useState(false);
   const [selectedcriteria, setresponsibledateria] = useState<any>();
   const [newedit, setnewedit] = useState(false);
+  const [oldisData,setoldisData]=useState<any>([])
   const update_riteria = (val) => {
     setresponsibledateria(val);
   };
@@ -59,13 +60,17 @@ const MatchingcriteriaModal = ({
 
   const cancelmodel = (val) => {
     if (edit === true) {
+      setError('');
       setnewedit(true);
       setComparative(true);
+      setData(oldisData);
     } else {
+      setError('');
       setnewedit(false);
       updatemodel(val, 0);
       setData([]);
       setedit(false);
+      setoldisData([]);
     }
   };
 
@@ -75,7 +80,7 @@ const MatchingcriteriaModal = ({
       setnewedit(false);
       update_alysismodal(true);
     } else {
-      setError('Select one or more criteria to compare');
+      setError('Please select at least one criteria to compare.');
     }
   };
 
@@ -86,6 +91,7 @@ const MatchingcriteriaModal = ({
 
   const edit_function = (val) => {
     setedit(val);
+    setoldisData(isData)
   };
 
   const clear = () => {
@@ -117,7 +123,7 @@ const MatchingcriteriaModal = ({
                   }}
                 >
                   <Text size={14} bold >
-                    Comparative Analysis & AI Recommendation
+                  Select criteria to compare
                   </Text>
                 </Flex>
                 <Flex>

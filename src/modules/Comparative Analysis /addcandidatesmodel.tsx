@@ -110,7 +110,7 @@ const AddcandidatesModal = ({
   };
 
   const Compare_candidate = () => {
-    if (!(Matching.length > 5) && Matching.length !== 1) {
+    if (!(Matching.length > 5) && Matching.length !== 1 && Matching.length !== 0) {
       // update_alysismodal(false);
       add_candidates(true);
       openfunction(false);
@@ -143,11 +143,11 @@ const AddcandidatesModal = ({
               paddingBottom: '10px',
             }}
           >
-            <Text size={14} bold color='theme'>Add Candidate</Text>
+            <Text size={14} bold>Add Candidate</Text>
           </Flex>
           <Flex row between center marginTop={10}>
             <Flex>
-              <Text size={13}>Recommended candidates</Text>
+              <Text size={14}>Recommended candidates</Text>
             </Flex>
             <Flex row center>
               <InputText
@@ -280,7 +280,7 @@ const AddcandidatesModal = ({
           ) : (
             ''
           )}
-          {Matching.length === 1 ? (
+          {Matching.length === 1 || Matching.length === 0 ? (
             <Flex>
               <Text color="error">
                 You cannot eliminate the candidate because a comparison requires
@@ -290,7 +290,6 @@ const AddcandidatesModal = ({
           ) : (
             ''
           )}
-
           <Flex
             style={{
               borderBottom: '1px solid rgb(195, 195, 195)',
@@ -303,12 +302,12 @@ const AddcandidatesModal = ({
               marginTop={10}
               className={styles.centerali}
             >
-              <Button types="close" onClick={() => close()}>
+              <Button types="close" onClick={() => close()} width='80px'>
                 Cancel
               </Button>
             </Flex>
             <Flex center marginTop={10} className={styles.centerali}>
-              <Button onClick={Compare_candidate}>Compare</Button>
+              <Button onClick={Compare_candidate} width='80px'>Compare</Button>
             </Flex>
           </Flex>
         </Flex>

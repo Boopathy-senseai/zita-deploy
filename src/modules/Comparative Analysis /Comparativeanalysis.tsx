@@ -195,7 +195,7 @@ const ComparativeanalysisModal = ({
                   flex={1}
                 >
                   <Flex></Flex>
-                  <Flex>Comparative Analysis & AI Recommendation</Flex>
+                  <Flex> <Text size={14} color='theme'>Comparative Analysis & AI Recommendation</Text></Flex>
                   <Flex end onClick={closemodel} marginRight={15}>
                     <SvgClose
                       width={10}
@@ -520,10 +520,11 @@ const ComparativeanalysisModal = ({
                                       title={e.stage_name}
                                       style={{
                                         backgroundColor: e.stage_color,
-                                        borderRadius: '50%',
+                                        borderRadius: '4px',
                                       }}
                                       height={12}
-                                      marginRight={5}
+                                      marginRight={5} 
+                                      marginBottom={1}
                                     ></Flex>
                                     <Flex
                                       title={`${e.first_name.toUpperCase()} ${e.last_name
@@ -680,10 +681,12 @@ const ComparativeanalysisModal = ({
                                       />
                                     </Flex>
                                     <Flex marginLeft={7} marginRight={7}>
+                                      <Text color='theme' size={13}>
                                       {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
                                         ? data.last_name.toUpperCase()
                                         : ''
                                         }`}
+                                        </Text>
                                     </Flex>
                                     <Flex
                                       onClick={() => setkey(iskey + 1)}
@@ -811,7 +814,7 @@ const ComparativeanalysisModal = ({
                                             </Flex>
                                           </td>
                                         ) : (
-                                          <td style={{ textAlign: 'center' }}>No data found</td>
+                                          <td style={{ textAlign: 'center' }} className={styles.prosdatano}><Text size={12} color='gray'>No data found</Text></td>
                                         )}
                                         {data.Cons.length !== 0 ? (
                                           <td className={styles.Consdata}>
@@ -824,7 +827,7 @@ const ComparativeanalysisModal = ({
                                             </Flex>
                                           </td>
                                         ) : (
-                                          <td style={{ textAlign: 'center' }}>No data found</td>
+                                          <td style={{ textAlign: 'center' }} className={styles.Consdatano}><Text size={12} color='gray'>No data found</Text></td>
                                         )}
                                       </tr>
                                     </tbody>
