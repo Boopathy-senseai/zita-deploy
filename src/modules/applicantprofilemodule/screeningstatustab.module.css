@@ -1,6 +1,6 @@
 .overAll {
   overflow: scroll;
-  padding: 16px;
+  padding: 10px;
 }
 .statusStyle {
   margin-left: 16px;
@@ -75,7 +75,7 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
   width: 550px;
-  padding: 25px;
+  /* padding: 25px; */
   border-radius: 4px;
 }
 .insertStyles {
@@ -92,4 +92,7 @@
 .cancel:active, .cancel:focus{
   background-color: #888888;
   border: none;
+}
+.checkBox{
+  margin-top: 3px;
 }

@@ -27,12 +27,13 @@ const defaultProps = {
 };
 
 const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
-  const { status_id,stages,can_id } = useSelector(
+  const { status_id,stages,can_id, jd_id } = useSelector(
     ({ applicantProfileInitalReducers,applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
-        can_id: applicantProfileInitalReducers.can_id
+        can_id: applicantProfileInitalReducers.can_id,
+        jd_id: applicantProfileInitalReducers.jd_id,
       };
     },
   );
@@ -71,7 +72,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
           </Tab>
           
           <Tab title={'Screening Status'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  />
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  can_id={can_id} jd_id= {jd_id}/>
           </Tab> 
         </Tabs>
       ) : (
@@ -102,7 +103,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
             <ScreeningStatusandAllMatchJobTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab> 
           <Tab title={'Interview Question/Scorecard'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} can_id={can_id} jd_id= {jd_id}/>
           </Tab> 
         </Tabs>
       )}
