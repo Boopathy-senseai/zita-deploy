@@ -130,17 +130,18 @@ const MatchingAnalysisTab = () => {
       setRangeValueCultural(non_tech.cultural_fit);
       setRangeValueReferences(non_tech.ref);
     }
-    dispatch(WeightagematchinggetMiddleWare(jd_id));
+    dispatch(WeightagematchinggetMiddleWare(jd_id))
+    .then((res)=>{
+      if (res.payload.success === false) {
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
+      }
+    })
   }, [success])
 
-  // // const TruncatedText = ({ text }) => {
-  //   const [isExpanded, setIsExpanded] = useState(false);
-  
-   
-  
-  //   const toggleExpansion = () => {
-  //     setIsExpanded(!isExpanded);
-  //   };
 
     const [isViewMoreClicked, setIsViewMoreClicked] = useState(false);
 
@@ -252,7 +253,11 @@ const MatchingAnalysisTab = () => {
 
           setnextLoader(false);
           handleWeightageClose();
-          Toast('Error saving weightage settings. Please try again.', 'LONG', 'error');
+          Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          )
         }
         else {
           setnextLoader(false);
@@ -303,7 +308,11 @@ const MatchingAnalysisTab = () => {
     ).then((res) => {
       if (res.payload.success === false) {
         handleWeightageClose();
-        Toast('Error reset weightage settings. Please try again.', 'LONG', 'error');
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        )
       }
       else {
         // handleWeightageClose();
@@ -469,70 +478,37 @@ const MatchingAnalysisTab = () => {
             )}
           </Flex>
         </Flex>
-
         <Flex row className={styles.overallScore}>
-
-
           <Flex row>
-
             <Flex><Text size={13}>Overall Score:</Text></Flex>
-
             <Flex style={{ paddingLeft: "8px" }}>
-
               <ProgressBar
-
                 completed={overall_percentage}
-
                 bgColor={
-
                   overall_percentage < 40 ? "#FF0000"
-
                     : overall_percentage >= 40 && overall_percentage < 69 ? "#FFC203"
-
                       : overall_percentage > 69 && "#96E596"
-
                 }
-
                 width="200px"
-
                 borderRadius='4px'
-
                 labelColor="black"
-
                 labelSize="13px"
-
                 labelAlignment="center"
-
                 labelClassName={styles.progressbarlabel}
-
                 isLabelVisible={true}
-
               >
-
               </ProgressBar>
-
               <Flex
-
                 style={{
-
                   position: 'absolute',
-
                   color: 'black',
-
                   width: "200px",
-
                   justifyContent: "center"
-
                 }}
-
               >
-
                 <Text size={13} bold color="primary">{overall_percentage}%</Text>
-
               </Flex>
-
             </Flex>
-
           </Flex>
           <Flex>
           </Flex>
@@ -545,18 +521,13 @@ const MatchingAnalysisTab = () => {
             className={outputnontech.length<=0?(outputtech.length<=0?(styles.nodata):("")):("")}
           >
             {/* Technical */}
-           {
-            outputtech.length>0 && outputnontech.length>0?(<>
+           {outputtech.length>0 && outputnontech.length>0?(<>
            
             <Flex className={styles.techcardstyles}>
               <Card>
               {outputtech.length>0 ?(
                 <Flex style={{ padding: "25px" }}>
-                  <Flex row marginBottom={5}>
-                    {/* <Flex style={{ borderBottom: "1px solid #581845" }}>
-                      <Text bold>Technical Matching</Text>
-                    </Flex> */}
-                    {/* <Flex> */}
+                  <Flex row marginBottom={10}>
                     <Flex style={{width:"20%"}}>
                       <Text bold>Technical Matching</Text>
                     </Flex>
@@ -576,8 +547,6 @@ const MatchingAnalysisTab = () => {
 
                       {outputtech.map((skill, index) => (
                         <Flex className={styles.innerSliderbarStyle} key={index}>
-                          {/* <Flex> */}
-                            {/* <Flex> */}
 
                               <Flex className={styles.infohead1}>
                                 <Text>{skill.title}</Text>
@@ -608,8 +577,6 @@ const MatchingAnalysisTab = () => {
                                 </Text>
                               </Flex>
 
-                            {/* </Flex> */}
-                          {/* </Flex> */}
                           <Flex 
                           width={"50%"}
                           >
@@ -663,7 +630,10 @@ const MatchingAnalysisTab = () => {
 
 
                   </Flex>
-                </Flex>):( <Text>No Data Available</Text>)}
+                </Flex>
+                ):( 
+                <Text>No Data Available</Text>
+                )}
               </Card>
             </Flex>
 
@@ -674,7 +644,7 @@ const MatchingAnalysisTab = () => {
                
                 {outputnontech.length>0 ?(
                 <Flex style={{ padding: "25px" }}>
-                  <Flex row marginBottom={5}>
+                  <Flex row marginBottom={10}>
                     {/* <Flex>
                       <Text bold>Non-Technical Matching</Text>
                     </Flex> */}

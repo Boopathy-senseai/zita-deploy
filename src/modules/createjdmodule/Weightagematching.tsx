@@ -102,7 +102,16 @@ const Weightagematching = () => {
           setRangeValueReferences(non_tech.ref);
  }
 
-    dispatch(WeightagematchinggetMiddleWare(jd_id));
+    dispatch(WeightagematchinggetMiddleWare(jd_id))
+    .then((res)=>{
+      if (res.payload.success === false) {
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
+      }
+    })
 
   },[success])
 
@@ -165,7 +174,11 @@ const nextfunction=()=>{
   ).then((res) => {
     if (res.payload.success === false) {
       setnextLoader(false);
-      Toast('Error saving weightage settings. Please try again.', 'LONG', 'error');
+      Toast(
+        'Sorry, there was a problem connecting to the API. Please try again later.',
+        'LONG',
+        'error',
+      )
     }
     else {
       setnextLoader(false);
@@ -309,10 +322,13 @@ const saveasdraftfunction=()=>{
     }),
   ).then((res) => {
     if (res.payload.success === false) {
-      Toast('Error saving weightage settings. Please try again.', 'LONG', 'error');
+      Toast(
+        'Sorry, there was a problem connecting to the API. Please try again later.',
+        'LONG',
+        'error',
+      )
     }
     else {     
-     // Toast('Weightage settings saved successfully!', 'LONG');
       console.log("res", res)
     }
   })

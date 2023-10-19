@@ -182,7 +182,11 @@ const ApplicantPipeLineScreen = ({
 
           setnextLoader(false);
           handleWeightageClose();
-          Toast('Error saving weightage settings. Please try again.', 'LONG', 'error');
+          Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          )
         }
         else {
           setnextLoader(false);
@@ -233,7 +237,11 @@ const ApplicantPipeLineScreen = ({
     ).then((res) => {
       if (res.payload.success === false) {
         handleWeightageClose();
-        Toast('Error reset weightage settings. Please try again.', 'LONG', 'error');
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        )
       }
       else {
        // handleWeightageClose();
@@ -383,7 +391,16 @@ const ApplicantPipeLineScreen = ({
     }
 
 
-    dispatch(WeightagematchinggetMiddleWare(jdId));
+    dispatch(WeightagematchinggetMiddleWare(jdId))
+    .then((res)=>{
+      if (res.payload.success === false) {
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
+      }
+    })
 
   }, [success])
 
