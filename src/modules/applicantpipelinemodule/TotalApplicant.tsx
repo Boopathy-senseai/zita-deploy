@@ -164,7 +164,7 @@ const TotalApplicant = ({
                     cursor: 'pointer',
                   }}
                   onClick={Matching.length <= 5 && onComparative} 
-                  title={Matching.length > 5 && 'only select 5 candidates and access for Comparative Analysis & AI Recommendation'}
+                  title={Matching.length > 5 && 'You have the option to choose up to five candidates for the Comparative Analysis.'}
                 >
                   <SvgComparative fill={Matching.length > 5 ?'#AB8BA2':'#581845'} />
                   <Text bold style={{ marginLeft: '10px' }}  color={Matching.length > 5 ? 'disabled' : 'theme'}>

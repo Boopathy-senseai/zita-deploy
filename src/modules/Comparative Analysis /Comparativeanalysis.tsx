@@ -133,6 +133,7 @@ const ComparativeanalysisModal = ({
         edit_function(false);
       } else {
         setLoader(false);
+        closemodel();
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
           'LONG',
@@ -266,8 +267,11 @@ const ComparativeanalysisModal = ({
                                       <Text
                                         bold
                                         size={14}
-                                        style={{ padding: '2px 0px 0px 0px' }}
-                                      >{`${e?.first_name.toUpperCase()}${
+                                        style={{
+                                          padding: '2px 0px 0px 0px',
+                                          textTransform: 'capitalize',
+                                        }}
+                                      >{`${e?.first_name.toLowerCase()}${
                                         !isEmpty(e.last_name)
                                           ? e.last_name.toUpperCase()
                                           : ''
