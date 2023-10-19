@@ -94,7 +94,7 @@ const AddcandidatesModal = ({
 
   const close = () => {
     select_candidate(olddata, 6);
-    add_candidates(false)
+    add_candidates(false);
     openfunction(false);
   };
 
@@ -112,7 +112,7 @@ const AddcandidatesModal = ({
   const Compare_candidate = () => {
     if (!(Matching.length > 5)) {
       // update_alysismodal(false);
-      add_candidates(true)
+      add_candidates(true);
       openfunction(false);
       dispatchcomparativeApi(Matching, isData, sample);
     } else {
@@ -120,8 +120,17 @@ const AddcandidatesModal = ({
     }
   };
 
+  const handlechange = (e) => {
+    var test1 = e.target.value.trim();
+    if (test1.length !== 0) {
+      setSearchQuery(e.target.value);
+    } else {
+      setSearchQuery(e.target.value.trim());
+    }
+  };
+
   return (
-    <Flex> 
+    <Flex>
       <Modal open={model}>
         <Flex
           width={750}
@@ -144,7 +153,7 @@ const AddcandidatesModal = ({
               <InputText
                 placeholder="search candidates"
                 className={styles.inputchanges}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handlechange(e)}
                 value={searchQuery}
               />
               <Flex
@@ -191,7 +200,7 @@ const AddcandidatesModal = ({
                     </Flex>
                     <Flex marginLeft={10}>
                       {isEmpty(e.profile_image) ||
-                        e.profile_image === 'default.jpg' ? (
+                      e.profile_image === 'default.jpg' ? (
                         <div
                           className={cx('profile')}
                           style={{
@@ -203,8 +212,9 @@ const AddcandidatesModal = ({
                             transform="uppercase"
                             className={styles.firstlastchar}
                           >
-                            {`${e.first_name?.charAt(0)}${e?.last_name ? e?.last_name?.charAt(0) : ''
-                              }`}
+                            {`${e.first_name?.charAt(0)}${
+                              e?.last_name ? e?.last_name?.charAt(0) : ''
+                            }`}
                           </Text>
                         </div>
                       ) : (
@@ -233,8 +243,15 @@ const AddcandidatesModal = ({
                         marginTop={5.2}
                         title={e.stage_name}
                       ></Flex>
-                      <Flex title={`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}>
-                        <Flex>{`${e.first_name} ${e?.last_name ? e?.last_name : ''}`}
+                      <Flex
+                        title={`${e.first_name} ${
+                          e?.last_name ? e?.last_name : ''
+                        }`}
+                      >
+                        <Flex>
+                          {`${e.first_name} ${
+                            e?.last_name ? e?.last_name : ''
+                          }`}
                         </Flex>
                         <Flex>
                           <Text
@@ -269,7 +286,7 @@ const AddcandidatesModal = ({
               marginTop={10}
               className={styles.centerali}
             >
-              <Button types='close' onClick={() => close()}>
+              <Button types="close" onClick={() => close()}>
                 Cancel
               </Button>
             </Flex>

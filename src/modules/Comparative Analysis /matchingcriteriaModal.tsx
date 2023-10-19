@@ -30,6 +30,11 @@ const MatchingcriteriaModal = ({
   const [Error, setError] = useState('');
   const [Comparative, setComparative] = useState(false);
   const [edit, setedit] = useState(false);
+  const [selectedcriteria, setresponsibledateria] = useState<any>();
+  const [newedit, setnewedit] = useState(false);
+  const update_riteria = (val) => {
+    setresponsibledateria(val);
+  };
 
   const update_alysismodal = (val) => {
     setComparative(val);
@@ -53,13 +58,20 @@ const MatchingcriteriaModal = ({
   };
 
   const cancelmodel = (val) => {
-    updatemodel(val, 0);
-    setData([]);
-    setedit(false);
+    if (edit === true) {
+      setnewedit(true);
+      setComparative(true);
+    } else {
+      setnewedit(false);
+      updatemodel(val, 0);
+      setData([]);
+      setedit(false);
+    }
   };
 
   const compare = () => {
     if (isData.length !== 0) {
+      setnewedit(false);
       update_alysismodal(true);
     } else {
       setError('Select one or more criteria to compare');
@@ -107,9 +119,11 @@ const MatchingcriteriaModal = ({
                   </Text>
                 </Flex>
                 <Flex>
-                  <Flex style={{
-                    borderBottom: '1px solid rgb(195, 195, 195)',
-                  }}>
+                  <Flex
+                    style={{
+                      borderBottom: '1px solid rgb(195, 195, 195)',
+                    }}
+                  >
                     <Flex
                       row
                       center
@@ -160,10 +174,7 @@ const MatchingcriteriaModal = ({
                       marginTop={10}
                       className={styles.centerali}
                     >
-                      <Button
-                        types='close'
-                        onClick={() => cancelmodel(false)}
-                      >
+                      <Button types="close" onClick={() => cancelmodel(false)}>
                         Cancel
                       </Button>
                     </Flex>
@@ -189,6 +200,9 @@ const MatchingcriteriaModal = ({
           select_candidate={select_candidate}
           edit={edit}
           edit_function={edit_function}
+          selectedcriteria={selectedcriteria}
+          update_riteria={update_riteria}
+          newedit={newedit}
         />
       )}
     </Flex>
