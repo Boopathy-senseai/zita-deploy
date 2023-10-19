@@ -1,12 +1,8 @@
-.overAll {
-  /* padding: 16px; */
-  /* overflow: scroll; */
-
-}
 .progressStyle {
   margin-top: 8px;
   margin-bottom: 20px;
 }
+
 .dataListStyleai {
   padding: 1px 4px 1px 4px;
   box-sizing: border-box;
@@ -14,6 +10,7 @@
   /* border-bottom: 1px solid var(--color-gary-7, #dfdfdf); */
   align-items: center;
 }
+
 .dataListStyle {
   padding: 8px 0px;
   box-sizing: border-box;
@@ -21,10 +18,12 @@
   /* border-bottom: 1px solid var(--color-gary-7, #dfdfdf); */
   align-items: flex-start;
 }
+
 .titleStyle { 
   COLOR:#581845;
   text-transform: capitalize;
 }
+
 .cardchanging{
   margin-bottom: 10px;
   margin-top: 2px;
@@ -32,12 +31,15 @@
   margin-right: 2px;
   padding: 5px;
 }
+
 .valueStyle {
   margin-right: 8px;
 }
+
 /* .mapListContainer {
   /* border: 1px; */
 /*} */
+
 .mapListContainer {
   box-sizing: border-box;
   /* margin-top: 20px; */
@@ -45,13 +47,16 @@
   -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36); */
 }
+
 .valueListStyle {
   padding: 0px 0px 8px 0px;
   font-size: 13px;
 }
+
 .svgStyle {
   margin-right: 12px;
 }
+
 .textwrap{
   flex-wrap: wrap;
   overflow: hidden;
@@ -60,7 +65,6 @@
   overflow-wrap: break-word;
   font-size: 12;
 }
-
 
 .btnwithContent{
   padding-left: 16px;
@@ -80,6 +84,7 @@
   padding-top: 15px;
   flex-wrap: wrap;
 }
+
 .innerstyle{
   display: flex;
   align-items: center;
@@ -87,7 +92,6 @@
   flex-wrap: wrap;
   justify-content: center 
 }
-
 
 .customrange {
   width: 100%;
@@ -112,13 +116,13 @@
 .customrange:focus {
   outline: none;
 }
+
 .parent{
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
 margin-top: 15px;
 justify-content: space-between;
-
 }
 
 .techcardstyles{
@@ -150,13 +154,13 @@ justify-content: space-between;
 .innerSliderbarStyle{
   display: flex;
   flex-direction: row;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 .chatgptoutput{
   width: 50%;
-
 }
+
 .chatgptoutput1{
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -185,8 +189,8 @@ justify-content: space-between;
   margin-top: 15px;
   justify-content: space-between;
   margin-bottom: 15px;
-  
-  }
+}
+
   .progressbarstyle{
     display: flex;
     justify-content: center;
@@ -202,8 +206,8 @@ justify-content: space-between;
   .splitline{
     border-left :0.5px solid #c3c3c3;
     height: 450px;
-    
   }
+
   .spacepadding{
     padding-top: 15px;
   }
@@ -278,42 +282,30 @@ justify-content: space-between;
     max-width: 425px;
     position: absolute;
   }
+
   .labelpadding{
-
     padding: 0px 0px 0px 11px;
-
     font-size: 13px;
-
- 
-
   }
 
   .labelpadding2{
-
     margin: 0px -9px 0px 0px;
-
     padding: 0px 0px 0px 5px;
-
     font-size: 13px;
-
   }
-
- 
 
   .labelpadding3{
-
     padding: 0px 0px 0px 5px;
-
     font-size: 13px;
-
-  
   }
+
   .threediv{
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
   }
+
   .centervalue{
     display: flex;
     justify-content: center;
@@ -327,8 +319,6 @@ justify-content: space-between;
     margin-bottom: 10px;
   }
   
-   
-  
   .text {
     margin-bottom: 10px;
     display: -webkit-box;
@@ -336,9 +326,7 @@ justify-content: space-between;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
-   
-  
+
   .text-container.expanded .text {
     -webkit-line-clamp: initial;
   }
@@ -349,8 +337,8 @@ justify-content: space-between;
    -webkit-line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
-
   }
+
   .nodata{
     display: flex;
     justify-content: center;
@@ -358,6 +346,7 @@ justify-content: space-between;
     border-top: 1px solid #c3c3c3;
     margin-top: 10px;
   }
+
   .rarecase{
     display: flex;
     justify-content: center;
