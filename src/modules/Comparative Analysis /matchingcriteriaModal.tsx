@@ -71,6 +71,7 @@ const MatchingcriteriaModal = ({
 
   const compare = () => {
     if (isData.length !== 0) {
+      setError('');
       setnewedit(false);
       update_alysismodal(true);
     } else {
@@ -79,7 +80,8 @@ const MatchingcriteriaModal = ({
   };
 
   const selectall = () => {
-    setData(Comparativeanalysis);
+    setError('');
+    setData(Comparativeanalysis); 
   };
 
   const edit_function = (val) => {
@@ -114,7 +116,7 @@ const MatchingcriteriaModal = ({
                     paddingBottom: '5px',
                   }}
                 >
-                  <Text size={14}>
+                  <Text size={14} bold >
                     Comparative Analysis & AI Recommendation
                   </Text>
                 </Flex>
@@ -156,13 +158,13 @@ const MatchingcriteriaModal = ({
                   </Flex>
                 </Flex>
                 <Flex row between>
-                  <Flex marginTop={10}>
+                  <Flex marginTop={17}>
                     {isData.length === 0 ? (
-                      <Button types="secondary" onClick={() => selectall()}>
+                      <Button types="secondary" onClick={() => selectall()} width='87px'>
                         Select All
                       </Button>
                     ) : (
-                      <Button types="secondary" onClick={() => clear()}>
+                      <Button types="secondary" onClick={() => clear()} width='87px'>
                         Clear
                       </Button>
                     )}
@@ -170,16 +172,16 @@ const MatchingcriteriaModal = ({
                   <Flex row end>
                     <Flex
                       center
-                      marginRight={10}
-                      marginTop={10}
-                      className={styles.centerali}
+                      marginRight={20}
+                      marginTop={17}
+                      className={styles.centerali} 
                     >
-                      <Button types="close" onClick={() => cancelmodel(false)}>
+                      <Button types="close" onClick={() => cancelmodel(false)} width='75px'>
                         Cancel
                       </Button>
                     </Flex>
-                    <Flex center marginTop={10} className={styles.centerali}>
-                      <Button onClick={() => compare()}>Analyse</Button>
+                    <Flex center marginTop={17} className={styles.centerali} >
+                      <Button onClick={() => compare()} width='75px'>Analyse</Button>
                     </Flex>
                   </Flex>
                 </Flex>

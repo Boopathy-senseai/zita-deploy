@@ -143,7 +143,7 @@ const AddcandidatesModal = ({
               paddingBottom: '10px',
             }}
           >
-            <Text size={14}>Add Candidate</Text>
+            <Text size={14} bold color='theme'>Add Candidate</Text>
           </Flex>
           <Flex row between center marginTop={10}>
             <Flex>

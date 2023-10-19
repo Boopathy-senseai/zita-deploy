@@ -255,11 +255,10 @@ const ComparativeanalysisModal = ({
                                           : undefined
                                       }
                                       initials={`${e?.first_name?.charAt(0)}
-                                     ${
-                                       !isEmpty(e.last_name)
-                                         ? e.last_name?.charAt(0)
-                                         : ''
-                                     }`}
+                                     ${!isEmpty(e.last_name)
+                                          ? e.last_name?.charAt(0)
+                                          : ''
+                                        }`}
                                     />
                                   </Flex>
                                   <Flex>
@@ -271,11 +270,10 @@ const ComparativeanalysisModal = ({
                                           padding: '2px 0px 0px 0px',
                                           textTransform: 'capitalize',
                                         }}
-                                      >{`${e?.first_name.toLowerCase()}${
-                                        !isEmpty(e.last_name)
-                                          ? e.last_name.toUpperCase()
-                                          : ''
-                                      }`}</Text>
+                                      >{`${e?.first_name.toLowerCase()}${!isEmpty(e.last_name)
+                                        ? e.last_name.toUpperCase()
+                                        : ''
+                                        }`}</Text>
                                     </Flex>
                                     <Flex
                                       className={styles.part3}
@@ -475,11 +473,10 @@ const ComparativeanalysisModal = ({
                                             ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                             : undefined
                                         }
-                                        initials={`${e?.first_name?.charAt(0)}${
-                                          !isEmpty(e.last_name)
-                                            ? e.last_name?.charAt(0)
-                                            : ''
-                                        }`}
+                                        initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
+                                          ? e.last_name?.charAt(0)
+                                          : ''
+                                          }`}
                                       />
                                       <Flex
                                         className={cx({
@@ -529,11 +526,10 @@ const ComparativeanalysisModal = ({
                                       marginRight={5}
                                     ></Flex>
                                     <Flex
-                                      title={`${e.first_name.toUpperCase()} ${
-                                        e.last_name
-                                          ? e.last_name.toUpperCase()
-                                          : ''
-                                      }`}
+                                      title={`${e.first_name.toUpperCase()} ${e.last_name
+                                        ? e.last_name.toUpperCase()
+                                        : ''
+                                        }`}
                                     >
                                       <Text className={styles.changingtexts}>
                                         {e.first_name.toUpperCase()}{' '}
@@ -592,20 +588,20 @@ const ComparativeanalysisModal = ({
                                             {' '}
                                             {Math.round(e.categories[key]) <=
                                               3 && (
-                                              <Text size={12}>{`${Math.round(
-                                                e.categories[key],
-                                              )}/10 (Low)`}</Text>
-                                            )}
+                                                <Text size={12}>{`${Math.round(
+                                                  e.categories[key],
+                                                )}/10 (Low)`}</Text>
+                                              )}
                                             {Math.round(e.categories[key]) >
                                               7 && (
-                                              <Text size={12}>{`${Math.round(
-                                                e.categories[key],
-                                              )}/10 (High)`}</Text>
-                                            )}
+                                                <Text size={12}>{`${Math.round(
+                                                  e.categories[key],
+                                                )}/10 (High)`}</Text>
+                                              )}
                                             {Math.round(e.categories[key]) >
                                               3 &&
                                               Math.round(e.categories[key]) <=
-                                                7 && (
+                                              7 && (
                                                 <Text size={12}>{`${Math.round(
                                                   e.categories[key],
                                                 )}/10 (Medium)`}</Text>
@@ -684,11 +680,10 @@ const ComparativeanalysisModal = ({
                                       />
                                     </Flex>
                                     <Flex marginLeft={7} marginRight={7}>
-                                      {`${data?.first_name.toUpperCase()} ${
-                                        !isEmpty(data.last_name)
-                                          ? data.last_name.toUpperCase()
-                                          : ''
-                                      }`}
+                                      {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
+                                        ? data.last_name.toUpperCase()
+                                        : ''
+                                        }`}
                                     </Flex>
                                     <Flex
                                       onClick={() => setkey(iskey + 1)}
@@ -696,7 +691,7 @@ const ComparativeanalysisModal = ({
                                       disabled={
                                         selectedcriteria.payload.analysis
                                           .length -
-                                          1 ===
+                                        1 ===
                                         iskey
                                       }
                                     >
@@ -705,7 +700,7 @@ const ComparativeanalysisModal = ({
                                           selectedcriteria.payload.analysis
                                             .length -
                                             1 ===
-                                          iskey
+                                            iskey
                                             ? '#888888'
                                             : '#581845'
                                         }
@@ -727,23 +722,23 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) <= 3 && (
-                                          <Text color="error">
-                                            {Math.round(
-                                              data.Average_match_percentage,
-                                            )}
-                                            /10
-                                          </Text>
-                                        )}
+                                            <Text color="error">
+                                              {Math.round(
+                                                data.Average_match_percentage,
+                                              )}
+                                              /10
+                                            </Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                          <Text color="success">
-                                            {Math.round(
-                                              data.Average_match_percentage,
-                                            )}
-                                            /10
-                                          </Text>
-                                        )}
+                                            <Text color="success">
+                                              {Math.round(
+                                                data.Average_match_percentage,
+                                              )}
+                                              /10
+                                            </Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 3 &&
@@ -768,8 +763,8 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                          <Text color="success">Yes</Text>
-                                        )}
+                                            <Text color="success">Yes</Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 3 &&
@@ -784,92 +779,57 @@ const ComparativeanalysisModal = ({
                                     </Flex>
                                     <Flex flex={6}></Flex>
                                   </Flex>
-                                  <table
-                                    className="parallel-columns-table"
-                                    style={{ border: '1px solid #A5889C' }}
-                                  >
+                                  <table className="parallel-columns-table">
                                     <colgroup>
                                       <col style={{ width: '50%' }} />
                                       <col style={{ width: '50%' }} />
                                     </colgroup>
-                                    <thead
-                                      style={{ border: '1px solid #A5889C' }}
-                                    >
-                                      <tr
-                                        style={{ border: '1px solid #A5889C' }}
-                                      >
-                                        <th
-                                          style={{
-                                            border: '1px solid #A5889C',
-                                          }}
-                                        >
-                                          <Flex
-                                            middle
-                                            center
-                                            style={{ padding: '3px' }}
-                                          >
+                                    <thead style={{ border: '1px solid #A5889C' }}>
+                                      <tr style={{ border: '1px solid #A5889C' }}>
+                                        <th style={{ border: '1px solid #A5889C' }}>
+                                          <Flex middle center style={{ padding: '3px' }}>
                                             Skills Evaluation
                                           </Flex>
                                         </th>
-                                        <th
-                                          style={{
-                                            border: '1px solid #A5889C',
-                                          }}
-                                        >
-                                          <Flex
-                                            middle
-                                            center
-                                            style={{ padding: '3px' }}
-                                          >
+                                        <th style={{ border: '1px solid #A5889C', verticalAlign: 'top' }}>
+                                          <Flex middle center style={{ padding: '3px' }}>
                                             Enhancement Analysis
                                           </Flex>
                                         </th>
                                       </tr>
                                     </thead>
-                                    <tbody
-                                      style={{ border: '1px solid #A5889C' }}
-                                    >
-                                      <tr style={{ display: '-webkit-box' }}>
+                                    <tbody style={{ border: '1px solid #A5889C' }}>
+                                      <tr>
                                         {data.Pros.length !== 0 ? (
-                                          <td
-                                            className={styles.prosdata}
-                                            style={{ width: '100%' }}
-                                          >
-                                            {data.Pros.map((Pros, indexno) => (
-                                              <ul key={indexno}>
-                                                <li className="indented-list">
-                                                  {Pros}
-                                                </li>
-                                              </ul>
-                                            ))}
+                                          <td className={styles.prosdata}>
+                                            <Flex flex={1}>
+                                              {data.Pros.map((Pros, indexno) => (
+                                                <ul key={indexno}>
+                                                  <li className="indented-list">{Pros}</li>
+                                                </ul>
+                                              ))}
+                                            </Flex>
                                           </td>
                                         ) : (
-                                          <td style={{ textAlign: 'center' }}>
-                                            No data found
-                                          </td>
+                                          <td style={{ textAlign: 'center' }}>No data found</td>
                                         )}
                                         {data.Cons.length !== 0 ? (
-                                          <td
-                                            className={styles.Consdata}
-                                            style={{ width: '100%' }}
-                                          >
-                                            {' '}
-                                            {data.Cons.map((Cons, indexval) => (
-                                              <ul key={indexval}>
-                                                <li className="indented-list">
-                                                  {Cons}
-                                                </li>
-                                              </ul>
-                                            ))}
+                                          <td className={styles.Consdata}>
+                                            <Flex flex={1}>
+                                              {data.Cons.map((Cons, indexval) => (
+                                                <ul key={indexval}>
+                                                  <li className="indented-list">{Cons}</li>
+                                                </ul>
+                                              ))}
+                                            </Flex>
                                           </td>
                                         ) : (
-                                          <td style={{ textAlign: 'center' }}>
-                                            No data found
-                                          </td>
+                                          <td style={{ textAlign: 'center' }}>No data found</td>
                                         )}
                                       </tr>
                                     </tbody>
                                   </table>
+
                                 </Flex>
                               )}
                               <Flex></Flex>
