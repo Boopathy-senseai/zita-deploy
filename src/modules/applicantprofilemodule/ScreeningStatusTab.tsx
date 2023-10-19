@@ -35,8 +35,15 @@ type Props = {
   issingletab: boolean;
   jd_id: string;
   can_id: string;
+  interview_id: string;
 };
-const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
+const ScreeningStatusTab = ({
+  title,
+  issingletab,
+  jd_id,
+  can_id,
+  interview_id,
+}: Props) => {
   // const form: QuestionForm = { question: '' };
   const dispatch: AppDispatch = useDispatch();
   const [addQuestion, setaddQuestione] = useState(false);
@@ -46,7 +53,6 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
     data: Question[];
   } | null>(null);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
-  console.log(jd_id, can_id);
   useEffect(() => {
     if (jd_id && can_id) {
       dispatch(interviewQuestionMiddleware({ jd_id, can_id }));
@@ -64,6 +70,7 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
     question_loading,
     question_error,
     interviews,
+    no_of_interview,
   } = useSelector(
     ({
       applicantStausReducers,
@@ -78,6 +85,7 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         questions: interviewerQuestionReducers.data,
         interviews: interviewerQuestionReducers.interviews,
+        no_of_interview: interviewerQuestionReducers.no_of_interview,
         question_loading: interviewerQuestionReducers.isLoading,
         question_error: interviewerQuestionReducers.error,
       };
@@ -108,27 +116,26 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
 
   return (
     <Flex row flex={12}>
-      <Flex
-        flex={6}
-        columnFlex
-        className={styles.overAll}
-        height={window.innerHeight - 120}
-      >
+      <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold color="theme" className={styles.screenText}>
-          {/* {title} */}
           Interview Questions
         </Text>
         <Text>
           You can select, deselect, regenerate, and add questions for the
           applicant.
         </Text>
-
-        <QuestionCard
-          interviews={interviews}
-          onEvaluate={(value) => {
-            setEvaluatePopup({ open: true, data: value });
-          }}
-        />
+        <Flex
+          columnFlex
+          className={styles.overAllPopup}
+          height={window.innerHeight - 120}
+        >
+          <QuestionCard
+            interviews={interviews}
+            onEvaluate={(value) => {
+              setEvaluatePopup({ open: true, data: value });
+            }}
+          />
+        </Flex>
       </Flex>
       {evaluatePopup && (
         <Modal open={evaluatePopup?.open}>

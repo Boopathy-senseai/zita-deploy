@@ -1,6 +1,6 @@
-.overAll {
+.overAllPopup {
   overflow: scroll;
-  padding: 10px;
+  padding: 0 5px 0px 0px;
 }
 .statusStyle {
   margin-left: 16px;
@@ -37,10 +37,10 @@
   font-size: 14px;
   color: #333333;
 }
-.addButton{
+.addButton {
   cursor: pointer;
 }
-.input{
+.input {
   font-size: 13px;
 }
 .svgContainer {
@@ -75,7 +75,7 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
   width: 550px;
-  /* padding: 25px; */
+  padding: 25px;
   border-radius: 4px;
 }
 .insertStyles {
@@ -89,10 +89,11 @@
   border-radius: 5px;
   /* margin-top: 20px; */
 }
-.cancel:active, .cancel:focus{
+.cancel:active,
+.cancel:focus {
   background-color: #888888;
   border: none;
 }
-.checkBox{
+.checkBox {
   margin-top: 3px;
 }
