@@ -1,3 +1,6 @@
+.overAll{
+  display: flex;
+}
 .progressStyle {
   margin-top: 8px;
   margin-bottom: 20px;

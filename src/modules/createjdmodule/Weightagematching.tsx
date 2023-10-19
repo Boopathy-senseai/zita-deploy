@@ -461,7 +461,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browser
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 
                 }}
@@ -499,7 +499,7 @@ const saveasdraftfunction=()=>{
                   margin: '10px 0', // Add margin for spacing
 
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -533,7 +533,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -570,7 +570,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -604,7 +604,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -638,7 +638,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -725,7 +725,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -757,7 +757,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -791,7 +791,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -827,7 +827,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
@@ -860,7 +860,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
@@ -893,7 +893,7 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
