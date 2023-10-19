@@ -171,7 +171,7 @@ const MatchingcriteriaModal = ({
                       </Button>
                     ) : (
                       <Button types="secondary" onClick={() => clear()} width='87px'>
-                        Clear
+                        Clear All
                       </Button>
                     )}
                   </Flex>
