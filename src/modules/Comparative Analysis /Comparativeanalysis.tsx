@@ -44,9 +44,6 @@ type Props = {
   edit?: any;
   edit_function?: (val: any) => void;
   select_candidate?: (val: any, id: any) => void;
-  selectedcriteria: any;
-  update_riteria: (val: any) => void;
-  newedit?: any;
 };
 const ComparativeanalysisModal = ({
   Comparative,
@@ -58,14 +55,12 @@ const ComparativeanalysisModal = ({
   isData,
   select_candidate,
   edit,
-  edit_function,
-  selectedcriteria,
-  update_riteria,
-  newedit,
+  edit_function
 }: Props) => {
   const [addmodel, setaddmodel] = useState(false);
   const { jdId } = useParams<ParamsType>();
   const [iskey, setkey] = useState(0);
+  const [selectedcriteria, setresponsibledateria] = useState<any>();
   const [isDatastore, setDatastore] = useState<any>();
   const [isPros, setPros] = useState(false);
   const [isLoader, setLoader] = useState(true);
@@ -92,12 +87,7 @@ const ComparativeanalysisModal = ({
 
   useEffect(() => {
     setolddata(Matching);
-    if (newedit === true) {
-      setLoader(false);
-      edit_function(false);
-    } else {
-      dispatchcomparativeApi(Matching, isData, value);
-    }
+    dispatchcomparativeApi(Matching, isData, value);
   }, []);
 
   const dispatchcomparativeApi = (match, Data, values) => {
@@ -112,7 +102,7 @@ const ComparativeanalysisModal = ({
       }),
     ).then((response) => {
       if (response.payload.success === true) {
-        update_riteria(response);
+        setresponsibledateria(response);
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
         if (edit === true) {
@@ -131,9 +121,10 @@ const ComparativeanalysisModal = ({
         }
         setaddcandidate(false);
         edit_function(false);
-      } else {
+      }
+      else {
         setLoader(false);
-        closemodel();
+        closemodel()
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
           'LONG',
@@ -162,6 +153,7 @@ const ComparativeanalysisModal = ({
   const removeprofile = () => {
     setverify(false);
     dispatchcomparativeApi(Matching, isData, value);
+
   };
   const add_candidates = (val) => {
     setaddcandidate(val);
@@ -169,7 +161,7 @@ const ComparativeanalysisModal = ({
 
   const cancelverify = () => {
     setverify(false);
-    seterrormsg('');
+    seterrormsg('')
     select_candidate(olddata, 6);
   };
   let totalSum = 0;
@@ -177,7 +169,7 @@ const ComparativeanalysisModal = ({
   return (
     <>
       <Flex middle>
-        {isLoader && !newedit ? (
+        {isLoader ? (
           <Loader />
         ) : (
           <>
@@ -187,11 +179,7 @@ const ComparativeanalysisModal = ({
                   center
                   row
                   between
-                  style={{
-                    backgroundColor: '#EEE8EC',
-                    padding: '10px',
-                    borderRadius: '4px 4px 0px 0px',
-                  }}
+                  style={{ backgroundColor: '#EEE8EC', padding: '10px', borderRadius: '4px 4px 0px 0px' }}
                   flex={1}
                 >
                   <Flex></Flex>
@@ -212,11 +200,7 @@ const ComparativeanalysisModal = ({
                 >
                   <Card className={styles.card}>
                     <Flex className={styles.cardheader} center>
-                      <Text
-                        style={{ color: 'white', paddingLeft: '10px' }}
-                        size={14}
-                        bold
-                      >
+                      <Text style={{ color: 'white', paddingLeft: '10px' }} size={14} bold>
                         {' '}
                         AI Recommendation{' '}
                       </Text>
@@ -225,70 +209,59 @@ const ComparativeanalysisModal = ({
                       <>
                         {selectedcriteria.payload.analysis
                           .sort((data1, data2) => {
-                            if (
-                              data1.Total_matching_percentage <
-                              data2.Total_matching_percentage
-                            )
-                              return -1;
-                            if (
-                              data1.Total_matching_percentage >
-                              data2.Total_matching_percentage
-                            )
-                              return 1;
+                            if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                            if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
                             return 0;
                           })
                           .reverse()
-                          .map(
-                            (e, index) =>
-                              index === 0 && (
-                                <Flex row style={{ margin: '5px' }} center>
-                                  <Flex center middle>
-                                    <Avatar
-                                      className={styles.profilehead}
-                                      style={{
-                                        fontSize: '22px',
-                                        textTransform: 'uppercase',
-                                      }}
-                                      avatar={
-                                        e.image && e.image !== 'default.jpg'
-                                          ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
-                                          : undefined
-                                      }
-                                      initials={`${e?.first_name?.charAt(0)}
-                                     ${
-                                       !isEmpty(e.last_name)
-                                         ? e.last_name?.charAt(0)
-                                         : ''
-                                     }`}
-                                    />
-                                  </Flex>
-                                  <Flex>
-                                    <Flex marginLeft={15}>
-                                      <Text
-                                        bold
-                                        size={14}
-                                        style={{
-                                          padding: '2px 0px 0px 0px',
-                                          textTransform: 'capitalize',
-                                        }}
-                                      >{`${e?.first_name.toLowerCase()}${
-                                        !isEmpty(e.last_name)
-                                          ? e.last_name.toUpperCase()
-                                          : ''
+                          .map((e, index) => (
+                            index === 0 && (
+                              <Flex row style={{ margin: '10px' }} center>
+
+                                <Flex center middle>
+                                  <Avatar
+                                    className={styles.profilehead}
+                                    style={{
+                                      fontSize: '22px',
+                                      textTransform: 'uppercase',
+                                    }}
+                                    avatar={
+                                      e.image &&
+                                        e.image !==
+                                        'default.jpg'
+                                        ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
+                                        : undefined
+                                    }
+                                    initials={`${e?.first_name?.charAt(
+                                      0,
+                                    )}
+                                     ${!isEmpty(
+                                      e.last_name,
+                                    )
+                                        ? e.last_name?.charAt(
+                                          0,
+                                        )
+                                        : ''
+                                      }`}
+                                  />
+                                </Flex>
+                                <Flex>
+                                  <Flex marginLeft={15}>
+                                    <Text bold size={14} style={{ padding: '2px 0px 0px 0px',textTransform: 'capitalize' }}>{`${e?.first_name.toLowerCase()
+                                      }${!isEmpty(
+                                        e.last_name,
+                                      )
+                                        ? e.last_name.toLowerCase()
+                                        : ''
                                       }`}</Text>
-                                    </Flex>
-                                    <Flex
-                                      className={styles.part3}
-                                      center
-                                      marginLeft={15}
-                                      key={''}
-                                    >
-                                      <Text>{e?.Pros.join('. ')}</Text>
-                                    </Flex>
+                                  </Flex>
+                                  <Flex className={styles.part3} center marginLeft={15} key={''}>
+                                    <Text>{e?.Pros.join('. ')}</Text>
                                   </Flex>
                                 </Flex>
-                              ),
-                          )}
+                              </Flex>
+                            )
+                          ))}
                       </>
                     ) : (
                       ''
@@ -297,9 +270,7 @@ const ComparativeanalysisModal = ({
                   <Flex row between marginTop={20} marginBottom={13}>
                     <Flex row center>
                       <Flex>
-                        <Text bold size={14}>
-                          Comparative Analysis
-                        </Text>
+                        <Text bold size={14}>Comparative Analysis</Text>
                       </Flex>
                       <Flex
                         marginLeft={15}
@@ -415,406 +386,346 @@ const ComparativeanalysisModal = ({
                       }}
                     >
                       {selectedcriteria &&
-                        selectedcriteria.payload.analysis
-                          .sort((data1, data2) => {
-                            // Replace 'someProperty' with the property you want to sort by
-                            if (
-                              data1.Total_matching_percentage <
-                              data2.Total_matching_percentage
-                            )
-                              return -1;
-                            if (
-                              data1.Total_matching_percentage >
-                              data2.Total_matching_percentage
-                            )
-                              return 1;
-                            return 0;
-                          })
-                          .reverse()
-                          .map((e, indexnum) => {
-                            return (
-                              <Flex
-                                key=""
-                                row
-                                marginBottom={2}
-                                marginTop={2}
-                                marginLeft={10}
-                              >
-                                <Card
-                                  className={styles.cardstructureforprofile}
-                                >
-                                  <Flex row between>
-                                    <Flex
-                                      style={{
-                                        backgroundColor: '#581845',
-                                      }}
-                                      width={20}
-                                      height={37}
-                                      marginLeft={10}
-                                    >
-                                      <Flex center middle>
-                                        <text style={{ color: 'white' }}>
-                                          {indexnum + 1}
-                                        </text>
-                                      </Flex>
-                                      <Flex className={styles.triangle}> </Flex>
+                        selectedcriteria.payload.analysis.sort((data1, data2) => {
+                          // Replace 'someProperty' with the property you want to sort by
+                          if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                          if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
+                          return 0;
+                        }).reverse().map((e, indexnum) => {
+                          return (
+                            <Flex
+                              key=""
+                              row
+                              marginBottom={2}
+                              marginTop={2}
+                              marginLeft={10}
+                            >
+                              <Card className={styles.cardstructureforprofile}>
+                                <Flex row between>
+                                  <Flex
+                                    style={{
+                                      backgroundColor: '#581845',
+                                    }}
+                                    width={20}
+                                    height={37}
+                                    marginLeft={10}
+                                  >
+                                    <Flex center middle>
+                                      <text style={{ color: 'white' }}>
+                                        {indexnum + 1}
+                                      </text>
                                     </Flex>
-                                    <Flex
-                                      marginTop={20}
-                                      marginLeft={-10}
-                                      marginBottom={-20}
-                                    >
-                                      <Avatar
-                                        className={styles.profile}
-                                        style={{
-                                          fontSize: '26px',
-                                          textTransform: 'uppercase',
-                                        }}
-                                        avatar={
-                                          e.image && e.image !== 'default.jpg'
-                                            ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
-                                            : undefined
-                                        }
-                                        initials={`${e?.first_name?.charAt(0)}${
-                                          !isEmpty(e.last_name)
-                                            ? e.last_name?.charAt(0)
-                                            : ''
-                                        }`}
-                                      />
-                                      <Flex
-                                        className={cx({
-                                          countStyle1:
-                                            e.Total_matching_percentage < 40,
-                                          countStyle2:
-                                            e.Total_matching_percentage >= 40 &&
-                                            e.Total_matching_percentage < 69,
-                                          countStyle3:
-                                            e.Total_matching_percentage > 69,
-                                        })}
-                                      >
-                                        <Text
-                                          style={{
-                                            fontSize: 10,
-                                            marginTop: ' 2px',
-                                          }}
-                                        >
-                                          {Math.round(
-                                            e.Total_matching_percentage,
-                                          )}
-                                        </Text>
-                                      </Flex>
-                                    </Flex>
-                                    <Flex
-                                      marginRight={16}
-                                      marginTop={10}
-                                      onClick={() => remove_user(e)}
-                                    >
-                                      <SvgClose
-                                        width={10}
-                                        height={10}
-                                        fill={'#888888'}
-                                        cursor={'pointer'}
-                                      />
-                                    </Flex>
-                                  </Flex>
-                                  <Flex row middle center>
-                                    <Flex
-                                      width={12}
-                                      title={e.stage_name}
-                                      style={{
-                                        backgroundColor: e.stage_color,
-                                        borderRadius: '50%',
-                                      }}
-                                      height={12}
-                                      marginRight={5}
-                                    ></Flex>
-                                    <Flex
-                                      title={`${e.first_name.toUpperCase()} ${
-                                        e.last_name
-                                          ? e.last_name.toUpperCase()
-                                          : ''
-                                      }`}
-                                    >
-                                      <Text className={styles.changingtexts}>
-                                        {e.first_name.toUpperCase()}{' '}
-                                        {e.last_name
-                                          ? e.last_name.toUpperCase()
-                                          : ''}
-                                      </Text>
-                                    </Flex>
-                                    <LinkWrapper
-                                      target={'_blank'}
-                                      to={`/applicant_profile_view/${jdId}/${e.candidateid}`}
-                                    >
-                                      {' '}
-                                      <Flex
-                                        marginLeft={5}
-                                        style={{
-                                          cursor: 'pointer',
-                                          position: 'relative',
-                                        }}
-                                      >
-                                        {' '}
-                                        <SvgshareIcon width={18} height={18} />
-                                      </Flex>
-                                    </LinkWrapper>
+                                    <Flex className={styles.triangle}> </Flex>
                                   </Flex>
                                   <Flex
-                                    middle
-                                    center
-                                    style={{ cursor: 'default' }}
-                                    height={25}
-                                    marginTop={5}
-                                    className={styles.starratingoverall}
+                                    marginTop={20}
+                                    marginLeft={-10}
+                                    marginBottom={-20}
                                   >
-                                    {' '}
-                                    <StarsRating
-                                      value={e.overall_scorecard}
-                                      disabled
-                                      count={5}
+                                    <Avatar
+                                      className={styles.profile}
+                                      style={{
+                                        fontSize: '26px',
+                                        textTransform: 'uppercase',
+                                      }}
+                                      avatar={
+                                        e.image && e.image !== 'default.jpg'
+                                          ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
+                                          : undefined
+                                      }
+                                      initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
+                                        ? e.last_name?.charAt(0)
+                                        : ''
+                                        }`}
                                     />
-                                  </Flex>
-                                  <Flex>
-                                    <Flex key={indexnum}>
-                                      {Object.keys(e.categories).map(
-                                        (key, subIndex) => (
-                                          <Flex
-                                            center
-                                            middle
-                                            height={34}
-                                            style={{
-                                              borderTop:
-                                                '1px solid rgb(195, 195, 195)',
-                                              padding: '4px',
-                                            }}
-                                            key={subIndex}
-                                          >
-                                            {' '}
-                                            {Math.round(e.categories[key]) <=
-                                              3 && (
-                                              <Text size={12}>{`${Math.round(
-                                                e.categories[key],
-                                              )}/10 (Low)`}</Text>
-                                            )}
-                                            {Math.round(e.categories[key]) >
-                                              7 && (
-                                              <Text size={12}>{`${Math.round(
-                                                e.categories[key],
-                                              )}/10 (High)`}</Text>
-                                            )}
-                                            {Math.round(e.categories[key]) >
-                                              3 &&
-                                              Math.round(e.categories[key]) <=
-                                                7 && (
-                                                <Text size={12}>{`${Math.round(
-                                                  e.categories[key],
-                                                )}/10 (Medium)`}</Text>
-                                              )}
-                                          </Flex>
-                                        ),
-                                      )}
+                                    <Flex
+                                      className={cx({
+                                        countStyle1:
+                                          e.Total_matching_percentage < 40,
+                                        countStyle2:
+                                          e.Total_matching_percentage >= 40 &&
+                                          e.Total_matching_percentage < 69,
+                                        countStyle3:
+                                          e.Total_matching_percentage > 69,
+                                      })}
+                                    >
+                                      <Text
+                                        style={{
+                                          fontSize: 10,
+                                          marginTop: ' 2px',
+                                        }}
+                                      >
+                                        {Math.round(
+                                          e.Total_matching_percentage,
+                                        )}
+                                      </Text>
                                     </Flex>
                                   </Flex>
-                                </Card>
-                              </Flex>
-                            );
-                          })}
+                                  <Flex
+                                    marginRight={16}
+                                    marginTop={10}
+                                    onClick={() => remove_user(e)}
+                                  >
+                                    <SvgClose
+                                      width={10}
+                                      height={10}
+                                      fill={'#888888'}
+                                      cursor={'pointer'}
+                                    />
+                                  </Flex>
+                                </Flex>
+                                <Flex row middle center>
+                                  <Flex
+                                    width={12}
+                                    title={e.stage_name}
+                                    style={{
+                                      backgroundColor: e.stage_color,
+                                      borderRadius: '2px',
+                                    }}
+                                    height={12}
+                                    marginRight={5}
+                                    marginBottom={1}
+                                  ></Flex>
+                                  <Flex style={{ textTransform: 'capitalize' }} title={`${e.first_name.toLowerCase()} ${e.last_name ? e.last_name.toLowerCase() : ''}`}>
+                                    <Text className={styles.changingtexts} style={{ textTransform: 'capitalize' }}>
+                                      {e.first_name.toLowerCase()}{' '}
+                                      {e.last_name ? e.last_name.toLowerCase() : ''}
+                                    </Text>
+                                  </Flex>
+                                  <LinkWrapper
+                                    target={'_blank'}
+                                    to={`/applicant_profile_view/${jdId}/${e.candidateid}`}
+                                  >
+                                    {' '}
+                                    <Flex
+                                      marginLeft={5}
+                                      style={{
+                                        cursor: 'pointer',
+                                        position: 'relative',
+                                      }}
+                                    >
+                                      {' '}
+                                      <SvgshareIcon width={18} height={18} />
+                                    </Flex>
+                                  </LinkWrapper>
+                                </Flex>
+                                <Flex
+                                  middle
+                                  center
+                                  style={{ cursor: 'default' }}
+                                  height={25}
+                                  marginTop={5}
+                                  className={styles.starratingoverall}
+                                >
+                                  {' '}
+                                  <StarsRating
+                                    value={e.overall_scorecard}
+                                    disabled
+                                    count={5}
+                                  />
+                                </Flex>
+                                <Flex >
+                                  <Flex key={indexnum}>
+                                    {Object.keys(e.categories).map(
+                                      (key, subIndex) => (
+                                        <Flex
+                                          center
+                                          middle
+                                          height={34}
+                                          style={{
+                                            borderTop:
+                                              '1px solid rgb(195, 195, 195)',
+                                            padding: '4px',
+                                          }}
+                                          key={subIndex}
+                                        >
+                                          {' '}
+                                          {Math.round(e.categories[key]) <= 3 && (
+                                            <Text size={12}>{`${Math.round(e.categories[key])}/10 (Low)`}</Text>
+                                          )}
+                                          {Math.round(e.categories[key]) > 7 && (
+                                            <Text size={12}>{`${Math.round(e.categories[key])}/10 (High)`}</Text>
+                                          )}
+                                          {Math.round(e.categories[key]) > 3 &&
+                                            Math.round(e.categories[key]) <= 7 && (
+                                              <Text size={12}>{`${Math.round(e.categories[key])}/10 (Medium)`}</Text>
+                                            )}
+                                        </Flex>
+                                      ),
+                                    )}
+                                  </Flex>
+                                </Flex>
+                              </Card>
+                            </Flex>
+                          );
+                        })}
                     </Flex>
                   </Flex>
                   {selectedcriteria &&
-                    selectedcriteria.payload.analysis
-                      .sort((data1, data2) => {
-                        // Replace 'someProperty' with the property you want to sort by
-                        if (
-                          data1.Total_matching_percentage <
-                          data2.Total_matching_percentage
-                        )
-                          return -1;
-                        if (
-                          data1.Total_matching_percentage >
-                          data2.Total_matching_percentage
-                        )
-                          return 1;
-                        return 0;
-                      })
-                      .reverse()
-                      .map((data, index) => {
-                        if (iskey.toString().includes(index)) {
-                          return (
-                            <Flex key={index} marginBottom={15}>
-                              <Flex row between center>
-                                <Flex row center>
-                                  <Flex
-                                    style={{
-                                      fontsize: '14px',
-                                      color: '#581845',
-                                    }}
-                                  >
-                                    <Text size={14} bold color="theme">
-                                      {' '}
-                                      Detailed Information
-                                    </Text>
-                                  </Flex>
-                                  <Flex
-                                    onClick={() => setPros(!isPros)}
-                                    marginLeft={8}
-                                    style={{ cursor: 'pointer' }}
-                                  >
-                                    <SvgAngle
-                                      width={12}
-                                      height={12}
-                                      fill="#581845"
-                                      up={isPros}
-                                    />
-                                  </Flex>
+                    selectedcriteria.payload.analysis.sort((data1, data2) => {
+                      // Replace 'someProperty' with the property you want to sort by
+                      if (data1.Total_matching_percentage < data2.Total_matching_percentage) return -1;
+                      if (data1.Total_matching_percentage > data2.Total_matching_percentage) return 1;
+                      return 0;
+                    }).reverse().map((data, index) => {
+                      if (iskey.toString().includes(index)) {
+                        return (
+
+                          <Flex key={index} marginBottom={15}>
+                            <Flex row between center>
+                              <Flex row center>
+                                <Flex
+                                  style={{ fontsize: '14px', color: '#581845' }}
+                                >
+                                  <Text size={14} bold color='theme'> Detailed Information</Text>
                                 </Flex>
-                                {isPros && (
-                                  <Flex row end center>
-                                    <Flex
-                                      onClick={() => setkey(iskey - 1)}
-                                      disabled={iskey === 0}
-                                      style={{ cursor: 'pointer' }}
-                                    >
-                                      <SvgLeft
-                                        fill={
-                                          iskey === 0 ? '#888888' : '#581845'
-                                        }
-                                        height={14}
-                                        width={14}
-                                      />
-                                    </Flex>
-                                    <Flex marginLeft={7} marginRight={7}>
-                                      {`${data?.first_name.toUpperCase()} ${
-                                        !isEmpty(data.last_name)
-                                          ? data.last_name.toUpperCase()
-                                          : ''
-                                      }`}
-                                    </Flex>
-                                    <Flex
-                                      onClick={() => setkey(iskey + 1)}
-                                      style={{ cursor: 'pointer' }}
-                                      disabled={
-                                        selectedcriteria.payload.analysis
-                                          .length -
-                                          1 ===
-                                        iskey
-                                      }
-                                    >
-                                      <SvgRight
-                                        fill={
-                                          selectedcriteria.payload.analysis
-                                            .length -
-                                            1 ===
-                                          iskey
-                                            ? '#888888'
-                                            : '#581845'
-                                        }
-                                        height={14}
-                                        width={14}
-                                      />
-                                    </Flex>
-                                  </Flex>
-                                )}
+                                <Flex
+                                  onClick={() => setPros(!isPros)}
+                                  marginLeft={8}
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <SvgAngle
+                                    width={12}
+                                    height={12}
+                                    fill="#581845"
+                                    up={isPros}
+                                  />
+                                </Flex>
                               </Flex>
-                              {isPros && (
-                                <Flex>
-                                  <Flex row between flex={12} marginBottom={8}>
-                                    <Flex flex={3} row center>
-                                      <Flex>
-                                        Overall Score based on the criteria :{' '}
-                                      </Flex>
-                                      <Flex marginLeft={6}>
-                                        {Math.round(
-                                          data.Average_match_percentage,
-                                        ) <= 3 && (
-                                          <Text color="error">
-                                            {Math.round(
-                                              data.Average_match_percentage,
-                                            )}
-                                            /10
-                                          </Text>
-                                        )}
-                                        {Math.round(
-                                          data.Average_match_percentage,
-                                        ) > 7 && (
-                                          <Text color="success">
-                                            {Math.round(
-                                              data.Average_match_percentage,
-                                            )}
-                                            /10
-                                          </Text>
-                                        )}
-                                        {Math.round(
-                                          data.Average_match_percentage,
-                                        ) > 3 &&
-                                          Math.round(
-                                            data.Average_match_percentage,
-                                          ) <= 7 && (
-                                            <Text style={{ color: '#F29111' }}>
-                                              {Math.round(
-                                                data.Average_match_percentage,
-                                              )}
-                                              /10
-                                            </Text>
-                                          )}
-                                      </Flex>
-                                    </Flex>
-                                    <Flex flex={3} row center marginLeft={20}>
-                                      <Flex>Recommended to Hire : </Flex>
-                                      <Flex marginLeft={6}>
-                                        {Math.round(
-                                          data.Average_match_percentage,
-                                        ) <= 3 && <Text color="error">No</Text>}
-                                        {Math.round(
-                                          data.Average_match_percentage,
-                                        ) > 7 && (
-                                          <Text color="success">Yes</Text>
-                                        )}
-                                        {Math.round(
-                                          data.Average_match_percentage,
-                                        ) > 3 &&
-                                          Math.round(
-                                            data.Average_match_percentage,
-                                          ) <= 7 && (
-                                            <Text style={{ color: '#F29111' }}>
-                                              Neutral
-                                            </Text>
-                                          )}
-                                      </Flex>
-                                    </Flex>
-                                    <Flex flex={6}></Flex>
-                                  </Flex>
-                                  <Flex row flex={12}>
-                                    <Flex flex={6}>
-                                      <Flex
-                                        className={styles.tableboarder}
-                                        middle
-                                      >
-                                        Skills Evaluation
-                                      </Flex>
-                                      <Flex className={styles.tableboarders}>
-                                        {data.Pros.join('. ')}
-                                      </Flex>
-                                    </Flex>
-                                    <Flex flex={6} marginLeft={-1}>
-                                      <Flex
-                                        className={styles.tableboarder}
-                                        middle
-                                      >
-                                        Enhancement Analysis
-                                      </Flex>
-                                      <Flex className={styles.tableboarders}>
-                                        {data.Cons.join('. ')}
-                                      </Flex>
-                                    </Flex>
-                                  </Flex>
+                              {isPros && (<Flex row end center>
+                                <Flex
+                                  onClick={() => setkey(iskey - 1)}
+                                  disabled={iskey === 0}
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <SvgLeft
+                                    fill={iskey === 0 ? '#888888' : '#581845'}
+                                    height={14}
+                                    width={14}
+                                  />
                                 </Flex>
-                              )}
-                              <Flex></Flex>
+                                <Flex marginLeft={7} marginRight={7} style={{ textTransform: 'capitalize' }}>
+                                  {`${data?.first_name.toLowerCase()} ${!isEmpty(data.last_name)
+                                    ? data.last_name.toLowerCase()
+                                    : ''
+                                    }`}
+                                </Flex>
+                                <Flex
+                                  onClick={() => setkey(iskey + 1)}
+                                  style={{ cursor: 'pointer' }}
+                                  disabled={
+                                    selectedcriteria.payload.analysis.length -
+                                    1 ===
+                                    iskey
+                                  }
+                                >
+                                  <SvgRight
+                                    fill={selectedcriteria.payload.analysis.length -
+                                      1 ===
+                                      iskey ? '#888888' : '#581845'}
+                                    height={14}
+                                    width={14}
+                                  />
+                                </Flex>
+                              </Flex>)}
                             </Flex>
-                          );
-                        }
-                      })}
+                            {isPros && (
+                              <Flex>
+                                <Flex row between flex={12} marginBottom={8}>
+                                  <Flex flex={3} row center >
+                                    <Flex>
+                                      Overall Score based on the criteria :{' '}
+                                    </Flex>
+                                    <Flex marginLeft={6}>
+                                      {Math.round(data.Average_match_percentage) <= 3 && (
+                                        <Text color="error">
+                                          {Math.round(data.Average_match_percentage)}/10
+                                        </Text>
+                                      )}
+                                      {Math.round(data.Average_match_percentage) > 7 && (
+                                        <Text color="success">
+                                          {Math.round(data.Average_match_percentage)}/10
+                                        </Text>
+                                      )}
+                                      {Math.round(data.Average_match_percentage) > 3 &&
+                                        Math.round(data.Average_match_percentage) <= 7 && (
+                                          <Text style={{ color: '#F29111' }}>
+                                            {Math.round(data.Average_match_percentage)}/10
+                                          </Text>
+                                        )}
+                                    </Flex>
+                                  </Flex>
+                                  <Flex flex={3} row center marginLeft={20}>
+                                    <Flex>
+                                      Recommended to Hire :{' '}
+                                    </Flex>
+                                    <Flex marginLeft={6}>
+                                      {Math.round(data.Average_match_percentage) <= 3 && (
+                                        <Text color="error">No</Text>
+                                      )}
+                                      {Math.round(data.Average_match_percentage) > 7 && (
+                                        <Text color="success">Yes</Text>
+                                      )}
+                                      {Math.round(data.Average_match_percentage) > 3 &&
+                                        Math.round(data.Average_match_percentage) <= 7 && (
+                                          <Text style={{ color: '#F29111' }}>
+                                            Neutral
+                                          </Text>
+                                        )}
+                                    </Flex>
+                                  </Flex>
+                                  <Flex flex={6}></Flex>
+                                </Flex>
+                                {/* <Flex row flex={12}>
+                                  <Flex flex={6}>
+                                    <Flex
+                                      className={styles.tableboarder}
+                                      middle
+                                    >
+                                      Skills Evaluation
+                                    </Flex>
+                                    <Flex className={styles.tableboarders}>
+                                      {data.Pros.join('. ')} 
+                                    </Flex>
+                                  </Flex>
+                                  <Flex flex={6} marginLeft={-1}>
+                                    <Flex
+                                      className={styles.tableboarder}
+                                      middle
+                                    >
+                                      Enhancement Analysis
+                                    </Flex>
+                                    <Flex className={styles.tableboarders}>
+                                      {data.Cons.join('. ')} 
+                                    </Flex>
+                                  </Flex>
+                                </Flex> */}
+
+                                <table className="parallel-columns-table" style={{ border: '1px solid #A5889C' }}>
+                                  <colgroup>
+                                    <col style={{ width: '50%' }} />
+                                    <col style={{ width: '50%' }} />
+                                  </colgroup>
+                                  <thead style={{ border: '1px solid #A5889C' }}>
+                                    <tr style={{ border: '1px solid #A5889C' }}>
+                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{ padding: '3px' }}>Skills Evaluation</Flex></th>
+                                      <th style={{ border: '1px solid #A5889C' }}><Flex middle center style={{ padding: '3px' }}>Enhancement Analysis</Flex></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody style={{ border: '1px solid #A5889C' }}>
+                                    <tr style={{ display: '-webkit-box' }}>
+                                    {data.Pros.length !== 0 ?<td className={styles.prosdata} style={{width:'100%'}} >{data.Pros.map((Pros,indexno)=> (<ul key={indexno}><li  className="indented-list">{Pros}</li></ul>))}</td>:<td style={{textAlign:'center'}}>No data found</td> }
+                                     {data.Cons.length !== 0 ?<td className={styles.Consdata} style={{width:'100%'}}> {data.Cons.map((Cons,indexval)=> (<ul key={indexval}><li  className="indented-list">{Cons}</li></ul>))}</td>:<td style={{textAlign:'center'}}>No data found</td>}
+                                      </tr> 
+                                  </tbody>
+                                </table>
+                              </Flex>
+                            )}
+                            <Flex></Flex>
+                          </Flex>
+                        );
+                      }
+                    })}
                 </Flex>
               </Flex>
             </Modal>
