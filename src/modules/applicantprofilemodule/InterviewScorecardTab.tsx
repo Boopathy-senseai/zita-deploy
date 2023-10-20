@@ -32,7 +32,9 @@ import {
   applicantScoreMiddleWare,
   applicantScoreMiddleWares,
 } from './store/middleware/applicantProfileMiddleware';
+
 import styles from './interviewscorecardtab.module.css';
+import InterviewScorecard from './interviewScorecard';
 const cx = classNames.bind(styles);
 var querystring = require('querystring');
 const InterviewScorecardTab = () => {
@@ -55,10 +57,21 @@ const InterviewScorecardTab = () => {
   const [getId, setGetId] = useState(0);
   const [isuser, setuser] = useState(false);
   const [isStar, setStar] = useState<any>('Very Poor');
-  const { can_id, jd_id, interview, overall, user } = useSelector(
+  const {
+    can_id,
+    jd_id,
+    interview,
+    interviews,
+    overall,
+    user,
+    no_of_interview,
+    cumulative,
+    results,
+  } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantScoreReducers,
+      interviewerQuestionReducers,
       applicantUserlistReducer,
       userProfileReducers,
     }: RootState) => {
@@ -66,6 +79,10 @@ const InterviewScorecardTab = () => {
         user: applicantScoreReducers.user,
         can_id: applicantProfileInitalReducers.can_id,
         jd_id: applicantProfileInitalReducers.jd_id,
+        interviews: interviewerQuestionReducers.interviews,
+        results: interviewerQuestionReducers.result,
+        no_of_interview: interviewerQuestionReducers.no_of_interview,
+        cumulative: interviewerQuestionReducers.cumulative,
         overall: applicantScoreReducers.overall,
         interview:
           typeof applicantScoreReducers.interview !== 'undefined' &&
@@ -262,22 +279,22 @@ const InterviewScorecardTab = () => {
   };
 
   useEffect(() => {
-    if (overall <= 1 && overall > 0) {
+    if (results?.total_avg <= 1 && results?.total_avg > 0) {
       setreaction('"Poor"');
     }
-    if (overall > 1 && overall <= 2) {
+    if (results?.total_avg > 1 && results?.total_avg <= 2) {
       setreaction('"Below Average"');
     }
-    if (overall > 2 && overall <= 3) {
+    if (results?.total_avg > 2 && results?.total_avg <= 3) {
       setreaction('"Average"');
     }
-    if (overall > 3 && overall <= 4) {
+    if (results?.total_avg > 3 && results?.total_avg <= 4) {
       setreaction('"Above Average"');
     }
-    if (overall > 4 && overall <= 5) {
+    if (results?.total_avg > 4 && results?.total_avg <= 5) {
       setreaction('"Outstanding"');
     }
-  }, [overall]);
+  }, [results?.total_avg]);
   useEffect(() => {
     if (roundedValues <= 1 && roundedValues > 0) {
       setreactions('"Poor"');
@@ -326,62 +343,23 @@ const InterviewScorecardTab = () => {
           </Text>
 
           <Flex center middle className={styles.starstylehead}>
-            <StarsRating disabled count={5} value={overall} />
+            <StarsRating disabled count={5} value={results?.total_avg} />
             <Flex center middle marginTop={10}>
               <Text>{reaction}</Text>
             </Flex>
           </Flex>
-          <Flex row between>
-        <Flex marginTop={10}  flex={6}>
-          <Card className={styles.cardStyle}>
-            <Flex row between center>
-            <Text bold size={13}>Interview Level 1 on oct 09, 2023</Text>
-            <Svgeditingnotes fill={"#581845"}/>
-            </Flex>
-            
-            <Flex row between>
-              <Flex>
-                <Flex row marginTop={10}>
-                  <Flex row center>
-                    <SvgInterviewer width={16} height={16} />
-                    <Text style={{ marginLeft: '5px' }}>John smith</Text>
-                  </Flex>
-                  <Flex row center marginLeft={15}>
-                    <SvgQuestion width={16} height={16} />
-                    <Text style={{ marginLeft: '5px' }}>10</Text>
-                  </Flex>
-                  <Flex row marginLeft={15}>
-                    <SvgUserRating width={14} height={14} />
-                    <Flex
-                      className={styles.ratingStar}
-                      marginTop={-32}
-                      marginLeft={5}
-                    >
-                      <StarsRating count={5} value={overall} />
-                    </Flex>
-                  </Flex>
-                </Flex>
-                <Flex>
-                  <Text bold size={13} color="theme">
-                    View comments/Feedback
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex>
-                <Flex>
-                  <Text>Overall Score</Text>
-                </Flex>
-                <Flex>
-                  <Text>Recommended</Text>
-                </Flex>
-              </Flex>
-            </Flex>
-          </Card>
+          <Flex 
+            style={{ overflow: 'scroll', paddingRight: "5px" }}
+            height={window.innerHeight - 240}
+          >
+            {Object.keys(interviews).map((key, i) => {
+              return (
+                <InterviewScorecard key={i} interviews={interviews[key]} />
+              );
+            })}
+          </Flex>
         </Flex>
       </Flex>
-        </Flex>
-      </Flex>
-      
     </>
   );
 };

@@ -27,7 +27,11 @@ export interface CumulativeData {
   scored_question: number;
   full_name: string;
   average_score: number | null;
+  total_recommend: number | null;
+  avg_recommend: number | null;
+  commands: string | null;
 }
+
 
 export interface NoOfInterview {
   id: number;
@@ -61,6 +65,19 @@ export interface InterviewerQuestionReducer extends InterviewerQuestions {
   isLoading: boolean;
   error: string;
   interviews: {
-    [key: number]: Question[];
+    [key: number]: {
+      questions: Question[];
+      data: NoOfInterview;
+      cumulative: CumulativeData[];
+    };
   };
+}
+
+export interface EvaluateInterviewInput {
+  id: number;
+  scorecard: number;
+  question: string;
+  value: string;
+  active: string;
+  priority: string;
 }

@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
 import { useEffect, useState } from 'react';
+import StarsRating from 'react-star-rate';
+import { useForm } from 'react-hook-form';
 import {
   Button,
   ErrorMessage,
@@ -10,6 +12,7 @@ import {
   InputText,
   Loader,
   Modal,
+  StarRating,
 } from '../../uikit';
 import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
@@ -19,16 +22,15 @@ import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodul
 import InterviewScorecardTab from './InterviewScorecardTab';
 import styles from './screeningstatustab.module.css';
 import { hireList } from './mock';
-import { interviewQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
+import {
+  evaluateQuestionMiddleware,
+  interviewQuestionMiddleware,
+} from './store/middleware/interviewquestionMiddleware';
 import QuestionCard from './questionsCard';
 
-import { Question } from './interviewerQuestionType';
+import { EvaluateInterviewInput, Question } from './interviewerQuestionType';
 
 const cx = classNames.bind(styles);
-
-// export interface QuestionForm {
-//   question: string;
-// }
 
 type Props = {
   title: string;
@@ -46,7 +48,7 @@ const ScreeningStatusTab = ({
 }: Props) => {
   // const form: QuestionForm = { question: '' };
   const dispatch: AppDispatch = useDispatch();
-  const [addQuestion, setaddQuestione] = useState(false);
+  const [addQuestion, setaddQuestion] = useState(false);
   const [isPostLoader, setPostLoader] = useState(false);
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
@@ -92,12 +94,12 @@ const ScreeningStatusTab = ({
     },
   );
   const toggleStage = () => {
-    setaddQuestione(!addQuestion);
+    setaddQuestion(!addQuestion);
     // formik.setFieldValue('title', '');
     // formik.resetForm();
   };
-  // const formik = useForm<QuestionForm>({
-  //   // initialValues: form,
+  // const formik = useForm<EvaluateInterviewInput>({
+  //   initialValues: { id: undefined,  },
   //   // initialValidation: true,
   //   // onSubmit: () => {
   //   //   toggleStage();
@@ -114,6 +116,21 @@ const ScreeningStatusTab = ({
     setEvaluatePopup(null);
   };
 
+  const handleEvaluateInterview = () => {
+    dispatch(
+      evaluateQuestionMiddleware({
+        jd_id,
+        can_id,
+        scorecard: JSON.stringify([]),
+        interview_id,
+        commands:"",
+        recommend:"",
+      }),
+    ).then(() => {
+      setEvaluatePopup(null);
+    });
+  };
+
   return (
     <Flex row flex={12}>
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
@@ -127,14 +144,21 @@ const ScreeningStatusTab = ({
         <Flex
           columnFlex
           className={styles.overAllPopup}
-          height={window.innerHeight - 120}
+          height={window.innerHeight - 155}
         >
-          <QuestionCard
-            interviews={interviews}
-            onEvaluate={(value) => {
-              setEvaluatePopup({ open: true, data: value });
-            }}
-          />
+          {Object.keys(interviews).map((key, i) => {
+            return (
+              <QuestionCard
+                key={i}
+                jd_id={jd_id}
+                can_id={can_id}
+                interviews={interviews[key]}
+                onEvaluate={(value) => {
+                  setEvaluatePopup({ open: true, data: value });
+                }}
+              />
+            );
+          })}
         </Flex>
       </Flex>
       {evaluatePopup && (
@@ -156,17 +180,34 @@ const ScreeningStatusTab = ({
               {evaluatePopup.data.length > 0 &&
                 evaluatePopup.data.map((doc, index) => {
                   return (
-                    <Flex row top marginTop={15} key={index}>
-                      <Text style={{ marginLeft: '5px' }}>{`${index + 1}. ${
-                        doc.question
-                      }`}</Text>
+                    <Flex row top marginTop={10} key={index}>
+                      <Flex flex={9}>
+                        <Text>{`${index + 1}. ${doc.question}`}</Text>
+                      </Flex>
+
+                      <Flex
+                        flex={2.5}
+                        className={styles.ratingStar}
+                        marginTop={-32}
+                        marginLeft={5}
+                      >
+                        <StarsRating count={5} />
+                      </Flex>
                     </Flex>
                   );
                 })}
 
-              <Text color="theme" style={{ marginBottom: '5px' }}>
-                Recommended to Hire *
-              </Text>
+              <Flex
+                style={{ borderTop: '1px solid #c3c3c3', marginTop: '5px' }}
+              >
+                <Text
+                  color="theme"
+                  style={{ marginBottom: '5px', marginTop: '10px' }}
+                >
+                  Recommended to Hire *
+                </Text>
+              </Flex>
+
               <Flex row>
                 {hireList.map((doc) => {
                   return (
@@ -220,7 +261,7 @@ const ScreeningStatusTab = ({
 
               <Button
                 className={styles.addBtn}
-                onClick={() => {}}
+                onClick={handleEvaluateInterview}
                 style={{ marginTop: '10px' }}
               >
                 Add

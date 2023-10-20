@@ -74,7 +74,7 @@
 }
 .overAll {
   background-color: var(--color-white, #ffffff);
-  width: 550px;
+  width: 650px;
   padding: 25px;
   border-radius: 4px;
 }
@@ -95,5 +95,12 @@
   border: none;
 }
 .checkBox {
-  margin-top: 3px;
+  margin-top: 2px;
+  align-items: flex-start;
+  width: 14;
+  height: 14;
+}
+.ratingStar ul li{
+  font-size: 14px;
+  cursor: default;
 }

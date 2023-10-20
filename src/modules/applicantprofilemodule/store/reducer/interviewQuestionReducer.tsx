@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { interviewQuestionMiddleware } from '../middleware/interviewquestionMiddleware';
-import { InterviewerQuestionReducer } from '../../interviewerQuestionType';
+import {
+  CumulativeData,
+  InterviewerQuestionReducer,
+  NoOfInterview,
+  Question,
+} from '../../interviewerQuestionType';
 
 const interviewerQuestionInitialState: InterviewerQuestionReducer = {
   isLoading: false,
@@ -33,13 +38,28 @@ const interviewerQuestionReducer = createSlice({
       state.cumulative = action.payload.cumulative;
       state.interviews = action.payload.data.reduce((o, v) => {
         if (!o[v.interview_id]) {
-          o[v.interview_id] = [];
+          o[v.interview_id] = {
+            questions: [] as Question[],
+            cumulative: [] as CumulativeData[],
+            data: undefined,
+          };
         }
         return {
           ...o,
-          [v.interview_id]: [...o[v.interview_id], v],
+          [v.interview_id]: {
+            ...o[v.interview_id],
+            questions: [...o[v.interview_id].questions, v],
+            cumulative: [
+              ...action.payload.cumulative.filter(
+                (doc) => doc.interview_id === v.interview_id,
+              ),
+            ],
+            data: action.payload.no_of_interview.find(
+              (d) => d.id === v.interview_id,
+            ),
+          },
         };
-      }, {});
+      }, {} as { [key: number]: { questions: Question[]; data: NoOfInterview; cumulative: CumulativeData[] } });
     });
 
     builder.addCase(interviewQuestionMiddleware.rejected, (state, action) => {
