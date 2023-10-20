@@ -124,7 +124,7 @@ const ComparativeanalysisModal = ({
         }
         if (values === true) {
           Toast(
-            'Candidates successfully updated for comparison.',
+            'Candidate list for the comparison updates successfully.',
             'LONG',
             'success',
           );

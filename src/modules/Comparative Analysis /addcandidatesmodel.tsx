@@ -307,7 +307,7 @@ const AddcandidatesModal = ({
               </Button>
             </Flex>
             <Flex center marginTop={10} className={styles.centerali}>
-              <Button onClick={Compare_candidate} width='80px'>Compare</Button>
+              <Button onClick={Compare_candidate} width='80px'>Update</Button>
             </Flex>
           </Flex>
         </Flex>
