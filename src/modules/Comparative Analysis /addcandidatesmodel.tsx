@@ -124,7 +124,10 @@ const AddcandidatesModal = ({
       // update_alysismodal(false);
       add_candidates(true);
       openfunction(false);
-      dispatchcomparativeApi(Matching, isData, sample);
+      select_candidate(Matching,6)
+      setolddata(Matching)
+      dispatchcomparativeApi(Matching, isData, sample); 
+      
     } else {
       console.log('no');
     }

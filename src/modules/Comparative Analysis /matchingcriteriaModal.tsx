@@ -104,7 +104,7 @@ const MatchingcriteriaModal = ({
       <Modal open={matchmodel}>
         <Flex className={Matching.length <= 5 && styles.modal}>
           <Flex center>
-            {Matching.length > 5 ? (
+            {/* {Matching.length > 5 ? (
               <>
                 <SingleButton
                   btnTitle="OK"
@@ -115,7 +115,7 @@ const MatchingcriteriaModal = ({
                   btnOnclick={() => cancelmodel(false)}
                 />
               </>
-            ) : (
+            ) : ( */}
               <>
                 <Flex
                   style={{
@@ -207,7 +207,7 @@ const MatchingcriteriaModal = ({
                   </Flex>
                 </Flex>
               </>
-            )}
+            {/* )} */}
           </Flex>
         </Flex>
       </Modal>

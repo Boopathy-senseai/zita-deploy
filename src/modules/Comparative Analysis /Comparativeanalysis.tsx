@@ -945,7 +945,7 @@ const ComparativeanalysisModal = ({
                         style={{ marginTop: '15px' }}
                         onClick={cancelverify}
                       >
-                        ok
+                        Ok
                       </Button>
                     </Flex>
                   </>
