@@ -77,16 +77,29 @@ const QuestionCard: React.FC<Props> = (props) => {
             ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
               interviews.data?.e_time,
             ).format(' HH:mm a')} `}</Text>
-            <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
-              <SvgRegenerateQuestion />
-            </Text>
           </Flex>
           <Flex>
             <Flex>
-              <Text>you have to generate question to evaluate</Text>
-
-              <Button>Add Questions</Button>
-              <Button>generate Question</Button>
+              <Text
+                size={13}
+                style={{
+                  justifyContent: 'center',
+                  display: 'flex',
+                  margin: '10px 0px',
+                }}
+              >
+                You must add or generate questions to evaluate the scorecard
+              </Text>
+              <Flex row center middle marginBottom={10}>
+                <Button
+                  types="secondary"
+                  onClick={() => {}}
+                  style={{ marginRight: '10px' }}
+                >
+                  Add Question
+                </Button>
+                <Button onClick={() => {}}>Generate Questions</Button>
+              </Flex>
             </Flex>
           </Flex>
 
