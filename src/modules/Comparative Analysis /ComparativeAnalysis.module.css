@@ -5,25 +5,30 @@
   padding: 25px;
   border-radius: 4px;
 }
+
 .overallmodal {
   padding: 25px;
   height: auto;
   border-radius: 4px;
 }
+
 .cardheader {
   background: #581845;
   height: 40px;
   border-radius: 4px 4px 0px 0px;
 }
-.part1{
-   min-width: 130px; 
+
+.part1 {
+  min-width: 130px;
   margin-left: 10px;
 }
+
 .container {
   display: flex;
   flex-direction: row;
   margin: 5px;
 }
+
 .profile {
   object-fit: contain;
   background-color: #eee8ec;
@@ -31,6 +36,7 @@
   width: 60px;
   height: 60px;
 }
+
 .profilehead {
   object-fit: contain;
   background-color: #eee8ec;
@@ -38,6 +44,7 @@
   width: 50px;
   height: 50px;
 }
+
 .countStyle1 {
   position: RELATIVE;
   top: -70px;
@@ -52,6 +59,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .countStyle2 {
   position: RELATIVE;
   top: -70px;
@@ -66,6 +74,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .countStyle3 {
   position: RELATIVE;
   top: -70px;
@@ -79,6 +88,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .triangle {
   width: 0;
   height: 0;
@@ -90,19 +100,23 @@
   top: -1px;
   right: -2.5px;
 }
+
 .cardstructureforprofile {
   /* height: 300px; */
   width: 200px;
 }
+
 .starratingoverall ul li {
   font-size: 16px !important;
   cursor: default !important;
 }
+
 .starratingoverall ul {
   margin-top: -63px;
   /* margin-bottom: 20px; */
   height: 10px;
 }
+
 .changingtexts {
   font-size: 13px;
   white-space: nowrap;
@@ -110,54 +124,72 @@
   overflow: hidden;
   max-width: 125px;
 }
-.fixingcontent{
+
+.fixingcontent {
   overflow-y: scroll;
   display: flex;
   align-content: flex-start;
   padding: 13px 25px 25px 25px;
 }
-.tableboarder{
+
+.tableboarder {
   border: 1px solid #A5889C;
 }
-.tableboarders{
+
+.tableboarders {
   border-left: 1px solid #A5889C;
-  border-right:1px solid #A5889C;
+  border-right: 1px solid #A5889C;
   border-bottom: 1px solid #A5889C;
   min-height: 140px;
   padding: 5px;
 }
-.prosdata{ 
+
+.prosdata {
   border-right: 0.5px solid #A5889C;
   padding: 5px;
   vertical-align: baseline;
 }
+
 .prosdata ul {
   list-style-position: outside;
   margin-left: 15px;
- margin-bottom: 1px !important;
+  margin-bottom: 2px !important;
 }
-.prosdata ul li{
+
+.prosdata ul li {
   list-style: disc;
-  
+
 }
-.Consdata{ 
+
+.Consdata {
   border-Left: 1px solid #A5889C;
   padding: 5px;
   vertical-align: baseline;
 }
+
 .Consdata ul {
   list-style-position: outside;
   margin-left: 15px;
- margin-bottom: 1px !important;
+  margin-bottom: 2px !important;
 }
-.Consdata ul li{
-  list-style: disc; 
+
+.Consdata ul li {
+  list-style: disc;
 }
-.Consdatano{ 
+
+.Consdatano {
   border-Left: 1px solid #A5889C;
-  padding: 5px; 
+  padding: 5px;
 }
-.prosdatano{ 
+
+.prosdatano {
   border-right: 0.5px solid #A5889C;
-  padding: 5px; 
+  padding: 5px;
+}
+
+.textelipssis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 200px;
 }

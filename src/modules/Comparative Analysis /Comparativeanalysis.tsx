@@ -172,8 +172,7 @@ const ComparativeanalysisModal = ({
     seterrormsg('');
     select_candidate(olddata, 6);
   };
-  let totalSum = 0;
-
+  
   return (
     <>
       <Flex middle>
@@ -248,8 +247,7 @@ const ComparativeanalysisModal = ({
                                       style={{
                                         fontSize: '22px',
                                         textTransform: 'uppercase',
-                                        color:"white",
-                                        fontWeight:"bold"
+                                        color:"white", 
                                       }}
                                       avatar={
                                         e.image && e.image !== 'default.jpg'
@@ -264,10 +262,10 @@ const ComparativeanalysisModal = ({
                                     />
                                   </Flex>
                                   <Flex>
-                                    <Flex marginLeft={15}>
+                                    <Flex marginLeft={5}>
                                       <Text
                                         bold
-                                        size={14}
+                                        size={13}
                                         style={{
                                           padding: '2px 0px 0px 0px',
                                           textTransform: 'capitalize',
@@ -280,7 +278,7 @@ const ComparativeanalysisModal = ({
                                     <Flex
                                       className={styles.part3}
                                       center
-                                      marginLeft={15}
+                                      marginLeft={5}
                                       key={''}
                                     >
                                       <Text>{e?.Pros.join('. ')}</Text>
@@ -302,7 +300,7 @@ const ComparativeanalysisModal = ({
                         </Text>
                       </Flex>
                       <Flex
-                        marginLeft={15}
+                        marginLeft={8}
                         onClick={DownloadCsv}
                         title="Download CSV"
                         style={{ cursor: 'pointer' }}
@@ -338,13 +336,13 @@ const ComparativeanalysisModal = ({
                           {' '}
                           <SvgJobselection width={15} height={15} />
                         </Flex>
-                        <Flex marginLeft={7}>
-                          <Text size={13} color="theme">
+                        <Flex marginLeft={7}   >
+                          <Text size={13} color="theme" className={styles.textelipssis} title={` ${job_details.job_title} - ${job_details.job_id}`} >  
                             {job_details.job_title} - {job_details.job_id}
-                          </Text>
+                           </Text> 
                         </Flex>
                       </Flex>
-                      <Flex row marginTop={10}>
+                      <Flex row marginTop={5} center>
                         <Flex marginLeft={-1.5}>
                           {' '}
                           <SvgLocationicon
@@ -353,8 +351,9 @@ const ComparativeanalysisModal = ({
                             fill={'#581845'}
                           />
                         </Flex>
-                        <Flex marginLeft={7}>
-                          <Text size={13} color="theme">
+                        <Flex marginLeft={5}>
+                          <Text size={13} color="theme" className={styles.textelipssis} title={`${job_details.city}, ${job_details.state},
+                            ${job_details.country}`} style={{paddingLeft:'5px'}}>
                             {job_details.city}, {job_details.state},
                             {job_details.country}
                           </Text>
@@ -371,7 +370,7 @@ const ComparativeanalysisModal = ({
                       >
                         <Flex> Criteria </Flex>
                         <Flex
-                          marginLeft={15}
+                          marginLeft={8}
                           style={{ cursor: 'pointer' }}
                           onClick={Edit}
                         >
@@ -450,7 +449,7 @@ const ComparativeanalysisModal = ({
                                       }}
                                       width={20}
                                       height={37}
-                                      marginLeft={16}
+                                      marginLeft={20}
                                     >
                                       <Flex center middle>
                                         <text style={{ color: 'white' }}>
@@ -461,7 +460,7 @@ const ComparativeanalysisModal = ({
                                     </Flex>
                                     <Flex
                                       marginTop={20}
-                                      marginLeft={-10}
+                                      marginLeft={-20}
                                       marginBottom={-20}
                                     >
                                       <Avatar
@@ -469,8 +468,7 @@ const ComparativeanalysisModal = ({
                                         style={{
                                           fontSize: '26px',
                                           textTransform: 'uppercase',
-                                          color:"white",
-                                          fontWeight:"bold"
+                                          color:"white"
                                         }}
                                         avatar={
                                           e.image && e.image !== 'default.jpg'
@@ -720,7 +718,7 @@ const ComparativeanalysisModal = ({
                               </Flex>
                               {isPros && (
                                 <Flex>
-                                  <Flex row between flex={12} marginBottom={8}>
+                                  <Flex row between flex={12} marginBottom={10} marginTop={4}>
                                     <Flex flex={3} row center>
                                       <Flex>
                                         Overall Score based on the criteria :{' '}

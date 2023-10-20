@@ -193,10 +193,9 @@ const AddcandidatesModal = ({
                     key={index}
                     row
                     width={340}
-                    style={{ padding: '7px 0px' }}
-                    center
+                    style={{ padding: '7px 0px' }} 
                   >
-                    <Flex>
+                    <Flex marginTop={5}>
                       <InputCheckBox
                         checked={Matching.some(
                           (item) => item.candidate_id === e.candidate_id,
