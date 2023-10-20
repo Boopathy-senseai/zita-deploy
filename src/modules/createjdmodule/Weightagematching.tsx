@@ -449,6 +449,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueskill}
                 className={styles.customrange}
                 onChange={handleRangeChange}
@@ -486,6 +487,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 className={styles.customrange}
                 value={rangeValuerolles}
                 onChange={handleRangeChangerole}
@@ -524,6 +526,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueexperience}
                 className={styles.customrange}
                 onChange={handleRangeChangeexperience}
@@ -560,6 +563,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueTechnical}
                 onChange={handleRangeChangetechnical}
                 className={styles.customrange}
@@ -594,6 +598,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 className={styles.customrange}
                 value={rangeValueSoft}
                 onChange={handleRangeChangesoft}
@@ -628,6 +633,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueQualifications}
                 className={styles.customrange}
                 onChange={handleRangeChangequalifications}
@@ -715,6 +721,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueIndustry}
                 className={styles.customrange}
                 onChange={handleRangeChangeindustry}
@@ -747,6 +754,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 className={styles.customrange}
                 value={rangeValueDomain}
                 onChange={handleRangeChangedomain}
@@ -781,6 +789,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueCertifications}
                 className={styles.customrange}
                 onChange={handleRangeChangecertification}
@@ -817,6 +826,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueCultural}
                 onChange={handleRangeChangecultural}
                 className={styles.customrange}
@@ -850,6 +860,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 className={styles.customrange}
                 value={rangeValueReferences}
                 onChange={handleRangeChangereferences}
@@ -883,6 +894,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                step="5"
                 value={rangeValueLocation}
                 className={styles.customrange}
                 onChange={handleRangeChangelocation}

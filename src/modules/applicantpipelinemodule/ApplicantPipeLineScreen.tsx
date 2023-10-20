@@ -21,7 +21,7 @@ import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import { ERROR_MESSAGE } from '../constValue';
 import SvgIntomark from '../../icons/SvgCancel';
-import { checkAuthMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { checkAuthMiddleware, jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { routesPath } from '../../routes/routesPath';
 import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
 import PipelinePopup from './pipelinepopup';
@@ -90,6 +90,8 @@ const ApplicantPipeLineScreen = ({
   );
 
   const [change, setchange] = useState(false);
+  const [islodermatch,setloadermatch]=useState(false);
+
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
@@ -191,8 +193,26 @@ const ApplicantPipeLineScreen = ({
         else {
           setnextLoader(false);
           handleWeightageClose();
-          Toast('Weightage settings saved successfully!', 'LONG');
-          console.log("res", res)
+          setloadermatch(true)
+          console.log("dddd",jdId)
+          dispatch(jdMatchMiddleWare({jd_id})).then((r) => {
+            if(r.payload.error===true)
+            {
+             
+              Toast(
+                'Sorry, there was a problem connecting to the API. Please try again later.',
+                'LONG',
+                'error',
+              )
+              setloadermatch(false)
+            }
+            if(r.payload.success===true){
+        
+              Toast('Weightage settings saved successfully!', 'LONG');}
+          
+
+      });
+        
         }
       })
     }
@@ -245,8 +265,24 @@ const ApplicantPipeLineScreen = ({
       }
       else {
        // handleWeightageClose();
-        Toast('Weightage settings saved successfully!', 'LONG');
+       setloadermatch(true)
+       dispatch(jdMatchMiddleWare({jd_id})).then((r) => {
+        if(r.payload.error===true)
+        {
+         
+          Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          )
+          setloadermatch(false)
+        }
+        if(r.payload.success===true){
+    
+          Toast('Weightage settings saved successfully!', 'LONG');}
       
+
+  });
       }
     })
   }
@@ -403,6 +439,22 @@ const ApplicantPipeLineScreen = ({
     })
 
   }, [success])
+
+  const closefunction=()=>{
+    setRangeValueskill(tech.skills);
+      setRangeValuerolles(tech.roles);
+      setRangeValueexperience(tech.exp);
+      setRangeValueQualifications(tech.qualification);
+      setRangeValueTechnical(tech.tech_tools);
+      setRangeValueSoft(tech.soft_skills);
+
+      setRangeValueIndustry(non_tech.industry_exp);
+      setRangeValueDomain(non_tech.domain_exp);
+      setRangeValueCertifications(non_tech.certification);
+      setRangeValueLocation(non_tech.location);
+      setRangeValueCultural(non_tech.cultural_fit);
+      setRangeValueReferences(non_tech.ref);
+  }
 
 
 
@@ -1234,6 +1286,7 @@ const ApplicantPipeLineScreen = ({
     setmodel(true)
   }
   const handleWeightageClose = () => {
+    closefunction();
     setmodel(false)
   }
   return (
@@ -1267,7 +1320,7 @@ const ApplicantPipeLineScreen = ({
       {/* <Flex row className={styles.overAll} style={{marginLeft:'12%'}}> */}
       <Flex row className={styles.overAll}>
         {applicantDataLoader || (favLoader && <Loader />)}
-        {pipeLineLoader && <Loader />}
+        {pipeLineLoader || islodermatch && <Loader />}
         {getAppliedView === 'true' && (
           <ProfileView
             open={isApplicantView}
@@ -1438,7 +1491,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueskill}
+                            step="5"
+                            value={rangeValueskill}
                           className={styles.customrange}
                           onChange={handleRangeChange}
                           style={{
@@ -1477,7 +1531,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          className={styles.customrange}
+                            step="5"
+                            className={styles.customrange}
                           value={rangeValuerolles}
                           onChange={handleRangeChangerole}
                           style={{
@@ -1516,7 +1571,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueexperience}
+                            step="5"
+                            value={rangeValueexperience}
                           className={styles.customrange}
                           onChange={handleRangeChangeexperience}
                           style={{
@@ -1554,7 +1610,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueTechnical}
+                            step="5"
+                            value={rangeValueTechnical}
                           onChange={handleRangeChangetechnical}
                           className={styles.customrange}
                           style={{
@@ -1589,7 +1646,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          className={styles.customrange}
+                            step="5"
+                            className={styles.customrange}
                           value={rangeValueSoft}
                           onChange={handleRangeChangesoft}
                           style={{
@@ -1623,7 +1681,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueQualifications}
+                            step="5"
+                            value={rangeValueQualifications}
                           className={styles.customrange}
                           onChange={handleRangeChangequalifications}
                           style={{
@@ -1708,7 +1767,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueIndustry}
+                            step="5"
+                            value={rangeValueIndustry}
                           className={styles.customrange}
                           onChange={handleRangeChangeindustry}
                           style={{
@@ -1742,7 +1802,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          className={styles.customrange}
+                            step="5"
+                            className={styles.customrange}
                           value={rangeValueDomain}
                           onChange={handleRangeChangedomain}
                           style={{
@@ -1778,7 +1839,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueCertifications}
+                            step="5"
+                            value={rangeValueCertifications}
                           className={styles.customrange}
                           onChange={handleRangeChangecertification}
                           style={{
@@ -1812,7 +1874,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueCultural}
+                            step="5"
+                            value={rangeValueCultural}
                           onChange={handleRangeChangecultural}
                           className={styles.customrange}
                           style={{
@@ -1847,7 +1910,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          className={styles.customrange}
+                            step="5"
+                            className={styles.customrange}
                           value={rangeValueReferences}
                           onChange={handleRangeChangereferences}
                           style={{
@@ -1881,7 +1945,8 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                          value={rangeValueLocation}
+                            step="5"
+                            value={rangeValueLocation}
                           className={styles.customrange}
                           onChange={handleRangeChangelocation}
                           style={{
@@ -1929,7 +1994,9 @@ const ApplicantPipeLineScreen = ({
                 </Flex>
                 <Flex row>
                   <Flex className={styles.cancelBtn}>
-                    <Button onClick={handleWeightageClose} types="close">
+                    <Button onClick={handleWeightageClose
+                    
+                    } types="close">
                       Cancel
                     </Button>
                   </Flex>

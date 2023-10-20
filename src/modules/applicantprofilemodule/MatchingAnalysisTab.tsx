@@ -152,7 +152,7 @@ const MatchingAnalysisTab = () => {
 
   useEffect(()=>{
     if(valtech === undefined && valnontech === undefined){
-      alert("suceess")
+      //alert("suceess")
       setvaltech(outputtech)
       setvalnontech(outputnontech)
     }
@@ -207,6 +207,7 @@ const MatchingAnalysisTab = () => {
     setmodel(true)
   }
   const handleWeightageClose = () => {
+    closefunction();
     setmodel(false)
   }
 
@@ -241,7 +242,21 @@ const MatchingAnalysisTab = () => {
     updateNonTechnicalPercent();
   }, [rangeValueskill, rangeValuerolles, rangeValueexperience, rangeValueQualifications, rangeValueTechnical, rangeValueSoft, rangeValueIndustry, rangeValueDomain, rangeValueCertifications, rangeValueLocation, rangeValueCultural, rangeValueReferences]); // Empty dependency array ensures this runs only once after initial render
 
+  const closefunction=()=>{
+    setRangeValueskill(tech.skills);
+      setRangeValuerolles(tech.roles);
+      setRangeValueexperience(tech.exp);
+      setRangeValueQualifications(tech.qualification);
+      setRangeValueTechnical(tech.tech_tools);
+      setRangeValueSoft(tech.soft_skills);
 
+      setRangeValueIndustry(non_tech.industry_exp);
+      setRangeValueDomain(non_tech.domain_exp);
+      setRangeValueCertifications(non_tech.certification);
+      setRangeValueLocation(non_tech.location);
+      setRangeValueCultural(non_tech.cultural_fit);
+      setRangeValueReferences(non_tech.ref);
+  }
 
   const nextfunction = () => {
     if (totalnontechnical === 100 && totaltechnical === 100) {
@@ -285,7 +300,7 @@ const MatchingAnalysisTab = () => {
           .then((r) => {
             if(r.data.error===true)
             {
-              alert('eeee')
+             // alert('eeee')
               // setvaltech([])
               // setvalnontech([])
               Toast(
@@ -300,10 +315,11 @@ const MatchingAnalysisTab = () => {
               setvaltech(r.data.technical)
               setvalnontech(r.data.non_technical)
               setloadermatch(false)
+              Toast('Weightage settings saved successfully!', 'LONG');
             }
 
       });
-          Toast('Weightage settings saved successfully!', 'LONG');
+         
         }
       })
     }
@@ -890,6 +906,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueskill}
                             className={styles.customrange}
                             onChange={handleRangeChange}
@@ -930,6 +947,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             className={styles.customrange}
                             value={rangeValuerolles}
                             onChange={handleRangeChangerole}
@@ -969,6 +987,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueexperience}
                             className={styles.customrange}
                             onChange={handleRangeChangeexperience}
@@ -1008,6 +1027,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueTechnical}
                             onChange={handleRangeChangetechnical}
                             className={styles.customrange}
@@ -1043,6 +1063,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             className={styles.customrange}
                             value={rangeValueSoft}
                             onChange={handleRangeChangesoft}
@@ -1077,6 +1098,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueQualifications}
                             className={styles.customrange}
                             onChange={handleRangeChangequalifications}
@@ -1162,6 +1184,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueIndustry}
                             className={styles.customrange}
                             onChange={handleRangeChangeindustry}
@@ -1197,6 +1220,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             className={styles.customrange}
                             value={rangeValueDomain}
                             onChange={handleRangeChangedomain}
@@ -1233,6 +1257,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueCertifications}
                             className={styles.customrange}
                             onChange={handleRangeChangecertification}
@@ -1267,6 +1292,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueCultural}
                             onChange={handleRangeChangecultural}
                             className={styles.customrange}
@@ -1302,6 +1328,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             className={styles.customrange}
                             value={rangeValueReferences}
                             onChange={handleRangeChangereferences}
@@ -1336,6 +1363,7 @@ const MatchingAnalysisTab = () => {
                             type="range"
                             min="0"
                             max="100"
+                            step="5"
                             value={rangeValueLocation}
                             className={styles.customrange}
                             onChange={handleRangeChangelocation}
