@@ -17,6 +17,7 @@ import {
   InputText,
   ErrorMessage,
   Loader,
+  Toast,
 } from '../../uikit';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
@@ -240,6 +241,7 @@ const MeetingSchedulingScreen = ({
     };
   }
   const [value1, setvalue1] = useState(value);
+  const [selectedIds, setSelectedIds] = useState([]); 
 
   useEffect(() => {
     const { firstName, lastName } = splitName(username);
@@ -308,12 +310,17 @@ const MeetingSchedulingScreen = ({
     lastName?: string;
     role?: string;
   }
+  interface questionid {
+    id: any;
+    checked:any;
+  }
   interface MyFormValues {
     interviewers: Interviewer[];
     checkedValues:checkedValues[];
     LevelType:string;
     brieftext:string;
     checkedValuesError?: string; 
+    questionid:questionid[];
   }
 
   const initialValues: MyFormValues = {
@@ -321,16 +328,14 @@ const MeetingSchedulingScreen = ({
     checkedValues: [],
     LevelType: '',
     brieftext: '',
+    questionid:[],
   };
  
 
   const handleCompanyPageValid = (values: MyFormValues): Partial<MyFormValues> => {
     const errors: Partial<MyFormValues> = {};
-
-    // Check if all fields are blank
     const allFieldsBlank = values.LevelType === '' && values.brieftext === '' && values.checkedValues.length === 0;
 
-    // If not all fields are blank, validate each field
     if (!allFieldsBlank) {
         if (values.brieftext === '') {
             errors.brieftext = '';
@@ -350,7 +355,7 @@ const MeetingSchedulingScreen = ({
     return errors;
 };
 
- 
+ const [questions,setquestions]=useState([])
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -360,6 +365,7 @@ const MeetingSchedulingScreen = ({
   const handleSubmit=()=>{
     if(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
     {
+      formik.setFieldValue('questionid',[])
       setSubmitLoader(true)
       const formData = new FormData();
       const transformedData= formik.values.checkedValues.map(item => ({
@@ -375,9 +381,26 @@ const MeetingSchedulingScreen = ({
         Interview_question_middleware({
           formData,
         })).then((response)=>{
+          console.log("resssssssss++++000",response.payload)
+          if(response.payload.success===true){
           setSubmitLoader(false)
+         const groupdata= response.payload.data.reduce((groups, item) => {
+          const attendeeId = item.attendees;
+          if (!groups[attendeeId]) {
+            groups[attendeeId] = [];
+          }
+          groups[attendeeId].push(item);
+          return groups;
+        }, {});
+          setquestions([groupdata])
           setViewMeetingSummary(false)
           setShowPopup(true)
+          console.log("ennai konjam matri",groupdata)
+          }else{
+            setSubmitLoader(false)
+            Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG','error');
+          }
+          console.log("questions",questions)
         })
     }
     else{
@@ -408,11 +431,29 @@ const MeetingSchedulingScreen = ({
     setViewMeetingSummary(true);
     setopenmodel(true);
   };
+  
+  const isQuestionChecked = (id: any) => {
+    return formik.values.questionid.some(item => item.id === id && item.checked);
+  }
+  
+  const handlecheck = (id: any, checked: boolean) => {
+    const updatedQuestions = [...formik.values.questionid];
+    const index = updatedQuestions.findIndex(item => item.id === id);
+  
+    if (index !== -1) {
+      updatedQuestions[index].checked = checked;
+    } else {
+      updatedQuestions.push({ id, checked });
+    }
+  
+    formik.setFieldValue('questionid', updatedQuestions);
+  }
+  const id_questions: any[] = formik.values.questionid.map(question => question.id);
 
   return (
     <>
-    {console.log('form::::+++form',formik.values,formik.errors,formik.touched,meetingForm)}
-    {isSubmitLoader && <Loader />}
+    {console.log('form::::+++form',formik.values,id_questions,meetingForm)}
+    {/* {isSubmitLoader && <Loader />} */}
     <Modal
       onClose={handleCloseSchedulingForm}
       open={openScheduleForm}
@@ -466,7 +507,34 @@ const MeetingSchedulingScreen = ({
                     <Flex>
                       <Text size={12} bold style={{padding:'5px 0'}}>
                        {`${user.role} - Interview Questions`}
-                      </Text>
+                       </Text>
+                       {questions?.map((val, index1) => {
+                        const keysToCheck = Object.keys(val);
+                        console.log("value133423575673", keysToCheck.includes(user.id), val, keysToCheck);
+                        if (keysToCheck.includes(user.id.toString())) {
+                          const questionsList = val[user.id.toString()]; // Get the array of questions
+                          return (
+                            <Flex key={index1}>
+                              <ul>
+                                {questionsList.map((question, index2) => (
+                                  <Flex key={index2} row style={{margin:'0 0 5px 0'}}>
+                                    <Flex  style={{margin:'2px 10px 0px 3px'}}>
+                                    <InputCheckBox 
+                                      checked={isQuestionChecked(question.id)} 
+                                      onChange={e => handlecheck(question.id, e.target.checked)}
+                                    />
+                                    </Flex>
+                                  <li key={index2}>{question.question}</li> 
+                                  </Flex>
+                                ))}
+                              </ul>
+                            
+                            </Flex>
+                          );
+                        }
+                        return null;
+                      })}
+
                      </Flex>
                   </Tab>
                 ))}
@@ -501,6 +569,8 @@ const MeetingSchedulingScreen = ({
             setIsTopLineLoading={setIsTopLineLoading}
             setOpenScheduleForm={setOpenScheduleForm}
             setopenmodel={setopenmodel}
+            formik={formik}
+            question={id_questions.toString()}
           />
         ) : (
           <>
@@ -642,7 +712,11 @@ const MeetingSchedulingScreen = ({
                     <Button types="close" onClick={handlefunction1}>
                       Cancel
                     </Button>
-                    <Button
+                    {isSubmitLoader?(
+                        <Flex style={{margin:'3px 0 0 15px'}}>
+                          <Loader size="small" withOutOverlay />
+                        </Flex>
+                      )     :<Button
                       style={{ margin: '0 0 0 10px' }}
                       onClick={formik.handleSubmit}
                     >
@@ -651,7 +725,7 @@ const MeetingSchedulingScreen = ({
                       formik.values.checkedValues.length !== 0
                         ? 'Generate'
                         : 'Skip'}
-                    </Button>
+                    </Button>}
                   </Flex>
                 </Flex>
               </Flex>
