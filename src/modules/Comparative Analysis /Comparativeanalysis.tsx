@@ -498,7 +498,7 @@ const ComparativeanalysisModal = ({
                                       <Avatar
                                         className={styles.profile}
                                         style={{
-                                          fontSize: '26px',
+                                          fontSize: '24px',
                                           textTransform: 'uppercase',
                                           color: "white"
                                         }}
@@ -527,7 +527,9 @@ const ComparativeanalysisModal = ({
                                           style={{
                                             fontSize: 10,
                                             marginTop: ' 2px',
+                                            color:'white'
                                           }}
+                                          bold
                                         >
                                           {Math.round(
                                             e.Total_matching_percentage,
