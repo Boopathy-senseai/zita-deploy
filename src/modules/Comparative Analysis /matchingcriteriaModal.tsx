@@ -32,7 +32,7 @@ const MatchingcriteriaModal = ({
   const [edit, setedit] = useState(false);
   const [selectedcriteria, setresponsibledateria] = useState<any>();
   const [newedit, setnewedit] = useState(false);
-  const [oldisData,setoldisData]=useState<any>([])
+  const [oldisData, setoldisData] = useState<any>([]);
   const update_riteria = (val) => {
     setresponsibledateria(val);
   };
@@ -78,6 +78,7 @@ const MatchingcriteriaModal = ({
     if (isData.length !== 0) {
       setError('');
       setnewedit(false);
+      updatemodel(false, 0);
       update_alysismodal(true);
     } else {
       setError('Please select at least one criteria to compare.');
@@ -86,12 +87,12 @@ const MatchingcriteriaModal = ({
 
   const selectall = () => {
     setError('');
-    setData(Comparativeanalysis); 
+    setData(Comparativeanalysis);
   };
 
   const edit_function = (val) => {
     setedit(val);
-    setoldisData(isData)
+    setoldisData(isData);
   };
 
   const clear = () => {
@@ -122,8 +123,8 @@ const MatchingcriteriaModal = ({
                     paddingBottom: '5px',
                   }}
                 >
-                  <Text size={14} bold >
-                  Select criteria to compare
+                  <Text size={14} bold>
+                    Select criteria to compare
                   </Text>
                 </Flex>
                 <Flex>
@@ -166,11 +167,19 @@ const MatchingcriteriaModal = ({
                 <Flex row between>
                   <Flex marginTop={17}>
                     {isData.length === 0 ? (
-                      <Button types="secondary" onClick={() => selectall()} width='87px'>
+                      <Button
+                        types="secondary"
+                        onClick={() => selectall()}
+                        width="87px"
+                      >
                         Select All
                       </Button>
                     ) : (
-                      <Button types="secondary" onClick={() => clear()} width='87px'>
+                      <Button
+                        types="secondary"
+                        onClick={() => clear()}
+                        width="87px"
+                      >
                         Clear All
                       </Button>
                     )}
@@ -180,14 +189,20 @@ const MatchingcriteriaModal = ({
                       center
                       marginRight={20}
                       marginTop={17}
-                      className={styles.centerali} 
+                      className={styles.centerali}
                     >
-                      <Button types="close" onClick={() => cancelmodel(false)} width='75px'>
+                      <Button
+                        types="close"
+                        onClick={() => cancelmodel(false)}
+                        width="75px"
+                      >
                         Cancel
                       </Button>
                     </Flex>
-                    <Flex center marginTop={17} className={styles.centerali} >
-                      <Button onClick={() => compare()} width='75px'>Analyse</Button>
+                    <Flex center marginTop={17} className={styles.centerali}>
+                      <Button onClick={() => compare()} width="75px">
+                        Analyse
+                      </Button>
                     </Flex>
                   </Flex>
                 </Flex>

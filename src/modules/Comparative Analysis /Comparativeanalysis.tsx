@@ -23,6 +23,7 @@ import { isEmpty } from '../../uikit/helper';
 import { AppDispatch } from '../../store';
 import styles from './ComparativeAnalysis.module.css';
 import Addcandidatesmodal from './addcandidatesmodel';
+import Editcriteriamodal from './editmatchingcriteriaModal';
 import {
   comparativeanalysismiddleware,
   comparativecsvdownloadmiddleware,
@@ -74,14 +75,32 @@ const ComparativeanalysisModal = ({
   const [errormsg, seterrormsg] = useState('');
   const [addcandidate, setaddcandidate] = useState(false);
   const [value, setval] = useState(false);
+
+  const [editmodal, seteditmodal] = useState(false);
+
+  const [editdata, seteditdata] = useState<any>([]);
+
   const dispatch: AppDispatch = useDispatch();
 
   const openaddmodel = (val) => {
     setaddmodel(val);
   };
   const Edit = () => {
-    edit_function(true);
-    update_alysismodal(false);
+    // edit_function(true);
+    // update_alysismodal(false);
+    seteditmodal(true);
+  };
+  const Edit_data = (val, id) => {
+    if (id === 0) {
+      seteditdata([...editdata, val]);
+    } else {
+      seteditdata(val);
+    }
+  };
+
+  const edit_close = (val) => {
+    seteditmodal(val);
+    seteditdata(isData);
   };
 
   const closemodel = () => {
@@ -92,6 +111,7 @@ const ComparativeanalysisModal = ({
 
   useEffect(() => {
     setolddata(Matching);
+    seteditdata(isData);
     if (newedit === true) {
       setLoader(false);
       edit_function(false);
@@ -115,14 +135,14 @@ const ComparativeanalysisModal = ({
         update_riteria(response);
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
-        if (edit === true) {
+        if (values === 'edit') {
           Toast(
             'Criteria for the comparison updated successfully',
             'LONG',
             'success',
           );
         }
-        if (values === true) {
+        if (values === 'add') {
           Toast(
             'Candidate list for the comparison updates successfully.',
             'LONG',
@@ -194,7 +214,12 @@ const ComparativeanalysisModal = ({
                   flex={1}
                 >
                   <Flex></Flex>
-                  <Flex> <Text size={14} color='theme'>Comparative Analysis & AI Recommendation</Text></Flex>
+                  <Flex>
+                    {' '}
+                    <Text size={14} color="theme">
+                      Comparative Analysis & AI Recommendation
+                    </Text>
+                  </Flex>
                   <Flex end onClick={closemodel} marginRight={15}>
                     <SvgClose
                       width={10}
@@ -270,10 +295,11 @@ const ComparativeanalysisModal = ({
                                           padding: '2px 0px 0px 0px',
                                           textTransform: 'capitalize',
                                         }}
-                                      >{`${e?.first_name.toLowerCase()}${!isEmpty(e.last_name)
-                                        ? e.last_name.toUpperCase()
-                                        : ''
-                                        }`}</Text>
+                                      >{`${e?.first_name.toLowerCase()}${
+                                        !isEmpty(e.last_name)
+                                          ? e.last_name.toUpperCase()
+                                          : ''
+                                      }`}</Text>
                                     </Flex>
                                     <Flex
                                       className={styles.part3}
@@ -529,10 +555,11 @@ const ComparativeanalysisModal = ({
                                       marginBottom={1}
                                     ></Flex>
                                     <Flex
-                                      title={`${e.first_name.toUpperCase()} ${e.last_name
-                                        ? e.last_name.toUpperCase()
-                                        : ''
-                                        }`}
+                                      title={`${e.first_name.toUpperCase()} ${
+                                        e.last_name
+                                          ? e.last_name.toUpperCase()
+                                          : ''
+                                      }`}
                                     >
                                       <Text className={styles.changingtexts}>
                                         {e.first_name.toUpperCase()}{' '}
@@ -591,20 +618,20 @@ const ComparativeanalysisModal = ({
                                             {' '}
                                             {Math.round(e.categories[key]) <=
                                               3 && (
-                                                <Text size={12}>{`${Math.round(
-                                                  e.categories[key],
-                                                )}/10 (Low)`}</Text>
-                                              )}
+                                              <Text size={12}>{`${Math.round(
+                                                e.categories[key],
+                                              )}/10 (Low)`}</Text>
+                                            )}
                                             {Math.round(e.categories[key]) >
                                               7 && (
-                                                <Text size={12}>{`${Math.round(
-                                                  e.categories[key],
-                                                )}/10 (High)`}</Text>
-                                              )}
+                                              <Text size={12}>{`${Math.round(
+                                                e.categories[key],
+                                              )}/10 (High)`}</Text>
+                                            )}
                                             {Math.round(e.categories[key]) >
                                               3 &&
                                               Math.round(e.categories[key]) <=
-                                              7 && (
+                                                7 && (
                                                 <Text size={12}>{`${Math.round(
                                                   e.categories[key],
                                                 )}/10 (Medium)`}</Text>
@@ -696,7 +723,7 @@ const ComparativeanalysisModal = ({
                                       disabled={
                                         selectedcriteria.payload.analysis
                                           .length -
-                                        1 ===
+                                          1 ===
                                         iskey
                                       }
                                     >
@@ -705,7 +732,7 @@ const ComparativeanalysisModal = ({
                                           selectedcriteria.payload.analysis
                                             .length -
                                             1 ===
-                                            iskey
+                                          iskey
                                             ? '#888888'
                                             : '#581845'
                                         }
@@ -789,52 +816,96 @@ const ComparativeanalysisModal = ({
                                       <col style={{ width: '50%' }} />
                                       <col style={{ width: '50%' }} />
                                     </colgroup>
-                                    <thead style={{ border: '1px solid #A5889C' }}>
-                                      <tr style={{ border: '1px solid #A5889C' }}>
-                                        <th style={{ border: '1px solid #A5889C' }}>
-                                          <Flex middle center style={{ padding: '3px' }}>
+                                    <thead
+                                      style={{ border: '1px solid #A5889C' }}
+                                    >
+                                      <tr
+                                        style={{ border: '1px solid #A5889C' }}
+                                      >
+                                        <th
+                                          style={{
+                                            border: '1px solid #A5889C',
+                                          }}
+                                        >
+                                          <Flex
+                                            middle
+                                            center
+                                            style={{ padding: '3px' }}
+                                          >
                                             Skills Evaluation
                                           </Flex>
                                         </th>
-                                        <th style={{ border: '1px solid #A5889C', verticalAlign: 'top' }}>
-                                          <Flex middle center style={{ padding: '3px' }}>
+                                        <th
+                                          style={{
+                                            border: '1px solid #A5889C',
+                                            verticalAlign: 'top',
+                                          }}
+                                        >
+                                          <Flex
+                                            middle
+                                            center
+                                            style={{ padding: '3px' }}
+                                          >
                                             Enhancement Analysis
                                           </Flex>
                                         </th>
                                       </tr>
                                     </thead>
-                                    <tbody style={{ border: '1px solid #A5889C' }}>
+                                    <tbody
+                                      style={{ border: '1px solid #A5889C' }}
+                                    >
                                       <tr>
                                         {data.Pros.length !== 0 ? (
                                           <td className={styles.prosdata}>
                                             <Flex flex={1}>
-                                              {data.Pros.map((Pros, indexno) => (
-                                                <ul key={indexno}>
-                                                  <li className="indented-list">{Pros}</li>
-                                                </ul>
-                                              ))}
+                                              {data.Pros.map(
+                                                (Pros, indexno) => (
+                                                  <ul key={indexno}>
+                                                    <li className="indented-list">
+                                                      {Pros}
+                                                    </li>
+                                                  </ul>
+                                                ),
+                                              )}
                                             </Flex>
                                           </td>
                                         ) : (
-                                          <td style={{ textAlign: 'center' }} className={styles.prosdatano}><Text size={12} color='gray'>No data found</Text></td>
+                                          <td
+                                            style={{ textAlign: 'center' }}
+                                            className={styles.prosdatano}
+                                          >
+                                            <Text size={12} color="gray">
+                                              No data found
+                                            </Text>
+                                          </td>
                                         )}
                                         {data.Cons.length !== 0 ? (
                                           <td className={styles.Consdata}>
                                             <Flex flex={1}>
-                                              {data.Cons.map((Cons, indexval) => (
-                                                <ul key={indexval}>
-                                                  <li className="indented-list">{Cons}</li>
-                                                </ul>
-                                              ))}
+                                              {data.Cons.map(
+                                                (Cons, indexval) => (
+                                                  <ul key={indexval}>
+                                                    <li className="indented-list">
+                                                      {Cons}
+                                                    </li>
+                                                  </ul>
+                                                ),
+                                              )}
                                             </Flex>
                                           </td>
                                         ) : (
-                                          <td style={{ textAlign: 'center' }} className={styles.Consdatano}><Text size={12} color='gray'>No data found</Text></td>
+                                          <td
+                                            style={{ textAlign: 'center' }}
+                                            className={styles.Consdatano}
+                                          >
+                                            <Text size={12} color="gray">
+                                              No data found
+                                            </Text>
+                                          </td>
                                         )}
                                       </tr>
                                     </tbody>
                                   </table>
-
                                 </Flex>
                               )}
                               <Flex></Flex>
@@ -903,6 +974,16 @@ const ComparativeanalysisModal = ({
           update_alysismodal={update_alysismodal}
           isData={isData}
         />
+        {editmodal && (
+          <Editcriteriamodal
+            editmodal={editmodal}
+            editdata={editdata}
+            Edit_data={Edit_data}
+            edit_close={edit_close}
+            dispatchcomparativeApi={dispatchcomparativeApi}
+            Matching={Matching}
+          />
+        )}
       </Flex>
     </>
   );
