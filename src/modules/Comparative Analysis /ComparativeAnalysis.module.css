@@ -105,7 +105,9 @@
   /* height: 300px; */
   width: 200px;
 }
-
+.part3{
+  text-align: justify;
+}
 .starratingoverall ul li {
   font-size: 16px !important;
   cursor: default !important;
@@ -191,5 +193,5 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 200px;
+  max-width: 250px;
 }

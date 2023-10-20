@@ -283,7 +283,7 @@ const AddcandidatesModal = ({
           </Flex>
 
           {Matching.length > 5 ? (
-            <Flex>
+            <Flex marginBottom={5}>
               <Text color="error">
                 You have the option to choose up to five candidates for the
                 Comparative Analysis.
@@ -293,7 +293,7 @@ const AddcandidatesModal = ({
             ''
           )}
           {Matching.length === 1 || Matching.length === 0 ? (
-            <Flex>
+            <Flex marginBottom={5}>
               <Text color="error">
                 You cannot eliminate the candidate because a comparison requires
                 at least two candidates.
