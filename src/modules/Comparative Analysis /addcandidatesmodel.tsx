@@ -85,12 +85,18 @@ const AddcandidatesModal = ({
   }, [data, model]);
 
   const filteredData =
-    data &&
-    data.filter((item) => {
-      return item['first_name']
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-    });
+  data &&
+  data.filter((item) => {
+    const firstNameMatch = item['first_name']
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const emailMatch = item['email']
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return firstNameMatch || emailMatch;
+  });
 
   const close = () => {
     select_candidate(olddata, 6);
@@ -140,18 +146,18 @@ const AddcandidatesModal = ({
           <Flex
             style={{
               borderBottom: '1px solid rgb(195, 195, 195)',
-              paddingBottom: '10px',
+              paddingBottom: '5px',
             }}
           >
             <Text size={14} bold>Add Candidate</Text>
           </Flex>
-          <Flex row between center marginTop={10}>
+          <Flex row between center marginTop={5}>
             <Flex>
               <Text size={14}>Recommended candidates</Text>
             </Flex>
             <Flex row center>
               <InputText
-                placeholder="search candidates"
+                placeholder="search candidates by name or email"
                 className={styles.inputchanges}
                 onChange={(e) => handlechange(e)}
                 value={searchQuery}
@@ -211,8 +217,9 @@ const AddcandidatesModal = ({
                             color="white"
                             transform="uppercase"
                             className={styles.firstlastchar}
+                            bold
                           >
-                            {`${e.first_name?.charAt(0)}${
+                            {`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) :e.first_name?.charAt(0)}${
                               e?.last_name ? e?.last_name?.charAt(0) : ''
                             }`}
                           </Text>

@@ -158,9 +158,9 @@ const MatchingcriteriaModal = ({
                         );
                       })}
                     </Flex>
-                    <Flex>
+                   {Error && <Flex marginBottom={5}>
                       <Text style={{ color: 'red' }}>{Error}</Text>
-                    </Flex>
+                    </Flex>}
                   </Flex>
                 </Flex>
                 <Flex row between>

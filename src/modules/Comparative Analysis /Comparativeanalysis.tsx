@@ -241,20 +241,22 @@ const ComparativeanalysisModal = ({
                           .map(
                             (e, index) =>
                               index === 0 && (
-                                <Flex row style={{ margin: '5px' }} center>
-                                  <Flex center middle>
+                                <Flex row style={{ margin: '5px' }}>
+                                  <Flex middle>
                                     <Avatar
                                       className={styles.profilehead}
                                       style={{
                                         fontSize: '22px',
                                         textTransform: 'uppercase',
+                                        color:"white",
+                                        fontWeight:"bold"
                                       }}
                                       avatar={
                                         e.image && e.image !== 'default.jpg'
                                           ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                           : undefined
                                       }
-                                      initials={`${e?.first_name?.charAt(0)}
+                                      initials={`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) :e?.first_name?.charAt(0)}
                                      ${!isEmpty(e.last_name)
                                           ? e.last_name?.charAt(0)
                                           : ''
@@ -448,7 +450,7 @@ const ComparativeanalysisModal = ({
                                       }}
                                       width={20}
                                       height={37}
-                                      marginLeft={10}
+                                      marginLeft={16}
                                     >
                                       <Flex center middle>
                                         <text style={{ color: 'white' }}>
@@ -467,13 +469,15 @@ const ComparativeanalysisModal = ({
                                         style={{
                                           fontSize: '26px',
                                           textTransform: 'uppercase',
+                                          color:"white",
+                                          fontWeight:"bold"
                                         }}
                                         avatar={
                                           e.image && e.image !== 'default.jpg'
                                             ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                             : undefined
                                         }
-                                        initials={`${e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
+                                        initials={`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) : e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
                                           ? e.last_name?.charAt(0)
                                           : ''
                                           }`}
@@ -502,7 +506,7 @@ const ComparativeanalysisModal = ({
                                       </Flex>
                                     </Flex>
                                     <Flex
-                                      marginRight={16}
+                                      marginRight={10}
                                       marginTop={10}
                                       onClick={() => remove_user(e)}
                                     >
@@ -523,7 +527,7 @@ const ComparativeanalysisModal = ({
                                         borderRadius: '4px',
                                       }}
                                       height={12}
-                                      marginRight={5} 
+                                      marginRight={5}
                                       marginBottom={1}
                                     ></Flex>
                                     <Flex
@@ -682,11 +686,11 @@ const ComparativeanalysisModal = ({
                                     </Flex>
                                     <Flex marginLeft={7} marginRight={7}>
                                       <Text color='theme' size={13}>
-                                      {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
-                                        ? data.last_name.toUpperCase()
-                                        : ''
-                                        }`}
-                                        </Text>
+                                        {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
+                                          ? data.last_name.toUpperCase()
+                                          : ''
+                                          }`}
+                                      </Text>
                                     </Flex>
                                     <Flex
                                       onClick={() => setkey(iskey + 1)}
@@ -725,7 +729,7 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) <= 3 && (
-                                            <Text color="error">
+                                            <Text color="error" bold>
                                               {Math.round(
                                                 data.Average_match_percentage,
                                               )}
@@ -735,7 +739,7 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                            <Text color="success">
+                                            <Text color="success" bold>
                                               {Math.round(
                                                 data.Average_match_percentage,
                                               )}
@@ -748,7 +752,7 @@ const ComparativeanalysisModal = ({
                                           Math.round(
                                             data.Average_match_percentage,
                                           ) <= 7 && (
-                                            <Text style={{ color: '#F29111' }}>
+                                            <Text style={{ color: '#F29111' }} bold>
                                               {Math.round(
                                                 data.Average_match_percentage,
                                               )}
@@ -759,14 +763,14 @@ const ComparativeanalysisModal = ({
                                     </Flex>
                                     <Flex flex={3} row center marginLeft={20}>
                                       <Flex>Recommended to Hire : </Flex>
-                                      <Flex marginLeft={6}>
+                                      <Flex marginLeft={6} >
                                         {Math.round(
                                           data.Average_match_percentage,
-                                        ) <= 3 && <Text color="error">No</Text>}
+                                        ) <= 3 && <Text color="error" bold>No</Text>}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                            <Text color="success">Yes</Text>
+                                            <Text color="success" bold>Yes</Text>
                                           )}
                                         {Math.round(
                                           data.Average_match_percentage,
@@ -774,7 +778,7 @@ const ComparativeanalysisModal = ({
                                           Math.round(
                                             data.Average_match_percentage,
                                           ) <= 7 && (
-                                            <Text style={{ color: '#F29111' }}>
+                                            <Text style={{ color: '#F29111' }} bold>
                                               Neutral
                                             </Text>
                                           )}
@@ -850,6 +854,7 @@ const ComparativeanalysisModal = ({
                   style={{
                     backgroundColor: 'white',
                     padding: '25px',
+                    borderRadius:'4px'
                   }}
                 >
                   {Matching.length === 1 ? (
