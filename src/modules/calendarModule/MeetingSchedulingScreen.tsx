@@ -488,12 +488,7 @@ const MeetingSchedulingScreen = ({
           formik={formik}
         />):(
           <Flex style={{backgroundColor:'#FFF',width:'700px',height:'auto',padding:'25px'}}>
-                <Flex
-            onClick={handlefunction1}
-            style={{display:'flex',alignItems:'flex-end'}}
-          >
-            <SvgClose height={9} width={8} fill={"#581845"}/>
-          </Flex>
+             
             <Text size={14} bold>AI generated Interview Questions</Text>
             <Flex>
               <Tabs activeKey={interviewer} 
@@ -515,19 +510,26 @@ const MeetingSchedulingScreen = ({
                           const questionsList = val[user.id.toString()]; // Get the array of questions
                           return (
                             <Flex key={index1}>
-                              <ul>
-                                {questionsList.map((question, index2) => (
+                              <Flex>
+                                {questionsList?(questionsList.map((question, index2) => (
                                   <Flex key={index2} row style={{margin:'0 0 5px 0'}}>
-                                    <Flex  style={{margin:'2px 10px 0px 3px'}}>
+                                    <Flex  style={{margin:'6px 10px 0px 3px'}}>
                                     <InputCheckBox 
                                       checked={isQuestionChecked(question.id)} 
                                       onChange={e => handlecheck(question.id, e.target.checked)}
                                     />
                                     </Flex>
-                                  <li key={index2}>{question.question}</li> 
+                                  <Flex key={index2} style={{borderBottom: '0.3px solid #c3c3c3',padding:'3px',width: "100%",}}>{question.question}</Flex> 
+                                  
                                   </Flex>
-                                ))}
-                              </ul>
+                                ))):(
+                                  <Flex>
+                                    <Text>
+                                      due to some error there is no data please regenerate
+                                    </Text>
+                                  </Flex>
+                                )}
+                              </Flex>
                             
                             </Flex>
                           );
@@ -541,13 +543,22 @@ const MeetingSchedulingScreen = ({
               </Tabs>
             </Flex>
 
-              <Flex row style={{ display: 'flex', justifyContent: 'end' }}>
-                <Button types="close" onClick={handlechange1}>
+              <Flex row  between >
+                <Flex>
+                <Button types="secondary" onClick={handlechange1}>
                   Back
                 </Button>
+                </Flex>
+                <Flex row>
+                  <Button types="close" onClick={handlefunction1}>
+                    Cancel
+                  </Button>
                 <Button style={{ margin: '0 0 0 10px' }} onClick={handlechange}>
                   Continue
                 </Button>
+
+                </Flex>
+                
               </Flex>
             </Flex>
           )
