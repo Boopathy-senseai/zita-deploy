@@ -44,7 +44,7 @@ const AddcandidatesModal = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isColor, setColor] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<any>();
-  const [sample, setsample] = useState(true);
+  const [sample, setsample] = useState('add');
   const [olddata, setolddata] = useState([]);
 
   const dispatch: AppDispatch = useDispatch();
@@ -110,7 +110,11 @@ const AddcandidatesModal = ({
   };
 
   const Compare_candidate = () => {
-    if (!(Matching.length > 5) && Matching.length !== 1 && Matching.length !== 0) {
+    if (
+      !(Matching.length > 5) &&
+      Matching.length !== 1 &&
+      Matching.length !== 0
+    ) {
       // update_alysismodal(false);
       add_candidates(true);
       openfunction(false);
@@ -143,7 +147,9 @@ const AddcandidatesModal = ({
               paddingBottom: '10px',
             }}
           >
-            <Text size={14} bold>Add Candidate</Text>
+            <Text size={14} bold>
+              Add Candidate
+            </Text>
           </Flex>
           <Flex row between center marginTop={10}>
             <Flex>
@@ -302,12 +308,14 @@ const AddcandidatesModal = ({
               marginTop={10}
               className={styles.centerali}
             >
-              <Button types="close" onClick={() => close()} width='80px'>
+              <Button types="close" onClick={() => close()} width="80px">
                 Cancel
               </Button>
             </Flex>
             <Flex center marginTop={10} className={styles.centerali}>
-              <Button onClick={Compare_candidate} width='80px'>Update</Button>
+              <Button onClick={Compare_candidate} width="80px">
+                Update
+              </Button>
             </Flex>
           </Flex>
         </Flex>
