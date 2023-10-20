@@ -192,43 +192,50 @@ const ComparativeanalysisModal = ({
     seterrormsg('');
     select_candidate(olddata, 6);
   };
-  
+
   return (
     <>
       <Flex middle>
-        {isLoader && !newedit ? (
-          <Loader />
-        ) : (
-          <>
-            <Modal open={Comparative}>
-              <Flex style={{ backgroundColor: 'white', borderRadius: '4px' }}>
-                <Flex
-                  center
-                  row
-                  between
-                  style={{
-                    backgroundColor: '#EEE8EC',
-                    padding: '10px',
-                    borderRadius: '4px 4px 0px 0px',
-                  }}
-                  flex={1}
-                >
-                  <Flex></Flex>
-                  <Flex>
-                    {' '}
-                    <Text size={14} color="theme">
-                      Comparative Analysis & AI Recommendation
-                    </Text>
-                  </Flex>
-                  <Flex end onClick={closemodel} marginRight={15}>
-                    <SvgClose
-                      width={10}
-                      height={10}
-                      fill={'#888888'}
-                      cursor={'pointer'}
-                    />
-                  </Flex>
+
+        <>
+          <Modal open={Comparative}>
+            <Flex style={{ backgroundColor: 'white', borderRadius: '4px' }}>
+              <Flex
+                center
+                row
+                between
+                style={{
+                  backgroundColor: '#EEE8EC',
+                  padding: '10px',
+                  borderRadius: '4px 4px 0px 0px',
+                }}
+                flex={1}
+              >
+                <Flex></Flex>
+                <Flex>
+                  {' '}
+                  <Text size={14} color="theme">
+                    Comparative Analysis & AI Recommendation
+                  </Text>
                 </Flex>
+                <Flex end onClick={closemodel} marginRight={15}>
+                  <SvgClose
+                    width={10}
+                    height={10}
+                    fill={'#888888'}
+                    cursor={'pointer'}
+                  />
+                </Flex>
+              </Flex>
+              {isLoader && !newedit ? (
+                <Flex
+                  className={styles.fixingcontent}
+                  height={window.innerHeight - 100}
+                  width={window.innerWidth - 100}
+                >
+                  <Loader />
+                </Flex>
+              ) : (
                 <Flex
                   className={styles.fixingcontent}
                   height={window.innerHeight - 100}
@@ -272,14 +279,14 @@ const ComparativeanalysisModal = ({
                                       style={{
                                         fontSize: '22px',
                                         textTransform: 'uppercase',
-                                        color:"white", 
+                                        color: "white",
                                       }}
                                       avatar={
                                         e.image && e.image !== 'default.jpg'
                                           ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                           : undefined
                                       }
-                                      initials={`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) :e?.first_name?.charAt(0)}
+                                      initials={`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) : e?.first_name?.charAt(0)}
                                      ${!isEmpty(e.last_name)
                                           ? e.last_name?.charAt(0)
                                           : ''
@@ -295,11 +302,10 @@ const ComparativeanalysisModal = ({
                                           padding: '2px 0px 0px 0px',
                                           textTransform: 'capitalize',
                                         }}
-                                      >{`${e?.first_name.toLowerCase()}${
-                                        !isEmpty(e.last_name)
-                                          ? e.last_name.toUpperCase()
-                                          : ''
-                                      }`}</Text>
+                                      >{`${e?.first_name.toLowerCase()}${!isEmpty(e.last_name)
+                                        ? e.last_name.toUpperCase()
+                                        : ''
+                                        }`}</Text>
                                     </Flex>
                                     <Flex
                                       className={styles.part3}
@@ -363,9 +369,9 @@ const ComparativeanalysisModal = ({
                           <SvgJobselection width={15} height={15} />
                         </Flex>
                         <Flex marginLeft={7}   >
-                          <Text size={13} color="theme" className={styles.textelipssis} title={` ${job_details.job_title} - ${job_details.job_id}`} >  
+                          <Text size={13} color="theme" className={styles.textelipssis} title={` ${job_details.job_title} - ${job_details.job_id}`} >
                             {job_details.job_title} - {job_details.job_id}
-                           </Text> 
+                          </Text>
                         </Flex>
                       </Flex>
                       <Flex row marginTop={5} center>
@@ -377,9 +383,9 @@ const ComparativeanalysisModal = ({
                             fill={'#581845'}
                           />
                         </Flex>
-                        <Flex marginLeft={5}>
+                        <Flex marginTop={5}>
                           <Text size={13} color="theme" className={styles.textelipssis} title={`${job_details.city}, ${job_details.state},
-                            ${job_details.country}`} style={{paddingLeft:'5px'}}>
+                            ${job_details.country}`} style={{ paddingLeft: '5px' }}>
                             {job_details.city}, {job_details.state},
                             {job_details.country}
                           </Text>
@@ -494,7 +500,7 @@ const ComparativeanalysisModal = ({
                                         style={{
                                           fontSize: '26px',
                                           textTransform: 'uppercase',
-                                          color:"white"
+                                          color: "white"
                                         }}
                                         avatar={
                                           e.image && e.image !== 'default.jpg'
@@ -555,11 +561,10 @@ const ComparativeanalysisModal = ({
                                       marginBottom={1}
                                     ></Flex>
                                     <Flex
-                                      title={`${e.first_name.toUpperCase()} ${
-                                        e.last_name
-                                          ? e.last_name.toUpperCase()
-                                          : ''
-                                      }`}
+                                      title={`${e.first_name.toUpperCase()} ${e.last_name
+                                        ? e.last_name.toUpperCase()
+                                        : ''
+                                        }`}
                                     >
                                       <Text className={styles.changingtexts}>
                                         {e.first_name.toUpperCase()}{' '}
@@ -618,20 +623,20 @@ const ComparativeanalysisModal = ({
                                             {' '}
                                             {Math.round(e.categories[key]) <=
                                               3 && (
-                                              <Text size={12}>{`${Math.round(
-                                                e.categories[key],
-                                              )}/10 (Low)`}</Text>
-                                            )}
+                                                <Text size={12}>{`${Math.round(
+                                                  e.categories[key],
+                                                )}/10 (Low)`}</Text>
+                                              )}
                                             {Math.round(e.categories[key]) >
                                               7 && (
-                                              <Text size={12}>{`${Math.round(
-                                                e.categories[key],
-                                              )}/10 (High)`}</Text>
-                                            )}
+                                                <Text size={12}>{`${Math.round(
+                                                  e.categories[key],
+                                                )}/10 (High)`}</Text>
+                                              )}
                                             {Math.round(e.categories[key]) >
                                               3 &&
                                               Math.round(e.categories[key]) <=
-                                                7 && (
+                                              7 && (
                                                 <Text size={12}>{`${Math.round(
                                                   e.categories[key],
                                                 )}/10 (Medium)`}</Text>
@@ -723,7 +728,7 @@ const ComparativeanalysisModal = ({
                                       disabled={
                                         selectedcriteria.payload.analysis
                                           .length -
-                                          1 ===
+                                        1 ===
                                         iskey
                                       }
                                     >
@@ -732,7 +737,7 @@ const ComparativeanalysisModal = ({
                                           selectedcriteria.payload.analysis
                                             .length -
                                             1 ===
-                                          iskey
+                                            iskey
                                             ? '#888888'
                                             : '#581845'
                                         }
@@ -914,56 +919,57 @@ const ComparativeanalysisModal = ({
                         }
                       })}
                 </Flex>
+              )}
+            </Flex>
+          </Modal>
+          <Flex>
+            <Modal open={verify}>
+              <Flex
+                column
+                style={{
+                  backgroundColor: 'white',
+                  padding: '25px',
+                  borderRadius: '4px'
+                }}
+              >
+                {Matching.length === 1 ? (
+                  <>
+                    <Flex row>
+                      You cannot eliminate the candidate because a comparison
+                      requires at least two candidates
+                    </Flex>
+                    <Flex style={{ justifyContent: 'center' }}>
+                      <Button
+                        style={{ marginTop: '15px' }}
+                        onClick={cancelverify}
+                      >
+                        ok
+                      </Button>
+                    </Flex>
+                  </>
+                ) : (
+                  <>
+                    <Flex row center style={{ justifyContent: 'center' }}>
+                      This action will remove the candidate from the
+                      comparison.
+                    </Flex>
+                    <Flex row end marginTop={20}>
+                      <Button
+                        onClick={cancelverify}
+                        types="close"
+                        style={{ marginRight: '8px' }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button onClick={removeprofile}>Remove</Button>
+                    </Flex>
+                  </>
+                )}
               </Flex>
             </Modal>
-            <Flex>
-              <Modal open={verify}>
-                <Flex
-                  column
-                  style={{
-                    backgroundColor: 'white',
-                    padding: '25px',
-                    borderRadius:'4px'
-                  }}
-                >
-                  {Matching.length === 1 ? (
-                    <>
-                      <Flex row>
-                        You cannot eliminate the candidate because a comparison
-                        requires at least two candidates
-                      </Flex>
-                      <Flex style={{ justifyContent: 'center' }}>
-                        <Button
-                          style={{ marginTop: '15px' }}
-                          onClick={cancelverify}
-                        >
-                          ok
-                        </Button>
-                      </Flex>
-                    </>
-                  ) : (
-                    <>
-                      <Flex row center style={{ justifyContent: 'center' }}>
-                        This action will remove the candidate from the
-                        comparison.
-                      </Flex>
-                      <Flex row end marginTop={20}>
-                        <Button
-                          onClick={cancelverify}
-                          types="close"
-                          style={{ marginRight: '8px' }}
-                        >
-                          Cancel
-                        </Button>
-                        <Button onClick={removeprofile}>Remove</Button>
-                      </Flex>
-                    </>
-                  )}
-                </Flex>
-              </Modal>
-            </Flex>
-          </>
-        )}
+          </Flex>
+        </>
+        {/* )} */}
         <Addcandidatesmodal
           model={addmodel}
           openfunction={openaddmodel}
