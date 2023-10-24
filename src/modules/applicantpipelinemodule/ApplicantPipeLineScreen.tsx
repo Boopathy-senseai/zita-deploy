@@ -231,60 +231,7 @@ const ApplicantPipeLineScreen = ({
     setRangeValueCertifications(20);
     setRangeValueLocation(10);
     setRangeValueCultural(20)
-    setRangeValueReferences(10);
-
-    const list = [{
-      'skills': 20,
-      'roles': 20,
-      'exp': 20,
-      'qualification': 10,
-      'tech_tools': 20,
-      'soft_skills': 10,
-      'industry_exp': 20,
-      'domain_exp': 20,
-      'certification': 20,
-      'location': 10,
-      'cultural_fit': 20,
-      'ref': 10
-    }]
-    formData.append("tech", JSON.stringify(list))
-    formData.append("jd_id", jdId)
-
-    dispatch(
-      WeightagematchingpostMiddleWare({
-        formData
-      }),
-    ).then((res) => {
-      if (res.payload.success === false) {
-        handleWeightageClose();
-        Toast(
-          'Sorry, there was a problem connecting to the API. Please try again later.',
-          'LONG',
-          'error',
-        )
-      }
-      else {
-       // handleWeightageClose();
-       setloadermatch(true)
-       dispatch(jdMatchMiddleWare({jd_id})).then((r) => {
-        if(r.payload.error===true)
-        {
-         
-          Toast(
-            'Sorry, there was a problem connecting to the API. Please try again later.',
-            'LONG',
-            'error',
-          )
-          setloadermatch(false)
-        }
-        if(r.payload.success===true){
-    
-          Toast('Weightage settings saved successfully!', 'LONG');}
-      
-
-  });
-      }
-    })
+    setRangeValueReferences(10);  
   }
 
 
