@@ -245,6 +245,7 @@ export interface ZitaEventSchedulerType {
   endTime: Date;
   notes: string;
   location: string;
+  questions:any;
 }
 
 export interface EventPopUpDetails {

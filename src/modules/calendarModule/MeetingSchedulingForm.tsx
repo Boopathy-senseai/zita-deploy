@@ -21,10 +21,12 @@ import {
   Text,
 } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+
 import { CrossButton } from '../../uikit/v2';
 import { isEmpty } from '../../uikit/helper';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { rolevaluemiddleware } from './store/middleware/calendarmiddleware';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -104,36 +106,33 @@ const MeetingSchedulingForm = ({
   const [list, setlist] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const [names, setname] = useState<any>([]);
+  const  [role,setrole]=useState<any>([])
 
-  const updatestate = (val) => {
-    const interviewerExists = formik.values.interviewers.some(
-      (item) => item.userId === val.userId,
-    );
-    if (!interviewerExists) {
-      const newInterviewer = {
-        firstName: val.firstName,
-        lastName: val.lastName,
-        role: '',
-        userId: val.userId,
-      };
-      formik.setFieldValue('interviewers', [
-        ...formik.values.interviewers,
-        newInterviewer,
-      ]);
-      console.log('add');
-    } else {
-      const updatedInterviewers = formik.values.interviewers.filter(
-        (item) => item.userId !== val.userId,
-      );
-      formik.setFieldValue('interviewers', updatedInterviewers);
-      console.log('sub');
-    }
-  };
+const updatestate = (val) => {
+  const interviewerExists = formik.values.interviewers.some(item => item.userId === val.userId);
+  if (!interviewerExists) {
+    const newInterviewer = {
+      firstName: val.firstName,
+      lastName: val.lastName,
+      role: '',
+      userId: val.userId
+    };
+    formik.setFieldValue('interviewers', [...formik.values.interviewers, newInterviewer]);
+    console.log("add");
+  } else {
+    const updatedInterviewers = formik.values.interviewers.filter(item => item.userId !== val.userId);
+    formik.setFieldValue('interviewers', updatedInterviewers);
+    console.log("sub");
+  }
+};
 
-  useEffect(() => {
-    localStorage.setItem('role', JSON.stringify(formik.values.interviewers));
-  }, [formik.values]);
+
+
+
+  useEffect(()=>{
+    localStorage.setItem('role',JSON.stringify(formik.values.interviewers))
+  },[formik.values])
+
 
   const eventMeetingTypes: {
     value: EventMeetingType;
@@ -164,6 +163,13 @@ const MeetingSchedulingForm = ({
   useEffect(() => {
     updateCurrentApplicantId(currentApplicantId);
   }, [currentApplicantId]);
+  useEffect(() => {
+  dispatch(rolevaluemiddleware()).then(
+    (res)=>{
+      setrole(res.payload)
+    }
+  )
+  },[]);
 
   useEffect(() => {
     const timezones = moment.tz.names();
@@ -925,7 +931,7 @@ const MeetingSchedulingForm = ({
             />
             <Flex>
               <InputSearch
-                options={data}
+                options={role}
                 setFieldValue={formik.setFieldValue}
                 required
                 name={`interviewers[${index}].role`}

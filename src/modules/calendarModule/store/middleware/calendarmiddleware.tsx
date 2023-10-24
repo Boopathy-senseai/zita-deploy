@@ -2,6 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IEventNotes, ZitaEventSchedulerType } from '../../types';
 import { stringifyParams } from '../../../../uikit/helper';
+import { Interview_question, Role_value } from '../../../../appRoutesPath';
+import { Interview_role, interview_questionapi } from '../../../../routes/apiRoutes';
 var querystring = require('qs');
 
 export const getUpdateEventByIdMiddleWare = createAsyncThunk<
@@ -38,6 +40,7 @@ export const scheduleEventMiddleware = createAsyncThunk(
       notes,
       location,
       interviewer_notes,
+      questions,
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
@@ -58,6 +61,7 @@ export const scheduleEventMiddleware = createAsyncThunk(
         notes,
         location,
         interviewer_notes,
+        questions
       });
       return data;
     } catch (error) {
@@ -259,3 +263,28 @@ export const getUrlMiddleware = createAsyncThunk(
     }
   },
 );
+export const rolevaluemiddleware = createAsyncThunk(
+  Role_value,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(Interview_role);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const Interview_question_middleware = createAsyncThunk(
+  Interview_question,
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(interview_questionapi, formData);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
