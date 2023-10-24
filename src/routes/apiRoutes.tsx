@@ -331,6 +331,8 @@ export const outlook_callback = 'Outlook_call_back_url';
 /// Scheduled Events
 
 export const calendarScheduledEvents = 'calender_scheduled_events';
+export const Interview_role = 'interview_role';
+export const interview_questionapi='interview_question'
 
 //calendar
 export const googleconflicts = 'google_conflict_event';

@@ -21,4 +21,5 @@ export const level = [
   { value: 'Entry Level', label: 'Entry Level',  paddingleft:50},
   { value: 'Mid Level', label: 'Mid Level', paddingleft:50 },
   { value: 'Senior Level', label: 'Senior Level',  paddingleft:50 },
+  { value: 'None', label: '',  paddingleft:50 },
 ];

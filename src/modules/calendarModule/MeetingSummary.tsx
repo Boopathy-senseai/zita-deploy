@@ -49,6 +49,8 @@ interface Props {
   handleCloseSchedulingForm: () => void;
   setOpenScheduleForm: any;
   setopenmodel: any;
+  formik:any;
+  question:any;
 }
 
 const MeetingSummary = ({
@@ -68,6 +70,8 @@ const MeetingSummary = ({
   setIsTopLineLoading,
   setOpenScheduleForm,
   setopenmodel,
+  formik,
+  question,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
@@ -168,6 +172,7 @@ const MeetingSummary = ({
           endTime: meetingForm.endDateTime,
           notes: meetingForm.notes,
           location: meetingForm.location.value,
+          questions: question,
         }),
       )
         .then((res) => {
@@ -208,9 +213,7 @@ const MeetingSummary = ({
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
-        applicantId: currentApplicantId
-          ? currentApplicantId
-          : Number(localStorage.getItem('can_id')),
+        applicantId: meetingForm.applicant.id,
         myJd: job.label,
         // (localStorage.getItem('jd_id')),
         reminder: getReminder(),
@@ -229,6 +232,7 @@ const MeetingSummary = ({
         location: location.value,
         notes: notes,
         privateNotes: meetingForm.privateNotes,
+        questions: question,
       }),
     )
       .then((res) => {
