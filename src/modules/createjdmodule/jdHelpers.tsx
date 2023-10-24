@@ -979,13 +979,12 @@ export const handleNonDsValidateForm = (
   if (isEmpty(values.minimumSalary) && !isEmpty(values.maximumSalary)) {
     error.minimumSalary = '';
   }
-
-  if (
-    
-    values.nonDsSkill === false ||
+ 
+  if ( 
+    isEmpty(values.nonDsSkill)||
     (values.nonDsSkill && values.nonDsSkill?.length <= 0)
   ) {
-    error.nonDsSkill = [THIS_FIELD_REQUIRED];
+    error.skillerror= THIS_FIELD_REQUIRED;
   }
   if (values.work_space_type === '0' || values.work_space_type === '') {
     error.work_space_type = THIS_FIELD_REQUIRED;
