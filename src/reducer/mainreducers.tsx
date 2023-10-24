@@ -232,6 +232,6 @@ export const reducers = {
   outlookConflictReducers,
   calendarConfigurationReducers,
   weightageReducers,
-  interviewerQuestionReducers,,
+  interviewerQuestionReducers,
   ComparativesearchingdataReducers
 };
