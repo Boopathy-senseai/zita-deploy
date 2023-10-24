@@ -96,6 +96,8 @@ type Props = {
   inviteIconNone?: boolean;
   setjobtitle?: any;
   availableity?: any;
+  isoverall?: any;
+  updatr_overall?: (val: any) => void;
 } & typeof defaultProps;
 
 const ProfileNavBar = ({
@@ -105,6 +107,7 @@ const ProfileNavBar = ({
   profile_match,
   isInvite,
   inviteCall,
+  isoverall,
   applieddatecheck,
   isResume,
   withOutJD,
@@ -114,6 +117,7 @@ const ProfileNavBar = ({
   isProfileName,
   inviteIconDisable,
   inviteIconNone,
+  updatr_overall
 }: Props) => {
   // profile download function
   const dispatch: AppDispatch = useDispatch();
@@ -174,70 +178,73 @@ const ProfileNavBar = ({
         overall: applicantScoreReducers.overall,
         interview:
           typeof applicantScoreReducers.interview !== 'undefined' &&
-          applicantScoreReducers.interview.length === 0
+            applicantScoreReducers.interview.length === 0
             ? [
-                {
-                  candidate_id_id: 0,
-                  jd_id_id: 0,
-                  rating: 0,
-                  img_name: '',
-                  first_name: '',
-                  comments: '',
-                  created_at: '',
-                  last_name: '',
-                },
-              ]
+              {
+                candidate_id_id: 0,
+                jd_id_id: 0,
+                rating: 0,
+                img_name: '',
+                first_name: '',
+                comments: '',
+                created_at: '',
+                last_name: '',
+              },
+            ]
             : applicantScoreReducers.interview,
         personalInfo: applicantProfileInitalReducers.personalInfo
           ? applicantProfileInitalReducers.personalInfo
           : [
-              {
-                application_id: 0,
-                user_id_id: 0,
-                firstname: '',
-                lastname: '',
-                email: '',
-                contact_no: 0,
-                country_id: 0,
-                state_id: 0,
-                city_id: 0,
-                zipcode: '',
-                Date_of_birth: 0,
-                linkedin_url: '',
-                career_summary: '',
-                gender_id: 0,
-                updated_at: '',
-                code_repo: '',
-                visa_sponsorship: false,
-                remote_work: false,
-                type_of_job_id: 0,
-                available_to_start_id: 0,
-                industry_type_id: 0,
-                curr_gross: '',
-                current_currency: '',
-                exp_gross: 0,
-                salary_negotiable: false,
-                current_country_id: 0,
-                current_state_id: 0,
-                current_city_id: 0,
-                current1_country: '',
-                current2_country: '',
-                current3_country: '',
-                relocate: false,
-                current_city__name: '',
-                current_country__name: '',
-                current_state__name: '',
-                type_of_job__label_name: '',
-                available_to_start__label_name: '',
-                industry_type__label_name: '',
-                country__name: '',
-                city__name: '',
-                state__name: '',
-              },
-            ],
+            {
+              application_id: 0,
+              user_id_id: 0,
+              firstname: '',
+              lastname: '',
+              email: '',
+              contact_no: 0,
+              country_id: 0,
+              state_id: 0,
+              city_id: 0,
+              zipcode: '',
+              Date_of_birth: 0,
+              linkedin_url: '',
+              career_summary: '',
+              gender_id: 0,
+              updated_at: '',
+              code_repo: '',
+              visa_sponsorship: false,
+              remote_work: false,
+              type_of_job_id: 0,
+              available_to_start_id: 0,
+              industry_type_id: 0,
+              curr_gross: '',
+              current_currency: '',
+              exp_gross: 0,
+              salary_negotiable: false,
+              current_country_id: 0,
+              current_state_id: 0,
+              current_city_id: 0,
+              current1_country: '',
+              current2_country: '',
+              current3_country: '',
+              relocate: false,
+              current_city__name: '',
+              current_country__name: '',
+              current_state__name: '',
+              type_of_job__label_name: '',
+              available_to_start__label_name: '',
+              industry_type__label_name: '',
+              country__name: '',
+              city__name: '',
+              state__name: '',
+            },
+          ],
       };
     },
   );
+  useEffect(() => {
+    updatr_overall(overall_percentage)
+  }, [overall_percentage])
   useEffect(() => {
     dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
   }, []);
@@ -270,14 +277,14 @@ const ProfileNavBar = ({
   const date = isEmpty(candidate_details[0].created_on)
     ? ''
     : candidate_details[0].created_on.slice(
-        0,
-        candidate_details[0].created_on.indexOf('T'),
-      );
+      0,
+      candidate_details[0].created_on.indexOf('T'),
+    );
   const getFresher =
     total_exp &&
-    total_exp[0].total_exp_year === 0 &&
-    total_exp &&
-    total_exp[0].total_exp_year === 0
+      total_exp[0].total_exp_year === 0 &&
+      total_exp &&
+      total_exp[0].total_exp_year === 0
       ? true
       : false;
 
@@ -303,15 +310,13 @@ const ProfileNavBar = ({
   };
   const perAnnumExpGross = isEmpty(personalInfo[0].exp_gross)
     ? ''
-    : `Per Annum ${
-        personalInfo[0].salary_negotiable === false ? '' : '- Negotiable'
-      }`;
+    : `Per Annum ${personalInfo[0].salary_negotiable === false ? '' : '- Negotiable'
+    }`;
 
   const expGross =
     notSpecified(personalInfo[0].exp_gross) !== 'Not Specified'
-      ? `${getSymbolFromCurrency(personalInfo[0].current_currency)} ${
-          personalInfo[0].exp_gross
-        } ${perAnnumExpGross}`
+      ? `${getSymbolFromCurrency(personalInfo[0].current_currency)} ${personalInfo[0].exp_gross
+      } ${perAnnumExpGross}`
       : notSpecified(personalInfo[0].exp_gross);
 
   const hanldeInvite = (jdId: number, candId: number) => {
@@ -343,19 +348,19 @@ const ProfileNavBar = ({
     <>
       {invite?.length === 0 && (
         <CancelAndDeletePopup
-        title= {
-          isEmpty(candidate_details[0]?.last_name) ? (
-            <Flex>
-              <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name}.`}</Text>
-              <Text> Are you sure to proceed?</Text>
-            </Flex>
-          ) : (
-            <Flex>
-              <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name} ${candidate_details[0]?.last_name}.`}</Text>
-              <Text> Are you sure to proceed?</Text>
-            </Flex>
-          )
-        } 
+          title={
+            isEmpty(candidate_details[0]?.last_name) ? (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name} ${candidate_details[0]?.last_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            )
+          }
           btnDelete={() =>
             hanldeInvite(Number(jd_id), match[0]?.candidate_id_id)
           }
@@ -368,16 +373,14 @@ const ProfileNavBar = ({
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
-              <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } ${
-                candidate_details && candidate_details[0]?.last_name !== null
+              <Text>{`The candidate ${candidate_details && candidate_details[0].first_name
+                } ${candidate_details && candidate_details[0]?.last_name !== null
                   ? candidate_details[0]?.last_name
                   : ''
-              } has already been invited for this job on ${getDateString(
-                invite && invite[invite?.length - 1].created_at,
-                'll',
-              )}.`}</Text>
+                } has already been invited for this job on ${getDateString(
+                  invite && invite[invite?.length - 1].created_at,
+                  'll',
+                )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
             </Flex>
           }
@@ -409,16 +412,16 @@ const ProfileNavBar = ({
               {jd_id !== null && (
                 <div
                   className={cx({
-                    countStyle1: overall_percentage < 40,
-                    countStyle2: overall_percentage >= 40 && profile_match < 69,
-                    countStyle3: overall_percentage > 69,
+                    countStyle1: isoverall < 40,
+                    countStyle2: isoverall >= 40 && profile_match < 69,
+                    countStyle3: isoverall > 69,
                   })}
                 >
                   <Text
                     color="white"
                     style={{ fontSize: 10, marginTop: ' 2px' }}
                   >
-                    {overall_percentage}
+                    {isoverall}
                   </Text>
                 </div>
               )}
@@ -525,7 +528,7 @@ const ProfileNavBar = ({
               <div
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
                 style={{ display: 'flex', alignItems: 'center' }}
                 title="Download Resume"
                 onClick={handleDownload}
@@ -548,8 +551,8 @@ const ProfileNavBar = ({
                 <SvgPhone height={14} width={18} fill="#581845" />
               </Flex>
               {candiList.contact === null ||
-              candiList.contact === undefined ||
-              candiList.contact === '' ? (
+                candiList.contact === undefined ||
+                candiList.contact === '' ? (
                 <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
               ) : (
                 <Flex className={styles.phoneHide}>
@@ -557,7 +560,7 @@ const ProfileNavBar = ({
                     inputClass={styles.phoneInput}
                     dropdownClass={styles.dropDownStyle}
                     value={candiList.contact}
-                    // placeholder='Not Specified'
+                  // placeholder='Not Specified'
                   />
                 </Flex>
               )}
@@ -567,7 +570,7 @@ const ProfileNavBar = ({
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
               {candidate_details[0].location === null ||
-              candidate_details[0].location === '' ? (
+                candidate_details[0].location === '' ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
                 <Flex style={{ fontsize: '13px' }}>
@@ -577,7 +580,7 @@ const ProfileNavBar = ({
             </Flex>
           </Flex>
           {(candiList.linkedin_url !== null && candiList.linkedin_url !== '') ||
-          (candiList.code_repo !== undefined && candiList.code_repo !== '') ? (
+            (candiList.code_repo !== undefined && candiList.code_repo !== '') ? (
             <Flex row className={styles.headerpart1}>
               <Flex
                 className={styles.headingpart}
@@ -647,8 +650,8 @@ const ProfileNavBar = ({
                   Qualification
                 </Flex>
                 {candiList.qualification === null ||
-                candiList.qualification === undefined ||
-                candiList.qualification === '' ? (
+                  candiList.qualification === undefined ||
+                  candiList.qualification === '' ? (
                   <Flex className={styles.changingtext}>
                     <Text className={styles.changingtext}>Not Specified</Text>
                   </Flex>
@@ -692,39 +695,34 @@ const ProfileNavBar = ({
                 ) : (
                   <Text
                     className={styles.changingtext}
-                    title={`${
-                      candidate_details &&
+                    title={`${candidate_details &&
                       candidate_details[0]?.work_exp !== null &&
                       workYear(candidate_details[0]?.work_exp)
-                    } ${
-                      total_exp &&
-                      total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null
+                      } ${total_exp &&
+                        total_exp[0]?.total_exp_month !== 0 &&
+                        total_exp[0]?.total_exp_month !== null
                         ? total_exp[0]?.total_exp_month
                         : ''
-                    } ${
-                      total_exp &&
-                      total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null
+                      } ${total_exp &&
+                        total_exp[0]?.total_exp_month !== 0 &&
+                        total_exp[0]?.total_exp_month !== null
                         ? 'Months'
                         : ''
-                    }`}
+                      }`}
                   >
                     {`${notSpecified(
                       workYear(candidate_details[0]?.work_exp),
-                    )} ${
-                      total_exp &&
-                      total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null
+                    )} ${total_exp &&
+                        total_exp[0]?.total_exp_month !== 0 &&
+                        total_exp[0]?.total_exp_month !== null
                         ? total_exp[0]?.total_exp_month
                         : ''
-                    } ${
-                      total_exp &&
-                      total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null
+                      } ${total_exp &&
+                        total_exp[0]?.total_exp_month !== 0 &&
+                        total_exp[0]?.total_exp_month !== null
                         ? 'Months'
                         : ''
-                    }`}
+                      }`}
                   </Text>
                 )}
               </Flex>
@@ -767,8 +765,8 @@ const ProfileNavBar = ({
                       <Text className={styles.changingtext}>
                         {getDateString(
                           invite &&
-                            invite.length &&
-                            new Date(invite[invite.length - 1].created_at),
+                          invite.length &&
+                          new Date(invite[invite.length - 1].created_at),
                           'll',
                         )}
                       </Text>
@@ -786,7 +784,7 @@ const ProfileNavBar = ({
                     Willing to Relocate
                   </Flex>
                   {personalInfo[0].relocate === null ||
-                  personalInfo[0].relocate === undefined ? (
+                    personalInfo[0].relocate === undefined ? (
                     <Flex className={styles.changingtext}>
                       <Text className={styles.changingtext}>Not Specified</Text>
                     </Flex>
@@ -804,8 +802,8 @@ const ProfileNavBar = ({
                     Job Type
                   </Flex>
                   {personalInfo[0].type_of_job__label_name === undefined ||
-                  personalInfo[0].type_of_job__label_name === null ||
-                  personalInfo[0].type_of_job__label_name === '' ? (
+                    personalInfo[0].type_of_job__label_name === null ||
+                    personalInfo[0].type_of_job__label_name === '' ? (
                     <Flex className={styles.changingtext}>
                       <Text className={styles.changingtext}>Not Specified</Text>
                     </Flex>
@@ -834,8 +832,8 @@ const ProfileNavBar = ({
                     Expected Salary
                   </Flex>
                   {candiList.exp_salary === undefined ||
-                  candiList.exp_salary === null ||
-                  candiList.exp_salary === '' ? (
+                    candiList.exp_salary === null ||
+                    candiList.exp_salary === '' ? (
                     <Flex className={styles.changingtext}>
                       <Text className={styles.changingtext}>Not Specified</Text>
                     </Flex>
@@ -880,8 +878,8 @@ const ProfileNavBar = ({
               <Flex style={{ paddingBottom: '10px' }}>
                 <Flex className={styles.headingpart}>Industry Type</Flex>
                 {personalInfo[0].industry_type__label_name === undefined ||
-                personalInfo[0].industry_type__label_name === null ||
-                personalInfo[0].industry_type__label_name === '' ? (
+                  personalInfo[0].industry_type__label_name === null ||
+                  personalInfo[0].industry_type__label_name === '' ? (
                   <Flex>
                     {' '}
                     <Text className={styles.changingtext}>Not Specified</Text>
@@ -991,9 +989,9 @@ const ProfileNavBar = ({
 
                       <Flex title="Under Assessment">
                         {checkingstatus !== 'Applied' &&
-                        checkingstatus !== 'Shortlisted' &&
-                        checkingstatus !== 'Offered' &&
-                        checkingstatus !== 'Rejected' ? (
+                          checkingstatus !== 'Shortlisted' &&
+                          checkingstatus !== 'Offered' &&
+                          checkingstatus !== 'Rejected' ? (
                           <SvgRadioWithLine fill="#ffc203" />
                         ) : (
                           <SvgRadioWithOutOutLine fill="#ffc203" />

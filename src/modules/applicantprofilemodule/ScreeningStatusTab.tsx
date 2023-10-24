@@ -31,10 +31,10 @@ const cx = classNames.bind(styles);
 // }
 
 type Props = {
-  title: string;
-  issingletab: boolean;
-  jd_id: string;
-  can_id: string;
+  title?: string;
+  issingletab?: boolean;
+  jd_id?: string;
+  can_id?: string;
 };
 const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
   // const form: QuestionForm = { question: '' };
@@ -150,9 +150,8 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
                 evaluatePopup.data.map((doc, index) => {
                   return (
                     <Flex row top marginTop={15} key={index}>
-                      <Text style={{ marginLeft: '5px' }}>{`${index + 1}. ${
-                        doc.question
-                      }`}</Text>
+                      <Text style={{ marginLeft: '5px' }}>{`${index + 1}. ${doc.question
+                        }`}</Text>
                     </Flex>
                   );
                 })}
@@ -184,7 +183,7 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
                     <ReactQuill
                       value={''}
                       className={styles.reactquillchange}
-                      onChange={() => {}}
+                      onChange={() => { }}
                       placeholder="Add your feedback here"
                     />
                     {/* <ErrorMessage
@@ -213,7 +212,7 @@ const ScreeningStatusTab = ({ title, issingletab, jd_id, can_id }: Props) => {
 
               <Button
                 className={styles.addBtn}
-                onClick={() => {}}
+                onClick={() => { }}
                 style={{ marginTop: '10px' }}
               >
                 Add
