@@ -193,16 +193,10 @@ const CreateJdWithNonDs = () => {
 
   return (
     <>
-      <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
-        {(createJdLoader || jdDuplicateLoader) && <Loader />}
-        <JdParserLoader
-          open={jdParserLoader}
-          title="Please wait… Your JD is getting parsed for pre-population"
-        />
         <Flex row center className={styles.step}>
           <StepProgressBar roundFill />
           <StepProgressBar
-            title="Match Weightage"
+            title="Weightage Matching"
             titleclassName={styles.stepTwo}
             stepIndex="2"
           />
@@ -217,6 +211,12 @@ const CreateJdWithNonDs = () => {
             stepIndex="4"
           />
         </Flex>
+      <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
+        {(createJdLoader || jdDuplicateLoader) && <Loader />}
+        <JdParserLoader
+          open={jdParserLoader}
+          title="Please wait… Your JD is getting parsed for pre-population"
+        />
 
         <Formik
           initialValues={initial}

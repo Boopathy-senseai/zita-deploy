@@ -235,60 +235,7 @@ const ApplicantPipeLineScreen = ({
     setRangeValueCertifications(20);
     setRangeValueLocation(10);
     setRangeValueCultural(20)
-    setRangeValueReferences(10);
-
-    const list = [{
-      'skills': 20,
-      'roles': 20,
-      'exp': 20,
-      'qualification': 10,
-      'tech_tools': 20,
-      'soft_skills': 10,
-      'industry_exp': 20,
-      'domain_exp': 20,
-      'certification': 20,
-      'location': 10,
-      'cultural_fit': 20,
-      'ref': 10
-    }]
-    formData.append("tech", JSON.stringify(list))
-    formData.append("jd_id", jdId)
-
-    dispatch(
-      WeightagematchingpostMiddleWare({
-        formData
-      }),
-    ).then((res) => {
-      if (res.payload.success === false) {
-        handleWeightageClose();
-        Toast(
-          'Sorry, there was a problem connecting to the API. Please try again later.',
-          'LONG',
-          'error',
-        )
-      }
-      else {
-       // handleWeightageClose();
-       setloadermatch(true)
-       dispatch(jdMatchMiddleWare({jd_id})).then((r) => {
-        if(r.payload.error===true)
-        {
-         
-          Toast(
-            'Sorry, there was a problem connecting to the API. Please try again later.',
-            'LONG',
-            'error',
-          )
-          setloadermatch(false)
-        }
-        if(r.payload.success===true){
-    
-          Toast('Weightage settings saved successfully!', 'LONG');}
-      
-
-  });
-      }
-    })
+    setRangeValueReferences(10);  
   }
 
 
@@ -413,36 +360,77 @@ const ApplicantPipeLineScreen = ({
     },
   );
 
-  useEffect(() => {
-    if (success === true) {
-      setRangeValueskill(tech.skills);
-      setRangeValuerolles(tech.roles);
-      setRangeValueexperience(tech.exp);
-      setRangeValueQualifications(tech.qualification);
-      setRangeValueTechnical(tech.tech_tools);
-      setRangeValueSoft(tech.soft_skills);
+  // useEffect(() => {
+  //   if (success === true) {
+  //     setRangeValueskill(tech.skills);
+  //     setRangeValuerolles(tech.roles);
+  //     setRangeValueexperience(tech.exp);
+  //     setRangeValueQualifications(tech.qualification);
+  //     setRangeValueTechnical(tech.tech_tools);
+  //     setRangeValueSoft(tech.soft_skills);
 
-      setRangeValueIndustry(non_tech.industry_exp);
-      setRangeValueDomain(non_tech.domain_exp);
-      setRangeValueCertifications(non_tech.certification);
-      setRangeValueLocation(non_tech.location);
-      setRangeValueCultural(non_tech.cultural_fit);
-      setRangeValueReferences(non_tech.ref);
-    }
+  //     setRangeValueIndustry(non_tech.industry_exp);
+  //     setRangeValueDomain(non_tech.domain_exp);
+  //     setRangeValueCertifications(non_tech.certification);
+  //     setRangeValueLocation(non_tech.location);
+  //     setRangeValueCultural(non_tech.cultural_fit);
+  //     setRangeValueReferences(non_tech.ref);
+  //   }
 
+
+  //   dispatch(WeightagematchinggetMiddleWare(jdId))
+  //   .then((res)=>{
+  //     if (res.payload.success === false) {
+  //       Toast(
+  //         'Sorry, there was a problem connecting to the API. Please try again later.',
+  //         'LONG',
+  //         'error',
+  //       );
+  //     }
+  //   })
+
+  // }, [success])
+
+  useEffect(()=>{
+    handlefunction();
+  },[])
+
+
+  const handlefunction=()=>{
 
     dispatch(WeightagematchinggetMiddleWare(jdId))
-    .then((res)=>{
-      if (res.payload.success === false) {
-        Toast(
-          'Sorry, there was a problem connecting to the API. Please try again later.',
-          'LONG',
-          'error',
-        );
-      }
-    })
+   .then((res)=>{
 
-  }, [success])
+    if(res.payload.success === true){
+
+       if(res.payload !== undefined){
+
+        setRangeValueskill(res.payload.tech_skills.skills);
+        setRangeValuerolles(res.payload.tech_skills.roles);
+        setRangeValueexperience(res.payload.tech_skills.exp);
+        setRangeValueQualifications(res.payload.tech_skills.qualification);
+        setRangeValueTechnical(res.payload.tech_skills.tech_tools);
+        setRangeValueSoft(res.payload.tech_skills.soft_skills);
+        setRangeValueIndustry(res.payload.non_tech.industry_exp);
+        setRangeValueDomain(res.payload.non_tech.domain_exp);
+        setRangeValueCertifications(res.payload.non_tech.certification);
+        setRangeValueLocation(res.payload.non_tech.location);
+        setRangeValueCultural(res.payload.non_tech.cultural_fit);
+        setRangeValueReferences(res.payload.non_tech.ref);
+      
+              }
+            }
+
+            if(res.payload.success===false)
+            {
+              Toast(
+                          'Sorry, there was a problem connecting to the API. Please try again later.',
+                          'LONG',
+                          'error',
+                        );
+            }
+   })
+  }
 
   const closefunction=()=>{
     setRangeValueskill(tech.skills);
@@ -1352,6 +1340,7 @@ const ApplicantPipeLineScreen = ({
     );
   };
   const handleWeightageOpen = () => {
+    handlefunction();
     setmodel(true)
   }
   const handleWeightageClose = () => {
@@ -1588,7 +1577,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
 
 
@@ -1629,7 +1618,7 @@ const ApplicantPipeLineScreen = ({
                             margin: '10px 0', // Add margin for spacing
 
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
 
@@ -1665,7 +1654,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
                         />
@@ -1705,7 +1694,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
                         />
@@ -1741,7 +1730,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
 
@@ -1776,7 +1765,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
 
@@ -1797,7 +1786,7 @@ const ApplicantPipeLineScreen = ({
                         <Text style={{
                           display: "flex",
                           alignSelf: 'flex-between'
-                        }} size={11} color="error">
+                        }} size={12} color="error">
                           Technical percentages must equal 100
                         </Text>
                       }
@@ -1862,7 +1851,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
                         />
@@ -1897,7 +1886,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
 
@@ -1934,7 +1923,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
                         />
@@ -1969,7 +1958,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
                         />
@@ -2005,7 +1994,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
 
@@ -2040,7 +2029,7 @@ const ApplicantPipeLineScreen = ({
                             WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                             margin: '10px 0', // Add margin for spacing
                             cursor: 'pointer', // Show pointer cursor
-                            background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
+                            background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
                             borderRadius: '5px', // Add border radius
                           }}
 
@@ -2063,7 +2052,7 @@ const ApplicantPipeLineScreen = ({
                         <Text style={{
                           display: "flex",
                           alignSelf: 'flex-between'
-                        }} size={11} color="error">
+                        }} size={12} color="error">
                           Non-Technical percentages must equal 100
                         </Text>
                       }
@@ -2091,7 +2080,9 @@ const ApplicantPipeLineScreen = ({
                       </Flex>
                     ) : (
 
-                      <Button types="primary" onClick={nextfunction}>
+                      <Button 
+                      disabled={totalnontechnical && totaltechnical !== 100}
+                      types="primary" onClick={nextfunction}>
                         Apply
                       </Button>)}
                   </Flex>

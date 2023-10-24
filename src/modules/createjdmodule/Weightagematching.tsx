@@ -84,37 +84,78 @@ const Weightagematching = () => {
     },
   );
 
-  useEffect(()=>{
-      if(success===true)
- {
-          setRangeValueskill(tech.skills);
-          setRangeValuerolles(tech.roles);
-          setRangeValueexperience(tech.exp);
-          setRangeValueQualifications(tech.qualification);
-          setRangeValueTechnical(tech.tech_tools);
-          setRangeValueSoft(tech.soft_skills);
+//   useEffect(()=>{
+//       if(success===true)
+//  {
+//           setRangeValueskill(tech.skills);
+//           setRangeValuerolles(tech.roles);
+//           setRangeValueexperience(tech.exp);
+//           setRangeValueQualifications(tech.qualification);
+//           setRangeValueTechnical(tech.tech_tools);
+//           setRangeValueSoft(tech.soft_skills);
 
-          setRangeValueIndustry(non_tech.industry_exp);
-          setRangeValueDomain(non_tech.domain_exp);
-          setRangeValueCertifications(non_tech.certification);
-          setRangeValueLocation(non_tech.location);
-          setRangeValueCultural(non_tech.cultural_fit);
-          setRangeValueReferences(non_tech.ref);
- }
+//           setRangeValueIndustry(non_tech.industry_exp);
+//           setRangeValueDomain(non_tech.domain_exp);
+//           setRangeValueCertifications(non_tech.certification);
+//           setRangeValueLocation(non_tech.location);
+//           setRangeValueCultural(non_tech.cultural_fit);
+//           setRangeValueReferences(non_tech.ref);
+//  }
 
-    dispatch(WeightagematchinggetMiddleWare(jd_id))
-    .then((res)=>{
-      if (res.payload.success === false) {
-        Toast(
-          'Sorry, there was a problem connecting to the API. Please try again later.',
-          'LONG',
-          'error',
-        );
-      }
-    })
+//     dispatch(WeightagematchinggetMiddleWare(jd_id))
+//     .then((res)=>{
+//       if (res.payload.success === false) {
+//         Toast(
+//           'Sorry, there was a problem connecting to the API. Please try again later.',
+//           'LONG',
+//           'error',
+//         );
+//       }
+//     })
 
-  },[success])
+//   },[success])
 
+useEffect(()=>{
+
+  dispatch(WeightagematchinggetMiddleWare(jd_id))
+ .then((res)=>{
+
+  if(res.payload.success === true){
+
+     if(res.payload !== undefined){
+      console.log("aaaa",res.payload.tech_skills)
+
+              setRangeValueskill(res.payload.tech_skills.skills);
+
+              setRangeValuerolles(res.payload.tech_skills.roles);
+              setRangeValueexperience(res.payload.tech_skills.exp);
+              setRangeValueQualifications(res.payload.tech_skills.qualification);
+              setRangeValueTechnical(res.payload.tech_skills.tech_tools);
+              setRangeValueSoft(res.payload.tech_skills.soft_skills);
+    
+              setRangeValueIndustry(res.payload.non_tech.industry_exp);
+              setRangeValueDomain(res.payload.non_tech.domain_exp);
+              setRangeValueCertifications(res.payload.non_tech.certification);
+             
+              setRangeValueLocation(res.payload.non_tech.location);
+              setRangeValueCultural(res.payload.non_tech.cultural_fit);
+              setRangeValueReferences(res.payload.non_tech.ref);
+            }
+          }
+
+          if(res.payload.success===false)
+          {
+            Toast(
+                        'Sorry, there was a problem connecting to the API. Please try again later.',
+                        'LONG',
+                        'error',
+                      );
+          }
+  
+
+ })
+
+},[])
 
 
 
@@ -259,43 +300,6 @@ const resetfunction=()=>{
   setRangeValueLocation(10);
   setRangeValueCultural(20)
   setRangeValueReferences(10);
-
-  const list = [{
-    // 'skills': rangeValueskill,  
-    // 'roles':rangeValuerolles,
-    // 'exp':rangeValueexperience,
-    // 'qualification':rangeValueQualifications,
-    // 'tech_tools':rangeValueTechnical,
-    // 'soft_skills':rangeValueSoft,
-    // 'industry_exp':rangeValueIndustry,
-    // 'domain_exp':rangeValueDomain,
-    // 'certification':rangeValueCertifications,
-    // 'location':rangeValueLocation,
-    // 'cultural_fit':rangeValueCultural,
-    // 'ref':rangeValueReferences
-    'skills': 20,  
-    'roles':20,
-    'exp':20,
-    'qualification':10,
-    'tech_tools':20,
-    'soft_skills':10,
-    'industry_exp':20,
-    'domain_exp':20,
-    'certification':20,
-    'location':10,
-    'cultural_fit':20,
-    'ref':10
-  }]
-  formData.append("tech",JSON.stringify(list))
-  formData.append("jd_id",jd_id) 
-
-  dispatch(
-    WeightagematchingpostMiddleWare({
-       formData
-    }),
-  ).then((res) => { 
-    console.log("res",res)
-  })
 }
 
 const saveasdraftfunction=()=>{
@@ -343,7 +347,7 @@ const saveasdraftfunction=()=>{
       <Flex row center className={styles.step}>
         <StepProgressBar roundFill />
         <StepProgressBar
-          title="Match Weightage"
+          title="Weightage Matching"
           titleclassName={styles.stepTwo}
           stepIndex="2"
           roundFill
@@ -386,7 +390,7 @@ const saveasdraftfunction=()=>{
                   </Flex>
 
         </Flex>
-        <Flex>
+        <Flex style={{paddingRight:"15px"}}>
 
           <Button types="primary" onClick={resetfunction}>
 
@@ -401,7 +405,7 @@ const saveasdraftfunction=()=>{
         
         <Flex style={{ width: "49%" }}>
           <Flex className={styles.progressbarstyle}>
-            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
+            <Flex><Text bold style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
             <Flex style={{
               width: "100px",
               height: "100px"
@@ -409,7 +413,7 @@ const saveasdraftfunction=()=>{
             }}>
               <CircularProgressbar
                 value={technicalPercent}
-                text={`${technicalPercent}%`}
+                text={`${technicalPercent}`}
                 strokeWidth={10}
                 styles={buildStyles({
                   // Rotation of path and trail, in number of turns (0-1)
@@ -665,7 +669,7 @@ const saveasdraftfunction=()=>{
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
-            }} size={11} color="error">
+            }} size={12} color="error">
                   Technical percentages must equal 100
             </Text>
           }
@@ -691,14 +695,14 @@ const saveasdraftfunction=()=>{
           
           <Flex className={styles.progressbarstyle}>
             
-            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
+            <Flex><Text bold style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
             <Flex style={{
               width: "100px",
               height: "100px"
             }}>
               <CircularProgressbar
                 value={nonTechnicalPercent}
-                text={`${nonTechnicalPercent}%`}
+                text={`${nonTechnicalPercent}`}
                 strokeWidth={10}
                 styles={buildStyles({
                   textSize: '16px',
@@ -925,7 +929,7 @@ const saveasdraftfunction=()=>{
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
-            }} size={11} color="error">
+            }} size={12} color="error">
                 Non-Technical percentages must equal 100
             </Text>
           }

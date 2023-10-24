@@ -22,6 +22,8 @@ import SvgModuleicon from '../../icons/SvgModuleicon';
 
 import { removeUnderScores, lowerCase } from '../../uikit/helper';
 import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import SvgUpArrow from '../../icons/SvgArrowUp';
+import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import {
   MatchArray,
   MatchJobArray,
@@ -123,36 +125,76 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
   console.log(overall_percentage, '2222333overall_percentageoverall_percentage')
   const [valtech, setvaltech] = useState(outputtech.length > 0 ? outputtech : [])
   const [valnontech, setvalnontech] = useState(outputnontech.length > 0 ? outputnontech : [])
-  useEffect(() => {
-    if (success === true) {
-      setRangeValueskill(tech.skills);
-      setRangeValuerolles(tech.roles);
-      setRangeValueexperience(tech.exp);
-      setRangeValueQualifications(tech.qualification);
-      setRangeValueTechnical(tech.tech_tools);
-      setRangeValueSoft(tech.soft_skills);
+  // useEffect(() => {
+  //   if (success === true) {
+  //     setRangeValueskill(tech.skills);
+  //     setRangeValuerolles(tech.roles);
+  //     setRangeValueexperience(tech.exp);
+  //     setRangeValueQualifications(tech.qualification);
+  //     setRangeValueTechnical(tech.tech_tools);
+  //     setRangeValueSoft(tech.soft_skills);
 
 
 
-      setRangeValueIndustry(non_tech.industry_exp);
-      setRangeValueDomain(non_tech.domain_exp);
-      setRangeValueCertifications(non_tech.certification);
-      setRangeValueLocation(non_tech.location);
-      setRangeValueCultural(non_tech.cultural_fit);
-      setRangeValueReferences(non_tech.ref);
-    }
+  //     setRangeValueIndustry(non_tech.industry_exp);
+  //     setRangeValueDomain(non_tech.domain_exp);
+  //     setRangeValueCertifications(non_tech.certification);
+  //     setRangeValueLocation(non_tech.location);
+  //     setRangeValueCultural(non_tech.cultural_fit);
+  //     setRangeValueReferences(non_tech.ref);
+  //   }
+  //   dispatch(WeightagematchinggetMiddleWare(jd_id))
+  //     .then((res) => {
+  //       if (res.payload.success === false) {
+  //         Toast(
+  //           'Sorry, there was a problem connecting to the API. Please try again later.',
+  //           'LONG',
+  //           'error',
+  //         );
+  //       }
+  //     })
+  // }, [success])
+
+  useEffect(()=>{
+    handlefunction();
+  },[])
+
+
+  const handlefunction=()=>{
+
     dispatch(WeightagematchinggetMiddleWare(jd_id))
-      .then((res) => {
-        if (res.payload.success === false) {
-          Toast(
-            'Sorry, there was a problem connecting to the API. Please try again later.',
-            'LONG',
-            'error',
-          );
-        }
-      })
-  }, [success])
+   .then((res)=>{
 
+    if(res.payload.success === true){
+
+       if(res.payload !== undefined){
+
+        setRangeValueskill(res.payload.tech_skills.skills);
+        setRangeValuerolles(res.payload.tech_skills.roles);
+        setRangeValueexperience(res.payload.tech_skills.exp);
+        setRangeValueQualifications(res.payload.tech_skills.qualification);
+        setRangeValueTechnical(res.payload.tech_skills.tech_tools);
+        setRangeValueSoft(res.payload.tech_skills.soft_skills);
+        setRangeValueIndustry(res.payload.non_tech.industry_exp);
+        setRangeValueDomain(res.payload.non_tech.domain_exp);
+        setRangeValueCertifications(res.payload.non_tech.certification);
+        setRangeValueLocation(res.payload.non_tech.location);
+        setRangeValueCultural(res.payload.non_tech.cultural_fit);
+        setRangeValueReferences(res.payload.non_tech.ref);
+      
+              }
+            }
+
+            if(res.payload.success===false)
+            {
+              Toast(
+                          'Sorry, there was a problem connecting to the API. Please try again later.',
+                          'LONG',
+                          'error',
+                        );
+            }
+   })
+  }
 
   useEffect(() => {
     if (valtech === undefined && valnontech === undefined) {
@@ -210,6 +252,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
   const [overallpercent, setoverallpercent] = useState<any>();
 
   const handleWeightageOpen = () => {
+    handlefunction();
     setmodel(true)
   }
   const handleWeightageClose = () => {
@@ -349,63 +392,6 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
     setRangeValueCultural(20)
     setRangeValueReferences(10);
 
-    const list = [{
-      'skills': 20,
-      'roles': 20,
-      'exp': 20,
-      'qualification': 10,
-      'tech_tools': 20,
-      'soft_skills': 10,
-      'industry_exp': 20,
-      'domain_exp': 20,
-      'certification': 20,
-      'location': 10,
-      'cultural_fit': 20,
-      'ref': 10
-    }]
-    formData.append("tech", JSON.stringify(list))
-    formData.append("jd_id", jd_id)
-
-    dispatch(
-      WeightagematchingpostMiddleWare({
-        formData
-      }),
-    ).then((res) => {
-      if (res.payload.success === false) {
-        handleWeightageClose();
-        Toast(
-          'Sorry, there was a problem connecting to the API. Please try again later.',
-          'LONG',
-          'error',
-        )
-      }
-      else {
-        // handleWeightageClose();
-        setloadermatch(true)
-        axios.get(`${Bothcandidateidjobid}?jd_id=${jd_id}&can_id=${can_id}&matching=True`)
-          .then((r) => {
-
-            if (r.data.error === true) {
-              // alert('eeee')
-              Toast(
-                'Sorry, there was a problem connecting to the API. Please try again later.',
-                'LONG',
-                'error',
-              )
-              setloadermatch(false)
-            }
-            if (r.data.technical) {
-              console.log("resss----->", r)
-              setvaltech(r.data.technical)
-              setvalnontech(r.data.non_technical)
-              setloadermatch(false)
-            }
-
-
-          });
-
-      }
-    })
   }
 
 
@@ -526,13 +512,13 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
       {isloadings || islodermatch && <Loader />}
       <Tabs>
-        <Tab title='Matching Analysis'>
+        <Tab title='Score Analysis'>
           <Flex row flex={12} height={window.innerHeight - 120}>
             <Flex flex={6} className={styles.overAll}>
 
-              <Flex row between style={{ padding: '16px 16px 0px 16px' }}>
+              <Flex row between style={{ padding: '10px 10px 0px 10px' }}>
                 <Text bold style={{ fontSize: '14px', marginBottom: '5px' }}>
-                  Matching Analysis
+                  Score Analysis
                 </Text>
                 <Flex>
                   <Button onClick={handleWeightageOpen} types="primary">
@@ -560,7 +546,17 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                   {isInfoPopupOpen && (
                     <Card className={styles.cardfront1}>
                       <Flex>
-                        <Text>Info</Text>
+                      <Flex row center className={styles.infotitle}>
+                        <SvgModuleicon />{' '}
+                        <Text className={styles.moreinformation}>
+                          More Information
+                        </Text>{' '}
+                      </Flex>
+                      <Flex>
+                      <Text color="gray" size={13}>You can assign and adjust weights to the each criteria based on the specific Job description.</Text>
+                      <Text color="gray" size={13}>The weightage you assign for each criterion in the Technical Matching section is considered for job matching. </Text>
+                      <Text color="gray" size={13}>Higher weights indicate greater importance.</Text>
+                      </Flex> 
                       </Flex>
                     </Card>
                   )}
@@ -605,7 +601,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
               <Flex
                 height={window.innerHeight - 184}
-                style={{ overflow: "scroll", padding: "10px 0px 10px 0px" }}
+                style={{ overflow: "scroll", padding: "10px 10px 0px 10px" }}
                 className={outputnontech.length <= 0 ? (outputtech.length <= 0 ? (styles.nodata) : ("")) : ("")}
               >
                 {/* Technical */}
@@ -614,7 +610,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                   <Flex className={styles.techcardstyles}>
                     <Card>
                       {valtech.length > 0 ? (
-                        <Flex style={{ padding: "25px" }}>
+                        <Flex style={{ padding: "15px" }}>
                           <Flex row marginBottom={10}>
                             <Flex style={{ width: "20%" }}>
                               <Text bold>Technical Matching</Text>
@@ -669,7 +665,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                     width={"40%"}
                                   >
                                     {/* ChatGPT Content */}
-                                    {skill.percentage === 0 ? (<Text> No Data Available</Text>
+                                    {skill.percentage === 0 ? (<Text> No Information Available</Text>
                                     ) : (
                                       <Flex >
                                         {
@@ -682,10 +678,19 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                 </Text>
                                               </Flex>
                                               <Flex
+                                              row
+                                              center
                                                 onClick={() => handleToggleCollapse(index)}
                                                 style={{ cursor: "pointer" }}>
 
-                                                <Text bold> View Less</Text>
+                                                <Flex><Text color= "theme" bold> View Less</Text></Flex>
+                                                <Flex width={5}></Flex>
+                                                <Flex>
+                                                  <SvgUpArrow
+                                                  width={10}
+                                                  height={10}
+                                                  fill={"#581845"}/>
+                                                </Flex>
                                               </Flex></>
                                           ) : (
                                             <>
@@ -695,9 +700,18 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                     <Text className={styles.textellipces}>{skill.description}</Text>
                                                   </Flex>
                                                   <Flex
+                                                  row
+                                                  center
                                                     onClick={() => handleToggleCollapse(index)}
                                                     style={{ cursor: "pointer" }}>
-                                                    <Text bold>View More</Text>
+                                                    <Flex><Text color="theme" bold>View More</Text></Flex>
+                                                    <Flex width={5}></Flex>
+                                                    <Flex>
+                                                      <SvgArrowDown1
+                                                      width={10}
+                                                      height={10}
+                                                      fill={"581845"}/>
+                                                    </Flex>
                                                   </Flex></>) : (<>
                                                     <Flex >
                                                       {skill.description}
@@ -731,7 +745,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                     <Card>
 
                       {valnontech.length > 0 ? (
-                        <Flex style={{ padding: "25px" }}>
+                        <Flex style={{ padding: "15px" }}>
                           <Flex row marginBottom={10}>
                             {/* <Flex>
                             <Text bold>Non-Technical Matching</Text>
@@ -790,7 +804,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                   width={"40%"}
                                 >
                                   {/* ChatGPT Content */}
-                                  {skill.percentage === 0 ? (<Text> No Data Available</Text>
+                                  {skill.percentage === 0 ? (<Text> No Information Available</Text>
                                   ) : (
                                     <Flex >
                                       {
@@ -802,10 +816,18 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                               </Text>
                                             </Flex>
                                             <Flex
+                                            row
+                                            center
                                               onClick={() => handleToggleCollapse2(index)}
                                               style={{ cursor: "pointer" }}>
-
-                                              <Text bold> View Less</Text>
+                                            <Flex><Text color= "theme" bold> View Less</Text></Flex>
+                                                <Flex width={5}></Flex>
+                                                <Flex>
+                                                  <SvgUpArrow
+                                                  width={10}
+                                                  height={10}
+                                                  fill={"#581845"}/>
+                                                </Flex>
                                             </Flex></>
                                         ) : (
                                           <>
@@ -816,9 +838,18 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                     {skill.description}</Text>
                                                 </Flex>
                                                 <Flex
+                                                row
+                                                center
                                                   onClick={() => handleToggleCollapse2(index)}
                                                   style={{ cursor: "pointer" }}>
-                                                  <Text bold>View More</Text>
+                                                    <Flex><Text color="theme" bold>View More</Text></Flex>
+                                                    <Flex width={5}></Flex>
+                                                    <Flex>
+                                                      <SvgArrowDown1
+                                                      width={10}
+                                                      height={10}
+                                                      fill={"581845"}/>
+                                                    </Flex>
                                                 </Flex></>) : (<>
                                                   <Flex >
                                                     <Text>
@@ -924,7 +955,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                                 height: "10px",
 
@@ -966,7 +997,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 margin: '10px 0', // Add margin for spacing
 
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
 
@@ -1002,7 +1033,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
                             />
@@ -1043,7 +1074,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
                             />
@@ -1079,7 +1110,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
 
@@ -1114,7 +1145,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
 
@@ -1135,7 +1166,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                             <Text style={{
                               display: "flex",
                               alignSelf: 'flex-between'
-                            }} size={11} color="error">
+                            }} size={12} color="error">
                               Technical percentages must equal 100
                             </Text>
                           }
@@ -1200,7 +1231,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                                 height: "10px"
                               }}
@@ -1236,7 +1267,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
 
@@ -1273,7 +1304,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
                             />
@@ -1308,7 +1339,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
                             />
@@ -1344,7 +1375,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
 
@@ -1379,7 +1410,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                                 margin: '10px 0', // Add margin for spacing
                                 cursor: 'pointer', // Show pointer cursor
-                                background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
+                                background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
                                 borderRadius: '5px', // Add border radius
                               }}
 
@@ -1401,7 +1432,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                             <Text style={{
                               display: "flex",
                               alignSelf: 'flex-between'
-                            }} size={11} color="error">
+                            }} size={12} color="error">
                               Non-Technical percentages must equal 100
                             </Text>
                           }
@@ -1427,9 +1458,12 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                           </Flex>
                         ) : (
 
-                          <Button types="primary" onClick={nextfunction}>
-                            Apply
-                          </Button>)}
+                          <Button
+                            disabled={totalnontechnical && totaltechnical !== 100}
+                            types="primary" 
+                            onClick={nextfunction}>
+                              Apply
+                                </Button>)}
                       </Flex>
                     </Flex>
                   </Flex>
