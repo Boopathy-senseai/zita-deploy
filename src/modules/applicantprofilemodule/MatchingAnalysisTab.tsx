@@ -22,6 +22,8 @@ import SvgModuleicon from '../../icons/SvgModuleicon';
 
 import { removeUnderScores, lowerCase } from '../../uikit/helper';
 import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import SvgUpArrow from '../../icons/SvgArrowUp';
+import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import {
   MatchArray,
   MatchJobArray,
@@ -548,7 +550,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
               <Flex
                 height={window.innerHeight - 184}
-                style={{ overflow: "scroll", padding: "10px 0px 10px 0px" }}
+                style={{ overflow: "scroll", padding: "10px 10px 0px 10px" }}
                 className={outputnontech.length <= 0 ? (outputtech.length <= 0 ? (styles.nodata) : ("")) : ("")}
               >
                 {/* Technical */}
@@ -557,7 +559,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                   <Flex className={styles.techcardstyles}>
                     <Card>
                       {valtech.length > 0 ? (
-                        <Flex style={{ padding: "25px" }}>
+                        <Flex style={{ padding: "15px" }}>
                           <Flex row marginBottom={10}>
                             <Flex style={{ width: "20%" }}>
                               <Text bold>Technical Matching</Text>
@@ -625,10 +627,19 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                 </Text>
                                               </Flex>
                                               <Flex
+                                              row
+                                              center
                                                 onClick={() => handleToggleCollapse(index)}
                                                 style={{ cursor: "pointer" }}>
 
-                                                <Text bold> View Less</Text>
+                                                <Flex><Text color= "theme" bold> View Less</Text></Flex>
+                                                <Flex width={5}></Flex>
+                                                <Flex>
+                                                  <SvgUpArrow
+                                                  width={10}
+                                                  height={10}
+                                                  fill={"#581845"}/>
+                                                </Flex>
                                               </Flex></>
                                           ) : (
                                             <>
@@ -638,9 +649,18 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                     <Text className={styles.textellipces}>{skill.description}</Text>
                                                   </Flex>
                                                   <Flex
+                                                  row
+                                                  center
                                                     onClick={() => handleToggleCollapse(index)}
                                                     style={{ cursor: "pointer" }}>
-                                                    <Text bold>View More</Text>
+                                                    <Flex><Text color="theme" bold>View More</Text></Flex>
+                                                    <Flex width={5}></Flex>
+                                                    <Flex>
+                                                      <SvgArrowDown1
+                                                      width={10}
+                                                      height={10}
+                                                      fill={"581845"}/>
+                                                    </Flex>
                                                   </Flex></>) : (<>
                                                     <Flex >
                                                       {skill.description}
@@ -674,7 +694,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                     <Card>
 
                       {valnontech.length > 0 ? (
-                        <Flex style={{ padding: "25px" }}>
+                        <Flex style={{ padding: "15px" }}>
                           <Flex row marginBottom={10}>
                             {/* <Flex>
                             <Text bold>Non-Technical Matching</Text>
@@ -745,10 +765,18 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                               </Text>
                                             </Flex>
                                             <Flex
+                                            row
+                                            center
                                               onClick={() => handleToggleCollapse2(index)}
                                               style={{ cursor: "pointer" }}>
-
-                                              <Text bold> View Less</Text>
+                                            <Flex><Text color= "theme" bold> View Less</Text></Flex>
+                                                <Flex width={5}></Flex>
+                                                <Flex>
+                                                  <SvgUpArrow
+                                                  width={10}
+                                                  height={10}
+                                                  fill={"#581845"}/>
+                                                </Flex>
                                             </Flex></>
                                         ) : (
                                           <>
@@ -759,9 +787,18 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                     {skill.description}</Text>
                                                 </Flex>
                                                 <Flex
+                                                row
+                                                center
                                                   onClick={() => handleToggleCollapse2(index)}
                                                   style={{ cursor: "pointer" }}>
-                                                  <Text bold>View More</Text>
+                                                    <Flex><Text color="theme" bold>View More</Text></Flex>
+                                                    <Flex width={5}></Flex>
+                                                    <Flex>
+                                                      <SvgArrowDown1
+                                                      width={10}
+                                                      height={10}
+                                                      fill={"581845"}/>
+                                                    </Flex>
                                                 </Flex></>) : (<>
                                                   <Flex >
                                                     <Text>
