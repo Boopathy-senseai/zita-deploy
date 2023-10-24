@@ -158,7 +158,7 @@ const JdPreviewScreen = () => {
       <Flex row center className={styles.step} >
         <StepProgressBar roundFill barFilled />
         <StepProgressBar
-          title="Match Weightage"
+          title="Weightage Matching"
           titleclassName={styles.stepTwo}
           stepIndex="2"
           roundFill

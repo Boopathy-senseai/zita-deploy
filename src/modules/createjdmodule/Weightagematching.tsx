@@ -343,7 +343,7 @@ const saveasdraftfunction=()=>{
       <Flex row center className={styles.step}>
         <StepProgressBar roundFill />
         <StepProgressBar
-          title="Match Weightage"
+          title="Weightage Matching"
           titleclassName={styles.stepTwo}
           stepIndex="2"
           roundFill
@@ -386,7 +386,7 @@ const saveasdraftfunction=()=>{
                   </Flex>
 
         </Flex>
-        <Flex>
+        <Flex style={{paddingRight:"15px"}}>
 
           <Button types="primary" onClick={resetfunction}>
 
@@ -401,7 +401,7 @@ const saveasdraftfunction=()=>{
         
         <Flex style={{ width: "49%" }}>
           <Flex className={styles.progressbarstyle}>
-            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
+            <Flex><Text bold style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
             <Flex style={{
               width: "100px",
               height: "100px"
@@ -409,7 +409,7 @@ const saveasdraftfunction=()=>{
             }}>
               <CircularProgressbar
                 value={technicalPercent}
-                text={`${technicalPercent}%`}
+                text={`${technicalPercent}`}
                 strokeWidth={10}
                 styles={buildStyles({
                   // Rotation of path and trail, in number of turns (0-1)
@@ -665,7 +665,7 @@ const saveasdraftfunction=()=>{
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
-            }} size={11} color="error">
+            }} size={12} color="error">
                   Technical percentages must equal 100
             </Text>
           }
@@ -691,14 +691,14 @@ const saveasdraftfunction=()=>{
           
           <Flex className={styles.progressbarstyle}>
             
-            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
+            <Flex><Text bold style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
             <Flex style={{
               width: "100px",
               height: "100px"
             }}>
               <CircularProgressbar
                 value={nonTechnicalPercent}
-                text={`${nonTechnicalPercent}%`}
+                text={`${nonTechnicalPercent}`}
                 strokeWidth={10}
                 styles={buildStyles({
                   textSize: '16px',
@@ -925,7 +925,7 @@ const saveasdraftfunction=()=>{
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
-            }} size={11} color="error">
+            }} size={12} color="error">
                 Non-Technical percentages must equal 100
             </Text>
           }

@@ -108,7 +108,7 @@ justify-content: space-between;
   margin: 0 16px;
 }
 .splitline{
-  border :0.5px solid #c3c3c3;
+  border-left :0.1px solid #c3c3c3;
   height: 450px;
   
 }
