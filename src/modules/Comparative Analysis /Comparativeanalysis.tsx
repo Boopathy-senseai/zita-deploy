@@ -469,7 +469,8 @@ const ComparativeanalysisModal = ({
                                 row
                                 marginBottom={2}
                                 marginTop={2}
-                                marginLeft={10}
+                                marginLeft={8}
+                                marginRight={2}
                               >
                                 <Card
                                   className={styles.cardstructureforprofile}
