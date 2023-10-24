@@ -28,6 +28,7 @@ import ApplicantTabLeftTwo from '../applicantprofilemodule/ApplicantTabLeftTwo';
 import ApplicantTabRightOne from '../applicantprofilemodule/ApplicantTabRightOne';
 import styles from '../applicantprofilemodule/applicantprofilescreen.module.css';
 import Text from '../../uikit/Text/Text';
+import { interviewQuestionMiddleware } from '../applicantprofilemodule/store/middleware/interviewquestionMiddleware';
 
 var querystring = require('querystring');
 
@@ -36,25 +37,25 @@ type Props = {
   candidateId: string;
   inviteIconNone?: boolean;
   activeState?: number;
-  setjobtitle?:any; 
+  setjobtitle?: any;
 };
 const ApplicantProfileModal = ({
   jobId,
   candidateId,
   inviteIconNone,
   activeState,
-  setjobtitle, 
+  setjobtitle,
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
-  const [isNotesLoader, setNotesLoader]=useState(true);
-  const [isNotesMeeting, setNotesMeeting]=useState(true)
- 
+  const [isNotesLoader, setNotesLoader] = useState(true);
+  const [isNotesMeeting, setNotesMeeting] = useState(true);
+
   const dispatch: AppDispatch = useDispatch();
   // initial api call
   useEffect(() => {
-    if (jobId !== '0') { 
+    if (jobId !== '0') {
       setTab(true);
       dispatch(
         applicantProfileInitialMiddleWare({
@@ -68,11 +69,11 @@ const ApplicantProfileModal = ({
             can_id: res.payload.can_id,
           }),
         );
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>
-        {
-          setNotesLoader(false);
-        }
-        )
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesLoader(false);
+          },
+        );
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantScoreMiddleWare({
@@ -81,11 +82,13 @@ const ApplicantProfileModal = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then((res1)=>{
-          if (res1.payload.even !== null){
-            setNotesMeeting(false)
-          }
-      })
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(
+          (res1) => {
+            if (res1.payload.even !== null) {
+              setNotesMeeting(false);
+            }
+          },
+        );
         dispatch(
           applicantStatusMiddleWare({
             jd_id: res.payload.jd_id,
@@ -98,15 +101,17 @@ const ApplicantProfileModal = ({
       dispatch(
         applicantProfileInitialMiddleWare({ jd_id: 0, can_id: candidateId }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>
-        {
-          setNotesLoader(false);
-        }
-        )
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesLoader(false);
+          },
+        );
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesMeeting(false)
-      })
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesMeeting(false);
+          },
+        );
       });
     }
   }, []);
@@ -124,14 +129,14 @@ const ApplicantProfileModal = ({
     job_details,
     source,
     stages,
-    matchLoader
+    matchLoader,
   } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantStausReducers,
       candidatejdmatchReducers,
-      applicantPipeLineReducers
+      applicantPipeLineReducers,
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
@@ -142,7 +147,7 @@ const ApplicantProfileModal = ({
         jd_id: applicantProfileInitalReducers.jd_id,
         job_details: applicantPipeLineReducers.job_details,
         can_id: applicantProfileInitalReducers.can_id,
-        matchLoader:candidatejdmatchReducers.isLoading,
+        matchLoader: candidatejdmatchReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
@@ -150,10 +155,15 @@ const ApplicantProfileModal = ({
       };
     },
   );
-  if (initialLoader  ||  matchLoader) {
+  useEffect(() => {
+    if (jd_id && can_id) {
+      dispatch(interviewQuestionMiddleware({ jd_id, can_id }));
+    }
+  }, [jd_id, can_id]);
+  if (initialLoader || matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
-        <Loader  />
+        <Loader />
       </Flex>
     );
   }
@@ -225,29 +235,32 @@ const ApplicantProfileModal = ({
           btnRight={YES}
           open={isInvitePopUp}
         />
-      )} 
+      )}
       <Flex row className={styles.tabContainer}>
-        <Flex height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}>
-        {candidate_details &&
-        candidate_details  ?.map((candiList, index) => {
-          return (
-            <ProfileNavBar
-              key={index + candiList.first_name}
-              candiList={candiList}
-              jdDetails={jd}
-              setjobtitle={setjobtitle} 
-              applieddatecheck ={isTab && stages.length === 0 ?true:false}
-              availableity ={isTab && stages.length !== 0 ?false:true}
-              profile_match={profileMatch}
-              nonMatch={checkMatch}
-              inviteCall={hanldeInvitePopUp} 
-              isResume
-              withOutJD={isTab}
-              source={source}
-              inviteIconNone={inviteIconNone}
-            />
-          );
-        })}
+        <Flex
+          height={window.innerHeight}
+          style={{ boxShadow: '2px 2px 2px #D7C7D2', marginRight: '5px' }}
+        >
+          {candidate_details &&
+            candidate_details?.map((candiList, index) => {
+              return (
+                <ProfileNavBar
+                  key={index + candiList.first_name}
+                  candiList={candiList}
+                  jdDetails={jd}
+                  setjobtitle={setjobtitle}
+                  applieddatecheck={isTab && stages.length === 0 ? true : false}
+                  availableity={isTab && stages.length !== 0 ? false : true}
+                  profile_match={profileMatch}
+                  nonMatch={checkMatch}
+                  inviteCall={hanldeInvitePopUp}
+                  isResume
+                  withOutJD={isTab}
+                  source={source}
+                  inviteIconNone={inviteIconNone}
+                />
+              );
+            })}
         </Flex>
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex} marginTop={10}>

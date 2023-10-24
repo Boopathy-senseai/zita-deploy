@@ -105,12 +105,14 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                   <Flex
                     marginLeft={5}
                     onClick={() => setFeedbackShow(!isShowFeedback)}
+                    style={{cursor:"pointer"}}
                   >
                     <SvgAngle
                       fill={'#581845'}
                       height={12}
                       width={12}
                       up={isShowFeedback}
+                    
                     />
                   </Flex>
                 </Flex>

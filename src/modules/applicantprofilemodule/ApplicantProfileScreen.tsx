@@ -32,6 +32,7 @@ import ApplicantTabRightOne from './ApplicantTabRightOne';
 import ApplicantTabLeftOne from './ApplicantTabLeftOne';
 import ApplicantTabLeftTwo from './ApplicantTabLeftTwo';
 import styles from './applicantprofilescreen.module.css';
+import { interviewQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
 
 // import { LinkWrapper } from '../../uikit';
 
@@ -164,6 +165,11 @@ const ApplicantProfileScreen = () => {
       };
     },
   );
+  useEffect(() => {
+    if (jd_id && can_id) {
+      dispatch(interviewQuestionMiddleware({ jd_id, can_id }));
+    }
+  }, [jd_id, can_id]);
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');

@@ -6,7 +6,6 @@ import {
 } from '../../../../actions/actions';
 import { interviewQuestion } from '../../../../routes/apiRoutes';
 import { stringifyParams } from '../../../../uikit/helper';
-import json from '../../../../assets/others/response.json';
 import { InterviewerQuestions } from '../../interviewerQuestionType';
 
 export const interviewQuestionMiddleware = createAsyncThunk<
@@ -23,8 +22,8 @@ export const interviewQuestionMiddleware = createAsyncThunk<
     const { data } = await axios.get(
       `${interviewQuestion}?${stringifyParams(payload)}`,
     );
-    // return data as InterviewerQuestions;
-    return json as InterviewerQuestions;
+    return data as InterviewerQuestions;
+    // return json as InterviewerQuestions;
   } catch (error) {
     const typedError = error as Error;
     return rejectWithValue(typedError);

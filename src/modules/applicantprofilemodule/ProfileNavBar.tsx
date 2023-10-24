@@ -25,8 +25,8 @@ import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import SvgRadioWithOutOutLine from '../../icons/SvgRadioWithOutOutLine';
 import { SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { Button, LinkWrapper } from '../../uikit';
-import { InputCheckBox, InputRadio } from '../../uikit';
+import { Button, LinkWrapper, InputCheckBox, InputRadio } from '../../uikit';
+
 import { workYear } from '../common/commonHelper';
 import { getDateString, isEmpty, notSpecified } from '../../uikit/helper';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
@@ -46,6 +46,7 @@ import {
   applicantAllMatchMiddleWare,
   applicantMatchMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
+import { interviewQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
 var querystring = require('querystring');
 const cx = classNames.bind(styles);
 
@@ -149,6 +150,7 @@ const ProfileNavBar = ({
     personalInfo,
     candidate_details,
     overall_percentage,
+    results,
   } = useSelector(
     ({
       applicantStausReducers,
@@ -157,7 +159,7 @@ const ProfileNavBar = ({
       applicantMatchReducers,
       applicantProfileInitalReducers,
       zitaMatchDataCandidateReducers,
-      candidatejdmatchReducers,
+      interviewerQuestionReducers,
     }: RootState) => {
       return {
         match:
@@ -172,6 +174,7 @@ const ProfileNavBar = ({
         jd_id: applicantProfileInitalReducers?.jd_id,
         invite: applicantStausReducers?.invite,
         overall: applicantScoreReducers.overall,
+        results: interviewerQuestionReducers?.result,
         interview:
           typeof applicantScoreReducers.interview !== 'undefined' &&
           applicantScoreReducers.interview.length === 0
@@ -343,19 +346,19 @@ const ProfileNavBar = ({
     <>
       {invite?.length === 0 && (
         <CancelAndDeletePopup
-        title= {
-          isEmpty(candidate_details[0]?.last_name) ? (
-            <Flex>
-              <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name}.`}</Text>
-              <Text> Are you sure to proceed?</Text>
-            </Flex>
-          ) : (
-            <Flex>
-              <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name} ${candidate_details[0]?.last_name}.`}</Text>
-              <Text> Are you sure to proceed?</Text>
-            </Flex>
-          )
-        } 
+          title={
+            isEmpty(candidate_details[0]?.last_name) ? (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name} ${candidate_details[0]?.last_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            )
+          }
           btnDelete={() =>
             hanldeInvite(Number(jd_id), match[0]?.candidate_id_id)
           }
@@ -464,7 +467,7 @@ const ProfileNavBar = ({
               marginTop={5}
               className={styles.starratingoverall}
             >
-              <StarsRating value={overall} disabled count={5} />
+              <StarsRating value={results?.total_avg} disabled count={5} />
             </Flex>
           )}
 

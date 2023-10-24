@@ -55,11 +55,7 @@ const ScreeningStatusTab = ({
     data: Question[];
   } | null>(null);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
-  useEffect(() => {
-    if (jd_id && can_id) {
-      dispatch(interviewQuestionMiddleware({ jd_id, can_id }));
-    }
-  }, [jd_id, can_id]);
+
   useEffect(() => {
     dispatch(userProfileMiddleWare());
   }, []);
