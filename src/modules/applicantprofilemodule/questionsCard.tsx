@@ -1,7 +1,10 @@
+ import { useFormik } from 'formik';
 import classNames from 'classnames/bind';
+
 import { useState } from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
+
 import SvgAdd from '../../icons/SvgAdd';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
@@ -9,13 +12,15 @@ import SvgTickBox from '../../icons/SvgTickBox';
 import { Button, Flex, InputCheckBox, InputText, Loader } from '../../uikit';
 import Text from '../../uikit/Text/Text';
 import { AppDispatch } from '../../store';
+import { isEmpty } from '../../uikit/helper';
 import {
   CumulativeData,
   NoOfInterview,
   Question,
 } from './interviewerQuestionType';
 import styles from './screeningstatustab.module.css';
-import { interviewQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
+import { addquestionmiddleware, interviewQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
+
 const cx = classNames.bind(styles);
 
 interface Props {
@@ -28,6 +33,8 @@ interface Props {
   jd_id: string;
   can_id: string;
 }
+
+
 
 const QuestionCard: React.FC<Props> = (props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -81,11 +88,17 @@ const QuestionCard: React.FC<Props> = (props) => {
     }
 }
 
+type FormProps = {
+  name: string;
+};
+const initial: FormProps = {
+  name: '',
+};
 
-
-    
-
-
+const formik = useFormik({
+  initialValues: initial,
+  onSubmit: () => {},
+});
   const generateQuestions = () => {
     dispatch(
       interviewQuestionMiddleware({
@@ -144,11 +157,31 @@ const QuestionCard: React.FC<Props> = (props) => {
       </>
     );
   }
+  const myObject = [
+    {
+    id: '0',
+    question: formik.values.name,
+    
+  }
+  ];
+  const handlesubmit=()=>{
+    const formData = new FormData();
+    formData.append('jd_id', jd_id);
+    formData.append('can_id', can_id);
+    formData.append('scorecard', JSON.stringify(myObject));
+    formData.append('inteview_id',interviews.data.id.toString());
+    dispatch(addquestionmiddleware({formData})).then(
+      (res)=>{
+        if(res.payload.success===true)
+        dispatch(interviewQuestionMiddleware({ jd_id, can_id }))
+      }
+    )
+  }
 
   return (
     <>
       <Flex>
-        {console.log("selectquestion",selectedQuestions,questions1,finallist)}
+        {console.log("selectquestion",selectedQuestions,questions1,finallist,formik.values,interviews, onEvaluate, jd_id, can_id)}
         <Flex row between marginTop={10}>
           <Text color="theme">{`${interviews.data?.event_type} / ${moment(
             interviews.data?.s_time,
@@ -207,16 +240,17 @@ const QuestionCard: React.FC<Props> = (props) => {
           ) : (
             <Flex row noWrap>
               <Flex column noWrap>
-                <InputText
-                  name="add question"
-                  value={''}
-                  onChange={() => {}}
+              <InputText
+                  name="name"
+                  value={formik.values.name}
+                  onChange={(e) => formik.setFieldValue('name', e.target.value)}
                   lineInput
                   size={14}
                   className={styles.input}
-                  // onKeyPress={handleKeyPress}
-                  // onBlur={formik.handleBlur}
-                />
+                  // onKeyPress={handleKeyPress}   // Uncomment if you need to use it
+                  // onBlur={formik.handleBlur}     // Uncomment if you need to use it
+              />
+
                 {/* <ErrorMessage
                     touched={formik.touched}
                     errors={formik.errors}
@@ -231,13 +265,14 @@ const QuestionCard: React.FC<Props> = (props) => {
                 ) : (
                   <div
                     className={cx('svgTickMargin', {
-                      svgTickDisable: true,
-                      tickStyle: false,
+                      svgTickDisable: isEmpty(formik.values.name.trim()),
+                      tickStyle:!isEmpty(formik.values.name.trim()),
                     })}
                     //  onClick={handleLocationSubmit}
+                    onClick={handlesubmit}
                     tabIndex={-1}
-                    role={'button'}
-                    onClick={() => {}}
+                    role={'button'}     
+                    onKeyPress={() => {}}
                   >
                     <SvgTickBox className={styles.tickStyle} />
                   </div>

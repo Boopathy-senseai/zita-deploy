@@ -46,6 +46,7 @@ export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
 export const APPLICANT_PROFILE_LIST = 'applicant/applicant_profile_list';
+export const Add_question='applicant/add_question';
 export const APPLICANT_PROFILE_ALLMATCH =
   'applicant/applicant_profile_all_match';
 export const APPLICANT_PROFILE_MESSAGE = 'applicant/applicant_message';

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
+  Add_question,
   EVALUATE_QUESTION,
   INTERVIEW_QUESTION,
 } from '../../../../actions/actions';
@@ -30,6 +31,21 @@ export const interviewQuestionMiddleware = createAsyncThunk<
     return rejectWithValue(typedError);
   }
 });
+
+export const addquestionmiddleware = createAsyncThunk(
+  Add_question,
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(interviewQuestion,
+        formData 
+      )
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+); 
 
 export const evaluateQuestionMiddleware = createAsyncThunk<
   any,
