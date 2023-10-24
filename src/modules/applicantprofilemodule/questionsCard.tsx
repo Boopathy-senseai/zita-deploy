@@ -36,24 +36,55 @@ const QuestionCard: React.FC<Props> = (props) => {
   const [addQuestion, setaddQuestione] = useState(false);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
-
+  const [questions1, setQuestions1] = useState(interviews.questions);
+  const [finallist, setfinallist] = useState(interviews.questions);
   const toggleStage = () => {
     setaddQuestione(!addQuestion);
     // formik.setFieldValue('title', '');
     // formik.resetForm();
   };
 
-  const handleSelectedQuestion = (value: Question) => {
-    setSelectedQuestions((prev) => {
-      const newArr = [...prev];
-      const i = newArr.findIndex((doc) => doc.id === value.id);
-      if (i !== -1) {
-        newArr.splice(i, 1);
-        return newArr;
-      }
-      return [...newArr, value];
+  // const handleSelectedQuestion = (value: Question) => {
+  //   setSelectedQuestions((prev) => {
+  //     const newArr = [...prev];
+  //     const i = newArr.findIndex((doc) => doc.id === value.id);
+  //     if (i !== -1) {
+  //       newArr.splice(i, 1);
+  //       return newArr;
+  //     }
+  //     return [...newArr, value];
+  //   });
+  // };
+  const handleSelectedQuestion = (selectedDoc) => {
+ 
+    const updatedQuestions = questions1.map((doc) => {
+        if (doc.id === selectedDoc.id) { 
+            return { ...doc, is_active: !doc.is_active };
+        }
+        return doc;
     });
-  };
+
+    setQuestions1(updatedQuestions);
+
+    const isActive = updatedQuestions.find(doc => doc.id === selectedDoc.id).is_active;
+
+    if (isActive) {
+        setfinallist((prev) => {
+            const alreadyExists = prev.some(question => question.id === selectedDoc.id);
+            if (!alreadyExists) {
+                return [...prev, selectedDoc];
+            }
+            return prev;
+        });
+    } else {
+        setfinallist(prev => prev.filter(question => question.id !== selectedDoc.id));
+    }
+}
+
+
+
+    
+
 
   const generateQuestions = () => {
     dispatch(
@@ -117,6 +148,7 @@ const QuestionCard: React.FC<Props> = (props) => {
   return (
     <>
       <Flex>
+        {console.log("selectquestion",selectedQuestions,questions1,finallist)}
         <Flex row between marginTop={10}>
           <Text color="theme">{`${interviews.data?.event_type} / ${moment(
             interviews.data?.s_time,
@@ -130,11 +162,13 @@ const QuestionCard: React.FC<Props> = (props) => {
         <Flex>
           {interviews &&
             interviews.questions.length > 0 &&
-            (interviews.questions as Question[]).map((doc, index) => {
+            (questions1 as Question[]).map((doc, index) => {
               return (
                 <Flex row top marginTop={10} key={index}>
+                 
                   <InputCheckBox
                     className={styles.x}
+                    checked={doc?.is_active}
                     onClick={() => handleSelectedQuestion(doc)}
                   />
                   <Flex width={'100%'}>
@@ -221,11 +255,11 @@ const QuestionCard: React.FC<Props> = (props) => {
               </div>
             </Flex>
           )}
-          {selectedQuestions.length !== 0 && (
+          {finallist.length !== 0 && (
             <Button
               onClick={() => {
-                if (selectedQuestions.length !== 0) {
-                  onEvaluate(selectedQuestions);
+                if (finallist.length !== 0) {
+                  onEvaluate(finallist);
                 }
               }}
               types={'primary'}

@@ -3,6 +3,7 @@ export interface Result {
 }
 
 export interface Question {
+  is_active: any;
   id: number;
   jd_id: string;
   candidate_id: string;
