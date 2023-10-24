@@ -447,18 +447,15 @@ const ComparativeanalysisModal = ({
                     >
                       {selectedcriteria &&
                         selectedcriteria.payload.analysis
+                          .map((e, indexnum) => e) // Clone the array to avoid modifying the original
                           .sort((data1, data2) => {
-                            // Replace 'someProperty' with the property you want to sort by
-                            if (
-                              data1.Total_matching_percentage <
-                              data2.Total_matching_percentage
-                            )
+                            if (data1.Total_matching_percentage < data2.Total_matching_percentage) {
                               return -1;
-                            if (
-                              data1.Total_matching_percentage >
-                              data2.Total_matching_percentage
-                            )
+                            }
+                            if (data1.Total_matching_percentage > data2.Total_matching_percentage) {
                               return 1;
+                            }
+                            // If Total_matching_percentage is the same, maintain the current order
                             return 0;
                           })
                           .reverse()
@@ -528,7 +525,7 @@ const ComparativeanalysisModal = ({
                                           style={{
                                             fontSize: 10,
                                             marginTop: ' 2px',
-                                            color:'white'
+                                            color: 'white'
                                           }}
                                           bold
                                         >
