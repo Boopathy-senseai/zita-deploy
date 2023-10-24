@@ -394,7 +394,7 @@ const ApplicantPipeLineScreen = ({
 
   const handlefunction=()=>{
 
-    dispatch(WeightagematchinggetMiddleWare(jd_id))
+    dispatch(WeightagematchinggetMiddleWare(jdId))
    .then((res)=>{
 
     if(res.payload.success === true){
