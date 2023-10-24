@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
 import SvgClose from '../../icons/SvgClose';
-import { ErrorMessage, InputSearch, InputText, Loader, Modal, SelectTag } from '../../uikit';
+import { ErrorMessage, InputSearch, InputText, Loader, Modal, SelectTag, Toast } from '../../uikit';
 import { getFocus, isEmpty } from '../../uikit/helper';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -251,11 +251,18 @@ const UploadJd = ({
           typeof res.payload?.skills,
         );
       }
-      setFieldValue('work_space_type', res.payload.work_space_type.toString());
-      setFieldValue('country', res.payload.country.toString());
-      setFieldValue('city', res.payload.city.toString());
-      setFieldValue('state', res.payload.state.toString());
-      setFieldValue('state', res.payload.state.toString());
+      console.log('ress:;::;',res)
+      if(res.payload.error===true){
+      Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG','error');
+       }else{
+        // Toast('Request Completed Successfully', 'LONG','success');
+        setpopup(true)
+      }
+      setFieldValue('work_space_type', res?.payload?.work_space_type?.toString());
+      setFieldValue('country', res?.payload?.country?.toString());
+      setFieldValue('city', res?.payload?.city?.toString());
+      setFieldValue('state', res?.payload?.state?.toString());
+      setFieldValue('state', res?.payload?.state?.toString());
       setFieldValue('industryType', formik.values.industryType1);
       setFieldValue('industryType1', '');
       setFieldValue('work_space_type1', '');
@@ -265,7 +272,9 @@ const UploadJd = ({
       setFieldValue('Overview', '');
       setFieldValue('Department_and_reporting', '');
       setSubmitLoader(false);
-      setpopup(true)
+      
+      
+      
     });
 
     setopenmodel(false);

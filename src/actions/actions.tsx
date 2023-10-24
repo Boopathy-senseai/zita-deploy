@@ -198,3 +198,7 @@ export const EVENTS_DELETE = 'events/delete';
 
 export const CALENDAR_EVENTS_LIST = 'calendar-events/list';
 export const CALENDAR_EVENTS_DELETE = 'calendar-events/delete';
+
+// interview question
+
+export const INTERVIEW_QUESTION = 'interviewer/questions';

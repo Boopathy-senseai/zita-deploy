@@ -440,3 +440,26 @@ export interface jobsSelectState {
   error: string;
   feature: number;
 }
+
+
+export interface weightageState {
+  isLoading: boolean;
+  error: string;
+  success:boolean; 
+  tech_skills:{
+    skills: number,
+    roles:number,
+    exp:number,
+    qualification:number,
+    tech_tools:number,
+    soft_skills:number,
+  }
+  non_tech:{
+    industry_exp:number,
+    domain_exp:number,
+    certification:number,
+    location:number,
+    cultural_fit:number,
+    ref:number,
+    }
+}  

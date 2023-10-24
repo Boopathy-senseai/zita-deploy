@@ -51,6 +51,9 @@ type Props = {
   closeAddInterviewerSlider: () => void;
   addTeamInterviewer: (info: InterviewInfo) => void;
   removeTeamInterviewer: (info: InterviewInfo) => void;
+  setlist:any;
+  updatestate:any
+
 };
 
 const AddInterviewersUI = ({
@@ -65,6 +68,9 @@ const AddInterviewersUI = ({
   username,
   selectedInterviewers,
   currentUser,
+  setlist,
+  updatestate
+
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -96,6 +102,9 @@ const AddInterviewersUI = ({
 
   const handleSelectInterviewers = (member: TeamMemberType) => {
     setSearchTerm('');
+    setlist(member)
+    updatestate(member)
+
     if (
       selectedInterviewers.filter((user) => user.userId === member.userId)
         .length === 0

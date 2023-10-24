@@ -22,8 +22,7 @@ import {
   candidatejdmatchReducers,
   googleConflictReducers,
   outlookConflictReducers,
-  calendarConfigurationReducers
-
+  calendarConfigurationReducers,
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
   bulkImportReducers,
@@ -50,6 +49,7 @@ import {
   questionnaireForJdReducers,
   selectDsorNonDsReducers,
   validateJobIDReducers,
+  weightageReducers,
 } from '../modules/createjdmodule/store/reducer/createjdreducer';
 import {
   jdViewReducers,
@@ -123,9 +123,14 @@ import {
 } from '../modules/emailintegrationmodule/store/reducer/emailreducer';
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
 import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
-import { schedulerReducers, slotterReducers, timezoneReducers } from '../modules/meetingscheduler/events/store/reducer/eventreducer';
+import {
+  schedulerReducers,
+  slotterReducers,
+  timezoneReducers,
+} from '../modules/meetingscheduler/events/store/reducer/eventreducer';
 import { scheduledEventsReducers } from '../modules/meetingscheduler/scheduledevents/store/reducer/evetsreducer';
 import { calendarEventsReducers } from '../modules/meetingscheduler/calendarEvents/store/reducer/evetsreducer';
+import { interviewerQuestionReducers } from '../modules/applicantprofilemodule/store/reducer/interviewQuestionReducer';
 import { ComparativesearchingdataReducers } from '../modules/Comparative Analysis /store/reducer/comparativereducer';
 
 export const reducers = {
@@ -226,5 +231,7 @@ export const reducers = {
   googleConflictReducers,
   outlookConflictReducers,
   calendarConfigurationReducers,
+  weightageReducers,
+  interviewerQuestionReducers,,
   ComparativesearchingdataReducers
 };

@@ -156,20 +156,25 @@ const JdPreviewScreen = () => {
     >
       {postLoader && <Loader />}
       <Flex row center className={styles.step} >
-        <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
+        <StepProgressBar roundFill barFilled />
         <StepProgressBar
-          title="Applicant Questionnaire"
+          title="Match Weightage"
           titleclassName={styles.stepTwo}
           stepIndex="2"
+          roundFill
+        />
+        <StepProgressBar
+          title="Applicant Questionnaire"
+          titleclassName={styles.stepThree}
+          stepIndex="3"
           roundFill
           barFilled
         />
         <StepProgressBar
           title="Preview & Post Job"
-          titleclassName={styles.stepTwo}
-          stepIndex="3"
+          titleclassName={styles.stepFour}
+          stepIndex="4"
           roundFill
-
         />
 
       </Flex>

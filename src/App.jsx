@@ -19,6 +19,7 @@ import MyDataBaseScreen from './modules/mydatabasemodule/MyDataBaseScreen';
 import CreateJdScreen from './modules/createjdmodule/CreateJdScreen';
 import CreateJdWithDs from './modules/createjdmodule/CreateJdWithDs';
 import CalendarScreen from './modules/calendarModule/CalendarScreen';
+import Weightagematching from './modules/createjdmodule/Weightagematching';
 import {
   accountSettingRoutes,
   applicantPipeLineScreen, 
@@ -41,6 +42,7 @@ import {
   jobPreview,
   jobPreviewView,
   jobQuestionnaire,
+  weightagematching,
   jobSelect,
   loginAuth,
   candidateLogin,
@@ -55,7 +57,7 @@ import {
   calendarRoute,
   inbox,
   meetingScheduler,
-  loginCandidate, 
+  loginCandidate,
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
@@ -320,6 +322,14 @@ const App = () => {
     {
       path: jobQuestionnaire,
       component: ApplicantQuestionnaire,
+      exact: true,
+      noPermission: Permission.includes('create_post'),
+      isNav: true,
+      isside:true
+    },
+    {
+      path: weightagematching,
+      component: Weightagematching,
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,

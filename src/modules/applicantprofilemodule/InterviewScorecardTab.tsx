@@ -2,37 +2,22 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-// import StarRatingComponent from 'react-star-rating-component';
-// import ReactHtmlParser, {
-//   processNodes,
-//   convertNodeToElement,
-//   htmlparser2,
-// } from 'react-html-parser';
-// import parse from 'html-react-parser';
 import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
 import StarRatingComponent from 'react-star-rating-component';
 import StarsRating from 'react-star-rate';
 import { Tooltip } from '@mui/material';
-// import { RatingComponent } from '@syncfusion/ej2-react-inputs';
-import ReactHtmlParser, {
-  processNodes,
-  convertNodeToElement,
-  htmlparser2,
-} from 'react-html-parser';
-// import parse from 'html-react-parser';
-// import classNames from 'classnames/bind';
-// import ReactQuill from 'react-quill';
 import Loader from '../../uikit/Loader/Loader';
 import Modal from '../../uikit/Modal/Modal';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
-import StarRating from '../../uikit/StarRating/StarRating';
+import SvgInterviewer from '../../icons/SvgInterviewer';
+import SvgUserRating from '../../icons/SvgUserRating';
 import Svgeditingnotes from '../../icons/editingnotes';
-import SvgBoxEdit from '../../icons/SvgBoxEdit';
+import SvgQuestion from '../../icons/SvgQuestion';
 import Text from '../../uikit/Text/Text';
 import { Card, ErrorMessage } from '../../uikit';
-import { firstNameChar, getDateString, isEmpty } from '../../uikit/helper';
+import { isEmpty } from '../../uikit/helper';
 import { AppDispatch, RootState } from '../../store';
 import { InterviewScorecardApi, checkAuth } from '../../routes/apiRoutes';
 import {
@@ -48,7 +33,6 @@ import {
   applicantScoreMiddleWares,
 } from './store/middleware/applicantProfileMiddleware';
 import styles from './interviewscorecardtab.module.css';
-// import { applicantUserlistReducer } from './store/reducer/applicantProfileReducer';
 const cx = classNames.bind(styles);
 var querystring = require('querystring');
 const InterviewScorecardTab = () => {
@@ -103,7 +87,7 @@ const InterviewScorecardTab = () => {
                   rating5: 0,
                   overall_percentage: 0,
                   user_id: 0,
-                  user:0,
+                  user: 0,
                 },
               ]
             : applicantScoreReducers.interview,
@@ -188,9 +172,9 @@ const InterviewScorecardTab = () => {
     if (texttrim === '') {
       errors.userMessage = 'Enter valid notes.';
     } else if (
-      !mentionnotes.test(textNodes) 
+      !mentionnotes.test(textNodes)
       //&&
-     // mentionspecialcharacter.test(textNodes)
+      // mentionspecialcharacter.test(textNodes)
     ) {
       errors.userMessage = 'Message length should not exceed 2000 characters.';
     }
@@ -323,369 +307,82 @@ const InterviewScorecardTab = () => {
     } else {
       setuser(false);
     }
-  }, [user]); 
+  }, [user]);
   return (
-    <Flex columnFlex className={styles.overAll}>
-      <Text bold style={{ fontSize: '14px', padding: '13px 0px 0px 16px' }}>
-        Interview Scorecard
-      </Text>
-      <Flex column  style={{ padding: '0px 16px 0px 16px' }}>
-        <Flex>
-          <Text className={styles.addText}>
-            You can add the interview rating and comment here for the applicant
+    <>
+      <Flex row flex={12}>
+        <Flex
+          flex={6}
+          columnFlex
+          className={styles.overAll}
+          style={{ padding: '10px' }}
+          // height={window.innerHeight - 120}
+        >
+          <Text bold style={{ fontSize: '14px' }}>
+            Interview Scorecard
           </Text>
-        </Flex>
-        <Flex>
+          <Text className={styles.addText}>
+            {"Interviewer's overall ratings for each interview"}.
+          </Text>
+
           <Flex center middle className={styles.starstylehead}>
             <StarsRating disabled count={5} value={overall} />
             <Flex center middle marginTop={10}>
               <Text>{reaction}</Text>
             </Flex>
           </Flex>
-        </Flex>
-      </Flex>
-      <Flex
-        height={window.innerHeight - 241}
-        style={{
-          overflow: 'scroll',
-          display: 'flex',
-        }}
-      >
-        <Flex
-          className={styles.inputContainer}
-          style={{ padding: '16px 16px 0px 16px' }}
-        >
-          {interview.filter((inter) => inter.user_id === user).length ===
-          0 ? (
-            <input
-              className={styles.initialbuttons}
-              onClick={hanldeInputOpen}
-              placeholder="Add your ratings and feedback here"
-            />
-          ) : (
-            ''
-          )}
-
-          <Modal open={opencomment}>
-            <Flex
-              style={{ backgroundColor: '#ffffff' }}
-              className={styles.overallmodal}
-            >
-              <Flex row>
-                <Flex flex={6}>
-                  <Text bold size={14}>
-                    Overall Rating
-                  </Text>
-                  <Text size={13}>Average of all the team members</Text>
-                  <Flex
-                    center
-                    middle
-                    marginTop={30}
-                    height={40}
-                    className={styles.starsizes}
-                  >
-                    <StarsRating
-                      value={roundedValues}
-                      disabled
-                      // onChange={handleStar5}
-                      count={5}
-                    />
-                    <Flex center middle marginTop={10}>
-                      <Text>{reactions}</Text>
+          <Flex row between>
+        <Flex marginTop={10}  flex={6}>
+          <Card className={styles.cardStyle}>
+            <Flex row between center>
+            <Text bold size={13}>Interview Level 1 on oct 09, 2023</Text>
+            <Svgeditingnotes fill={"#581845"}/>
+            </Flex>
+            
+            <Flex row between>
+              <Flex>
+                <Flex row marginTop={10}>
+                  <Flex row center>
+                    <SvgInterviewer width={16} height={16} />
+                    <Text style={{ marginLeft: '5px' }}>John smith</Text>
+                  </Flex>
+                  <Flex row center marginLeft={15}>
+                    <SvgQuestion width={16} height={16} />
+                    <Text style={{ marginLeft: '5px' }}>10</Text>
+                  </Flex>
+                  <Flex row marginLeft={15}>
+                    <SvgUserRating width={14} height={14} />
+                    <Flex
+                      className={styles.ratingStar}
+                      marginTop={-32}
+                      marginLeft={5}
+                    >
+                      <StarsRating count={5} value={overall} />
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex
-                  style={{
-                    border: '0.3px solid #C3C3C3',
-                    width: '0.3px',
-                    margin: '0px 5px 10px',
-                    paddingBottom: '10px',
-                    height: '175px',
-                  }}
-                ></Flex>
-                <Flex flex={6.4} marginLeft={10}>
-                  <Text bold size={14}>
-                    Scoring Categories
+                <Flex>
+                  <Text bold size={13} color="theme">
+                    View comments/Feedback
                   </Text>
-                  <Text size={13}>
-                    Rate the candidate based on following aspects
-                  </Text>
-                  <Flex marginTop={10}>
-                    <Flex
-                      row
-                      center
-                      between
-                      width={350}
-                      height={25}
-                      className={styles.starsize}
-                    >
-                      <Text size={13} color="theme">
-                        Technical Proficiency:
-                      </Text>
-                      {/* <Tooltip title={tooltip} > */}
-                      <StarsRating
-                        value={rating1}
-                        onChange={handleStar1}
-                        // onHover={tooltip}
-                        count={5}
-                        onHoverChange={handlehover}
-                      />
-                      {/* </Tooltip> */}
-                    </Flex>
-                    {/* </Card> */}
-                  </Flex>
-                  <Flex marginRight={10}>
-                    {/* <Card className={styles.cardstructure}> */}
-                    <Flex
-                      row
-                      center
-                      between
-                      width={350}
-                      height={25}
-                      className={styles.starsize}
-                    >
-                      <Text size={13} color="theme">
-                        Communication Aptitude:
-                      </Text>
-                      <StarsRating
-                        value={rating2}
-                        onChange={handleStar2}
-                        count={5}
-                      />
-                    </Flex>
-                    {/* </Card> */}
-                  </Flex>
-                  <Flex marginRight={10}>
-                    {/* <Card className={styles.cardstructure}> */}
-                    <Flex
-                      row
-                      center
-                      between
-                      width={350}
-                      height={25}
-                      className={styles.starsize}
-                    >
-                      <Text size={13} color="theme">
-                        Problem-Solving Capability:
-                      </Text>
-                      <StarsRating
-                        value={rating3}
-                        onChange={handleStar3}
-                        count={5}
-                      />
-                    </Flex>
-                    {/* </Card> */}
-                  </Flex>
-                  <Flex marginRight={10}>
-                    {/* <Card className={styles.cardstructure}> */}
-                    <Flex
-                      row
-                      center
-                      between
-                      width={350}
-                      height={25}
-                      className={styles.starsize}
-                    >
-                      <Text size={13} color="theme">
-                        Collaborative Skills:
-                      </Text>
-                      <StarsRating
-                        value={rating4}
-                        onChange={handleStar4}
-                        count={5}
-                      />
-                    </Flex>
-                    {/* </Card> */}
-                  </Flex>
-                  <Flex>
-                    {/* <Card className={styles.cardstructure}> */}
-                    <Flex
-                      row
-                      center
-                      between
-                      width={350}
-                      height={25}
-                      className={styles.starsize}
-                    >
-                      <Text size={13} color="theme">
-                        Adaptability and Learning:
-                      </Text>
-                      <StarsRating
-                        value={rating5}
-                        onChange={handleStar5}
-                        count={5}
-                      />
-                    </Flex>
-                    {/* </Card> */}
-                  </Flex>
                 </Flex>
               </Flex>
-              <Flex marginTop={10} >
-                <Text bold size={14}>
-                  Comments/Feedbackt
-                </Text>
-                <Flex height={window.innerHeight - 260} style={{overflowY:'scroll',display:'flex'}} >
-                <Flex className={styles.textArea}>
-                  <ReactQuill
-                    // ref={editorRef}
-                    value={formik.values.userMessage}
-                    className={styles.reactquillchange}
-                    onChange={formik.handleChange('userMessage')}
-                    placeholder="Add your feedback here"
-                  />
-                  <ErrorMessage
-                    touched={formik.touched}
-                    errors={formik.errors}
-                    name="userMessage"
-                  />
+              <Flex>
+                <Flex>
+                  <Text>Overall Score</Text>
                 </Flex>
-                <Flex row center end columnFlex className={styles.btnConatiner}>
-                  <Button types="secondary" onClick={handleCancel}>
-                    {CANCEL}
-                  </Button>
-
-                  <Button
-                    className={styles.addBtn}
-                    onClick={formik.handleSubmit}
-                  >
-                    {buttonName}
-                  </Button>
-
-                  {isPostLoader && (
-                    <div style={{ marginLeft: 8 }}>
-                      <Loader withOutOverlay size="small" />
-                    </div>
-                  )}
-                </Flex>
+                <Flex>
+                  <Text>Recommended</Text>
                 </Flex>
               </Flex>
             </Flex>
-          </Modal>
-        </Flex>
-        <Flex style={{ padding: ' 0px 16px 10px 16px' }} marginTop={10}>
-          {interview &&
-            interview
-              .map((list, indexList) => {
-                return (
-                  <>
-                    {list.comments !== null && list.comments !== '' && (
-                      <Card
-                        key={list.comments}
-                        className={styles.feedbackstyle}
-                      >
-                        <Flex className={styles.borderStyle}>
-                          <Flex row center between className={styles.dateStyle}>
-                            <Flex
-                              row
-                              between
-                              center
-                              className={styles.starnotes}
-                            >
-                              {list.img_name === '' ||
-                              list.img_name === 'default.jpg' ? (
-                                <div
-                                  className={cx('profile')}
-                                  style={{
-                                    backgroundColor:
-                                      isColor[indexList % isColor.length],
-                                  }}
-                                >
-                                  <Text
-                                    color="black"
-                                    transform="uppercase"
-                                    className={styles.firstlastchar}
-                                  >
-                                    {`${list?.first_name?.charAt(
-                                      0,
-                                    )}${list?.last_name?.charAt(0)}`}
-                                  </Text>
-                                </div>
-                              ) : (
-                                <img
-                                  alt="profile"
-                                  height={35}
-                                  width={35}
-                                  style={{
-                                    borderRadius: '100%',
-                                    objectFit: 'cover',
-                                    marginRight: 8,
-                                    height: 35,
-                                    width: 35,
-                                  }}
-                                  src={mediaPath + list.img_name}
-                                />
-                              )}
-                              <Text bold>
-                                {list.first_name + ' ' + list.last_name}
-                              </Text>
-                              <StarsRating
-                                value={list.overall_percentage}
-                                disabled
-                                // onChange={handleStar5}
-                                count={5}
-                              />
-                            </Flex>
-
-                            <Flex row between>
-                              <Text
-                                color="gray"
-                                style={{ marginRight: '10px' }}
-                              >
-                                {getDateString(list.created_at, 'll')}
-                              </Text> 
-                              {list.user_id === user ? (
-                                <Flex
-                                  className={styles.svgEdit}
-                                  onClick={() => handleEdit(list)}
-                                >
-                                  <Svgeditingnotes
-                                    height={14}
-                                    width={14}
-                                    fill={'#581845'}
-                                  />
-                                </Flex>
-                              ) : (
-                                <Flex
-                                  disabled
-                                  className={styles.svgEdit}
-                                  // onClick={() => handleEdit(list)}
-                                >
-                                  <Svgeditingnotes
-                                    height={14}
-                                    width={14}
-                                    fill={'rgb(88 24 69/30%)'}
-                                  />
-                                </Flex>
-                              )}
-                            </Flex>
-                          </Flex>
-                          <Flex
-                            className={styles.feedbackcard}
-                            style={{
-                              flexWrap: 'wrap',
-                              overflow: ' hidden',
-                              textOverflow: 'clip',
-                              fontSize: '13px',
-                            }}
-                          >
-                            <td
-                              className={styles.commentTextStyle}
-                              dangerouslySetInnerHTML={{
-                                __html: list.comments,
-                              }}
-                            />
-                          </Flex>
-                        </Flex>
-                      </Card>
-                    )}
-                  </>
-                );
-              })
-              .reverse()}
+          </Card>
         </Flex>
       </Flex>
-    </Flex>
+        </Flex>
+      </Flex>
+      
+    </>
   );
 };
 
