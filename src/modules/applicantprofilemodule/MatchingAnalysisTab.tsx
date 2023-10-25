@@ -600,7 +600,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
 
               <Flex
-                height={window.innerHeight - 184}
+                height={window.innerHeight - 224}
                 style={{ overflow: "scroll", padding: "10px 10px 0px 10px" }}
                 className={outputnontech.length <= 0 ? (outputtech.length <= 0 ? (styles.nodata) : ("")) : ("")}
               >
@@ -714,7 +714,10 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                                     </Flex>
                                                   </Flex></>) : (<>
                                                     <Flex >
+                                                      <Text>
                                                       {skill.description}
+                                                      </Text>
+                                                    
                                                     </Flex>
                                                   </>)
                                               }
@@ -831,7 +834,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                             </Flex></>
                                         ) : (
                                           <>
-                                            {skill.description.length > 175 ? (
+                                            {skill.description.length > 155 ? (
                                               <>
                                                 <Flex >
                                                   <Text className={styles.textellipces}>
