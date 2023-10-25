@@ -588,9 +588,9 @@ dataList.invite,
                   Skills:{' '}
                 </Text>
                  {dataList.skills===null||undefined||""?(<Text size={11} title={`Skills: Not Specified`}>
-                  {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
-                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
-                  { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
+                  {notSpecified(lowerCase(dataList.skills?.replace(/,/g, ', ')))}
+                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills?.replace(/,/g, ', ')}`}>
+                  { notSpecified(lowerCase(dataList.skills?.replace(/,/g, ', ')))}
                  </Text>)
               }
               </Text>
