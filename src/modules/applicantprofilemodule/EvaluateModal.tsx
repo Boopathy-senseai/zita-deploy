@@ -1,3 +1,4 @@
+import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
@@ -13,6 +14,7 @@ import { hireList } from './mock';
 import { Question, ScoreCardFormInputData } from './interviewerQuestionType';
 import { CandidateDetailsEntity } from './applicantProfileTypes';
 import { evaluateQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
+
 
 const cx = classNames.bind(styles);
 
@@ -43,65 +45,82 @@ const EvaluateModal: React.FC<Props> = (props) => {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (data && data.length > 0) {
-      setForm((prev) => ({
-        ...prev,
-        scorecard: data.reduce(
-          (o, v) => ({
-            ...o,
-            [v.id]: {
-              ...o[v.id],
-              id: v.id,
-              scorecard: 0,
-              value: '',
-              active: true,
-              //   question: '',
-              //   priority: 0,
-            },
-          }),
-          {},
-        ),
-      }));
-    }
-  }, [JSON.stringify(data)]);
+  // useEffect(() => {
+  //   if (data && data.length > 0) {
+  //     setForm((prev) => ({
+  //       ...prev,
+  //       scorecard: data.reduce(
+  //         (o, v) => ({
+  //           ...o,
+  //           [v.id]: {
+  //             ...o[v.id],
+  //             id: v.id,
+  //             scorecard: 0,
+  //             value: '',
+  //             active: true,
+  //             //   question: '',
+  //             //   priority: 0,
+  //           },
+  //         }),
+  //         {},
+  //       ),
+  //     }));
+  //   }
+  // }, [JSON.stringify(data)]);
 
-  const handleFormChange = (
-    field: string,
-    value: any,
-    parentField?: string,
-  ) => {
-    if (parentField) {
-      setForm((prev) => ({
-        ...prev,
-        [parentField]: { ...prev[parentField], [field]: value },
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-    }
+  // const handleFormChange = (
+  //   field: string,
+  //   value: any,
+  //   parentField?: string,
+  // ) => {
+  //   if (parentField) {
+  //     setForm((prev) => ({
+  //       ...prev,
+  //       [parentField]: { ...prev[parentField], [field]: value },
+  //     }));
+  //   } else {
+  //     setForm((prev) => ({
+  //       ...prev,
+  //       [field]: value,
+  //     }));
+  //   }
+  // };
+
+  type FormProps = {
+    scorecard: { [key: string]: ScoreCardFormInputData };
+    commands: string;
+    recommend: number;
   };
-
-  const handleScoreCardChange = (id: number, field: string, value: any) => {
-    setForm((prev) => ({
-      ...prev,
-      scorecard: {
-        ...prev?.scorecard,
-        [id]: { ...prev?.scorecard[id], [field]: value },
-      },
-    }));
+  
+  const initial: FormProps = {
+    scorecard: {},
+    commands: '',
+    recommend: 0,
   };
+  
+  const formik = useFormik({
+    initialValues: initial,
+    onSubmit: () => {},
+  });
 
+  // const handleScoreCardChange = (id: number, field: string, value: any) => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     scorecard: {
+  //       ...prev?.scorecard,
+  //       [id]: { ...prev?.scorecard[id], [field]: value },
+  //     },
+  //   }));
+  // };
   const handleEvaluateInterview = () => {
     setLoading(true);
+  
     dispatch(
       evaluateQuestionMiddleware({
         ...rest,
-        ...form,
+        ...formik.values,
         scorecard: JSON.stringify(
-          Object.values(form.scorecard).map((doc) => ({
+          Object.values(formik.values.scorecard).map((doc) => ({
             id: JSON.stringify(doc.id),
             scorecard: JSON.stringify(doc.scorecard),
             value: '',
@@ -118,8 +137,10 @@ const EvaluateModal: React.FC<Props> = (props) => {
         setLoading(false);
       });
   };
+  
   return (
     <Modal open={open}>
+      {console.log("hellooooooool",form.scorecard,form.commands,form.recommend,"formik",formik.values)}
       <Flex className={styles.overAll}>
         <Text size={14} bold className={styles.insertStyles}>
           Evaluate Scorecard
@@ -148,13 +169,14 @@ const EvaluateModal: React.FC<Props> = (props) => {
                     marginTop={-32}
                     marginLeft={5}
                   >
-                    <StarsRating
+                  <StarsRating
                       count={5}
-                      value={form?.scorecard?.[doc.id]?.scorecard || 0}
-                      onChange={(value) =>
-                        handleScoreCardChange(doc.id, 'scorecard', value)
-                      }
+                      value={formik.values.scorecard[doc.id]?.scorecard || 0}
+                      onChange={(value) => {
+                        formik.setFieldValue(`scorecard.${doc.id}.scorecard`, value);
+                      }}
                     />
+
                   </Flex>
                 </Flex>
               );
@@ -170,17 +192,18 @@ const EvaluateModal: React.FC<Props> = (props) => {
           </Flex>
 
           <Flex row>
-            {hireList.map((doc) => {
+          {hireList.map((doc) => {
               return (
                 <Flex key={doc.value} style={{ margin: '0  20px  10px 0 ' }}>
                   <InputRadio
-                    checked={form.recommend === doc.value}
+                    checked={formik.values.recommend === doc.value}
                     label={doc.label}
-                    onClick={() => handleFormChange('recommend', doc.value)}
+                    onClick={() => formik.setFieldValue('recommend', doc.value)}
                   />
                 </Flex>
               );
             })}
+
           </Flex>
           <Flex marginTop={5}>
             <Text color="theme" style={{ marginBottom: '5px' }}>
@@ -191,12 +214,13 @@ const EvaluateModal: React.FC<Props> = (props) => {
               style={{ overflowY: 'scroll', display: 'flex' }}
             >
               <Flex className={styles.textArea}>
-                <ReactQuill
-                  value={form.commands}
+              <ReactQuill
+                  value={formik.values.commands}
                   className={styles.reactquillchange}
-                  onChange={(value) => handleFormChange('commands', value)}
+                  onChange={(value) => formik.setFieldValue('commands', value)}
                   placeholder="Add your feedback here"
                 />
+
                 {/* <ErrorMessage
                   touched={formik.touched}
                   errors={formik.errors}
