@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { useMediaQuery } from 'react-responsive';
+
 import { Bothcandidateidjobid } from '../../routes/apiRoutes';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -217,6 +219,9 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
   const [isCollapse, setCollapse] = useState(false);
   const [isloadings, setisloading] = useState(false);
 
+  const isTablet = useMediaQuery({ query: '(max-width: 1000px)' });
+  const normal= useMediaQuery({ query: '(min-width: 1000px) and (max-width: 1411px)' });
+  
   let formData = new FormData();
   const [isnextLoader, setnextLoader] = useState(false)
 
@@ -640,7 +645,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                     <ProgressBar
                                       completed={`${skill.percentage}`}
                                       bgColor="#581845"
-                                      width="200px"
+                                      width="100%"
                                       height='6px'
                                       borderRadius='4px'
                                       labelColor="black"
@@ -780,7 +785,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                   <ProgressBar
                                     completed={`${skill.percentage}`}
                                     bgColor="#581845"
-                                    width="200px"
+                                    width="100%"
                                     height='6px'
                                     borderRadius='4px'
                                     labelColor="black"
@@ -959,7 +964,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                               style={{
                                 // Styling with violet color
 
-                                width: '200px',
+                                width: "200px",
                                 // Set the width as needed
                                 color: 'white', // Violet color
                                 WebkitAppearance: 'none', // Remove default styling in Webkit browsers
