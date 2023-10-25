@@ -1,3 +1,4 @@
+import { useFormik } from 'formik';
 import classNames from 'classnames/bind';
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -10,6 +11,7 @@ import { Button, Flex, InputCheckBox, Loader } from '../../uikit';
 import InputText from '../../uikit/InputText';
 import Text from '../../uikit/Text/Text';
 import { AppDispatch } from '../../store';
+import { isEmpty } from '../../uikit/helper';
 import {
   GenerateQuestionsState,
   InterviewExtractData,
@@ -20,6 +22,8 @@ import {
   evaluateQuestionMiddleware,
   interviewQuestionMiddleware,
 } from './store/middleware/interviewquestionMiddleware';
+
+
 const cx = classNames.bind(styles);
 
 interface Props {
@@ -53,7 +57,21 @@ const QuestionCard: React.FC<Props> = (props) => {
   };
   const toggleAddQuestion = () => {
     setNewAddQuestion(!newAddQuestion);
+    setQuestionLoader(false)
+    formik.resetForm()
   };
+
+  type FormProps = {
+    add_question: string;
+  };
+  const initial: FormProps = {
+    add_question: '',
+  };
+  
+  const formik = useFormik({
+    initialValues: initial,
+    onSubmit: () => {},
+  });
 
   const handleQuestionChange = (e) => {
     setForm((prev) => ({ ...prev, question: e?.target?.value }));
@@ -110,17 +128,20 @@ const QuestionCard: React.FC<Props> = (props) => {
     }
   };
   const addNewQuestion = () => {
-    if (interviews?.data && form.question !== '') {
+   
+    if (interviews?.data ) {
+      setQuestionLoader(true)
       dispatch(
         evaluateQuestionMiddleware({
           jd_id,
           can_id,
           interview_id: JSON.stringify(interviews?.data?.id),
-          scorecard: JSON.stringify([{ id: 0, question: form.question }]),
+          scorecard: JSON.stringify([{ id: 0, question: formik.values.add_question}]),
         }),
-      ).then((data: any) => {
-        if (data?.success && data?.success !== false) {
-          setForm((prev) => ({ ...prev, question: '' }));
+      ).then((res) => {
+        if (res.payload.success===true) {
+         formik.resetForm()
+         setQuestionLoader(false)
         }
       });
     }
@@ -181,8 +202,8 @@ const QuestionCard: React.FC<Props> = (props) => {
                 ) : (
                   <div
                     className={cx('svgTickMargin', {
-                      svgTickDisable: form.question === '',
-                      tickStyle: false,
+                      svgTickDisable: isEmpty(formik.values.add_question.trim()),
+                      tickStyle: !isEmpty(formik.values.add_question.trim()),
                     })}
                     //  onClick={handleLocationSubmit}
                     tabIndex={-1}
@@ -315,8 +336,8 @@ const QuestionCard: React.FC<Props> = (props) => {
               <Flex column noWrap>
                 <InputText
                   name="add question"
-                  value={form.question}
-                  onChange={handleQuestionChange}
+                  value={formik.values.add_question}
+                  onChange={(e) => formik.setFieldValue('add_question', e.target.value)}
                   lineInput
                   size={14}
                   className={styles.input}
@@ -337,8 +358,8 @@ const QuestionCard: React.FC<Props> = (props) => {
                 ) : (
                   <div
                     className={cx('svgTickMargin', {
-                      svgTickDisable: form.question === '',
-                      tickStyle: false,
+                      svgTickDisable: isEmpty(formik.values.add_question.trim()),
+                      tickStyle: !isEmpty(formik.values.add_question.trim()),
                     })}
                     //  onClick={handleLocationSubmit}
                     tabIndex={-1}
