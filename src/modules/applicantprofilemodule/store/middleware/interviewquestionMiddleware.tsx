@@ -38,7 +38,7 @@ export const evaluateQuestionMiddleware = createAsyncThunk<
     scorecard?: string;
     interview_id: string;
     commands?: string;
-    recommend?: string;
+    recommend?: number;
   }
 >(EVALUATE_QUESTION, async (payload, { rejectWithValue, dispatch }) => {
   try {

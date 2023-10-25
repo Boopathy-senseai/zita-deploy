@@ -124,7 +124,7 @@ const ScreeningStatusTab = ({
         scorecard: JSON.stringify([]),
         interview_id,
         commands: '',
-        recommend: '',
+        recommend: 0,
       }),
     ).then(() => {
       setEvaluatePopup(null);
@@ -134,7 +134,7 @@ const ScreeningStatusTab = ({
   return (
     <Flex row flex={12}>
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
-        <Text bold color="theme" className={styles.screenText}>
+        <Text bold  className={styles.screenText}>
           Interview Questions
         </Text>
         <Text>
@@ -188,7 +188,7 @@ const ScreeningStatusTab = ({
         ></Flex>
       )}
       {!issingletab && (
-        <Flex flex={6.4}>
+        <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
           <InterviewScorecardTab />
         </Flex>
       )}

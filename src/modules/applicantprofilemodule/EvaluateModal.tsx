@@ -30,7 +30,7 @@ interface Props {
 interface IFormData {
   scorecard: { [key: string]: ScoreCardFormInputData };
   commands: '';
-  recommend: '';
+  recommend: 0;
 }
 
 const EvaluateModal: React.FC<Props> = (props) => {
@@ -39,7 +39,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
   const [form, setForm] = useState<IFormData>({
     scorecard: {},
     commands: '',
-    recommend: '',
+    recommend: 0,
   });
   const [loading, setLoading] = useState<boolean>(false);
 

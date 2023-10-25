@@ -14,7 +14,7 @@ export const profileUserList = [
 ];
 
 export const hireList = [
-  { value: 'Yes', label: 'Yes', paddingleft: 50 },
-  { value: 'Neutral', label: 'Neutral', paddingleft: 50 },
-  { value: 'No', label: 'No', paddingleft: 50 },
+  { value: 3, label: 'Yes', paddingleft: 50 },
+  { value: 2, label: 'Neutral', paddingleft: 50 },
+  { value: 1, label: 'No', paddingleft: 50 },
 ];
