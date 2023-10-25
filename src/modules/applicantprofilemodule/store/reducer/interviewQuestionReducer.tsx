@@ -56,6 +56,7 @@ const interviewerQuestionReducer = createSlice({
             questions: [] as Question[],
             cumulative: [] as CumulativeData[],
             data: undefined,
+            scorecard: undefined,
           };
         }
         return {
@@ -75,6 +76,7 @@ const interviewerQuestionReducer = createSlice({
               ),
             ],
             data: v,
+            scorecard: action.payload.scorecard.find(doc => doc.interview_id === v.id)
           },
         };
       }, {} as { [key: number]: InterviewExtractData });

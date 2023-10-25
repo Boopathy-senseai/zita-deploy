@@ -4,17 +4,18 @@ import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
 import StarsRating from 'react-star-rate';
 import { useDispatch } from 'react-redux';
-import { Button, InputRadio, Modal } from '../../uikit';
+import { Button, ErrorMessage, InputRadio, Modal, Toast } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { UserEntity } from '../accountsettingsmodule/userprofilemodule/UserProfileTypes';
 import { AppDispatch } from '../../store';
+import { isEmpty } from '../../uikit/helper';
+import { THIS_FIELD_REQUIRED, mentionnotes } from '../constValue';
 import styles from './screeningstatustab.module.css';
 import { hireList } from './mock';
 import { Question, ScoreCardFormInputData } from './interviewerQuestionType';
 import { CandidateDetailsEntity } from './applicantProfileTypes';
 import { evaluateQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
-
 
 const cx = classNames.bind(styles);
 
@@ -23,51 +24,97 @@ interface Props {
   data: Question[];
   jd_id: string;
   can_id: string;
-  interview_id: string;
+  interview_id: number;
   user: UserEntity;
   candidateDetails: CandidateDetailsEntity[];
   onCancel: () => void;
+  recommend?: number;
+  commands?: string;
 }
 
 interface IFormData {
   scorecard: { [key: string]: ScoreCardFormInputData };
-  commands: '';
-  recommend: 0;
+  commands: string;
+  recommend: number;
 }
 
 const EvaluateModal: React.FC<Props> = (props) => {
-  const { open, data, user, candidateDetails, onCancel, ...rest } = props;
+  const {
+    open,
+    data,
+    user,
+    candidateDetails,
+    onCancel,
+    recommend,
+    commands,
+    ...rest
+  } = props;
   const dispatch: AppDispatch = useDispatch();
-  const [form, setForm] = useState<IFormData>({
+  const [initial, setInitial] = useState<IFormData>({
     scorecard: {},
     commands: '',
     recommend: 0,
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   if (data && data.length > 0) {
-  //     setForm((prev) => ({
-  //       ...prev,
-  //       scorecard: data.reduce(
-  //         (o, v) => ({
-  //           ...o,
-  //           [v.id]: {
-  //             ...o[v.id],
-  //             id: v.id,
-  //             scorecard: 0,
-  //             value: '',
-  //             active: true,
-  //             //   question: '',
-  //             //   priority: 0,
-  //           },
-  //         }),
-  //         {},
-  //       ),
-  //     }));
-  //   }
-  // }, [JSON.stringify(data)]);
+  const parser = new DOMParser();
 
+  const handleValidations = (values: IFormData) => {
+    const errors: Partial<{
+      scorecard: string;
+      commands: string;
+      recommend: string;
+    }> = {};
+    const questionRating = Object.values(values.scorecard).map(
+      (doc) => doc.scorecard,
+    );
+    const doc = parser.parseFromString(values.commands, 'text/html');
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    const texttrim = textNodes.trim();
+    if (isEmpty(texttrim)) {
+      errors.commands = '';
+    }
+    if (texttrim === '') {
+      errors.commands = 'Enter valid notes.';
+    } else if (!mentionnotes.test(textNodes)) {
+      errors.commands = 'Message length should not exceed 2000 characters.';
+    }
+    if (values.recommend === 0) {
+      errors.recommend = THIS_FIELD_REQUIRED;
+    }
+    if (questionRating.includes(0)) {
+      errors.scorecard = THIS_FIELD_REQUIRED;
+    }
+
+    return errors;
+  };
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setInitial((prev) => ({
+        ...prev,
+        recommend: recommend || 0,
+        commands: commands || '',
+        scorecard: data.reduce(
+          (o, v) => ({
+            ...o,
+            [v.id]: {
+              ...o[v.id],
+              id: v.id,
+              scorecard: parseInt(v.scorecard) || 0,
+              value: '',
+              active: true,
+              //   question: '',
+              //   priority: 0,
+            },
+          }),
+          {},
+        ),
+      }));
+    }
+  }, [JSON.stringify(data)]);
+
+  console.log(initial, 'rejrjenrj');
   // const handleFormChange = (
   //   field: string,
   //   value: any,
@@ -86,21 +133,55 @@ const EvaluateModal: React.FC<Props> = (props) => {
   //   }
   // };
 
-  type FormProps = {
-    scorecard: { [key: string]: ScoreCardFormInputData };
-    commands: string;
-    recommend: number;
+  // type FormProps = {
+  //   scorecard: { [key: string]: ScoreCardFormInputData };
+  //   commands: string;
+  //   recommend: number;
+  // };
+
+  // const initial: IFormData = {
+  //   scorecard: {},
+  //   commands: '',
+  //   recommend: 0,
+  // };
+  const handleEvaluateInterview = (form: IFormData) => {
+    setLoading(true);
+
+    dispatch(
+      evaluateQuestionMiddleware({
+        ...rest,
+        ...form,
+        interview_id: JSON.stringify(rest.interview_id),
+        scorecard: JSON.stringify(
+          Object.values(form.scorecard).map((doc) => ({
+            id: JSON.stringify(doc.id),
+            scorecard: JSON.stringify(doc.scorecard),
+            value: '',
+            active: 'True',
+          })),
+        ),
+      }),
+    )
+      .then(() => {
+        Toast(
+          recommend || commands
+            ? 'Scorecard evaluation updated successfully'
+            : 'Scorecard evaluation added successfully',
+        );
+
+        setLoading(false);
+        onCancel();
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
   };
-  
-  const initial: FormProps = {
-    scorecard: {},
-    commands: '',
-    recommend: 0,
-  };
-  
+
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: handleEvaluateInterview,
+    enableReinitialize: true,
+    validate: handleValidations,
   });
 
   // const handleScoreCardChange = (id: number, field: string, value: any) => {
@@ -112,35 +193,9 @@ const EvaluateModal: React.FC<Props> = (props) => {
   //     },
   //   }));
   // };
-  const handleEvaluateInterview = () => {
-    setLoading(true);
-  
-    dispatch(
-      evaluateQuestionMiddleware({
-        ...rest,
-        ...formik.values,
-        scorecard: JSON.stringify(
-          Object.values(formik.values.scorecard).map((doc) => ({
-            id: JSON.stringify(doc.id),
-            scorecard: JSON.stringify(doc.scorecard),
-            value: '',
-            active: "True",
-          })),
-        ),
-      }),
-    )
-      .then(() => {
-        setLoading(false);
-        onCancel();
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
-  };
-  
+
   return (
     <Modal open={open}>
-      {console.log("hellooooooool",form.scorecard,form.commands,form.recommend,"formik",formik.values)}
       <Flex className={styles.overAll}>
         <Text size={14} bold className={styles.insertStyles}>
           Evaluate Scorecard
@@ -169,18 +224,25 @@ const EvaluateModal: React.FC<Props> = (props) => {
                     marginTop={-32}
                     marginLeft={5}
                   >
-                  <StarsRating
+                    <StarsRating
                       count={5}
                       value={formik.values.scorecard[doc.id]?.scorecard || 0}
                       onChange={(value) => {
-                        formik.setFieldValue(`scorecard.${doc.id}.scorecard`, value);
+                        formik.setFieldValue(
+                          `scorecard.${doc.id}.scorecard`,
+                          value,
+                        );
                       }}
                     />
-
                   </Flex>
                 </Flex>
               );
             })}
+          <ErrorMessage
+            touched={formik.touched}
+            errors={formik.errors}
+            name="scorecard"
+          />
 
           <Flex style={{ borderTop: '1px solid #c3c3c3', marginTop: '5px' }}>
             <Text
@@ -191,20 +253,29 @@ const EvaluateModal: React.FC<Props> = (props) => {
             </Text>
           </Flex>
 
-          <Flex row>
-          {hireList.map((doc) => {
-              return (
-                <Flex key={doc.value} style={{ margin: '0  20px  10px 0 ' }}>
-                  <InputRadio
-                    checked={formik.values.recommend === doc.value}
-                    label={doc.label}
-                    onClick={() => formik.setFieldValue('recommend', doc.value)}
-                  />
-                </Flex>
-              );
-            })}
-
+          <Flex>
+            <Flex row>
+              {hireList.map((doc) => {
+                return (
+                  <Flex key={doc.value} style={{ margin: '0  20px  10px 0 ' }}>
+                    <InputRadio
+                      checked={formik.values.recommend === doc.value}
+                      label={doc.label}
+                      onClick={() =>
+                        formik.setFieldValue('recommend', doc.value)
+                      }
+                    />
+                  </Flex>
+                );
+              })}
+            </Flex>
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="recommend"
+            />
           </Flex>
+
           <Flex marginTop={5}>
             <Text color="theme" style={{ marginBottom: '5px' }}>
               Comments/Feedback *
@@ -214,18 +285,18 @@ const EvaluateModal: React.FC<Props> = (props) => {
               style={{ overflowY: 'scroll', display: 'flex' }}
             >
               <Flex className={styles.textArea}>
-              <ReactQuill
+                <ReactQuill
                   value={formik.values.commands}
                   className={styles.reactquillchange}
                   onChange={(value) => formik.setFieldValue('commands', value)}
                   placeholder="Add your feedback here"
                 />
 
-                {/* <ErrorMessage
+                <ErrorMessage
                   touched={formik.touched}
                   errors={formik.errors}
-                  name="userMessage"
-                /> */}
+                  name="commands"
+                />
               </Flex>
             </Flex>
           </Flex>
@@ -240,13 +311,12 @@ const EvaluateModal: React.FC<Props> = (props) => {
             Cancel
           </Button>
 
-          {/* TODO: Add spinner to button to indicate API in progreess... use --> loading from above */}
           <Button
             className={styles.addBtn}
-            onClick={handleEvaluateInterview}
+            onClick={formik.submitForm}
             style={{ marginTop: '10px' }}
           >
-            Add
+            {recommend || commands ? 'Update' : 'Add'}
           </Button>
         </Flex>
       </Flex>

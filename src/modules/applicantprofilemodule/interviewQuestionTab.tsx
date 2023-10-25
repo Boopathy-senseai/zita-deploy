@@ -54,7 +54,7 @@ const ScreeningStatusTab = ({
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
-    interview_id: string;
+    interview_id: number;
   } | null>(null);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
 
@@ -134,7 +134,7 @@ const ScreeningStatusTab = ({
   return (
     <Flex row flex={12}>
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
-        <Text bold  className={styles.screenText}>
+        <Text bold className={styles.screenText}>
           Interview Questions
         </Text>
         <Text>
@@ -172,6 +172,12 @@ const ScreeningStatusTab = ({
           user={user}
           candidateDetails={candidate_details}
           onCancel={handleCancel}
+          commands={
+            interviews[evaluatePopup.interview_id].cumulative.find(
+              (doc) => doc.interview_id === evaluatePopup.interview_id,
+            ).commands
+          }
+          recommend={interviews[evaluatePopup.interview_id].scorecard.recommend}
         />
       )}
 
@@ -189,7 +195,13 @@ const ScreeningStatusTab = ({
       )}
       {!issingletab && (
         <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
-          <InterviewScorecardTab />
+          <InterviewScorecardTab onEvaluate={(id, value) => {
+                  setEvaluatePopup({
+                    open: true,
+                    data: value,
+                    interview_id: id,
+                  });
+                }}/>
         </Flex>
       )}
     </Flex>

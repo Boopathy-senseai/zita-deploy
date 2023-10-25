@@ -7,7 +7,7 @@ import SvgAdd from '../../icons/SvgAdd';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgTickBox from '../../icons/SvgTickBox';
-import { Button, Flex, InputCheckBox, Loader } from '../../uikit';
+import { Button, Flex, InputCheckBox, Loader, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText';
 import Text from '../../uikit/Text/Text';
 import { AppDispatch } from '../../store';
@@ -23,12 +23,11 @@ import {
   interviewQuestionMiddleware,
 } from './store/middleware/interviewquestionMiddleware';
 
-
 const cx = classNames.bind(styles);
 
 interface Props {
   interviews: InterviewExtractData;
-  onEvaluate: (id: string, value: Question[]) => void;
+  onEvaluate: (id: number, value: Question[]) => void;
   jd_id: string;
   can_id: string;
   genearate: GenerateQuestionsState;
@@ -57,8 +56,8 @@ const QuestionCard: React.FC<Props> = (props) => {
   };
   const toggleAddQuestion = () => {
     setNewAddQuestion(!newAddQuestion);
-    setQuestionLoader(false)
-    formik.resetForm()
+    setQuestionLoader(false);
+    formik.resetForm();
   };
 
   type FormProps = {
@@ -67,7 +66,7 @@ const QuestionCard: React.FC<Props> = (props) => {
   const initial: FormProps = {
     add_question: '',
   };
-  
+
   const formik = useFormik({
     initialValues: initial,
     onSubmit: () => {},
@@ -128,20 +127,24 @@ const QuestionCard: React.FC<Props> = (props) => {
     }
   };
   const addNewQuestion = () => {
-   
-    if (interviews?.data ) {
-      setQuestionLoader(true)
+    if (interviews?.data) {
+      setQuestionLoader(true);
       dispatch(
         evaluateQuestionMiddleware({
           jd_id,
           can_id,
           interview_id: JSON.stringify(interviews?.data?.id),
-          scorecard: JSON.stringify([{ id: 0, question: formik.values.add_question}]),
+          scorecard: JSON.stringify([
+            { id: 0, question: formik.values.add_question },
+          ]),
         }),
       ).then((res) => {
-        if (res.payload.success===true) {
-         formik.resetForm()
-         setQuestionLoader(false)
+        
+        if (res.payload.success === true) {
+          Toast("Question added successfully")
+          formik.resetForm();
+          setQuestionLoader(false);
+          setaddQuestion(false);
         }
       });
     }
@@ -202,7 +205,9 @@ const QuestionCard: React.FC<Props> = (props) => {
                 ) : (
                   <div
                     className={cx('svgTickMargin', {
-                      svgTickDisable: isEmpty(formik.values.add_question.trim()),
+                      svgTickDisable: isEmpty(
+                        formik.values.add_question.trim(),
+                      ),
                       tickStyle: !isEmpty(formik.values.add_question.trim()),
                     })}
                     //  onClick={handleLocationSubmit}
@@ -332,12 +337,14 @@ const QuestionCard: React.FC<Props> = (props) => {
               </Flex>
             </Flex>
           ) : (
-            <Flex row noWrap>
-              <Flex column noWrap>
+            <Flex row noWrap style={{ width: '80%' }}>
+              <Flex column noWrap style={{ width: '100%' }}>
                 <InputText
                   name="add question"
                   value={formik.values.add_question}
-                  onChange={(e) => formik.setFieldValue('add_question', e.target.value)}
+                  onChange={(e) =>
+                    formik.setFieldValue('add_question', e.target.value)
+                  }
                   lineInput
                   size={14}
                   className={styles.input}
@@ -358,7 +365,9 @@ const QuestionCard: React.FC<Props> = (props) => {
                 ) : (
                   <div
                     className={cx('svgTickMargin', {
-                      svgTickDisable: isEmpty(formik.values.add_question.trim()),
+                      svgTickDisable: isEmpty(
+                        formik.values.add_question.trim(),
+                      ),
                       tickStyle: !isEmpty(formik.values.add_question.trim()),
                     })}
                     //  onClick={handleLocationSubmit}
@@ -385,10 +394,7 @@ const QuestionCard: React.FC<Props> = (props) => {
           {getCheckedQuestions()?.length !== 0 && (
             <Button
               onClick={() => {
-                onEvaluate(
-                  JSON.stringify(interviews?.data?.id),
-                  getCheckedQuestions(),
-                );
+                onEvaluate(interviews?.data?.id, getCheckedQuestions());
               }}
               types={'primary'}
             >

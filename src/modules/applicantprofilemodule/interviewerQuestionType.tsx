@@ -65,6 +65,7 @@ export interface InterviewExtractData {
   questions: Question[];
   data: NoOfInterview | undefined;
   cumulative: CumulativeData[];
+  scorecard: Scorecard;
 }
 
 export interface GenerateQuestionsState {

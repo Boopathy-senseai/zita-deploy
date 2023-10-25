@@ -42,7 +42,14 @@ import {
 } from './interviewerQuestionType';
 const cx = classNames.bind(styles);
 var querystring = require('querystring');
-const InterviewScorecardTab = () => {
+
+interface Props {
+  onEvaluate: (id: number, value: Question[]) => void;
+}
+
+const InterviewScorecardTab: React.FC<Props> = (props) => {
+  const { onEvaluate } = props;
+
   const dispatch: AppDispatch = useDispatch();
   const [isPostLoader, setPostLoader] = useState(false);
   const [isOpen, setOpen] = useState(true);
@@ -360,7 +367,11 @@ const InterviewScorecardTab = () => {
             >
               {Object.keys(interviews).map((key, i) => {
                 return (
-                  <InterviewScorecard key={i} interviews={interviews[key]} />
+                  <InterviewScorecard
+                    key={i}
+                    interviews={interviews[key]}
+                    onEvaluate={onEvaluate}
+                  />
                 );
               })}
             </Flex>

@@ -15,23 +15,28 @@ import SvgThumbsneutral from '../../icons/SvgthumbsNeutral';
 import SvgAngle from '../../icons/SvgAngle';
 import {
   CumulativeData,
+  InterviewExtractData,
   NoOfInterview,
   Question,
 } from './interviewerQuestionType';
 import styles from './interviewscorecardtab.module.css';
 
 interface Props {
-  interviews: {
-    questions: Question[];
-    data: NoOfInterview;
-    cumulative: CumulativeData[];
-  };
+  interviews: InterviewExtractData;
+  onEvaluate: (id: number, value: Question[]) => void;
 }
 
 const InterviewScorecard: React.FC<Props> = (props) => {
-  const { interviews } = props;
+  const { interviews, onEvaluate } = props;
   const [isShowFeedback, setFeedbackShow] = useState(false);
   const firstCummulative = interviews.cumulative[0] || undefined;
+
+  const getCheckedQuestions = () =>
+    interviews.questions.filter((doc) => doc.is_active || false) || [];
+
+  const handleEdit = () => {
+    onEvaluate(interviews?.data?.id, getCheckedQuestions());
+  };
 
   const handleRecommendation = (avg_recommend: number) => {
     const value =
@@ -60,10 +65,51 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                   interviews.data?.e_time,
                 ).format(' HH:mm a')} `}
               </Text>
-              <Svgeditingnotes fill={'#581845'} />
+              <Flex onClick={handleEdit} style={{ cursor: 'pointer' }}>
+                <Svgeditingnotes fill={'#581845'} />
+              </Flex>
             </Flex>
-            <Flex row between>
-              <Flex>
+            <Flex row style={{ padding: '10px 0px' }}>
+              <Flex
+                style={{ display: 'flex', borderRight: '0.5px solid #c3c3c3' }}
+                marginRight={10}
+              >
+                <Flex center>
+                  <Flex
+                    marginLeft={15}
+                    marginRight={10}
+                    className={styles.OverallScore}
+                  >
+                    <Flex
+                      className={styles.ratingStar}
+                      marginTop={-30}
+                      marginBottom={-30}
+                      marginLeft={5}
+                    >
+                      <StarsRating disabled count={1} value={1} />
+                    </Flex>
+                    <Text style={{ marginTop: '2px' }} size={12} color="theme">
+                      {`${Math.round(firstCummulative?.average_score) || 0}/5`}
+                    </Text>
+                  </Flex>
+                  <Text color="theme" style={{ marginTop: '3px' }}>
+                    Overall Score
+                  </Text>
+                </Flex>
+                <Flex
+                  marginTop={10}
+                  marginRight={10}
+                  className={styles.recommended}
+                >
+                  <Text>
+                    {handleRecommendation(firstCummulative?.avg_recommend)}
+                  </Text>
+                  {firstCummulative?.avg_recommend && (
+                    <Text color="theme">Recommended</Text>
+                  )}
+                </Flex>
+              </Flex>
+              <Flex width={'100%'}>
                 {interviews &&
                   interviews?.cumulative &&
                   interviews?.cumulative?.map((doc, index) => {
@@ -123,9 +169,13 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                       if (doc.commands !== '' && doc.commands !== null) {
                         return (
                           <Flex key={index} marginBottom={5}>
-                            <Flex style={{ color: '#581845' }}>
-                              {doc.full_name}
+                            <Flex row center between>
+                              <Flex style={{ color: '#581845' }}>
+                                {doc.full_name}
+                              </Flex>
+                              {/* <Svgeditingnotes fill="#581845" /> */}
                             </Flex>
+
                             <Flex>
                               <td
                                 className={styles.commentTextStyle}
@@ -138,34 +188,6 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                         );
                       }
                     })}
-                </Flex>
-              </Flex>
-              <Flex style={{ display: 'flex' }}>
-                <Flex center>
-                  <Flex marginLeft={15} className={styles.OverallScore}>
-                    <Flex
-                      className={styles.ratingStar}
-                      marginTop={-30}
-                      marginBottom={-30}
-                      marginLeft={5}
-                    >
-                      <StarsRating disabled count={1} value={1} />
-                    </Flex>
-                    <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                      {`${Math.round(firstCummulative?.average_score) || 0}/5`}
-                    </Text>
-                  </Flex>
-                  <Text color="theme" style={{ marginTop: '3px' }}>
-                    Overall Score
-                  </Text>
-                </Flex>
-                <Flex marginTop={10} className={styles.recommended}>
-                  <Text>
-                    {handleRecommendation(firstCummulative?.avg_recommend)}
-                  </Text>
-                  {firstCummulative?.avg_recommend && (
-                    <Text color="theme">Recommended</Text>
-                  )}
                 </Flex>
               </Flex>
             </Flex>
