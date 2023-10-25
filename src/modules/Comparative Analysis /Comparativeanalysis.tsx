@@ -384,10 +384,9 @@ const ComparativeanalysisModal = ({
                           />
                         </Flex>
                         <Flex marginTop={5}>
-                          <Text size={13} color="theme" className={styles.textelipssis} title={`${job_details.city}, ${job_details.state},
-                            ${job_details.country}`} style={{ paddingLeft: '5px' }}>
-                            {job_details.city}, {job_details.state},
-                            {job_details.country}
+                          <Text size={13} color="theme" className={styles.textelipssis} title={`${job_details.city}, ${job_details.state}, ${job_details.country}`}
+                            style={{ paddingLeft: '5px' }}>
+                            {job_details.city}, {job_details.state}, {job_details.country}
                           </Text>
                         </Flex>
                       </Flex>
