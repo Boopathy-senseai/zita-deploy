@@ -129,13 +129,13 @@ justify-content: space-between;
 }
 
 .techcardstyles{
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .nontechcardstyles{
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .sliderheaderstyle{
@@ -365,4 +365,12 @@ justify-content: space-between;
 
   .infotitle{
     padding-bottom:2px;
+  }
+
+  .updateBtnLoader{
+    width: 60px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }

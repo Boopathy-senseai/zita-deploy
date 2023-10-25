@@ -601,7 +601,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
               <Flex
                 height={window.innerHeight - 224}
-                style={{ overflow: "scroll", padding: "10px 10px 0px 10px" }}
+                style={{ overflow: "scroll", padding: "10px 10px 10px 10px" }}
                 className={outputnontech.length <= 0 ? (outputtech.length <= 0 ? (styles.nodata) : ("")) : ("")}
               >
                 {/* Technical */}
@@ -809,61 +809,68 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                   {/* ChatGPT Content */}
                                   {skill.percentage === 0 ? (<Text> No Information Available</Text>
                                   ) : (
+                                    skill.description === "" ? 
+                                    <Flex>
+                                      <Text>
+                                        No Information Available</Text>
+                                      </Flex> 
+                                      : 
                                     <Flex >
-                                      {
-                                        expandedIndex2?.includes(index) ? (
-                                          <>
-                                            <Flex>
-                                              <Text>
-                                                {skill.description}
-                                              </Text>
-                                            </Flex>
-                                            <Flex
-                                            row
-                                            center
-                                              onClick={() => handleToggleCollapse2(index)}
-                                              style={{ cursor: "pointer" }}>
-                                            <Flex><Text color= "theme" bold> View Less</Text></Flex>
-                                                <Flex width={5}></Flex>
-                                                <Flex>
-                                                  <SvgUpArrow
-                                                  width={10}
-                                                  height={10}
-                                                  fill={"#581845"}/>
-                                                </Flex>
-                                            </Flex></>
-                                        ) : (
-                                          <>
-                                            {skill.description.length > 155 ? (
-                                              <>
-                                                <Flex >
-                                                  <Text className={styles.textellipces}>
-                                                    {skill.description}</Text>
-                                                </Flex>
-                                                <Flex
-                                                row
-                                                center
-                                                  onClick={() => handleToggleCollapse2(index)}
-                                                  style={{ cursor: "pointer" }}>
-                                                    <Flex><Text color="theme" bold>View More</Text></Flex>
-                                                    <Flex width={5}></Flex>
-                                                    <Flex>
-                                                      <SvgArrowDown1
-                                                      width={10}
-                                                      height={10}
-                                                      fill={"581845"}/>
-                                                    </Flex>
-                                                </Flex></>) : (<>
-                                                  <Flex >
-                                                    <Text>
-                                                      {skill.description}
-                                                    </Text>
+                                    {
+                                      expandedIndex2?.includes(index) ? (
+                                        <>
+                                          <Flex>
+                                            <Text>
+                                              {skill.description}
+                                            </Text>
+                                          </Flex>
+                                          <Flex
+                                          row
+                                          center
+                                            onClick={() => handleToggleCollapse2(index)}
+                                            style={{ cursor: "pointer" }}>
+                                          <Flex><Text color= "theme" bold> View Less</Text></Flex>
+                                              <Flex width={5}></Flex>
+                                              <Flex>
+                                                <SvgUpArrow
+                                                width={10}
+                                                height={10}
+                                                fill={"#581845"}/>
+                                              </Flex>
+                                          </Flex></>
+                                      ) : (
+                                        <>
+                                          {skill.description.length > 155 ? (
+                                            <>
+                                              <Flex >
+                                                <Text className={styles.textellipces}>
+                                                  {skill.description}</Text>
+                                              </Flex>
+                                              <Flex
+                                              row
+                                              center
+                                                onClick={() => handleToggleCollapse2(index)}
+                                                style={{ cursor: "pointer" }}>
+                                                  <Flex><Text color="theme" bold>View More</Text></Flex>
+                                                  <Flex width={5}></Flex>
+                                                  <Flex>
+                                                    <SvgArrowDown1
+                                                    width={10}
+                                                    height={10}
+                                                    fill={"581845"}/>
                                                   </Flex>
-                                                </>)
-                                            }
-                                          </>)
-                                      }
-                                    </Flex>)
+                                              </Flex></>) : (<>
+                                                <Flex >
+                                                  <Text>
+                                                    {skill.description}
+                                                  </Text>
+                                                </Flex>
+                                              </>)
+                                          }
+                                        </>)
+                                    }
+                                  </Flex>
+                                  )
 
                                   }
 
@@ -1459,6 +1466,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                           <Flex className={styles.updateBtnLoader}>
                             <Loader size="small" withOutOverlay />
                           </Flex>
+                          
                         ) : (
 
                           <Button
@@ -1466,7 +1474,9 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                             types="primary" 
                             onClick={nextfunction}>
                               Apply
-                                </Button>)}
+                                </Button>
+                                
+                                )}
                       </Flex>
                     </Flex>
                   </Flex>

@@ -201,3 +201,11 @@ margin-top: 15px;
 .cancelBtn{
   margin-right: 8px;
 }
+
+.updateBtnLoader{
+  width: 60px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
