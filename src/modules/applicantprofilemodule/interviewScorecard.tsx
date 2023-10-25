@@ -126,7 +126,14 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                             <Flex style={{ color: '#581845' }}>
                               {doc.full_name}
                             </Flex>
-                            <Flex>{doc?.commands}</Flex>
+                            <Flex>
+                              <td
+                                className={styles.commentTextStyle}
+                                dangerouslySetInnerHTML={{
+                                  __html: doc?.commands,
+                                }}
+                              />
+                            </Flex>
                           </Flex>
                         );
                       }
@@ -145,7 +152,7 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                       <StarsRating disabled count={1} value={1} />
                     </Flex>
                     <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                      {`${firstCummulative?.average_score || 0}/5`}
+                      {`${Math.round(firstCummulative?.average_score) || 0}/5`}
                     </Text>
                   </Flex>
                   <Text color="theme" style={{ marginTop: '3px' }}>
