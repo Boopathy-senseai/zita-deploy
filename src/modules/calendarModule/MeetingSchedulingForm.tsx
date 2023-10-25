@@ -931,13 +931,13 @@ const updatestate = (val) => {
             />
             <Flex>
               <InputSearch
-                options={role}
                 setFieldValue={formik.setFieldValue}
-                required
                 name={`interviewers[${index}].role`}
                 label="Role"
+                options={role}
                 initialValue={formik.values.interviewers[index]?.role}
                 onChange={(e) => handleChange(index, e)}
+                required
               />
               {local[index] && local[index].role === '' && errors[index] && (
                 <div className={styles.warn}>{errors[index]}</div>
@@ -1167,8 +1167,8 @@ const updatestate = (val) => {
         {<TimeZoneView />}
         {EventTypeView}
         {RemindarView}
-        {AddInterviewerView}
         {LocationView}
+        {AddInterviewerView}
         {NotesView}
         {PrivateNotesView}
       </div>
