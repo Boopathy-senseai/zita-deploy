@@ -194,7 +194,7 @@ const ApplicantPipeLineScreen = ({
           setnextLoader(false);
           handleWeightageClose();
           setloadermatch(true)
-          console.log("dddd",jdId)
+         
           dispatch(jdMatchMiddleWare({jd_id})).then((r) => {
             if(r.payload.error===true)
             {
@@ -207,8 +207,11 @@ const ApplicantPipeLineScreen = ({
               setloadermatch(false)
             }
             if(r.payload.success===true){
-        
-              Toast('Weightage settings saved successfully!', 'LONG');}
+              //alert("222")
+               setloadermatch(false)
+               getApplicanPipelineData()
+              Toast('Weightage settings saved successfully!', 'LONG');
+            }
           
 
       });
