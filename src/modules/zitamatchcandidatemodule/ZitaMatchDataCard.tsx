@@ -556,7 +556,7 @@ dataList.invite,
                       {notSpecified(dataList.qualification)}
                     </Text>
                     ):(
-                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
+                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333",width:'50px'}} title={`Qualification: ${dataList.qualification}`}>
 
                   {notSpecified(dataList.qualification)}
                 </Text>
