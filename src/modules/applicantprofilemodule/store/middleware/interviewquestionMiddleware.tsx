@@ -40,10 +40,16 @@ export const evaluateQuestionMiddleware = createAsyncThunk<
     commands: string;
     recommend: string;
   }
->(EVALUATE_QUESTION, async (payload, { rejectWithValue }) => {
+>(EVALUATE_QUESTION, async (payload, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.post(
       `${interviewQuestion}?${stringifyParams(payload)}`,
+    );
+    dispatch(
+      interviewQuestionMiddleware({
+        can_id: payload.can_id,
+        jd_id: payload.jd_id,
+      }),
     );
     return data;
   } catch (error) {

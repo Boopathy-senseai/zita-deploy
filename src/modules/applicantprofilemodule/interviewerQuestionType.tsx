@@ -32,7 +32,6 @@ export interface CumulativeData {
   commands: string | null;
 }
 
-
 export interface NoOfInterview {
   id: number;
   applicant: string;
@@ -61,15 +60,16 @@ export interface InterviewerQuestions {
   scorecard: Scorecard[];
 }
 
+export interface InterviewExtractData {
+  questions: Question[];
+  data: NoOfInterview | undefined;
+  cumulative: CumulativeData[];
+}
 export interface InterviewerQuestionReducer extends InterviewerQuestions {
   isLoading: boolean;
   error: string;
   interviews: {
-    [key: number]: {
-      questions: Question[];
-      data: NoOfInterview;
-      cumulative: CumulativeData[];
-    };
+    [key: number]: InterviewExtractData;
   };
 }
 

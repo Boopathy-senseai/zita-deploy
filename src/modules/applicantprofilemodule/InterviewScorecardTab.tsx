@@ -35,6 +35,11 @@ import {
 
 import styles from './interviewscorecardtab.module.css';
 import InterviewScorecard from './interviewScorecard';
+import {
+  CumulativeData,
+  NoOfInterview,
+  Question,
+} from './interviewerQuestionType';
 const cx = classNames.bind(styles);
 var querystring = require('querystring');
 const InterviewScorecardTab = () => {
@@ -348,16 +353,18 @@ const InterviewScorecardTab = () => {
               <Text>{reaction}</Text>
             </Flex>
           </Flex>
-          <Flex 
-            style={{ overflow: 'scroll', paddingRight: "5px" }}
-            height={window.innerHeight - 240}
-          >
-            {Object.keys(interviews).map((key, i) => {
-              return (
-                <InterviewScorecard key={i} interviews={interviews[key]} />
-              );
-            })}
-          </Flex>
+          {interviews && (
+            <Flex
+              style={{ overflow: 'scroll', paddingRight: '5px' }}
+              maxHeight={window.innerHeight - 140}
+            >
+              {Object.keys(interviews).map((key, i) => {
+                return (
+                  <InterviewScorecard key={i} interviews={interviews[key]} />
+                );
+              })}
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </>

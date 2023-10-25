@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { interviewQuestionMiddleware } from '../middleware/interviewquestionMiddleware';
 import {
   CumulativeData,
+  InterviewExtractData,
   InterviewerQuestionReducer,
   NoOfInterview,
   Question,
@@ -36,9 +37,9 @@ const interviewerQuestionReducer = createSlice({
       state.success = action.payload.success;
       state.result = action.payload.result;
       state.cumulative = action.payload.cumulative;
-      state.interviews = action.payload.data.reduce((o, v) => {
-        if (!o[v.interview_id]) {
-          o[v.interview_id] = {
+      state.interviews = action.payload.no_of_interview.reduce((o, v) => {
+        if (!o[v.id]) {
+          o[v.id] = {
             questions: [] as Question[],
             cumulative: [] as CumulativeData[],
             data: undefined,
@@ -46,20 +47,24 @@ const interviewerQuestionReducer = createSlice({
         }
         return {
           ...o,
-          [v.interview_id]: {
-            ...o[v.interview_id],
-            questions: [...o[v.interview_id].questions, v],
+          [v.id]: {
+            ...o[v.id],
+            questions: [
+              ...o[v.id].questions,
+              ...action.payload.data.filter((d) => d.interview_id === v.id),
+            ],
             cumulative: [
               ...action.payload.cumulative.filter(
-                (doc) => doc.interview_id === v.interview_id,
+                (doc) =>
+                  doc.interview_id === v.id  &&
+                  doc.total_score !== 0 &&
+                  doc.total_score !== null,
               ),
             ],
-            data: action.payload.no_of_interview.find(
-              (d) => d.id === v.interview_id,
-            ),
+            data: v,
           },
         };
-      }, {} as { [key: number]: { questions: Question[]; data: NoOfInterview; cumulative: CumulativeData[] } });
+      }, {} as { [key: number]: InterviewExtractData });
     });
 
     builder.addCase(interviewQuestionMiddleware.rejected, (state, action) => {

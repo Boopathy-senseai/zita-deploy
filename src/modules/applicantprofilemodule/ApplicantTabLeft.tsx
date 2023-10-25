@@ -3,8 +3,8 @@ import { RootState } from '../../store';
 import { BLACK, SECONDARY } from '../../uikit/Colors/colors';
 import Tab from '../../uikit/Tabs/Tab';
 import Tabs from '../../uikit/Tabs/Tabs';
-import { ALL_APPLICANT_MATCH_TITLE } from '../constValue';
-import { SCREEN_APPLICANT_STATUS_TITLE } from '../constValue';
+import { ALL_APPLICANT_MATCH_TITLE , INTERVIEW_QUESTION, SCREEN_APPLICANT_STATUS_TITLE } from '../constValue';
+
 import ApplicantTabRight from '../applicantprofilemodule/ApplicantTabRight';
 import EmailScreen from '../emailintegrationmodule/integrationScreen';
 import AboutTab from './AboutTab';
@@ -19,6 +19,7 @@ import InterviewScorecardTab from './InterviewScorecardTab';
 import MatchingAnalysisTab from './MatchingAnalysisTab';
 import Questionnaire from './Questionnaire';
 import ScreeningStatusTab from './ScreeningStatusTab';
+import InterviewQuestionTab from './interviewQuestionTab';
 import ScreeningStatusandAllMatchJobTab from './ScreeningStatusandAllMatchJobTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
@@ -72,7 +73,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
           </Tab>
           
           <Tab title={'Screening Status'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  can_id={can_id} jd_id= {jd_id}/>
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  />
           </Tab> 
         </Tabs>
       ) : (
@@ -103,7 +104,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
             <ScreeningStatusandAllMatchJobTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab> 
           <Tab title={'Interview Question/Scorecard'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} can_id={can_id} jd_id= {jd_id}/>
+            <InterviewQuestionTab title={INTERVIEW_QUESTION} can_id={can_id} jd_id={jd_id} issingletab={false} />
           </Tab> 
         </Tabs>
       )}

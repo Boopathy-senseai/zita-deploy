@@ -88,7 +88,7 @@ const QuestionCard: React.FC<Props> = (props) => {
                   margin: '10px 0px',
                 }}
               >
-                You must add or generate questions to evaluate the scorecard
+                You must add or generate questions to evaluate the scorecard.
               </Text>
               <Flex row center middle marginBottom={10}>
                 <Button
@@ -98,7 +98,7 @@ const QuestionCard: React.FC<Props> = (props) => {
                 >
                   Add Question
                 </Button>
-                <Button onClick={() => {}}>Generate Questions</Button>
+                <Button onClick={generateQuestions}>Generate Questions</Button>
               </Flex>
             </Flex>
           </Flex>
