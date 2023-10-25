@@ -34,7 +34,8 @@ const QuestionCard: React.FC<Props> = (props) => {
   const dispatch: AppDispatch = useDispatch();
 
   const { interviews, onEvaluate, jd_id, can_id, genearate } = props;
-  const [addQuestion, setaddQuestione] = useState(false);
+  const [addQuestion, setaddQuestion] = useState(false);
+  const [newAddQuestion, setNewAddQuestion] = useState(false);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
   const [form, setForm] = useState<{ question: string }>({ question: '' });
   const [questions, setQuestions] = useState<{ [key: string]: Question }>({});
@@ -48,9 +49,10 @@ const QuestionCard: React.FC<Props> = (props) => {
   }, [JSON.stringify(interviews.questions)]);
 
   const toggleStage = () => {
-    setaddQuestione(!addQuestion);
-    // formik.setFieldValue('title', '');
-    // formik.resetForm();
+    setaddQuestion(!addQuestion);
+  };
+  const toggleAddQuestion = () => {
+    setNewAddQuestion(!newAddQuestion);
   };
 
   const handleQuestionChange = (e) => {
@@ -80,6 +82,33 @@ const QuestionCard: React.FC<Props> = (props) => {
       })
       .map((doc) => doc.id) || [];
 
+  const generateQuestions = () => {
+    if (interviews?.data) {
+      dispatch(
+        interviewQuestionMiddleware({
+          jd_id,
+          can_id,
+          re_generate: 'true',
+          interview_id: JSON.stringify(interviews?.data?.id),
+          // exclude: JSON.stringify(getCheckedQuestions()),
+        }),
+      );
+    }
+  };
+
+  const regenerateQuestions = () => {
+    if (interviews?.data) {
+      dispatch(
+        interviewQuestionMiddleware({
+          jd_id,
+          can_id,
+          re_generate: 'true',
+          interview_id: JSON.stringify(interviews?.data?.id),
+          exclude: JSON.stringify(getExcludeID()),
+        }),
+      );
+    }
+  };
   const addNewQuestion = () => {
     if (interviews?.data && form.question !== '') {
       dispatch(
@@ -94,20 +123,6 @@ const QuestionCard: React.FC<Props> = (props) => {
           setForm((prev) => ({ ...prev, question: '' }));
         }
       });
-    }
-  };
-
-  const generateQuestions = () => {
-    if (interviews?.data) {
-      dispatch(
-        interviewQuestionMiddleware({
-          jd_id,
-          can_id,
-          re_generate: 'true',
-          interview_id: JSON.stringify(interviews?.data?.id),
-          exclude: JSON.stringify(getCheckedQuestions()),
-        }),
-      );
     }
   };
 
@@ -136,13 +151,61 @@ const QuestionCard: React.FC<Props> = (props) => {
           You must add or generate questions to evaluate the scorecard
         </Text>
         <Flex row center middle marginBottom={10}>
-          <Button
-            types="secondary"
-            onClick={() => {}}
-            style={{ marginRight: '10px' }}
-          >
-            Add Question
-          </Button>
+          {newAddQuestion === false ? (
+            <Flex>
+              <Button
+                types="secondary"
+                onClick={() => toggleAddQuestion()}
+                style={{ marginRight: '10px' }}
+              >
+                Add Question
+              </Button>
+            </Flex>
+          ) : (
+            <Flex row noWrap>
+              <Flex column noWrap>
+                <InputText
+                  name="add question"
+                  value={form.question}
+                  onChange={handleQuestionChange}
+                  lineInput
+                  size={14}
+                  className={styles.input}
+                />
+              </Flex>
+              <div className={styles.svgContainer}>
+                {isQuestionLoader ? (
+                  <div className={styles.svgTick}>
+                    <Loader withOutOverlay size={'small'} />
+                  </div>
+                ) : (
+                  <div
+                    className={cx('svgTickMargin', {
+                      svgTickDisable: form.question === '',
+                      tickStyle: false,
+                    })}
+                    //  onClick={handleLocationSubmit}
+                    tabIndex={-1}
+                    role={'button'}
+                    onClick={addNewQuestion}
+                  >
+                    <SvgTickBox className={styles.tickStyle} />
+                  </div>
+                )}
+
+                <div
+                  className={styles.svgClose}
+                  onClick={toggleAddQuestion}
+                  tabIndex={-1}
+                  role={'button'}
+                  // onClick={() => formik.resetForm()}
+                >
+                  <SvgCloseBox className={styles.tickStyle} />
+                </div>
+              </div>
+            </Flex>
+          )}
+
           <Button onClick={generateQuestions}>Generate Questions</Button>
         </Flex>
       </Flex>
@@ -190,7 +253,7 @@ const QuestionCard: React.FC<Props> = (props) => {
     );
   };
 
-  if (interviews.questions.length !== 0) {
+  if (interviews.questions.length === 0) {
     return (
       <>
         <Flex>
@@ -223,7 +286,7 @@ const QuestionCard: React.FC<Props> = (props) => {
             interviews.data?.e_time,
           ).format(' HH:mm a')} `}</Text>
           <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
-            <SvgRegenerateQuestion onClick={generateQuestions} />
+            <SvgRegenerateQuestion onClick={regenerateQuestions} />
           </Text>
         </Flex>
         {renderQuestions()}
