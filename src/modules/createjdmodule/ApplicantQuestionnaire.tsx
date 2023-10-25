@@ -167,8 +167,8 @@ const ApplicantQuestionnaire = () => {
   };
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight }>
-      <Flex row center className={styles.step}>
+    <>
+          <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar
           title="Weightage Matching"
@@ -190,6 +190,8 @@ const ApplicantQuestionnaire = () => {
         />
         
       </Flex>
+    <Flex className={styles.overAll} height={window.innerHeight }>
+
       <Flex className={styles.cardOverAll}>
         {/* <Text size={16} bold className={styles.applicantTitle}>
           Applicant Questionnaire
@@ -271,6 +273,7 @@ const ApplicantQuestionnaire = () => {
       />
       {routerPrompt}
     </Flex>
+    </>
   );
 };
 

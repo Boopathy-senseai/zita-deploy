@@ -556,7 +556,7 @@ dataList.invite,
                       {notSpecified(dataList.qualification)}
                     </Text>
                     ):(
-                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
+                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333",width:'50px'}} title={`Qualification: ${dataList.qualification}`}>
 
                   {notSpecified(dataList.qualification)}
                 </Text>
@@ -588,9 +588,9 @@ dataList.invite,
                   Skills:{' '}
                 </Text>
                  {dataList.skills===null||undefined||""?(<Text size={11} title={`Skills: Not Specified`}>
-                  {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
-                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
-                  { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
+                  {notSpecified(lowerCase(dataList.skills?.replace(/,/g, ', ')))}
+                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills?.replace(/,/g, ', ')}`}>
+                  { notSpecified(lowerCase(dataList.skills?.replace(/,/g, ', ')))}
                  </Text>)
               }
               </Text>
