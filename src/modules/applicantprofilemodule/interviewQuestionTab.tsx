@@ -29,6 +29,7 @@ import {
 import QuestionCard from './questionsCard';
 
 import { EvaluateInterviewInput, Question } from './interviewerQuestionType';
+import EvaluateModal from './EvaluateModal';
 
 const cx = classNames.bind(styles);
 
@@ -37,9 +38,9 @@ type Props = {
   issingletab: boolean;
   jd_id: string;
   can_id: string;
-  interview_id?: string;
+  interview_id: string;
 };
-const InterviewQuestionTab = ({
+const ScreeningStatusTab = ({
   title,
   issingletab,
   jd_id,
@@ -53,6 +54,7 @@ const InterviewQuestionTab = ({
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
+    interview_id: string;
   } | null>(null);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
 
@@ -69,6 +71,7 @@ const InterviewQuestionTab = ({
     question_error,
     interviews,
     no_of_interview,
+    genearate,
   } = useSelector(
     ({
       applicantStausReducers,
@@ -86,6 +89,7 @@ const InterviewQuestionTab = ({
         no_of_interview: interviewerQuestionReducers.no_of_interview,
         question_loading: interviewerQuestionReducers.isLoading,
         question_error: interviewerQuestionReducers.error,
+        genearate: interviewerQuestionReducers?.generateQuestionsState,
       };
     },
   );
@@ -119,8 +123,8 @@ const InterviewQuestionTab = ({
         can_id,
         scorecard: JSON.stringify([]),
         interview_id,
-        commands:"",
-        recommend:"",
+        commands: '',
+        recommend: '',
       }),
     ).then(() => {
       setEvaluatePopup(null);
@@ -149,8 +153,13 @@ const InterviewQuestionTab = ({
                 jd_id={jd_id}
                 can_id={can_id}
                 interviews={interviews[key]}
-                onEvaluate={(value) => {
-                  setEvaluatePopup({ open: true, data: value });
+                genearate={genearate}
+                onEvaluate={(id, value) => {
+                  setEvaluatePopup({
+                    open: true,
+                    data: value,
+                    interview_id: id,
+                  });
                 }}
               />
             );
@@ -158,113 +167,12 @@ const InterviewQuestionTab = ({
         </Flex>
       </Flex>
       {evaluatePopup && (
-        <Modal open={evaluatePopup?.open}>
-          <Flex className={styles.overAll}>
-            <Text size={14} bold className={styles.insertStyles}>
-              Evaluate Scorecard
-            </Text>
-            <Flex
-              style={{
-                overflow: 'scroll',
-                maxHeight: '500px',
-                padding: '0px 5px',
-              }}
-            >
-              <Text color="theme">
-                {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidate_details[0]?.first_name} based on the interview? *`}
-              </Text>
-              {evaluatePopup.data.length > 0 &&
-                evaluatePopup.data.map((doc, index) => {
-                  return (
-                    <Flex row top marginTop={10} key={index}>
-                      <Flex flex={9}>
-                        <Text>{`${index + 1}. ${doc.question}`}</Text>
-                      </Flex>
-
-                      <Flex
-                        flex={2.5}
-                        className={styles.ratingStar}
-                        marginTop={-32}
-                        marginLeft={5}
-                      >
-                        <StarsRating count={5} />
-                      </Flex>
-                    </Flex>
-                  );
-                })}
-
-              <Flex
-                style={{ borderTop: '1px solid #c3c3c3', marginTop: '5px' }}
-              >
-                <Text
-                  color="theme"
-                  style={{ marginBottom: '5px', marginTop: '10px' }}
-                >
-                  Recommended to Hire *
-                </Text>
-              </Flex>
-
-              <Flex row>
-                {hireList.map((doc) => {
-                  return (
-                    <Flex
-                      key={doc.value}
-                      style={{ margin: '0  20px  10px 0 ' }}
-                    >
-                      <InputRadio label={doc.label} />
-                    </Flex>
-                  );
-                })}
-              </Flex>
-              <Flex marginTop={5}>
-                <Text color="theme" style={{ marginBottom: '5px' }}>
-                  Comments/Feedback *
-                </Text>
-                <Flex
-                  // height={window.innerHeight - 260}
-                  style={{ overflowY: 'scroll', display: 'flex' }}
-                >
-                  <Flex className={styles.textArea}>
-                    <ReactQuill
-                      value={''}
-                      className={styles.reactquillchange}
-                      onChange={() => {}}
-                      placeholder="Add your feedback here"
-                    />
-                    {/* <ErrorMessage
-                    touched={formik.touched}
-                    errors={formik.errors}
-                    name="userMessage"
-                  /> */}
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Flex>
-            <Flex
-              row
-              end
-              marginTop={5}
-              style={{ borderTop: '1px solid #c3c3c3' }}
-            >
-              <Button
-                className={styles.cancel}
-                types={'primary'}
-                onClick={handleCancel}
-                style={{ marginTop: '10px' }}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                className={styles.addBtn}
-                onClick={handleEvaluateInterview}
-                style={{ marginTop: '10px' }}
-              >
-                Add
-              </Button>
-            </Flex>
-          </Flex>
-        </Modal>
+        <EvaluateModal
+          {...{ ...evaluatePopup, jd_id, can_id }}
+          user={user}
+          candidateDetails={candidate_details}
+          onCancel={handleCancel}
+        />
       )}
 
       {!issingletab && (
@@ -288,4 +196,4 @@ const InterviewQuestionTab = ({
   );
 };
 
-export default InterviewQuestionTab;
+export default ScreeningStatusTab;

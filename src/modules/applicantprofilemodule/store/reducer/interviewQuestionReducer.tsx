@@ -18,6 +18,11 @@ const interviewerQuestionInitialState: InterviewerQuestionReducer = {
   result: undefined,
   cumulative: [],
   interviews: {},
+  generateQuestionsState: {
+    interviewId: undefined,
+    isLoading: false,
+    error: '',
+  },
 };
 
 const interviewerQuestionReducer = createSlice({
@@ -25,9 +30,17 @@ const interviewerQuestionReducer = createSlice({
   initialState: interviewerQuestionInitialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(interviewQuestionMiddleware.pending, (state) => {
+    builder.addCase(interviewQuestionMiddleware.pending, (state, action) => {
       state.isLoading = true;
       state.error = '';
+      if (action.meta.arg.interview_id) {
+        state.generateQuestionsState = {
+          ...state.generateQuestionsState,
+          isLoading: true,
+          error: '',
+          interviewId: parseInt(action.meta.arg.interview_id) || undefined,
+        };
+      }
     });
     builder.addCase(interviewQuestionMiddleware.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -65,12 +78,29 @@ const interviewerQuestionReducer = createSlice({
           },
         };
       }, {} as { [key: number]: InterviewExtractData });
+
+      if (action.meta.arg.interview_id) {
+        state.generateQuestionsState = {
+          ...state.generateQuestionsState,
+          isLoading: false,
+          error: '',
+          interviewId: undefined,
+        };
+      }
     });
 
     builder.addCase(interviewQuestionMiddleware.rejected, (state, action) => {
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
+      }
+      if (action.meta.arg.interview_id) {
+        state.generateQuestionsState = {
+          ...state.generateQuestionsState,
+          isLoading: false,
+          error: typeof action.payload === 'string' ? action.payload : '',
+          interviewId: undefined,
+        };
       }
     });
   },

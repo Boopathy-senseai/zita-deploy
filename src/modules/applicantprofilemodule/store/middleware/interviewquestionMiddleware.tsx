@@ -5,7 +5,7 @@ import {
   INTERVIEW_QUESTION,
 } from '../../../../actions/actions';
 import { interviewQuestion } from '../../../../routes/apiRoutes';
-import { stringifyParams } from '../../../../uikit/helper';
+import { convertJsonToForm, stringifyParams } from '../../../../uikit/helper';
 import { InterviewerQuestions } from '../../interviewerQuestionType';
 
 export const interviewQuestionMiddleware = createAsyncThunk<
@@ -35,15 +35,16 @@ export const evaluateQuestionMiddleware = createAsyncThunk<
   {
     jd_id: string;
     can_id: string;
-    scorecard: string;
+    scorecard?: string;
     interview_id: string;
-    commands: string;
-    recommend: string;
+    commands?: string;
+    recommend?: string;
   }
 >(EVALUATE_QUESTION, async (payload, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.post(
-      `${interviewQuestion}?${stringifyParams(payload)}`,
+      interviewQuestion,
+      convertJsonToForm(payload),
     );
     dispatch(
       interviewQuestionMiddleware({
