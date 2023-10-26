@@ -4,7 +4,14 @@ import classNames from 'classnames/bind';
 import ReactQuill from 'react-quill';
 import StarsRating from 'react-star-rate';
 import { useDispatch } from 'react-redux';
-import { Button, ErrorMessage, InputRadio, Modal, Toast } from '../../uikit';
+import {
+  Button,
+  ErrorMessage,
+  InputRadio,
+  Loader,
+  Modal,
+  Toast,
+} from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { UserEntity } from '../accountsettingsmodule/userprofilemodule/UserProfileTypes';
@@ -56,7 +63,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     recommend: 0,
   });
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [isloader, setloader] = useState(false);
   const parser = new DOMParser();
 
   const handleValidations = (values: IFormData) => {
@@ -114,7 +121,6 @@ const EvaluateModal: React.FC<Props> = (props) => {
     }
   }, [JSON.stringify(data)]);
 
-  console.log(initial, 'rejrjenrj');
   // const handleFormChange = (
   //   field: string,
   //   value: any,
@@ -146,7 +152,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
   // };
   const handleEvaluateInterview = (form: IFormData) => {
     setLoading(true);
-
+    setloader(true);
     dispatch(
       evaluateQuestionMiddleware({
         ...rest,
@@ -162,15 +168,23 @@ const EvaluateModal: React.FC<Props> = (props) => {
         ),
       }),
     )
-      .then(() => {
-        Toast(
-          recommend || commands
-            ? 'Scorecard evaluation updated successfully'
-            : 'Scorecard evaluation added successfully',
-        );
-
-        setLoading(false);
-        onCancel();
+      .then((res) => {
+        if (res.payload.success !== true) {
+          Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          );
+        } else {
+          Toast(
+            recommend || commands
+              ? 'Scorecard evaluation updated successfully'
+              : 'Scorecard evaluation added successfully',
+          );
+          setLoading(false);
+          setloader(false);
+          onCancel();
+        }
       })
       .catch((err) => {
         setLoading(false);
@@ -311,13 +325,22 @@ const EvaluateModal: React.FC<Props> = (props) => {
             Cancel
           </Button>
 
-          <Button
-            className={styles.addBtn}
-            onClick={formik.submitForm}
-            style={{ marginTop: '10px' }}
-          >
-            {recommend || commands ? 'Update' : 'Add'}
-          </Button>
+          {isloader ? (
+            <Flex
+              className={styles.svgTick}
+              style={{ margin: '10px 0 0 10px' }}
+            >
+              <Loader withOutOverlay size={'small'} />
+            </Flex>
+          ) : (
+            <Button
+              className={styles.addBtn}
+              onClick={formik.submitForm}
+              style={{ marginTop: '10px' }}
+            >
+              {recommend || commands ? 'Update' : 'Add'}
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Modal>

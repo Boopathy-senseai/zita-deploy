@@ -130,6 +130,9 @@ const ScreeningStatusTab = ({
       setEvaluatePopup(null);
     });
   };
+  const getNumberOfInterviews = (key) => {
+    return no_of_interview?.filter((interview) => interview.id === Number(key));
+  };
 
   return (
     <Flex row flex={12}>
@@ -154,6 +157,7 @@ const ScreeningStatusTab = ({
                 can_id={can_id}
                 interviews={interviews[key]}
                 genearate={genearate}
+                no_of_interview={getNumberOfInterviews(key)}
                 onEvaluate={(id, value) => {
                   setEvaluatePopup({
                     open: true,
@@ -161,6 +165,8 @@ const ScreeningStatusTab = ({
                     interview_id: id,
                   });
                 }}
+                lengthval={Object?.keys(interviews)?.length}
+                indexval={i + 1}
               />
             );
           })}
@@ -173,11 +179,13 @@ const ScreeningStatusTab = ({
           candidateDetails={candidate_details}
           onCancel={handleCancel}
           commands={
-            interviews[evaluatePopup.interview_id].cumulative.find(
+            interviews[evaluatePopup.interview_id]?.cumulative?.find(
               (doc) => doc.interview_id === evaluatePopup.interview_id,
-            )?.commands
+            )?.commands || null
           }
-          recommend={interviews[evaluatePopup.interview_id].scorecard?.recommend}
+          recommend={
+            interviews[evaluatePopup.interview_id]?.scorecard?.recommend || null
+          }
         />
       )}
 
@@ -195,13 +203,15 @@ const ScreeningStatusTab = ({
       )}
       {!issingletab && (
         <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
-          <InterviewScorecardTab onEvaluate={(id, value) => {
-                  setEvaluatePopup({
-                    open: true,
-                    data: value,
-                    interview_id: id,
-                  });
-                }}/>
+          <InterviewScorecardTab
+            onEvaluate={(id, value) => {
+              setEvaluatePopup({
+                open: true,
+                data: value,
+                interview_id: id,
+              });
+            }}
+          />
         </Flex>
       )}
     </Flex>

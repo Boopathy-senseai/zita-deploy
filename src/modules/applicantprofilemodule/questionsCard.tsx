@@ -32,12 +32,24 @@ interface Props {
   jd_id: string;
   can_id: string;
   genearate: GenerateQuestionsState;
+  no_of_interview: any;
+  lengthval: any;
+  indexval: any;
 }
 
 const QuestionCard: React.FC<Props> = (props) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { interviews, onEvaluate, jd_id, can_id, genearate } = props;
+  const {
+    interviews,
+    onEvaluate,
+    jd_id,
+    can_id,
+    genearate,
+    no_of_interview,
+    lengthval,
+    indexval,
+  } = props;
   const [addQuestion, setaddQuestion] = useState(false);
   const [newAddQuestion, setNewAddQuestion] = useState(false);
   const [isQuestionLoader, setQuestionLoader] = useState(false);
@@ -275,7 +287,10 @@ const QuestionCard: React.FC<Props> = (props) => {
                   <Flex
                     style={{
                       margin: '3px',
-                      border: '0.3px solid #c3c3c350',
+                      border:
+                        list.length - 1 === index
+                          ? ''
+                          : '0.3px solid #c3c3c350',
                     }}
                   ></Flex>
                 </Flex>
@@ -320,104 +335,109 @@ const QuestionCard: React.FC<Props> = (props) => {
           ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
             interviews.data?.e_time,
           ).format(' HH:mm a')} `}</Text>
-          <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
-            <SvgRegenerateQuestion onClick={regenerateQuestions} />
-          </Text>
+          {no_of_interview[0].evaluate !== true && (
+            <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
+              <SvgRegenerateQuestion onClick={regenerateQuestions} />
+            </Text>
+          )}
         </Flex>
         {renderQuestions()}
 
-        <Flex row between marginTop={10}>
-          {addQuestion === false ? (
-            <Flex onClick={() => toggleStage()} className={styles.addButton}>
-              <Flex row center>
-                <SvgAdd width={10} height={10} fill="#581845" />
-                <Text
-                  bold
-                  size={13}
-                  color="theme"
-                  style={{
-                    cursor: 'pointer',
-                    marginLeft: '5px',
-                    marginTop: '2px',
-                  }}
-                >
-                  Add Question
-                </Text>
+        {no_of_interview[0].evaluate !== true && (
+          <Flex row between marginTop={10}>
+            {addQuestion === false ? (
+              <Flex onClick={() => toggleStage()} className={styles.addButton}>
+                <Flex row center>
+                  <SvgAdd width={10} height={10} fill="#581845" />
+                  <Text
+                    bold
+                    size={13}
+                    color="theme"
+                    style={{
+                      cursor: 'pointer',
+                      marginLeft: '5px',
+                      marginTop: '2px',
+                    }}
+                  >
+                    Add Question
+                  </Text>
+                </Flex>
               </Flex>
-            </Flex>
-          ) : (
-            <Flex row noWrap style={{ width: '80%' }}>
-              <Flex column noWrap style={{ width: '100%' }}>
-                <InputText
-                  name="add question"
-                  value={formik.values.add_question}
-                  onChange={(e) =>
-                    formik.setFieldValue('add_question', e.target.value)
-                  }
-                  lineInput
-                  size={14}
-                  className={styles.input}
-                  // onKeyPress={handleKeyPress}
-                  // onBlur={formik.handleBlur}
-                />
-                {/* <ErrorMessage
+            ) : (
+              <Flex row noWrap style={{ width: '80%' }}>
+                <Flex column noWrap style={{ width: '100%' }}>
+                  <InputText
+                    name="add question"
+                    value={formik.values.add_question}
+                    onChange={(e) =>
+                      formik.setFieldValue('add_question', e.target.value)
+                    }
+                    lineInput
+                    size={14}
+                    className={styles.input}
+                    // onKeyPress={handleKeyPress}
+                    // onBlur={formik.handleBlur}
+                  />
+                  {/* <ErrorMessage
                     touched={formik.touched}
                     errors={formik.errors}
                     name="title"
                   /> */}
-              </Flex>
-              <div className={styles.svgContainer}>
-                {isQuestionLoader ? (
-                  <div className={styles.svgTick}>
-                    <Loader withOutOverlay size={'small'} />
-                  </div>
-                ) : (
+                </Flex>
+                <div className={styles.svgContainer}>
+                  {isQuestionLoader ? (
+                    <div className={styles.svgTick}>
+                      <Loader withOutOverlay size={'small'} />
+                    </div>
+                  ) : (
+                    <div
+                      className={cx('svgTickMargin', {
+                        svgTickDisable: isEmpty(
+                          formik.values.add_question.trim(),
+                        ),
+                        tickStyle: !isEmpty(formik.values.add_question.trim()),
+                      })}
+                      //  onClick={handleLocationSubmit}
+                      tabIndex={-1}
+                      role={'button'}
+                      onClick={addNewQuestion}
+                    >
+                      <SvgTickBox className={styles.tickStyle} />
+                    </div>
+                  )}
+
                   <div
-                    className={cx('svgTickMargin', {
-                      svgTickDisable: isEmpty(
-                        formik.values.add_question.trim(),
-                      ),
-                      tickStyle: !isEmpty(formik.values.add_question.trim()),
-                    })}
-                    //  onClick={handleLocationSubmit}
+                    className={styles.svgClose}
+                    onClick={toggleStage}
                     tabIndex={-1}
                     role={'button'}
-                    onClick={addNewQuestion}
+                    // onClick={() => formik.resetForm()}
                   >
-                    <SvgTickBox className={styles.tickStyle} />
+                    <SvgCloseBox className={styles.tickStyle} />
                   </div>
-                )}
-
-                <div
-                  className={styles.svgClose}
-                  onClick={toggleStage}
-                  tabIndex={-1}
-                  role={'button'}
-                  // onClick={() => formik.resetForm()}
-                >
-                  <SvgCloseBox className={styles.tickStyle} />
                 </div>
-              </div>
-            </Flex>
-          )}
-          {getCheckedQuestions()?.length !== 0 && (
-            <Button
-              onClick={() => {
-                onEvaluate(interviews?.data?.id, getCheckedQuestions());
-              }}
-              types={'primary'}
-            >
-              Evaluate
-            </Button>
-          )}
-        </Flex>
+              </Flex>
+            )}
+            {getCheckedQuestions()?.length !== 0 && (
+              <Button
+                onClick={() => {
+                  onEvaluate(interviews?.data?.id, getCheckedQuestions());
+                }}
+                types={'primary'}
+              >
+                Evaluate
+              </Button>
+            )}
+          </Flex>
+        )}
 
         <Flex
           style={{
             margin: '10px 0px',
-            borderBottom: '1px solid #584518',
+            borderBottom: lengthval === indexval ? '' : '1px solid #584518',
           }}
         ></Flex>
+        {console.log(lengthval, indexval,"valuee")}
       </Flex>
     </>
   );
