@@ -114,7 +114,6 @@ const ComparativeanalysisModal = ({
     seteditdata(isData);
     if (newedit === true) {
       setLoader(false);
-      edit_function(false);
     } else {
       dispatchcomparativeApi(Matching, isData, value);
     }
@@ -136,6 +135,8 @@ const ComparativeanalysisModal = ({
         setLoader(false);
         dispatch(comparativesearchingdatamiddleware({ jd_id: jdId }));
         if (values === 'edit') {
+          edit_function(Data);
+          seteditdata(Data);
           Toast(
             'Criteria for the comparison updated successfully',
             'LONG',
@@ -150,7 +151,7 @@ const ComparativeanalysisModal = ({
           );
         }
         setaddcandidate(false);
-        edit_function(false);
+        // edit_function(false);
       } else {
         setLoader(false);
         closemodel();
@@ -159,7 +160,7 @@ const ComparativeanalysisModal = ({
           'LONG',
           'error',
         );
-        edit_function(false);
+        // edit_function(false);
       }
     });
   };
@@ -196,7 +197,6 @@ const ComparativeanalysisModal = ({
   return (
     <>
       <Flex middle>
-
         <>
           <Modal open={Comparative}>
             <Flex style={{ backgroundColor: 'white', borderRadius: '4px' }}>
@@ -279,18 +279,23 @@ const ComparativeanalysisModal = ({
                                       style={{
                                         fontSize: '22px',
                                         textTransform: 'uppercase',
-                                        color: "white",
+                                        color: 'white',
                                       }}
                                       avatar={
                                         e.image && e.image !== 'default.jpg'
                                           ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                           : undefined
                                       }
-                                      initials={`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) : e?.first_name?.charAt(0)}
-                                     ${!isEmpty(e.last_name)
-                                          ? e.last_name?.charAt(0)
-                                          : ''
-                                        }`}
+                                      initials={`${
+                                        isEmpty(e.last_name)
+                                          ? e?.first_name?.slice(0, 2)
+                                          : e?.first_name?.charAt(0)
+                                      }
+                                     ${
+                                       !isEmpty(e.last_name)
+                                         ? e.last_name?.charAt(0)
+                                         : ''
+                                     }`}
                                     />
                                   </Flex>
                                   <Flex>
@@ -302,10 +307,11 @@ const ComparativeanalysisModal = ({
                                           padding: '2px 0px 0px 0px',
                                           textTransform: 'capitalize',
                                         }}
-                                      >{`${e?.first_name.toLowerCase()}${!isEmpty(e.last_name)
-                                        ? e.last_name.toUpperCase()
-                                        : ''
-                                        }`}</Text>
+                                      >{`${e?.first_name.toLowerCase()}${
+                                        !isEmpty(e.last_name)
+                                          ? e.last_name.toUpperCase()
+                                          : ''
+                                      }`}</Text>
                                     </Flex>
                                     <Flex
                                       className={styles.part3}
@@ -368,8 +374,13 @@ const ComparativeanalysisModal = ({
                           {' '}
                           <SvgJobselection width={15} height={15} />
                         </Flex>
-                        <Flex marginLeft={7}   >
-                          <Text size={13} color="theme" className={styles.textelipssis} title={` ${job_details.job_title} - ${job_details.job_id}`} >
+                        <Flex marginLeft={7}>
+                          <Text
+                            size={13}
+                            color="theme"
+                            className={styles.textelipssis}
+                            title={` ${job_details.job_title} - ${job_details.job_id}`}
+                          >
                             {job_details.job_title} - {job_details.job_id}
                           </Text>
                         </Flex>
@@ -384,9 +395,15 @@ const ComparativeanalysisModal = ({
                           />
                         </Flex>
                         <Flex marginTop={5}>
-                          <Text size={13} color="theme" className={styles.textelipssis} title={`${job_details.city}, ${job_details.state}, ${job_details.country}`}
-                            style={{ paddingLeft: '5px' }}>
-                            {job_details.city}, {job_details.state}, {job_details.country}
+                          <Text
+                            size={13}
+                            color="theme"
+                            className={styles.textelipssis}
+                            title={`${job_details.city}, ${job_details.state}, ${job_details.country}`}
+                            style={{ paddingLeft: '5px' }}
+                          >
+                            {job_details.city}, {job_details.state},{' '}
+                            {job_details.country}
                           </Text>
                         </Flex>
                       </Flex>
@@ -448,10 +465,16 @@ const ComparativeanalysisModal = ({
                         selectedcriteria.payload.analysis
                           .map((e, indexnum) => e) // Clone the array to avoid modifying the original
                           .sort((data1, data2) => {
-                            if (data1.Total_matching_percentage < data2.Total_matching_percentage) {
+                            if (
+                              data1.Total_matching_percentage <
+                              data2.Total_matching_percentage
+                            ) {
                               return -1;
                             }
-                            if (data1.Total_matching_percentage > data2.Total_matching_percentage) {
+                            if (
+                              data1.Total_matching_percentage >
+                              data2.Total_matching_percentage
+                            ) {
                               return 1;
                             }
                             // If Total_matching_percentage is the same, maintain the current order
@@ -497,17 +520,22 @@ const ComparativeanalysisModal = ({
                                         style={{
                                           fontSize: '24px',
                                           textTransform: 'uppercase',
-                                          color: "white"
+                                          color: 'white',
                                         }}
                                         avatar={
                                           e.image && e.image !== 'default.jpg'
                                             ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
                                             : undefined
                                         }
-                                        initials={`${isEmpty(e.last_name) ? e?.first_name?.slice(0, 2) : e?.first_name?.charAt(0)}${!isEmpty(e.last_name)
-                                          ? e.last_name?.charAt(0)
-                                          : ''
-                                          }`}
+                                        initials={`${
+                                          isEmpty(e.last_name)
+                                            ? e?.first_name?.slice(0, 2)
+                                            : e?.first_name?.charAt(0)
+                                        }${
+                                          !isEmpty(e.last_name)
+                                            ? e.last_name?.charAt(0)
+                                            : ''
+                                        }`}
                                       />
                                       <Flex
                                         className={cx({
@@ -524,7 +552,7 @@ const ComparativeanalysisModal = ({
                                           style={{
                                             fontSize: 10,
                                             marginTop: ' 2px',
-                                            color: 'white'
+                                            color: 'white',
                                           }}
                                           bold
                                         >
@@ -560,10 +588,11 @@ const ComparativeanalysisModal = ({
                                       marginBottom={1}
                                     ></Flex>
                                     <Flex
-                                      title={`${e.first_name.toUpperCase()} ${e.last_name
-                                        ? e.last_name.toUpperCase()
-                                        : ''
-                                        }`}
+                                      title={`${e.first_name.toUpperCase()} ${
+                                        e.last_name
+                                          ? e.last_name.toUpperCase()
+                                          : ''
+                                      }`}
                                     >
                                       <Text className={styles.changingtexts}>
                                         {e.first_name.toUpperCase()}{' '}
@@ -622,20 +651,20 @@ const ComparativeanalysisModal = ({
                                             {' '}
                                             {Math.round(e.categories[key]) <=
                                               3 && (
-                                                <Text size={12}>{`${Math.round(
-                                                  e.categories[key],
-                                                )}/10 (Low)`}</Text>
-                                              )}
+                                              <Text size={12}>{`${Math.round(
+                                                e.categories[key],
+                                              )}/10 (Low)`}</Text>
+                                            )}
                                             {Math.round(e.categories[key]) >
                                               7 && (
-                                                <Text size={12}>{`${Math.round(
-                                                  e.categories[key],
-                                                )}/10 (High)`}</Text>
-                                              )}
+                                              <Text size={12}>{`${Math.round(
+                                                e.categories[key],
+                                              )}/10 (High)`}</Text>
+                                            )}
                                             {Math.round(e.categories[key]) >
                                               3 &&
                                               Math.round(e.categories[key]) <=
-                                              7 && (
+                                                7 && (
                                                 <Text size={12}>{`${Math.round(
                                                   e.categories[key],
                                                 )}/10 (Medium)`}</Text>
@@ -714,11 +743,12 @@ const ComparativeanalysisModal = ({
                                       />
                                     </Flex>
                                     <Flex marginLeft={7} marginRight={7}>
-                                      <Text color='theme' size={13}>
-                                        {`${data?.first_name.toUpperCase()} ${!isEmpty(data.last_name)
-                                          ? data.last_name.toUpperCase()
-                                          : ''
-                                          }`}
+                                      <Text color="theme" size={13}>
+                                        {`${data?.first_name.toUpperCase()} ${
+                                          !isEmpty(data.last_name)
+                                            ? data.last_name.toUpperCase()
+                                            : ''
+                                        }`}
                                       </Text>
                                     </Flex>
                                     <Flex
@@ -727,7 +757,7 @@ const ComparativeanalysisModal = ({
                                       disabled={
                                         selectedcriteria.payload.analysis
                                           .length -
-                                        1 ===
+                                          1 ===
                                         iskey
                                       }
                                     >
@@ -736,7 +766,7 @@ const ComparativeanalysisModal = ({
                                           selectedcriteria.payload.analysis
                                             .length -
                                             1 ===
-                                            iskey
+                                          iskey
                                             ? '#888888'
                                             : '#581845'
                                         }
@@ -749,7 +779,13 @@ const ComparativeanalysisModal = ({
                               </Flex>
                               {isPros && (
                                 <Flex>
-                                  <Flex row between flex={12} marginBottom={10} marginTop={4}>
+                                  <Flex
+                                    row
+                                    between
+                                    flex={12}
+                                    marginBottom={10}
+                                    marginTop={4}
+                                  >
                                     <Flex flex={3} row center>
                                       <Flex>
                                         Overall Score based on the criteria :{' '}
@@ -758,30 +794,33 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) <= 3 && (
-                                            <Text color="error" bold>
-                                              {Math.round(
-                                                data.Average_match_percentage,
-                                              )}
-                                              /10
-                                            </Text>
-                                          )}
+                                          <Text color="error" bold>
+                                            {Math.round(
+                                              data.Average_match_percentage,
+                                            )}
+                                            /10
+                                          </Text>
+                                        )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                            <Text color="success" bold>
-                                              {Math.round(
-                                                data.Average_match_percentage,
-                                              )}
-                                              /10
-                                            </Text>
-                                          )}
+                                          <Text color="success" bold>
+                                            {Math.round(
+                                              data.Average_match_percentage,
+                                            )}
+                                            /10
+                                          </Text>
+                                        )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 3 &&
                                           Math.round(
                                             data.Average_match_percentage,
                                           ) <= 7 && (
-                                            <Text style={{ color: '#F29111' }} bold>
+                                            <Text
+                                              style={{ color: '#F29111' }}
+                                              bold
+                                            >
                                               {Math.round(
                                                 data.Average_match_percentage,
                                               )}
@@ -792,22 +831,31 @@ const ComparativeanalysisModal = ({
                                     </Flex>
                                     <Flex flex={3} row center marginLeft={20}>
                                       <Flex>Recommended to Hire : </Flex>
-                                      <Flex marginLeft={6} >
+                                      <Flex marginLeft={6}>
                                         {Math.round(
                                           data.Average_match_percentage,
-                                        ) <= 3 && <Text color="error" bold>No</Text>}
+                                        ) <= 3 && (
+                                          <Text color="error" bold>
+                                            No
+                                          </Text>
+                                        )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                            <Text color="success" bold>Yes</Text>
-                                          )}
+                                          <Text color="success" bold>
+                                            Yes
+                                          </Text>
+                                        )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 3 &&
                                           Math.round(
                                             data.Average_match_percentage,
                                           ) <= 7 && (
-                                            <Text style={{ color: '#F29111' }} bold>
+                                            <Text
+                                              style={{ color: '#F29111' }}
+                                              bold
+                                            >
                                               Neutral
                                             </Text>
                                           )}
@@ -928,7 +976,7 @@ const ComparativeanalysisModal = ({
                 style={{
                   backgroundColor: 'white',
                   padding: '25px',
-                  borderRadius: '4px'
+                  borderRadius: '4px',
                 }}
               >
                 {Matching.length === 1 ? (
@@ -949,8 +997,7 @@ const ComparativeanalysisModal = ({
                 ) : (
                   <>
                     <Flex row center style={{ justifyContent: 'center' }}>
-                      This action will remove the candidate from the
-                      comparison.
+                      This action will remove the candidate from the comparison.
                     </Flex>
                     <Flex row end marginTop={20}>
                       <Button

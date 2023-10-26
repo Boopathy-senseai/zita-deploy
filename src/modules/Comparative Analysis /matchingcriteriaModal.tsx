@@ -91,8 +91,9 @@ const MatchingcriteriaModal = ({
   };
 
   const edit_function = (val) => {
-    setedit(val);
-    setoldisData(isData);
+    // setedit(val);
+    // setoldisData(isData);
+    setData(val);
   };
 
   const clear = () => {
@@ -116,97 +117,99 @@ const MatchingcriteriaModal = ({
                 />
               </>
             ) : ( */}
-              <>
+            <>
+              <Flex
+                style={{
+                  borderBottom: '1px solid rgb(195, 195, 195)',
+                  paddingBottom: '5px',
+                }}
+              >
+                <Text size={14} bold>
+                  Select criteria to compare
+                </Text>
+              </Flex>
+              <Flex>
                 <Flex
                   style={{
                     borderBottom: '1px solid rgb(195, 195, 195)',
-                    paddingBottom: '5px',
                   }}
                 >
-                  <Text size={14} bold>
-                    Select criteria to compare
-                  </Text>
-                </Flex>
-                <Flex>
                   <Flex
+                    row
+                    center
+                    wrap
                     style={{
-                      borderBottom: '1px solid rgb(195, 195, 195)',
+                      paddingBottom: '10px',
                     }}
                   >
-                    <Flex
-                      row
-                      center
-                      wrap
-                      style={{
-                        paddingBottom: '10px',
-                      }}
-                    >
-                      {Comparativeanalysis.map((e) => {
-                        return (
-                          <Flex
-                            key={e.value}
-                            className={styles.matchRadioStyle}
-                            column
-                          >
-                            <InputCheckBox
-                              label={e.label}
-                              checked={isData.some(
-                                (item) => item.value === e.value,
-                              )}
-                              onChange={() => handleInputChangepass(e)}
-                            />
-                          </Flex>
-                        );
-                      })}
-                    </Flex>
-                   {Error && <Flex marginBottom={5}>
+                    {Comparativeanalysis.map((e) => {
+                      return (
+                        <Flex
+                          key={e.value}
+                          className={styles.matchRadioStyle}
+                          column
+                        >
+                          <InputCheckBox
+                            label={e.label}
+                            checked={isData.some(
+                              (item) => item.value === e.value,
+                            )}
+                            onChange={() => handleInputChangepass(e)}
+                          />
+                        </Flex>
+                      );
+                    })}
+                  </Flex>
+                  {Error && (
+                    <Flex marginBottom={5}>
                       <Text style={{ color: 'red' }}>{Error}</Text>
-                    </Flex>}
-                  </Flex>
+                    </Flex>
+                  )}
                 </Flex>
-                <Flex row between>
-                  <Flex marginTop={17}>
-                    {isData.length === 0 ? (
-                      <Button
-                        types="secondary"
-                        onClick={() => selectall()}
-                        width="87px"
-                      >
-                        Select All
-                      </Button>
-                    ) : (
-                      <Button
-                        types="secondary"
-                        onClick={() => clear()}
-                        width="87px"
-                      >
-                        Clear All
-                      </Button>
-                    )}
-                  </Flex>
-                  <Flex row end>
-                    <Flex
-                      center
-                      marginRight={20}
-                      marginTop={17}
-                      className={styles.centerali}
+              </Flex>
+              <Flex row between>
+                <Flex marginTop={17}>
+                  {isData.length === 0 ? (
+                    <Button
+                      types="secondary"
+                      onClick={() => selectall()}
+                      width="87px"
                     >
-                      <Button
-                        types="close"
-                        onClick={() => cancelmodel(false)}
-                        width="75px"
-                      >
-                        Cancel
-                      </Button>
-                    </Flex>
-                    <Flex center marginTop={17} className={styles.centerali}>
-                      <Button onClick={() => compare()} width="75px">
-                        Analyse
-                      </Button>
-                    </Flex>
+                      Select All
+                    </Button>
+                  ) : (
+                    <Button
+                      types="secondary"
+                      onClick={() => clear()}
+                      width="87px"
+                    >
+                      Clear All
+                    </Button>
+                  )}
+                </Flex>
+                <Flex row end>
+                  <Flex
+                    center
+                    marginRight={20}
+                    marginTop={17}
+                    className={styles.centerali}
+                  >
+                    <Button
+                      types="close"
+                      onClick={() => cancelmodel(false)}
+                      width="75px"
+                    >
+                      Cancel
+                    </Button>
+                  </Flex>
+                  <Flex center marginTop={17} className={styles.centerali}>
+                    <Button onClick={() => compare()} width="75px">
+                      Analyse
+                    </Button>
                   </Flex>
                 </Flex>
-              </>
+              </Flex>
+            </>
             {/* )} */}
           </Flex>
         </Flex>
