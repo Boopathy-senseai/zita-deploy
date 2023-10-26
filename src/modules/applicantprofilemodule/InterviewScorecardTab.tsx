@@ -357,7 +357,7 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
           <Flex center middle className={styles.starstylehead}>
             <StarsRating disabled count={5} value={results?.total_avg} />
             <Flex center middle marginTop={10}>
-              <Text>{reaction}</Text>
+              <Text  color= 'theme' style={{marginTop:"15px"}}>{reaction}</Text>
             </Flex>
           </Flex>
           {interviews && (

@@ -68,7 +68,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     const questionRating = Object.values(values.scorecard).map(
       (doc) => doc.scorecard,
     );
-    const doc = parser.parseFromString(values.commands, 'text/html');
+    const doc = parser.parseFromString(values?.commands, 'text/html');
     const textNodes = doc.querySelectorAll('body')[0].textContent;
     const texttrim = textNodes.trim();
     if (isEmpty(texttrim)) {
@@ -286,7 +286,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
             >
               <Flex className={styles.textArea}>
                 <ReactQuill
-                  value={formik.values.commands}
+                  value={formik.values?.commands}
                   className={styles.reactquillchange}
                   onChange={(value) => formik.setFieldValue('commands', value)}
                   placeholder="Add your feedback here"

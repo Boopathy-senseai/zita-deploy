@@ -40,8 +40,8 @@ export interface NoOfInterview {
   jd_id: string;
   location: string;
   event_type: string;
-  s_time: string;
-  e_time: string;
+  s_time: null | Date;
+  e_time: null | Date;
   org_id: string;
 }
 

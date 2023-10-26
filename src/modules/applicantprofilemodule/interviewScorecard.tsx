@@ -83,7 +83,7 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                     <Flex
                       className={styles.ratingStar}
                       marginTop={-30}
-                      marginBottom={-30}
+                      marginBottom={-15}
                       marginLeft={5}
                     >
                       <StarsRating disabled count={1} value={1} />
@@ -116,22 +116,31 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                     return (
                       <Flex key={index} row marginTop={10}>
                         <Flex row center>
-                          <SvgInterviewer width={16} height={16} />
+                          <Text title="Interviewer">
+                            <SvgInterviewer width={16} height={16} />
+                          </Text>
+
                           <Text style={{ marginLeft: '5px' }}>
                             {doc?.full_name}
                           </Text>
                         </Flex>
                         <Flex row center marginLeft={15}>
-                          <SvgQuestion width={16} height={16} />
+                          <Text title="Question count">
+                            <SvgQuestion width={16} height={16} />
+                          </Text>
+
                           <Text style={{ marginLeft: '5px' }}>
                             {`${doc?.question_count} questions`}
                           </Text>
                         </Flex>
                         <Flex row marginLeft={15}>
-                          <SvgUserRating width={14} height={14} />
+                          <Text title="Average Rating">
+                            <SvgUserRating width={16} height={16} />
+                          </Text>
+
                           <Flex
                             className={styles.ratingStar}
-                            marginTop={-32}
+                            marginTop={-29}
                             marginLeft={5}
                           >
                             <StarsRating

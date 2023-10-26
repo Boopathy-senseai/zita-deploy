@@ -175,9 +175,9 @@ const ScreeningStatusTab = ({
           commands={
             interviews[evaluatePopup.interview_id].cumulative.find(
               (doc) => doc.interview_id === evaluatePopup.interview_id,
-            ).commands
+            )?.commands
           }
-          recommend={interviews[evaluatePopup.interview_id].scorecard.recommend}
+          recommend={interviews[evaluatePopup.interview_id].scorecard?.recommend}
         />
       )}
 

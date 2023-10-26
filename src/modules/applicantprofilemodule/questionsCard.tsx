@@ -12,6 +12,7 @@ import InputText from '../../uikit/InputText';
 import Text from '../../uikit/Text/Text';
 import { AppDispatch } from '../../store';
 import { isEmpty } from '../../uikit/helper';
+import { formatTo12HrClock } from '../calendarModule/util';
 import {
   GenerateQuestionsState,
   InterviewExtractData,
@@ -109,7 +110,9 @@ const QuestionCard: React.FC<Props> = (props) => {
           interview_id: JSON.stringify(interviews?.data?.id),
           // exclude: JSON.stringify(getCheckedQuestions()),
         }),
-      );
+      ).then(() => {
+        Toast('Interview questions generated sucessfully.');
+      });
     }
   };
 
@@ -123,7 +126,9 @@ const QuestionCard: React.FC<Props> = (props) => {
           interview_id: JSON.stringify(interviews?.data?.id),
           exclude: JSON.stringify(getExcludeID()),
         }),
-      );
+      ).then(() => {
+        Toast('Interview questions regenerated successfully.');
+      });
     }
   };
   const addNewQuestion = () => {
@@ -139,9 +144,8 @@ const QuestionCard: React.FC<Props> = (props) => {
           ]),
         }),
       ).then((res) => {
-        
         if (res.payload.success === true) {
-          Toast("Question added successfully")
+          Toast('Question added successfully');
           formik.resetForm();
           setQuestionLoader(false);
           setaddQuestion(false);
@@ -186,8 +190,8 @@ const QuestionCard: React.FC<Props> = (props) => {
               </Button>
             </Flex>
           ) : (
-            <Flex row noWrap>
-              <Flex column noWrap>
+            <Flex row noWrap style={{ width: '80%' }}>
+              <Flex column noWrap style={{ width: '100%' }}>
                 <InputText
                   name="add question"
                   value={form.question}
@@ -197,7 +201,10 @@ const QuestionCard: React.FC<Props> = (props) => {
                   className={styles.input}
                 />
               </Flex>
-              <div className={styles.svgContainer}>
+              <div
+                className={styles.svgContainer}
+                style={{ marginRight: '10px' }}
+              >
                 {isQuestionLoader ? (
                   <div className={styles.svgTick}>
                     <Loader withOutOverlay size={'small'} />
@@ -278,17 +285,19 @@ const QuestionCard: React.FC<Props> = (props) => {
       </Flex>
     );
   };
+  const s_time = new Date(interviews.data.s_time);
+  const dateString = s_time.toDateString();
 
   if (interviews.questions.length === 0) {
     return (
       <>
         <Flex>
           <Flex row between marginTop={10}>
-            <Text color="theme">{`${interviews.data?.event_type} / ${moment(
+            <Text color="theme">{`${
+              interviews.data?.event_type
+            } / ${dateString} / ${formatTo12HrClock(
               interviews.data?.s_time,
-            ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-              interviews.data?.e_time,
-            ).format(' HH:mm a')} `}</Text>
+            )}  ${formatTo12HrClock(interviews.data?.e_time)}`}</Text>
           </Flex>
           <Flex>{renderEmptyBloc()}</Flex>
           <Flex

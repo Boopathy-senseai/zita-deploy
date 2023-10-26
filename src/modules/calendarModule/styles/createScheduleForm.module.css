@@ -52,7 +52,8 @@
   white-space: nowrap;
 }
 .notes2{
-    color: rgba(26, 26, 26, 0.5);
+    /* color: rgba(26, 26, 26, 0.5); */
+    color: #333333 !important;
     grid-column: 1 / span 2;
     white-space: nowrap;
     display: grid;
