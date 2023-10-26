@@ -43,7 +43,7 @@ type Props = {
   onMove?: (stageId: number) => void;
   onCSVDownload?: () => void;
   onComparative?: any;
-  Matching?:any;
+  Matching?: any;
 };
 
 const TotalApplicant = ({
@@ -107,74 +107,76 @@ const TotalApplicant = ({
             {total}
           </Text>
         </Text>
-        {seletedCardsLength > 1 && (
-          <Flex row center>
-            <Flex row center className={styles.bulkSelection}>
-              <Flex marginRight={30}>
+        {/* {seletedCardsLength > 1 && ( */}
+        <Flex row center>
+          <Flex row center className={styles.bulkSelection}>
+            {seletedCardsLength <= 1 ?
+              <Text color="theme">{`Select atleast two applicants to enable this options`}</Text> :
+              <Flex marginRight={15}> 
                 <Text color="theme">{`Selected ${seletedCardsLength} applicants`}</Text>
               </Flex>
-
-              <Flex row className={styles.bulkButton}>
-                <Flex
-                  row
-                  center
-                  marginRight={20}
-                  style={{
-                    paddingLeft: '5px',
-                    borderLeft: '1px solid #581845',
-                    cursor: 'pointer',
-                  }}
-                  onClick={!moveDisabled ? handleMoveOpenPipeline : undefined}
+            }
+            <Flex row className={styles.bulkButton}>
+              <Flex
+                row
+                center
+                marginRight={20}
+                style={{
+                  paddingLeft: '5px',
+                  borderLeft: '1px solid #581845',
+                  cursor: 'pointer',
+                }}
+                onClick={!moveDisabled ? handleMoveOpenPipeline : undefined}
+              >
+                <SvgMove
+                  width={12}
+                  height={12}
+                  fill={moveDisabled || seletedCardsLength <= 1 ? '#AB8BA2' : undefined}
+                />
+                <Text
+                  bold
+                  style={{ marginLeft: '10px' }}
+                  color={moveDisabled || seletedCardsLength <= 1 ? 'disabled' : 'theme'}
                 >
-                  <SvgMove
-                    width={12}
-                    height={12}
-                    fill={moveDisabled ? '#AB8BA2' : undefined}
-                  />
-                  <Text
-                    bold
-                    style={{ marginLeft: '10px' }}
-                    color={moveDisabled ? 'disabled' : 'theme'}
-                  >
-                    Move
-                  </Text>
-                </Flex>
-                <Flex
-                  row
-                  center
-                  style={{
-                    paddingLeft: '5px',
-                    borderLeft: '1px solid #581845',
-                    cursor: 'pointer',
-                  }}
-                  onClick={onExport}
-                  marginRight={10}
-                >
-                  <SvgDownload width={14} height={14} />
-                  <Text bold style={{ marginLeft: '10px' }} color="theme">
-                    Export Resumes
-                  </Text>
-                </Flex>
-                <Flex
-                  row
-                  center
-                  style={{
-                    paddingLeft: '5px',
-                    borderLeft: '1px solid #581845',
-                    cursor: 'pointer',
-                  }}
-                  onClick={Matching.length <= 5 && onComparative} 
-                  title={Matching.length > 5 && 'You have the option to choose up to five candidates for the Comparative Analysis.'}
-                >
-                  <SvgComparative fill={Matching.length > 5 ?'#AB8BA2':'#581845'} />
-                  <Text bold style={{ marginLeft: '10px' }}  color={Matching.length > 5 ? 'disabled' : 'theme'}>
+                  Move
+                </Text>
+              </Flex>
+              <Flex
+                row
+                center
+                style={{
+                  paddingLeft: '5px',
+                  borderLeft: '1px solid #581845',
+                  cursor: 'pointer',
+                }}
+                onClick={onExport}
+                marginRight={10}
+              >
+                <SvgDownload width={14} height={14} fill={seletedCardsLength <= 1 ? '#AB8BA2' : undefined} />
+                <Text bold style={{ marginLeft: '10px' }} color={seletedCardsLength <= 1 ? 'disabled' : 'theme'}>
+                  Export Resumes
+                </Text>
+              </Flex>
+              <Flex
+                row
+                center
+                style={{
+                  paddingLeft: '5px',
+                  borderLeft: '1px solid #581845',
+                  cursor: 'pointer',
+                }}
+                onClick={seletedCardsLength <= 5 || seletedCardsLength <= 1 && onComparative}
+                title={(seletedCardsLength > 5 || seletedCardsLength <= 1) && 'You have the option to choose up to five candidates for the Comparative Analysis.'}
+              >
+                <SvgComparative fill={seletedCardsLength > 5 || seletedCardsLength <= 1 ? '#AB8BA2' : '#581845'} />
+                <Text bold style={{ marginLeft: '10px' }} color={seletedCardsLength <= 1 || seletedCardsLength > 5 ? 'disabled' : 'theme'}>
                   Comparative Analysis
-                  </Text>
-                </Flex>
+                </Text>
               </Flex>
             </Flex>
           </Flex>
-        )}
+        </Flex>
+        {/* )} */}
         <MovePipelinePopup
           openMovePopup={movePopup}
           handleClosePipelinePopup={handleMoveClosePipeline}
@@ -228,7 +230,7 @@ const TotalApplicant = ({
 
               <Dropdown.Item onClick={onCSVDownload}>
                 <Flex row center className={styles.dropDownListStyle}>
-                  <SvgCsvDownload height={16} width={16} fill={'#1a1a1a'}  />
+                  <SvgCsvDownload height={16} width={16} fill={'#1a1a1a'} />
                   <Text style={{ marginLeft: 10 }}>Download CSV</Text>
                 </Flex>
               </Dropdown.Item>
