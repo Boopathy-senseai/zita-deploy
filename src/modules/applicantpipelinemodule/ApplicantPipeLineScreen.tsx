@@ -23,7 +23,7 @@ import { ERROR_MESSAGE } from '../constValue';
 import SvgIntomark from '../../icons/SvgCancel';
 import { checkAuthMiddleware, jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { routesPath } from '../../routes/routesPath';
-import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare, WeightagematchingscoreMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -192,29 +192,24 @@ const ApplicantPipeLineScreen = ({
         }
         else {
           setnextLoader(false);
-          handleWeightageClose();
-          setloadermatch(true)
-         
-          dispatch(jdMatchMiddleWare({jd_id})).then((r) => {
-            if(r.payload.error===true)
-            {
-             
-              Toast(
-                'Sorry, there was a problem connecting to the API. Please try again later.',
-                'LONG',
-                'error',
-              )
-              setloadermatch(false)
-            }
-            if(r.payload.success===true){
-              //alert("222")
-               setloadermatch(false)
-               getApplicanPipelineData()
-              Toast('Weightage settings saved successfully!', 'LONG');
-            }
-          
+          handleWeightageClose();  
+    
+      dispatch(WeightagematchingscoreMiddleWare(jd_id)).then((responce)=>{
+        if(responce.payload.success===true)
+        {
+          Toast('Weightage setting saved successfully', 'LONG'); 
+        getApplicanPipelineData();}
+        else
+        {
+          Toast(
+                      'Sorry, there was a problem connecting to the API. Please try again later.',
+                      'LONG',
+                      'error',
+                    )   
+        }
+      })
 
-      });
+      
         
         }
       })

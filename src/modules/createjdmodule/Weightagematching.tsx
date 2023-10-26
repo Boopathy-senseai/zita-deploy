@@ -231,58 +231,104 @@ const nextfunction=()=>{
 
 
   const handleRangeChange = (e:any) => {
-
+    if(e.target.value==='')
+    {
+     setRangeValueskill(0)
+    }else{
     setRangeValueskill(parseInt(e.target.value));
-    updateTechnicalPercent()
-
+    updateTechnicalPercent()}
   };
   const handleRangeChangerole = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValuerolles(0)
+    }else{
     setRangeValuerolles(parseInt(e.target.value));
-    updateTechnicalPercent()
-  
+    updateTechnicalPercent()}
   };
   const handleRangeChangeexperience = (e:any) => {
+ 
+    if(e.target.value===""){  
+      setRangeValueexperience(0)    
+   }else{
     setRangeValueexperience(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangequalifications = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueQualifications(0)
+    }else{
     setRangeValueQualifications(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangetechnical = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueTechnical(0)
+    }else{
     setRangeValueTechnical(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangesoft = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueSoft(0)
+    }else{
     setRangeValueSoft(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
+
 
 
 
   const handleRangeChangeindustry = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueIndustry(0)
+    }else{
     setRangeValueIndustry(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangedomain = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueDomain(0)
+    }else{
     setRangeValueDomain(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangecertification = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueCertifications(0)
+    }else{
     setRangeValueCertifications(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangelocation = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueLocation(0)
+    }else{
     setRangeValueLocation(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangecultural = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueCultural(0)
+    }else{
     setRangeValueCultural(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangereferences = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueReferences(0)
+    }else{
     setRangeValueReferences(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   
   };
     
@@ -471,12 +517,12 @@ const saveasdraftfunction=()=>{
                 
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueskill<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueskill >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueskill}</Text>
+                <input           
+             value={rangeValueskill}
+             onChange={handleRangeChange}  
+             maxLength={3}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -510,12 +556,12 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValuerolles<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValuerolles >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValuerolles}</Text>
+                <input           
+             value={rangeValuerolles}
+             onChange={handleRangeChangerole}  
+             maxLength={3}   
+             >
+             </input>
             </Flex>
           </Flex>
        
@@ -544,12 +590,13 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueexperience<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueexperience >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueexperience}</Text>
+             <input           
+             value={rangeValueexperience}
+             onChange={handleRangeChangeexperience}     
+             maxLength={3}
+             >
+             </input>
+        
             </Flex>
           </Flex>
 
@@ -582,12 +629,12 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueTechnical<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueTechnical>= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueTechnical}</Text>
+                <input           
+             value={rangeValueTechnical}
+             onChange={handleRangeChangetechnical}    
+             maxLength={3} 
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -618,12 +665,12 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueSoft<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueSoft >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueSoft}</Text>
+                <input           
+             value={rangeValueSoft}
+             onChange={handleRangeChangesoft}   
+             maxLength={3}  
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -653,12 +700,12 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueQualifications<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueQualifications >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueQualifications}</Text>
+                <input           
+             value={rangeValueQualifications}
+             onChange={handleRangeChangequalifications} 
+             maxLength={3}    
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -740,12 +787,11 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueIndustry<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueIndustry >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueIndustry}</Text>
+                <input           
+             value={rangeValueIndustry}
+             onChange={handleRangeChangeindustry}     
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -774,12 +820,11 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueDomain<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueDomain >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueDomain}</Text>
+                <input           
+             value={rangeValueDomain}
+             onChange={handleRangeChangedomain}     
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -808,12 +853,11 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueCertifications<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueCertifications>= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueCertifications}</Text>
+                <input           
+             value={rangeValueCertifications}
+             onChange={handleRangeChangecertification}     
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -845,12 +889,11 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueCultural<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueCultural >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueCultural}</Text>
+               <input           
+             value={rangeValueCultural}
+             onChange={handleRangeChangecultural}     
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -880,12 +923,11 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueReferences<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueReferences >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueReferences}</Text>
+                <input           
+             value={rangeValueReferences}
+             onChange={handleRangeChangereferences}     
+             >
+             </input>
             </Flex>
           </Flex>
            
@@ -914,12 +956,11 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueLocation<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueLocation >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueLocation}</Text>
+                <input           
+             value={rangeValueLocation}
+             onChange={handleRangeChangelocation}     
+             >
+             </input>
             </Flex>
           </Flex>
 
