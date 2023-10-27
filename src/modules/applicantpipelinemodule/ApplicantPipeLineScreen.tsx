@@ -124,28 +124,53 @@ const ApplicantPipeLineScreen = ({
   const [totaltechnical, settotaltechnical] = useState(0)
   const [totalnontechnical, settotalnontechnical] = useState(0);
 
+  // const updateTechnicalPercent = () => {
+  //   const totalTechnicalPercent =
+  //     rangeValueskill +
+  //     rangeValuerolles +
+  //     rangeValueexperience +
+  //     rangeValueQualifications +
+  //     rangeValueTechnical +
+  //     rangeValueSoft;
+  //   setTechnicalPercent(totalTechnicalPercent);
+  //   settotaltechnical(totalTechnicalPercent)
+  // };
   const updateTechnicalPercent = () => {
-    const totalTechnicalPercent =
-      rangeValueskill +
-      rangeValuerolles +
-      rangeValueexperience +
-      rangeValueQualifications +
-      rangeValueTechnical +
-      rangeValueSoft;
+    const rangeValues = [rangeValueskill, rangeValuerolles, rangeValueexperience, rangeValueQualifications, rangeValueTechnical, rangeValueSoft];
+  
+    // Filter out empty or falsy values (you can add more conditions if needed)
+    const validRangeValues = rangeValues.filter(value => value !== '' && value !== 0);
+  
+    // Sum the valid values
+    const totalTechnicalPercent = validRangeValues.reduce((acc, value) => acc + value, 0);
+  
     setTechnicalPercent(totalTechnicalPercent);
-    settotaltechnical(totalTechnicalPercent)
+    settotaltechnical(totalTechnicalPercent);
   };
 
+  // const updateNonTechnicalPercent = () => {
+  //   const totalNonTechnicalPercent =
+  //     rangeValueIndustry +
+  //     rangeValueDomain +
+  //     rangeValueCertifications +
+  //     rangeValueLocation +
+  //     rangeValueCultural +
+  //     rangeValueReferences;
+  //   setNonTechnicalPercent(totalNonTechnicalPercent);
+  //   settotalnontechnical(totalNonTechnicalPercent);
+  // };
+
   const updateNonTechnicalPercent = () => {
-    const totalNonTechnicalPercent =
-      rangeValueIndustry +
-      rangeValueDomain +
-      rangeValueCertifications +
-      rangeValueLocation +
-      rangeValueCultural +
-      rangeValueReferences;
+    const rangeValues = [rangeValueIndustry, rangeValueDomain, rangeValueCertifications, rangeValueLocation, rangeValueCultural, rangeValueReferences];
+  
+    // Filter out empty or falsy values (you can add more conditions if needed)
+    const validRangeValues = rangeValues.filter(value => value !== '' && value !== 0);
+  
+    // Sum the valid values
+    const totalNonTechnicalPercent = validRangeValues.reduce((acc, value) => acc + value, 0);
+
     setNonTechnicalPercent(totalNonTechnicalPercent);
-    settotalnontechnical(totalNonTechnicalPercent);
+    settotalnontechnical(totalNonTechnicalPercent)
   };
 
 
@@ -216,28 +241,31 @@ const ApplicantPipeLineScreen = ({
     }
   }
 
-
-  const resetfunction = () => {
+  const technicalresetfunction=()=>{
     setRangeValueskill(20);
     setRangeValuerolles(20);
     setRangeValueexperience(20);
     setRangeValueQualifications(10);
     setRangeValueTechnical(20);
     setRangeValueSoft(10);
+  }
+  
+  const nontechnicalresetfunction=()=>{
     setRangeValueIndustry(20);
     setRangeValueDomain(20);
     setRangeValueCertifications(20);
     setRangeValueLocation(10);
     setRangeValueCultural(20)
-    setRangeValueReferences(10);  
+    setRangeValueReferences(10);
   }
 
 
 
   const handleRangeChange = (e:any) => {
+    
     if(e.target.value==='')
     {
-     setRangeValueskill(0)
+     setRangeValueskill('')
     }else{
     setRangeValueskill(parseInt(e.target.value));
     updateTechnicalPercent()}
@@ -245,7 +273,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangerole = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValuerolles(0)
+     setRangeValuerolles('')
     }else{
     setRangeValuerolles(parseInt(e.target.value));
     updateTechnicalPercent()}
@@ -253,7 +281,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangeexperience = (e:any) => {
  
     if(e.target.value===""){  
-      setRangeValueexperience(0)    
+      setRangeValueexperience('')    
    }else{
     setRangeValueexperience(parseInt(e.target.value));
     updateTechnicalPercent()}
@@ -261,7 +289,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangequalifications = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueQualifications(0)
+     setRangeValueQualifications('')
     }else{
     setRangeValueQualifications(parseInt(e.target.value));
     updateTechnicalPercent()}
@@ -269,7 +297,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangetechnical = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueTechnical(0)
+     setRangeValueTechnical('')
     }else{
     setRangeValueTechnical(parseInt(e.target.value));
     updateTechnicalPercent()}
@@ -277,7 +305,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangesoft = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueSoft(0)
+     setRangeValueSoft('')
     }else{
     setRangeValueSoft(parseInt(e.target.value));
     updateTechnicalPercent()}
@@ -289,7 +317,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangeindustry = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueIndustry(0)
+     setRangeValueIndustry('')
     }else{
     setRangeValueIndustry(parseInt(e.target.value));
     updateNonTechnicalPercent()}
@@ -297,7 +325,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangedomain = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueDomain(0)
+     setRangeValueDomain('')
     }else{
     setRangeValueDomain(parseInt(e.target.value));
     updateNonTechnicalPercent()}
@@ -305,7 +333,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangecertification = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueCertifications(0)
+     setRangeValueCertifications('')
     }else{
     setRangeValueCertifications(parseInt(e.target.value));
     updateNonTechnicalPercent()}
@@ -313,7 +341,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangelocation = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueLocation(0)
+     setRangeValueLocation('')
     }else{
     setRangeValueLocation(parseInt(e.target.value));
     updateNonTechnicalPercent()}
@@ -321,7 +349,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangecultural = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueCultural(0)
+     setRangeValueCultural('')
     }else{
     setRangeValueCultural(parseInt(e.target.value));
     updateNonTechnicalPercent()}
@@ -329,7 +357,7 @@ const ApplicantPipeLineScreen = ({
   const handleRangeChangereferences = (e:any) => {
     if(e.target.value==='')
     {
-     setRangeValueReferences(0)
+     setRangeValueReferences('')
     }else{
     setRangeValueReferences(parseInt(e.target.value));
     updateNonTechnicalPercent()}
@@ -1519,14 +1547,14 @@ const ApplicantPipeLineScreen = ({
                   <Flex>
                     <Flex className={styles.sliderstyle} marginTop={20}>
                       <Flex>
-                        <Text>Skills</Text>
+                        <Text>Technical Skills</Text>
                       </Flex>
                       <Flex className={styles.innerstyle}>
                         <input
                           type="range"
                           min="0"
                           max="100"
-                            value={rangeValueskill}
+                            value={rangeValueskill === '' ? 0 : rangeValueskill}
                           className={styles.customrange}
                           onChange={handleRangeChange}
                           style={{
@@ -1544,13 +1572,18 @@ const ApplicantPipeLineScreen = ({
 
                           }}
                         />
-                        <input           
-                          value={rangeValueskill}
-                          onChange={handleRangeChange}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+              <input           
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rangeValueskill}
+                  onChange={handleRangeChange}  
+                  maxLength={3}  
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueskill < 10
@@ -1574,7 +1607,7 @@ const ApplicantPipeLineScreen = ({
                           max="100"
                             
                             className={styles.customrange}
-                          value={rangeValuerolles}
+                          value={rangeValuerolles === '' ? 0 : rangeValuerolles}
                           onChange={handleRangeChangerole}
                           style={{
                             // Styling with violet color
@@ -1591,13 +1624,18 @@ const ApplicantPipeLineScreen = ({
                           }}
 
                         />
-                        <input           
-                          value={rangeValuerolles}
-                          onChange={handleRangeChangerole}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+              <input           
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rangeValuerolles}
+                  onChange={handleRangeChangerole}  
+                  maxLength={3}  
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValuerolles < 10
@@ -1620,7 +1658,7 @@ const ApplicantPipeLineScreen = ({
                           min="0"
                           max="100"
                             
-                            value={rangeValueexperience}
+                            value={rangeValueexperience === '' ? 0 : rangeValueexperience}
                           className={styles.customrange}
                           onChange={handleRangeChangeexperience}
                           style={{
@@ -1633,13 +1671,18 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
                         />
-                        <input           
-                          value={rangeValueexperience}
-                          onChange={handleRangeChangeexperience}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+              <input           
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rangeValueexperience}
+                  onChange={handleRangeChangeexperience}  
+                  maxLength={3}  
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueexperience < 10
@@ -1666,7 +1709,7 @@ const ApplicantPipeLineScreen = ({
                           min="0"
                           max="100"
                             
-                            value={rangeValueTechnical}
+                            value={rangeValueTechnical === '' ? 0 : rangeValueTechnical}
                           onChange={handleRangeChangetechnical}
                           className={styles.customrange}
                           style={{
@@ -1680,13 +1723,18 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
                         />
-                        <input           
-                          value={rangeValueTechnical}
-                          onChange={handleRangeChangetechnical}  
-                          maxLength={3}   
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+              <input           
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rangeValueTechnical}
+                  onChange={handleRangeChangetechnical}  
+                  maxLength={3}  
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueTechnical < 10
@@ -1710,7 +1758,7 @@ const ApplicantPipeLineScreen = ({
                           max="100"
                             
                             className={styles.customrange}
-                          value={rangeValueSoft}
+                          value={rangeValueSoft === '' ? 0 : rangeValueSoft}
                           onChange={handleRangeChangesoft}
                           style={{
                             // Styling with violet color
@@ -1724,14 +1772,18 @@ const ApplicantPipeLineScreen = ({
                           }}
 
                         />
-                        <input           
-                          value={rangeValueSoft}
-                          onChange={handleRangeChangesoft}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+              <input           
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rangeValueSoft}
+                  onChange={handleRangeChangesoft}  
+                  maxLength={3}  
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueSoft < 10
@@ -1752,7 +1804,7 @@ const ApplicantPipeLineScreen = ({
                           min="0"
                           max="100"
                             
-                            value={rangeValueQualifications}
+                            value={rangeValueQualifications === '' ? 0 : rangeValueQualifications}
                           className={styles.customrange}
                           onChange={handleRangeChangequalifications}
                           style={{
@@ -1767,14 +1819,18 @@ const ApplicantPipeLineScreen = ({
                           }}
 
                         />
-                        <input           
-                          value={rangeValueQualifications}
-                          onChange={handleRangeChangequalifications}  
-                          maxLength={3} 
-                          className={styles.scoreinputfield}   
-
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+              <input           
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rangeValueQualifications}
+                  onChange={handleRangeChangequalifications}  
+                  maxLength={3}  
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueQualifications < 10
@@ -1846,7 +1902,7 @@ const ApplicantPipeLineScreen = ({
                           min="0"
                           max="100"
                             
-                            value={rangeValueIndustry}
+                            value={rangeValueIndustry === '' ? 0 : rangeValueIndustry}
                           className={styles.customrange}
                           onChange={handleRangeChangeindustry}
                           style={{
@@ -1860,13 +1916,18 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
                         />
-                        <input           
-                          value={rangeValueIndustry}
-                          onChange={handleRangeChangeindustry}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueIndustry}
+                  onChange={handleRangeChangeindustry} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  >
+             </input>
+             </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueIndustry < 10
@@ -1889,7 +1950,7 @@ const ApplicantPipeLineScreen = ({
                           max="100"
                             
                             className={styles.customrange}
-                          value={rangeValueDomain}
+                          value={rangeValueDomain === '' ? 0 : rangeValueDomain}
                           onChange={handleRangeChangedomain}
                           style={{
                             // Styling with violet color
@@ -1903,13 +1964,18 @@ const ApplicantPipeLineScreen = ({
                           }}
 
                         />
-                        <input           
-                          value={rangeValueDomain}
-                          onChange={handleRangeChangedomain}  
-                          maxLength={3} 
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueDomain}
+                  onChange={handleRangeChangedomain} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  >
+             </input>
+             </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueDomain < 10
@@ -1932,7 +1998,7 @@ const ApplicantPipeLineScreen = ({
                           min="0"
                           max="100"
                             
-                            value={rangeValueCertifications}
+                            value={rangeValueCertifications === '' ? 0 : rangeValueCertifications}
                           className={styles.customrange}
                           onChange={handleRangeChangecertification}
                           style={{
@@ -1946,13 +2012,18 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
                         />
-                        <input           
-                          value={rangeValueCertifications}
-                          onChange={handleRangeChangecertification}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueCertifications}
+                  onChange={handleRangeChangecertification} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  >
+             </input>
+             </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueCertifications < 10
@@ -1974,7 +2045,7 @@ const ApplicantPipeLineScreen = ({
                           min="0"
                           max="100"
                             
-                            value={rangeValueCultural}
+                            value={rangeValueCultural === '' ? 0 : rangeValueCultural}
                           onChange={handleRangeChangecultural}
                           className={styles.customrange}
                           style={{
@@ -1988,13 +2059,18 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
                         />
-                        <input           
-                          value={rangeValueCultural}
-                          onChange={handleRangeChangecultural}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueCultural}
+                  onChange={handleRangeChangecultural} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  >
+             </input>
+             </Flex>
 
                         {/* <Text style={{
                           padding:
@@ -2019,7 +2095,7 @@ const ApplicantPipeLineScreen = ({
                           max="100"
                             
                             className={styles.customrange}
-                          value={rangeValueReferences}
+                          value={rangeValueReferences === '' ? 0 : rangeValueReferences}
                           onChange={handleRangeChangereferences}
                           style={{
                             // Styling with violet color
@@ -2033,14 +2109,18 @@ const ApplicantPipeLineScreen = ({
                           }}
 
                         />
-                        <input           
-                          value={rangeValueReferences}
-                          onChange={handleRangeChangereferences}  
-                          maxLength={3}  
-                          className={styles.scoreinputfield}   
-
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueReferences}
+                  onChange={handleRangeChangereferences} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  >
+             </input>
+             </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueReferences < 10
@@ -2060,7 +2140,7 @@ const ApplicantPipeLineScreen = ({
                           type="range"
                           min="0"
                           max="100"
-                            value={rangeValueLocation}
+                            value={rangeValueLocation === '' ? 0 : rangeValueLocation}
                           className={styles.customrange}
                           onChange={handleRangeChangelocation}
                           style={{
@@ -2074,14 +2154,18 @@ const ApplicantPipeLineScreen = ({
                             borderRadius: '5px', // Add border radius
                           }}
                         />
-                        <input           
-                          value={rangeValueLocation}
-                          onChange={handleRangeChangelocation}  
-                          maxLength={3}
-                          className={styles.scoreinputfield}   
-                             
-                          >
-                          </input>
+              <Flex style={{ marginLeft:"20px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueLocation}
+                  onChange={handleRangeChangelocation} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  >
+             </input>
+             </Flex>
                         {/* <Text style={{
                           padding:
                             rangeValueLocation < 10
@@ -2110,7 +2194,7 @@ const ApplicantPipeLineScreen = ({
               <Flex row center className={styles.popbtnContainer}>
 
                 <Flex>
-                  <Button types="secondary" onClick={resetfunction}>Reset</Button>
+
                 </Flex>
                 <Flex row>
                   <Flex className={styles.cancelBtn}>

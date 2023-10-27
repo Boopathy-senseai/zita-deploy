@@ -43,7 +43,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    width: 50%; 
   }
 
   
@@ -99,7 +98,13 @@ justify-content: space-between;
   background-color: #ffffff;
 
 }
-.progressbarstyle{
+.techprogressbarstyle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.nontechprogressbarstyle{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,40 +157,42 @@ justify-content: space-between;
 }
 
 .scoreinputfield{
-  width: 30px;
+  width: 40px;
   padding: 3px 0px 0px 0px;
-  margin-left: 20px;
+  /* margin-left: 20px; */
   text-align: center;
+  border: none;
+  /* border-bottom: 1px solid black; */
+  outline: none;
 }
 
 .techtitleblock{
-  width:100%;
+  width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 25px;
+  justify-content: center;
 }
 
-.techmatchtitle{
-  width: 60%;
-  justify-content: flex-end;
-}
 
 .techresetbutton{
-  width: 40%;
-  justify-content: flex-end;
+  /* width: 40%;
+  justify-content: flex-end; */
+  padding-left:10px
 }
 
 .nontechtitleblock{
-  width:100%;
+  width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 28px;
+  justify-content: center;
 }
 
-.nontechmatchtitle{
-  width: 65%;
-  justify-content: flex-end;
-}
 
 .nontechresetbutton{
-  width: 40%;
-  justify-content: flex-end;
+  /* width: 40%;
+  justify-content: flex-end; */
+  padding-left:10px
+
 }
