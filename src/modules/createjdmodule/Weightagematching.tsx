@@ -231,69 +231,118 @@ const nextfunction=()=>{
 
 
   const handleRangeChange = (e:any) => {
-
+    if(e.target.value==='')
+    {
+     setRangeValueskill(0)
+    }else{
     setRangeValueskill(parseInt(e.target.value));
-    updateTechnicalPercent()
-
+    updateTechnicalPercent()}
   };
   const handleRangeChangerole = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValuerolles(0)
+    }else{
     setRangeValuerolles(parseInt(e.target.value));
-    updateTechnicalPercent()
-  
+    updateTechnicalPercent()}
   };
   const handleRangeChangeexperience = (e:any) => {
+ 
+    if(e.target.value===""){  
+      setRangeValueexperience(0)    
+   }else{
     setRangeValueexperience(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangequalifications = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueQualifications(0)
+    }else{
     setRangeValueQualifications(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangetechnical = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueTechnical(0)
+    }else{
     setRangeValueTechnical(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangesoft = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueSoft(0)
+    }else{
     setRangeValueSoft(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
+
 
 
 
   const handleRangeChangeindustry = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueIndustry(0)
+    }else{
     setRangeValueIndustry(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangedomain = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueDomain(0)
+    }else{
     setRangeValueDomain(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangecertification = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueCertifications(0)
+    }else{
     setRangeValueCertifications(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangelocation = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueLocation(0)
+    }else{
     setRangeValueLocation(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangecultural = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueCultural(0)
+    }else{
     setRangeValueCultural(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangereferences = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueReferences(0)
+    }else{
     setRangeValueReferences(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   
   };
     
   
-const resetfunction=()=>{
+const technicalresetfunction=()=>{
   setRangeValueskill(20);
   setRangeValuerolles(20);
   setRangeValueexperience(20);
   setRangeValueQualifications(10);
   setRangeValueTechnical(20);
   setRangeValueSoft(10);
+}
+
+const nontechnicalresetfunction=()=>{
   setRangeValueIndustry(20);
   setRangeValueDomain(20);
   setRangeValueCertifications(20);
@@ -381,31 +430,44 @@ const saveasdraftfunction=()=>{
           </Flex>
           <Flex>
           {isInfoPopupOpen && (
-            <Card className={styles.cardfront1}>
-              <Flex>
-                <Text>Info</Text>
-                </Flex>
+                    <Card className={styles.cardfront1}>
+                    <Flex>
+                    <Flex row center className={styles.infotitle}>
+                      <SvgModuleicon />{' '}
+                      <Text className={styles.moreinformation}>
+                        More Information
+                      </Text>{' '}
+                    </Flex>
+                    <Flex>
+                    <Text color="gray" size={13}>You can assign and adjust weights to the each criteria based on the specific Job description.</Text>
+                    <Text color="gray" size={13}>The weightage you assign for each criterion in the Technical Matching section is considered for job matching. </Text>
+                    <Text color="gray" size={13}>Higher weights indicate greater importance.</Text>
+                    </Flex> 
+                    </Flex>
                   </Card>
                    )}
                   </Flex>
 
         </Flex>
-        <Flex style={{paddingRight:"15px"}}>
-
-          <Button types="primary" onClick={resetfunction}>
-
-            Reset
-
-          </Button>
-
-        </Flex>
       </Flex>
-      
+
       <Flex className={styles.parent} mt-30>
         
         <Flex style={{ width: "49%" }}>
           <Flex className={styles.progressbarstyle}>
-            <Flex><Text bold style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
+            <Flex row center className={styles.techtitleblock}>
+              <Flex className={styles.techmatchtitle}>
+                <Text bold>
+                  Technical Matching
+                  </Text>
+                </Flex>
+                <Flex className={styles.techresetbutton}>
+                  <Button types="primary" onClick={technicalresetfunction}>
+                    Reset
+                    </Button>
+                  </Flex>
+                </Flex>
+
             <Flex style={{
               width: "100px",
               height: "100px"
@@ -453,7 +515,6 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
                 value={rangeValueskill}
                 className={styles.customrange}
                 onChange={handleRangeChange}
@@ -471,12 +532,13 @@ const saveasdraftfunction=()=>{
                 
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueskill<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueskill >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueskill}</Text>
+                <input           
+             value={rangeValueskill}
+             onChange={handleRangeChange}  
+             maxLength={3}  
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -491,7 +553,6 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
                 className={styles.customrange}
                 value={rangeValuerolles}
                 onChange={handleRangeChangerole}
@@ -510,12 +571,13 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValuerolles<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValuerolles >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValuerolles}</Text>
+                <input           
+             value={rangeValuerolles}
+             onChange={handleRangeChangerole}  
+             maxLength={3} 
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
        
@@ -530,7 +592,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 value={rangeValueexperience}
                 className={styles.customrange}
                 onChange={handleRangeChangeexperience}
@@ -544,12 +606,14 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueexperience<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueexperience >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueexperience}</Text>
+             <input           
+             value={rangeValueexperience}
+             onChange={handleRangeChangeexperience}     
+             maxLength={3}
+             className={styles.scoreinputfield}   
+             >
+             </input>
+        
             </Flex>
           </Flex>
 
@@ -567,7 +631,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 value={rangeValueTechnical}
                 onChange={handleRangeChangetechnical}
                 className={styles.customrange}
@@ -582,12 +646,13 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueTechnical<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueTechnical>= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueTechnical}</Text>
+                <input           
+             value={rangeValueTechnical}
+             onChange={handleRangeChangetechnical}    
+             maxLength={3} 
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -602,7 +667,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 className={styles.customrange}
                 value={rangeValueSoft}
                 onChange={handleRangeChangesoft}
@@ -618,12 +683,13 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueSoft<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueSoft >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueSoft}</Text>
+                <input           
+             value={rangeValueSoft}
+             onChange={handleRangeChangesoft}   
+             maxLength={3}  
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -637,7 +703,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 value={rangeValueQualifications}
                 className={styles.customrange}
                 onChange={handleRangeChangequalifications}
@@ -653,12 +719,13 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueQualifications<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueQualifications >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueQualifications}</Text>
+                <input           
+             value={rangeValueQualifications}
+             onChange={handleRangeChangequalifications} 
+             maxLength={3}    
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -694,8 +761,18 @@ const saveasdraftfunction=()=>{
 
           
           <Flex className={styles.progressbarstyle}>
-            
-            <Flex><Text bold style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
+          <Flex row center className={styles.nontechtitleblock}>
+              <Flex className={styles.nontechmatchtitle}>
+                <Text bold>
+                  Non-Technical Matching
+                  </Text>
+                </Flex>
+                <Flex className={styles.nontechresetbutton}>
+                  <Button types="primary" onClick={nontechnicalresetfunction}>
+                    Reset
+                    </Button>
+                  </Flex>
+                </Flex>
             <Flex style={{
               width: "100px",
               height: "100px"
@@ -725,7 +802,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 value={rangeValueIndustry}
                 className={styles.customrange}
                 onChange={handleRangeChangeindustry}
@@ -740,12 +817,12 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueIndustry<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueIndustry >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueIndustry}</Text>
+                <input           
+             value={rangeValueIndustry}
+             onChange={handleRangeChangeindustry}     
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -758,7 +835,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 className={styles.customrange}
                 value={rangeValueDomain}
                 onChange={handleRangeChangedomain}
@@ -774,12 +851,12 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueDomain<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueDomain >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueDomain}</Text>
+                <input           
+             value={rangeValueDomain}
+             onChange={handleRangeChangedomain}     
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -793,7 +870,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 value={rangeValueCertifications}
                 className={styles.customrange}
                 onChange={handleRangeChangecertification}
@@ -808,12 +885,12 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueCertifications<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueCertifications>= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueCertifications}</Text>
+                <input           
+             value={rangeValueCertifications}
+             onChange={handleRangeChangecertification}     
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -830,7 +907,6 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
                 value={rangeValueCultural}
                 onChange={handleRangeChangecultural}
                 className={styles.customrange}
@@ -845,12 +921,12 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueCultural<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueCultural >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueCultural}</Text>
+               <input           
+             value={rangeValueCultural}
+             onChange={handleRangeChangecultural}     
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 
@@ -864,7 +940,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 className={styles.customrange}
                 value={rangeValueReferences}
                 onChange={handleRangeChangereferences}
@@ -880,12 +956,12 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueReferences<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueReferences >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueReferences}</Text>
+                <input           
+             value={rangeValueReferences}
+             onChange={handleRangeChangereferences}     
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
            
@@ -898,7 +974,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                step="5"
+                
                 value={rangeValueLocation}
                 className={styles.customrange}
                 onChange={handleRangeChangelocation}
@@ -914,12 +990,12 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueLocation<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueLocation >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueLocation}</Text>
+                <input           
+             value={rangeValueLocation}
+             onChange={handleRangeChangelocation}     
+             className={styles.scoreinputfield}   
+             >
+             </input>
             </Flex>
           </Flex>
 

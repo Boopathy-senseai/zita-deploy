@@ -556,7 +556,7 @@ dataList.invite,
                       {notSpecified(dataList.qualification)}
                     </Text>
                     ):(
-                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333",width:'50px'}} title={`Qualification: ${dataList.qualification}`}>
+                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
 
                   {notSpecified(dataList.qualification)}
                 </Text>
@@ -568,11 +568,11 @@ dataList.invite,
                 </Flex>
                 <Flex>
                   {dataList.work_exp===null||undefined||""?(
-                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
+                    <Text size={11} textStyle="ellipsis"  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
                     | {notSpecified(workYear(dataList.work_exp))}
                   </Text>
                   ):(
-                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
+                    <Text size={11} textStyle="ellipsis"  style={{ marginLeft: 2 ,color:"#333333",width:"70px"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
                       | {notSpecified(workYear(dataList.work_exp))}
                     </Text>
                   )}

@@ -125,7 +125,8 @@
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center 
+  justify-content: center; 
+  width:56%
 }
 
 
@@ -208,4 +209,11 @@ margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.scoreinputfield{
+  width: 30px;
+  padding: 3px 0px 0px 0px;
+  margin-left: 20px;
+  text-align: center;
 }
