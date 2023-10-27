@@ -857,7 +857,7 @@ const ComparativeanalysisModal = ({
                                                 middle
                                                 title={val.first_name}
                                               >
-                                                <Text color='white' className={styles.textelipssisforname}>{val.first_name}</Text>
+                                                <Text color='white' className={styles.textelipssisforname}>{val.first_name.toLowerCase().toUpperCase()}</Text>
                                               </Flex>
                                             ))}
                                         </Flex>
