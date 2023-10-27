@@ -111,7 +111,7 @@ const TotalApplicant = ({
         <Flex row center>
           <Flex row center className={styles.bulkSelection}>
             {seletedCardsLength <= 1 ?
-              <Text color="theme">{`Select atleast two applicants to enable this options`}</Text> :
+              <Text color="theme">{`Select at least two or more candidates`}</Text> :
               <Flex marginRight={15}> 
                 <Text color="theme">{`Selected ${seletedCardsLength} applicants`}</Text>
               </Flex>

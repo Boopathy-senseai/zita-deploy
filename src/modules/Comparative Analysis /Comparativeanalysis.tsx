@@ -789,7 +789,7 @@ const ComparativeanalysisModal = ({
                                       </Flex>
                                     </Flex>
                                     <Flex flex={3} row center marginLeft={20}>
-                                      <Flex>Recommended to Hire : </Flex>
+                                      <Flex>Recommendation to Hire : </Flex>
                                       <Flex marginLeft={6}>
                                         {Math.round(
                                           data.Average_match_percentage,
