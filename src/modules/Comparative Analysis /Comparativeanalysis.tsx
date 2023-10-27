@@ -346,26 +346,27 @@ const ComparativeanalysisModal = ({
                         <SvgCSV height={16} width={16} />
                       </Flex>
                     </Flex>
-                    <Flex
-                      onClick={() => openaddmodel(true)}
-                      row
-                      center
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <Flex marginRight={7} style={{ cursor: 'pointer' }}>
-                        <SvgAdd height={10} width={10} fill="#581845" />
+                    <Button  onClick={() => openaddmodel(true)}  types="secondary">
+                      <Flex 
+                        row
+                        center
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <Flex marginRight={7} style={{ cursor: 'pointer' }}>
+                          <SvgAdd height={10} width={10} fill="#581845" />
+                        </Flex>
+                        <Flex>
+                          <Text
+                            color="theme"
+                            size={13}
+                            style={{ cursor: 'pointer' }}
+                            bold
+                          >
+                            Add Candidate
+                          </Text>
+                        </Flex>
                       </Flex>
-                      <Flex>
-                        <Text
-                          color="theme"
-                          size={13}
-                          style={{ cursor: 'pointer' }}
-                          bold
-                        >
-                          Add Candidate
-                        </Text>
-                      </Flex>
-                    </Flex>
+                    </Button>
                   </Flex>
                   <Flex row>
                     <Flex>
@@ -732,43 +733,7 @@ const ComparativeanalysisModal = ({
                                     />
                                   </Flex>
                                 </Flex>
-                                {isPros && (
-                                  <>
-                                    <Flex row end center>
-                                      <Flex className={styles.button_group}>
-                                        {selectedcriteria.payload.analysis
-                                          .sort((data1, data2) => {
-                                            if (
-                                              data1.Total_matching_percentage <
-                                              data2.Total_matching_percentage
-                                            )
-                                              return -1;
-                                            if (
-                                              data1.Total_matching_percentage >
-                                              data2.Total_matching_percentage
-                                            )
-                                              return 1;
-                                            return 0;
-                                          })
-                                          .reverse()
-                                          .map((val, ind) => (
-                                            <button
-                                              onClick={() => setkey(ind)}
-                                              key={ind}
-                                              style={{
-                                                backgroundColor:
-                                                  iskey === ind
-                                                    ? '#581845'
-                                                    : '',
-                                              }}
-                                            >
-                                              {val.first_name}
-                                            </button>
-                                          ))}
-                                      </Flex>
-                                    </Flex>
-                                  </>
-                                )}
+
                               </Flex>
                               {isPros && (
                                 <Flex>
@@ -778,6 +743,7 @@ const ComparativeanalysisModal = ({
                                     flex={12}
                                     marginBottom={10}
                                     marginTop={4}
+                                    center
                                   >
                                     <Flex flex={3} row center>
                                       <Flex>
@@ -854,7 +820,47 @@ const ComparativeanalysisModal = ({
                                           )}
                                       </Flex>
                                     </Flex>
-                                    <Flex flex={6}></Flex>
+                                    <Flex flex={6}>
+                                      <Flex row end center>
+                                        <Flex className={styles.button_group}>
+                                          {selectedcriteria.payload.analysis
+                                            .sort((datacheck1, datacheck2) => {
+                                              if (
+                                                datacheck1.Total_matching_percentage <
+                                                datacheck2.Total_matching_percentage
+                                              )
+                                                return -1;
+                                              if (
+                                                datacheck1.Total_matching_percentage >
+                                                datacheck2.Total_matching_percentage
+                                              )
+                                                return 1;
+                                              return 0;
+                                            })
+                                            .reverse()
+                                            .map((val, ind) => (
+                                              <Flex
+                                                onClick={() => setkey(ind)}
+                                                key={ind}
+                                                style={{
+                                                  backgroundColor:
+                                                    iskey === ind
+                                                      ? '#581845'
+                                                      : '',
+                                                  cursor: 'pointer',
+                                                  borderRadius: '5px'
+                                                }}
+                                                width={110}
+                                                center
+                                                middle
+                                                title={val.first_name}
+                                              >
+                                                <Text color='white' className={styles.textelipssisforname}>{val.first_name}</Text>
+                                              </Flex>
+                                            ))}
+                                        </Flex>
+                                      </Flex>
+                                    </Flex>
                                   </Flex>
                                   <table className="parallel-columns-table">
                                     <colgroup>
