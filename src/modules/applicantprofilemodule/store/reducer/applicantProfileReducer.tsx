@@ -312,6 +312,7 @@ const applicantProfileInitalReducer = createSlice({
 const applicantMatchState: MatchReducerState = {
   isLoading: false,
   overall_percentage: 0,
+  non_tech_percentage:0,
   skills_percent: 0,
   qualification_percent: 0,
   location_percent: 0,
@@ -346,14 +347,12 @@ const applicantMatchState: MatchReducerState = {
     title: '',
     percentage: 0,
     description: '',
-    overall_percentage:0
     
   }], 
   technical:[{
     title: "",
     percentage: 0,
     description: "",
-    overall_percentage: 0,
     jd_id: 0,
     skill_percentage:0,
   }], 
@@ -361,7 +360,6 @@ const applicantMatchState: MatchReducerState = {
     title: "",
     percentage: 0,
     description: "",
-    overall_percentage: 0,
     jd_id: 0,
     skill_percentage:0,
   }],   
@@ -381,6 +379,7 @@ const applicantMatchReducer = createSlice({
       state.isLoading = false;
       state.match = action.payload?.match;
       state.overall_percentage = action.payload.overall_percentage;
+      state.non_tech_percentage = action.payload.non_tech_percentage;
       state.not_matched_data = action.payload.not_matched_data;
       state.matched_data = action.payload.matched_data;
       state.qualification_percent = action.payload.qualification_percent;
@@ -403,6 +402,7 @@ const applicantMatchReducer = createSlice({
 const candidatejobidMatchState: MatchReducerState = {
   isLoading: false,
   overall_percentage: 0,
+  non_tech_percentage:0,
   skills_percent: 0,
   qualification_percent: 0,
   location_percent: 0,
@@ -437,13 +437,11 @@ const candidatejobidMatchState: MatchReducerState = {
     title: '',
     percentage: 0,
     description: '',
-    overall_percentage:0
   }], 
   technical:[{
     title: "",
     percentage: 0,
     description: "",
-    overall_percentage: 0,
     jd_id: 0,
     skill_percentage:0,
   
@@ -452,7 +450,6 @@ const candidatejobidMatchState: MatchReducerState = {
     title: "",
     percentage: 0,
     description: "",
-    overall_percentage: 0,
     jd_id: 0,
     
     skill_percentage:0,
