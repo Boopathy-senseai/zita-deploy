@@ -65,6 +65,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
     matchql,
     data,
     overall_percentage,
+    non_tech_percentage,
     Notmatchql,
     Notmatch,
     qualification_percent,
@@ -104,6 +105,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
         matchql: candidatejdmatchReducers.matched_data.matched_qualification,
         data: candidatejdmatchReducers.matched_data.matched_skills,
         overall_percentage: candidatejdmatchReducers.overall_percentage,
+        non_tech_percentage:candidatejdmatchReducers.non_tech_percentage,
         Notmatch: candidatejdmatchReducers.not_matched_data.not_matched_skills,
         Notmatchql: candidatejdmatchReducers.not_matched_data.not_matched_qualification,
         qualification_percent: candidatejdmatchReducers.qualification_percent,
@@ -169,6 +171,29 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
   const [expandedIndex, setExpandedIndex] = useState([]);
   const dispatch: AppDispatch = useDispatch();
 
+  function calculateLineCount(text, lineHeight, maxWidth) {
+    // Create a temporary element to measure the text
+    const tempElement = document.createElement("div");
+    tempElement.style.position = "absolute";
+    tempElement.style.whiteSpace = "pre-wrap";
+    tempElement.style.wordWrap = "break-word";
+    tempElement.style.lineHeight = `${lineHeight}px`;
+    tempElement.style.width = `${maxWidth}px`;
+    tempElement.innerHTML = text;
+  
+    // Append the temporary element to the document
+    document.body.appendChild(tempElement);
+  
+    // Calculate the number of lines based on the height of the element
+    const lineCount = Math.ceil(tempElement.clientHeight / lineHeight);
+  
+    // Remove the temporary element
+    document.body.removeChild(tempElement);
+  
+    return lineCount;
+  }
+  
+
   const handleToggleCollapse = (index) => {
     setExpandedIndex((prevIndexes) =>
       prevIndexes.includes(index)
@@ -208,10 +233,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
   return (
     <>
-
-      {console.log("technical", valnontech, "outputnontech", outputnontech)}
-      {console.log("technical1--->", valtech, "outputtech", outputtech)}
-      {console.log("overall_percentage", overallpercent)}
+{console.log('nontechp',non_tech_percentage)}
 
       {isloadings || islodermatch && <Loader />}
       <Tabs>
@@ -395,8 +417,9 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                               </Flex></>
                                           ) : (
                                             <>
-                                              {skill.description.length > 175 ? (
+                                              {calculateLineCount(skill.description,5,500) > 2 ? (
                                                 <>
+                                                {console.log("line",calculateLineCount(skill.description,5,500))}
                                                   <Flex  >
                                                     <Text className={styles.textellipces}>{skill.description}</Text>
                                                   </Flex>
