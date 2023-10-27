@@ -473,6 +473,7 @@ const candidatejobidMatchReducer = createSlice({
         state.isLoading = false;
         state.match = action.payload?.match;
         state.overall_percentage = action.payload.overall_percentage;
+        state.non_tech_percentage=action.payload.non_tech_percentage;
         state.not_matched_data = action.payload.not_matched_data;
         state.matched_data = action.payload.matched_data;
         state.qualification_percent = action.payload.qualification_percent;

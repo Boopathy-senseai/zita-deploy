@@ -65,6 +65,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
     matchql,
     data,
     overall_percentage,
+    non_tech_percentage,
     Notmatchql,
     Notmatch,
     qualification_percent,
@@ -104,6 +105,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
         matchql: candidatejdmatchReducers.matched_data.matched_qualification,
         data: candidatejdmatchReducers.matched_data.matched_skills,
         overall_percentage: candidatejdmatchReducers.overall_percentage,
+        non_tech_percentage:candidatejdmatchReducers.non_tech_percentage,
         Notmatch: candidatejdmatchReducers.not_matched_data.not_matched_skills,
         Notmatchql: candidatejdmatchReducers.not_matched_data.not_matched_qualification,
         qualification_percent: candidatejdmatchReducers.qualification_percent,
@@ -231,10 +233,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
 
   return (
     <>
-
-      {console.log("technical", valnontech, "outputnontech", outputnontech)}
-      {console.log("technical1--->", valtech, "outputtech", outputtech)}
-      {console.log("overall_percentage", overallpercent)}
+{console.log('nontechp',non_tech_percentage)}
 
       {isloadings || islodermatch && <Loader />}
       <Tabs>

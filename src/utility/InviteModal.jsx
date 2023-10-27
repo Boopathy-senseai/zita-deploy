@@ -386,7 +386,7 @@ setMail(e.target.value)
                       <Text size={12} color="error">
                         {errors.email?.message}
                       </Text>
-                      {!isEmpty(isGetMail) && isEmailValid && (
+                      {!isEmpty(isGetMail) && !isEmailValid && (
                         <Text size={12} color="error">
                           This email id already exist
                         </Text>
@@ -560,7 +560,7 @@ setMail(e.target.value)
                         </Flex>
                       ):(
                         <Button
-                        disabled={!checkValue || isEmailValid}
+                        disabled={!checkValue || !isEmailValid}
                         type="submit"
                         style={{ marginRight: 16 }}
                       >
