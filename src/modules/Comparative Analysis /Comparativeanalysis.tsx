@@ -571,6 +571,7 @@ const ComparativeanalysisModal = ({
                                           marginRight={10}
                                           marginTop={10}
                                           onClick={() => remove_user(e)}
+                                          title='Remove Candidate'
                                         >
                                           <SvgClose
                                             width={10}
@@ -616,6 +617,7 @@ const ComparativeanalysisModal = ({
                                               cursor: 'pointer',
                                               position: 'relative',
                                             }}
+                                            title='View Profile'
                                           >
                                             {' '}
                                             <SvgshareIcon width={18} height={18} />
