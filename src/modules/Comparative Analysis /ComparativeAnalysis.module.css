@@ -105,7 +105,7 @@
   /* height: 300px; */
   width: 200px;
 }
-.part3{
+.part3 {
   text-align: justify;
 }
 .starratingoverall ul li {
@@ -135,19 +135,19 @@
 }
 
 .tableboarder {
-  border: 1px solid #A5889C;
+  border: 1px solid #a5889c;
 }
 
 .tableboarders {
-  border-left: 1px solid #A5889C;
-  border-right: 1px solid #A5889C;
-  border-bottom: 1px solid #A5889C;
+  border-left: 1px solid #a5889c;
+  border-right: 1px solid #a5889c;
+  border-bottom: 1px solid #a5889c;
   min-height: 140px;
   padding: 5px;
 }
 
 .prosdata {
-  border-right: 0.5px solid #A5889C;
+  border-right: 0.5px solid #a5889c;
   padding: 5px;
   vertical-align: baseline;
 }
@@ -160,11 +160,10 @@
 
 .prosdata ul li {
   list-style: disc;
-
 }
 
 .Consdata {
-  border-Left: 1px solid #A5889C;
+  border-left: 1px solid #a5889c;
   padding: 5px;
   vertical-align: baseline;
 }
@@ -180,12 +179,12 @@
 }
 
 .Consdatano {
-  border-Left: 1px solid #A5889C;
+  border-left: 1px solid #a5889c;
   padding: 5px;
 }
 
 .prosdatano {
-  border-right: 0.5px solid #A5889C;
+  border-right: 0.5px solid #a5889c;
   padding: 5px;
 }
 
@@ -195,3 +194,22 @@
   overflow: hidden;
   max-width: 250px;
 }
+
+.button_group {
+  display: flex;
+  flex-direction: row;
+}
+.button_group button {
+  padding: 3px 12px 3px 12px;
+  width: fit-content;
+  height: 30px;
+  margin: 0;
+  border: none;
+  background-color: #a5889c;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+/* .button_group button:not(:last-child) {
+  border-right: 1px solid #ccc;
+} */

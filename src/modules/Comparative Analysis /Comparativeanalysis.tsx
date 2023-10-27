@@ -728,53 +728,41 @@ const ComparativeanalysisModal = ({
                                   </Flex>
                                 </Flex>
                                 {isPros && (
-                                  <Flex row end center>
-                                    <Flex
-                                      onClick={() => setkey(iskey - 1)}
-                                      disabled={iskey === 0}
-                                      style={{ cursor: 'pointer' }}
-                                    >
-                                      <SvgLeft
-                                        fill={
-                                          iskey === 0 ? '#888888' : '#581845'
-                                        }
-                                        height={14}
-                                        width={14}
-                                      />
+                                  <>
+                                    <Flex row end center>
+                                      <Flex className={styles.button_group}>
+                                        {selectedcriteria.payload.analysis
+                                          .sort((data1, data2) => {
+                                            if (
+                                              data1.Total_matching_percentage <
+                                              data2.Total_matching_percentage
+                                            )
+                                              return -1;
+                                            if (
+                                              data1.Total_matching_percentage >
+                                              data2.Total_matching_percentage
+                                            )
+                                              return 1;
+                                            return 0;
+                                          })
+                                          .reverse()
+                                          .map((val, ind) => (
+                                            <button
+                                              onClick={() => setkey(ind)}
+                                              key={ind}
+                                              style={{
+                                                backgroundColor:
+                                                  iskey === ind
+                                                    ? '#581845'
+                                                    : '',
+                                              }}
+                                            >
+                                              {val.first_name}
+                                            </button>
+                                          ))}
+                                      </Flex>
                                     </Flex>
-                                    <Flex marginLeft={7} marginRight={7}>
-                                      <Text color="theme" size={13}>
-                                        {`${data?.first_name.toUpperCase()} ${
-                                          !isEmpty(data.last_name)
-                                            ? data.last_name.toUpperCase()
-                                            : ''
-                                        }`}
-                                      </Text>
-                                    </Flex>
-                                    <Flex
-                                      onClick={() => setkey(iskey + 1)}
-                                      style={{ cursor: 'pointer' }}
-                                      disabled={
-                                        selectedcriteria.payload.analysis
-                                          .length -
-                                          1 ===
-                                        iskey
-                                      }
-                                    >
-                                      <SvgRight
-                                        fill={
-                                          selectedcriteria.payload.analysis
-                                            .length -
-                                            1 ===
-                                          iskey
-                                            ? '#888888'
-                                            : '#581845'
-                                        }
-                                        height={14}
-                                        width={14}
-                                      />
-                                    </Flex>
-                                  </Flex>
+                                  </>
                                 )}
                               </Flex>
                               {isPros && (
