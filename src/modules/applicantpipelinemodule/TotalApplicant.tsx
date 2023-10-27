@@ -165,7 +165,7 @@ const TotalApplicant = ({
                   borderLeft: '1px solid #581845',
                   cursor: 'pointer',
                 }}
-                onClick={seletedCardsLength > 5 || seletedCardsLength <= 1 && onComparative}
+                onClick={seletedCardsLength > 5 || seletedCardsLength <= 1?'': onComparative}
                 title={(seletedCardsLength > 5 || seletedCardsLength <= 1) && 'You have the option to choose up to five candidates for the Comparative Analysis.'}
               >
                 <SvgComparative fill={seletedCardsLength > 5 || seletedCardsLength <= 1 ? '#AB8BA2' : '#581845'} />
