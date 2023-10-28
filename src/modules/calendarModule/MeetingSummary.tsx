@@ -460,7 +460,7 @@ const MeetingSummary = ({
                     </Button>
                   )
                 ) : isloading ? (
-                  <Flex middle center style={{ width: '70px' }} marginTop={15}>
+                  <Flex middle center style={{ width: '70px' }} marginTop={5}>
                     <Loader size="small" withOutOverlay />
                   </Flex>
                 ) : (

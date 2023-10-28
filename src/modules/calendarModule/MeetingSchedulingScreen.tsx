@@ -242,6 +242,7 @@ const MeetingSchedulingScreen = ({
   }
   const [value1, setvalue1] = useState(value);
   const [selectedIds, setSelectedIds] = useState([]); 
+  const [error, seterror] = useState(false);
 
   useEffect(() => {
     const { firstName, lastName } = splitName(username);
@@ -321,6 +322,7 @@ const MeetingSchedulingScreen = ({
     brieftext:string;
     checkedValuesError?: string; 
     questionid:questionid[];
+    questionidError?: string;
   }
 
   const initialValues: MyFormValues = {
@@ -352,6 +354,9 @@ const MeetingSchedulingScreen = ({
     if(formik.values.brieftext.length>150){
       errors.brieftext = 'Length should not exceed 150 charector';
     }
+
+  
+
     return errors;
 };
 
@@ -424,8 +429,16 @@ const MeetingSchedulingScreen = ({
     }
   };
   const handlechange = () => {
-    setViewMeetingSummary(true);
-    setopenmodel(false);
+    if(id_questions.length===0){
+     seterror(true)
+    }
+    if(!(id_questions.length===0))
+    {
+      seterror(false)
+      setViewMeetingSummary(true);
+       setopenmodel(false);
+    }
+    
   };
   const handlechange1 = () => {
     setViewMeetingSummary(true);
@@ -448,11 +461,13 @@ const MeetingSchedulingScreen = ({
   
     formik.setFieldValue('questionid', updatedQuestions);
   }
-  const id_questions: any[] = formik.values.questionid.map(question => question.id);
+  const id_questions: any[] = formik.values.questionid
+  .filter(question => question.checked)
+  .map(question => question.id);
 
   return (
     <>
-    {console.log('form::::+++form',formik.values,id_questions,meetingForm)}
+    {console.log('form::::+++form',formik.values,id_questions)}
     {/* {isSubmitLoader && <Loader />} */}
     <Modal
       onClose={handleCloseSchedulingForm}
@@ -488,9 +503,11 @@ const MeetingSchedulingScreen = ({
           formik={formik}
         />):(
           <Flex style={{backgroundColor:'#FFF',width:'700px',height:'auto',padding:'25px'}}>
-             
-            <Text size={14} bold>AI generated Interview Questions</Text>
-            <Flex>
+             <Flex style={{ borderBottom: '0.5px solid #581845',paddingBottom:'10px' }}>
+                  <Text size={14} bold>AI generated Interview Questions</Text>
+                </Flex>
+            
+            <Flex style={{margin:'0 0 10px 0'}}>
               <Tabs activeKey={interviewer} 
                  onSelect={(keys: any) => {
                   setinterviewer(keys);
@@ -511,6 +528,7 @@ const MeetingSchedulingScreen = ({
                           return (
                             <Flex key={index1}>
                               <Flex>
+                                {console.log("consoleeeeee----->",questionsList.length)}
                                 {questionsList?(questionsList.map((question, index2) => (
                                   <Flex key={index2} row style={{margin:'0 0 5px 0'}}>
                                     <Flex  style={{margin:'6px 10px 0px 3px'}}>
@@ -519,7 +537,7 @@ const MeetingSchedulingScreen = ({
                                       onChange={e => handlecheck(question.id, e.target.checked)}
                                     />
                                     </Flex>
-                                  <Flex key={index2} style={{borderBottom: '0.3px solid #c3c3c3',padding:'3px',width: "100%",}}>{question.question}</Flex> 
+                                  <Flex key={index2} style={{borderBottom:((questionsList.length-1)===index2)?'':'0.3px solid #c3c3c3',padding:'3px',width: "100%",}}>{question.question}</Flex> 
                                   
                                   </Flex>
                                 ))):(
@@ -529,6 +547,9 @@ const MeetingSchedulingScreen = ({
                                     </Text>
                                   </Flex>
                                 )}
+                               {error&&id_questions.length===0&&(
+                                <Text color='error' style={{margin:'0 0 7px 0'}}>please select atleast one question for the interview</Text>
+                               )}
                               </Flex>
                             
                             </Flex>
@@ -543,7 +564,7 @@ const MeetingSchedulingScreen = ({
               </Tabs>
             </Flex>
 
-              <Flex row  between >
+              <Flex row  between style={{ borderTop: '0.5px solid #c3c3c3',padding:'10px 0 0 0' }}>
                 <Flex>
                 <Button types="secondary" onClick={handlechange1}>
                   Back
@@ -632,11 +653,11 @@ const MeetingSchedulingScreen = ({
                   );
                 })}
               </Flex>
-              <Text color="theme" style={{ marginBottom: '4px' }}>
+              <Text color="theme" style={{ marginBottom: '5px' }}>
                 Pick the interviewer for question generation.
               </Text>
 
-              <Flex row style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Flex row style={{ display: 'flex', flexWrap: 'wrap',margin:'0 0 2px 0' }}>
                 {formik.values.interviewers.map((user) => {
                   const isChecked = formik.values.checkedValues.some(
                     (cv) => cv.id === user.userId,
@@ -703,6 +724,7 @@ const MeetingSchedulingScreen = ({
                     formik.setFieldValue('brieftext', e.target.value);
                   }}
                 />
+
                <ErrorMessage
                           name={'brieftext'}
                           errors={formik.errors}
@@ -711,7 +733,7 @@ const MeetingSchedulingScreen = ({
             </Flex>
 
         {(formik.errors.LevelType===''||formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
-          <Text color='error'>All the above files are required</Text>
+          <Text color='error' style={{margin:'0 0 7px 0'}}>All the above files are required</Text>
         ):('')}
               <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
                 <Flex row between marginTop={10}>
