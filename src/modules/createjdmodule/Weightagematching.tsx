@@ -7,7 +7,7 @@ import { useDispatch ,useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 
-import { Button, Card, LinkWrapper, Loader, Text, Toast } from '../../uikit';
+import { Button, Card, InputText, LinkWrapper, Loader, Text, Toast } from '../../uikit';
 import { Flex } from '../../uikit'
 
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
@@ -19,7 +19,10 @@ import { routesPath } from '../../routes/routesPath';
 import { CANCEL } from '../constValue';
 import SvgModuleicon from '../../icons/SvgModuleicon';
 import SvgRefresh from '../../icons/SvgRefresh';
+import SvgArrowDown1 from '../../icons/SvgArrowDown1';
+import SvgUpArrow from '../../icons/SvgArrowUp';
 import { WeightagematchingpostMiddleWare,WeightagematchinggetMiddleWare } from './store/middleware/createjdmiddleware';
+
 
 
 type ParamsType = {
@@ -217,7 +220,7 @@ useEffect(()=>{
 
 
 const nextfunction=()=>{
-  if(totalnontechnical===100 && totaltechnical===100){
+  if( totaltechnical===100){
   const list = [{
     'skills': rangeValueskill,  
     'roles':rangeValuerolles,
@@ -359,7 +362,16 @@ const nextfunction=()=>{
     updateNonTechnicalPercent()}
   
   };
-    
+
+  const handleSkillsIncrement = () => {
+    setRangeValueskill(rangeValueskill + 1);
+  };
+
+  const handleSkillsDecrement = () => {
+    if (rangeValueskill > 0) {
+      setRangeValueskill(rangeValueskill - 1);
+    }
+  };   
   
 const technicalresetfunction=()=>{
   setRangeValueskill(20);
@@ -486,15 +498,12 @@ const saveasdraftfunction=()=>{
             <Flex row center className={styles.techtitleblock}>
               <Flex className={styles.techmatchtitle}>
                 <Text bold>
-                  Technical Matching
+                Profile Compatibility Criteria
                   </Text>
                 </Flex>
                 <Flex 
                 title="Reset Technical Weightage"
                 className={styles.techresetbutton}>
-                  {/* <Button types="primary" onClick={technicalresetfunction}>
-                    Reset
-                    </Button>  */}
                     <SvgRefresh
                       width={18}
                       height={18}
@@ -568,18 +577,36 @@ const saveasdraftfunction=()=>{
                 
                 }}
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              {/* <Flex row className={styles.numberinputcontainer}> */}
+              <Flex style={{ marginLeft:"25px"}}>
               <input           
-                  type="number"
                   min="0"
                   max="100"
+                  type="number"
                   value={rangeValueskill}
                   onChange={handleRangeChange}  
-                  maxLength={3}  
+                  maxLength={3}
+                  style={{width: rangeValueskill < 99 ? "40px" : "50px"}}
                   className={styles.scoreinputfield} 
                   >
              </input>
-              </Flex>
+              {/* </Flex> */}
+
+              {/* <Flex marginLeft={5} marginTop={8} className={styles.arrowcontainer}>
+             <Flex className={styles.increaseBtn} onClick={handleSkillsIncrement}>
+             <SvgUpArrow
+                width={8}
+                height={8}
+                fill={"#581845"}/>
+             </Flex>
+             <Flex className={styles.decreaseBtn} onClick={handleSkillsDecrement}>
+                <SvgArrowDown1
+                  width={8}
+                  height={8}
+                  fill={"581845"}/>
+             </Flex>
+             </Flex> */}
+             </Flex>
             </Flex>
           </Flex>
 
@@ -613,7 +640,7 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input
                   type="number"
                   min="0"
@@ -621,7 +648,9 @@ const saveasdraftfunction=()=>{
                   value={rangeValuerolles}
                   onChange={handleRangeChangerole}  
                   maxLength={3} 
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValuerolles < 99 ? "40px" : "50px",
+              paddingLeft:"5px"}}  
                   >
                   </input>
                   </Flex>
@@ -652,7 +681,7 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
              <input
               type="number"
               min="0"
@@ -660,7 +689,9 @@ const saveasdraftfunction=()=>{
               value={rangeValueexperience}
               onChange={handleRangeChangeexperience}     
               maxLength={3}
-              className={styles.scoreinputfield}   
+              className={styles.scoreinputfield}  
+              style={{width: rangeValueexperience < 99 ? "40px" : "50px"}}
+
               >
              </input>
              </Flex>
@@ -695,7 +726,7 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input
                   type="number"
                   min="0"
@@ -703,7 +734,8 @@ const saveasdraftfunction=()=>{
                   value={rangeValueTechnical}
                   onChange={handleRangeChangetechnical}    
                   maxLength={3} 
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield}
+                  style={{width: rangeValueTechnical < 99 ? "40px" : "50px"}}
               >
              </input>
              </Flex>
@@ -736,7 +768,7 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{marginLeft:"20px"}}>
+              <Flex style={{marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -745,6 +777,7 @@ const saveasdraftfunction=()=>{
                   onChange={handleRangeChangesoft}   
                   maxLength={3}  
                   className={styles.scoreinputfield}   
+                  style={{width: rangeValueSoft < 99 ? "40px" : "50px"}}
                   >
                   </input>
                   </Flex>
@@ -776,7 +809,7 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -785,6 +818,7 @@ const saveasdraftfunction=()=>{
                   onChange={handleRangeChangequalifications} 
                   maxLength={3}    
                   className={styles.scoreinputfield}   
+                  style={{width: rangeValueQualifications < 99 ? "40px" : "50px"}}
                   >
              </input>
              </Flex>
@@ -799,7 +833,7 @@ const saveasdraftfunction=()=>{
               display: "flex",
               alignSelf: 'flex-between'
             }} size={12} color="error">
-                  Technical percentages must equal 100
+                  Profile Compatibility Criteria must equal 100
             </Text>
           }
          </Flex>
@@ -826,15 +860,12 @@ const saveasdraftfunction=()=>{
           <Flex row center className={styles.nontechtitleblock}>
               <Flex className={styles.nontechmatchtitle}>
                 <Text bold>
-                  Non-Technical Matching
+                Enhanced Matching Criteria
                   </Text>
                 </Flex>
                 <Flex 
                 title="Reset Non-Technical Weightage"
                 className={styles.nontechresetbutton}>
-                  {/* <Button types="primary" onClick={nontechnicalresetfunction}>
-                    Reset
-                    </Button> */}
                     <SvgRefresh
                       width={18}
                       height={18}
@@ -886,7 +917,7 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -894,7 +925,8 @@ const saveasdraftfunction=()=>{
                   value={rangeValueIndustry}
                   onChange={handleRangeChangeindustry} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueIndustry < 99 ? "40px" : "50px"}}
                   >
              </input>
              </Flex>
@@ -925,7 +957,7 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -933,7 +965,9 @@ const saveasdraftfunction=()=>{
                   value={rangeValueDomain}
                   onChange={handleRangeChangedomain} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueDomain < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
@@ -964,7 +998,7 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -972,7 +1006,9 @@ const saveasdraftfunction=()=>{
                   value={rangeValueCertifications}
                   onChange={handleRangeChangecertification} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueCertifications < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
@@ -1006,7 +1042,7 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -1014,7 +1050,9 @@ const saveasdraftfunction=()=>{
                   value={rangeValueCultural}
                   onChange={handleRangeChangecultural} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueCultural < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
@@ -1047,7 +1085,7 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -1056,6 +1094,8 @@ const saveasdraftfunction=()=>{
                   onChange={handleRangeChangereferences} 
                   maxLength={3}    
                   className={styles.scoreinputfield}   
+                  style={{width: rangeValueReferences < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
@@ -1086,7 +1126,7 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"20px"}}>
+              <Flex style={{ marginLeft:"25px"}}>
                 <input           
                   type="number"
                   min="0"
@@ -1094,7 +1134,9 @@ const saveasdraftfunction=()=>{
                   value={rangeValueLocation}
                   onChange={handleRangeChangelocation} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield}  
+                  style={{width: rangeValueLocation < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
@@ -1102,16 +1144,16 @@ const saveasdraftfunction=()=>{
           </Flex>
 
 
-          <Flex className={styles.sliderstyle}>
+          {/* <Flex className={styles.sliderstyle}>
           {totalnontechnical!==100 &&
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
             }} size={12} color="error">
-                Non-Technical percentages must equal 100
+                Enhanced matching criteria must equal 100
             </Text>
           }
-         </Flex>
+         </Flex> */}
 </Flex>
         </Flex>
       </Flex>

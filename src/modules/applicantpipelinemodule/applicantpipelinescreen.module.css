@@ -214,9 +214,35 @@ margin-top: 15px;
 .scoreinputfield{
   width: 40px;
   padding: 3px 0px 0px 0px;
-  /* margin-left: 20px; */
   text-align: center;
   border: none;
-  /* border-bottom: 1px solid black; */
   outline: none;
+  box-shadow: 1px 2px 2px 2px rgb(238, 232, 236);
+  border-radius: 5px;
+}
+
+.techtitleblock{
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  justify-content: center;
+}
+
+
+.techresetbutton{
+  padding-left:10px
+}
+
+.nontechtitleblock{
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 28px;
+  justify-content: center;
+}
+
+
+.nontechresetbutton{
+  padding-left:10px
 }
