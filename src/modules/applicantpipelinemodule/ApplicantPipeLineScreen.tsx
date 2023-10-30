@@ -16,7 +16,7 @@ import { SUNRAY } from '../../uikit/Colors/colors';
 import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
-import { Card, InputSearch, Modal, Toast } from '../../uikit';
+import { Card, InputSearch,Modal, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import { ERROR_MESSAGE } from '../constValue';
@@ -26,6 +26,8 @@ import { checkAuthMiddleware, jdMatchMiddleWare } from '../applicantprofilemodul
 import { routesPath } from '../../routes/routesPath';
 import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare, WeightagematchingscoreMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
 import SvgRefresh from '../../icons/SvgRefresh';
+import ComparativeModal from '../../modules/Comparative Analysis /RecommendationScreen';
+
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -91,9 +93,11 @@ const ApplicantPipeLineScreen = ({
     new Map(),
   );
 
-  const [change, setchange] = useState(false);
+  const [change,setchange]=useState(false);
+  const [aimodel, setaimodel] = useState(false);
+  const [Comparmodel, setComparmodel] = useState(false);
   const [islodermatch,setloadermatch]=useState(false);
-
+  const [Matching, setmatching] = useState<any>([]);
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
@@ -536,6 +540,12 @@ const ApplicantPipeLineScreen = ({
   }, []);
 
   useEffect(() => {
+    if (Comparmodel === true) {
+      setComparmodel(true);
+    }
+  }, [Comparmodel]);
+
+  useEffect(() => {
     if (!workflow_id) {
       setShowPipelinePopup(true);
     } else {
@@ -566,6 +576,62 @@ const ApplicantPipeLineScreen = ({
     );
   }, [formik.values]);
 
+  // select card //
+  const select_candidate = (data, verify) => {
+    if (verify === 1) {
+      var selectdata = {
+        candidate_id: data.task.candidate_id_id,
+        first_name: data.task.first_name,
+        last_name: data.task.last_name,
+        email: data.task.email,
+        profile_image: data.task.image,
+      };
+      setmatching([...Matching, selectdata]);
+    } else if (verify === 0) {
+      var NewArray = Matching.filter(
+        (item) => item.candidate_id !== data.task.candidate_id_id,
+      );
+
+      setmatching(NewArray);
+    } else if (verify === 2) {
+      var arr = [];
+      data.map((val) => {
+        var selectdata1 = {
+          candidate_id: val.candidate_id_id,
+          first_name: val.first_name,
+          last_name: val.last_name,
+          email: val.email,
+          profile_image: val.image,
+        };
+        arr.push(selectdata1);
+      });
+      setmatching([...Matching, ...arr]);
+    } else if (verify === 3) {
+      let uniqueIds = new Set(data.map((item) => item.candidate_id_id));
+      let newArray1 = Matching.filter(
+        (item) => !uniqueIds.has(item.candidate_id),
+      );
+      setmatching(newArray1);
+    } else if (verify === 4) {
+      var selectdata4 = {
+        candidate_id: data.candidate_id,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        profile_image: data.profile_image,
+      };
+      setmatching([...Matching, selectdata4]);
+    } else if (verify === 5) {
+      var Newvalue = Matching.filter(
+        (item) => item.candidate_id !== parseInt(data.candidate_id),
+      );
+
+      setmatching(Newvalue);
+    } else if (verify === 6) {
+      setmatching(data);
+    }
+  };
+
   //card selection
 
   const handleCardSelection = (data: {
@@ -577,8 +643,10 @@ const ApplicantPipeLineScreen = ({
   }) => {
     const newCardSelection = new Map(cardSelection);
     if (cardSelection.has(data.task.id)) {
+      select_candidate(data, 0);
       newCardSelection.delete(data.task.id);
     } else {
+      select_candidate(data, 1);
       newCardSelection.set(data.task.id, {
         task: data.task,
         section: data.section,
@@ -597,7 +665,8 @@ const ApplicantPipeLineScreen = ({
       newCardSelection.set(task.id, { task, section, columnId }),
     );
     setCardSelection(newCardSelection);
-
+    select_candidate(newList, 2);
+    setCardSelection(newCardSelection);
   };
   const handleColumnUnselect = (data: IStageColumn) => {
     const { section, columnId } = data;
@@ -605,6 +674,7 @@ const ApplicantPipeLineScreen = ({
     const newCardSelection = new Map(cardSelection);
     const newList = list.filter((doc) => cardSelection.has(doc.id));
     newList.forEach((task) => newCardSelection.delete(task.id));
+    select_candidate(newList, 3);
     setCardSelection(newCardSelection);
   };
 
@@ -754,7 +824,7 @@ const ApplicantPipeLineScreen = ({
     favLoader,
     isTotalFav,
     isSortApplicant,
-    change
+    change,
     // updateLoader,
   ]);
 
@@ -995,8 +1065,8 @@ const ApplicantPipeLineScreen = ({
             taskId: removed.id,
             candidateId: removed.candidate_id_id,
           });
-        }
-        else {
+        } 
+         else {
           handleCardUpdate({
             stage_name: columns[destinationDropId].stage_name,
             taskId: removed.id,
@@ -1329,7 +1399,6 @@ const ApplicantPipeLineScreen = ({
     }
   };
 
-
   const handleBulkDownload = () => {
     const candidate_id = getSelectedCandidateList();
     dispatch(
@@ -1354,6 +1423,22 @@ const ApplicantPipeLineScreen = ({
     closefunction();
     setmodel(false)
   }
+  const onComparative = () => {
+    setaimodel(true);
+    setComparmodel(true);
+  };
+  const updatemodel = (val, id) => {
+    if (val === true) {
+      setComparmodel(val);
+    } else {
+      if (id === 1) {
+        setCardSelection(new Map());
+        setmatching([]);
+      }
+      setComparmodel(val);
+    }
+  };
+
   return (
     <>
       {showPipelinePopup && showStagesPopup === null && (
@@ -1363,7 +1448,7 @@ const ApplicantPipeLineScreen = ({
           onClose={() => {
             handleClosePipelinePopup();
             // history.goBack();
-            history.push(routesPath.MY_JOB_POSTING)
+            history.push(routesPath.MY_JOB_POSTING);
           }}
           onSuccessClose={handleClosePipelinePopup}
           onNewPipeline={handleNewPipeline}
@@ -1376,7 +1461,7 @@ const ApplicantPipeLineScreen = ({
           onClose={() => {
             handleClosePipelinePopup();
             // history.goBack();
-            history.push(routesPath.MY_JOB_POSTING)
+            history.push(routesPath.MY_JOB_POSTING);
           }}
           onSuccessClose={handleClosePipelinePopup}
           onNewPipeline={handleNewPipeline}
@@ -1385,7 +1470,7 @@ const ApplicantPipeLineScreen = ({
       {/* <Flex row className={styles.overAll} style={{marginLeft:'12%'}}> */}
       <Flex row className={styles.overAll}>
         {applicantDataLoader || (favLoader && <Loader />)}
-        {pipeLineLoader || islodermatch && <Loader />}
+        {pipeLineLoader || islodermatch  && <Loader />} 
         {getAppliedView === 'true' && (
           <ProfileView
             open={isApplicantView}
@@ -1500,8 +1585,7 @@ const ApplicantPipeLineScreen = ({
               )}
             </Flex>
           </Flex>
-
-          <Modal open={model}>
+          <Modal open={model}>     
             <Flex className={styles.weightagepopup}>
               <Flex className={styles.popupheading}>
                 <Text size={14} bold>Adjust Matching Criteria</Text>
@@ -2178,9 +2262,7 @@ const ApplicantPipeLineScreen = ({
               </Flex>
             </Flex>
           </Modal>
-
           <ApplicantPipeLineFilter
-
             setchange={setchange}
             isSkillOption={isSkillOption}
             isSkills={isSkills}
@@ -2204,6 +2286,7 @@ const ApplicantPipeLineScreen = ({
           <TotalApplicant
             jd_id={parseInt(jdId)}
             columns={columns}
+            Matching={Matching}
             total={total_applicants}
             moveDisabled={getIsMultiMoveDisabled()}
             filterTotalFav={filterTotalFav}
@@ -2212,6 +2295,7 @@ const ApplicantPipeLineScreen = ({
             onExport={handleBulkDownload}
             onMove={handleMove}
             onCSVDownload={handleCSVDownload}
+            onComparative={onComparative}
           />
           {isNotEmpty() ? (
             <div
@@ -2274,7 +2358,17 @@ const ApplicantPipeLineScreen = ({
           )}
         </Flex>
       </Flex>
+
       {isLoading && <Loader />}
+      {aimodel && (
+        <ComparativeModal
+          Comparmodel={Comparmodel}
+          updatemodel={updatemodel}
+          Matching={Matching}
+          job_details={job_details}
+          select_candidate={select_candidate}
+        />
+      )}
     </>
   );
 

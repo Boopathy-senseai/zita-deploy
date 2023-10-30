@@ -131,6 +131,7 @@ import {
 import { scheduledEventsReducers } from '../modules/meetingscheduler/scheduledevents/store/reducer/evetsreducer';
 import { calendarEventsReducers } from '../modules/meetingscheduler/calendarEvents/store/reducer/evetsreducer';
 import { interviewerQuestionReducers } from '../modules/applicantprofilemodule/store/reducer/interviewQuestionReducer';
+import { ComparativesearchingdataReducers } from '../modules/Comparative Analysis /store/reducer/comparativereducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -232,4 +233,5 @@ export const reducers = {
   calendarConfigurationReducers,
   weightageReducers,
   interviewerQuestionReducers,
+  ComparativesearchingdataReducers
 };
