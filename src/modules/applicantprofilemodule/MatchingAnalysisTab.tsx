@@ -248,7 +248,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                 <Flex row className={styles.overallScore}>
                 <Flex row>
                   <Flex>
-                    <Text size={13}>Technical Score:</Text>
+                    <Text size={13}>Profile Compatibility Score:</Text>
                     </Flex>
                     <Flex style={{ paddingLeft: "8px" }}>
                     <ProgressBar
@@ -282,7 +282,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                 <Flex>
                 <Flex row style={{paddingLeft: "20px"}}>
                   <Flex>
-                    <Text size={13}>Non-Technical Score:</Text>
+                    <Text size={13}>Enhanced Matching Score:</Text>
                     </Flex>
                     <Flex style={{ paddingLeft: "8px" }}>
                     <ProgressBar
@@ -319,7 +319,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
               </Flex>
 
               <Flex row className={styles.btnwithContent}>
-                <Flex row>
+                <Flex row className={styles.aligncenter}>
                   <Flex>
                     <Text>Adjust the weightage for job-candidate matching criteria</Text>
                   </Flex>
@@ -440,7 +440,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                         <Flex style={{ padding: "15px" }}>
                           <Flex row marginBottom={10}>
                             <Flex style={{ width: "20%" }}>
-                              <Text bold>Technical Matching</Text>
+                              <Text bold>Profile Compatibility Criteria</Text>
                             </Flex>
                             <Flex style={{ width: '20%' }}>
                               <Text bold>Score (100)</Text>
@@ -582,7 +582,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                             <Text bold>Non-Technical Matching</Text>
                           </Flex> */}
                             <Flex style={{ width: "20%" }}>
-                              <Text bold>Non-Technical Matching</Text>
+                              <Text bold>Enhanced Matching Criteria</Text>
                             </Flex>
                             <Flex style={{ width: '20%' }}>
                               <Text bold>Score (100)</Text>
