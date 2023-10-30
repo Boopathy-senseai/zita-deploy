@@ -21,9 +21,11 @@ import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import { ERROR_MESSAGE } from '../constValue';
 import SvgIntomark from '../../icons/SvgCancel';
+
 import { checkAuthMiddleware, jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { routesPath } from '../../routes/routesPath';
 import { WeightagematchinggetMiddleWare, WeightagematchingpostMiddleWare, WeightagematchingscoreMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import SvgRefresh from '../../icons/SvgRefresh';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -182,7 +184,7 @@ const ApplicantPipeLineScreen = ({
 
 
   const nextfunction = () => {
-    if (totalnontechnical === 100 && totaltechnical === 100) {
+    if (totaltechnical === 100) {
       const list = [{
         'skills': rangeValueskill,
         'roles': rangeValuerolles,
@@ -1507,7 +1509,24 @@ const ApplicantPipeLineScreen = ({
               <Flex className={styles.parent} mt-30>
                 <Flex style={{ width: "49%" }}>
                   <Flex className={styles.progressbarstyle}>
-                    <Flex><Text bold style={{ paddingTop: "10px", paddingBottom: '10px' }}>Technical Matching</Text></Flex>
+                    {/* <Flex><Text bold style={{ paddingTop: "10px", paddingBottom: '10px' }}>Profile Compatibility Criteria</Text></Flex> */}
+                    <Flex row center className={styles.techtitleblock}>
+              <Flex className={styles.techmatchtitle}>
+                <Text bold>
+                Profile Compatibility Criteria
+                  </Text>
+                </Flex>
+                <Flex 
+                title="Reset Technical Weightage"
+                className={styles.techresetbutton}>
+                    <SvgRefresh
+                      width={18}
+                      height={18}
+                      onClick={technicalresetfunction}
+                      className={styles.filtersvg}
+                      />
+                  </Flex>
+                </Flex>
                     <Flex style={{
                       width: "100px",
                       height: "100px"
@@ -1577,21 +1596,14 @@ const ApplicantPipeLineScreen = ({
                   type="number"
                   min="0"
                   max="100"
-                  value={rangeValueskill}
+                  value={rangeValueskill} 
                   onChange={handleRangeChange}  
                   maxLength={3}  
                   className={styles.scoreinputfield} 
+                  style={{width: rangeValueskill < 99 ? "40px" : "50px"}}
                   >
              </input>
               </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueskill < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueskill >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueskill}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -1633,17 +1645,10 @@ const ApplicantPipeLineScreen = ({
                   onChange={handleRangeChangerole}  
                   maxLength={3}  
                   className={styles.scoreinputfield} 
+                  style={{width: rangeValuerolles < 99 ? "40px" : "50px"}}
                   >
              </input>
               </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValuerolles < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValuerolles >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValuerolles}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -1680,17 +1685,10 @@ const ApplicantPipeLineScreen = ({
                   onChange={handleRangeChangeexperience}  
                   maxLength={3}  
                   className={styles.scoreinputfield} 
+                  style={{width: rangeValueexperience < 99 ? "40px" : "50px"}}
                   >
              </input>
               </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueexperience < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueexperience >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueexperience}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -1732,17 +1730,10 @@ const ApplicantPipeLineScreen = ({
                   onChange={handleRangeChangetechnical}  
                   maxLength={3}  
                   className={styles.scoreinputfield} 
+                  style={{width: rangeValueTechnical < 99 ? "40px" : "50px"}}
                   >
              </input>
               </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueTechnical < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueTechnical >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueTechnical}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -1781,17 +1772,10 @@ const ApplicantPipeLineScreen = ({
                   onChange={handleRangeChangesoft}  
                   maxLength={3}  
                   className={styles.scoreinputfield} 
+                  style={{width: rangeValueSoft < 99 ? "40px" : "50px"}}
                   >
              </input>
               </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueSoft < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueSoft >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueSoft}</Text> */}
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
@@ -1827,18 +1811,11 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueQualifications}
                   onChange={handleRangeChangequalifications}  
                   maxLength={3}  
-                  className={styles.scoreinputfield} 
+                  className={styles.scoreinputfield}
+                  style={{width: rangeValueQualifications < 99 ? "40px" : "50px"}} 
                   >
              </input>
               </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueQualifications < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueQualifications >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueQualifications}</Text> */}
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
@@ -1848,7 +1825,7 @@ const ApplicantPipeLineScreen = ({
                           display: "flex",
                           alignSelf: 'flex-between'
                         }} size={12} color="error">
-                          Technical percentages must equal 100
+                          Profile compatibility criteria must equal 100
                         </Text>
                       }
                     </Flex>
@@ -1871,7 +1848,24 @@ const ApplicantPipeLineScreen = ({
 
                   <Flex className={styles.progressbarstyle}>
 
-                    <Flex><Text bold style={{ paddingTop: "10px", paddingBottom: '10px' }}>Non-Technical Matching</Text></Flex>
+                    {/* <Flex><Text bold style={{ paddingTop: "10px", paddingBottom: '10px' }}>Enhanced Matching Criteria</Text></Flex> */}
+                    <Flex row center className={styles.nontechtitleblock}>
+              <Flex className={styles.nontechmatchtitle}>
+                <Text bold>
+                Enhanced Matching Criteria
+                  </Text>
+                </Flex>
+                <Flex 
+                title="Reset Non-Technical Weightage"
+                className={styles.nontechresetbutton}>
+                    <SvgRefresh
+                      width={18}
+                      height={18}
+                      onClick={nontechnicalresetfunction}
+                      className={styles.filtersvg}
+                      />
+                  </Flex>
+                </Flex>
                     <Flex style={{
                       width: "100px",
                       height: "100px"
@@ -1924,18 +1918,12 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueIndustry}
                   onChange={handleRangeChangeindustry} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueIndustry < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueIndustry < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueIndustry >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueIndustry}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -1972,18 +1960,12 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueDomain}
                   onChange={handleRangeChangedomain} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield}
+                  style={{width: rangeValueDomain < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueDomain < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueDomain >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueDomain}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -2020,18 +2002,12 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueCertifications}
                   onChange={handleRangeChangecertification} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield}  
+                  style={{width: rangeValueCertifications < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueCertifications < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueCertifications >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueCertifications}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -2067,19 +2043,12 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueCultural}
                   onChange={handleRangeChangecultural} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield}  
+                  style={{width: rangeValueCultural < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
-
-                        {/* <Text style={{
-                          padding:
-                            rangeValueCultural < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueCultural >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueCultural}</Text> */}
                       </Flex>
                     </Flex>
 
@@ -2117,18 +2086,12 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueReferences}
                   onChange={handleRangeChangereferences} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueReferences < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueReferences < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueReferences >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueReferences}</Text> */}
                       </Flex>
                     </Flex>
                     <Flex className={styles.sliderstyle}>
@@ -2162,21 +2125,15 @@ const ApplicantPipeLineScreen = ({
                   value={rangeValueLocation}
                   onChange={handleRangeChangelocation} 
                   maxLength={3}    
-                  className={styles.scoreinputfield}   
+                  className={styles.scoreinputfield}  
+                  style={{width: rangeValueLocation < 99 ? "40px" : "50px"}}
+
                   >
              </input>
              </Flex>
-                        {/* <Text style={{
-                          padding:
-                            rangeValueLocation < 10
-                              ? '0px 10px 0px 27px'
-                              : rangeValueLocation >= 100
-                                ? '0px 10px 0px 12px'
-                                : '0px 10px 0px 20px',
-                        }}>{rangeValueLocation}</Text> */}
                       </Flex>
                     </Flex>
-                    <Flex className={styles.sliderstyle}>
+                    {/* <Flex className={styles.sliderstyle}>
 
 
                       {totalnontechnical !== 100 &&
@@ -2184,10 +2141,10 @@ const ApplicantPipeLineScreen = ({
                           display: "flex",
                           alignSelf: 'flex-between'
                         }} size={12} color="error">
-                          Non-Technical percentages must equal 100
+                          Enhanced matching criteria must equal 100
                         </Text>
                       }
-                    </Flex>
+                    </Flex> */}
                   </Flex>
                 </Flex>
               </Flex>
