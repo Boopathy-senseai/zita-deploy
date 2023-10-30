@@ -494,7 +494,7 @@ const ComparativeanalysisModal = ({
                         margin: '5px 5px 5px 0px',
                       }}
                     > 
-                      {isoveralldata.map((e, indexnum) => {
+                      {isoveralldata &&isoveralldata.map((e, indexnum) => {
                           return (
                             <Flex
                               key={indexnum}
@@ -874,7 +874,7 @@ const ComparativeanalysisModal = ({
                                     <Flex flex={6}>
                                       <Flex row end center>
                                         <Flex className={styles.button_group}>
-                                          {isoveralldata.map((val, ind) => (
+                                          {isoveralldata &&isoveralldata.map((val, ind) => (
                                               <Flex
                                                 onClick={() => setkey(ind)}
                                                 key={ind}
