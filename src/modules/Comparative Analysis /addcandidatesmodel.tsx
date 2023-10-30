@@ -99,6 +99,7 @@ const AddcandidatesModal = ({
   });
 
   const close = () => {
+    setSearchQuery('');
     select_candidate(olddata, 6);
     add_candidates(false);
     openfunction(false);

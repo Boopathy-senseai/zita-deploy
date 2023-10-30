@@ -346,8 +346,8 @@ const ComparativeanalysisModal = ({
                         <SvgCSV height={16} width={16} />
                       </Flex>
                     </Flex>
-                    <Button  onClick={() => openaddmodel(true)}  types="secondary">
-                      <Flex 
+                    <Button onClick={() => openaddmodel(true)} types="secondary">
+                      <Flex
                         row
                         center
                         style={{ cursor: 'pointer' }}
@@ -690,18 +690,20 @@ const ComparativeanalysisModal = ({
                   </Flex>
                   {selectedcriteria &&
                     selectedcriteria.payload.analysis
+                      .map((e, indexnum) => e)
                       .sort((data1, data2) => {
-                        // Replace 'someProperty' with the property you want to sort by
                         if (
                           data1.Total_matching_percentage <
                           data2.Total_matching_percentage
-                        )
+                        ) {
                           return -1;
+                        }
                         if (
                           data1.Total_matching_percentage >
                           data2.Total_matching_percentage
-                        )
+                        ) {
                           return 1;
+                        }
                         return 0;
                       })
                       .reverse()
