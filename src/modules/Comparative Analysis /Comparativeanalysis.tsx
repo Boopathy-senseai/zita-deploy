@@ -480,7 +480,8 @@ const ComparativeanalysisModal = ({
                       }}
                     >
                       {selectedcriteria &&
-                        selectedcriteria.payload.analysis 
+                        selectedcriteria.payload.analysis
+                         .map((data, indexnum) => data)
                           .sort((data1, data2) => {
                             if (
                               data1.Total_matching_percentage <
