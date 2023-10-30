@@ -74,7 +74,8 @@ const ComparativeanalysisModal = ({
   const [olddata, setolddata] = useState([]);
   const [errormsg, seterrormsg] = useState(false);
   const [addcandidate, setaddcandidate] = useState(false);
-  const [isclosemodelwindow,setclosemodelwindow] = useState(false);
+  const [isclosemodelwindow, setclosemodelwindow] = useState(false);
+  const [isoveralldata,setoveralldata] = useState<any>()
   const [value, setval] = useState(false);
   const [role, setrole] = useState('add');
 
@@ -106,10 +107,10 @@ const ComparativeanalysisModal = ({
   };
 
   const closemodel = () => {
-    setclosemodelwindow(true); 
+    setclosemodelwindow(true);
   };
 
-  const closemodelwindow =()=>{
+  const closemodelwindow = () => {
     resetdata();
     updatemodel(false, 1);
     update_alysismodal(false);
@@ -121,6 +122,20 @@ const ComparativeanalysisModal = ({
     dispatchcomparativeApi(Matching, isData, value);
   }, []);
 
+  useEffect(()=>{
+    setoveralldata(selectedcriteria &&
+    selectedcriteria.payload.analysis
+      .slice() // Create a shallow copy of the array to avoid mutating the original
+      .sort((data1, data2) => {
+        if (data1.Total_matching_percentage < data2.Total_matching_percentage) {
+          return 1; // Sort in descending order
+        }
+        if (data1.Total_matching_percentage > data2.Total_matching_percentage) {
+          return -1;
+        }
+        return 0;
+      }))
+    },[selectedcriteria])
   const dispatchcomparativeApi = (match, Data, values) => {
     setLoader(true);
     let candidateids = match.map((item) => item.candidate_id).join(',');
@@ -152,13 +167,13 @@ const ComparativeanalysisModal = ({
             'LONG',
             'success',
           );
-        } 
+        }
         setaddcandidate(false);
         // edit_function(false);
       } else {
         setLoader(false);
         setolddata(Matching);
-         
+
         closemodelwindow();
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
@@ -479,266 +494,252 @@ const ComparativeanalysisModal = ({
                         margin: '5px 5px 5px 0px',
                       }}
                     >
-                      {selectedcriteria &&
-                        selectedcriteria.payload.analysis
-                        .slice() // Create a shallow copy of the array to avoid mutating the original
-                        .sort((data1, data2) => {
-                          if (data1.Total_matching_percentage < data2.Total_matching_percentage) {
-                            return 1; // Sort in descending order
-                          }
-                          if (data1.Total_matching_percentage > data2.Total_matching_percentage) {
-                            return -1;
-                          }
-                          return 0;
-                          }) 
-                          .map((e, indexnum) => {
-                            return (
+                      {console.log(isoveralldata,'isoveralldataisoveralldataisoveralldataisoveralldataisoveralldata')}
+                      {isoveralldata.map((e, indexnum) => {
+                          return (
+                            <Flex
+                              key={indexnum}
+                              row
+                              marginBottom={7}
+                              marginTop={2}
+                              marginLeft={8}
+                              marginRight={2}
+                            >
                               <Flex
-                                key=""
-                                row
-                                marginBottom={7}
-                                marginTop={2}
-                                marginLeft={8}
-                                marginRight={2}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
                               >
-                                <Flex
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                  }}
-                                >
-                                  <Flex center middle>
-                                    {indexnum === 0 && (
-                                      <Card
-                                        className={styles.Recommendedchanges}
-                                      >
-                                        <Flex middle center>
-                                          AI Recommendation
-                                        </Flex>
-                                      </Card>
-                                    )}
-                                  </Flex>
-                                  <Flex marginTop={indexnum !== 0 && 26.5}>
+                                <Flex center middle>
+                                  {indexnum === 0 && (
                                     <Card
-                                      className={
-                                        indexnum === 0
-                                          ? styles.cardstructureforprofile
-                                          : styles.cardstructureforprofileother
-                                      }
+                                      className={styles.Recommendedchanges}
                                     >
-                                      <Flex row between>
-                                        <Flex
-                                          style={{
-                                            backgroundColor: '#581845',
-                                          }}
-                                          width={20}
-                                          height={37}
-                                          marginLeft={10}
-                                        >
-                                          <Flex center middle>
-                                            <text style={{ color: 'white' }}>
-                                              {indexnum + 1}
-                                            </text>
-                                          </Flex>
-                                          <Flex className={styles.triangle}>
-                                            {' '}
-                                          </Flex>
-                                        </Flex>
-                                        <Flex
-                                          marginTop={20}
-                                          marginLeft={-10}
-                                          marginBottom={-20}
-                                        >
-                                          <Avatar
-                                            className={styles.profile}
-                                            style={{
-                                              fontSize: '24px',
-                                              textTransform: 'uppercase',
-                                              color: 'white',
-                                            }}
-                                            avatar={
-                                              e.image &&
-                                              e.image !== 'default.jpg'
-                                                ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
-                                                : undefined
-                                            }
-                                            initials={`${
-                                              isEmpty(e.last_name)
-                                                ? e?.first_name?.slice(0, 2)
-                                                : e?.first_name?.charAt(0)
-                                            }${
-                                              !isEmpty(e.last_name)
-                                                ? e.last_name?.charAt(0)
-                                                : ''
-                                            }`}
-                                          />
-                                          <Flex
-                                            className={cx({
-                                              countStyle1:
-                                                e.Total_matching_percentage <
-                                                40,
-                                              countStyle2:
-                                                e.Total_matching_percentage >=
-                                                  40 &&
-                                                e.Total_matching_percentage <
-                                                  69,
-                                              countStyle3:
-                                                e.Total_matching_percentage >
-                                                69,
-                                            })}
-                                          >
-                                            <Text
-                                              style={{
-                                                fontSize: 10,
-                                                marginTop: ' 2px',
-                                                color: 'white',
-                                              }}
-                                              bold
-                                            >
-                                              {Math.round(
-                                                e.Total_matching_percentage,
-                                              )}
-                                            </Text>
-                                          </Flex>
-                                        </Flex>
-                                        <Flex
-                                          marginRight={10}
-                                          marginTop={10}
-                                          onClick={() => remove_user(e)}
-                                          title="Remove Candidate"
-                                        >
-                                          <SvgClose
-                                            width={10}
-                                            height={10}
-                                            fill={'#888888'}
-                                            cursor={'pointer'}
-                                          />
-                                        </Flex>
+                                      <Flex middle center>
+                                        AI Recommendation
                                       </Flex>
-                                      <Flex row middle center>
-                                        <Flex
-                                          width={12}
-                                          title={e.stage_name}
-                                          style={{
-                                            backgroundColor: e.stage_color,
-                                            borderRadius: '4px',
-                                          }}
-                                          height={12}
-                                          marginRight={5}
-                                          marginBottom={1}
-                                        ></Flex>
-                                        <Flex
-                                          title={`${e.first_name.toUpperCase()} ${
-                                            e.last_name
-                                              ? e.last_name.toUpperCase()
-                                              : ''
-                                          }`}
-                                        >
-                                          <Text
-                                            className={styles.changingtexts}
-                                          >
-                                            {e.first_name.toUpperCase()}{' '}
-                                            {e.last_name
-                                              ? e.last_name.toUpperCase()
-                                              : ''}
-                                          </Text>
+                                    </Card>
+                                  )}
+                                </Flex>
+                                <Flex marginTop={indexnum !== 0 && 26.5}>
+                                  <Card
+                                    className={
+                                      indexnum === 0
+                                        ? styles.cardstructureforprofile
+                                        : styles.cardstructureforprofileother
+                                    }
+                                  >
+                                    <Flex row between>
+                                      <Flex
+                                        style={{
+                                          backgroundColor: '#581845',
+                                        }}
+                                        width={20}
+                                        height={37}
+                                        marginLeft={10}
+                                      >
+                                        <Flex center middle>
+                                          <text style={{ color: 'white' }}>
+                                            {indexnum + 1}
+                                          </text>
                                         </Flex>
-                                        <LinkWrapper
-                                          target={'_blank'}
-                                          to={`/applicant_profile_view/${jdId}/${e.candidateid}`}
-                                        >
+                                        <Flex className={styles.triangle}>
                                           {' '}
-                                          <Flex
-                                            marginLeft={5}
-                                            style={{
-                                              cursor: 'pointer',
-                                              position: 'relative',
-                                            }}
-                                            title="View Profile"
-                                          >
-                                            {' '}
-                                            <SvgshareIcon
-                                              width={18}
-                                              height={18}
-                                            />
-                                          </Flex>
-                                        </LinkWrapper>
+                                        </Flex>
                                       </Flex>
                                       <Flex
-                                        middle
-                                        center
-                                        style={{ cursor: 'default' }}
-                                        height={25}
-                                        marginTop={5}
-                                        className={styles.starratingoverall}
+                                        marginTop={20}
+                                        marginLeft={-10}
+                                        marginBottom={-20}
                                       >
-                                        {' '}
-                                        <StarsRating
-                                          value={e.overall_scorecard}
-                                          disabled
-                                          count={5}
+                                        <Avatar
+                                          className={styles.profile}
+                                          style={{
+                                            fontSize: '24px',
+                                            textTransform: 'uppercase',
+                                            color: 'white',
+                                          }}
+                                          avatar={
+                                            e.image &&
+                                              e.image !== 'default.jpg'
+                                              ? `${process.env.REACT_APP_HOME_URL}media/${e.image}`
+                                              : undefined
+                                          }
+                                          initials={`${isEmpty(e.last_name)
+                                            ? e?.first_name?.slice(0, 2)
+                                            : e?.first_name?.charAt(0)
+                                            }${!isEmpty(e.last_name)
+                                              ? e.last_name?.charAt(0)
+                                              : ''
+                                            }`}
+                                        />
+                                        <Flex
+                                          className={cx({
+                                            countStyle1:
+                                              e.Total_matching_percentage <
+                                              40,
+                                            countStyle2:
+                                              e.Total_matching_percentage >=
+                                              40 &&
+                                              e.Total_matching_percentage <
+                                              69,
+                                            countStyle3:
+                                              e.Total_matching_percentage >
+                                              69,
+                                          })}
+                                        >
+                                          <Text
+                                            style={{
+                                              fontSize: 10,
+                                              marginTop: ' 2px',
+                                              color: 'white',
+                                            }}
+                                            bold
+                                          >
+                                            {Math.round(
+                                              e.Total_matching_percentage,
+                                            )}
+                                          </Text>
+                                        </Flex>
+                                      </Flex>
+                                      <Flex
+                                        marginRight={10}
+                                        marginTop={10}
+                                        onClick={() => remove_user(e)}
+                                        title="Remove Candidate"
+                                      >
+                                        <SvgClose
+                                          width={10}
+                                          height={10}
+                                          fill={'#888888'}
+                                          cursor={'pointer'}
                                         />
                                       </Flex>
-                                      <Flex>
-                                        <Flex key={indexnum}>
-                                          {Object.keys(e.categories).map(
-                                            (key, subIndex) => (
-                                              <Flex
-                                                center
-                                                middle
-                                                height={34}
-                                                style={{
-                                                  borderTop:
-                                                    '1px solid rgb(195, 195, 195)',
-                                                  padding: '4px',
-                                                }}
-                                                key={subIndex}
-                                              >
-                                                {' '}
-                                                {Math.round(
-                                                  e.categories[key],
-                                                ) <= 3 && (
+                                    </Flex>
+                                    <Flex row middle center>
+                                      <Flex
+                                        width={12}
+                                        title={e.stage_name}
+                                        style={{
+                                          backgroundColor: e.stage_color,
+                                          borderRadius: '4px',
+                                        }}
+                                        height={12}
+                                        marginRight={5}
+                                        marginBottom={1}
+                                      ></Flex>
+                                      <Flex
+                                        title={`${e.first_name.toUpperCase()} ${e.last_name
+                                          ? e.last_name.toUpperCase()
+                                          : ''
+                                          }`}
+                                      >
+                                        <Text
+                                          className={styles.changingtexts}
+                                        >
+                                          {e.first_name.toUpperCase()}{' '}
+                                          {e.last_name
+                                            ? e.last_name.toUpperCase()
+                                            : ''}
+                                        </Text>
+                                      </Flex>
+                                      <LinkWrapper
+                                        target={'_blank'}
+                                        to={`/applicant_profile_view/${jdId}/${e.candidateid}`}
+                                      >
+                                        {' '}
+                                        <Flex
+                                          marginLeft={5}
+                                          style={{
+                                            cursor: 'pointer',
+                                            position: 'relative',
+                                          }}
+                                          title="View Profile"
+                                        >
+                                          {' '}
+                                          <SvgshareIcon
+                                            width={18}
+                                            height={18}
+                                          />
+                                        </Flex>
+                                      </LinkWrapper>
+                                    </Flex>
+                                    <Flex
+                                      middle
+                                      center
+                                      style={{ cursor: 'default' }}
+                                      height={25}
+                                      marginTop={5}
+                                      className={styles.starratingoverall}
+                                    >
+                                      {' '}
+                                      <StarsRating
+                                        value={e.overall_scorecard}
+                                        disabled
+                                        count={5}
+                                      />
+                                    </Flex>
+                                    <Flex>
+                                      <Flex key={indexnum}>
+                                        {Object.keys(e.categories).map(
+                                          (key, subIndex) => (
+                                            <Flex
+                                              center
+                                              middle
+                                              height={34}
+                                              style={{
+                                                borderTop:
+                                                  '1px solid rgb(195, 195, 195)',
+                                                padding: '4px',
+                                              }}
+                                              key={subIndex}
+                                            >
+                                              {' '}
+                                              {Math.round(
+                                                e.categories[key],
+                                              ) <= 3 && (
                                                   <Text
                                                     size={12}
                                                   >{`${Math.round(
                                                     e.categories[key],
                                                   )}/10 (Low)`}</Text>
                                                 )}
-                                                {Math.round(e.categories[key]) >
-                                                  7 && (
+                                              {Math.round(e.categories[key]) >
+                                                7 && (
                                                   <Text
                                                     size={12}
                                                   >{`${Math.round(
                                                     e.categories[key],
                                                   )}/10 (High)`}</Text>
                                                 )}
-                                                {Math.round(e.categories[key]) >
-                                                  3 &&
-                                                  Math.round(
+                                              {Math.round(e.categories[key]) >
+                                                3 &&
+                                                Math.round(
+                                                  e.categories[key],
+                                                ) <= 7 && (
+                                                  <Text
+                                                    size={12}
+                                                  >{`${Math.round(
                                                     e.categories[key],
-                                                  ) <= 7 && (
-                                                    <Text
-                                                      size={12}
-                                                    >{`${Math.round(
-                                                      e.categories[key],
-                                                    )}/10 (Medium)`}</Text>
-                                                  )}
-                                              </Flex>
-                                            ),
-                                          )}
-                                        </Flex>
+                                                  )}/10 (Medium)`}</Text>
+                                                )}
+                                            </Flex>
+                                          ),
+                                        )}
                                       </Flex>
-                                    </Card>
-                                  </Flex>
+                                    </Flex>
+                                  </Card>
                                 </Flex>
                               </Flex>
-                            );
-                          })}
+                            </Flex>
+                          );
+                        })}
                     </Flex>
                   </Flex>
                   {selectedcriteria &&
-                    selectedcriteria.payload.analysis 
-                    .map((e, indexnum) => e)
+                    selectedcriteria.payload.analysis
+                      .map((e, indexnum) => e)
                       .sort((data1, data2) => {
                         if (
                           data1.Total_matching_percentage <
@@ -804,23 +805,23 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) <= 3 && (
-                                          <Text color="error" bold>
-                                            {Math.round(
-                                              data.Average_match_percentage,
-                                            )}
-                                            /10
-                                          </Text>
-                                        )}
+                                            <Text color="error" bold>
+                                              {Math.round(
+                                                data.Average_match_percentage,
+                                              )}
+                                              /10
+                                            </Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                          <Text color="success" bold>
-                                            {Math.round(
-                                              data.Average_match_percentage,
-                                            )}
-                                            /10
-                                          </Text>
-                                        )}
+                                            <Text color="success" bold>
+                                              {Math.round(
+                                                data.Average_match_percentage,
+                                              )}
+                                              /10
+                                            </Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 3 &&
@@ -845,17 +846,17 @@ const ComparativeanalysisModal = ({
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) <= 3 && (
-                                          <Text color="error" bold>
-                                            No
-                                          </Text>
-                                        )}
+                                            <Text color="error" bold>
+                                              No
+                                            </Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 7 && (
-                                          <Text color="success" bold>
-                                            Yes
-                                          </Text>
-                                        )}
+                                            <Text color="success" bold>
+                                              Yes
+                                            </Text>
+                                          )}
                                         {Math.round(
                                           data.Average_match_percentage,
                                         ) > 3 &&
@@ -874,22 +875,7 @@ const ComparativeanalysisModal = ({
                                     <Flex flex={6}>
                                       <Flex row end center>
                                         <Flex className={styles.button_group}>
-                                          {selectedcriteria.payload.analysis
-                                            .sort((datacheck1, datacheck2) => {
-                                              if (
-                                                datacheck1.Total_matching_percentage <
-                                                datacheck2.Total_matching_percentage
-                                              )
-                                                return -1;
-                                              if (
-                                                datacheck1.Total_matching_percentage >
-                                                datacheck2.Total_matching_percentage
-                                              )
-                                                return 1;
-                                              return 0;
-                                            })
-                                            .reverse()
-                                            .map((val, ind) => (
+                                          {isoveralldata.map((val, ind) => (
                                               <Flex
                                                 onClick={() => setkey(ind)}
                                                 key={ind}
@@ -1029,7 +1015,7 @@ const ComparativeanalysisModal = ({
             </Flex>
           </Modal>
 
-          <Flex> 
+          <Flex>
             <Modal open={verify}>
               <Flex
                 column
@@ -1091,7 +1077,7 @@ const ComparativeanalysisModal = ({
                   </Flex>
                   <Flex row end marginTop={20}>
                     <Button
-                      onClick={()=>setclosemodelwindow(false)}
+                      onClick={() => setclosemodelwindow(false)}
                       types="close"
                       style={{ marginRight: '8px' }}
                       width='51'
