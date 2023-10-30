@@ -460,7 +460,10 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 <Flex className={styles.innerSliderbarStyle} key={index}>
 
                                   <Flex className={styles.infohead1}>
-                                    <Text>{skill.title}</Text>
+                                    {
+                                      skill.title==='Skills'?(<Text>Technical skills</Text>):(<Text>{skill.title}</Text>)
+                                    }
+                                    
                                   </Flex>
 
                                   <Flex className={styles.infohead2}>
