@@ -74,6 +74,7 @@ const ComparativeanalysisModal = ({
   const [olddata, setolddata] = useState([]);
   const [errormsg, seterrormsg] = useState('');
   const [addcandidate, setaddcandidate] = useState(false);
+  const [isclosemodelwindow,setclosemodelwindow] = useState(false);
   const [value, setval] = useState(false);
 
   const [editmodal, seteditmodal] = useState(false);
@@ -104,10 +105,14 @@ const ComparativeanalysisModal = ({
   };
 
   const closemodel = () => {
+    setclosemodelwindow(true); 
+  };
+
+  const closemodelwindow =()=>{
     resetdata();
     updatemodel(false, 1);
     update_alysismodal(false);
-  };
+  }
 
   useEffect(() => {
     setolddata(Matching);
@@ -154,6 +159,7 @@ const ComparativeanalysisModal = ({
         // edit_function(false);
       } else {
         setLoader(false);
+        setclosemodelwindow(false);
         closemodel();
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
@@ -972,7 +978,8 @@ const ComparativeanalysisModal = ({
               )}
             </Flex>
           </Modal>
-          <Flex>
+
+          <Flex> 
             <Modal open={verify}>
               <Flex
                 column
@@ -1014,6 +1021,36 @@ const ComparativeanalysisModal = ({
                     </Flex>
                   </>
                 )}
+              </Flex>
+            </Modal>
+            <Modal open={isclosemodelwindow}>
+              <Flex
+                column
+                style={{
+                  backgroundColor: 'white',
+                  padding: '25px',
+                  borderRadius: '4px',
+                }}
+              >
+                <>
+                  <Flex row center style={{ justifyContent: 'center' }}>
+                    This action will reset the comparative analysis for the candidates.
+                  </Flex>
+                  <Flex>
+                    Are you sure to proceed?
+                  </Flex>
+                  <Flex row end marginTop={20}>
+                    <Button
+                      onClick={()=>setclosemodelwindow(false)}
+                      types="close"
+                      style={{ marginRight: '8px' }}
+                      width='51'
+                    >
+                      NO
+                    </Button>
+                    <Button onClick={closemodelwindow} width='51'>YES</Button>
+                  </Flex>
+                </>
               </Flex>
             </Modal>
           </Flex>
