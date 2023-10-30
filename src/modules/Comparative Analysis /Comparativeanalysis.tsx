@@ -493,8 +493,7 @@ const ComparativeanalysisModal = ({
                         overflowX: 'scroll',
                         margin: '5px 5px 5px 0px',
                       }}
-                    >
-                      {console.log(isoveralldata,'isoveralldataisoveralldataisoveralldataisoveralldataisoveralldata')}
+                    > 
                       {isoveralldata.map((e, indexnum) => {
                           return (
                             <Flex

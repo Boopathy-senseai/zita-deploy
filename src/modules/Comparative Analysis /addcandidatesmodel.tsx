@@ -129,9 +129,7 @@ const AddcandidatesModal = ({
       setolddata(Matching)
       dispatchcomparativeApi(Matching, isData, sample); 
       
-    } else {
-      console.log('no');
-    }
+    } 
   };
 
   const handlechange = (e) => {
