@@ -261,3 +261,12 @@ label > p {
   display: flex;
   align-items: center;
 }
+.scrollfornav nav{
+  display: flex;
+  width: 650px;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+.scrollfornav a {
+  text-wrap: nowrap;
+}

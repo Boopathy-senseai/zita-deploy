@@ -18,8 +18,10 @@ export const jobTypeData = [
 ];
 
 export const level = [
-  { value: 'Entry Level', label: 'Entry Level',  paddingleft:50},
-  { value: 'Mid Level', label: 'Mid Level', paddingleft:50 },
-  { value: 'Senior Level', label: 'Senior Level',  paddingleft:50 },
-  { value: 'None', label: '',  paddingleft:50 },
+  { value: 'General', label: 'General',  paddingleft:50},
+  { value: 'IQ Based', label: 'IQ Based', paddingleft:50 },
+  { value: 'Technical', label: 'Technical',  paddingleft:50 },
+  { value: 'Coding', label: 'Coding',  paddingleft:50 },
+  { value: 'Behavioral', label: 'Behavioral',  paddingleft:50 },
+ 
 ];

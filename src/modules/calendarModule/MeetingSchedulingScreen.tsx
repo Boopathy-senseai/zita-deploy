@@ -39,10 +39,13 @@ import {
 } from './types';
 
 import './styles/addInterviewers.css';
+import { QuestionListModel } from './QuestionlistModel';
 import MeetingSchedulingForm from './MeetingSchedulingForm';
 import MeetingSummary from './MeetingSummary';
+import styles from './styles/createScheduleForm.module.css';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
+
 
 
 interface Props {
@@ -318,7 +321,7 @@ const MeetingSchedulingScreen = ({
   interface MyFormValues {
     interviewers: Interviewer[];
     checkedValues:checkedValues[];
-    LevelType:string;
+    // LevelType:string;
     brieftext:string;
     checkedValuesError?: string; 
     questionid:questionid[];
@@ -328,7 +331,7 @@ const MeetingSchedulingScreen = ({
   const initialValues: MyFormValues = {
     interviewers: [],
     checkedValues: [],
-    LevelType: '',
+    // LevelType: '',
     brieftext: '',
     questionid:[],
   };
@@ -336,15 +339,13 @@ const MeetingSchedulingScreen = ({
 
   const handleCompanyPageValid = (values: MyFormValues): Partial<MyFormValues> => {
     const errors: Partial<MyFormValues> = {};
-    const allFieldsBlank = values.LevelType === '' && values.brieftext === '' && values.checkedValues.length === 0;
+    const allFieldsBlank = values.brieftext === '' && values.checkedValues.length === 0;
 
     if (!allFieldsBlank) {
         if (values.brieftext === '') {
             errors.brieftext = '';
         }
-        if (values.LevelType === '') {
-          errors.LevelType = '';
-      }
+       
       if (values.checkedValues.length === 0) {
         
         errors.checkedValuesError = '';
@@ -360,7 +361,7 @@ const MeetingSchedulingScreen = ({
     return errors;
 };
 
- const [questions,setquestions]=useState([])
+ 
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -368,45 +369,10 @@ const MeetingSchedulingScreen = ({
     validate: handleCompanyPageValid,
   });
   const handleSubmit=()=>{
-    if(formik.values.LevelType!==''||formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
+    if(formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
     {
-      formik.setFieldValue('questionid',[])
-      setSubmitLoader(true)
-      const formData = new FormData();
-      const transformedData= formik.values.checkedValues.map(item => ({
-        id: item.id,
-        role: item.role
-      }));
-      formData.append('role',JSON.stringify(transformedData));
-      formData.append('level',formik.values.LevelType);
-      formData.append('summary',formik.values.brieftext);
-      formData.append('can_id',meetingForm.applicant.id);
-      formData.append('jd_id',meetingForm.job.value);
-      dispatch(
-        Interview_question_middleware({
-          formData,
-        })).then((response)=>{
-          console.log("resssssssss++++000",response.payload)
-          if(response.payload.success===true){
-          setSubmitLoader(false)
-         const groupdata= response.payload.data.reduce((groups, item) => {
-          const attendeeId = item.attendees;
-          if (!groups[attendeeId]) {
-            groups[attendeeId] = [];
-          }
-          groups[attendeeId].push(item);
-          return groups;
-        }, {});
-          setquestions([groupdata])
-          setViewMeetingSummary(false)
-          setShowPopup(true)
-          console.log("ennai konjam matri",groupdata)
-          }else{
-            setSubmitLoader(false)
-            Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG','error');
-          }
-          console.log("questions",questions)
-        })
+      setViewMeetingSummary(false)
+      setShowPopup(true)
     }
     else{
       setViewMeetingSummary(true)
@@ -417,7 +383,6 @@ const MeetingSchedulingScreen = ({
   }
   const nextEvent = () => {
     if (
-      formik.values.LevelType !== '' ||
       formik.values.brieftext !== '' ||
       formik.values.checkedValues.length !== 0
     ) {
@@ -502,86 +467,16 @@ const MeetingSchedulingScreen = ({
           openmodel={openmodel}
           formik={formik}
         />):(
-          <Flex style={{backgroundColor:'#FFF',width:'700px',height:'auto',padding:'25px'}}>
-             <Flex style={{ borderBottom: '0.5px solid #581845',paddingBottom:'10px' }}>
-                  <Text size={14} bold>AI generated Interview Questions</Text>
-                </Flex>
-            
-            <Flex style={{margin:'0 0 10px 0'}}>
-              <Tabs activeKey={interviewer} 
-                 onSelect={(keys: any) => {
-                  setinterviewer(keys);
-                  sessionStorage.setItem('interviewer', keys);
-                }}
-              > 
-                {formik.values.checkedValues.map((user, index) => (
-                  <Tab key={index} eventKey={JSON.stringify(index)} title={`${user.firstName} ${user.lastName}`}>
-                    <Flex>
-                      <Text size={12} bold style={{padding:'5px 0'}}>
-                       {`${user.role} - Interview Questions`}
-                       </Text>
-                       {questions?.map((val, index1) => {
-                        const keysToCheck = Object.keys(val);
-                        console.log("value133423575673", keysToCheck.includes(user.id), val, keysToCheck);
-                        if (keysToCheck.includes(user.id.toString())) {
-                          const questionsList = val[user.id.toString()]; // Get the array of questions
-                          return (
-                            <Flex key={index1}>
-                              <Flex>
-                                {console.log("consoleeeeee----->",questionsList.length)}
-                                {questionsList?(questionsList.map((question, index2) => (
-                                  <Flex key={index2} row style={{margin:'0 0 5px 0'}}>
-                                    <Flex  style={{margin:'6px 10px 0px 3px'}}>
-                                    <InputCheckBox 
-                                      checked={isQuestionChecked(question.id)} 
-                                      onChange={e => handlecheck(question.id, e.target.checked)}
-                                    />
-                                    </Flex>
-                                  <Flex key={index2} style={{borderBottom:((questionsList.length-1)===index2)?'':'0.3px solid #c3c3c3',padding:'3px',width: "100%",}}>{question.question}</Flex> 
-                                  
-                                  </Flex>
-                                ))):(
-                                  <Flex>
-                                    <Text>
-                                      due to some error there is no data please regenerate
-                                    </Text>
-                                  </Flex>
-                                )}
-                               {error&&id_questions.length===0&&(
-                                <Text color='error' style={{margin:'0 0 7px 0'}}>please select atleast one question for the interview</Text>
-                               )}
-                              </Flex>
-                            
-                            </Flex>
-                          );
-                        }
-                        return null;
-                      })}
-
-                     </Flex>
-                  </Tab>
-                ))}
-              </Tabs>
-            </Flex>
-
-              <Flex row  between style={{ borderTop: '0.5px solid #c3c3c3',padding:'10px 0 0 0' }}>
-                <Flex>
-                <Button types="secondary" onClick={handlechange1}>
-                  Back
-                </Button>
-                </Flex>
-                <Flex row>
-                  <Button types="close" onClick={handlefunction1}>
-                    Cancel
-                  </Button>
-                <Button style={{ margin: '0 0 0 10px' }} onClick={handlechange}>
-                  Continue
-                </Button>
-
-                </Flex>
-                
-              </Flex>
-            </Flex>
+          <QuestionListModel
+                interviewer={interviewer}
+                setinterviewer={setinterviewer}
+                formikval={formik}
+                isQuestionChecked={isQuestionChecked}
+                handlecheck={handlecheck}
+                handlechange1={handlechange1}
+                handlefunction1={handlefunction1}
+                handlechange={handlechange}    
+             />
           )
         ) : openmodel === false ? (
           <MeetingSummary
@@ -631,29 +526,8 @@ const MeetingSchedulingScreen = ({
                 </Text>
               </Flex>
 
+             
               <Text color="theme" style={{ marginBottom: '4px' }}>
-                Choose the level of the interview.
-              </Text>
-              <Flex row>
-                {level.map((jobList) => {
-                  return (
-                    <Flex
-                      key={jobList.value}
-                      style={{ margin: '0  20px  10px 0 ' }}
-                    >
-                      <InputRadio
-                        // className={styles.checkbox}
-                        label={jobList.value}
-                        checked={jobList.label === formik.values.LevelType}
-                        onClick={() =>
-                          formik.setFieldValue('LevelType', jobList.label)
-                        }
-                      />
-                    </Flex>
-                  );
-                })}
-              </Flex>
-              <Text color="theme" style={{ marginBottom: '5px' }}>
                 Pick the interviewer for question generation.
               </Text>
 
@@ -732,8 +606,8 @@ const MeetingSchedulingScreen = ({
                         />
             </Flex>
 
-        {(formik.errors.LevelType===''||formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
-          <Text color='error' style={{margin:'0 0 7px 0'}}>All the above files are required</Text>
+        {(formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
+          <Text color='error'>All the above files are required</Text>
         ):('')}
               <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
                 <Flex row between marginTop={10}>
@@ -753,7 +627,7 @@ const MeetingSchedulingScreen = ({
                       style={{ margin: '0 0 0 10px' }}
                       onClick={formik.handleSubmit}
                     >
-                      {formik.values.LevelType !== '' ||
+                      {
                       formik.values.brieftext !== '' ||
                       formik.values.checkedValues.length !== 0
                         ? 'Generate'
