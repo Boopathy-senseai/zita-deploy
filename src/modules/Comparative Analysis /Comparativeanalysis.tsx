@@ -629,17 +629,17 @@ const ComparativeanalysisModal = ({
                                         marginBottom={1}
                                       ></Flex>
                                       <Flex
-                                        title={`${e.first_name.toUpperCase()} ${e.last_name
-                                          ? e.last_name.toUpperCase()
+                                        title={`${e?.first_name?.toUpperCase()} ${e?.last_name
+                                          ? e?.last_name?.toUpperCase()
                                           : ''
                                           }`}
                                       >
                                         <Text
                                           className={styles.changingtexts}
                                         >
-                                          {e.first_name.toUpperCase()}{' '}
-                                          {e.last_name
-                                            ? e.last_name.toUpperCase()
+                                          {e?.first_name?.toUpperCase()}{' '}
+                                          {e?.last_name
+                                            ? e?.last_name?.toUpperCase()
                                             : ''}
                                         </Text>
                                       </Flex>
