@@ -44,7 +44,7 @@ const cx = classNames.bind(styles);
 var querystring = require('querystring');
 
 interface Props {
-  onEvaluate: (id: number, value: Question[]) => void;
+  onEvaluate?: (id: number, value: Question[]) => void;
 }
 
 const InterviewScorecardTab: React.FC<Props> = (props) => {

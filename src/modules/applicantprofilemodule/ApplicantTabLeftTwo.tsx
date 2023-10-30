@@ -38,7 +38,7 @@ const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
-        can_id: applicantProfileInitalReducers.can_id
+        can_id: applicantProfileInitalReducers.can_id,
       };
     },
   );
@@ -48,7 +48,6 @@ const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
       {stages.length === 0 ? (
         <Tabs
           activeColor={'#581845'}
-          borderColor={'#581845'}
           borderColor={'#581845'}
           active={activeState}
         >
@@ -66,10 +65,8 @@ const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
           </Tab> */}
           <Tab title={'Communications'}>
             <NotesTab isMeeting nomessagetab={true} />
-            <NotesTab isMeeting nomessagetab={true} />
           </Tab>
           <Tab title={'Meetings'}>
-            <Notesmeet isMeeting />
             <Notesmeet isMeeting />
           </Tab>
           {/* <Tab title={'Questionnaire/Messages'}>
@@ -82,10 +79,7 @@ const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
             <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Invitation Status'}>
-            <ScreeningStatusTab
-              title={'Invitation Status'}
-              issingletab
-            />
+            <ScreeningStatusTab title={'Invitation Status'} issingletab />
           </Tab>
         </Tabs>
       ) : (
