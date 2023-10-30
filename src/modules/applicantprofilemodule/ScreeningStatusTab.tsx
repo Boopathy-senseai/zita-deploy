@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 import SvgRoundTick from '../../icons/SvgRoundTick';
 import { RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
-import styles from './screeningstatustab.module.css';
+import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
+
 import InterviewScorecardTab from './InterviewScorecardTab';
 
 type Props = {
@@ -113,7 +113,9 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
       )}
       {!issingletab && (
         <Flex flex={6.4}>
-          <InterviewScorecardTab />
+          <InterviewScorecardTab onEvaluate={function (id: number, value: Question[]): void {
+            throw new Error('Function not implemented.');
+          } } />
         </Flex>
       )}
     </Flex>

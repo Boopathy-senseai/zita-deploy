@@ -26,14 +26,19 @@ import InvitationStatusTab from './InvitationStatusTab';
 const defaultProps = {
   activeState: 0,
 };
-
-const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
+type Props = {
+  updatr_overall?: (val: any) => void;
+};
+const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
+  activeState = defaultProps.activeState, // Use the default value from defaultProps
+  updatr_overall,
+}) => {
   const { status_id, stages, can_id } = useSelector(
     ({ applicantProfileInitalReducers, applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
-        can_id: applicantProfileInitalReducers.can_id,
+        can_id: applicantProfileInitalReducers.can_id
       };
     },
   );
@@ -43,6 +48,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
       {stages.length === 0 ? (
         <Tabs
           activeColor={'#581845'}
+          borderColor={'#581845'}
           borderColor={'#581845'}
           active={activeState}
         >
@@ -60,15 +66,17 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
           </Tab> */}
           <Tab title={'Communications'}>
             <NotesTab isMeeting nomessagetab={true} />
+            <NotesTab isMeeting nomessagetab={true} />
           </Tab>
           <Tab title={'Meetings'}>
+            <Notesmeet isMeeting />
             <Notesmeet isMeeting />
           </Tab>
           {/* <Tab title={'Questionnaire/Messages'}>
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
             <EmailScreen isprofileview={true} can_id={can_id} />
@@ -117,7 +125,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
             <EmailScreen isprofileview={true} can_id={can_id} />

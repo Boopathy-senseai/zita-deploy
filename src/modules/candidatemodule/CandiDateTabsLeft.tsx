@@ -18,8 +18,14 @@ import CandiDateResumeTab from './CandiDateResumeTab';
 const defaultProps = {
   activeState: 0,
 };
+type Props = {
+  updatr_overall?: (val: any) => void;
+};
 
-const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
+const CandiDateTabsLeft: React.FC<typeof defaultProps & Props> = ({
+  activeState = defaultProps.activeState, // Use the default value from defaultProps
+  updatr_overall,
+}) => {
   const { can_id } = useSelector(
     ({ applicantProfileInitalReducers }: RootState) => {
       return {
@@ -32,7 +38,7 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
       activeColor={'#581845'}
       borderColor={'#581845'}
       active={activeState}
-    > 
+    >
       <Tab title="About">
         <CandidateAboutTab />
       </Tab>
@@ -52,13 +58,13 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
         />
       </Tab> */}
       <Tab title={'Matching Analysis'}>
-        <MatchingAnalysisTab />
+        <MatchingAnalysisTab updatr_overall={updatr_overall} />
       </Tab>
       <Tab title={'Mailbox'}>
-            <EmailScreen isprofileview={true} can_id={can_id}/>
-          </Tab>
+        <EmailScreen isprofileview={true} can_id={can_id} />
+      </Tab>
       <Tab title={'Invitation Status/All Matching Jobs'}>
-      <ScreeningStatusTab title={'Invitation Status'} issingletab   />
+        <ScreeningStatusTab title={'Invitation Status'} issingletab />
       </Tab>
     </Tabs>
   );

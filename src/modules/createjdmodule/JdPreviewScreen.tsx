@@ -149,16 +149,12 @@ const JdPreviewScreen = () => {
     }
   };
   return (
-    <Flex
-      columnFlex
-      className={styles.overAll}
-      height={window.innerHeight}
-    >
-      {postLoader && <Loader />}
-      <Flex row center className={styles.step} >
+
+    <>
+          <Flex row center className={styles.step} >
         <StepProgressBar roundFill barFilled />
         <StepProgressBar
-          title="Match Weightage"
+          title="Weightage Matching"
           titleclassName={styles.stepTwo}
           stepIndex="2"
           roundFill
@@ -178,6 +174,13 @@ const JdPreviewScreen = () => {
         />
 
       </Flex>
+    <Flex
+      columnFlex
+      className={styles.overAll}
+      height={window.innerHeight}
+    >
+      {postLoader && <Loader />}
+
       <Modal open={isOpen}>
         <Flex columnFlex className={styles.modalOverAll}>
           <Flex row center middle>
@@ -234,6 +237,7 @@ const JdPreviewScreen = () => {
         postLoader={postLoader}
       />
     </Flex>
+    </>
   );
 };
 export default JdPreviewScreen;

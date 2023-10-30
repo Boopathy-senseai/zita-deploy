@@ -26,10 +26,16 @@ import ScreeningStatusandAllMatchJobTab from './ScreeningStatusandAllMatchJobTab
 const defaultProps = {
   activeState: 0,
 };
+type Props = {
+  updatr_overall?: (val: any) => void;
+};
 
-const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
-  const { status_id,stages,can_id, jd_id } = useSelector(
-    ({ applicantProfileInitalReducers,applicantStausReducers }: RootState) => {
+const ApplicantTabLeft: React.FC<typeof defaultProps & Props> = ({
+  activeState = defaultProps.activeState, // Use the default value from defaultProps
+  updatr_overall,
+}) => {
+  const { status_id, stages, can_id, jd_id } = useSelector(
+    ({ applicantProfileInitalReducers, applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
@@ -41,7 +47,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
 
   return (
     <>
-      {stages.length === 0 ? ( 
+      {stages.length === 0 ? (
         <Tabs
           activeColor={'#581845'}
           borderColor={'#581845'}
@@ -49,12 +55,12 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
         >
           <Tab title={'About '} >
             <AboutTab />
-          </Tab> 
+          </Tab>
           {/* <Tab title={'Resume/Cover'}>
             <ResumeCoverTab />
           </Tab> */}
           <Tab title={'Communications'}>
-            <NotesTab  nomessagetab ={true}/>
+            <NotesTab nomessagetab={true} />
           </Tab>
           <Tab title={'Meetings'}>
             <Notesmeet isMeeting />
@@ -66,12 +72,12 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen isprofileview={true} can_id={can_id}/>
+            <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
-          
+
           <Tab title={'Screening Status'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  />
           </Tab> 
@@ -79,30 +85,30 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
       ) : (
         <Tabs
           activeColor={'#581845'}
-          borderColor={'#581845'} 
+          borderColor={'#581845'}
           active={activeState}
         >
           <Tab title={'About'}>
             <AboutTab />
-          </Tab> 
+          </Tab>
           <Tab title={'Communications'}>
-            <NotesTab isMeeting  nomessagetab ={true} />
+            <NotesTab isMeeting nomessagetab={true} />
           </Tab>
           <Tab title={'Meetings'}>
-            <Notesmeet  isMeeting />
-          </Tab> 
+            <Notesmeet isMeeting />
+          </Tab>
           {/* <Tab title={'Questionnaire/Messages'}>
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen isprofileview={true} can_id={can_id}/>
+            <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Screening Status/All Matching Jobs'}>
             <ScreeningStatusandAllMatchJobTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
-          </Tab> 
+          </Tab>
           <Tab title={'Interview Question/Scorecard'}>
             <InterviewQuestionTab title={INTERVIEW_QUESTION} can_id={can_id} jd_id={jd_id} issingletab={false} />
           </Tab> 

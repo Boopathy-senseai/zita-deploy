@@ -42,7 +42,7 @@
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center 
+    justify-content: center;
   }
 
   
@@ -83,34 +83,41 @@
   justify-content: space-between;
   margin-top: 15px;
 }
-.bottombtnContainer {
-position: absolute;
 
+.bottombtnContainer {
+  position: absolute;
   margin-top: 8px;
   bottom: 10px;
   right: 0;
   left: 2px;
-border-top: 0.5 solid #c3c3c3;
-  /* border-top: 1px solid #dfdfdf; */
-
+  border-top: 0.5 solid #c3c3c3;
   padding: 5px;
-justify-content: space-between;
+  justify-content: space-between;
   background-color: #ffffff;
 
 }
-.progressbarstyle{
+
+.techprogressbarstyle{
   display: flex;
   justify-content: center;
   align-items: center;
   align-content: center;
 }
+
+.nontechprogressbarstyle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
 .draftBtn {
   margin: 0 16px;
 }
+
 .splitline{
-  border :0.5px solid #c3c3c3;
-  height: 450px;
-  
+  border-left :0.1px solid #c3c3c3;
+  height: 450px;  
 }
 .spacepadding{
   padding-top: 15px;
@@ -137,4 +144,52 @@ justify-content: space-between;
   margin-top: 1vh;
   max-width: 425px;
   position: absolute;
+}
+
+.infotitle{
+  padding-bottom:2px;
+}
+
+.moreinformation {
+  color: #fcc203;
+  font-size: 12px;
+  margin-left: 8px;
+  border-bottom: 1px solid #fcc203;
+}
+
+
+.techtitleblock{
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  justify-content: center;
+}
+
+
+.techresetbutton{
+  padding-left:10px
+}
+
+.nontechtitleblock{
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 28px;
+  justify-content: center;
+}
+
+
+.nontechresetbutton{
+  padding-left:10px
+}
+
+.scoreinputfield{
+ 
+  text-align: center;
+  border: none;
+  outline: none;
+  text-align: center;
+  box-shadow: 1px 2px 2px 2px rgb(238, 232, 236);
+  border-radius: 5px
 }

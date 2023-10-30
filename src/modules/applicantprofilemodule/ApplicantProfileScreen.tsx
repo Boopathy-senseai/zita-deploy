@@ -51,6 +51,12 @@ const ApplicantProfileScreen = () => {
   const [isLoader, setLoader] = useState(true);
   const dispatch: AppDispatch = useDispatch();
   const [isTabValue, setTabValue] = useState(0);
+  const [isoverall, setisoverall] = useState<any>(0);
+  //Updating overall percentage
+  const updatr_overall = (val) => {
+    setisoverall(val)
+  }
+
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
@@ -62,13 +68,13 @@ const ApplicantProfileScreen = () => {
       setTabValue(5);
     }
   }, []);
-  useEffect(()=>{
-  const url = window.location.href;
-  const applicantpipelineUrl = url.includes('/?2'); 
-  if(applicantpipelineUrl){ 
-    setTabValue(1)
-  }
-},[])
+  useEffect(() => {
+    const url = window.location.href;
+    const applicantpipelineUrl = url.includes('/?2');
+    if (applicantpipelineUrl) {
+      setTabValue(1)
+    }
+  }, [])
   // initial api call
   useEffect(() => {
     dispatch(permissionMiddleWare());
@@ -248,9 +254,8 @@ const ApplicantProfileScreen = () => {
 
         {invite && invite.length === 0 && (
           <CancelAndDeletePopup
-            title={`Invite will be sent as an email to ${
-              candidate_details && candidate_details[0].first_name
-            }. Are you sure to proceed?`}
+            title={`Invite will be sent as an email to ${candidate_details && candidate_details[0].first_name
+              }. Are you sure to proceed?`}
             btnDelete={hanldeInvite}
             btnCancel={hanldeInviteClosePopUp}
             btnRight={YES}
@@ -261,12 +266,11 @@ const ApplicantProfileScreen = () => {
           <CancelAndDeletePopup
             title={
               <Flex className={styles.popTitle}>
-                <Text>{`The candidate ${
-                  candidate_details && candidate_details[0].first_name
-                } has already been invited for this job on ${getDateString(
-                  invite[invite.length - 1].created_at,
-                  'll',
-                )}.`}</Text>
+                <Text>{`The candidate ${candidate_details && candidate_details[0].first_name
+                  } has already been invited for this job on ${getDateString(
+                    invite[invite.length - 1].created_at,
+                    'll',
+                  )}.`}</Text>
                 <Text>Do you wish to invite again?</Text>
               </Flex>
             }
@@ -292,13 +296,15 @@ const ApplicantProfileScreen = () => {
                   jdDetails={jd}
                   profile_match={profileMatch}
                   nonMatch={checkMatch}
-                  applieddatecheck ={isTab && stages.length === 0 ?true:false}
-                  availableity ={isTab && stages.length !== 0 ?false:true}
+                  isoverall={isoverall}
+                  applieddatecheck={isTab && stages.length === 0 ? true : false}
+                  availableity={isTab && stages.length !== 0 ? false : true}
                   inviteCall={hanldeInvitePopUp}
                   // isInvite={status_id.length === 0}
                   isResume
                   withOutJD={isTab}
                   source={source}
+                  updatr_overall={updatr_overall}
                 />
               </Flex>
             );
@@ -306,14 +312,14 @@ const ApplicantProfileScreen = () => {
         <Flex flex={1} row className={styles.tabContainer}>
           {!isTab ? (
             <Flex flex={12} className={styles.tabLeftFlex}>
-              <ApplicantTabLeftOne activeState={isTabValue} />
+              <ApplicantTabLeftOne activeState={isTabValue} updatr_overall={updatr_overall} />
             </Flex>
           ) : (
             <Flex flex={7} className={styles.tabLeftFlex}>
               {stages.length === 0 ? (
-                <ApplicantTabLeftTwo activeState={isTabValue} />
+                <ApplicantTabLeftTwo activeState={isTabValue} updatr_overall={updatr_overall} />
               ) : (
-                <ApplicantTabLeft activeState={isTabValue} />
+                <ApplicantTabLeft activeState={isTabValue} updatr_overall={updatr_overall} />
               )}
             </Flex>
           )}
