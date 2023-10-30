@@ -481,23 +481,16 @@ const ComparativeanalysisModal = ({
                     >
                       {selectedcriteria &&
                         selectedcriteria.payload.analysis
-                         .map((data, indexnum) => data)
-                          .sort((data1, data2) => {
-                            if (
-                              data1.Total_matching_percentage <
-                              data2.Total_matching_percentage
-                            ) {
-                              return -1;
-                            }
-                            if (
-                              data1.Total_matching_percentage >
-                              data2.Total_matching_percentage
-                            ) {
-                              return 1;
-                            }
-                            return 0;
-                          })
-                          .reverse()
+                        .slice() // Create a shallow copy of the array to avoid mutating the original
+                        .sort((data1, data2) => {
+                          if (data1.Total_matching_percentage < data2.Total_matching_percentage) {
+                            return 1; // Sort in descending order
+                          }
+                          if (data1.Total_matching_percentage > data2.Total_matching_percentage) {
+                            return -1;
+                          }
+                          return 0;
+                          }) 
                           .map((e, indexnum) => {
                             return (
                               <Flex
