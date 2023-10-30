@@ -744,6 +744,7 @@ const ComparativeanalysisModal = ({
                   </Flex>
                   {selectedcriteria &&
                     selectedcriteria.payload.analysis 
+                    .map((e, indexnum) => e)
                       .sort((data1, data2) => {
                         if (
                           data1.Total_matching_percentage <
