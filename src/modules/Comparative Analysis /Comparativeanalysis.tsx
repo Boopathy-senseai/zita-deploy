@@ -76,7 +76,7 @@ const ComparativeanalysisModal = ({
   const [addcandidate, setaddcandidate] = useState(false);
   const [isclosemodelwindow,setclosemodelwindow] = useState(false);
   const [value, setval] = useState(false);
-  const [role, setrole] = useState('remove');
+  const [role, setrole] = useState('add');
 
   const [editmodal, seteditmodal] = useState(false);
 
@@ -141,33 +141,25 @@ const ComparativeanalysisModal = ({
           edit_function(Data);
           seteditdata(Data);
           Toast(
-            'Criteria for the comparison updated successfully',
+            'Criteria for the comparison updated successfully.',
             'LONG',
             'success',
           );
         }
         if (values === 'add') {
           Toast(
-            'Candidate list for the comparison updates successfully.',
+            'Candidates successfully updated for comparison.',
             'LONG',
             'success',
           );
-        }
-        if (values === 'remove') {
-          Toast(
-            'Candidate remove  for the comparison updates successfully.',
-            'LONG',
-            'success',
-          );
-        }
-
+        } 
         setaddcandidate(false);
         // edit_function(false);
       } else {
         setLoader(false);
         setolddata(Matching);
-        setclosemodelwindow(false);
-        closemodel();
+         
+        closemodelwindow();
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
           'LONG',
@@ -488,8 +480,7 @@ const ComparativeanalysisModal = ({
                       }}
                     >
                       {selectedcriteria &&
-                        selectedcriteria.payload.analysis
-                          .map((e, indexnum) => e)
+                        selectedcriteria.payload.analysis 
                           .sort((data1, data2) => {
                             if (
                               data1.Total_matching_percentage <
@@ -752,8 +743,7 @@ const ComparativeanalysisModal = ({
                     </Flex>
                   </Flex>
                   {selectedcriteria &&
-                    selectedcriteria.payload.analysis
-                      .map((e, indexnum) => e)
+                    selectedcriteria.payload.analysis 
                       .sort((data1, data2) => {
                         if (
                           data1.Total_matching_percentage <
