@@ -6,7 +6,7 @@ import Text from '../../uikit/Text/Text';
 import SingleButton from '../common/SingleButton';
 import { Comparativeanalysis } from './mock';
 import styles from './matchingcriteria.module.css';
-import Comparativeanalysismodal from './Comparativeanalysis';
+import Comparativeanalysismodal from './comparativeanalysis';
 
 type Props = {
   matchmodel?: any;

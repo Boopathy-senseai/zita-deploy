@@ -32,7 +32,7 @@ import {
   WeightagematchingpostMiddleWare,
   WeightagematchingscoreMiddleWare,
 } from '../createjdmodule/store/middleware/createjdmiddleware';
-import ComparativeModal from '../comparativeanalysis /RecommendationScreen';
+import ComparativeModal from '../comparativeanalysis/RecommendationScreen';
 import SvgRefresh from '../../icons/SvgRefresh';
 import PipelinePopup from './pipelinepopup';
 import {
