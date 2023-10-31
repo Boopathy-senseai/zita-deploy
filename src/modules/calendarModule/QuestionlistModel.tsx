@@ -75,6 +75,15 @@ export const QuestionListModel = ({
         validate: handleCompanyPageValid,
       });
     
+      useEffect(() => {
+        const mappedArray = formikval.values.checkedValues.map(item => ({
+            id: item.id,
+            level: []
+        }));
+        
+        formik.setFieldValue('levellist', mappedArray);
+    }, []);
+    
       const handleSubmit=()=>{
 
     
@@ -82,56 +91,38 @@ export const QuestionListModel = ({
       const [formValues, setFormValues] = React.useState<MyFormValues>(initialValues);
       const handleCheckboxChange = (index: number, event: React.ChangeEvent<HTMLInputElement>, ids: number) => {
         const isChecked = event.target.checked;
-        const updatedValues = { ...formValues };
-    
-        let listItem = updatedValues.levellist.find(item => item.id === ids);
-    
-        if (listItem) {
-            let levelItemIndex = listItem.level.findIndex(lvl => lvl.name === level[index].value);
-            if (levelItemIndex !== -1) {
-                listItem.level[levelItemIndex].checked = isChecked;
-    
-                if (!isChecked) {
-                    listItem.level.splice(levelItemIndex, 1);
+  
+        const updatedValues = JSON.parse(JSON.stringify(formik.values.levellist));
+        let listItem = updatedValues.find(item => item.id === ids);
+        if (!listItem) {
+            console.warn(`No listItem found for ID ${ids}`);
+            return;
+        }
 
-                    if (listItem.level.length === 0) {
-                        updatedValues.levellist = updatedValues.levellist.filter(item => item.id !== ids);
-                    }
-                }
-            } else {
-                listItem.level.push({
-                    name: level[index].value,
-                    easy: '', 
-                    medium: '', 
-                    hard: '', 
-                    checked: isChecked
-                });
+        let levelItemIndex = listItem.level.findIndex(lvl => lvl.name === level[index].value);
+        
+        if (levelItemIndex !== -1) {
+            if (!isChecked) {
+                listItem.level.splice(levelItemIndex, 1);
             }
-        } else {
-            updatedValues.levellist.push({
-                id: ids,
-                level: [{
-                    name: level[index].value,
-                    easy: '', 
-                    medium: '', 
-                    hard: '', 
-                    checked: isChecked
-                }]
+        } else if (isChecked) {
+            listItem.level.push({
+                name: level[index].value,
+                easy: '',
+                medium: '',
+                hard: '',
+                checked: isChecked
             });
         }
-    
-        setFormValues(updatedValues);
+        formik.setFieldValue('levellist', updatedValues);
     };
     
-    
-    const getLevelChecked = (levellist: levellist[], id: number, levelName: string): boolean => {
-        const listItem = levellist.find(item => item.id === id);
-        if (listItem) {
-            const levelItem = listItem.level.find(lvl => lvl.name === levelName);
-            return levelItem ? levelItem.checked : false;
-        }
-        return false;
+
+    const isCheckboxChecked = (userId: number, jobName: string): boolean => {
+        const userItem = formik.values.levellist.find(item => item.id === userId);
+        return userItem?.level.some(lvl => lvl.name === jobName && lvl.checked) || false;
     };
+    
     
 
     return (
@@ -175,10 +166,9 @@ export const QuestionListModel = ({
                                                     {console.log("see_ittt",user.id)}
                                                     <InputCheckBox
                                                         label={modifiedJobList.name}
-                                                        checked={getLevelChecked(formValues.levellist, user.id, modifiedJobList.name) || false}
+                                                        checked={isCheckboxChecked(user.id, modifiedJobList.name)}
                                                         onChange={(event) => handleCheckboxChange(idx, event, user.id)}
                                                     />
-
                                                 </Flex>
                                             );
                                         })}
