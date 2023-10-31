@@ -629,7 +629,7 @@ const ComparativeanalysisModal = ({
                                         marginBottom={1}
                                       ></Flex>
                                       <Flex
-                                        title={`${e?.first_name} ${e?.last_name? e?.last_name: ''}`}
+                                        title={`${e?.first_name?.toLowerCase()} ${e?.last_name? e?.last_name?.toLowerCase(): ''}`}
                                       >
                                         <Text
                                           className={styles.changingtexts}
