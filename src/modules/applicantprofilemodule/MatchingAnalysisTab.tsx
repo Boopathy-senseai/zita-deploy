@@ -245,13 +245,81 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                 <Text bold style={{ fontSize: '14px', marginBottom: '5px' }}>
                   Score Analysis
                 </Text>
-                <Flex>
-              
+                <Flex row className={styles.overallScore}>
+                <Flex row>
+                  <Flex>
+                    <Text size={13}>Profile Compatibility Score:</Text>
+                    </Flex>
+                    <Flex style={{ paddingLeft: "8px" }}>
+                    <ProgressBar
+                      completed={overallpercent}
+                      bgColor={
+                        overallpercent < 40 ? "#FF0000"
+                          : overallpercent >= 40 && overallpercent < 69 ? "#FFC203"
+                            : overallpercent > 69 && "#96E596"
+                      }
+                      width="200px"
+                      borderRadius='4px'
+                      labelColor="black"
+                      labelSize="13px"
+                      labelAlignment="center"
+                      labelClassName={styles.progressbarlabel}
+                      isLabelVisible={true}
+                    >
+                    </ProgressBar>
+                    <Flex
+                      style={{
+                        position: 'absolute',
+                        color: 'black',
+                        width: "200px",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Text size={13} bold color="primary">{overallpercent}</Text>
+                    </Flex>
+                      </Flex>
                 </Flex>
+                <Flex>
+                <Flex row style={{paddingLeft: "20px"}}>
+                  <Flex>
+                    <Text size={13}>Enhanced Matching Score:</Text>
+                    </Flex>
+                    <Flex style={{ paddingLeft: "8px" }}>
+                    <ProgressBar
+                      completed={non_tech_percentage}
+                      bgColor={
+                        non_tech_percentage < 40 ? "#FF0000"
+                          : non_tech_percentage >= 40 && non_tech_percentage < 69 ? "#FFC203"
+                            : non_tech_percentage > 69 && "#96E596"
+                      }
+                      width="200px"
+                      borderRadius='4px'
+                      labelColor="black"
+                      labelSize="13px"
+                      labelAlignment="center"
+                      labelClassName={styles.progressbarlabel}
+                      isLabelVisible={true}
+                    >
+                    </ProgressBar>
+                    <Flex
+                      style={{
+                        position: 'absolute',
+                        color: 'black',
+                        width: "200px",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Text size={13} bold color="primary">{non_tech_percentage}</Text>
+                    </Flex>
+                      </Flex>
+                </Flex>
+                </Flex>
+              
+              </Flex>
               </Flex>
 
               <Flex row className={styles.btnwithContent}>
-                <Flex row>
+                <Flex row className={styles.aligncenter}>
                   <Flex>
                     <Text>Adjust the weightage for job-candidate matching criteria</Text>
                   </Flex>
@@ -285,10 +353,12 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                   )}
                 </Flex>
               </Flex>
-              <Flex row className={styles.overallScore}>
+              {/* <Flex row className={styles.overallScore}>
                 <Flex row>
-                  <Flex><Text size={13}>Overall Score:</Text></Flex>
-                  <Flex style={{ paddingLeft: "8px" }}>
+                  <Flex>
+                    <Text size={13}>Technical Score:</Text>
+                    </Flex>
+                    <Flex style={{ paddingLeft: "8px" }}>
                     <ProgressBar
                       completed={overallpercent}
                       bgColor={
@@ -313,13 +383,47 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                         justifyContent: "center"
                       }}
                     >
-                      <Text size={13} bold color="primary">{overallpercent}%</Text>
+                      <Text size={13} bold color="primary">{overallpercent}</Text>
                     </Flex>
-                  </Flex>
+                      </Flex>
                 </Flex>
                 <Flex>
+                <Flex row style={{paddingLeft: "20px"}}>
+                  <Flex>
+                    <Text size={13}>Non-Technical Score:</Text>
+                    </Flex>
+                    <Flex style={{ paddingLeft: "8px" }}>
+                    <ProgressBar
+                      completed={non_tech_percentage}
+                      bgColor={
+                        non_tech_percentage < 40 ? "#FF0000"
+                          : non_tech_percentage >= 40 && non_tech_percentage < 69 ? "#FFC203"
+                            : non_tech_percentage > 69 && "#96E596"
+                      }
+                      width="200px"
+                      borderRadius='4px'
+                      labelColor="black"
+                      labelSize="13px"
+                      labelAlignment="center"
+                      labelClassName={styles.progressbarlabel}
+                      isLabelVisible={true}
+                    >
+                    </ProgressBar>
+                    <Flex
+                      style={{
+                        position: 'absolute',
+                        color: 'black',
+                        width: "200px",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Text size={13} bold color="primary">{non_tech_percentage}</Text>
+                    </Flex>
+                      </Flex>
                 </Flex>
-              </Flex>
+                </Flex>
+              
+              </Flex> */}
 
 
               <Flex
@@ -336,7 +440,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                         <Flex style={{ padding: "15px" }}>
                           <Flex row marginBottom={10}>
                             <Flex style={{ width: "20%" }}>
-                              <Text bold>Technical Matching</Text>
+                              <Text bold>Profile Compatibility Criteria</Text>
                             </Flex>
                             <Flex style={{ width: '20%' }}>
                               <Text bold>Score (100)</Text>
@@ -356,7 +460,10 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                 <Flex className={styles.innerSliderbarStyle} key={index}>
 
                                   <Flex className={styles.infohead1}>
-                                    <Text>{skill.title}</Text>
+                                    {
+                                      skill.title==='Skills'?(<Text>Technical skills</Text>):(<Text>{skill.title}</Text>)
+                                    }
+                                    
                                   </Flex>
 
                                   <Flex className={styles.infohead2}>
@@ -478,7 +585,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                             <Text bold>Non-Technical Matching</Text>
                           </Flex> */}
                             <Flex style={{ width: "20%" }}>
-                              <Text bold>Non-Technical Matching</Text>
+                              <Text bold>Enhanced Matching Criteria</Text>
                             </Flex>
                             <Flex style={{ width: '20%' }}>
                               <Text bold>Score (100)</Text>

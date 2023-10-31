@@ -70,14 +70,10 @@
 }
 
 .btnwithContent{
-  padding-left: 16px;
+  padding-left: 11px;
   padding-right: 16px;
 }
 
-.overallScore{
-  justify-content: space-between;
-  padding: 10px 16px 0px 16px;
-}
 
 .sliderstyle{
   display: flex;
@@ -373,4 +369,8 @@ justify-content: space-between;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .aligncenter{
+    justify-content: center;
+    align-items: center;
   }
