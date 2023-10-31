@@ -629,17 +629,15 @@ const ComparativeanalysisModal = ({
                                         marginBottom={1}
                                       ></Flex>
                                       <Flex
-                                        title={`${e?.first_name?.toUpperCase()} ${e?.last_name
-                                          ? e?.last_name?.toUpperCase()
-                                          : ''
-                                          }`}
+                                        title={`${e?.first_name} ${e?.last_name? e?.last_name: ''}`}
                                       >
                                         <Text
                                           className={styles.changingtexts}
+                                          style={{textTransform:'capitalize'}}
                                         >
-                                          {e?.first_name?.toUpperCase()}{' '}
+                                          {e?.first_name?.toLowerCase()}{' '}
                                           {e?.last_name
-                                            ? e?.last_name?.toUpperCase()
+                                            ? e?.last_name?.toLowerCase()
                                             : ''}
                                         </Text>
                                       </Flex>
@@ -889,17 +887,17 @@ const ComparativeanalysisModal = ({
                                                 width={110}
                                                 center
                                                 middle
-                                                title={val.first_name}
+                                                title={`${val.first_name} ${val.last_name?val.last_name:''}`}
                                               >
                                                 <Text
                                                   color="white"
                                                   className={
                                                     styles.textelipssisforname
                                                   }
+                                                  style={{textTransform:'capitalize'}}
                                                 >
-                                                  {val.first_name
-                                                    .toLowerCase()
-                                                    .toUpperCase()}
+                                                  {val.first_name.toLowerCase()
+                                                    }
                                                 </Text>
                                               </Flex>
                                             ))}
