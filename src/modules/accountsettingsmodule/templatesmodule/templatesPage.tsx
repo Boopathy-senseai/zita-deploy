@@ -33,6 +33,7 @@ import {
   getPipelineDataMiddleWare,
   updatejobPipelineMiddleWare,
 } from './store/middleware/pipelinesmiddleware';
+import Emailtemplatescreen from './emailtemplates/emailtemplateScreen';
 import DeletePopup from './deletePopup';
 const cx = classNames.bind(styles);
 
@@ -42,6 +43,9 @@ const TemplatesPage = () => {
   );
   const [pipeline, setPipeline] = useState(
     parseInt(sessionStorage.getItem('pipeline')) || 0,
+  );
+  const [workflow, setworkflow] = useState(
+    parseInt(sessionStorage.getItem('workflow')) || 0,
   );
   const [isSubmitLoader, setSubmitLoader] = useState(false);
   const [deletePopup, setDeletePopup] = useState<{
@@ -125,43 +129,154 @@ const TemplatesPage = () => {
   const handleDefault = (data: PipelineData) => {
     dispatch(updatejobPipelineMiddleWare(data));
   };
+
+  const selectjd = () => {
+    setPipeline(2);
+    setTemplate(1);
+    // sessionStorage.setItem('template', '1');
+  };
+
+  const selectmail = () => {
+    setPipeline(3);
+    setTemplate(1);
+    // sessionStorage.setItem('template', '1');
+  };
+  const backtemplate = () => {
+    setPipeline(0);
+    setTemplate(0);
+    setworkflow(2);
+  };
+
   if (template === 0) {
     return (
       <>
         {isLoading && <Loader />}
+
         <Flex className={styles.overflowContainer}>
-          <Flex row marginTop={'10px'} marginLeft={'16px'}>
-            <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-              <TemplateCard
-                icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}
-                title={'Job Pipeline'}
-                subTitle={
-                  'Create, modify, reorder, and delete job pipeline stages'
-                }
-                btnName={'Manage Pipeline'}
-                onClick={() => selectTemplate()}
-              />
+          <>
+            {workflow === 0 ? (
+              <Flex>
+                <Flex row marginTop={'10px'} marginLeft={'16px'}>
+                  <Flex
+                    flex={2}
+                    height={'unset'}
+                    minWidth={200}
+                    marginRight={20}
+                  >
+                    <TemplateCard
+                      icon={
+                        <SvgJobPipeline height={16} width={16} fill="#333333" />
+                      }
+                      title={'Workflow'}
+                      subTitle={''}
+                      btnName={'Manage Workflow'}
+                      onClick={() => selectTemplate()}
+                    />
+                  </Flex>
+
+                  <Flex
+                    flex={2}
+                    height={'unset'}
+                    minWidth={200}
+                    marginRight={20}
+                  >
+                    <TemplateCard
+                      icon={
+                        <SvgJobPipeline height={16} width={16} fill="#333333" />
+                      }
+                      title={'Templates'}
+                      subTitle={''}
+                      btnName={'Manage Templates'}
+                      onClick={() => setworkflow(2)}
+                    />
+                  </Flex>
+                  <Flex flex={6}></Flex>
+                </Flex>
+              </Flex>
+            ) : (
+              ''
+            )}
+          </>
+
+          {/* {workflow === 1 ? (
+            <Flex row marginTop={'10px'} marginLeft={'16px'}>
+              <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
+                <TemplateCard
+                  icon={
+                    <SvgJobPipeline height={16} width={16} fill="#333333" />
+                  }
+                  title={'Job Pipeline'}
+                  subTitle={
+                    'Create, modify, reorder, and delete job pipeline stages'
+                  }
+                  btnName={'Manage Pipeline'}
+                  onClick={() => selectTemplate()}
+                />
+              </Flex>
+              <Flex flex={8}></Flex>
             </Flex>
-            <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-              {/* <TemplateCard
-                icon={<SvgMessages height={16} width={16} />}
-                title={'Message Templates'}
-                subTitle={'Design and send the custom message'}
-                btnName={'Manage Templates'}
-                onClick={() => {}}
-              /> */}
-            </Flex>
-            <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-              {/* <TemplateCard
-                icon={<SvgMessage height={16} width={16} fill="#333333" />}
-                title={'Email Templates'}
-                subTitle={'Easily Create, Analyse and send your Emails'}
-                btnName={'Manage Templates'}
-                onClick={() => {}}
-              /> */}
-            </Flex>
-            <Flex flex={4}></Flex>
-          </Flex>
+          ) : (
+            ''
+          )} */}
+
+          {workflow === 2 ? (
+            <>
+              <Flex className={styles.titleBar}>
+                <Flex
+                  row
+                  center
+                  marginLeft={10}
+                  className={styles.title}
+                  onClick={() => setworkflow(0)}
+                >
+                  <SvgBack height={14} width={14} />
+                  <Text
+                    color="theme"
+                    bold
+                    size={13}
+                    style={{ marginLeft: '5px' }}
+                  >
+                    Templates
+                  </Text>
+                </Flex>
+                <Flex row marginTop={'10px'} marginLeft={'16px'}>
+                  <Flex
+                    flex={2}
+                    height={'unset'}
+                    minWidth={200}
+                    marginRight={20}
+                  >
+                    <TemplateCard
+                      icon={<SvgMessages height={16} width={16} />}
+                      title={'Jd Templates'}
+                      subTitle={'Design and send the custom message'}
+                      btnName={'Manage Templates'}
+                      onClick={() => selectjd()}
+                    />
+                  </Flex>
+                  <Flex
+                    flex={2}
+                    height={'unset'}
+                    minWidth={200}
+                    marginRight={20}
+                  >
+                    <TemplateCard
+                      icon={
+                        <SvgMessage height={16} width={16} fill="#333333" />
+                      }
+                      title={'Email Templates'}
+                      subTitle={'Easily Create, Analyse and send your Emails'}
+                      btnName={'Manage Templates'}
+                      onClick={() => selectmail()}
+                    />
+                  </Flex>
+                  <Flex flex={6}></Flex>
+                </Flex>
+              </Flex>
+            </>
+          ) : (
+            ''
+          )}
         </Flex>
       </>
     );
@@ -180,7 +295,11 @@ const TemplatesPage = () => {
           )}
 
           {isSubmitLoader && <Loader />}
-          <Flex column className={styles.overflowContainer} style={{padding:"0px 10px"}}>
+          <Flex
+            column
+            className={styles.overflowContainer}
+            style={{ padding: '0px 10px' }}
+          >
             <Flex row between className={styles.titleBar}>
               <Flex
                 row
@@ -205,7 +324,12 @@ const TemplatesPage = () => {
               <Button onClick={() => selectPipeline()}>
                 <Flex row center className={styles.pointer}>
                   <SvgAdd height={10} width={10} fill="#FFFFFF" />
-                  <Text bold color="white" size={13} style={{ marginLeft: '10px' }}>
+                  <Text
+                    bold
+                    color="white"
+                    size={13}
+                    style={{ marginLeft: '10px' }}
+                  >
                     Add Pipeline
                   </Text>
                 </Flex>
@@ -228,6 +352,10 @@ const TemplatesPage = () => {
           </Flex>
         </>
       ) : (
+        ''
+      )}
+
+      {pipeline === 1 ? (
         <Flex className={styles.overflowContainer}>
           <JobPipelinePage
             handleBack={backFunction}
@@ -235,7 +363,11 @@ const TemplatesPage = () => {
             wk_id={workId}
           />
         </Flex>
+      ) : (
+        ''
       )}
+      {pipeline === 2 ? <Emailtemplatescreen handleBack={backtemplate} /> : ''}
+      {pipeline === 3 ? <Emailtemplatescreen handleBack={backtemplate} /> : ''}
     </>
   );
 };
@@ -321,7 +453,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   };
   const handleInputLength = (e, fieldName) => {
     const maxLength = 26; // Maximum length allowed
-  
+
     if (e.target.value.length >= maxLength) {
       e.preventDefault(); // Prevent further input
       const truncatedValue = e.target.value.slice(0, maxLength);
@@ -340,11 +472,11 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
               name="pipeline_name"
               value={formik.values.pipeline_name}
               onChange={formik.handleChange('pipeline_name')}
-             onKeyPress={(e) => handleInputLength(e, 'password1')}
+              onKeyPress={(e) => handleInputLength(e, 'password1')}
               lineInput
               size={14}
               className={styles.input}
-            //  onKeyPress={handleKeyPress}
+              //  onKeyPress={handleKeyPress}
               onBlur={formik.handleBlur}
             />
             <ErrorMessage
