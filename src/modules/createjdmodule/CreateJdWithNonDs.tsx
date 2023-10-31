@@ -121,16 +121,7 @@ const CreateJdWithNonDs = () => {
         data: getindustery.data,
       };
     },
-  );
-
-  console.log('1', job_title);
-  console.log('1', job_description);
-  console.log('1', skills);
-  console.log('1', programming_skills);
-  console.log('1', platform_skills);
-  console.log('1', platform_skills);
-  console.log('1', updateQualification);
-  console.log('1', jdTemplates);
+  ); 
 
   useEffect(() => {
     if (!is_plan) {
@@ -191,6 +182,7 @@ const CreateJdWithNonDs = () => {
       programTags: [],
     },
     onsite: '',
+    skillerror:'',
     hybrid: '',
   };
 
@@ -201,16 +193,10 @@ const CreateJdWithNonDs = () => {
 
   return (
     <>
-      <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
-        {(createJdLoader || jdDuplicateLoader) && <Loader />}
-        <JdParserLoader
-          open={jdParserLoader}
-          title="Please wait… Your JD is getting parsed for pre-population"
-        />
         <Flex row center className={styles.step}>
           <StepProgressBar roundFill />
           <StepProgressBar
-            title="Match Weightage"
+            title="Weightage Matching"
             titleclassName={styles.stepTwo}
             stepIndex="2"
           />
@@ -225,6 +211,12 @@ const CreateJdWithNonDs = () => {
             stepIndex="4"
           />
         </Flex>
+      <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
+        {(createJdLoader || jdDuplicateLoader) && <Loader />}
+        <JdParserLoader
+          open={jdParserLoader}
+          title="Please wait… Your JD is getting parsed for pre-population"
+        />
 
         <Formik
           initialValues={initial}
@@ -290,6 +282,8 @@ const CreateJdWithNonDs = () => {
                   setFieldValue={setFieldValue}
                   skill_list={skill_list}
                   values={values}
+                  errors={errors}
+                  touched={touched}
                   skills={skills}
                   jdParseSkill={jdParseSkillEmptyCheck}
                   job_description={job_description}

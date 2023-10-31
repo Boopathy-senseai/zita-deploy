@@ -1,3 +1,6 @@
+.overAll{
+  display: flex;
+}
 .progressStyle {
   margin-top: 8px;
   margin-bottom: 20px;
@@ -67,14 +70,10 @@
 }
 
 .btnwithContent{
-  padding-left: 16px;
+  padding-left: 11px;
   padding-right: 16px;
 }
 
-.overallScore{
-  justify-content: space-between;
-  padding: 10px 16px 0px 16px;
-}
 
 .sliderstyle{
   display: flex;
@@ -126,13 +125,13 @@ justify-content: space-between;
 }
 
 .techcardstyles{
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .nontechcardstyles{
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .sliderheaderstyle{
@@ -177,7 +176,7 @@ justify-content: space-between;
 }
 
 .infohead3{
-  width: 10%;
+  width: 20%;
   display: flex;
   align-items: center;
 }
@@ -349,6 +348,29 @@ justify-content: space-between;
 
   .rarecase{
     display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .moreinformation {
+    color: #fcc203;
+    font-size: 12px;
+    margin-left: 8px;
+    border-bottom: 1px solid #fcc203;
+  }
+
+  .infotitle{
+    padding-bottom:2px;
+  }
+
+  .updateBtnLoader{
+    width: 60px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .aligncenter{
     justify-content: center;
     align-items: center;
   }

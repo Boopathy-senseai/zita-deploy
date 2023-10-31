@@ -43,7 +43,7 @@ import {
   questionnaireSavePayload,
   AIoutput,
 } from '../../createJdTypes';
-import { weightagematching, weightagematchingurl } from '../../../../appRoutesPath';
+import { weightagematching, weightagematchingurl ,weightagescoreurl} from '../../../../appRoutesPath';
 var querystring = require('qs');
 
 export const jdParserMiddleWare = createAsyncThunk(
@@ -605,4 +605,19 @@ export const WeightagematchingpostMiddleWare = createAsyncThunk('weightage_match
       return rejectWithValue(typedError);
     }
   },
+);
+
+export const WeightagematchingscoreMiddleWare = createAsyncThunk(
+  'weightage_score',
+  async ( jd_id: string | undefined , { rejectWithValue }) => {
+    try {
+      const url = jd_id ? `${weightagescoreurl}?jd_id=${jd_id}` : weightagescoreurl;
+      const { data } = await axios.get(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+
 );

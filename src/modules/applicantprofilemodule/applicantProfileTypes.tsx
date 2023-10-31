@@ -270,6 +270,7 @@ export interface Match {
   success: boolean;
   matched_data: Data;
   overall_percentage: number;
+  non_tech_percentage:number;
   location_percent: number;
   skills_percent: number;
   qualification_percent: number;
@@ -280,7 +281,6 @@ export interface Match {
     title:string,
     percentage: number,
     description: string,
-    overall_percentage:number
   }],
   ai_matching:boolean;
   
@@ -288,7 +288,6 @@ export interface Match {
     title:string,
     percentage: number,
     description:string,
-    overall_percentage: number,
     jd_id: number,
     skill_percentage:number,
 }];
@@ -296,7 +295,6 @@ export interface Match {
     title:string,
     percentage: number,
     description:string,
-    overall_percentage: number,
     jd_id: number,
     skill_percentage:number,
  } ];

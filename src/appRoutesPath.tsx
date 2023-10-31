@@ -56,4 +56,5 @@ export const sourcingPerformance = `${routesPath.REPORTS}/sourcing-performance`;
 // meeting scheduler
 
 export const weightagematchingurl = `weightage_matching`;
+export const weightagescoreurl=`weightage_score`
 export const meetingScheduler = `/meeting_scheduler`;

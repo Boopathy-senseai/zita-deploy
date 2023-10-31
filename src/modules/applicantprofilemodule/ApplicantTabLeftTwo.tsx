@@ -26,8 +26,13 @@ import InvitationStatusTab from './InvitationStatusTab';
 const defaultProps = {
   activeState: 0,
 };
-
-const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
+type Props = {
+  updatr_overall?: (val: any) => void;
+};
+const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
+  activeState = defaultProps.activeState, // Use the default value from defaultProps
+  updatr_overall,
+}) => {
   const { status_id, stages, can_id } = useSelector(
     ({ applicantProfileInitalReducers, applicantStausReducers }: RootState) => {
       return {
@@ -68,16 +73,13 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
             <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Invitation Status'}>
-            <ScreeningStatusTab
-              title={'Invitation Status'}
-              issingletab
-            />
+            <ScreeningStatusTab title={'Invitation Status'} issingletab />
           </Tab>
         </Tabs>
       ) : (
@@ -117,7 +119,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
             <EmailScreen isprofileview={true} can_id={can_id} />

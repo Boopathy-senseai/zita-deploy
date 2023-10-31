@@ -7,7 +7,7 @@ import { useDispatch ,useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 
-import { Button, Card, LinkWrapper, Loader, Text, Toast } from '../../uikit';
+import { Button, Card, InputText, LinkWrapper, Loader, Text, Toast } from '../../uikit';
 import { Flex } from '../../uikit'
 
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
@@ -18,7 +18,11 @@ import { routesPath } from '../../routes/routesPath';
 
 import { CANCEL } from '../constValue';
 import SvgModuleicon from '../../icons/SvgModuleicon';
+import SvgRefresh from '../../icons/SvgRefresh';
+import SvgArrowDown1 from '../../icons/SvgArrowDown1';
+import SvgUpArrow from '../../icons/SvgArrowUp';
 import { WeightagematchingpostMiddleWare,WeightagematchinggetMiddleWare } from './store/middleware/createjdmiddleware';
+
 
 
 type ParamsType = {
@@ -84,60 +88,127 @@ const Weightagematching = () => {
     },
   );
 
-  useEffect(()=>{
-      if(success===true)
- {
-          setRangeValueskill(tech.skills);
-          setRangeValuerolles(tech.roles);
-          setRangeValueexperience(tech.exp);
-          setRangeValueQualifications(tech.qualification);
-          setRangeValueTechnical(tech.tech_tools);
-          setRangeValueSoft(tech.soft_skills);
+//   useEffect(()=>{
+//       if(success===true)
+//  {
+//           setRangeValueskill(tech.skills);
+//           setRangeValuerolles(tech.roles);
+//           setRangeValueexperience(tech.exp);
+//           setRangeValueQualifications(tech.qualification);
+//           setRangeValueTechnical(tech.tech_tools);
+//           setRangeValueSoft(tech.soft_skills);
 
-          setRangeValueIndustry(non_tech.industry_exp);
-          setRangeValueDomain(non_tech.domain_exp);
-          setRangeValueCertifications(non_tech.certification);
-          setRangeValueLocation(non_tech.location);
-          setRangeValueCultural(non_tech.cultural_fit);
-          setRangeValueReferences(non_tech.ref);
- }
+//           setRangeValueIndustry(non_tech.industry_exp);
+//           setRangeValueDomain(non_tech.domain_exp);
+//           setRangeValueCertifications(non_tech.certification);
+//           setRangeValueLocation(non_tech.location);
+//           setRangeValueCultural(non_tech.cultural_fit);
+//           setRangeValueReferences(non_tech.ref);
+//  }
 
-    dispatch(WeightagematchinggetMiddleWare(jd_id))
-    .then((res)=>{
-      if (res.payload.success === false) {
-        Toast(
-          'Sorry, there was a problem connecting to the API. Please try again later.',
-          'LONG',
-          'error',
-        );
-      }
-    })
+//     dispatch(WeightagematchinggetMiddleWare(jd_id))
+//     .then((res)=>{
+//       if (res.payload.success === false) {
+//         Toast(
+//           'Sorry, there was a problem connecting to the API. Please try again later.',
+//           'LONG',
+//           'error',
+//         );
+//       }
+//     })
 
-  },[success])
+//   },[success])
+
+useEffect(()=>{
+
+  dispatch(WeightagematchinggetMiddleWare(jd_id))
+ .then((res)=>{
+
+  if(res.payload.success === true){
+
+     if(res.payload !== undefined){
+      console.log("aaaa",res.payload.tech_skills)
+
+              setRangeValueskill(res.payload.tech_skills.skills);
+
+              setRangeValuerolles(res.payload.tech_skills.roles);
+              setRangeValueexperience(res.payload.tech_skills.exp);
+              setRangeValueQualifications(res.payload.tech_skills.qualification);
+              setRangeValueTechnical(res.payload.tech_skills.tech_tools);
+              setRangeValueSoft(res.payload.tech_skills.soft_skills);
+    
+              setRangeValueIndustry(res.payload.non_tech.industry_exp);
+              setRangeValueDomain(res.payload.non_tech.domain_exp);
+              setRangeValueCertifications(res.payload.non_tech.certification);
+             
+              setRangeValueLocation(res.payload.non_tech.location);
+              setRangeValueCultural(res.payload.non_tech.cultural_fit);
+              setRangeValueReferences(res.payload.non_tech.ref);
+            }
+          }
+
+          if(res.payload.success===false)
+          {
+            Toast(
+                        'Sorry, there was a problem connecting to the API. Please try again later.',
+                        'LONG',
+                        'error',
+                      );
+          }
+  
+
+ })
+
+},[])
 
 
 
+  // const updateTechnicalPercent = () => {
+  //   const totalTechnicalPercent =
+  //     rangeValueskill +
+  //     rangeValuerolles +
+  //     rangeValueexperience +
+  //     rangeValueQualifications +
+  //     rangeValueTechnical +
+  //     rangeValueSoft;
+  //   setTechnicalPercent(totalTechnicalPercent);
+  //   settotaltechnical(totalTechnicalPercent)
+  // };
 
   const updateTechnicalPercent = () => {
-    const totalTechnicalPercent =
-      rangeValueskill +
-      rangeValuerolles +
-      rangeValueexperience +
-      rangeValueQualifications +
-      rangeValueTechnical +
-      rangeValueSoft;
+    const rangeValues = [rangeValueskill, rangeValuerolles, rangeValueexperience, rangeValueQualifications, rangeValueTechnical, rangeValueSoft];
+  
+    // Filter out empty or falsy values (you can add more conditions if needed)
+    const validRangeValues = rangeValues.filter(value => value !== '' && value !== 0);
+  
+    // Sum the valid values
+    const totalTechnicalPercent = validRangeValues.reduce((acc, value) => acc + value, 0);
+  
     setTechnicalPercent(totalTechnicalPercent);
-    settotaltechnical(totalTechnicalPercent)
+    settotaltechnical(totalTechnicalPercent);
   };
 
+  // const updateNonTechnicalPercent = () => {
+  //   const totalNonTechnicalPercent =
+  //     rangeValueIndustry +
+  //     rangeValueDomain +
+  //     rangeValueCertifications +
+  //     rangeValueLocation +
+  //     rangeValueCultural +
+  //     rangeValueReferences;
+  //   setNonTechnicalPercent(totalNonTechnicalPercent);
+  //   settotalnontechnical(totalNonTechnicalPercent)
+  // };
+
   const updateNonTechnicalPercent = () => {
-    const totalNonTechnicalPercent =
-      rangeValueIndustry +
-      rangeValueDomain +
-      rangeValueCertifications +
-      rangeValueLocation +
-      rangeValueCultural +
-      rangeValueReferences;
+    const rangeValues = [rangeValueIndustry, rangeValueDomain, rangeValueCertifications, rangeValueLocation, rangeValueCultural, rangeValueReferences];
+  
+    // Filter out empty or falsy values (you can add more conditions if needed)
+    const validRangeValues = rangeValues.filter(value => value !== '' && value !== 0);
+  
+    // Sum the valid values
+    const totalNonTechnicalPercent = validRangeValues.reduce((acc, value) => acc + value, 0);
+
     setNonTechnicalPercent(totalNonTechnicalPercent);
     settotalnontechnical(totalNonTechnicalPercent)
   };
@@ -149,7 +220,7 @@ const Weightagematching = () => {
 
 
 const nextfunction=()=>{
-  if(totalnontechnical===100 && totaltechnical===100){
+  if( totaltechnical===100){
   const list = [{
     'skills': rangeValueskill,  
     'roles':rangeValuerolles,
@@ -190,112 +261,134 @@ const nextfunction=()=>{
 
 
   const handleRangeChange = (e:any) => {
-
+    
+    if(e.target.value==='')
+    {
+     setRangeValueskill('')
+    }else{
     setRangeValueskill(parseInt(e.target.value));
-    updateTechnicalPercent()
-
+    updateTechnicalPercent()}
   };
   const handleRangeChangerole = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValuerolles('')
+    }else{
     setRangeValuerolles(parseInt(e.target.value));
-    updateTechnicalPercent()
-  
+    updateTechnicalPercent()}
   };
   const handleRangeChangeexperience = (e:any) => {
+ 
+    if(e.target.value===""){  
+      setRangeValueexperience('')    
+   }else{
     setRangeValueexperience(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangequalifications = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueQualifications('')
+    }else{
     setRangeValueQualifications(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangetechnical = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueTechnical('')
+    }else{
     setRangeValueTechnical(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
   const handleRangeChangesoft = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueSoft('')
+    }else{
     setRangeValueSoft(parseInt(e.target.value));
-    updateTechnicalPercent()
+    updateTechnicalPercent()}
   };
+
 
 
 
   const handleRangeChangeindustry = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueIndustry('')
+    }else{
     setRangeValueIndustry(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangedomain = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueDomain('')
+    }else{
     setRangeValueDomain(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangecertification = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueCertifications('')
+    }else{
     setRangeValueCertifications(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangelocation = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueLocation('')
+    }else{
     setRangeValueLocation(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangecultural = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueCultural('')
+    }else{
     setRangeValueCultural(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   };
   const handleRangeChangereferences = (e:any) => {
+    if(e.target.value==='')
+    {
+     setRangeValueReferences('')
+    }else{
     setRangeValueReferences(parseInt(e.target.value));
-    updateNonTechnicalPercent()
+    updateNonTechnicalPercent()}
   
   };
-    
+
+  const handleSkillsIncrement = () => {
+    setRangeValueskill(rangeValueskill + 1);
+  };
+
+  const handleSkillsDecrement = () => {
+    if (rangeValueskill > 0) {
+      setRangeValueskill(rangeValueskill - 1);
+    }
+  };   
   
-const resetfunction=()=>{
+const technicalresetfunction=()=>{
   setRangeValueskill(20);
   setRangeValuerolles(20);
   setRangeValueexperience(20);
   setRangeValueQualifications(10);
   setRangeValueTechnical(20);
   setRangeValueSoft(10);
+}
+
+const nontechnicalresetfunction=()=>{
   setRangeValueIndustry(20);
   setRangeValueDomain(20);
   setRangeValueCertifications(20);
   setRangeValueLocation(10);
   setRangeValueCultural(20)
   setRangeValueReferences(10);
-
-  const list = [{
-    // 'skills': rangeValueskill,  
-    // 'roles':rangeValuerolles,
-    // 'exp':rangeValueexperience,
-    // 'qualification':rangeValueQualifications,
-    // 'tech_tools':rangeValueTechnical,
-    // 'soft_skills':rangeValueSoft,
-    // 'industry_exp':rangeValueIndustry,
-    // 'domain_exp':rangeValueDomain,
-    // 'certification':rangeValueCertifications,
-    // 'location':rangeValueLocation,
-    // 'cultural_fit':rangeValueCultural,
-    // 'ref':rangeValueReferences
-    'skills': 20,  
-    'roles':20,
-    'exp':20,
-    'qualification':10,
-    'tech_tools':20,
-    'soft_skills':10,
-    'industry_exp':20,
-    'domain_exp':20,
-    'certification':20,
-    'location':10,
-    'cultural_fit':20,
-    'ref':10
-  }]
-  formData.append("tech",JSON.stringify(list))
-  formData.append("jd_id",jd_id) 
-
-  dispatch(
-    WeightagematchingpostMiddleWare({
-       formData
-    }),
-  ).then((res) => { 
-    console.log("res",res)
-  })
 }
 
 const saveasdraftfunction=()=>{
@@ -343,11 +436,11 @@ const saveasdraftfunction=()=>{
       <Flex row center className={styles.step}>
         <StepProgressBar roundFill />
         <StepProgressBar
-          title="Match Weightage"
+          title="Weightage Matching"
           titleclassName={styles.stepTwo}
           stepIndex="2"
           roundFill
-        />
+        /> 
         <StepProgressBar
           title="Applicant Questionnaire"
           titleclassName={styles.stepThree}
@@ -377,31 +470,49 @@ const saveasdraftfunction=()=>{
           </Flex>
           <Flex>
           {isInfoPopupOpen && (
-            <Card className={styles.cardfront1}>
-              <Flex>
-                <Text>Info</Text>
-                </Flex>
+                    <Card className={styles.cardfront1}>
+                    <Flex>
+                    <Flex row center className={styles.infotitle}>
+                      <SvgModuleicon />{' '}
+                      <Text className={styles.moreinformation}>
+                        More Information
+                      </Text>{' '}
+                    </Flex>
+                    <Flex>
+                    <Text color="gray" size={13}>You can assign and adjust weights to the each criteria based on the specific Job description.</Text>
+                    <Text color="gray" size={13}>The weightage you assign for each criterion in the Technical Matching section is considered for job matching. </Text>
+                    <Text color="gray" size={13}>Higher weights indicate greater importance.</Text>
+                    </Flex> 
+                    </Flex>
                   </Card>
                    )}
                   </Flex>
 
         </Flex>
-        <Flex>
-
-          <Button types="primary" onClick={resetfunction}>
-
-            Reset
-
-          </Button>
-
-        </Flex>
       </Flex>
-      
+
       <Flex className={styles.parent} mt-30>
         
         <Flex style={{ width: "49%" }}>
-          <Flex className={styles.progressbarstyle}>
-            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Technical Matching</Text></Flex>
+          <Flex className={styles.techprogressbarstyle}>
+            <Flex row center className={styles.techtitleblock}>
+              <Flex className={styles.techmatchtitle}>
+                <Text bold>
+                Profile Compatibility Criteria
+                  </Text>
+                </Flex>
+                <Flex 
+                title="Reset Technical Weightage"
+                className={styles.techresetbutton}>
+                    <SvgRefresh
+                      width={18}
+                      height={18}
+                      onClick={technicalresetfunction}
+                      className={styles.filtersvg}
+                      />
+                  </Flex>
+                </Flex>
+
             <Flex style={{
               width: "100px",
               height: "100px"
@@ -409,7 +520,7 @@ const saveasdraftfunction=()=>{
             }}>
               <CircularProgressbar
                 value={technicalPercent}
-                text={`${technicalPercent}%`}
+                text={`${technicalPercent}`}
                 strokeWidth={10}
                 styles={buildStyles({
                   // Rotation of path and trail, in number of turns (0-1)
@@ -442,14 +553,14 @@ const saveasdraftfunction=()=>{
 <Flex marginRight={65} marginLeft={65}>
           <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
-              <Text>Skills</Text>
+              <Text>Technical Skills</Text>
             </Flex>
             <Flex className={styles.innerstyle}>
               <input
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueskill}
+                value={rangeValueskill === '' ? 0 : rangeValueskill}
                 className={styles.customrange}
                 onChange={handleRangeChange}
                 style={{
@@ -461,17 +572,41 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browser
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueskill / 100) * 100}%, #d3d3d3 ${(rangeValueskill / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueskill<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueskill >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueskill}</Text>
+              {/* <Flex row className={styles.numberinputcontainer}> */}
+              <Flex style={{ marginLeft:"25px"}}>
+              <input           
+                  min="0"
+                  max="100"
+                  type="number"
+                  value={rangeValueskill}
+                  onChange={handleRangeChange}  
+                  maxLength={3}
+                  style={{width: rangeValueskill < 99 ? "40px" : "50px"}}
+                  className={styles.scoreinputfield} 
+                  >
+             </input>
+              {/* </Flex> */}
+
+              {/* <Flex marginLeft={5} marginTop={8} className={styles.arrowcontainer}>
+             <Flex className={styles.increaseBtn} onClick={handleSkillsIncrement}>
+             <SvgUpArrow
+                width={8}
+                height={8}
+                fill={"#581845"}/>
+             </Flex>
+             <Flex className={styles.decreaseBtn} onClick={handleSkillsDecrement}>
+                <SvgArrowDown1
+                  width={8}
+                  height={8}
+                  fill={"581845"}/>
+             </Flex>
+             </Flex> */}
+             </Flex>
             </Flex>
           </Flex>
 
@@ -487,7 +622,8 @@ const saveasdraftfunction=()=>{
                 min="0"
                 max="100"
                 className={styles.customrange}
-                value={rangeValuerolles}
+                // value={rangeValuerolles}
+                value={rangeValuerolles === '' ? 0 : rangeValuerolles}
                 onChange={handleRangeChangerole}
                 style={{
                   // Styling with violet color
@@ -499,17 +635,25 @@ const saveasdraftfunction=()=>{
                   margin: '10px 0', // Add margin for spacing
 
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 ${(rangeValuerolles / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValuerolles<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValuerolles >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValuerolles}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"          
+                  value={rangeValuerolles}
+                  onChange={handleRangeChangerole}  
+                  maxLength={3} 
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValuerolles < 99 ? "40px" : "50px",
+              paddingLeft:"5px"}}  
+                  >
+                  </input>
+                  </Flex>
             </Flex>
           </Flex>
        
@@ -524,7 +668,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueexperience}
+                value={rangeValueexperience === '' ? 0 : rangeValueexperience}
                 className={styles.customrange}
                 onChange={handleRangeChangeexperience}
                 style={{
@@ -533,16 +677,24 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 ${(rangeValueexperience / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueexperience<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueexperience >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueexperience}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+             <input
+              type="number"
+              min="0"
+              max="100"             
+              value={rangeValueexperience}
+              onChange={handleRangeChangeexperience}     
+              maxLength={3}
+              className={styles.scoreinputfield}  
+              style={{width: rangeValueexperience < 99 ? "40px" : "50px"}}
+
+              >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -560,7 +712,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueTechnical}
+                value={rangeValueTechnical === '' ? 0 : rangeValueTechnical}
                 onChange={handleRangeChangetechnical}
                 className={styles.customrange}
                 style={{
@@ -570,16 +722,23 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 ${(rangeValueTechnical / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueTechnical<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueTechnical>= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueTechnical}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"           
+                  value={rangeValueTechnical}
+                  onChange={handleRangeChangetechnical}    
+                  maxLength={3} 
+                  className={styles.scoreinputfield}
+                  style={{width: rangeValueTechnical < 99 ? "40px" : "50px"}}
+              >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -595,7 +754,7 @@ const saveasdraftfunction=()=>{
                 min="0"
                 max="100"
                 className={styles.customrange}
-                value={rangeValueSoft}
+                value={rangeValueSoft === '' ? 0 : rangeValueSoft}
                 onChange={handleRangeChangesoft}
                 style={{
                   // Styling with violet color
@@ -604,17 +763,24 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 ${(rangeValueSoft / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueSoft<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueSoft >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueSoft}</Text>
+              <Flex style={{marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueSoft}
+                  onChange={handleRangeChangesoft}   
+                  maxLength={3}  
+                  className={styles.scoreinputfield}   
+                  style={{width: rangeValueSoft < 99 ? "40px" : "50px"}}
+                  >
+                  </input>
+                  </Flex>
             </Flex>
           </Flex>
 
@@ -628,7 +794,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueQualifications}
+                value={rangeValueQualifications === '' ? 0 : rangeValueQualifications}
                 className={styles.customrange}
                 onChange={handleRangeChangequalifications}
                 style={{
@@ -638,17 +804,24 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 ${(rangeValueQualifications / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueQualifications<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueQualifications >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueQualifications}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueQualifications}
+                  onChange={handleRangeChangequalifications} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  style={{width: rangeValueQualifications < 99 ? "40px" : "50px"}}
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -659,8 +832,8 @@ const saveasdraftfunction=()=>{
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
-            }} size={11} color="error">
-                  Technical percentages must equal 100
+            }} size={12} color="error">
+                  Profile Compatibility Criteria must equal 100
             </Text>
           }
          </Flex>
@@ -683,16 +856,31 @@ const saveasdraftfunction=()=>{
         <Flex style={{ width: "49%" }}>
 
           
-          <Flex className={styles.progressbarstyle}>
-            
-            <Flex><Text style={{paddingTop:"10px" ,paddingBottom:'10px'}}>Non-Technical Matching</Text></Flex>
+          <Flex className={styles.nontechprogressbarstyle}>
+          <Flex row center className={styles.nontechtitleblock}>
+              <Flex className={styles.nontechmatchtitle}>
+                <Text bold>
+                Enhanced Matching Criteria
+                  </Text>
+                </Flex>
+                <Flex 
+                title="Reset Non-Technical Weightage"
+                className={styles.nontechresetbutton}>
+                    <SvgRefresh
+                      width={18}
+                      height={18}
+                      onClick={nontechnicalresetfunction}
+                      className={styles.filtersvg}
+                      />
+                  </Flex>
+                </Flex>
             <Flex style={{
               width: "100px",
               height: "100px"
             }}>
               <CircularProgressbar
                 value={nonTechnicalPercent}
-                text={`${nonTechnicalPercent}%`}
+                text={`${nonTechnicalPercent}`}
                 strokeWidth={10}
                 styles={buildStyles({
                   textSize: '16px',
@@ -715,7 +903,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueIndustry}
+                value={rangeValueIndustry === '' ? 0 : rangeValueIndustry}
                 className={styles.customrange}
                 onChange={handleRangeChangeindustry}
                 style={{
@@ -725,16 +913,23 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 ${(rangeValueIndustry / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueIndustry<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueIndustry >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueIndustry}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueIndustry}
+                  onChange={handleRangeChangeindustry} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueIndustry < 99 ? "40px" : "50px"}}
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -748,7 +943,7 @@ const saveasdraftfunction=()=>{
                 min="0"
                 max="100"
                 className={styles.customrange}
-                value={rangeValueDomain}
+                value={rangeValueDomain === '' ? 0 : rangeValueDomain}
                 onChange={handleRangeChangedomain}
                 style={{
                   // Styling with violet color
@@ -757,17 +952,25 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 ${(rangeValueDomain / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueDomain<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueDomain >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueDomain}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueDomain}
+                  onChange={handleRangeChangedomain} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueDomain < 99 ? "40px" : "50px"}}
+
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -781,7 +984,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueCertifications}
+                value={rangeValueCertifications === '' ? 0 : rangeValueCertifications}
                 className={styles.customrange}
                 onChange={handleRangeChangecertification}
                 style={{
@@ -791,16 +994,24 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 ${(rangeValueCertifications / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueCertifications<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueCertifications>= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueCertifications}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueCertifications}
+                  onChange={handleRangeChangecertification} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueCertifications < 99 ? "40px" : "50px"}}
+
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -817,7 +1028,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueCultural}
+                value={rangeValueCultural === '' ? 0 : rangeValueCultural}
                 onChange={handleRangeChangecultural}
                 className={styles.customrange}
                 style={{
@@ -827,16 +1038,24 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 ${(rangeValueCultural / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Text style={{   padding:
-                  rangeValueCultural<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueCultural >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueCultural}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueCultural}
+                  onChange={handleRangeChangecultural} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield} 
+                  style={{width: rangeValueCultural < 99 ? "40px" : "50px"}}
+
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
@@ -850,8 +1069,9 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
+                
                 className={styles.customrange}
-                value={rangeValueReferences}
+                value={rangeValueReferences === '' ? 0 : rangeValueReferences}
                 onChange={handleRangeChangereferences}
                 style={{
                   // Styling with violet color
@@ -860,17 +1080,25 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 ${(rangeValueReferences / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueReferences<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueReferences >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueReferences}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueReferences}
+                  onChange={handleRangeChangereferences} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}   
+                  style={{width: rangeValueReferences < 99 ? "40px" : "50px"}}
+
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
            
@@ -883,7 +1111,7 @@ const saveasdraftfunction=()=>{
                 type="range"
                 min="0"
                 max="100"
-                value={rangeValueLocation}
+                value={rangeValueLocation === '' ? 0 : rangeValueLocation}
                 className={styles.customrange}
                 onChange={handleRangeChangelocation}
                 style={{
@@ -893,31 +1121,39 @@ const saveasdraftfunction=()=>{
                   WebkitAppearance: 'none', // Remove default styling in Webkit browsers
                   margin: '10px 0', // Add margin for spacing
                   cursor: 'pointer', // Show pointer cursor
-                  background: `linear-gradient(to right, #d3d3d3 0%, #581845 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
+                  background: `linear-gradient(to right, #d3d3d3 0%, #996666 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 ${(rangeValueLocation / 100) * 100}%, #d3d3d3 100%)`,
                   borderRadius: '5px', // Add border radius
                 }}
 
               />
-              <Text style={{   padding:
-                  rangeValueLocation<10
-                    ? '0px 10px 0px 27px'
-                    : rangeValueLocation >= 100
-                    ? '0px 10px 0px 12px'
-                    : '0px 10px 0px 20px',}}>{rangeValueLocation}</Text>
+              <Flex style={{ marginLeft:"25px"}}>
+                <input           
+                  type="number"
+                  min="0"
+                  max="100" 
+                  value={rangeValueLocation}
+                  onChange={handleRangeChangelocation} 
+                  maxLength={3}    
+                  className={styles.scoreinputfield}  
+                  style={{width: rangeValueLocation < 99 ? "40px" : "50px"}}
+
+                  >
+             </input>
+             </Flex>
             </Flex>
           </Flex>
 
 
-          <Flex className={styles.sliderstyle}>
+          {/* <Flex className={styles.sliderstyle}>
           {totalnontechnical!==100 &&
             <Text style={{
               display: "flex",
               alignSelf: 'flex-between'
-            }} size={11} color="error">
-                Non-Technical percentages must equal 100
+            }} size={12} color="error">
+                Enhanced matching criteria must equal 100
             </Text>
           }
-         </Flex>
+         </Flex> */}
 </Flex>
         </Flex>
       </Flex>

@@ -89,6 +89,7 @@ import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import MeetingSchedulerScreen from './modules/meetingscheduler/meetingSchedulerScreen';
 import Slotter from './modules/meetingscheduler/events/Slotter';
 import PreviewTabs from './modules/meetingscheduler/events/PreviewTab';
+import NotFound from './modules/Pagenotfoundmodule/pagenotfound';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -460,6 +461,7 @@ const App = () => {
                 notIsNav={route.isNav}
               />
             ))}
+               <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

@@ -38,6 +38,7 @@ type Props = {
   inviteIconNone?: boolean;
   activeState?: number;
   setjobtitle?: any;
+  setjobtitle?: any;
 };
 const ApplicantProfileModal = ({
   jobId,
@@ -50,9 +51,14 @@ const ApplicantProfileModal = ({
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isNotesLoader, setNotesLoader] = useState(true);
-  const [isNotesMeeting, setNotesMeeting] = useState(true);
-
+  const [isNotesMeeting, setNotesMeeting] = useState(true)
+  const [isoverall, setisoverall] = useState<any>(0);
   const dispatch: AppDispatch = useDispatch();
+
+  //Updating overall percentage
+  const updatr_overall = (val) => {
+    setisoverall(val)
+  }
   // initial api call
   useEffect(() => {
     if (jobId !== '0') {
@@ -69,11 +75,10 @@ const ApplicantProfileModal = ({
             can_id: res.payload.can_id,
           }),
         );
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
-          () => {
-            setNotesLoader(false);
-          },
-        );
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(() => {
+          setNotesLoader(false);
+        }
+        )
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantScoreMiddleWare({
@@ -82,13 +87,11 @@ const ApplicantProfileModal = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(
-          (res1) => {
-            if (res1.payload.even !== null) {
-              setNotesMeeting(false);
-            }
-          },
-        );
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then((res1) => {
+          if (res1.payload.even !== null) {
+            setNotesMeeting(false)
+          }
+        })
         dispatch(
           applicantStatusMiddleWare({
             jd_id: res.payload.jd_id,
@@ -101,17 +104,14 @@ const ApplicantProfileModal = ({
       dispatch(
         applicantProfileInitialMiddleWare({ jd_id: 0, can_id: candidateId }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
-          () => {
-            setNotesLoader(false);
-          },
-        );
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(() => {
+          setNotesLoader(false);
+        }
+        )
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(
-          () => {
-            setNotesMeeting(false);
-          },
-        );
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(() => {
+          setNotesMeeting(false)
+        })
       });
     }
   }, []);
@@ -208,9 +208,8 @@ const ApplicantProfileModal = ({
       {/* {isInviteLoader && <Loader />} */}
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup
-          title={`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }. Are you sure to proceed?`}
+          title={`Invite will be sent as an email to ${candidate_details && candidate_details[0].first_name
+            }. Are you sure to proceed?`}
           btnDelete={hanldeInvite}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -221,12 +220,11 @@ const ApplicantProfileModal = ({
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
-              <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } has already been invited for this job on ${getDateString(
-                invite[invite.length - 1].created_at,
-                'll',
-              )}.`}</Text>
+              <Text>{`The candidate ${candidate_details && candidate_details[0].first_name
+                } has already been invited for this job on ${getDateString(
+                  invite[invite.length - 1].created_at,
+                  'll',
+                )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
             </Flex>
           }
@@ -237,10 +235,7 @@ const ApplicantProfileModal = ({
         />
       )}
       <Flex row className={styles.tabContainer}>
-        <Flex
-          height={window.innerHeight}
-          style={{ boxShadow: '2px 2px 2px #D7C7D2', marginRight: '5px' }}
-        >
+        <Flex height={window.innerHeight} style={{ boxShadow: '2px 2px 2px #D7C7D2', marginRight: '5px' }}>
           {candidate_details &&
             candidate_details?.map((candiList, index) => {
               return (
@@ -258,20 +253,22 @@ const ApplicantProfileModal = ({
                   withOutJD={isTab}
                   source={source}
                   inviteIconNone={inviteIconNone}
+                  isoverall={isoverall}
+                  updatr_overall={updatr_overall}
                 />
               );
             })}
         </Flex>
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex} marginTop={10}>
-            <ApplicantTabLeftOne activeState={activeState} />
+            <ApplicantTabLeftOne activeState={activeState} updatr_overall={updatr_overall} />
           </Flex>
         ) : (
           <Flex flex={7} className={styles.tabLeftFlex} marginTop={10}>
             {stages.length === 0 ? (
-              <ApplicantTabLeftTwo activeState={activeState} />
+              <ApplicantTabLeftTwo activeState={activeState} updatr_overall={updatr_overall} />
             ) : (
-              <ApplicantTabLeft activeState={activeState} />
+              <ApplicantTabLeft activeState={activeState} updatr_overall={updatr_overall} />
             )}
           </Flex>
         )}
