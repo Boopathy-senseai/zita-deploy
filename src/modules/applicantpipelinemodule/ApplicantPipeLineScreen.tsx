@@ -184,7 +184,7 @@ const ApplicantPipeLineScreen = ({
 
 
   const nextfunction = () => {
-    if (totaltechnical === 100) {
+    if (totaltechnical === 100 && (totalnontechnical === 100 || totalnontechnical === 0)) {
       const list = [{
         'skills': rangeValueskill,
         'roles': rangeValuerolles,
@@ -2133,18 +2133,18 @@ const ApplicantPipeLineScreen = ({
              </Flex>
                       </Flex>
                     </Flex>
-                    {/* <Flex className={styles.sliderstyle}>
+                    <Flex className={styles.sliderstyle}>
 
 
-                      {totalnontechnical !== 100 &&
-                        <Text style={{
-                          display: "flex",
-                          alignSelf: 'flex-between'
+                    {totalnontechnical !== 0 && totalnontechnical !== 100 && (
+                      <Text style={{
+                        display: "flex",
+                        alignSelf: 'flex-between'
                         }} size={12} color="error">
-                          Enhanced matching criteria must equal 100
-                        </Text>
-                      }
-                    </Flex> */}
+                           Enhanced matching criteria must be equal to 0 or 100
+                          </Text>
+                      )}
+                    </Flex>
                   </Flex>
                 </Flex>
               </Flex>
@@ -2169,7 +2169,13 @@ const ApplicantPipeLineScreen = ({
                     ) : (
 
                       <Button 
-                      disabled={totalnontechnical && totaltechnical !== 100}
+                      // disabled={
+                      //   totaltechnical !== 100 &&
+                      //   totalnontechnical !== 0 &&
+                      //   totalnontechnical > 100
+                      // }
+                      // disabled={(totaltechnical !== 100) && (totalnontechnical !== 100 && totalnontechnical !== 0)}
+                      disabled={totaltechnical === 100 ? ((totalnontechnical === 0 || totalnontechnical === 100) ? (false):(true)):(true)}
                       types="primary" onClick={nextfunction}>
                         Apply
                       </Button>)}

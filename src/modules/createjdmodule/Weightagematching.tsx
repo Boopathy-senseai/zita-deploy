@@ -220,7 +220,7 @@ useEffect(()=>{
 
 
 const nextfunction=()=>{
-  if( totaltechnical===100){
+  if(totaltechnical === 100 && (totalnontechnical === 100 || totalnontechnical === 0)){
   const list = [{
     'skills': rangeValueskill,  
     'roles':rangeValuerolles,
@@ -1144,16 +1144,16 @@ const saveasdraftfunction=()=>{
           </Flex>
 
 
-          {/* <Flex className={styles.sliderstyle}>
-          {totalnontechnical!==100 &&
-            <Text style={{
-              display: "flex",
-              alignSelf: 'flex-between'
-            }} size={12} color="error">
-                Enhanced matching criteria must equal 100
-            </Text>
-          }
-         </Flex> */}
+          <Flex className={styles.sliderstyle}>
+          {totalnontechnical !== 0 && totalnontechnical !== 100 && (
+              <Text style={{
+                display: "flex",
+                alignSelf: 'flex-between'
+                }} size={12} color="error">
+                  Enhanced matching criteria must be equal to 0 or 100
+                </Text>
+               )}
+         </Flex>
 </Flex>
         </Flex>
       </Flex>
