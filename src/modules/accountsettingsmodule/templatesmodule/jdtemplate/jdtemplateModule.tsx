@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text ,Flex,Button} from '../../../../uikit'
 import SvgAdd from '../../../../icons/SvgAdd'
 import SvgBack from '../../../../icons/SvgBack'
 import styles from './jdtemplateModule.module.css'
+import JDopenModal from './jdopenModal'
 
 type jdProps = {
     handleBack: () => void;
   };
 const jdtemplateModule = ({handleBack}:jdProps) => {
+  const [isOpenJDModal, setOpenJDModal]=useState(false)
+
+  const handleJdModal = () => {
+      setOpenJDModal(!isOpenJDModal)
+  }
   return (
     <Flex
         column
@@ -22,7 +28,7 @@ const jdtemplateModule = ({handleBack}:jdProps) => {
             </Text>
           </Flex>
 
-          <Button onClick={() => {}}>
+          <Button onClick={handleJdModal}>
             <Flex row center className={styles.pointer}>
               <SvgAdd height={10} width={10} fill="#FFFFFF" />
               <Text bold color="white" size={13} style={{ marginLeft: '10px' }}>
@@ -30,6 +36,13 @@ const jdtemplateModule = ({handleBack}:jdProps) => {
               </Text>
             </Flex>
           </Button>
+
+          {isOpenJDModal && (
+          <>
+          <JDopenModal open={true} 
+          handleJdModal={handleJdModal}/>
+          </>
+        )}
         </Flex>
       </Flex>
   )
