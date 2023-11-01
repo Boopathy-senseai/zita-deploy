@@ -18,7 +18,7 @@ const jdtemplateModule = ({handleBack}:jdProps) => {
           <Flex row center className={styles.title} onClick={() => handleBack()}>
             <SvgBack height={14} width={14} />
             <Text color="theme" bold size={13} style={{ marginLeft: '5px' }}>
-              JD Template
+            Job Description Templates
             </Text>
           </Flex>
 

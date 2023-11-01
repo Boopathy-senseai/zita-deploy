@@ -24,7 +24,7 @@ const Emailtemplatescreen = ({ handleBack }: props) => {
         >
           <SvgBack height={14} width={14} />
           <Text color="theme" bold size={13} style={{ marginLeft: '5px' }}>
-            Email Template
+            Email Templates
           </Text>
         </Flex>
 

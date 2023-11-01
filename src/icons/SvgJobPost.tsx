@@ -10,6 +10,8 @@ const defaultProps = {
       width: 22,
     
       height: 22,
+
+    
     
     };
     
@@ -25,7 +27,7 @@ const defaultProps = {
           xmlns="http://www.w3.org/2000/svg"
     
           width={width}
-    
+          viewBox="0 0 18 18"
           height={height}
     
           fill={fill}
