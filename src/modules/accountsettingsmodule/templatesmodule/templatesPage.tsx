@@ -33,6 +33,7 @@ import {
   getPipelineDataMiddleWare,
   updatejobPipelineMiddleWare,
 } from './store/middleware/pipelinesmiddleware';
+import JdtemplateModule from './jdtemplate/jdtemplateModule';
 import Emailtemplatescreen from './emailtemplates/emailtemplateScreen';
 import DeletePopup from './deletePopup';
 const cx = classNames.bind(styles);
@@ -366,7 +367,7 @@ const TemplatesPage = () => {
       ) : (
         ''
       )}
-      {pipeline === 2 ? <Emailtemplatescreen handleBack={backtemplate} /> : ''}
+      {pipeline === 2 ? <JdtemplateModule handleBack={backtemplate} /> : ''}
       {pipeline === 3 ? <Emailtemplatescreen handleBack={backtemplate} /> : ''}
     </>
   );
