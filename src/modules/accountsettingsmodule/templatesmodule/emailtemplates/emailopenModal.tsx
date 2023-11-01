@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from '../../../../uikit/Modal/Modal'
 import { Button, Flex, InputText } from '../../../../uikit';
 import Text from '../../../../uikit/Text/Text';
@@ -15,6 +15,20 @@ const Emailopenmodal = ({
   open,
   handleOpenEmailModal,
 }:Props) => {
+
+  const [isTitle, setTitle]=useState("")
+  const [isSubject, setSubject]=useState("")
+  const [isDescription, setDescription]=useState("")
+
+  const handletitle = (e)=> {
+    setTitle(e.target.value)
+  }
+  const handleSubject = (e)=> {
+    setTitle(e.target.value)
+  }
+  const handleDescription = (e)=> {
+    setTitle(e.target.value)
+  }
   return (
     <div>
         <Modal open={open}>
