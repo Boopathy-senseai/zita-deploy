@@ -5,7 +5,7 @@ import { Button, Text, Flex } from '../../../../uikit';
 import Modal from '../../../../uikit/Modal/Modal'
 import styles from './emailtemplateScreen.module.css';
 import Emailopenmodal from './emailopenModal';
-
+import Table from './table';
 type props = {
   handleBack: () => void;
 };
@@ -54,6 +54,9 @@ const Emailtemplatescreen = ({ handleBack }: props) => {
           handleOpenEmailModal={handleOpenEmailModal}/>
           </>
         )}
+        <Flex>
+          <Table/>
+        </Flex>
     </Flex>
   );
 };
