@@ -19,15 +19,30 @@ const Emailopenmodal = ({
   const [isTitle, setTitle]=useState("")
   const [isSubject, setSubject]=useState("")
   const [isDescription, setDescription]=useState("")
-
-  const handletitle = (e)=> {
+  const [errordiscription,seterrordiscription]=useState(false)
+ const [errortitle,seterrortitle]=useState(false)
+  const handletitle = (e:any)=> {
     setTitle(e.target.value)
+    const title=e.target.value;
+    if(title.length>25){
+      seterrortitle(true)
+    }
+    else{
+      seterrortitle(false)
+    }
   }
-  const handleSubject = (e)=> {
-    setTitle(e.target.value)
+  const handleSubject = (e:any)=> {
+    setSubject(e.target.value)
   }
-  const handleDescription = (e)=> {
-    setTitle(e.target.value)
+  const handleDescription = (e:any)=> {
+    setDescription(e.target.value)
+    const description=e.target.value;
+    if(description.length>2000)
+    {
+           seterrordiscription(true)
+    }else{
+      seterrordiscription(false)
+    }
   }
   return (
     <div>
@@ -43,32 +58,39 @@ const Emailopenmodal = ({
                     label="Template Title"
                     labelBold
                     className={styles.templatetitleInput}
+                    onChange={handletitle}
+                    value={isTitle}
+                    maxLength={26}
                     />
                   </Flex>
+                {errortitle&&(
+                  <Text color='error'>Maximum limit of title is 25</Text>
+                )
+                }
 
                   <Flex>
                   <InputText
                     label="Subject Content"
                     labelBold
                     className={styles.subjectcontentInput}
+                    onChange={handleSubject}
+                    value={isSubject}
                     />
                   </Flex>
                   <Flex>
                     <Text bold color="theme" size={13}>
                       Email Content
                     </Text>
-                  <RichText
-                   // onFocus={handleOpenInput}
-                   // onBlur={handleCloseInput}
-                   // onInit={(_a: any, editor: any) => (editorRef.current = editor)}
-                  //  initialValue={values.jobDescription}
+                  <RichText        
                    height={200}
-                   // onChange={() => {
-         
-                   // onDirty();
-                   // }}
+                   onChange={handleDescription}
+                   value={isDescription}
                    />
                   </Flex>
+                  {errordiscription&&(
+                  <Text color='error'>Maximum limit of description is 2000</Text>
+                )
+                }
                 </Flex>
 
                 <Flex className={styles.btnContainer}>
