@@ -18,6 +18,7 @@ import {
 } from '../../../uikit';
 import SvgAdd from '../../../icons/SvgAdd';
 import SvgDotMenu from '../../../icons/SvgDotMenu';
+import SvgJobPost from '../../../icons/SvgJobPost';
 import SvgBack from '../../../icons/SvgBack';
 
 import { isEmpty } from '../../../uikit/helper';
@@ -36,6 +37,8 @@ import {
 import JdtemplateModule from './jdtemplate/jdtemplateModule';
 import Emailtemplatescreen from './emailtemplates/emailtemplateScreen';
 import DeletePopup from './deletePopup';
+
+
 const cx = classNames.bind(styles);
 
 const TemplatesPage = () => {
@@ -166,10 +169,10 @@ const TemplatesPage = () => {
                   >
                     <TemplateCard
                       icon={
-                        <SvgJobPipeline height={16} width={16} fill="#333333" />
+                        <SvgJobPipeline height={16} width={16} fill="#581845" />
                       }
                       title={'Workflow'}
-                      subTitle={''}
+                      subTitle={'Customize the Job Pipeline, Stages and the view of the Information.'}
                       btnName={'Manage Workflow'}
                       onClick={() => selectTemplate()}
                     />
@@ -183,10 +186,10 @@ const TemplatesPage = () => {
                   >
                     <TemplateCard
                       icon={
-                        <SvgJobPipeline height={16} width={16} fill="#333333" />
+                        <SvgJobPost height={16} width={16} />
                       }
                       title={'Templates'}
-                      subTitle={''}
+                      subTitle={'Design and send the custom message'}
                       btnName={'Manage Templates'}
                       onClick={() => setworkflow(2)}
                     />
@@ -248,8 +251,8 @@ const TemplatesPage = () => {
                     marginRight={20}
                   >
                     <TemplateCard
-                      icon={<SvgMessages height={16} width={16} />}
-                      title={'Jd Templates'}
+                      icon={<SvgJobPost height={16} width={16} />}
+                      title={'Job Description Templates'}
                       subTitle={'Design and send the custom message'}
                       btnName={'Manage Templates'}
                       onClick={() => selectjd()}
@@ -263,7 +266,7 @@ const TemplatesPage = () => {
                   >
                     <TemplateCard
                       icon={
-                        <SvgMessage height={16} width={16} fill="#333333" />
+                        <SvgMessage height={16} width={16} fill="#581845" />
                       }
                       title={'Email Templates'}
                       subTitle={'Easily Create, Analyse and send your Emails'}
@@ -648,11 +651,11 @@ interface TemplateCardProps {
 const TemplateCard: React.FC<TemplateCardProps> = (props) => {
   const { title, subTitle, btnName, icon, onClick } = props;
   return (
-    <Card className={styles.cardStructure}>
+    <Card className={styles.cardStructure} >
       <Flex column start className={styles.cardContent}>
         <Flex row start className={styles.cardHeader}>
           {icon}
-          <Text color="black2" bold size={13} style={{ marginLeft: '10px' }}>
+          <Text color="theme" bold size={13} style={{ marginLeft: '10px' }}>
             {title}
           </Text>
         </Flex>
