@@ -550,7 +550,7 @@ const saveasdraftfunction=()=>{
             </Flex>
           
           </Flex>
-<Flex marginRight={65} marginLeft={65}>
+<Flex marginRight={60} marginLeft={60}>
           <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
               <Text>Technical Skills</Text>
@@ -578,7 +578,9 @@ const saveasdraftfunction=()=>{
                 }}
               />
               {/* <Flex row className={styles.numberinputcontainer}> */}
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
               <input           
                   min="0"
                   max="100"
@@ -640,7 +642,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input
                   type="number"
                   min="0"
@@ -681,7 +685,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
              <input
               type="number"
               min="0"
@@ -726,7 +732,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex
+              // style={{ marginLeft:"25px"}}
+              >
                 <input
                   type="number"
                   min="0"
@@ -768,7 +776,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{marginLeft:"25px"}}>
+              <Flex 
+              // style={{marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -809,7 +819,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -893,7 +905,7 @@ const saveasdraftfunction=()=>{
             </Flex>
           </Flex>
 
-<Flex marginLeft={65} marginRight={65}>
+<Flex marginLeft={60} marginRight={60}>
           <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
               <Text>Industry Specific Experience </Text>
@@ -917,7 +929,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -957,7 +971,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -998,7 +1014,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1042,7 +1060,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1085,7 +1105,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1126,7 +1148,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"

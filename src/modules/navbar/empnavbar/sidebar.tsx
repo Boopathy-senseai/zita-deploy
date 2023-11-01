@@ -182,6 +182,13 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
     setCommDropdownOpen(false);
     setBrandDropdownOpen(false);
     setMyaccDropdownOpen(false);
+    sessionStorage.setItem('OverviewDropdown', '0');
+    sessionStorage.setItem('JobsDropdown', '0');
+    sessionStorage.setItem('CandidateDropdown', '0');
+    sessionStorage.setItem('CommunicationDropdown', '0');
+    sessionStorage.setItem('BrandingDropdown', '0');
+    sessionStorage.setItem('MyAccountDropdown', '0');
+
     setOverviewPopupDropdownOpen(false);
     setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
