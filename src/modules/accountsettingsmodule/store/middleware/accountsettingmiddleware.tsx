@@ -59,7 +59,7 @@ export const createemailtemplatepostMiddleWare = createAsyncThunk(
         createemailtemplateApi,
         formData,
       );
-      return data;
+      return data.data;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);

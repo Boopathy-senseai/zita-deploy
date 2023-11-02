@@ -3,11 +3,9 @@ import SvgAdd from '../../../../icons/SvgAdd';
 import SvgBack from '../../../../icons/SvgBack';
 import { Button, Text, Flex } from '../../../../uikit';
 import Modal from '../../../../uikit/Modal/Modal'
-import SvgClose from '../../../../icons/SvgClose';
 import styles from './emailtemplateScreen.module.css';
 import Emailopenmodal from './emailopenModal';
 import Table from './table';
-import TemplateDescriptionmodal from './templatedescriptionModal';
 
 type props = {
   handleBack: () => void;
@@ -19,6 +17,8 @@ type props = {
 const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props) => {
   const [isOpenEmailModal, setOpenEmailModal]=useState(false)
   const [isOpenDeletePopup, setOpenDeletePopup]=useState(false)
+  const [itemvalue,setitemvalue]=useState<any>(null)
+
 
 
   const handleOpenEmailModal = () => {
@@ -32,6 +32,8 @@ const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props
   const handleDeletePopupClose = () => {
     setOpenDeletePopup(false)
   }
+  
+
   return (
     <Flex
       column
@@ -64,14 +66,21 @@ const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props
       </Flex>
         {isOpenEmailModal && (
           <>
-          <Emailopenmodal open={true}
-          handleOpenEmailModal={handleOpenEmailModal}/>
+          <Emailopenmodal 
+            open={true}
+            handleOpenEmailModal={handleOpenEmailModal} 
+            itemvalue={itemvalue}/>
           </>
         )}
         <Flex>
-          <Table/>
+          <Table
+          handleOpenEmailModal={handleOpenEmailModal}
+          setitemvalue={setitemvalue}
+          itemvalue={itemvalue}
+          handleDeletePopupOpen={handleDeletePopupOpen}
+          />
         </Flex>
-        
+
         {isOpenDeletePopup && (
           <>
             <Modal open={true}>

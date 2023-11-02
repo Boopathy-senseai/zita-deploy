@@ -6,17 +6,31 @@ import styles from '../emailtemplates/table.module.css'
 import TemplateDescriptionmodal from './templatedescriptionModal';
 
 type props = {
-  handleBack: () => void;
+  handleOpenEmailModal: () => void;
+  setitemvalue: any;
+  itemvalue:any;
+  handleDeletePopupOpen: ()=>void;
+  
 };
 
 
 
-const Table = () => {
+const Table = ({
+  handleOpenEmailModal,
+  setitemvalue,
+  itemvalue,
+  handleDeletePopupOpen,
+}:props) => {
   
   const [isTempDescModal, setTempDescModal]=useState(false)
   
   const handleTempDescModal = () => {
     setTempDescModal(!isTempDescModal)
+  }
+
+  const oneditfunction=(item:any)=>{
+    handleOpenEmailModal();
+    setitemvalue(item);
   }
 
   return (
@@ -79,8 +93,12 @@ const Table = () => {
         </td>
         <td className={styles.padchang}>
         <Flex row className={styles.actionBtnContainer}>
-            <SvgEdit width={12} height={12} fill={'#581845'} />
-            <SvgDelete width={16} height={16} fill={'#581845'} />
+            <Flex onClick={oneditfunction} style={{cursor:"pointer"}}>
+              <SvgEdit width={12} height={12} fill={'#581845'} />
+              </Flex>
+            <Flex onClick={handleDeletePopupOpen} style={{cursor:"pointer"}}>
+              <SvgDelete width={16} height={16} fill={'#581845'} />
+              </Flex>
         </Flex>
         </td>
       </tr>
