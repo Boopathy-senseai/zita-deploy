@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dropdown, Modal } from 'react-bootstrap'
 import { AppDispatch, RootState } from '../../../../store'
+
 import { Text, Flex, Button, Card, Toast } from '../../../../uikit'
 import SvgAdd from '../../../../icons/SvgAdd'
 import {  jddeleteMiddleWare } from '../../store/middleware/accountsettingmiddleware'
 import SvgDotMenu from '../../../../icons/SvgDotMenu'
 import SvgBack from '../../../../icons/SvgBack'
+
 import { jdTemplatesApiMiddleWare } from '../../../createjdmodule/store/middleware/createjdmiddleware'
 import CancelAndDeletePopup from '../../../common/CancelAndDeletePopup'
+import ViewjdModal from './viewjdModal'
 import styles from './jdtemplateModule.module.css'
 import JDopenModal from './jdopenModal'
-
-
-
 
 
 
@@ -39,6 +39,8 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
   const [isOpenJDModal, setOpenJDModal] = useState(false);
   const [opendelete,setopendelete]=useState(false);
   const [iddelete,setiddelete]=useState<any>()
+  const [idview,setidview]=useState<any>()
+  const [openview,setopenview]=useState(false);
   useEffect(() => {
     dispatch(jdTemplatesApiMiddleWare({ ds_role: '0' })).then((res) => {
       console.log("res=========", res)
@@ -54,7 +56,10 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
   function itemclose(){
     setitemvalue(null)
   }
-
+ 
+  const closeview=()=>{
+    setopenview(false)
+  }
   const oneditfunction=(item:any)=>{
     handleJdModal();
     setitemvalue(item);
@@ -80,8 +85,11 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
            }
     })
   }
+  const openviewfun=(item:any)=>{
+    setopenview(true);
+    setidview(item);
+  }
 
-  console.log("opendelete--->",opendelete)
   return (
     <>
     <Flex
@@ -118,8 +126,16 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
              />
           </>
         )}
+
+        {openview && (
+          <ViewjdModal open={true} setidview={setidview}  idview={idview} closeview={closeview}/>
+        )}
+
+
+        
+       
       </Flex>
-      <Flex className={styles.aligncards}>
+      <Flex className={styles.aligncards} height={window.innerHeight - 207}>
         {console.log("res,", jd_templates)}
         {jd_templates.length !== 0 && (
           jd_templates.map((item) => (
@@ -144,7 +160,7 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
                   borderTop: '1px solid #c3c3c3',
                 }}
               >
-                <Button className={styles.btn2} onClick={() => { }}>
+                <Button className={styles.btn2} onClick={() => openviewfun(item)}>
                   <Text bold color="theme">
                     View template
                   </Text>
@@ -188,9 +204,7 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
       ''
     )}
 
-    {
-      
-    }
+  
     </>
   )
 }

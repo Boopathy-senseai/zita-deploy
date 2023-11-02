@@ -1,0 +1,29 @@
+.descriptionpopup{
+    width: 650px;
+    background: white;
+    padding: 25px 20px 25px 20px;
+    overflow: scroll;
+    max-height: 400px;
+    border-radius:4px;
+  }
+  
+.popupheading{
+    justify-content: space-between;
+ 
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+ }
+.deletepopup{
+    padding: 25px;
+    background-color: white;
+}
+  
+.delBtnContainer{
+    justify-content: flex-end;
+    margin-top:16px;
+
+}
+.listalignment li{
+list-style: disc;
+margin-left: 20px;
+}
