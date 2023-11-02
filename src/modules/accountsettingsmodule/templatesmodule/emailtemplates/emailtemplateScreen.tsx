@@ -3,21 +3,35 @@ import SvgAdd from '../../../../icons/SvgAdd';
 import SvgBack from '../../../../icons/SvgBack';
 import { Button, Text, Flex } from '../../../../uikit';
 import Modal from '../../../../uikit/Modal/Modal'
+import SvgClose from '../../../../icons/SvgClose';
 import styles from './emailtemplateScreen.module.css';
 import Emailopenmodal from './emailopenModal';
+import Table from './table';
+import TemplateDescriptionmodal from './templatedescriptionModal';
 
 type props = {
   handleBack: () => void;
+  open: boolean;
+  handleOpenDescripModal: ()=> void;
 };
 
 
-const Emailtemplatescreen = ({ handleBack }: props) => {
+const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props) => {
   const [isOpenEmailModal, setOpenEmailModal]=useState(false)
+  const [isOpenDeletePopup, setOpenDeletePopup]=useState(false)
+
 
   const handleOpenEmailModal = () => {
     setOpenEmailModal(!isOpenEmailModal)
   }
 
+  const handleDeletePopupOpen = () => {
+    setOpenDeletePopup(true)
+  }
+
+  const handleDeletePopupClose = () => {
+    setOpenDeletePopup(false)
+  }
   return (
     <Flex
       column
@@ -52,6 +66,36 @@ const Emailtemplatescreen = ({ handleBack }: props) => {
           <>
           <Emailopenmodal open={true}
           handleOpenEmailModal={handleOpenEmailModal}/>
+          </>
+        )}
+        <Flex>
+          <Table/>
+        </Flex>
+        
+        {isOpenDeletePopup && (
+          <>
+            <Modal open={true}>
+              <Flex className={styles.deletepopup}>
+              <Flex>
+                <Text>
+                  This action will permenently remove the email template and its content.
+                </Text>
+                <Text>
+                  Are you sure to proceed?
+                </Text>
+              </Flex>
+              <Flex className={styles.delBtnContainer}>
+                <Flex row center width={"140px"} style={{justifyContent:"space-between"}}>
+                  <Button types='close' onClick={handleDeletePopupClose}>
+                    Cancel
+                  </Button>
+                  <Button>
+                    Delete
+                  </Button>
+                  </Flex>
+              </Flex>
+              </Flex>
+            </Modal>
           </>
         )}
     </Flex>

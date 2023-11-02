@@ -1,82 +1,102 @@
-// import { Button, Text, Flex } from '../../../../uikit';
-// import styles from '../emailtemplates/table.module.css'
-// type props = {
-//   handleBack: () => void;
-// };
-// const table = () => {
+import { useState } from 'react';
+import { SvgEdit } from '../../../../icons';
+import SvgDelete from '../../../../icons/SvgDelete';
+import { Button, Text, Flex } from '../../../../uikit';
+import styles from '../emailtemplates/table.module.css'
+import TemplateDescriptionmodal from './templatedescriptionModal';
+
+type props = {
+  handleBack: () => void;
+};
 
 
-//   return (
 
-// <Flex
-//   className="table-responsisssve "
-//   style={{ overflowY: 'scroll', display: 'flex' }}
-//   // height={len_list !== 0 && window.innerHeight - 220}
-// >
-//   <table
-//     className="table"
-//     style={{ paddingLeft: 'none', marginBottom: '0rem' }}
-//   >
-//     <thead className={styles.stickyheader}>
-//       <tr>
-//         <th className={styles.padchange}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Job Title
-//           </Text>
-//         </th>
-//         <th className={styles.padchange} style={{ width: '130px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Job ID
-//           </Text>
-//         </th>
-//         <th className={styles.padchange} style={{ width: '235px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Location
-//           </Text>
-//         </th>
-//         <th className={styles.padchange} style={{ width: '88px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Zita Match
-//           </Text>
-//         </th>
-//         <th className={styles.padchange} style={{ width: '124px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Invited to Apply
-//           </Text>
-//         </th>
-//         <th className={styles.padchange} style={{ width: '90px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Applicants
-//           </Text>
-//         </th>{' '}
-//         <th className={styles.padchange} style={{ width: '135px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Screening Status
-//           </Text>
-//         </th>
-//         {/* <th className="text-center" scope="col">
-//                 <Text color="theme" bold className={styles.tabeboarder}>
-//                   Metric
-//                 </Text>
-//               </th> */}
-//         <th className={styles.padchange} style={{ width: '70px' }}>
-//           <Text color="theme" bold className={styles.tabeboarder}>
-//             Status
-//           </Text>
-//         </th>
-//         <th className={styles.padchange} style={{ width: '100px' }}>
-//           <Text color="theme" bold className={styles.tableboarder}>
-//             Posted on
-//           </Text>
-//         </th>
-//       </tr>
-//     </thead>
-//     <tbody style={{ paddingTop: 20 }} className={styles.tablebody}></tbody>
-//     {/* </Flex> */}
-//   </table>
-// </Flex>
+const Table = () => {
+  
+  const [isTempDescModal, setTempDescModal]=useState(false)
+  
+  const handleTempDescModal = () => {
+    setTempDescModal(!isTempDescModal)
+  }
 
-//   )}
+  return (
+
+<Flex
+  className="table-responsisssve "
+  style={{ overflowY: 'scroll', display: 'flex' }}
+  // height={len_list !== 0 && window.innerHeight - 220}
+>
+  <table
+    className="table"
+    style={{ paddingLeft: 'none', marginBottom: '0rem' }}
+  >
+    <thead className={styles.stickyheader}>
+      <tr>
+        <th className={styles.padchange} style={{width:"40%"}}>
+          <Text color="theme" bold className={styles.tabeboarder}>
+            Template Title
+          </Text>
+        </th>
+        <th className={styles.padchange} style={{width:"15%"}}>
+          <Text color="theme" bold className={styles.tabeboarder}>
+            Subject
+          </Text>
+        </th>
+        <th className={styles.padchange} style={{width:"15%"}}>
+          <Text color="theme" bold className={styles.tabeboarder}>
+            Created By
+          </Text>
+        </th>
+        <th className={styles.padchange} style={{width:"15%"}}>
+          <Text color="theme" bold className={styles.tabeboarder}>
+            Created On
+          </Text>
+        </th>
+        <th className={styles.padchange} style={{width:"15%"}}>
+          <Text color="theme" bold className={styles.tabeboarder}>
+            Actions
+          </Text>
+        </th>
+      </tr>
+    </thead>
+    <tbody style={{ paddingTop: 20 }} className={styles.tablebody}>
+      <tr style={{ height: 50 }}>
+        <td className={styles.padchang}>
+          <Flex onClick={handleTempDescModal}>
+            <Text bold color='theme'>
+              Template Description
+            </Text>
+          </Flex>
+        </td>
+        <td className={styles.padchang}>
+          Subject
+        </td>
+        <td className={styles.padchang}>
+          Created by
+        </td>
+        <td className={styles.padchang}>
+          Created On
+        </td>
+        <td className={styles.padchang}>
+        <Flex row className={styles.actionBtnContainer}>
+            <SvgEdit width={12} height={12} fill={'#581845'} />
+            <SvgDelete width={16} height={16} fill={'#581845'} />
+        </Flex>
+        </td>
+      </tr>
+    </tbody>
+    {/* </Flex> */}
+  </table>
+  <Flex>
+  {isTempDescModal && (
+          <>
+          <TemplateDescriptionmodal open={true} handleTempDescModal={handleTempDescModal}/>
+        </>
+        )}
+  </Flex>
+</Flex>
+
+  )}
 
 
-// export default table;
+export default Table;
