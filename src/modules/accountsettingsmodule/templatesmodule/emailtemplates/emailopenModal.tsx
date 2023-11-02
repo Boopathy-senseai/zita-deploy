@@ -20,7 +20,8 @@ const Emailopenmodal = ({
   const [isSubject, setSubject]=useState("")
   const [isDescription, setDescription]=useState("")
   const [errordiscription,seterrordiscription]=useState(false)
- const [errortitle,seterrortitle]=useState(false)
+  const [errortitle,seterrortitle]=useState(false)
+  const [errorsubject, seterrorsubject]=useState(false)
   const handletitle = (e:any)=> {
     setTitle(e.target.value)
     const title=e.target.value;
@@ -33,6 +34,13 @@ const Emailopenmodal = ({
   }
   const handleSubject = (e:any)=> {
     setSubject(e.target.value)
+    const subject=e.target.value;
+    if(subject.length>250){
+      seterrorsubject(true)
+    }
+    else{
+      seterrorsubject(false)
+    }
   }
   const handleDescription = (e:any)=> {
     setDescription(e.target.value)
@@ -68,17 +76,21 @@ const Emailopenmodal = ({
                 )
                 }
 
-                  <Flex>
+                  <Flex marginTop={5}>
                   <InputText
                     label="Subject Content"
                     labelBold
                     className={styles.subjectcontentInput}
                     onChange={handleSubject}
                     value={isSubject}
+                    maxLength={251}
                     />
+                    {errorsubject && (
+                      <Text color='error'>Maximum limit of subject content is 250</Text>
+                    )}
                   </Flex>
                   <Flex>
-                    <Text bold color="theme" size={13}>
+                    <Text bold color="theme" size={13} style={{margin: "5px 0px 2px 0px"}}>
                       Email Content
                     </Text>
                   <RichText        
