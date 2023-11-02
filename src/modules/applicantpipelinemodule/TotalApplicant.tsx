@@ -22,6 +22,7 @@ import SvgFavourites from '../../icons/SvgFavourties';
 import SvgHeart from '../../icons/SvgHeart';
 import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
+import SvgComparative from '../../icons/Svgcomparative';
 import SvgCsvDownload from '../../icons/SvgCsvDownload';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
@@ -41,6 +42,8 @@ type Props = {
   onExport?: () => void;
   onMove?: (stageId: number) => void;
   onCSVDownload?: () => void;
+  onComparative?: any;
+  Matching?: any;
 };
 
 const TotalApplicant = ({
@@ -54,6 +57,8 @@ const TotalApplicant = ({
   onExport,
   onMove,
   onCSVDownload,
+  onComparative,
+  Matching
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const [movePopup, setMovePopup] = useState(false);
@@ -102,56 +107,76 @@ const TotalApplicant = ({
             {total}
           </Text>
         </Text>
-        {seletedCardsLength > 1 && (
-          <Flex row center>
-            <Flex row center className={styles.bulkSelection}>
-              <Flex marginRight={30}>
+        {/* {seletedCardsLength > 1 && ( */}
+        <Flex row center>
+          <Flex row center className={styles.bulkSelection}>
+            {seletedCardsLength <= 1 ?
+              <Text color="theme">{`Select at least two or more candidates`}</Text> :
+              <Flex marginRight={15}> 
                 <Text color="theme">{`Selected ${seletedCardsLength} applicants`}</Text>
               </Flex>
-
-              <Flex row className={styles.bulkButton}>
-                <Flex
-                  row
-                  center
-                  marginRight={20}
-                  style={{
-                    paddingLeft: '5px',
-                    borderLeft: '1px solid #581845',
-                    cursor: 'pointer',
-                  }}
-                  onClick={!moveDisabled ? handleMoveOpenPipeline : undefined}
+            }
+            <Flex row className={styles.bulkButton}>
+              <Flex
+                row
+                center
+                marginRight={20}
+                style={{
+                  paddingLeft: '5px',
+                  borderLeft: '1px solid #581845',
+                  cursor: 'pointer',
+                }}
+                onClick={!moveDisabled ? handleMoveOpenPipeline : undefined}
+              >
+                <SvgMove
+                  width={12}
+                  height={12}
+                  fill={moveDisabled || seletedCardsLength <= 1 ? '#AB8BA2' : undefined}
+                />
+                <Text
+                  bold
+                  style={{ marginLeft: '10px' }}
+                  color={moveDisabled || seletedCardsLength <= 1 ? 'disabled' : 'theme'}
                 >
-                  <SvgMove
-                    width={12}
-                    height={12}
-                    fill={moveDisabled ? '#AB8BA2' : undefined}
-                  />
-                  <Text bold
-                    style={{ marginLeft: '10px' }}
-                    color={moveDisabled ? 'disabled' : 'theme'}
-                  >
-                    Move
-                  </Text>
-                </Flex>
-                <Flex
-                  row
-                  center
-                  style={{
-                    paddingLeft: '5px',
-                    borderLeft: '1px solid #581845',
-                    cursor: 'pointer',
-                  }}
-                  onClick={onExport}
-                >
-                  <SvgDownload width={14} height={14} />
-                  <Text bold style={{ marginLeft: '10px' }} color="theme">
-                    Export Resumes
-                  </Text>
-                </Flex>
+                  Move
+                </Text>
+              </Flex>
+              <Flex
+                row
+                center
+                style={{
+                  paddingLeft: '5px',
+                  borderLeft: '1px solid #581845',
+                  cursor: 'pointer',
+                }}
+                onClick={onExport}
+                marginRight={10}
+              >
+                <SvgDownload width={14} height={14} fill={seletedCardsLength <= 1 ? '#AB8BA2' : undefined} />
+                <Text bold style={{ marginLeft: '10px' }} color={seletedCardsLength <= 1 ? 'disabled' : 'theme'}>
+                  Export Resumes
+                </Text>
+              </Flex>
+              <Flex
+                row
+                center
+                style={{
+                  paddingLeft: '5px',
+                  borderLeft: '1px solid #581845',
+                  cursor: 'pointer',
+                }}
+                onClick={seletedCardsLength > 5 || seletedCardsLength <= 1?'': onComparative}
+                title={(seletedCardsLength > 5 || seletedCardsLength <= 1) && 'You have the option to choose up to five candidates for the Comparative Analysis.'}
+              >
+                <SvgComparative fill={seletedCardsLength > 5 || seletedCardsLength <= 1 ? '#AB8BA2' : '#581845'} />
+                <Text bold style={{ marginLeft: '10px' }} color={seletedCardsLength <= 1 || seletedCardsLength > 5 ? 'disabled' : 'theme'}>
+                  Comparative Analysis
+                </Text>
               </Flex>
             </Flex>
           </Flex>
-        )}
+        </Flex>
+        {/* )} */}
         <MovePipelinePopup
           openMovePopup={movePopup}
           handleClosePipelinePopup={handleMoveClosePipeline}
@@ -169,7 +194,7 @@ const TotalApplicant = ({
           >
             <Flex row center style={{ cursor: 'pointer' }}>
               <SvgHeart width={13} height={12} filled={isTotalFav} />
-              <Text 
+              <Text
                 style={{ marginLeft: '5px' }}
                 color="theme"
                 title={'Favourite Applicants'}
@@ -205,7 +230,7 @@ const TotalApplicant = ({
 
               <Dropdown.Item onClick={onCSVDownload}>
                 <Flex row center className={styles.dropDownListStyle}>
-                  <SvgCsvDownload height={16} width={16} />
+                  <SvgCsvDownload height={16} width={16} fill={'#1a1a1a'} />
                   <Text style={{ marginLeft: 10 }}>Download CSV</Text>
                 </Flex>
               </Dropdown.Item>

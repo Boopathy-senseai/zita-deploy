@@ -44,11 +44,17 @@ const CandidateScreen = () => {
   const [isTab, setTab] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [isTabValue, setTabValue] = useState(0);
+  const [isoverall, setisoverall] = useState<any>(0);
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
   const query = useQuery();
   const isMessage: any = query.get('isMessage');
+
+  //Updating overall percentage
+  const updatr_overall = (val) => {
+    setisoverall(val)
+  }
 
   useEffect(() => {
     if (!isEmpty(isMessage)) {
@@ -56,11 +62,11 @@ const CandidateScreen = () => {
     }
   }, []);
   // useEffect(()=>{
-    const url = window.location.href;
-    const applicantpipelineUrl = url.includes('/?2'); 
-    if(applicantpipelineUrl){
-      setTabValue(1)
-    }
+  const url = window.location.href;
+  const applicantpipelineUrl = url.includes('/?2');
+  if (applicantpipelineUrl) {
+    setTabValue(1)
+  }
   // },[])
   // initial api call
   useEffect(() => {
@@ -146,7 +152,7 @@ const CandidateScreen = () => {
       history.push('/account_setting/settings');
     }
   });
-  
+
   // open invite popup function
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
@@ -196,13 +202,13 @@ const CandidateScreen = () => {
             >
               <SvgLeft fill={'#581845'} height={16} width={16} />
             </Flex> */}
-          {  jd_id !== null &&
+          {jd_id !== null &&
             <Flex row>
               <Flex marginTop={2}>
                 <SvgJobselection width={16} height={14} />
               </Flex>
               <Flex marginLeft={4}>
-              {jd.job_title} - {jd.job_id}
+                {jd.job_title} - {jd.job_id}
               </Flex>
             </Flex>
           }
@@ -213,9 +219,8 @@ const CandidateScreen = () => {
 
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup
-          title={`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }. Are you sure to proceed?`}
+          title={`Invite will be sent as an email to ${candidate_details && candidate_details[0].first_name
+            }. Are you sure to proceed?`}
           btnDelete={hanldeInvite}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -226,12 +231,11 @@ const CandidateScreen = () => {
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
-              <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } has already been invited for this job on ${getDateString(
-                invite[invite.length - 1].created_at,
-                'll',
-              )}.`}</Text>
+              <Text>{`The candidate ${candidate_details && candidate_details[0].first_name
+                } has already been invited for this job on ${getDateString(
+                  invite[invite.length - 1].created_at,
+                  'll',
+                )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
             </Flex>
           }
@@ -258,10 +262,12 @@ const CandidateScreen = () => {
                   nonMatch={checkMatch}
                   setjobtitle={setjobtitle}
                   withOutJD={isTab}
-                  applieddatecheck ={true}
+                  applieddatecheck={true}
                   profile_match={profileMatch}
                   jdDetails={jd}
-                  isProfileName 
+                  isProfileName
+                  updatr_overall={updatr_overall}
+                  isoverall={isoverall}
                 />
               </Flex>
             );
@@ -269,11 +275,11 @@ const CandidateScreen = () => {
         <Flex flex={1} row className={styles.tabContainer}>
           {!isTab ? (
             <Flex flex={12} className={styles.tabLeftFlex}>
-              <CandiDateTabsLeftOne activeState={isTabValue}/>
+              <CandiDateTabsLeftOne activeState={isTabValue} />
             </Flex>
           ) : (
             <Flex flex={6} className={styles.tabLeftFlex}>
-              <CandiDateTabsLeft activeState={isTabValue} />
+              <CandiDateTabsLeft activeState={isTabValue} updatr_overall={updatr_overall} />
             </Flex>
           )}
         </Flex>

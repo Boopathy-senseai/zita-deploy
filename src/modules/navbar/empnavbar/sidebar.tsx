@@ -182,6 +182,13 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
     setCommDropdownOpen(false);
     setBrandDropdownOpen(false);
     setMyaccDropdownOpen(false);
+    sessionStorage.setItem('OverviewDropdown', '0');
+    sessionStorage.setItem('JobsDropdown', '0');
+    sessionStorage.setItem('CandidateDropdown', '0');
+    sessionStorage.setItem('CommunicationDropdown', '0');
+    sessionStorage.setItem('BrandingDropdown', '0');
+    sessionStorage.setItem('MyAccountDropdown', '0');
+
     setOverviewPopupDropdownOpen(false);
     setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
@@ -435,8 +442,30 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             {isOverviewDropdownOpen && (
               
               <Flex className={styles.liflex}>
+              {super_user === true && roles === "Admin" && (
                 <Flex 
-                  className={styles.overviewdropdownline}></Flex>
+                className={styles.overviewdropdownlinesuperadmin}
+                style={{display: isOverviewDropdownOpen ? "" : "none"}}>
+                </Flex>
+                  )}
+              {super_user === false && roles === "Admin" && (
+                <Flex 
+                className={styles.overviewdropdownlineadmin}
+                style={{display: isOverviewDropdownOpen ? "" : "none"}}>
+                </Flex>
+          )}
+              {roles === "Hiring" && (
+                <Flex 
+                className={styles.overviewdropdownlinehire}
+                style={{display: isOverviewDropdownOpen ? "" : "none"}}>
+                </Flex>
+                  )}
+              {roles === "HR" && (
+                <Flex 
+                className={styles.overviewdropdownlinehr}
+                style={{display: isOverviewDropdownOpen ? "" : "none"}}>
+                </Flex>
+                )}
               <Flex 
               style={{ width: "166px",}}
               className={Expent === "0" ? "" : styles.classpan}
@@ -717,10 +746,30 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               </li>
             {isJobsDropdownOpen && (
             <Flex className={styles.liflex}>
-              <Flex 
-                className={styles.jobsdropdownline}
+              {super_user === true && roles === "Admin" && (
+                <Flex 
+                className={styles.jobsdropdownlinesuperadmin}
                 style={{display: isJobsDropdownOpen ? "" : "none" }}
                   ></Flex>
+              )}
+              {super_user === false && roles === "Admin" && (
+                <Flex 
+                className={styles.jobsdropdownlinehadmin}
+                style={{display: isJobsDropdownOpen ? "" : "none" }}
+                  ></Flex>       
+              )}
+              {roles === "Hiring" && (
+                <Flex 
+                className={styles.jobsdropdownlinehire}
+                style={{display: isJobsDropdownOpen ? "" : "none" }}
+                  ></Flex>       
+              )}
+              {roles === "HR" && (
+                <Flex 
+                className={styles.jobsdropdownlinehr}
+                style={{display: isJobsDropdownOpen ? "" : "none" }}
+                  ></Flex>       
+              )}
             <Flex 
             style={{ width: "166px"}}
             className={Expent === "0" ? "" : styles.classpan}>
@@ -1265,10 +1314,31 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   </li>
           {isCandiDropdownOpen && (
             <Flex className={styles.liflex}>
+              {super_user === true && roles === "Admin" && (
               <Flex 
-                className={styles.candidatesdropdownline}
-                style={{display: isCandiDropdownOpen ? "" : "none" }}
-                  ></Flex>
+              className={styles.candidatesdropdownlinesuperadmin}
+              style={{display: isCandiDropdownOpen ? "" : "none" }}
+                ></Flex>
+
+              )}
+              {super_user === false && roles === "Admin" && (
+              <Flex 
+              className={styles.candidatesdropdownlineadmin}
+              style={{display: isCandiDropdownOpen ? "" : "none" }}
+                ></Flex>
+            )}
+              {roles === "Hiring" && (
+              <Flex 
+              className={styles.candidatesdropdownlinehire}
+              style={{display: isCandiDropdownOpen ? "" : "none" }}
+                ></Flex>
+            )}
+              {roles === "HR" && (
+              <Flex 
+              className={styles.candidatesdropdownlinehr}
+              style={{display: isCandiDropdownOpen ? "" : "none" }}
+                ></Flex>
+            )}
             <Flex 
             style={{ width: "166px"}}
             className={Expent === "0" ? "" : styles.classpan}>
@@ -1574,10 +1644,29 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             </li>
             {isCommDropdownOpen && (
                 <Flex className={styles.liflex}> 
+              {super_user === true && roles === "Admin" && (
                   <Flex 
-                    className={styles.communicationdropdownline}
-                    style={{display: isCommDropdownOpen ? "" : "none" }}
-                      ></Flex>
+                  className={styles.communicationdropdownlinesuperadmin}
+                  style={{display: isCommDropdownOpen ? "" : "none" }}
+                    ></Flex>
+              )}
+              {super_user === false && roles === "Admin" && (
+                  <Flex 
+                  className={styles.communicationdropdownlineadmin}
+                  style={{display: isCommDropdownOpen ? "" : "none" }}
+                    ></Flex>
+            )}
+              {roles === "Hiring" && (
+                  <Flex 
+                  className={styles.communicationdropdownlinehire}
+                  style={{display: isCommDropdownOpen ? "" : "none" }}
+                    ></Flex>            )}
+              {roles === "HR" && (
+                  <Flex 
+                  className={styles.communicationdropdownlinehr}
+                  style={{display: isCommDropdownOpen ? "" : "none" }}
+                    ></Flex>
+                  )}
                 <Flex
                 style={{ width: "166px"}}
                 className={Expent === "0" ? "" : styles.classpan}>
@@ -2179,10 +2268,30 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             </li>
             {isBrandDropdownOpen && (
               <Flex className={styles.liflex}>
+              {super_user === true && roles === "Admin" && (
                 <Flex 
-                  className={styles.brandingdropdownline}
-                  style={{display: isBrandDropdownOpen ? "" : "none" }}
-                    ></Flex>
+                className={styles.brandingdropdownlinesuperadmin}
+                style={{display: isBrandDropdownOpen ? "" : "none" }}
+                  ></Flex>
+            )}
+              {super_user === false && roles === "Admin" && (
+                <Flex 
+                className={styles.brandingdropdownlineadmin}
+                style={{display: isBrandDropdownOpen ? "" : "none" }}
+                  ></Flex>
+          )}
+              {roles === "Hiring" && (
+                <Flex 
+                className={styles.brandingdropdownlinehire}
+                style={{display: isBrandDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                  )}
+              {roles === "HR" && (
+                <Flex 
+                className={styles.brandingdropdownlinehr}
+                style={{display: isBrandDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                )}
               <Flex
                 style={{ width: "166px"}}
                 className={Expent === "0" ? "" : styles.classpan}>
@@ -2385,10 +2494,30 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             </li>
             {isMyaccDropdownOpen && (
               <Flex className={styles.liflex}>
+              {super_user === true && roles === "Admin" && (
                 <Flex 
-                  className={styles.myaccountdropdownline}
-                  style={{display: isMyaccDropdownOpen ? "" : "none" }}
-                    ></Flex>
+                className={styles.myaccountdropdownlinesuperadmin}
+                style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                  )}
+              {super_user === false && roles === "Admin" && (
+                <Flex 
+                className={styles.myaccountdropdownlineadmin}
+                style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                  ></Flex>
+          )}
+              {roles === "Hiring" && (
+                <Flex 
+                className={styles.myaccountdropdownlinehire}
+                style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                  )}
+              {roles === "HR" && (
+                <Flex 
+                className={styles.myaccountdropdownlinehr}
+                style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                )}
                 <Flex 
                 style={{ width: "166px"}}
                   className={Expent === "0" ? "" : styles.classpan}>

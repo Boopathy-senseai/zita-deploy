@@ -284,6 +284,7 @@ const EmailAdd = ({
 
   return (
     <div className={styles.overAll}>
+      {console.log("consoleeeeeee++:::",formik.values)}
       {isEmpty(formik.values.mail) ? (
         <>
           {!isInput && (

@@ -32,7 +32,8 @@ export type dsFormProps = {
     othersTags: SkillsEntity[];
     programTags: SkillsEntity[];
   };
-  nonDsSkill?: [];
+  nonDsSkill?:[];
+  skillerror?:string;
   skillValid?: string;
 };
 

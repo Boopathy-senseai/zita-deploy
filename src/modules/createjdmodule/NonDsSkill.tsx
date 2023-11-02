@@ -1,8 +1,11 @@
 import { memo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { ErrorMessage } from 'formik';
+import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import { AppDispatch, RootState } from '../../store';
+import { isEmpty } from '../../uikit/helper';
+import Flex from '../../uikit/Flex/Flex';
+import Text from '../../uikit/Text/Text';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import LabelWrapper from '../../uikit/Label/LabelWrapper';
 import MenuLists from '../common/MenuList';
@@ -29,6 +32,8 @@ type Props = {
   }[];
   job_description: string;
   onDirty: () => void;
+  errors?:any;
+  touched?: any;
 };
 
 const NonDsSkill = ({
@@ -39,6 +44,8 @@ const NonDsSkill = ({
   jdParseSkill,
   job_description,
   onDirty,
+  errors,
+  touched,
 }: Props) => {
   const { jdId, editJdId } = useParams<ParamsType>();
   // free fill initial skill
@@ -137,8 +144,7 @@ const NonDsSkill = ({
   // );
 
   return (
-    <div className={styles.overAll}>
-      {console.log('hellooooo', values)}
+    <div className={styles.overAll}> 
       <LabelWrapper label="Mandatory Skills" required>
         <SelectTag
           isClearable
@@ -152,10 +158,10 @@ const NonDsSkill = ({
             MenuList: (props) => <MenuLists {...props} />,
           }}
           placeholder="Add skills from suggestion list"
-        />
-        <div className={styles.errorMessage}>
-          <ErrorMessage name={'nonDsSkill'} />
-        </div>
+        /> 
+         <Flex className={styles.errorMessage}>
+       <ErrorMessage name="skillerror" touched={touched} errors={errors} />
+        </Flex> 
       </LabelWrapper>
     </div>
   );

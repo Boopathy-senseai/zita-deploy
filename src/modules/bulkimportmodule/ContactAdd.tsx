@@ -201,12 +201,22 @@ const ContactAdd = ({
     formik.resetForm();
   };
   // outside close input function
+
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
-      formik.setFieldValue('name', value.contact);
+      let contactValue = value.contact;
+  
+      if (contactValue === null) {
+        contactValue = '';
+      }
+      if (contactValue !== null) {
+        formik.setFieldValue('name', contactValue);
+      }
+  
       setInput(false);
     }
-  };
+  }
+  
 // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
@@ -249,28 +259,62 @@ const ContactAdd = ({
   //     //setInputLengthError(true)
   //   }
   //}
+  
 
-  const numberchange = (e: any) => {
-    const newValue = e.target.value;
-  
-    // Check if the input consists of only digits
-    const isOnlyDigits = /^\d*$/.test(newValue);
-  
-    // Check if the input has a maximum length of 15 characters
-    const isWithinMaxLength = newValue.length <= 15;
-  
-    if (isOnlyDigits )
+//   const numberchange = (e: any) => {
+//     let newValue = e.target.value;
+//     console.log(newValue);
     
-    {
-      if(isWithinMaxLength){
-      formik.setFieldValue("name", newValue);
-      setInputLengthError(false);
-    } else {
-      setInputLengthError(true);
-    }}
-  };
+//     if (newValue && typeof newValue === 'string') {
+//       newValue = newValue.replace('+91 -', '');
+//     }
+//     const cleanValue = newValue.replace(/\D/g, '');
+
+//     formik.setFieldValue("name", cleanValue);
+  
+//     const isOnlyDigits = /^\d+$/.test(cleanValue);
+
+//     const isWithinMaxLength = cleanValue.length <= 15;
+    
+//     if (isOnlyDigits && isWithinMaxLength) {
+//       setInputLengthError(false);
+//     } else {
+//       setInputLengthError(true);
+//     }
+// };
+
+const numberchange = (e: any) => {
+  let newValue = e.target.value;
+  console.log(newValue);
+
+  if (!newValue || typeof newValue !== 'string' || newValue === '+91 -') {
+    setInputLengthError(false);
+    formik.setFieldValue("name", "");
+    return;
+  }
+  
+  newValue = newValue.replace('+91 -', '');
+  const cleanValue = newValue.replace(/\D/g, '');
+
+  formik.setFieldValue("name", cleanValue);
+
+  const isOnlyDigits = /^\d+$/.test(cleanValue);
+  const isWithinMaxLength = cleanValue.length <= 15;
+
+  if (isOnlyDigits && isWithinMaxLength) {
+    setInputLengthError(false);
+  } else {
+    setInputLengthError(true);
+  }
+};
+
+
+
+
   return (
     <div className={styles.overAll}>
+      {console.log(formik.values.name,"ˇˇǚformik.values.nameformik.values.nameformik.values.name")}
+      {console.log("front",value)}
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
@@ -307,7 +351,7 @@ const ContactAdd = ({
           <InputText
             // eslint-disable-next-line
             autoFocus
-          
+            maxLength={16}
             value={formik.values.name}
             onChange={(e)=>numberchange(e)}
             lineInput

@@ -19,6 +19,7 @@ import MyDataBaseScreen from './modules/mydatabasemodule/MyDataBaseScreen';
 import CreateJdScreen from './modules/createjdmodule/CreateJdScreen';
 import CreateJdWithDs from './modules/createjdmodule/CreateJdWithDs';
 import CalendarScreen from './modules/calendarModule/CalendarScreen';
+import Weightagematching from './modules/createjdmodule/Weightagematching';
 import {
   accountSettingRoutes,
   applicantPipeLineScreen, 
@@ -41,6 +42,7 @@ import {
   jobPreview,
   jobPreviewView,
   jobQuestionnaire,
+  weightagematching,
   jobSelect,
   loginAuth,
   candidateLogin,
@@ -55,7 +57,7 @@ import {
   calendarRoute,
   inbox,
   meetingScheduler,
-  loginCandidate, 
+  loginCandidate,
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
@@ -87,6 +89,7 @@ import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import MeetingSchedulerScreen from './modules/meetingscheduler/meetingSchedulerScreen';
 import Slotter from './modules/meetingscheduler/events/Slotter';
 import PreviewTabs from './modules/meetingscheduler/events/PreviewTab';
+import NotFound from './modules/Pagenotfoundmodule/pagenotfound';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -326,6 +329,14 @@ const App = () => {
       isside:true
     },
     {
+      path: weightagematching,
+      component: Weightagematching,
+      exact: true,
+      noPermission: Permission.includes('create_post'),
+      isNav: true,
+      isside:true
+    },
+    {
       path: jobPreview,
       component: JdPreviewScreen,
       exact: true,
@@ -450,6 +461,7 @@ const App = () => {
                 notIsNav={route.isNav}
               />
             ))}
+               <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

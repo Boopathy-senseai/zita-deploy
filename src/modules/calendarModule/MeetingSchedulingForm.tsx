@@ -5,14 +5,26 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { Formik, useFormik } from 'formik';
 import { momentLocalizer } from 'react-big-calendar';
 import { useDispatch } from 'react-redux';
 import { SvgAddInterviewers, SvgCalendar } from '../../icons';
+import SvgAdd from '../../icons/SvgAdd';
 import { AppDispatch } from '../../store';
-import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
+import {
+  Button,
+  Flex,
+  InputSearch,
+  InputText,
+  Modal,
+  SelectTag,
+  Text,
+} from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { CrossButton } from '../../uikit/v2';
 import { isEmpty } from '../../uikit/helper';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
+import { THIS_FIELD_REQUIRED } from '../constValue';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -50,6 +62,10 @@ interface Props {
   currentUser: UserInfo;
   handleCloseSchedulingForm: () => void;
   updateCurrentApplicantId: (applicantId: number) => void;
+  setOpenScheduleForm: any;
+  setopenmodel: any;
+  openmodel: any;
+  formik: any;
 }
 
 const MeetingSchedulingForm = ({
@@ -72,6 +88,10 @@ const MeetingSchedulingForm = ({
   calendarProvider,
   updateCurrentApplicantId,
   currentUser,
+  setOpenScheduleForm,
+  setopenmodel,
+  openmodel,
+  formik,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [applicantJDList, setApplicantJDList] = useState([]);
@@ -80,6 +100,40 @@ const MeetingSchedulingForm = ({
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
   );
+  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+  const [list, setlist] = useState('');
+  const [errors, setErrors] = useState([]);
+
+  const [names, setname] = useState<any>([]);
+
+  const updatestate = (val) => {
+    const interviewerExists = formik.values.interviewers.some(
+      (item) => item.userId === val.userId,
+    );
+    if (!interviewerExists) {
+      const newInterviewer = {
+        firstName: val.firstName,
+        lastName: val.lastName,
+        role: '',
+        userId: val.userId,
+      };
+      formik.setFieldValue('interviewers', [
+        ...formik.values.interviewers,
+        newInterviewer,
+      ]);
+      console.log('add');
+    } else {
+      const updatedInterviewers = formik.values.interviewers.filter(
+        (item) => item.userId !== val.userId,
+      );
+      formik.setFieldValue('interviewers', updatedInterviewers);
+      console.log('sub');
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem('role', JSON.stringify(formik.values.interviewers));
+  }, [formik.values]);
 
   const eventMeetingTypes: {
     value: EventMeetingType;
@@ -160,6 +214,14 @@ const MeetingSchedulingForm = ({
   };
 
   const handleContinue = () => {
+    const newErrors = formik.values.interviewers.map((item, idx) => {
+      if (!item.role) {
+        return 'Role is required';
+      }
+      return null;
+    });
+    setErrors(newErrors);
+
     if (localStorage.getItem('Applicantname') !== '') {
       localStorage.setItem(
         'Applicantsname',
@@ -187,7 +249,7 @@ const MeetingSchedulingForm = ({
       return {
         ...form,
         job: { ...form.job, error: jobError },
-        location: {...form.location, error: locationError},
+        location: { ...form.location, error: locationError },
         applicant: { ...form.applicant, error: applicantError },
         eventType: { ...form.eventType, error: eventTypeError },
         timeZone: { ...form.timeZone, error: timeZoneError },
@@ -202,40 +264,12 @@ const MeetingSchedulingForm = ({
         },
       };
     });
-
-    if (editEventDetails) {
-      if (
-        meetingForm.eventType.value &&
-        meetingForm.startTime.value &&
-        meetingForm.date.value !== null &&
-        meetingForm.endTime.value &&
-        new Date(meetingForm.startTime.value) <
-          new Date(meetingForm.endTime.value)
-      ) {
-        setMeetingForm((form) => {
-          const { startDateTime, endDateTime } = getNewDateTimes(
-            form.date.value,
-            form.startTime.value,
-            form.endTime.value,
-          );
-          return {
-            ...form,
-            startDateTime,
-            endDateTime,
-          };
-        });
-        setViewMeetingSummary(true);
-      }
-    } else {
-      if (meetingForm.eventType.value === 'Onsite interview') {
+    if (!newErrors.some((error) => error)) {
+      if (editEventDetails) {
         if (
-          meetingForm.applicant.name &&
-          meetingForm.job.label &&
-          meetingForm.location.value &&
           meetingForm.eventType.value &&
-          meetingForm.timeZone.value &&
-          meetingForm.date.value !== null &&
           meetingForm.startTime.value &&
+          meetingForm.date.value !== null &&
           meetingForm.endTime.value &&
           new Date(meetingForm.startTime.value) <
             new Date(meetingForm.endTime.value)
@@ -252,37 +286,70 @@ const MeetingSchedulingForm = ({
               endDateTime,
             };
           });
-          setViewMeetingSummary(true);
-        } 
-    }
-    else {
-      if (
-        meetingForm.applicant.name &&
-        meetingForm.job.label && 
-        meetingForm.eventType.value &&
-        meetingForm.timeZone.value &&
-        meetingForm.date.value !== null &&
-        meetingForm.startTime.value &&
-        meetingForm.endTime.value &&
-        new Date(meetingForm.startTime.value) <
-          new Date(meetingForm.endTime.value)
-      ) {
-        setMeetingForm((form) => {
-          const { startDateTime, endDateTime } = getNewDateTimes(
-            form.date.value,
-            form.startTime.value,
-            form.endTime.value,
-          );
-          return {
-            ...form,
-            startDateTime,
-            endDateTime,
-          };
-        });
-        setViewMeetingSummary(true);
+          console.log('openform', openmodel);
+          setopenmodel(true);
+        }
+      } else {
+        if (meetingForm.eventType.value === 'Onsite interview') {
+          if (
+            meetingForm.applicant.name &&
+            meetingForm.job.label &&
+            meetingForm.location.value &&
+            meetingForm.eventType.value &&
+            meetingForm.timeZone.value &&
+            meetingForm.date.value !== null &&
+            meetingForm.startTime.value &&
+            meetingForm.endTime.value &&
+            new Date(meetingForm.startTime.value) <
+              new Date(meetingForm.endTime.value)
+          ) {
+            setMeetingForm((form) => {
+              const { startDateTime, endDateTime } = getNewDateTimes(
+                form.date.value,
+                form.startTime.value,
+                form.endTime.value,
+              );
+              return {
+                ...form,
+                startDateTime,
+                endDateTime,
+              };
+            });
+            console.log('openform1111', openmodel);
+            setViewMeetingSummary(true);
+            setopenmodel(true);
+          }
+        } else {
+          if (
+            meetingForm.applicant.name &&
+            meetingForm.job.label &&
+            meetingForm.eventType.value &&
+            meetingForm.timeZone.value &&
+            meetingForm.date.value !== null &&
+            meetingForm.startTime.value &&
+            meetingForm.endTime.value &&
+            new Date(meetingForm.startTime.value) <
+              new Date(meetingForm.endTime.value)
+          ) {
+            setMeetingForm((form) => {
+              const { startDateTime, endDateTime } = getNewDateTimes(
+                form.date.value,
+                form.startTime.value,
+                form.endTime.value,
+              );
+              return {
+                ...form,
+                startDateTime,
+                endDateTime,
+              };
+            });
+            console.log('openform2222', openmodel);
+            setopenmodel(true);
+            setViewMeetingSummary(true);
+          }
+        }
       }
     }
-   }
   };
 
   const handleJobRole = (value: number, label: string) => {
@@ -729,46 +796,169 @@ const MeetingSchedulingForm = ({
       </div>
     </div>
   );
+  const data = [
+    'Software Developer',
+    'System Administrator',
+    'Database Administrator',
+    'Network Engineer',
+    'IT Support Specialist',
+    'Security Analyst',
+    'Cloud Architect',
+    'DevOps Engineer',
+    'Front-end Developer',
+    'Back-end Developer',
+    'Full-stack Developer',
+    'QA Engineer',
+    'Mobile App Developer',
+    'Web Developer',
+    'Data Scientist',
+    'Machine Learning Engineer',
+    'IT Project Manager',
+    'Business Analyst',
+    'UI/UX Designer',
+    'Application Support Analyst',
+    'Technical Writer',
+    'IT Manager',
+    'CTO',
+    'CIO',
+    'Help Desk Technician',
+    'System Architect',
+    'Network Administrator',
+    'IT Consultant',
+    'SEO Specialist',
+    'Data Analyst',
+    'ERP Specialist',
+    'CRM Developer',
+    'Embedded Systems Engineer',
+    'Cybersecurity Specialist',
+    'Game Developer',
+    'Hardware Engineer',
+    'IT Auditor',
+    'Infrastructure Engineer',
+    'IT Coordinator',
+    'IT Sales Representative',
+    'IT Trainer',
+    'Java Developer',
+    'JavaScript Developer',
+    'PHP Developer',
+    'Python Developer',
+    'Ruby Developer',
+    'Solutions Architect',
+    'Technical Support Engineer',
+    'Virtualization Engineer',
+    'Web Designer',
+    'Wireless Communication Engineer',
+    'IoT Developer',
+    'AI Specialist',
+    'Blockchain Developer',
+    'Cloud Solutions Developer',
+    'Digital Transformation Consultant',
+    'E-commerce Specialist',
+    'Network Security Specialist',
+    'RPA Developer',
+    'SaaS Developer',
+    'Virtual Reality Developer',
+  ];
+
+  const handleChange = (ind, e) => {
+    const updatedRole = e.target.value;
+    let updatedNames = [...formik.values.interviewers];
+    updatedNames[ind].role = updatedRole;
+
+    // setname(updatedNames);
+    formik.setFieldValue('interviewers', updatedNames);
+
+    localStorage.setItem('role', JSON.stringify(formik.values.interviewers));
+    onDirty();
+  };
+  const localString = localStorage.getItem('role');
+  const local = localString ? JSON.parse(localString) : [];
 
   const AddInterviewerView = (
-    <div className={styles.addInterviewer}>
-      <label className={styles.label}>Interviewers</label>
-      <div className={styles.icons}>
-        <>
+    <div className={styles.notes1}>
+      <label
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: '5px',
+          marginTop: '10px',
+        }}
+      >
+        <Text bold size={13}>
+          Interviewers
+        </Text>
+
+        <Flex
+          row
+          center
+          onClick={closeAddInterviewerSlider}
+          style={{ cursor: 'pointer' }}
+        >
+          <SvgAdd width={10} height={10} fill="#581854" />
+          <Text bold style={{ padding: '0 0 0 5px' }} color="link">
+            Add Interviewers
+          </Text>
+        </Flex>
+      </label>
+      <div
+        style={{ borderBottom: '0.5px solid #581845', marginBottom: '10px' }}
+      ></div>
+
+      {formik.values.interviewers.length > 0 &&
+        formik.values.interviewers.map((user, index) => (
           <div
-            role={'button'}
-            tabIndex={0}
-            onClick={closeAddInterviewerSlider}
-            style={{ cursor: 'pointer', marginTop: '3px' }}
+            key={index}
+            className={styles.notes2}
+            style={{
+              marginBottom:
+                index !== formik.values.interviewers.length - 1
+                  ? '10px'
+                  : '0px',
+            }}
           >
-            <SvgAddInterviewers />
-          </div>
-          {username && <InterviewerIcon name={username} />}
-          {meetingForm.interviewer.length > 0 &&
-            meetingForm.interviewer.map((user, index) => (
-              <InterviewerIcon
-                name={`${user.firstName} ${user.lastName}`}
-                key={index}
-                index={index}
-              />
-            ))}
-          {openAddInterviewerModal && (
-            <AddInterviewerSlider
-              currentUserEvents={currentUserEvents}
-              currentUser={currentUser}
-              removeTeamInterviewer={removeTeamInterviewer}
-              addTeamInterviewer={addTeamInterviewer}
-              teamMembers={teamMembers}
-              userLabel={currentUserLabel}
-              jd={meetingForm.job.label}
-              username={username}
-              openAddInterviewerModal={openAddInterviewerModal}
-              closeAddInterviewerSlider={closeAddInterviewerSlider}
-              selectedInterviewers={meetingForm.interviewer}
+            <InputText
+              label="Interviewer Name"
+              required
+              value={`${user.firstName} ${user.lastName}`}
+              disabled
             />
-          )}
-        </>
-      </div>
+            <Flex>
+              <InputSearch
+                options={data}
+                setFieldValue={formik.setFieldValue}
+                required
+                name={`interviewers[${index}].role`}
+                label="Role"
+                initialValue={formik.values.interviewers[index]?.role}
+                onChange={(e) => handleChange(index, e)}
+              />
+              {local[index] && local[index].role === '' && errors[index] && (
+                <div className={styles.warn}>{errors[index]}</div>
+              )}
+            </Flex>
+          </div>
+        ))}
+
+      <>
+        {openAddInterviewerModal && (
+          <AddInterviewerSlider
+            currentUserEvents={currentUserEvents}
+            currentUser={currentUser}
+            removeTeamInterviewer={removeTeamInterviewer}
+            addTeamInterviewer={addTeamInterviewer}
+            teamMembers={teamMembers}
+            userLabel={currentUserLabel}
+            jd={meetingForm.job.label}
+            username={username}
+            setlist={setlist}
+            openAddInterviewerModal={openAddInterviewerModal}
+            closeAddInterviewerSlider={closeAddInterviewerSlider}
+            selectedInterviewers={meetingForm.interviewer}
+            updatestate={updatestate}
+          />
+        )}
+      </>
     </div>
   );
 
@@ -868,9 +1058,9 @@ const MeetingSchedulingForm = ({
         </button>
       </div>
       <div>
-        <button onClick={handleContinue} className={styles.continueButton}>
+        <Button onClick={handleContinue} className={styles.continueButton}>
           Continue
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -970,9 +1160,9 @@ const MeetingSchedulingForm = ({
         {<DurationView />}
         {<TimeZoneView />}
         {EventTypeView}
+        {RemindarView}
         {AddInterviewerView}
         {LocationView}
-        {RemindarView}
         {NotesView}
         {PrivateNotesView}
       </div>

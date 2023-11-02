@@ -51,7 +51,7 @@ const LogFileTab = ({ getKey }: Props) => {
             const line = list.includes('Import ') ? true : false;
             const boldhead = list.includes('Overall') ? true : false;
             const index1 = index === 0 || index + 1 === row.length || over;
-            const themecolor = list.includes('File imported') ? true : false;
+            const themecolor = list.includes('File Imported') ? true : false;
             const themecolor1 = list.includes('Successful') ? true : false;
             const themecolor2 = list.includes('Failed') ? true : false;
             const theme = themecolor || themecolor1 || themecolor2;

@@ -94,6 +94,7 @@ const JobDetails = ({
   errors,
   touched,
   setDraftSave,
+  
   onPristine,
   onDirty,
 }: Props) => {

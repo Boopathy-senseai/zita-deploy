@@ -15,7 +15,9 @@ import {
   TemplateState,
   UpdateJdState,
   valiDateJdState,
-  IndustryState
+  IndustryState,
+  weightageState,
+
 } from '../../createJdTypes';
 import {
   createJdMiddleWare,
@@ -33,7 +35,9 @@ import {
   questionnaireTemplateMiddleWare,
   selectDsorNonDsMiddleWare,
   validateJobIDMiddleWare,
-  industryType
+  industryType,
+  WeightagematchinggetMiddleWare,
+  
 } from '../middleware/createjdmiddleware';
 
 const jdParserState: JDParserReducerState = {
@@ -698,8 +702,59 @@ const industryStates = createSlice({
       }
     });
   },
+
 });
 
+
+
+
+const weightageInitial: weightageState= {
+  isLoading: false,
+  
+  error: '',
+  success:false,
+  tech_skills:{
+    skills: 0,
+    roles:0,
+    exp:0,
+    qualification:0,
+    tech_tools:0,
+    soft_skills:0,
+  },
+  
+  non_tech:{
+   industry_exp:0,
+   domain_exp:0,
+   certification:0,
+   location:0,
+   cultural_fit:0,
+   ref:0,
+  }
+};
+
+const weightageReducer = createSlice({
+  name: 'createjd',
+  initialState: weightageInitial,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(WeightagematchinggetMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(WeightagematchinggetMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.tech_skills= action.payload.tech_skills;
+      state.non_tech= action.payload.non_tech;
+      state.success=action.payload.success;
+    });
+    builder.addCase(WeightagematchinggetMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
 
 
 
@@ -719,4 +774,5 @@ export const dsOrNonDsGetReducers = dsOrNonDsGetReducer.reducer;
 export const postReducers = postReducer.reducer;
 export const selectDsorNonDsReducers = selectDsorNonDsReducer.reducer;
 export const getindustery = industryStates.reducer;
+export const weightageReducers=weightageReducer.reducer;
 
