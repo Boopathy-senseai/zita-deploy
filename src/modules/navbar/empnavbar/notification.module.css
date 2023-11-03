@@ -539,32 +539,109 @@ font-family: 'Courier New', Courier, monospace;
   justify-content: flex-end;
 }
 
-.overviewdropdownline{
+.overviewdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 68px;
 }
 
-.jobsdropdownline{
+.overviewdropdownlineadmin{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+
+.overviewdropdownlinehr{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+
+.overviewdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+.jobsdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 104px;
 }
 
-.candidatesdropdownline{
+.jobsdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+.jobsdropdownlinehr{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+.jobsdropdownlinehadmin{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+.candidatesdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 104px;
 }
 
-.communicationdropdownline{
+.candidatesdropdownlineadmin{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+
+.candidatesdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 35px;
+}
+
+.candidatesdropdownlinehr{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+
+.communicationdropdownlinesuperadmin{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 140px;
+}
+.communicationdropdownlineadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 140px;
 }
 
-.brandingdropdownline{
+.communicationdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 140px;
+}
+.communicationdropdownlinehr{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 140px;
+}
+
+.brandingdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 68px;
 }
-
-.myaccountdropdownline{
+.brandingdropdownlineadmin{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+.brandingdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+.brandingdropdownlinehr{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 35px;
+}
+.myaccountdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 104px;
+}
+.myaccountdropdownlineadmin{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 35px;
+}
+.myaccountdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 35px;
+}
+.myaccountdropdownlinehr{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 35px;
 }

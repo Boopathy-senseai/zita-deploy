@@ -133,7 +133,7 @@ const CandidateDatabaseTab = ({
     incompleted,
     features_balance,
     upDateloader,
-    Resume_parsing_count,
+   
   } = useSelector(
     ({
       bulkUploadedCandidatesReducers,
@@ -147,18 +147,11 @@ const CandidateDatabaseTab = ({
         incompleted: bulkUploadedCandidatesReducers.incompleted,
         features_balance: bulkImportReducers.features_balance,
         upDateloader: bulkUploadedCandidatesReducers.isLoading,
-        Resume_parsing_count:dashboardEmpReducers.Resume_parsing_count
+       
       };
     },
   );
-  const [count, setcount] = useState(Resume_parsing_count);
-  useEffect(() => {
-    dispatch(dashBoardMiddleWare()).then((res1) => {
-      setcount(res1.payload.Resume_parsing_count)
-    });
-   
-  }, []);
-
+  
  
  const [isPageTab, setPageTab] = useState(total_count);
 
@@ -310,8 +303,8 @@ const CandidateDatabaseTab = ({
   };
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then((response) => {
-      setcount(response.payload.Resume_parsing_count)
+    dispatch(bulkuploadedParsingMiddleWare({parser:"1"})).then((response) => {
+      
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then(() => {
         setPageNumber(0);
       });
@@ -370,7 +363,7 @@ const CandidateDatabaseTab = ({
   const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
   return (
     <Flex className={styles.candidatedatabase}>
-      {console.log("formik:::::formik",formik.values,Resume_parsing_count)}
+    
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -443,10 +436,19 @@ const CandidateDatabaseTab = ({
       <Modal open={model}>
         <Flex
           className={verify === true ? styles.bulkmodel : styles.verifymodel}
-          style={{ height:formik.values.parser === '1'? '363px' : '' }}
+          style={{ height: '330px' }}
         >
-     
-          {verify === true ? (
+          <CandidateDatabase
+              setmodel={setmodel}
+              verifymodel={update}
+              hanldeParsing={hanldeParsing}
+              setParse={handleOpenParse}
+              isBulkLoader={localStorage.getItem('bulk_loader')}
+              setUpgrade={setUpgrade}
+              candidatesLimit={features_balance}
+              formik={formik.values.parser}
+            />
+          {/* {verify === true ? (
             <CandidateDatabase
               setmodel={setmodel}
               verifymodel={update}
@@ -527,7 +529,7 @@ const CandidateDatabaseTab = ({
                 </Flex>
               </Flex>
             </Flex>
-          )}
+          )} */}
         </Flex>
       </Modal>
       

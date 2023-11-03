@@ -24,7 +24,7 @@ type MyProps = {
   isjdId: string;
   setmodel?:any;
   verifymodel?: any;
-  Resume_parsing_count:any;
+
   formik:any;
 
 };
@@ -38,7 +38,7 @@ type MyState = {
   verifymodel?: any;
   popups:boolean;
   value:string;
-  error:string;
+
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
@@ -54,7 +54,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       isMb: false,
       popups:false,
       value:'',
-      error:'',
+
     };
     this.fileUploaderRef = createRef();
   }
@@ -244,7 +244,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       ) {
         this.props.setUpgrade(true);
       } else {
-        if(this.props.Resume_parsing_count>=unique.length){
+       
         this.props.setParse();
         axios
           .post(bulkImportApi, formData)
@@ -256,10 +256,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           .catch(() => {});
           this.props.setmodel(false);
           this.props.verifymodel();
-        }
-        else{
-          this.setState({ error: 'You do not have enough parsing credits.' });
-        }
+        
+        
       }
 
     };
@@ -346,23 +344,9 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       </Modal>
       <Flex  center  >
         <Text  bold size={14}> Add Attachment </Text>
-        { this.props.formik==='1'&&(
-         <Flex row between>
-            <Flex row>
-              <Text>
-              You can parse 10 resume for this limit. Do you wish to 
-              <Text bold color='link' style={{marginLeft:'5px'}} onClick={handlechange}>Buy credits ?</Text>
-              
-              </Text>
-            </Flex>
-            <Flex>
-              <Text bold>
-              Available Parsing Credit : ${this.props.Resume_parsing_count}
-              </Text>
-            </Flex>
-          </Flex>
-        )
-         }
+       
+         
+       
         <CancelAndDeletePopup
           title={'Are you sure want to delete the files?'}
           btnCancel={() => this.setState({ bulkDelete: false })}
@@ -464,10 +448,9 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             )}
           </Flex>
         </div>
-        {this.props.formik==='1'&&(
-        <Text color='error'>{this.state.error}</Text>
-        )
-        }
+        
+        
+        
           {this.props.isBulkLoader === 'true' ? (
             <Flex  row  between className={styles.btnContainer}>
             <Flex row center className={styles.loaderStyle} style={{marginTop:'0px'}}>
@@ -479,12 +462,12 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             </Flex>
           ) : (
             <Fragment>
-            <Flex  row  between style={{marginTop:this.props.formik==='1'?'20px':'10px'}} >
+            <Flex  row  between style={{marginTop:'20px'}} >
             <Flex>
            
             {checkSelectLength && (
               <Button
-                onClick={() => this.setState({ bulkDelete: true,error:'' })}
+                onClick={() => this.setState({ bulkDelete: true })}
                 className={styles.clearStyle}
                 width={'100%'}
                 types='secondary'

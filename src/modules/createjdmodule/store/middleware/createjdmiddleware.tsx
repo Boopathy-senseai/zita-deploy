@@ -22,6 +22,7 @@ import {
   industrytype,
   AioutputApi,
   whatjobstatusApi,
+  weightagemating 
 } from '../../../../routes/apiRoutes';
 import {
   JD_CREATE,
@@ -42,6 +43,7 @@ import {
   questionnaireSavePayload,
   AIoutput,
 } from '../../createJdTypes';
+import { weightagematching, weightagematchingurl ,weightagescoreurl} from '../../../../appRoutesPath';
 var querystring = require('qs');
 
 export const jdParserMiddleWare = createAsyncThunk(
@@ -555,4 +557,67 @@ export const selectDsorNonDsMiddleWare = createAsyncThunk(
       return rejectWithValue(typedError);
     }
   },
+);
+// export const WeightagematchingMiddleWare = createAsyncThunk(
+//   'weightage_matching',
+//   async (_a, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get(weightagemating(''));
+//       return data;
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+
+
+// );
+export const WeightagematchinggetMiddleWare = createAsyncThunk(
+  'weightage_matching',
+  async ( jd_id: string | undefined , { rejectWithValue }) => {
+    try {
+      const url = jd_id ? `${weightagematchingurl}?pk=${jd_id}` : weightagematchingurl;
+      const { data } = await axios.get(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+
+);
+
+
+
+
+export const WeightagematchingpostMiddleWare = createAsyncThunk('weightage_matching/',
+  
+  async ({ formData }: any, { rejectWithValue }) => {
+    
+    try {
+      const { data } = await axios.post(
+        weightagematchingurl,
+        formData
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const WeightagematchingscoreMiddleWare = createAsyncThunk(
+  'weightage_score',
+  async ( jd_id: string | undefined , { rejectWithValue }) => {
+    try {
+      const url = jd_id ? `${weightagescoreurl}?jd_id=${jd_id}` : weightagescoreurl;
+      const { data } = await axios.get(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+
 );

@@ -59,7 +59,7 @@ export const createemailtemplatepostMiddleWare = createAsyncThunk(
         createemailtemplateApi,
         formData,
       );
-      return data;
+      return data.data;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -73,6 +73,34 @@ export const jddeleteMiddleWare = createAsyncThunk(
     try {
       console.log("id",id)
       const url = id ? `${createjdtemplateApi}?id=${id}` : createjdtemplateApi;
+      const { data } = await axios.delete(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const emailtemplatesgetMiddleWare = createAsyncThunk(
+  "messages_templates",
+  async (_a, { rejectWithValue }) => {
+    try {
+      
+      const { data } = await axios.get(createemailtemplateApi);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const emailtemplatesdeleteMiddleWare = createAsyncThunk(
+  "messages_templates",
+  async ( id : any, { rejectWithValue }) => {
+    try {
+      const url = id ? `${createemailtemplateApi}?id=${id}` : createemailtemplateApi
       const { data } = await axios.delete(url);
       return data;
     } catch (error) {

@@ -26,13 +26,18 @@ import InvitationStatusTab from './InvitationStatusTab';
 const defaultProps = {
   activeState: 0,
 };
-
-const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
-  const { status_id,stages,can_id } = useSelector(
-    ({ applicantProfileInitalReducers,applicantStausReducers }: RootState) => {
+type Props = {
+  updatr_overall?: (val: any) => void;
+};
+const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
+  activeState = defaultProps.activeState, // Use the default value from defaultProps
+  updatr_overall,
+}) => {
+  const { status_id, stages, can_id } = useSelector(
+    ({ applicantProfileInitalReducers, applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
-        stages:applicantStausReducers?.stages,
+        stages: applicantStausReducers?.stages,
         can_id: applicantProfileInitalReducers.can_id
       };
     },
@@ -43,7 +48,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
       {stages.length === 0 ? (
         <Tabs
           activeColor={'#581845'}
-          borderColor={'#581845'} 
+          borderColor={'#581845'}
           active={activeState}
         >
           <Tab title={'About'}>
@@ -59,28 +64,28 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
             <CandiDateResumeTab />
           </Tab> */}
           <Tab title={'Communications'}>
-            <NotesTab isMeeting  nomessagetab ={true} />
+            <NotesTab isMeeting nomessagetab={true} />
           </Tab>
           <Tab title={'Meetings'}>
-            <Notesmeet isMeeting  />
+            <Notesmeet isMeeting />
           </Tab>
           {/* <Tab title={'Questionnaire/Messages'}>
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen isprofileview={true} can_id={can_id}/>
+            <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Invitation Status'}>
-            <ScreeningStatusTab title={'Invitation Status'} issingletab  />
-          </Tab> 
+            <ScreeningStatusTab title={'Invitation Status'} issingletab />
+          </Tab>
         </Tabs>
       ) : (
         <Tabs
           activeColor={'#581845'}
-          borderColor={'#581845'} 
+          borderColor={'#581845'}
           active={activeState}
         >
           <Tab title={'About'}>
@@ -96,10 +101,10 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
             <CandiDateResumeTab />
           </Tab> */}
           <Tab title={'Communications'}>
-            <NotesTab  nomessagetab ={true} />
+            <NotesTab nomessagetab={true} />
           </Tab>
           <Tab title={'Meetings'}>
-            <Notesmeet isMeeting  />
+            <Notesmeet isMeeting />
           </Tab>
           {/* <Tab title={'Messages'}>
             <MessageTab />
@@ -110,18 +115,18 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
               inviteMessage={'Applicant Invited successfully'}
             />
           </Tab> */}
-         {/* <Tab title={'Questionnaire/Messages'}>
+          {/* <Tab title={'Questionnaire/Messages'}>
             <Questionnaire issingletab={false} />
           </Tab> */}
           <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+            <MatchingAnalysisTab updatr_overall={updatr_overall} />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen isprofileview={true} can_id={can_id}/>
+            <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
-          </Tab> 
+          </Tab>
         </Tabs>
       )}
     </>

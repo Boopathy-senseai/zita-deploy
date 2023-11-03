@@ -58,6 +58,10 @@ export const inviteToApplyApi = `invite_to_apply`;
 export const favouriteApi = `favourite`;
 export const candiDateMessageApi = `message_non_applicants`;
 
+//Comparative Analysis 
+export const ComparativesearchingdataApi=`candidate_searching_api`;
+export const ComparativeAnalysisApi=`get_comparative_analysis`;
+export const ComparativecsvdownloadApi=`download_analysis_csv`;
 // applicant pipe line module
 export const applicantPipeLineApi = (jd_id: string) => {
   const url = `applicants_pipline/${jd_id}`;
@@ -99,18 +103,25 @@ export const googleAddEvent = 'google_add_event/';
 export const checkAuth = 'check_auth/';
 export const addOauth = 'add_google_oauth/';
 export const outlookAdd = 'outlook_add_event/';
+//Weightage matching
+// export const weightagemating = (jdId?: string) => {
+  
+//   const url = `weightage_matching/${jdId}`;
+//   return url;
+// };
+export const weightagemating = 'weightage_matching';
 
 // Create Jd
 export const jdParserApi = `jd_parser`;
 export const jdTemplatesApi = `jd_templates`;
 export const createJdApi = 'create_jd';
 export const locationApi = `load_location`;
-export const AioutputApi = "jd_creation_ai";
+export const AioutputApi = 'jd_creation_ai';
 export const jdProfileApi = (jdId: string) => {
   const url = `jd_profile/${jdId}`;
   return url;
 };
-export const industrytype = `jd_industry_type`
+export const industrytype = `jd_industry_type`;
 export const missSkillsApi = (jdId?: string) => {
   const url = `missing_skills/${jdId}`;
   return url;
@@ -331,3 +342,5 @@ export const calendarScheduledEvents = 'calender_scheduled_events';
 export const googleconflicts = 'google_conflict_event';
 export const outlookconflicts = 'outlook_conflict_event';
 export const calendarconfiguration = 'calendar_configuration/';
+
+export const interviewQuestion = 'interview_question';

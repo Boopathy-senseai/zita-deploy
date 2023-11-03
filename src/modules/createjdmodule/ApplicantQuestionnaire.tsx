@@ -167,23 +167,31 @@ const ApplicantQuestionnaire = () => {
   };
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight }>
-      <Flex row center className={styles.step}>
+    <>
+          <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar
-          title="Applicant Questionnaire"
+          title="Weightage Matching"
           titleclassName={styles.stepTwo}
           stepIndex="2"
           roundFill
         />
+        <StepProgressBar
+          title="Applicant Questionnaire"
+          titleclassName={styles.stepThree}
+          stepIndex="3"
+          roundFill
+        />
        <StepProgressBar
           title="Preview & Post Job"
-          titleclassName={styles.stepTwo}
-          stepIndex="3"
+          titleclassName={styles.stepFour}
+          stepIndex="4"
          
         />
         
       </Flex>
+    <Flex className={styles.overAll} height={window.innerHeight }>
+
       <Flex className={styles.cardOverAll}>
         {/* <Text size={16} bold className={styles.applicantTitle}>
           Applicant Questionnaire
@@ -234,7 +242,7 @@ const ApplicantQuestionnaire = () => {
                 )}
               </Formik>
             </Tab>
-            <Tab title={'Choose From Templates'} eventKey={'1'} style={{justifyContent:"left"}} >
+            <Tab title={'Choose From Templates'} eventKey={'1'} >
               <ChooseFromTemplates
                 template={template}
                 jdId={jd_id}
@@ -265,6 +273,7 @@ const ApplicantQuestionnaire = () => {
       />
       {routerPrompt}
     </Flex>
+    </>
   );
 };
 
