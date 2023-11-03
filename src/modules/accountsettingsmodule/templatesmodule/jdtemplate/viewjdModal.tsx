@@ -52,7 +52,7 @@ const ViewjdModal = ({
             
 
               <Flex>
-                <Flex>
+                <Flex height={window.innerHeight - 240} className={styles.overflow}>
                   <Text  style={{ margin: "5px 0px 2px 0px" }}>
                   <div className={styles.listalignment} dangerouslySetInnerHTML={{ __html: idview.job_description }} />
                   </Text>

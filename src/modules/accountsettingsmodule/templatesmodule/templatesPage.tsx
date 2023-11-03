@@ -189,7 +189,7 @@ const TemplatesPage = () => {
                         <SvgJobPost height={16} width={16} />
                       }
                       title={'Templates'}
-                      subTitle={'Design and send the custom message'}
+                      subTitle={'Customize the templates for job description and email.'}
                       btnName={'Manage Templates'}
                       onClick={() => setworkflow(2)}
                     />
@@ -233,7 +233,7 @@ const TemplatesPage = () => {
                   className={styles.title}
                   onClick={() => setworkflow(0)}
                 >
-                  <SvgBack height={14} width={14} />
+                  <SvgBack height={10} width={10} />
                   <Text
                     color="theme"
                     bold
@@ -253,8 +253,8 @@ const TemplatesPage = () => {
                     <TemplateCard
                       icon={<SvgJobPost height={16} width={16} />}
                       title={'Job Description Templates'}
-                      subTitle={'Design and send the custom message'}
-                      btnName={'Manage Templates'}
+                      subTitle={'Easily Create, edit , delete, and post your job descriptions.'}
+                      btnName={'Configure Templates'}
                       onClick={() => selectjd()}
                     />
                   </Flex>
@@ -270,7 +270,7 @@ const TemplatesPage = () => {
                       }
                       title={'Email Templates'}
                       subTitle={'Easily Create, Analyse and send your Emails'}
-                      btnName={'Manage Templates'}
+                      btnName={'Configure Templates'}
                       onClick={() => selectmail()}
                     />
                   </Flex>
@@ -314,7 +314,7 @@ const TemplatesPage = () => {
                   sessionStorage.setItem('template', '0');
                 }}
               >
-                <SvgBack height={14} width={14} />
+                <SvgBack height={10} width={10} />
                 <Text
                   color="theme"
                   bold

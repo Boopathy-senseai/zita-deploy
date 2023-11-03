@@ -20,13 +20,15 @@ type Props = {
   handleJdModal: () => void;
   itemvalue:any;
   itemclose : () => void;
+  job_title:any
 }
 
 const JDopenModal = ({
   open,
   handleJdModal,
   itemvalue,
-  itemclose
+  itemclose,
+  job_title
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   
@@ -34,15 +36,38 @@ const JDopenModal = ({
   const [isDescription, setDescription] = useState("")
   const [errordiscription, seterrordiscription] = useState(false)
   const [errortitle, seterrortitle] = useState(false)
+  const [errorrequiredtitle, seterrorrequiredtitle] = useState(false)
+  const [errorrequireddescription, seterrorrequireddescription] = useState(false)
+  const [errorname,seterrorname]=useState(false);
+
   const handletitle = (e: any) => {
-    setTitle(e.target.value)
+    //setTitle(e.target.value)
+    const inputTitle = e.target.value.trim().toLowerCase();
+    const jobTitlesLowercase = job_title.map(title => title.trim().toLowerCase());
+  console.log("jobtitlenew",jobTitlesLowercase)
+    var test1 = e.target.value.trim();
+    if (test1.length !== 0) {
+      setTitle(e.target.value);
+    } else {
+      setTitle(e.target.value.trim());
+    }
     const title = e.target.value;
-    if (title.length > 25) {
+    if (title.length > 35) {
       seterrortitle(true)
     }
     else {
       seterrortitle(false)
     }
+   
+    if(job_title.length>1 && job_title!==undefined && job_title!==null){
+    if(jobTitlesLowercase.includes(inputTitle))
+    {
+        seterrorname(true)
+    }
+    else{
+      seterrorname(false)
+    }
+  }
   }
 
     useEffect (()=>{
@@ -50,9 +75,6 @@ const JDopenModal = ({
         setTitle(itemvalue.job_title)
         setDescription(itemvalue.job_description)
       }
-      dispatch(jdTemplatesApiMiddleWare({ ds_role: '0' })).then((res)=>{
-        console.log("res=========",res)
-      })
     },[])
   
   const parser = new DOMParser();
@@ -70,13 +92,29 @@ const JDopenModal = ({
     setDescription(e)
     const description = e;
     const result=handlemessage(description)
-    if (result.length > 2000) {
+    if (result.length > 3000) {
       seterrordiscription(true)
     } else {
       seterrordiscription(false)
     }
+   
   }
   const addfunction=()=>{
+    if(isTitle.trim()==='')
+    {
+      seterrorrequiredtitle(true)
+    }
+    else{
+      seterrorrequiredtitle(false)
+    }
+    if(isDescription.trim()==='')
+    {
+      seterrorrequireddescription(true)
+    }
+    else{
+      seterrorrequireddescription(false)
+    }
+    if(isTitle.trim()!=='' && isDescription.trim()!==''){
     let formData = new FormData(); 
     if(itemvalue!==null)
     {
@@ -89,17 +127,17 @@ const JDopenModal = ({
     .then((res)=>{
        if(res.payload.success===true){
       if(itemvalue!==null){
-        Toast('Jd Update successfully', 'LONG', 'success');
+        Toast('Template update successfully', 'LONG', 'success');
       }else{
-        Toast('Jd template saved successfully', 'LONG', 'success');
+        Toast('Template saved successfully', 'LONG', 'success');
       }}
       else{
-        Toast('Jd template api faild', 'LONG', 'error');
+        Toast('Template api faild', 'LONG', 'error');
       } 
       dispatch(jdTemplatesApiMiddleWare({ ds_role: '0' }))})
       handleJdModal();   
   }
- 
+}
   return (
     
     <div>
@@ -116,31 +154,44 @@ const JDopenModal = ({
           <Flex>
             <Flex>
               <InputText
-                label="Template Title"
-                labelBold
+                label="Template Title *"
+              
                 className={styles.templatetitleInput}
-                maxLength={26}
+                maxLength={36}
                 onChange={handletitle}
                 value={isTitle}
+                
               />
             </Flex>
             {errortitle && (
-              <Text color='error'>Maximum limit of title is 25</Text>
+              <Text color='error'>Job description should not exceed 35 characters.</Text>
             )
             }
-            <Flex>
-              <Text bold color="theme" size={13}>
-                Job Description
+             {errorrequiredtitle&& (
+              <Text color='error'>This field is required</Text>
+            )
+            }
+             {errorname && (
+              <Text color='error'> Job description title already exist</Text>
+            )
+            }
+            <Flex marginTop={10}>
+              <Text  color="theme" size={13}>
+                Job Description *
               </Text>
               <RichText
-
-                height={200}
+              
+                height={400}
                 onChange={handleDescription}
                 value={isDescription}
               />
             </Flex>
             {errordiscription && (
-              <Text color='error'>Maximum limit of description is 2000</Text>
+              <Text color='error'>Maximum limit of description is 3000</Text>
+            )
+            }
+            {errorrequireddescription&& (
+              <Text color='error'>This field is required</Text>
             )
             }
           
@@ -148,14 +199,14 @@ const JDopenModal = ({
 
           <Flex className={styles.btnContainer}>
             <Flex row >
-              <Button types='close' onClick={handleJdModal} style={{marginRight:"5px"}}>
+              <Button types='close' onClick={handleJdModal} style={{marginRight:"5px"}} >
                 Cancel
               </Button>
               {itemvalue!==null?( 
-              <Button onClick={addfunction}>
+              <Button onClick={addfunction} disabled={errordiscription===true|| errortitle===true || errorname}>
                 Update
               </Button>):(
-              <Button onClick={addfunction}>
+              <Button onClick={addfunction} disabled={errordiscription===true|| errortitle===true|| errorname}>
                 Add
               </Button>)}
             </Flex>

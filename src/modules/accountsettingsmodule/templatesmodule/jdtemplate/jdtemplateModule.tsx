@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dropdown, Modal } from 'react-bootstrap'
 import { AppDispatch, RootState } from '../../../../store'
 
-import { Text, Flex, Button, Card, Toast } from '../../../../uikit'
+import { Text, Flex, Button, Card, Toast, Loader } from '../../../../uikit'
 import SvgAdd from '../../../../icons/SvgAdd'
 import {  jddeleteMiddleWare } from '../../store/middleware/accountsettingmiddleware'
 import SvgDotMenu from '../../../../icons/SvgDotMenu'
@@ -25,12 +25,13 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
   const [itemvalue,setitemvalue]=useState<any>(null)
 
   const {
-    jd_templates, job_title
+    jd_templates, job_title,isloading
   } = useSelector(
     ({
       jdTemplatesReducers,
     }: RootState) => {
       return {
+        isloading : jdTemplatesReducers.isLoading,
         job_title: jdTemplatesReducers.job_title,
         jd_templates: jdTemplatesReducers.jd_templates,
       };
@@ -65,10 +66,8 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
     setitemvalue(item);
   }
   const onDeletefunction=(item:any)=>{
-   
     setopendelete(true)
     setiddelete(item.id)
-    {console.log("id",item.id)}
   }
   const conformdeletefun=()=>{
     console.log("iddelete",iddelete)
@@ -78,7 +77,7 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
            {
             setopendelete(false)
             dispatch(jdTemplatesApiMiddleWare({ ds_role: '0' }))
-            Toast('Jd template deleted successfully', 'LONG', 'success');
+            Toast('Template deleted successfully', 'LONG', 'success');
            }
            else{
             Toast('Delete api faild', 'LONG', 'error');
@@ -89,6 +88,9 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
     setopenview(true);
     setidview(item);
   }
+  if(isloading){
+    return<Loader/>
+  }
 
   return (
     <>
@@ -98,10 +100,10 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
       className={styles.overflowContainer}
       style={{ padding: '0px 10px' }}
     >
-
+{console.log('title',job_title.length,job_title)}
       <Flex row between className={styles.titleBar}>
         <Flex row center className={styles.title} onClick={() => handleBack()}>
-          <SvgBack height={14} width={14} />
+          <SvgBack height={10} width={10} />
           <Text color="theme" bold size={13} style={{ marginLeft: '5px' }}>
             Job Description Templates
           </Text>
@@ -123,6 +125,7 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
             handleJdModal={handleJdModal}
             itemvalue={itemvalue}
             itemclose = {itemclose}
+            job_title={job_title}
              />
           </>
         )}
@@ -141,8 +144,8 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
           jd_templates.map((item) => (
             <Card className={styles.pipelineStructure} key={item.id}>
               <Flex row start between className={styles.rowGroup}>
-                <Flex row className={styles.cardHeader} marginBottom={7}>
-                  <Text bold className={styles.titleText}>{item.job_title}</Text>
+                <Flex row className={styles.cardHeader} >
+                  <Text bold className={styles.titleText} title={item.job_title}>{item.job_title}</Text>
 
                 </Flex>
                 <ActionsButton
@@ -198,6 +201,7 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
         btnLeft="Cancel"
         btnRight="Delete"
         open={opendelete}
+        
         // loader={deleteBtnLoader}
       />
     ) : (
