@@ -1,0 +1,30 @@
+.actionBtnContainer{
+    width: 40px;
+    justify-content: space-between;
+}
+.tabborder1 {
+    border-right: 0.5px solid #555555;
+    display: flex;
+    color: #666666;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.tabborder2 {
+    display: flex;
+    color: #666666;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.deletepopup{
+    padding: 25px;
+    background-color: white;
+}
+  
+.delBtnContainer{
+    justify-content: flex-end;
+    margin-top:16px;
+}

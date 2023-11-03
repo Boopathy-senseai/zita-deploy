@@ -18,13 +18,3 @@
   justify-content: flex-start;
   cursor: pointer;
 }
-
-.deletepopup{
-  padding: 25px;
-  background-color: white;
-}
-
-.delBtnContainer{
-  justify-content: flex-end;
-  margin-top:16px;
-}

@@ -11,28 +11,24 @@ type props = {
   handleBack: () => void;
   open: boolean;
   handleOpenDescripModal: ()=> void;
+  setTitle: any;
+  setDescription:any;
+  setEmailTemplates:any;
+  setSubject: any;
+
 };
 
 
-const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props) => {
+const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal, setTitle, setDescription,setEmailTemplates,setSubject }: props) => {
   const [isOpenEmailModal, setOpenEmailModal]=useState(false)
-  const [isOpenDeletePopup, setOpenDeletePopup]=useState(false)
   const [itemvalue,setitemvalue]=useState<any>(null)
-
-
 
   const handleOpenEmailModal = () => {
     setOpenEmailModal(!isOpenEmailModal)
+    if (itemvalue !== null){
+      setitemvalue(null)
+    }
   }
-
-  const handleDeletePopupOpen = () => {
-    setOpenDeletePopup(true)
-  }
-
-  const handleDeletePopupClose = () => {
-    setOpenDeletePopup(false)
-  }
-  
 
   return (
     <Flex
@@ -49,7 +45,7 @@ const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props
             handleBack();
           }}
         >
-          <SvgBack height={14} width={14} />
+          <SvgBack height={10} width={10} />
           <Text color="theme" bold size={13} style={{ marginLeft: '5px' }}>
             Email Templates
           </Text>
@@ -69,44 +65,21 @@ const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal }: props
           <Emailopenmodal 
             open={true}
             handleOpenEmailModal={handleOpenEmailModal} 
-            itemvalue={itemvalue}/>
+            itemvalue={itemvalue}
+            setEmailTemplates={setEmailTemplates}
+            />
           </>
         )}
         <Flex>
           <Table
           handleOpenEmailModal={handleOpenEmailModal}
           setitemvalue={setitemvalue}
-          itemvalue={itemvalue}
-          handleDeletePopupOpen={handleDeletePopupOpen}
+          itemvalue={itemvalue} 
+          setTitle={setTitle} 
+          setDescription={setDescription}
+          setSubject={setSubject}
           />
         </Flex>
-
-        {isOpenDeletePopup && (
-          <>
-            <Modal open={true}>
-              <Flex className={styles.deletepopup}>
-              <Flex>
-                <Text>
-                  This action will permenently remove the email template and its content.
-                </Text>
-                <Text>
-                  Are you sure to proceed?
-                </Text>
-              </Flex>
-              <Flex className={styles.delBtnContainer}>
-                <Flex row center width={"140px"} style={{justifyContent:"space-between"}}>
-                  <Button types='close' onClick={handleDeletePopupClose}>
-                    Cancel
-                  </Button>
-                  <Button>
-                    Delete
-                  </Button>
-                  </Flex>
-              </Flex>
-              </Flex>
-            </Modal>
-          </>
-        )}
     </Flex>
   );
 };

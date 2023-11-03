@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from '../../../../uikit/Modal/Modal'
 import { Button, Flex, InputText, Toast } from '../../../../uikit';
 import Text from '../../../../uikit/Text/Text';
 import styles from '../emailtemplates/emailopenmodal.module.css'
 import RichText from '../../../common/RichText';
-import { createemailtemplatepostMiddleWare, createjdtemplatepostMiddleWare } from '../../store/middleware/accountsettingmiddleware';
+import { createemailtemplatepostMiddleWare, createjdtemplatepostMiddleWare, emailtemplatesgetMiddleWare } from '../../store/middleware/accountsettingmiddleware';
 import { AppDispatch, RootState } from '../../../../store'
 import { jdTemplatesApiMiddleWare } from '../../../createjdmodule/store/middleware/createjdmiddleware';
 
@@ -14,14 +14,15 @@ type Props = {
   open:boolean;
   handleOpenEmailModal:()=>void
   itemvalue:any;
-
+  setEmailTemplates:any;
 }
 
 
 const Emailopenmodal = ({
   open,
   handleOpenEmailModal,
-  itemvalue
+  itemvalue,
+  setEmailTemplates,
 }:Props) => {
 
   const dispatch: AppDispatch = useDispatch();
@@ -33,7 +34,6 @@ const Emailopenmodal = ({
   const [errortitle,seterrortitle]=useState(false)
   const [errorsubject, seterrorsubject]=useState(false)
   
-
 
   const parser = new DOMParser();
   const handlemessage = (values) => {
@@ -65,16 +65,6 @@ const Emailopenmodal = ({
       seterrorsubject(false)
     }
   }
-  // const handleDescription = (e:any)=> {
-  //   setDescription(e.target.value)
-  //   const description=e.target.value;
-  //   if(description.length>2000)
-  //   {
-  //     seterrordiscription(true)
-  //   }else{
-  //     seterrordiscription(false)
-  //   }
-  // }
 
   const handleDescription = (e: any) => {
     setDescription(e)
@@ -87,7 +77,6 @@ const Emailopenmodal = ({
     }
   }
 
-  
   const addfunction=()=>{
     let formData = new FormData(); 
     if(itemvalue!==null)
@@ -99,7 +88,7 @@ const Emailopenmodal = ({
     formData.append('subject',isSubject)
     dispatch(createemailtemplatepostMiddleWare({formData}))
     .then((res)=>{
-       if(res.payload.success===true){
+      if(res.payload.success===true){
       if(itemvalue!==null){
         Toast('Template added Successfully.', 'LONG', 'success');
       }else{
@@ -109,15 +98,22 @@ const Emailopenmodal = ({
         Toast('Email template api failed', 'LONG', 'error');
       } 
       })
+      dispatch(emailtemplatesgetMiddleWare())
       handleOpenEmailModal();   
   }
 
+  useEffect (()=>{
+    if(itemvalue!==null && itemvalue !== undefined){
+      setTitle(itemvalue.name)
+      setDescription(itemvalue.templates)
+      setSubject(itemvalue.subject)
+      console.log("Description", itemvalue.templates )
+    }
+    dispatch(emailtemplatesgetMiddleWare())
+  },[])
+
   return (
     <div>
-      {console.log("TemplateTitle",isTitle)}
-      {console.log("Subject",isDescription)}
-      {console.log("Description",isSubject)}
-
         <Modal open={open}>
             <Flex className={styles.addtemplatePopup}>
                 {itemvalue!==null?( 
