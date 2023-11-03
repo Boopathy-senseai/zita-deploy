@@ -44,3 +44,15 @@
   left: 20px;
   top: 6px;
 }
+.alignrow{
+  display: flex;
+  flex-direction: row;
+}
+.scroll{
+  overflow: scroll;
+}
+.btnstyle{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

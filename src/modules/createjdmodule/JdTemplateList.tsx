@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
+import { Card } from 'react-bootstrap';
 import SvgAdd from '../../icons/SvgAdd';
 import SvgAngle from '../../icons/SvgAngle';
 import { GARY_4 } from '../../uikit/Colors/colors';
@@ -8,6 +9,7 @@ import { HighlightText } from '../../uikit/HighlightText/HighlightText';
 import Text from '../../uikit/Text/Text';
 import styles from './jdtemplatelist.module.css';
 import { JDTemplates } from './createJdTypes';
+
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +21,8 @@ type Props = {
     shouldValidate?: boolean | undefined,
   ) => void;
   hanldeClose: () => void;
+  update:(val:any)=> void;
+  applyfun:(val:any)=>void;
   searchTerm: string;
 };
 
@@ -27,6 +31,8 @@ const JdTemplateList = ({
   setFieldValue,
   hanldeClose,
   searchTerm,
+  update,
+  applyfun,
 }: Props) => {
   const [isCollapse, setCollapse] = useState(false);
 
@@ -54,33 +60,29 @@ const JdTemplateList = ({
   
    setFieldValue('nonDsSkill',d);
   }
-   //console.log("ssss",...d)
-//     var a = []
-//     list?.skills.map((val)=>{
-//       let b ={"label":val ,"value":val}
-//      })  
-//      a.push(b)
-// console.log("======",a)
-    
-
-    
-   
-
     hanldeClose();
     setCollapse(false);
   };
 
+  const select=(val)=>{
+   // console.log(val)
+   update(val.job_description)
+   applyfun(val)
+  }
+
   return (
     <Flex className={styles.listOverAll}>
-
-      <Flex row center between>
+<Card onClick={()=>select(list)}>
+  <Flex className={styles.padding}>
+      <Flex row center between >
         <Text bold className={styles.listHeadingStyle}>
           <HighlightText value={list.job_title} higlight={searchTerm} />
         </Text>
         <Flex row center>
           <div
             style={{ marginRight: 16 }}
-            onClick={() => setCollapse(!isCollapse)}
+            onClick={() => setCollapse(!isCollapse)
+            }
             className="pointer"
             tabIndex={-1}
             role={'button'}
@@ -104,9 +106,11 @@ const JdTemplateList = ({
           className={cx('trimStyle')}
           dangerouslySetInnerHTML={{ __html: list.job_description }}
         />
-      ) : (
-        <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: list.job_description }} />
+      ) : (''
+        // <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: list.job_description }} />
       )}
+      </Flex>
+      </Card>
     </Flex>
   );
 };

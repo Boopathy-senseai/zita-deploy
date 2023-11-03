@@ -1,6 +1,6 @@
 .listOverAll {
   margin-right: 8px;
-  margin-top:10px;
+  margin-top:5px;
 }
 .listHeadingStyle {
   margin-top: 8px;
@@ -17,7 +17,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  /* border-bottom: 1px solid var(--color-gary-6, #b3b3b3); */
   /* height: 34px; */
   height: 20px;
   /* padding-top: 8px; */
@@ -48,3 +48,6 @@
 .normalStyle ul {
     padding-left: 16px;
   }
+.padding{
+  padding: 5px 10px;
+}
