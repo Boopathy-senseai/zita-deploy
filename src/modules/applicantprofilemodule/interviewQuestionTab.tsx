@@ -30,6 +30,7 @@ import QuestionCard from './questionsCard';
 
 import { EvaluateInterviewInput, Question } from './interviewerQuestionType';
 import EvaluateModal from './EvaluateModal';
+import Interviewmodalpopup from './InterviewModalpopup';
 
 const cx = classNames.bind(styles);
 
@@ -136,6 +137,7 @@ const ScreeningStatusTab = ({
 
   return (
     <Flex row flex={12}>
+      <Interviewmodalpopup />
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold className={styles.screenText}>
           Interview Questions

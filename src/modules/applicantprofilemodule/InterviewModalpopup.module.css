@@ -1,0 +1,6 @@
+.overalladd{
+    background-color: var(--color-white, #ffffff);
+    width: 650px;
+    padding: 25px;
+    border-radius: 4px;
+}
