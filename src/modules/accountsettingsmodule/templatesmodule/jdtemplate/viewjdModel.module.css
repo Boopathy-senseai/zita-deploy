@@ -2,8 +2,8 @@
     width: 650px;
     background: white;
     padding: 25px 20px 25px 20px;
-    overflow: scroll;
-    max-height: 400px;
+  
+    max-height: 800px;
     border-radius:4px;
   }
   
@@ -26,4 +26,7 @@
 .listalignment li{
 list-style: disc;
 margin-left: 20px;
+}
+.overflow{
+    overflow: scroll;
 }

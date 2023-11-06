@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { Card } from 'react-bootstrap';
 import SvgAdd from '../../icons/SvgAdd';
 import SvgAngle from '../../icons/SvgAngle';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { HighlightText } from '../../uikit/HighlightText/HighlightText';
 import Text from '../../uikit/Text/Text';
+import SvgSelected from '../../icons/SvgSelected';
+import SvgNotselected from '../../icons/SvgNotselected';
 import styles from './jdtemplatelist.module.css';
 import { JDTemplates } from './createJdTypes';
+
+
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +24,11 @@ type Props = {
     shouldValidate?: boolean | undefined,
   ) => void;
   hanldeClose: () => void;
+  valuelist:any;
+  update:(val: any | null,val2:any) => void;
+  indextick:any;
+  applyfun:(val:any)=>void;
+  index:any;
   searchTerm: string;
 };
 
@@ -27,9 +37,14 @@ const JdTemplateList = ({
   setFieldValue,
   hanldeClose,
   searchTerm,
+  update,
+  applyfun,
+  valuelist,
+  indextick,
+  index
 }: Props) => {
   const [isCollapse, setCollapse] = useState(false);
-
+  
   // template copy function
   const handleCopy = () => {
     console.log("zzzz",list)
@@ -54,59 +69,39 @@ const JdTemplateList = ({
   
    setFieldValue('nonDsSkill',d);
   }
-   //console.log("ssss",...d)
-//     var a = []
-//     list?.skills.map((val)=>{
-//       let b ={"label":val ,"value":val}
-//      })  
-//      a.push(b)
-// console.log("======",a)
-    
-
-    
-   
-
     hanldeClose();
     setCollapse(false);
+  };
+  const select = (val,val2) => {
+   update(val.job_description,val2);
+    applyfun(val);
   };
 
   return (
     <Flex className={styles.listOverAll}>
-
-      <Flex row center between>
+<Flex className={indextick !==null?(index===indextick?(styles.cardstylehilight):(styles.cardstyle)):(styles.cardstyle)}>
+  <Flex className={styles.padding} >
+    <Flex className={styles.iconspace}>
+      {indextick !==null?(<>
+        {index===indextick?(  <SvgSelected onClick={()=>select(list,index)} className={styles.pointer}></SvgSelected>):( <SvgNotselected onClick={()=>select(list,index)} className={styles.pointer}></SvgNotselected>)}
+     </>
+      ):( <SvgNotselected onClick={()=>select(list,index)} className={styles.pointer}></SvgNotselected>)}
+    
+    </Flex>
+    <Flex>
+      <Flex row center between >
         <Text bold className={styles.listHeadingStyle}>
           <HighlightText value={list.job_title} higlight={searchTerm} />
         </Text>
-        <Flex row center>
-          <div
-            style={{ marginRight: 16 }}
-            onClick={() => setCollapse(!isCollapse)}
-            className="pointer"
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
-          >
-            <SvgAngle width={12} height={12} fill='#581845' up={isCollapse} />
-          </div>
-          <div
-            className="pointer"
-            onClick={handleCopy}
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
-          >
-            <SvgAdd width={12} height={12} fill='#581845' />
-          </div>
-        </Flex>
       </Flex>
-      {!isCollapse ? (
-        <div
+    
+      <div
           className={cx('trimStyle')}
           dangerouslySetInnerHTML={{ __html: list.job_description }}
         />
-      ) : (
-        <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: list.job_description }} />
-      )}
+        </Flex>
+      </Flex>
+      </Flex>
     </Flex>
   );
 };

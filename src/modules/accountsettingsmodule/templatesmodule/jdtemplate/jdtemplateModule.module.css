@@ -73,6 +73,7 @@
 .aligncards{
   display: flex;
   flex-wrap: wrap;
+  margin-top: 10px;
   flex-direction: row;
   overflow-y: scroll;
 }
@@ -80,7 +81,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 105px;
+  max-width: 197px;
 }
 .deletepopup{
   padding: 25px;
@@ -90,4 +91,7 @@
 .delBtnContainer{
   justify-content: flex-end;
   margin-top:16px;
+}
+.pointer{
+  cursor: pointer;
 }
