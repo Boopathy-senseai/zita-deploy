@@ -51,7 +51,7 @@
 .scroll{
   overflow: scroll;
   padding:10px;
-  max-height: 488px;
+  /* max-height: 488px; */
 }
 .btnstyle{
   display: flex;
