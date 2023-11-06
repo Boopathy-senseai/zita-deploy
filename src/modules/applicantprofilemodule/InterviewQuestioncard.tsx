@@ -144,7 +144,8 @@ const InterviewQustioncard = ({
                 </Flex>
             </Flex>
             <Flex>
-                {Array(interviewData).map((val, index1) => (
+                {console.log("interviewData----->",interviewData)}
+                {interviewData.map((val, index1) => (
                     <Flex key={index1}>
                         <Flex>
                             {val?.Question?.map((value, ind) => (

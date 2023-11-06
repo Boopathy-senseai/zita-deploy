@@ -132,7 +132,7 @@ const ScreeningStatusTab = ({
       evaluateQuestionMiddleware({
         jd_id,
         can_id,
-        scorecard: JSON.stringify([]),
+        scorecard : JSON.stringify([]),
         interview_id,
         commands: '',
         recommend: 0,
@@ -144,6 +144,24 @@ const ScreeningStatusTab = ({
   const getNumberOfInterviews = (key) => {
     return no_of_interview?.filter((interview) => interview.id === Number(key));
   };
+
+  function AddnewQuestion(formvalue){
+    setAddquestion(false)
+    const addnewquestion = []
+    formvalue.levellist.map((value,index)=>{
+        const ques = {"id":"0","question":value.levelvalue.question,"type":value.levelvalue.questiontype,"level":value.levelvalue.difficulty}
+        addnewquestion.push(ques)
+    })
+    alert(interview_id)   
+    dispatch(evaluateQuestionMiddleware({
+      jd_id:jd_id,
+      can_id:can_id,
+      scorecard : JSON.stringify(addnewquestion),
+      interview_id:interview_id,
+      role: formvalue.role
+    }))   
+  }
+
   console.log(isaddqustion, 'isregeneratequestionisregeneratequestionisregeneratequestion')
   return (
     <Flex row flex={12}>
@@ -154,6 +172,7 @@ const ScreeningStatusTab = ({
         setregeneratequestion={setregeneratequestion}
         setgeneratequestion={setgeneratequestion}
         setAddquestion={setAddquestion}
+        AddnewQuestion ={AddnewQuestion}
       />
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold className={styles.screenText}>

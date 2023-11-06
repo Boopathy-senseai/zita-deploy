@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFormik } from 'formik';
+import { isEmptyArray, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { Button, Card, ErrorMessage, InputCheckBox, InputSearch, InputText, Modal } from '../../uikit';
@@ -19,6 +19,7 @@ type Props = {
     setregeneratequestion?:(val:boolean) => void;
     setgeneratequestion?:(val:boolean) => void;
     setAddquestion?:(val:boolean) => void;
+    AddnewQuestion?:(val: any) => void,
 };
 
 const Interviewmodalpopup = ({ 
@@ -27,7 +28,8 @@ const Interviewmodalpopup = ({
     isaddqustion,
     setregeneratequestion,
     setgeneratequestion,
-    setAddquestion
+    setAddquestion,
+    AddnewQuestion
 }: Props) => {
     //Add Question Modal  state
 
@@ -65,9 +67,11 @@ const Interviewmodalpopup = ({
         role: '',
     };
 
-
+    // add newquestion
     const handleSubmit = () => {
-
+        if (!isEmptyArray(formik.values.levellist)){
+            AddnewQuestion(formik.values)
+        }
     }
 
     const formik = useFormik({
@@ -292,7 +296,7 @@ const Interviewmodalpopup = ({
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>
                             <Flex>
-                                <Button types='primary' width="75px">Add</Button>
+                                <Button types='primary' width="75px"  onClick={() => handleSubmit()} >Add</Button>
                             </Flex>
                         </Flex>
                     </Flex>

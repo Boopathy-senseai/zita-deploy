@@ -19,7 +19,7 @@ import InterviewScorecardTab from './InterviewScorecardTab';
 import MatchingAnalysisTab from './MatchingAnalysisTab';
 import Questionnaire from './Questionnaire';
 import ScreeningStatusTab from './ScreeningStatusTab';
-import InterviewQuestionTab from './InterviewQuestionTab';
+import InterviewQuestionTab from './interviewQuestionTab';
 import ScreeningStatusandAllMatchJobTab from './ScreeningStatusandAllMatchJobTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
@@ -110,7 +110,7 @@ const ApplicantTabLeft: React.FC<typeof defaultProps & Props> = ({
             <ScreeningStatusandAllMatchJobTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab>
           <Tab title={'Interview Question/Scorecard'}>
-            <InterviewQuestionTab title={INTERVIEW_QUESTION} can_id={can_id} jd_id={jd_id} issingletab={false} />
+            <InterviewQuestionTab title={INTERVIEW_QUESTION} can_id={can_id} jd_id={jd_id} issingletab={false} interview_id={''} />
           </Tab> 
         </Tabs>
       )}
