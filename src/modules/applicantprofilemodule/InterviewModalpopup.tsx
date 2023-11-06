@@ -27,7 +27,7 @@ const Interviewmodalpopup = () => {
         levelvalue: any;
         Levelvalue: any;
         name: string;
-        easy: string; 
+        easy: string;
         iseasycheck: boolean;
         medium: string;
         ismediumcheck: boolean;
@@ -39,16 +39,16 @@ const Interviewmodalpopup = () => {
         difficulty: string;
         question: string;
     }
-    
+
     interface MyFormValues {
         levellist: LevelValue[];
         role?: string;
-         
+
     }
 
     const initialValues: MyFormValues = {
-        levellist:[],
-        role: '', 
+        levellist: [],
+        role: '',
     };
 
 
@@ -63,14 +63,8 @@ const Interviewmodalpopup = () => {
 
     //Add Question Modal  state
     const handlequestion = (e) => {
-        formik.setFieldValue('question', e.target.value)
+        formik.setFieldValue('levellist[0].levelvalue.question', e.target.value)
     }
-    const handleradiocheck = (data, index) => {
-        if (formik.values?.levellist && formik.values?.levellist[index]) {
-          const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, questiontype: data };
-          formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
-        }
-      }
 
     //generate Question by AI Modal  for role 
     const handlerole = (event) => {
@@ -81,32 +75,33 @@ const Interviewmodalpopup = () => {
     const handledata = (e, index) => {
         const isValueExist = isstoreaddData && isstoreaddData.some((item) => item.value === e.value);
         if (!isValueExist) {
-            setstoreaddData([...isstoreaddData, e]);
+          setstoreaddData([...isstoreaddData, e]);
         } else {
-            const updatedData = isstoreaddData.filter((item) => item.value !== e.value);
-            const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label);
-
-            // Update the corresponding element in levellist at the matching index
-            const newLevelValue = {
-                name: '',
-                easy: '',
-                iseasycheck: false,
-                medium: '',
-                ismediumcheck: false,
-                hard: '',
-                ishardcheck: false,
-                checked: false,
-            };
-            if (levellistIndex !== -1) {
-                // Remove the element at the matching index in levellist
-                formik.values.levellist.splice(levellistIndex, 1);
-            }
-
-
-            setstoreaddData(updatedData);
+          const updatedData = isstoreaddData.filter((item) => item.value !== e.value);
+          const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label);
+      
+          // Update the corresponding element in levellist at the matching index
+          const newLevelValue = {
+            name: '',
+            easy: '',
+            iseasycheck: false,
+            medium: '',
+            ismediumcheck: false,
+            hard: '',
+            ishardcheck: false,
+            checked: false,
+          };
+          if (levellistIndex !== -1) {
+            // Create a new array without the element at the matching index in levellist
+            const newLevellist = [...formik.values.levellist];
+            newLevellist.splice(levellistIndex, 1);
+            formik.setFieldValue('levellist', newLevellist);
+          }
+      
+          setstoreaddData(updatedData);
         }
-
-    }
+      }
+      
 
     //CHECK BOX ADDING for both Re-generate Question and generate Question by AI Modal  
     const handleCheckboxChange = (index: number, name: string, isChecked: boolean, values) => {
@@ -227,7 +222,7 @@ const Interviewmodalpopup = () => {
     return (
         < >
             {/* Add Question Modal popup */}
-            <Modal open={true}>
+            <Modal open={false}>
                 <Flex className={styles.overalladd}>
                     <Flex>
                         <Text size={14} bold>Add Question</Text>
@@ -240,11 +235,11 @@ const Interviewmodalpopup = () => {
                             {Typeofinterviewquestion.map((data, index) => {
                                 return (<Flex key={index} row marginRight={15} marginTop={7} center>
                                     <Flex>
-                                        {console.log(formik.values?.levellist[0]?.levelvalue?.questiontype,'ormik.values?.levellist[0]?.questiontype')}
+                                        {console.log(formik.values?.levellist[0]?.levelvalue?.questiontype, 'ormik.values?.levellist[0]?.questiontype')}
                                         {/* //formik.values?.levellist[0]?.questiontype */}
-                                         <InputRadio
-                                            checked={data.label === data.label}
-                                            onClick={() => {handleradiocheck(data.label,index)}}
+                                        <InputRadio
+                                            checked={formik.values?.levellist[0]?.levelvalue?.questiontype === data.label}
+                                            onClick={() => { formik.setFieldValue('levellist[0].levelvalue.questiontype', data.label) }}
                                         />
                                     </Flex>
                                     <Flex>
@@ -261,8 +256,8 @@ const Interviewmodalpopup = () => {
                                 return (<Flex key={index} row marginRight={15} marginTop={7} center>
                                     <Flex>
                                         <InputRadio
-                                        checked={formik.values?.levellist[0]?.difficulty ===  data.label}
-                                            onClick={() => { formik.setFieldValue('difficulty', data.label) }}
+                                            checked={formik.values?.levellist[0]?.levelvalue?.difficulty === data.label}
+                                            onClick={() => { formik.setFieldValue('levellist[0].levelvalue.difficulty', data.label) }}
                                         />
                                     </Flex>
                                     <Flex>
@@ -294,12 +289,12 @@ const Interviewmodalpopup = () => {
 
 
             {/* Re-generate Question by AI Modal popup */}
-            <Modal open={false}>
+            <Modal open={true}>
                 <Flex className={styles.overalladd}>
                     <Flex style={{ borderBottom: '1px solid #581845' }} >
                         <Text size={14} bold>Re-generate Question by AI</Text>
                     </Flex>
-                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3' }}>
+                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: "15px" }}>
                         <Flex marginTop={9}>
                             <Text size={13} color='theme'>Choose the type(s) of interview questions.</Text>
                         </Flex>
