@@ -13,7 +13,7 @@ export const interviewQuestionMiddleware = createAsyncThunk<
   {
     jd_id: string;
     can_id: string;
-    re_generate?: string;
+    re_generate?: [];
     interview_id?: string;
     exclude?: string;
   }

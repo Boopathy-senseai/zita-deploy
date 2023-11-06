@@ -19,7 +19,7 @@ import InterviewScorecardTab from './InterviewScorecardTab';
 import MatchingAnalysisTab from './MatchingAnalysisTab';
 import Questionnaire from './Questionnaire';
 import ScreeningStatusTab from './ScreeningStatusTab';
-import InterviewQuestionTab from './interviewQuestionTab';
+import InterviewQuestionTab from './InterviewQuestionTab';
 import ScreeningStatusandAllMatchJobTab from './ScreeningStatusandAllMatchJobTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */

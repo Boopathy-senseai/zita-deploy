@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import classNames from 'classnames/bind';
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SvgAdd from '../../icons/SvgAdd';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
@@ -10,7 +10,7 @@ import SvgTickBox from '../../icons/SvgTickBox';
 import { Button, Flex, InputCheckBox, Loader, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText';
 import Text from '../../uikit/Text/Text';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import { isEmpty } from '../../uikit/helper';
 import { formatTo12HrClock } from '../calendarModule/util';
 import {
@@ -27,14 +27,19 @@ import {
 const cx = classNames.bind(styles);
 
 interface Props {
-  interviews: InterviewExtractData;
-  onEvaluate: (id: number, value: Question[]) => void;
-  jd_id: string;
-  can_id: string;
-  genearate: GenerateQuestionsState;
-  no_of_interview: any;
-  lengthval: any;
-  indexval: any;
+  interviews?: InterviewExtractData;
+  onEvaluate?: (id: number, value: Question[]) => void;
+  jd_id?: string;
+  can_id?: string;
+  genearate?: GenerateQuestionsState;
+  no_of_interview?: any;
+  lengthval?: any;
+  indexval?: any;
+  setregeneratequestion?: (val: boolean) => void;
+  setgeneratequestion?: (val: boolean) => void;
+  setAddquestion?: (val: boolean) => void;
+  interviewData?: any;
+
 }
 
 const QuestionCard: React.FC<Props> = (props) => {
@@ -43,12 +48,16 @@ const QuestionCard: React.FC<Props> = (props) => {
   const {
     interviews,
     onEvaluate,
+    interviewData,
     jd_id,
     can_id,
     genearate,
     no_of_interview,
     lengthval,
     indexval,
+    setregeneratequestion,
+    setgeneratequestion,
+    setAddquestion
   } = props;
   const [addQuestion, setaddQuestion] = useState(false);
   const [newAddQuestion, setNewAddQuestion] = useState(false);
@@ -56,21 +65,22 @@ const QuestionCard: React.FC<Props> = (props) => {
   const [form, setForm] = useState<{ question: string }>({ question: '' });
   const [questions, setQuestions] = useState<{ [key: string]: Question }>({});
 
-  useEffect(() => {
-    if (interviews && interviews.questions) {
-      setQuestions(
-        interviews.questions.reduce((o, v) => ({ ...o, [v.id]: v }), {}),
-      );
-    }
-  }, [JSON.stringify(interviews.questions)]);
+  // useEffect(() => {
+  //   if (interviews && interviews.questions) {
+  //     setQuestions(
+  //       interviews.questions.reduce((o, v) => ({ ...o, [v.id]: v }), {}),
+  //     );
+  //   }
+  // }, [JSON.stringify(interviews.questions)]);
 
   const toggleStage = () => {
-    setaddQuestion(!addQuestion);
+    setAddquestion(true)
   };
   const toggleAddQuestion = () => {
-    setNewAddQuestion(!newAddQuestion);
+    setAddquestion(true)
+    // setNewAddQuestion(!newAddQuestion);
     setQuestionLoader(false);
-    formik.resetForm();
+    // formik.resetForm();
   };
 
   type FormProps = {
@@ -82,7 +92,7 @@ const QuestionCard: React.FC<Props> = (props) => {
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
   const handleQuestionChange = (e) => {
@@ -113,58 +123,60 @@ const QuestionCard: React.FC<Props> = (props) => {
       .map((doc) => doc.id) || [];
 
   const generateQuestions = () => {
-    if (interviews?.data) {
-      dispatch(
-        interviewQuestionMiddleware({
-          jd_id,
-          can_id,
-          re_generate: 'true',
-          interview_id: JSON.stringify(interviews?.data?.id),
-          // exclude: JSON.stringify(getCheckedQuestions()),
-        }),
-      ).then(() => {
-        Toast('Interview questions generated sucessfully.');
-      });
-    }
+    setgeneratequestion(true)
+    // if (interviews?.data) {
+    //   dispatch(
+    //     interviewQuestionMiddleware({
+    //       jd_id,
+    //       can_id,
+    //       re_generate:[],
+    //       interview_id: JSON.stringify(interviews?.data?.id),
+    //       // exclude: JSON.stringify(getCheckedQuestions()),
+    //     }),
+    //   ).then(() => {
+    //     Toast('Interview questions generated sucessfully.');
+    //   });
+    // }
   };
 
   const regenerateQuestions = () => {
-    if (interviews?.data) {
-      dispatch(
-        interviewQuestionMiddleware({
-          jd_id,
-          can_id,
-          re_generate: 'true',
-          interview_id: JSON.stringify(interviews?.data?.id),
-          exclude: JSON.stringify(getExcludeID()),
-        }),
-      ).then(() => {
-        Toast('Interview questions regenerated successfully.');
-      });
-    }
+    setregeneratequestion(true)
+    // if (interviews?.data) {
+    //   dispatch(
+    //     interviewQuestionMiddleware({
+    //       jd_id,
+    //       can_id,
+    //       re_generate:[],
+    //       interview_id: JSON.stringify(interviews?.data?.id),
+    //       exclude: JSON.stringify(getExcludeID()),
+    //     }),
+    //   ).then(() => {
+    //     Toast('Interview questions regenerated successfully.');
+    //   });
+    // }
   };
-  const addNewQuestion = () => {
-    if (interviews?.data) {
-      setQuestionLoader(true);
-      dispatch(
-        evaluateQuestionMiddleware({
-          jd_id,
-          can_id,
-          interview_id: JSON.stringify(interviews?.data?.id),
-          scorecard: JSON.stringify([
-            { id: 0, question: formik.values.add_question },
-          ]),
-        }),
-      ).then((res) => {
-        if (res.payload.success === true) {
-          Toast('Question added successfully');
-          formik.resetForm();
-          setQuestionLoader(false);
-          setaddQuestion(false);
-        }
-      });
-    }
-  };
+  // const addNewQuestion = () => {
+  //   if (interviews?.data) {
+  //     setQuestionLoader(true);
+  //     dispatch(
+  //       evaluateQuestionMiddleware({
+  //         jd_id,
+  //         can_id,
+  //         interview_id: JSON.stringify(interviews?.data?.id),
+  //         scorecard: JSON.stringify([
+  //           { id: 0, question: formik.values.add_question },
+  //         ]),
+  //       }),
+  //     ).then((res) => {
+  //       if (res.payload.success === true) {
+  //         Toast('Question added successfully');
+  //         formik.resetForm();
+  //         setQuestionLoader(false);
+  //         setaddQuestion(false);
+  //       }
+  //     });
+  //   }
+  // };
 
   const renderEmptyBloc = () => {
     if (
@@ -191,7 +203,7 @@ const QuestionCard: React.FC<Props> = (props) => {
           You must add or generate questions to evaluate the scorecard
         </Text>
         <Flex row center middle marginBottom={10}>
-          {newAddQuestion === false ? (
+          {newAddQuestion === false &&
             <Flex>
               <Button
                 types="secondary"
@@ -201,55 +213,57 @@ const QuestionCard: React.FC<Props> = (props) => {
                 Add Question
               </Button>
             </Flex>
-          ) : (
-            <Flex row noWrap style={{ width: '80%' }}>
-              <Flex column noWrap style={{ width: '100%' }}>
-                <InputText
-                  name="add question"
-                  value={form.question}
-                  onChange={handleQuestionChange}
-                  lineInput
-                  size={14}
-                  className={styles.input}
-                />
-              </Flex>
-              <div
-                className={styles.svgContainer}
-                style={{ marginRight: '10px' }}
-              >
-                {isQuestionLoader ? (
-                  <div className={styles.svgTick}>
-                    <Loader withOutOverlay size={'small'} />
-                  </div>
-                ) : (
-                  <div
-                    className={cx('svgTickMargin', {
-                      svgTickDisable: isEmpty(
-                        formik.values.add_question.trim(),
-                      ),
-                      tickStyle: !isEmpty(formik.values.add_question.trim()),
-                    })}
-                    //  onClick={handleLocationSubmit}
-                    tabIndex={-1}
-                    role={'button'}
-                    onClick={addNewQuestion}
-                  >
-                    <SvgTickBox className={styles.tickStyle} />
-                  </div>
-                )}
+            // ) 
+            // : (
+            //   <Flex row noWrap style={{ width: '80%' }}>
+            //     <Flex column noWrap style={{ width: '100%' }}>
+            //       <InputText
+            //         name="add question"
+            //         value={form.question}
+            //         onChange={handleQuestionChange}
+            //         lineInput
+            //         size={14}
+            //         className={styles.input}
+            //       />
+            //     </Flex>
+            //     <div
+            //       className={styles.svgContainer}
+            //       style={{ marginRight: '10px' }}
+            //     >
+            //       {isQuestionLoader ? (
+            //         <div className={styles.svgTick}>
+            //           <Loader withOutOverlay size={'small'} />
+            //         </div>
+            //       ) : (
+            //         <div
+            //           className={cx('svgTickMargin', {
+            //             svgTickDisable: isEmpty(
+            //               formik.values.add_question.trim(),
+            //             ),
+            //             tickStyle: !isEmpty(formik.values.add_question.trim()),
+            //           })}
+            //           //  onClick={handleLocationSubmit}
+            //           tabIndex={-1}
+            //           role={'button'}
+            //           onClick={addNewQuestion}
+            //         >
+            //           <SvgTickBox className={styles.tickStyle} />
+            //         </div>
+            //       )}
 
-                <div
-                  className={styles.svgClose}
-                  onClick={toggleAddQuestion}
-                  tabIndex={-1}
-                  role={'button'}
-                  // onClick={() => formik.resetForm()}
-                >
-                  <SvgCloseBox className={styles.tickStyle} />
-                </div>
-              </div>
-            </Flex>
-          )}
+            //       <div
+            //         className={styles.svgClose}
+            //         onClick={toggleAddQuestion}
+            //         tabIndex={-1}
+            //         role={'button'}
+            //         // onClick={() => formik.resetForm()}
+            //       >
+            //         <SvgCloseBox className={styles.tickStyle} />
+            //       </div>
+            //     </div>
+            //   </Flex>
+            // )
+          }
 
           <Button onClick={generateQuestions}>Generate Questions</Button>
         </Flex>
@@ -258,21 +272,9 @@ const QuestionCard: React.FC<Props> = (props) => {
   };
 
   const renderQuestions = () => {
-    if (
-      genearate?.interviewId === interviews.data?.id &&
-      genearate?.isLoading
-    ) {
-      return (
-        <Flex center middle style={{ padding: 20 }}>
-          {/* <span>{'Loading...'}</span> */}
-          <Loader withOutOverlay size={'small'} />
-        </Flex>
-      );
-    }
-    const list = Object.keys(questions).map((key) => questions[key]) || [];
     return (
       <Flex>
-        {list &&
+        {/* {list &&
           list?.length > 0 &&
           list?.map((doc, index) => {
             return (
@@ -296,25 +298,53 @@ const QuestionCard: React.FC<Props> = (props) => {
                 </Flex>
               </Flex>
             );
-          })}
+          })} */}
       </Flex>
     );
   };
   const s_time = new Date(interviews.data.s_time);
   const dateString = s_time.toDateString();
 
-  if (interviews.questions.length === 0) {
+  if (!interviews?.questions) {
     return (
       <>
         <Flex>
           <Flex row between marginTop={10}>
-            <Text color="theme">{`${
-              interviews.data?.event_type
-            } / ${dateString} / ${formatTo12HrClock(
-              interviews.data?.s_time,
-            )}  ${formatTo12HrClock(interviews.data?.e_time)}`}</Text>
+            <Text color="theme">{`${interviews.data?.event_type
+              } / ${dateString} / ${formatTo12HrClock(
+                interviews.data?.s_time,
+              )}  ${formatTo12HrClock(interviews.data?.e_time)}`}</Text>
           </Flex>
-          <Flex>{renderEmptyBloc()}</Flex>
+          <Flex>
+            {Array.isArray(interviewData) && interviewData.map((val, index1) => (
+              <div key={index1}>
+                {console.log(val, 'ffffffff')}
+                {val?.Behavioral?.Array?.map((value, ind) => (
+                  <div key={ind} className={styles.cardview}>
+                    <div>
+                      <span style={{ textTransform: "capitalize" }}>{value.id}</span>
+                      {value?.question?.map((label, idx) => (
+                        <div key={idx}>
+                          {console.log("youuuuuuuuuuu", label)}
+                          <span style={{ textTransform: "capitalize" }}>{label.question}</span>
+                          {label?.Map_question?.map((ques, i) => (
+                            <div key={i}>
+                              <div style={{ margin: '0 5px 0 0' }}>
+                                <InputCheckBox
+                                // checked={isQuestionCheckedval(ques.id)}
+                                // onChange={(e) => handleCheck(ques.id, e.target.checked)}
+                                />
+                              </div>
+                              <span>{ques.question}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}</Flex>
           <Flex
             style={{
               margin: '10px 0px',
@@ -335,15 +365,36 @@ const QuestionCard: React.FC<Props> = (props) => {
           ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
             interviews.data?.e_time,
           ).format(' HH:mm a')} `}</Text>
-          {no_of_interview[0].evaluate !== true && (
-            <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
-              <SvgRegenerateQuestion onClick={regenerateQuestions} />
-            </Text>
-          )}
+          <Flex row center between>
+            {no_of_interview[0].evaluate !== true && (
+              <Flex marginRight={15}>
+                <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
+                  <SvgRegenerateQuestion onClick={regenerateQuestions} />
+                </Text>
+              </Flex>
+            )}
+            <Flex marginRight={15}>
+              <Text title="Add Question" style={{ cursor: 'pointer' }}>
+                <SvgRegenerateQuestion onClick={() => toggleStage()} />
+              </Text>
+            </Flex>
+            <Flex>
+              {getCheckedQuestions()?.length !== 0 && (
+                <Button
+                  onClick={() => {
+                    onEvaluate(interviews?.data?.id, getCheckedQuestions());
+                  }}
+                  types={'primary'}
+                >
+                  Evaluate
+                </Button>
+              )}
+            </Flex>
+          </Flex>
         </Flex>
         {renderQuestions()}
 
-        {no_of_interview[0].evaluate !== true && (
+        {/* {no_of_interview[0].evaluate !== true && (
           <Flex row between marginTop={10}>
             {addQuestion === false ? (
               <Flex onClick={() => toggleStage()} className={styles.addButton}>
@@ -375,14 +426,14 @@ const QuestionCard: React.FC<Props> = (props) => {
                     lineInput
                     size={14}
                     className={styles.input}
-                    // onKeyPress={handleKeyPress}
-                    // onBlur={formik.handleBlur}
+                  // onKeyPress={handleKeyPress}
+                  // onBlur={formik.handleBlur}
                   />
                   {/* <ErrorMessage
                     touched={formik.touched}
                     errors={formik.errors}
                     name="title"
-                  /> */}
+                  />  
                 </Flex>
                 <div className={styles.svgContainer}>
                   {isQuestionLoader ? (
@@ -411,25 +462,17 @@ const QuestionCard: React.FC<Props> = (props) => {
                     onClick={toggleStage}
                     tabIndex={-1}
                     role={'button'}
-                    // onClick={() => formik.resetForm()}
+                  // onClick={() => formik.resetForm()}
                   >
                     <SvgCloseBox className={styles.tickStyle} />
                   </div>
                 </div>
               </Flex>
-            )}
-            {getCheckedQuestions()?.length !== 0 && (
-              <Button
-                onClick={() => {
-                  onEvaluate(interviews?.data?.id, getCheckedQuestions());
-                }}
-                types={'primary'}
-              >
-                Evaluate
-              </Button>
-            )}
+            )
+            } 
+
           </Flex>
-        )}
+        )}*/}
 
         <Flex
           style={{
@@ -437,7 +480,7 @@ const QuestionCard: React.FC<Props> = (props) => {
             borderBottom: lengthval === indexval ? '' : '1px solid #584518',
           }}
         ></Flex>
-        {console.log(lengthval, indexval,"valuee")}
+        {console.log(lengthval, indexval, "valuee")}
       </Flex>
     </>
   );

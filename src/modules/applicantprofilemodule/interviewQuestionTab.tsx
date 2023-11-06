@@ -18,7 +18,7 @@ import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
-
+import InterviewQustioncard from './InterviewQuestioncard';
 import InterviewScorecardTab from './InterviewScorecardTab';
 import styles from './screeningstatustab.module.css';
 import { hireList } from './mock';
@@ -52,6 +52,10 @@ const ScreeningStatusTab = ({
   const dispatch: AppDispatch = useDispatch();
   const [addQuestion, setaddQuestion] = useState(false);
   const [isPostLoader, setPostLoader] = useState(false);
+  const [isaddqustion, setAddquestion] = useState(false);
+  const [isgeneratequestion, setgeneratequestion] = useState(false);
+  const [isregeneratequestion, setregeneratequestion] = useState(false);
+  const [generatedquestion, setgeneratedquestion] = useState<any>([])
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
@@ -72,6 +76,7 @@ const ScreeningStatusTab = ({
     question_error,
     interviews,
     no_of_interview,
+    interviewData,
     genearate,
   } = useSelector(
     ({
@@ -91,9 +96,14 @@ const ScreeningStatusTab = ({
         question_loading: interviewerQuestionReducers.isLoading,
         question_error: interviewerQuestionReducers.error,
         genearate: interviewerQuestionReducers?.generateQuestionsState,
+        interviewData: interviewerQuestionReducers.data,
       };
     },
   );
+
+  useEffect(() => {
+    setgeneratedquestion(interviewData)
+  }, [interviewData])
   const toggleStage = () => {
     setaddQuestion(!addQuestion);
     // formik.setFieldValue('title', '');
@@ -134,10 +144,17 @@ const ScreeningStatusTab = ({
   const getNumberOfInterviews = (key) => {
     return no_of_interview?.filter((interview) => interview.id === Number(key));
   };
-
+  console.log(isaddqustion, 'isregeneratequestionisregeneratequestionisregeneratequestion')
   return (
     <Flex row flex={12}>
-      <Interviewmodalpopup />
+      <Interviewmodalpopup
+        isregeneratequestion={isregeneratequestion}
+        isgeneratequestion={isgeneratequestion}
+        isaddqustion={isaddqustion}
+        setregeneratequestion={setregeneratequestion}
+        setgeneratequestion={setgeneratequestion}
+        setAddquestion={setAddquestion}
+      />
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold className={styles.screenText}>
           Interview Questions
@@ -151,7 +168,8 @@ const ScreeningStatusTab = ({
           className={styles.overAllPopup}
           height={window.innerHeight - 155}
         >
-          {Object.keys(interviews).map((key, i) => {
+
+          {/* {Object.keys(interviews).map((key, i) => {
             return (
               <QuestionCard
                 key={i}
@@ -171,41 +189,12 @@ const ScreeningStatusTab = ({
                 indexval={i + 1}
               />
             );
-          })}
-        </Flex>
-      </Flex>
-      {evaluatePopup && (
-        <EvaluateModal
-          {...{ ...evaluatePopup, jd_id, can_id }}
-          user={user}
-          candidateDetails={candidate_details}
-          onCancel={handleCancel}
-          commands={
-            interviews[evaluatePopup.interview_id]?.cumulative?.find(
-              (doc) => doc.interview_id === evaluatePopup.interview_id,
-            )?.commands || null
-          }
-          recommend={
-            interviews[evaluatePopup.interview_id]?.scorecard?.recommend || null
-          }
-        />
-      )}
-
-      {!issingletab && (
-        <Flex
-          height={window.innerHeight - 115}
-          style={{
-            border: '0.5px solid #C3C3C3',
-            width: '0.5px',
-            margin: '15px 5px 10px 5px',
-            paddingTop: '10px',
-            paddingBottom: '10px',
-          }}
-        ></Flex>
-      )}
-      {!issingletab && (
-        <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
-          <InterviewScorecardTab
+          })} */}
+          <InterviewQustioncard
+            interviewData={generatedquestion}
+            setregeneratequestion={setregeneratequestion}
+            setgeneratequestion={setgeneratequestion}
+            setAddquestion={setAddquestion}
             onEvaluate={(id, value) => {
               setEvaluatePopup({
                 open: true,
@@ -215,8 +204,54 @@ const ScreeningStatusTab = ({
             }}
           />
         </Flex>
+      </Flex >
+      {evaluatePopup && (
+        <EvaluateModal
+          {...{ ...evaluatePopup, jd_id, can_id }}
+          user={user}
+          candidateDetails={candidate_details}
+          onCancel={handleCancel}
+        // commands={
+        //   interviews[evaluatePopup.interview_id]?.cumulative?.find(
+        //     (doc) => doc.interview_id === evaluatePopup.interview_id,
+        //   )?.commands || null
+        // }
+        // recommend={
+        //   interviews[evaluatePopup.interview_id]?.scorecard?.recommend || null
+        // }
+        />
       )}
-    </Flex>
+
+      {
+        !issingletab && (
+          <Flex
+            height={window.innerHeight - 115}
+            style={{
+              border: '0.5px solid #C3C3C3',
+              width: '0.5px',
+              margin: '15px 5px 10px 5px',
+              paddingTop: '10px',
+              paddingBottom: '10px',
+            }}
+          ></Flex>
+        )
+      }
+      {
+        !issingletab && (
+          <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
+            <InterviewScorecardTab
+              onEvaluate={(id, value) => {
+                setEvaluatePopup({
+                  open: true,
+                  data: value,
+                  interview_id: id,
+                });
+              }}
+            />
+          </Flex>
+        )
+      }
+    </Flex >
   );
 };
 

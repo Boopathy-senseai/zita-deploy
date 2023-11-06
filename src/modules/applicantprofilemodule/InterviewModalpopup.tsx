@@ -12,9 +12,23 @@ import styles from '../applicantprofilemodule/InterviewModalpopup.module.css';
 import { rolevaluemiddleware } from '../calendarModule/store/middleware/calendarmiddleware';
 import { Typeofinterviewquestion, Difficultylevel, level } from './mock';
 
+type Props = {
+    isregeneratequestion?: boolean;
+    isgeneratequestion?: boolean;
+    isaddqustion?: boolean;
+    setregeneratequestion?:(val:boolean) => void;
+    setgeneratequestion?:(val:boolean) => void;
+    setAddquestion?:(val:boolean) => void;
+};
 
-
-const Interviewmodalpopup = () => {
+const Interviewmodalpopup = ({ 
+    isregeneratequestion,
+    isgeneratequestion,
+    isaddqustion,
+    setregeneratequestion,
+    setgeneratequestion,
+    setAddquestion
+}: Props) => {
     //Add Question Modal  state
 
     //Re-generate Question by AI Modal  state
@@ -75,33 +89,33 @@ const Interviewmodalpopup = () => {
     const handledata = (e, index) => {
         const isValueExist = isstoreaddData && isstoreaddData.some((item) => item.value === e.value);
         if (!isValueExist) {
-          setstoreaddData([...isstoreaddData, e]);
+            setstoreaddData([...isstoreaddData, e]);
         } else {
-          const updatedData = isstoreaddData.filter((item) => item.value !== e.value);
-          const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label);
-      
-          // Update the corresponding element in levellist at the matching index
-          const newLevelValue = {
-            name: '',
-            easy: '',
-            iseasycheck: false,
-            medium: '',
-            ismediumcheck: false,
-            hard: '',
-            ishardcheck: false,
-            checked: false,
-          };
-          if (levellistIndex !== -1) {
-            // Create a new array without the element at the matching index in levellist
-            const newLevellist = [...formik.values.levellist];
-            newLevellist.splice(levellistIndex, 1);
-            formik.setFieldValue('levellist', newLevellist);
-          }
-      
-          setstoreaddData(updatedData);
+            const updatedData = isstoreaddData.filter((item) => item.value !== e.value);
+            const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label);
+
+            // Update the corresponding element in levellist at the matching index
+            const newLevelValue = {
+                name: '',
+                easy: '',
+                iseasycheck: false,
+                medium: '',
+                ismediumcheck: false,
+                hard: '',
+                ishardcheck: false,
+                checked: false,
+            };
+            if (levellistIndex !== -1) {
+                // Create a new array without the element at the matching index in levellist
+                const newLevellist = [...formik.values.levellist];
+                newLevellist.splice(levellistIndex, 1);
+                formik.setFieldValue('levellist', newLevellist);
+            }
+
+            setstoreaddData(updatedData);
         }
-      }
-      
+    }
+
 
     //CHECK BOX ADDING for both Re-generate Question and generate Question by AI Modal  
     const handleCheckboxChange = (index: number, name: string, isChecked: boolean, values) => {
@@ -222,7 +236,7 @@ const Interviewmodalpopup = () => {
     return (
         < >
             {/* Add Question Modal popup */}
-            <Modal open={false}>
+            <Modal open={isaddqustion}>
                 <Flex className={styles.overalladd}>
                     <Flex>
                         <Text size={14} bold>Add Question</Text>
@@ -274,7 +288,7 @@ const Interviewmodalpopup = () => {
                             />
                         </Flex>
                         <Flex row marginTop={17} end>
-                            <Flex marginRight={20}>
+                            <Flex marginRight={20} onClick={()=>setAddquestion(false)}>
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>
                             <Flex>
@@ -289,7 +303,7 @@ const Interviewmodalpopup = () => {
 
 
             {/* Re-generate Question by AI Modal popup */}
-            <Modal open={true}>
+            <Modal open={isregeneratequestion}>
                 <Flex className={styles.overalladd}>
                     <Flex style={{ borderBottom: '1px solid #581845' }} >
                         <Text size={14} bold>Re-generate Question by AI</Text>
@@ -407,7 +421,7 @@ const Interviewmodalpopup = () => {
                     </Flex>
 
                     <Flex row marginTop={17} end>
-                        <Flex marginRight={20}>
+                        <Flex marginRight={20} onClick={()=>setregeneratequestion(false)}>
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
@@ -423,10 +437,10 @@ const Interviewmodalpopup = () => {
 
 
             {/* Generate Question by AI */}
-            <Modal open={false}>
+            <Modal open={isgeneratequestion}>
                 <Flex className={styles.overalladd}>
                     <Flex  >
-                        <Text size={14} bold>Re-generate Question by AI</Text>
+                        <Text size={14} bold>Generate Question by AI</Text>
                     </Flex>
                     <Flex>
                         <Flex marginTop={9}>
@@ -561,7 +575,7 @@ const Interviewmodalpopup = () => {
                         {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     </Flex>
                     <Flex row marginTop={17} end>
-                        <Flex marginRight={20}>
+                        <Flex marginRight={20} onClick={()=>setgeneratequestion(false)}>
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
