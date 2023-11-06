@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
 import { memo, useEffect, useState } from 'react';
+import { Card } from 'react-bootstrap';
 import Totalcount from '../../globulization/TotalCount';
 import Button from '../../uikit/Button/Button';
 import SvgSearch from '../../icons/SvgSearch';
@@ -12,6 +13,7 @@ import { CANCEL } from '../constValue';
 import { JDTemplates } from './createJdTypes';
 import JdTemplateList from './JdTemplateList';
 import styles from './jobdescriptiontemplate.module.css';
+
 
 const cx = classNames.bind(styles);
 
@@ -155,7 +157,7 @@ const JobDescriptionTemplate = ({
 
         <Flex className={styles.alignrow}>
           <Flex style={{ width: valuelist === null ? '100%' : '50%', }}
-            height={window.innerHeight - 225}
+            height={window.innerHeight - 230}
             columnFlex
             className={cx('scrollStyle')}
           >
@@ -189,19 +191,21 @@ const JobDescriptionTemplate = ({
 
           {valuelist !== null &&
             <>
-              <Flex height={innerHeight - 225} className={styles.border}> </Flex>
-              <Flex style={{ width: '50%' }} height={innerHeight - 235}>
-                <Flex marginBottom={10}>
+              <Flex height={innerHeight - 232} className={styles.border}> </Flex>
+              <Flex  style={{ width: '50%' }} marginTop={2}>
+              <Card >
+                <Flex marginBottom={10} className={styles.paddingtitle}>
                   <Text bold>{applybtn.job_title}</Text>
                 </Flex>
-                <Flex height={innerHeight - 255} className={styles.scroll}>
+                <Flex className={styles.scroll}>
                   <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: valuelist }} />
                 </Flex>
-              </Flex>
+              </Card></Flex>
             </>
           }
         </Flex>
         {/* </Flex> */}
+        <Flex className={styles.bordertop}></Flex>
         <Flex className={styles.btnstyle} marginTop={15}>
           <Button
             className={styles.addBtn}
