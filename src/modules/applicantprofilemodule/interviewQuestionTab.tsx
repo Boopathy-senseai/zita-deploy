@@ -211,6 +211,7 @@ const ScreeningStatusTab = ({
           })} */}
           <InterviewQustioncard
             interviewData={generatedquestion}
+            no_of_interview={no_of_interview}
             setregeneratequestion={setregeneratequestion}
             setgeneratequestion={setgeneratequestion}
             setAddquestion={setAddquestion}
