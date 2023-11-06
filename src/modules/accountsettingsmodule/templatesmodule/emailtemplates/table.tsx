@@ -134,9 +134,11 @@ function formatDate(dateString: string | number | Date) {
       <Flex
         className="table-responsisssve "
         style={{ overflowY: 'scroll', display: 'flex' }}
-        height={emailTemplates.length !== 0 && window.innerHeight - 220}
+        // height={emailTemplates?.length !== 0 && window.innerHeight - 220}
       >
         <Flex>
+
+          
         <table
           className="table"
           style={{ paddingLeft: 'none', marginBottom: '0rem' }}
