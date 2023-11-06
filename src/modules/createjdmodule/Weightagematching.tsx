@@ -587,6 +587,7 @@ const saveasdraftfunction=()=>{
                   type="number"
                   value={rangeValueskill}
                   onChange={handleRangeChange}  
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   maxLength={3}
                   style={{width: rangeValueskill < 99 ? "40px" : "50px"}}
                   className={styles.scoreinputfield} 
@@ -650,7 +651,8 @@ const saveasdraftfunction=()=>{
                   min="0"
                   max="100"          
                   value={rangeValuerolles}
-                  onChange={handleRangeChangerole}  
+                  onChange={handleRangeChangerole} 
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   maxLength={3} 
                   className={styles.scoreinputfield} 
                   style={{width: rangeValuerolles < 99 ? "40px" : "50px",
@@ -697,7 +699,7 @@ const saveasdraftfunction=()=>{
               maxLength={3}
               className={styles.scoreinputfield}  
               style={{width: rangeValueexperience < 99 ? "40px" : "50px"}}
-
+              onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
               >
              </input>
              </Flex>
@@ -744,6 +746,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3} 
                   className={styles.scoreinputfield}
                   style={{width: rangeValueTechnical < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
               >
              </input>
              </Flex>
@@ -788,6 +791,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}  
                   className={styles.scoreinputfield}   
                   style={{width: rangeValueSoft < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
                   </input>
                   </Flex>
@@ -831,6 +835,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield}   
                   style={{width: rangeValueQualifications < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -941,6 +946,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueIndustry < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -983,7 +989,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueDomain < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1026,7 +1032,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueCertifications < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1072,7 +1078,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueCultural < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1117,7 +1123,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield}   
                   style={{width: rangeValueReferences < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1160,7 +1166,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield}  
                   style={{width: rangeValueLocation < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>

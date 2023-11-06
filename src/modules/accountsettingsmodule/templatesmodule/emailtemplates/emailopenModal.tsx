@@ -97,8 +97,8 @@ const Emailopenmodal = ({
       else{
         Toast('Email template api failed', 'LONG', 'error');
       } 
-      })
       dispatch(emailtemplatesgetMiddleWare())
+      })
       handleOpenEmailModal();   
   }
 

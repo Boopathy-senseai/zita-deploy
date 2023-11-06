@@ -2,24 +2,26 @@ import { useState } from 'react';
 import SvgAdd from '../../../../icons/SvgAdd';
 import SvgBack from '../../../../icons/SvgBack';
 import { Button, Text, Flex } from '../../../../uikit';
-import Modal from '../../../../uikit/Modal/Modal'
 import styles from './emailtemplateScreen.module.css';
 import Emailopenmodal from './emailopenModal';
 import Table from './table';
 
 type props = {
   handleBack: () => void;
-  open: boolean;
-  handleOpenDescripModal: ()=> void;
   setTitle: any;
   setDescription:any;
   setEmailTemplates:any;
   setSubject: any;
-
 };
 
 
-const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal, setTitle, setDescription,setEmailTemplates,setSubject }: props) => {
+const Emailtemplatescreen = ({ 
+  handleBack,
+  setTitle,
+  setDescription,
+  setEmailTemplates,
+  setSubject,
+ }: props) => {
   const [isOpenEmailModal, setOpenEmailModal]=useState(false)
   const [itemvalue,setitemvalue]=useState<any>(null)
 
@@ -72,13 +74,13 @@ const Emailtemplatescreen = ({ handleBack, open, handleOpenDescripModal, setTitl
         )}
         <Flex>
           <Table
-          handleOpenEmailModal={handleOpenEmailModal}
-          setitemvalue={setitemvalue}
-          itemvalue={itemvalue} 
-          setTitle={setTitle} 
-          setDescription={setDescription}
-          setSubject={setSubject}
-          />
+            handleOpenEmailModal={handleOpenEmailModal}
+            setitemvalue={setitemvalue}
+            itemvalue={itemvalue} 
+            setTitle={setTitle} 
+            setDescription={setDescription}
+            setSubject={setSubject}
+            />
         </Flex>
     </Flex>
   );

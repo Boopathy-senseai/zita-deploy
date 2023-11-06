@@ -1704,6 +1704,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChange}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueskill < 99 ? '40px' : '50px',
                             }}
@@ -1751,6 +1752,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangerole}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValuerolles < 99 ? '40px' : '50px',
                             }}
@@ -1798,6 +1800,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangeexperience}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width:
                                 rangeValueexperience < 99 ? '40px' : '50px',
@@ -1845,6 +1848,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangetechnical}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueTechnical < 99 ? '40px' : '50px',
                             }}
@@ -1889,6 +1893,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangesoft}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueSoft < 99 ? '40px' : '50px',
                             }}
@@ -1936,6 +1941,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangequalifications}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width:
                                 rangeValueQualifications < 99 ? '40px' : '50px',
@@ -2046,6 +2052,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangeindustry}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueIndustry < 99 ? '40px' : '50px',
                             }}
@@ -2090,6 +2097,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangedomain}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueDomain < 99 ? '40px' : '50px',
                             }}
@@ -2138,6 +2146,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangecertification}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width:
                                 rangeValueCertifications < 99 ? '40px' : '50px',
@@ -2185,6 +2194,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangecultural}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueCultural < 99 ? '40px' : '50px',
                             }}
@@ -2233,6 +2243,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangereferences}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width:
                                 rangeValueReferences < 99 ? '40px' : '50px',
@@ -2279,6 +2290,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                             onChange={handleRangeChangelocation}
                             maxLength={3}
                             className={styles.scoreinputfield}
+                            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                             style={{
                               width: rangeValueLocation < 99 ? '40px' : '50px',
                             }}

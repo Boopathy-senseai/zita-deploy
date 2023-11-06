@@ -28,3 +28,25 @@
     justify-content: flex-end;
     margin-top:16px;
 }
+
+.nodataavailicon{
+    min-height: 377px;
+    min-width: 300px;
+    display: flex;
+}
+
+.stickyheader::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 0.5px solid #dee2e6;
+    z-index: -1; /* Layer the pseudo-element below the content */
+  }
+.stickyheader {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+  }

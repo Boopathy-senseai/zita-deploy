@@ -99,7 +99,7 @@ import {
 } from '../modules/accountsettingsmodule/buildyourcareerpage/store/reducer/buildcareerpagereducer';
 import { userProfileReducers } from '../modules/accountsettingsmodule/userprofilemodule/store/reducer/userprofilereducer';
 import { emailNotificationReducers } from '../modules/accountsettingsmodule/emailmodule/store/reducer/emailnotificationreducer';
-import { companyPageReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
+import { companyPageReducers, emailTemplateReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
 import {
   candidateProfileEditReducers,
   techSkillReducers,
@@ -178,6 +178,7 @@ export const reducers = {
   applicantsSourceReducers,
   userProfileReducers,
   jdTemplatesReducers,
+  emailTemplateReducers,
   createJdReducers,
   locationReducers,
   jdProfileReducers,
