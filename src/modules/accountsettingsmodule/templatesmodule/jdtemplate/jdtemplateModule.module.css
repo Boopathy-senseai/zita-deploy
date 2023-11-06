@@ -92,3 +92,6 @@
   justify-content: flex-end;
   margin-top:16px;
 }
+.pointer{
+  cursor: pointer;
+}

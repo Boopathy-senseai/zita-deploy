@@ -100,7 +100,7 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
       className={styles.overflowContainer}
       style={{ padding: '0px 10px' }}
     >
-{console.log('title',job_title.length,job_title)}
+
       <Flex row between className={styles.titleBar}>
         <Flex row center className={styles.title} onClick={() => handleBack()}>
           <SvgBack height={10} width={10} />
@@ -112,13 +112,23 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
         <Button onClick={handleJdModal}>
           <Flex row center className={styles.pointer}>
             <SvgAdd height={10} width={10} fill="#FFFFFF" />
-            <Text bold color="white" size={13} style={{ marginLeft: '10px' }}>
+            <Text bold color="white" size={13} style={{ marginLeft: '10px' }} className={styles.pointer}>
               Add Template
             </Text>
           </Flex>
         </Button>
 
-        {isOpenJDModal && (
+      
+
+        {openview && (
+          <ViewjdModal open={true} setidview={setidview}  idview={idview} closeview={closeview}/>
+        )}
+
+
+        
+       
+      </Flex>
+      {isOpenJDModal && (
           <>
             <JDopenModal 
             open={true}
@@ -129,15 +139,6 @@ const jdtemplateModule = ({ handleBack }: jdProps) => {
              />
           </>
         )}
-
-        {openview && (
-          <ViewjdModal open={true} setidview={setidview}  idview={idview} closeview={closeview}/>
-        )}
-
-
-        
-       
-      </Flex>
       <Flex className={styles.aligncards} height={window.innerHeight - 207}>
         {console.log("res,", jd_templates)}
         {jd_templates.length !== 0 && (

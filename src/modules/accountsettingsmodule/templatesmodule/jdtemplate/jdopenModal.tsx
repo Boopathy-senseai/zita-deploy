@@ -99,6 +99,7 @@ const JDopenModal = ({
     }
    
   }
+  {console.log(isDescription,'lll')}
   const addfunction=()=>{
     if(isTitle.trim()==='')
     {
@@ -107,8 +108,10 @@ const JDopenModal = ({
     else{
       seterrorrequiredtitle(false)
     }
-    if(isDescription.trim()==='')
+    const result=handlemessage(isDescription)
+    if(result.trim()==='')
     {
+      //alert('space')
       seterrorrequireddescription(true)
     }
     else{

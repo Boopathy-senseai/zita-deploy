@@ -56,3 +56,8 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+.border{
+  border-right: 0.5px solid #333333;
+  margin-right: 10px;
+  margin-left: 10px;
+}

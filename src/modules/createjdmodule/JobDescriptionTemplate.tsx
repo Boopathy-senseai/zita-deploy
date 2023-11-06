@@ -42,6 +42,7 @@ const JobDescriptionTemplate = ({
   const [searchResults, setSearchResults] = useState<JDTemplates[]>([]);
   const [valuelist, setvaluelist] = useState(null)
   const [applybtn, setapplybtn] = useState(null)
+  const [indextick, setindextick] = useState(null)
 
 
   const formik = useFormik({
@@ -50,39 +51,41 @@ const JobDescriptionTemplate = ({
     enableReinitialize: true,
   });
 
-  const update = (val) => {
+  const update = (val, index) => {
+    setindextick(index)
     setvaluelist(val)
   }
 
   const applyfun = (val) => {
+
     setapplybtn(val)
   }
   const handleCopy = (list: any) => {
-    alert('ddd')
-    console.log("zzzz", list)
-    const expSplit = list?.experience.split('-').toString();
-    if (expSplit?.length !== 0) {
-      setFieldValue('minimumExperience', expSplit?.charAt(0));
-    }
-    if (expSplit?.length === 3) {
-      setFieldValue('maximumExperience', expSplit?.charAt(2));
-    }
-    setFieldValue('jobTitle', list?.job_title);
-    setFieldValue('jobDescription', list?.job_description);
-    if (list?.skills !== null) {
-      var d = []
-      var a = list?.skills.split(",")
+    if (valuelist !== null) {
+      const expSplit = list?.experience.split('-').toString();
+      if (expSplit?.length !== 0) {
+        setFieldValue('minimumExperience', expSplit?.charAt(0));
+      }
+      if (expSplit?.length === 3) {
+        setFieldValue('maximumExperience', expSplit?.charAt(2));
+      }
+      setFieldValue('jobTitle', list?.job_title);
+      setFieldValue('jobDescription', list?.job_description);
+      if (list?.skills !== null) {
+        var d = []
+        var a = list?.skills.split(",")
 
-      a.map((val) => {
-        var c = { "label": val, "value": val }
-        d.push(c)
+        a.map((val) => {
+          var c = { "label": val, "value": val }
+          d.push(c)
 
-      })
+        })
 
-      setFieldValue('nonDsSkill', d);
+        setFieldValue('nonDsSkill', d);
+      }
+      hanldeClose();
+      //  setCollapse(false);
     }
-    hanldeClose();
-    //  setCollapse(false);
   };
   useEffect(() => {
     const results = jdTemplates.filter((tempList) =>
@@ -95,6 +98,8 @@ const JobDescriptionTemplate = ({
   // template close function
   const hanldeClose = () => {
     close();
+    setindextick(null);
+    setvaluelist(null)
     formik.resetForm();
   };
 
@@ -150,13 +155,13 @@ const JobDescriptionTemplate = ({
 
         <Flex className={styles.alignrow}>
           <Flex style={{ width: valuelist === null ? '100%' : '50%', }}
-            height={window.innerHeight - 201}
+            height={window.innerHeight - 225}
             columnFlex
             className={cx('scrollStyle')}
           >
             {searchResults && searchResults.length !== 0 ? (
               searchResults.map((list, index) => {
-                { console.log("list", list) }
+
                 return (
                   <JdTemplateList
                     key={list.job_title + index}
@@ -166,6 +171,10 @@ const JobDescriptionTemplate = ({
                     searchTerm={formik.values.jobTitle}
                     update={update}
                     applyfun={applyfun}
+                    index={index}
+                    valuelist={valuelist}
+                    indextick={indextick}
+
                   />
                 );
               })
@@ -177,13 +186,23 @@ const JobDescriptionTemplate = ({
               </Flex>
             )}
           </Flex>
+
           {valuelist !== null &&
-            <Flex style={{ width: '50%' }} height={innerHeight - 200} className={styles.scroll}>
-              <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: valuelist }} />
-            </Flex>}
+            <>
+              <Flex height={innerHeight - 225} className={styles.border}> </Flex>
+              <Flex style={{ width: '50%' }} height={innerHeight - 235}>
+                <Flex marginBottom={10}>
+                  <Text bold>{applybtn.job_title}</Text>
+                </Flex>
+                <Flex height={innerHeight - 255} className={styles.scroll}>
+                  <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: valuelist }} />
+                </Flex>
+              </Flex>
+            </>
+          }
         </Flex>
         {/* </Flex> */}
-        <Flex className={styles.btnstyle}>
+        <Flex className={styles.btnstyle} marginTop={15}>
           <Button
             className={styles.addBtn}
             types="close"
