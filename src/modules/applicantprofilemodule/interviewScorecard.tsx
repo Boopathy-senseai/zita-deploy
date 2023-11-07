@@ -21,21 +21,23 @@ import {
 } from './interviewerQuestionType';
 import styles from './interviewscorecardtab.module.css';
 
-interface Props {
-  interviews: InterviewExtractData;
-  onEvaluate: (id: number, value: Question[]) => void;
+type Props= {
+  interviews?: InterviewExtractData;
+  onEvaluate?: (id: number, value: Question[]) => void;
+  cumulative?:any;
+  no_of_interview?:any;
 }
 
-const InterviewScorecard: React.FC<Props> = (props) => {
-  const { interviews, onEvaluate } = props;
+const InterviewScorecard = ({ interviews, onEvaluate ,cumulative,no_of_interview}:Props) => {
+  console.log(cumulative,no_of_interview,'no_of_interviewno_of_interviewno_of_interviewno_of_interview')
   const [isShowFeedback, setFeedbackShow] = useState(false);
-  const firstCummulative = interviews.cumulative[0] || undefined;
-
+  const firstCummulative = cumulative[0] || undefined;
+ 
   const getCheckedQuestions = () =>
     interviews.questions.filter((doc) => doc.is_active || false) || [];
 
   const handleEdit = () => {
-    onEvaluate(interviews?.data?.id, getCheckedQuestions());
+    // onEvaluate(interviews?.data?.id, getCheckedQuestions());
   };
 
   const handleRecommendation = (avg_recommend: number) => {
@@ -52,7 +54,7 @@ const InterviewScorecard: React.FC<Props> = (props) => {
     }
     return null;
   };
-  if (interviews?.cumulative.length !== 0) {
+  if (cumulative.length !== 0) {
     return (
       <Flex row between>
         <Flex flex={1}>
@@ -110,9 +112,7 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                 </Flex>
               </Flex>
               <Flex width={'100%'}>
-                {interviews &&
-                  interviews?.cumulative &&
-                  interviews?.cumulative?.map((doc, index) => {
+                {cumulative?.map((doc, index) => {
                     return (
                       <Flex key={index} row marginTop={10}>
                         <Flex row center>
@@ -174,7 +174,7 @@ const InterviewScorecard: React.FC<Props> = (props) => {
                   </Flex>
 
                   {isShowFeedback &&
-                    interviews?.cumulative?.map((doc, index) => {
+                    cumulative?.map((doc, index) => {
                       if (doc.commands !== '' && doc.commands !== null) {
                         return (
                           <Flex key={index} marginBottom={5}>

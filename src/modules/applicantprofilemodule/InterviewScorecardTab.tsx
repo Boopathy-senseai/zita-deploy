@@ -360,22 +360,18 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
               <Text  color= 'theme' style={{marginTop:"15px"}}>{reaction}</Text>
             </Flex>
           </Flex>
-          {interviews && (
+          {console.log(cumulative,'cumulativecumulativecumulativecumulative')}
             <Flex
               style={{ overflow: 'scroll', paddingRight: '5px' }}
               maxHeight={window.innerHeight - 140}
-            >
-              {Object.keys(interviews).map((key, i) => {
-                return (
-                  <InterviewScorecard
-                    key={i}
-                    interviews={interviews[key]}
+            > 
+                  <InterviewScorecard 
                     onEvaluate={onEvaluate}
-                  />
-                );
-              })}
+                    cumulative={cumulative}
+                    no_of_interview={no_of_interview}
+                  /> 
             </Flex>
-          )}
+         
         </Flex>
       </Flex>
     </>
