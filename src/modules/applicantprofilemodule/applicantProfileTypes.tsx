@@ -460,6 +460,8 @@ export interface IntergrateEntity {
   email: string;
 }
 export interface MessageTemplates {
+  subject(templates: string, subject: any): void;
+  templates_text: string;
   created_on: string;
   id: number;
   name: string;

@@ -854,6 +854,7 @@ const Newmessage = ({
   const formik = useFormik({
     initialValues: {
       userMessage: '',
+      userSubject: '',
     },
     onSubmit: () => {},
   });
@@ -1463,9 +1464,11 @@ const Newmessage = ({
                   {/* <Text style={{ marginTop: '1px' }}>Subject</Text> */}
                   <InputText
                     inputConatinerClass={styles.width100}
-                    value={subject}
+                    // value={subject}
+                    value={formik.values.userSubject}
                     className={styles.inputStyle}
-                    onChange={(e) => getsubject(e)}
+                    // onChange={(e) => getsubject(e)}
+                    onChange={(e) => formik.setFieldValue('userSubject', e.target.value)}
                     placeholder="Add your email subject"
                     style={{ padding: '4px 12px 3px 3px' }}
                   />
@@ -1498,6 +1501,7 @@ const Newmessage = ({
                       value={formik.values.userMessage}
                       onChange={(e) => editchage(e)}
                     />
+                    {console.log("formik.values.formik.values.",formik.values)}
                   </div>
                   <Flex
                     row
@@ -1703,10 +1707,10 @@ const Newmessage = ({
       <MessageTemplate
         open={templatemodel}
         formik={formik}
-        messageTemplate={messageTemplate}
+        // messageTemplate={messageTemplate}
         hanldeClose={handleModel}
-        user={'mail'}
-      />
+        user={'mail'} 
+        setSubject={setSubject}      />
       <VerificationModel data={verifiymodel} message={message} close={close} />
       <Draftmodel
         verifiymodel={draft}

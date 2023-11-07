@@ -1,17 +1,18 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
-  width: 700px;
+  /* width: 700px; */
+  width: 1137.78px;
   padding: 25px;
   border-radius: 4px;
 }
 .scrollStyle {
-  max-height: 300px;
+  /* max-height: 300px; */
   overflow: scroll;
   /* min-height: 300px; */
 }
 .listHeadingStyle {
-  margin-top: 8px;
-  margin-bottom: 4px;
+  /* margin-top: 8px; */
+  /* margin-bottom: 4px; */
   font-size: 14px;
 }
 .listHeadingStyles {
@@ -28,10 +29,12 @@
   text-overflow: ellipsis;
   width: 95%;
   font-size: 13px;
-  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  /* border-bottom: 1px solid var(--color-gary-6, #b3b3b3); */
 }
 .listOverAll{
+  /* margin-right: 8px; */
   margin-right: 8px;
+  margin-top: 5px;
 }
 .insertStyles{
   margin-bottom: 8px;
@@ -54,4 +57,64 @@
   height: 30px;
   width: 270px;
   border-radius: 10px;
+}
+
+.iconspace{
+  padding: 0px 10px 0px 0px;
+}
+
+.border{
+  border-right: 0.5px solid #333333;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.tempPadding{
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tempcardstyle{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 0.25rem;
+  margin-right: 8px;
+  margin-top: 5px;
+  background-color: var(--color-white, #ffffff);
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  margin-left: 2px;
+}
+
+.tempcardstylehilight{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #581845;
+  border-radius: 0.25rem;
+  margin-right: 8px;
+  margin-top: 5px;
+  margin-left: 2px ;
+  background-color: var(--color-white, #ffffff);
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  margin-left: 2px;
+}
+.descCardstyles{
+  width: 50%;
+  height: 475px;
+  overflow: scroll;
+  padding: 1px;
+  margin-top: 2px;
 }

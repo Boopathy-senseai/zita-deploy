@@ -45,6 +45,14 @@ const Emailopenmodal = ({
    
   };
 
+  const htmlToPlainText = (html) => {
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent;
+  };
+
+  // Convert HTML content to plain text
+  const plainTextDescription = htmlToPlainText(isDescription);
+
   const handletitle = (e:any)=> {
     setTitle(e.target.value)
     const title=e.target.value;
@@ -86,6 +94,7 @@ const Emailopenmodal = ({
     formData.append('title',isTitle);
     formData.append('rich_text',isDescription)
     formData.append('subject',isSubject)
+    formData.append('text',plainTextDescription)
     dispatch(createemailtemplatepostMiddleWare({formData}))
     .then((res)=>{
       if(res.payload.success===true){
