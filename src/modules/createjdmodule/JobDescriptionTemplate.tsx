@@ -157,7 +157,7 @@ const JobDescriptionTemplate = ({
 
         <Flex className={styles.alignrow}>
           <Flex style={{ width: valuelist === null ? '100%' : '50%', }}
-            height={window.innerHeight - 230}
+            height={window.innerHeight - 265}
             columnFlex
             className={cx('scrollStyle')}
           >
@@ -191,13 +191,13 @@ const JobDescriptionTemplate = ({
 
           {valuelist !== null &&
             <>
-              <Flex height={innerHeight - 232} className={styles.border}> </Flex>
+              <Flex height={innerHeight - 270} className={styles.border}> </Flex>
               <Flex  style={{ width: '50%' }} marginTop={2} >
               <Flex className={styles.cardstyle}>
                 {/* <Flex marginBottom={10} className={styles.paddingtitle}>
                   <Text bold>{applybtn.job_title}</Text>
                 </Flex> */}
-                <Flex className={styles.scroll}  height={innerHeight - 240}>
+                <Flex className={styles.scroll}  height={innerHeight - 275}>
                   <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: valuelist }} />
                 </Flex>
               </Flex>
