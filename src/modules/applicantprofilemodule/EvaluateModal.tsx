@@ -158,14 +158,15 @@ const EvaluateModal: React.FC<Props> = (props) => {
   const handleEvaluateInterview = (form: IFormData) => {
     setLoading(true);
     setloader(true);
+    console.log("for+++++++m",form)
     dispatch(
       evaluateQuestionMiddleware({
         ...rest,
         ...form,
         interview_id: JSON.stringify(rest.interview_id),
         scorecard: JSON.stringify(
-          Object.values(form.scorecard).map((doc) => ({
-            id: JSON.stringify(doc.id),
+          Object.values(form.scorecard).map((doc,index) => ({
+            id: Object.keys(form.scorecard)[index],
             scorecard: JSON.stringify(doc.scorecard),
             value: '',
             active: 'True',
