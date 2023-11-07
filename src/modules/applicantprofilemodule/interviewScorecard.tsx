@@ -21,18 +21,18 @@ import {
 } from './interviewerQuestionType';
 import styles from './interviewscorecardtab.module.css';
 
-type Props= {
+type Props = {
   interviews?: InterviewExtractData;
   onEvaluate?: (id: number, value: Question[]) => void;
-  cumulative?:any;
-  no_of_interview?:any;
+  cumulative?: any;
+  no_of_interview?: any;
 }
 
-const InterviewScorecard = ({ interviews, onEvaluate ,cumulative,no_of_interview}:Props) => {
-  console.log(cumulative,no_of_interview,'no_of_interviewno_of_interviewno_of_interviewno_of_interview')
+const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview }: Props) => {
+  console.log(cumulative, no_of_interview, 'no_of_interviewno_of_interviewno_of_interviewno_of_interview')
   const [isShowFeedback, setFeedbackShow] = useState(false);
   const firstCummulative = cumulative[0] || undefined;
- 
+
   const getCheckedQuestions = () =>
     interviews.questions.filter((doc) => doc.is_active || false) || [];
 
@@ -55,152 +55,161 @@ const InterviewScorecard = ({ interviews, onEvaluate ,cumulative,no_of_interview
     return null;
   };
   if (cumulative.length !== 0) {
+
     return (
       <Flex row between>
         <Flex flex={1}>
-          <Card className={styles.cardStyle}>
-            <Flex row between center>
-              <Text color="theme" size={13}>
+          {cumulative?.map((doc, index) => {
+            const scoredata = no_of_interview.map((id) => (id.id))
+            { console.log("docdocdocdocdoc", scoredata) }
+            if (scoredata.includes(doc.interview_id)) {
+              if (doc.total_score !== null && doc.total_score !== 0) {
+                return (
+                  <Card className={styles.cardStyle}>
+                    <Flex row between center>
+                      {/* <Text color="theme" size={13}>
                 {`${interviews.data?.event_type} / ${moment(
                   interviews.data?.s_time,
                 ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
                   interviews.data?.e_time,
                 ).format(' HH:mm a')} `}
-              </Text>
-              <Flex onClick={handleEdit} style={{ cursor: 'pointer' }}>
-                <Svgeditingnotes fill={'#581845'} />
-              </Flex>
-            </Flex>
-            <Flex row style={{ padding: '10px 0px' }}>
-              <Flex
-                style={{ display: 'flex', borderRight: '0.5px solid #c3c3c3' }}
-                marginRight={10}
-              >
-                <Flex center>
-                  <Flex
-                    marginLeft={15}
-                    marginRight={10}
-                    className={styles.OverallScore}
-                  >
-                    <Flex
-                      className={styles.ratingStar}
-                      marginTop={-30}
-                      marginBottom={-15}
-                      marginLeft={5}
-                    >
-                      <StarsRating disabled count={1} value={1} />
+              </Text> */}
+                      <Flex onClick={handleEdit} style={{ cursor: 'pointer' }}>
+                        <Svgeditingnotes fill={'#581845'} />
+                      </Flex>
                     </Flex>
-                    <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                      {`${Math.round(firstCummulative?.average_score) || 0}/5`}
-                    </Text>
-                  </Flex>
-                  <Text color="theme" style={{ marginTop: '3px' }}>
-                    Overall Score
-                  </Text>
-                </Flex>
-                <Flex
-                  marginTop={10}
-                  marginRight={10}
-                  className={styles.recommended}
-                >
-                  <Text>
-                    {handleRecommendation(firstCummulative?.avg_recommend)}
-                  </Text>
-                  {firstCummulative?.avg_recommend && (
-                    <Text color="theme">Recommended</Text>
-                  )}
-                </Flex>
-              </Flex>
-              <Flex width={'100%'}>
-                {cumulative?.map((doc, index) => {
-                    return (
-                      <Flex key={index} row marginTop={10}>
-                        <Flex row center>
-                          <Text title="Interviewer">
-                            <SvgInterviewer width={16} height={16} />
-                          </Text>
-
-                          <Text style={{ marginLeft: '5px' }}>
-                            {doc?.full_name}
-                          </Text>
-                        </Flex>
-                        <Flex row center marginLeft={15}>
-                          <Text title="Question count">
-                            <SvgQuestion width={16} height={16} />
-                          </Text>
-
-                          <Text style={{ marginLeft: '5px' }}>
-                            {`${doc?.question_count} questions`}
-                          </Text>
-                        </Flex>
-                        <Flex row marginLeft={15}>
-                          <Text title="Average Rating">
-                            <SvgUserRating width={16} height={16} />
-                          </Text>
-
+                    <Flex row style={{ padding: '10px 0px' }}>
+                      <Flex
+                        style={{ display: 'flex', borderRight: '0.5px solid #c3c3c3' }}
+                        marginRight={10}
+                      >
+                        <Flex center>
                           <Flex
-                            className={styles.ratingStar}
-                            marginTop={-29}
-                            marginLeft={5}
+                            marginLeft={15}
+                            marginRight={10}
+                            className={styles.OverallScore}
                           >
-                            <StarsRating
-                              disabled
-                              count={5}
-                              value={doc?.total_score}
-                            />
+                            <Flex
+                              className={styles.ratingStar}
+                              marginTop={-30}
+                              marginBottom={-15}
+                              marginLeft={5}
+                            >
+                              <StarsRating disabled count={1} value={1} />
+                            </Flex>
+                            <Text style={{ marginTop: '2px' }} size={12} color="theme">
+                              {`${Math.round(firstCummulative?.average_score) || 0}/5`}
+                            </Text>
                           </Flex>
+                          <Text color="theme" style={{ marginTop: '3px' }}>
+                            Overall Score
+                          </Text>
+                        </Flex>
+                        <Flex
+                          marginTop={10}
+                          marginRight={10}
+                          className={styles.recommended}
+                        >
+                          <Text>
+                            {handleRecommendation(firstCummulative?.avg_recommend)}
+                          </Text>
+                          {firstCummulative?.avg_recommend && (
+                            <Text color="theme">Recommended</Text>
+                          )}
                         </Flex>
                       </Flex>
-                    );
-                  })}
+                      <Flex width={'100%'}>
 
-                <Flex>
-                  <Flex row center>
-                    <Text bold size={13} color="theme">
-                      View Comments / Feedback
-                    </Text>
-                    <Flex
-                      marginLeft={5}
-                      onClick={() => setFeedbackShow(!isShowFeedback)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <SvgAngle
-                        fill={'#581845'}
-                        height={12}
-                        width={12}
-                        up={isShowFeedback}
-                      />
-                    </Flex>
-                  </Flex>
+                        <Flex key={index} row marginTop={10}>
+                          <Flex row center>
+                            <Text title="Interviewer">
+                              <SvgInterviewer width={16} height={16} />
+                            </Text>
 
-                  {isShowFeedback &&
-                    cumulative?.map((doc, index) => {
-                      if (doc.commands !== '' && doc.commands !== null) {
-                        return (
-                          <Flex key={index} marginBottom={5}>
-                            <Flex row center between>
-                              <Flex style={{ color: '#581845' }}>
-                                {doc.full_name}
-                              </Flex>
-                              {/* <Svgeditingnotes fill="#581845" /> */}
-                            </Flex>
+                            <Text style={{ marginLeft: '5px' }}>
+                              {doc?.full_name}
+                            </Text>
+                          </Flex>
+                          <Flex row center marginLeft={15}>
+                            <Text title="Question count">
+                              <SvgQuestion width={16} height={16} />
+                            </Text>
 
-                            <Flex>
-                              <td
-                                className={styles.commentTextStyle}
-                                dangerouslySetInnerHTML={{
-                                  __html: doc?.commands,
-                                }}
+                            <Text style={{ marginLeft: '5px' }}>
+                              {`${doc?.question_count} questions`}
+                            </Text>
+                          </Flex>
+                          <Flex row marginLeft={15}>
+                            <Text title="Average Rating">
+                              <SvgUserRating width={16} height={16} />
+                            </Text>
+
+                            <Flex
+                              className={styles.ratingStar}
+                              marginTop={-29}
+                              marginLeft={5}
+                            >
+                              <StarsRating
+                                disabled
+                                count={5}
+                                value={doc?.total_score}
                               />
                             </Flex>
                           </Flex>
-                        );
-                      }
-                    })}
-                </Flex>
-              </Flex>
-            </Flex>
-          </Card>
+                        </Flex>
+
+
+                        <Flex>
+                          <Flex row center>
+                            <Text bold size={13} color="theme">
+                              View Comments / Feedback
+                            </Text>
+                            <Flex
+                              marginLeft={5}
+                              onClick={() => setFeedbackShow(!isShowFeedback)}
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <SvgAngle
+                                fill={'#581845'}
+                                height={12}
+                                width={12}
+                                up={isShowFeedback}
+                              />
+                            </Flex>
+                          </Flex>
+
+                          {isShowFeedback &&
+                            cumulative?.map((doc1, ind) => {
+                              if (doc1.commands !== '' && doc1.commands !== null) {
+                                return (
+                                  <Flex key={ind} marginBottom={5}>
+                                    <Flex row center between>
+                                      <Flex style={{ color: '#581845' }}>
+                                        {doc.full_name}
+                                      </Flex>
+                                      {/* <Svgeditingnotes fill="#581845" /> */}
+                                    </Flex>
+
+                                    <Flex>
+                                      <td
+                                        className={styles.commentTextStyle}
+                                        dangerouslySetInnerHTML={{
+                                          __html: doc?.commands,
+                                        }}
+                                      />
+                                    </Flex>
+                                  </Flex>
+                                );
+                              }
+                            })}
+                        </Flex>
+                      </Flex>
+                    </Flex>
+                  </Card>
+                );
+              }
+            }
+          })}
         </Flex>
       </Flex>
     );
