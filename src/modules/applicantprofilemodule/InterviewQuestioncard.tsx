@@ -73,6 +73,10 @@ const InterviewQustioncard = ({
     const regenerateQuestions = () => {
         setregeneratequestion(true)
     }
+
+    const generateQuestions = () => {
+        setgeneratequestion(true)
+    }
     const handleToggleCollapse = (i, type, level) => {
         console.log(i, type, level, 'i,type,leveli,type,level')
         setExpandedIndex((prevIndexes) =>
@@ -107,96 +111,91 @@ const InterviewQustioncard = ({
     }
     return (
         <Flex>
+            {no_of_interview.map((datas, indexva) => (
+                <Flex key={indexva}>
+                    {interviewData.map((val, index1) => {
+                        if (val.Id === datas.id) {
+                            return (
+                                <Flex key={indexva}>
 
-            <Flex>
-                {interviewData.map((val, index1) => (
-                    <Flex key={index1}>
-                        {console.log(val.Id === no_of_interview.id,'val.Id === no_of_interview.id',val.Id)}
-                        {val.Id === no_of_interview.id && (
-                            <Flex row between marginTop={10}>
-                                <Text color="theme">{`${no_of_interview?.event_type} / ${moment(
-                                    no_of_interview?.s_time
-                                ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-                                    no_of_interview?.e_time
-                                ).format(' HH:mm a')} `}</Text>
-                                <Flex row center between>
-                                    {!no_of_interview.evaluate && (
-                                        <Flex marginRight={15}>
-                                            <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
-                                                <SvgRegenerateQuestion onClick={() => regenerateQuestions()} />
-                                            </Text>
+                                    {console.log(val.Id === datas.id, val.Id, datas.id, 'val.Id === datas.idval.Id === datas.idval.Id === datas.id', val, datas)}
+                                    <Flex row between marginTop={10} center>
+                                        <Text color="theme">{`${datas?.event_type} / ${moment(
+                                            datas?.s_time
+                                        ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
+                                            datas?.e_time
+                                        ).format(' HH:mm a')} `}</Text>
+                                        <Flex row center between>
+                                            {!datas.evaluate && (
+                                                <Flex marginRight={15}>
+                                                    <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
+                                                        <SvgRegenerateQuestion onClick={() => regenerateQuestions()} />
+                                                    </Text>
+                                                </Flex>
+                                            )}
+                                            <Flex marginRight={15}>
+                                                <Text title="Add Question" style={{ cursor: 'pointer' }}>
+                                                    <SvgRegenerateQuestion onClick={() => toggleStage()} />
+                                                </Text>
+                                            </Flex>
+                                            <Flex>
+                                                <Button
+                                                    // onClick={() => {
+                                                    //   onEvaluate(interviews?.data?.id, getCheckedQuestions());
+                                                    // }}
+                                                    types={'primary'}
+                                                >
+                                                    Evaluate
+                                                </Button>
+                                            </Flex>
                                         </Flex>
-                                    )}
-                                    <Flex marginRight={15}>
-                                        <Text title="Add Question" style={{ cursor: 'pointer' }}>
-                                            <SvgRegenerateQuestion onClick={() => toggleStage()} />
-                                        </Text>
                                     </Flex>
-                                    <Flex>
-                                        <Button
-                                            // onClick={() => {
-                                            //   onEvaluate(interviews?.data?.id, getCheckedQuestions());
-                                            // }}
-                                            types={'primary'}
-                                        >
-                                            Evaluate
-                                        </Button>
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                        )}
-
-                        <Flex>
-                            {val?.Question?.map((value, ind) => (
-                                <Flex key={ind} className={styles.cardview}>
-                                    <Flex>
-                                        <Text style={{ textTransform: "capitalize" }} bold>
-                                            {value.Category}
-                                        </Text>
-                                        {value?.Value?.map((label, idx) => (
-                                            < Flex key={idx} >
-                                                <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
-                                                {label?.Map_question?.map((ques, i) => (
-
-                                                    < Flex key={i}  >
-                                                        {console.log(expanded1 && expanded1 !== ques.type && expanded2 && expanded2 !== ques.level, '12345')}
-                                                        <Flex style={{ margin: '0 5px 0 0' }} row>
-                                                            <InputCheckBox
-                                                            // checked={isQuestionCheckedval(ques.id)}
-                                                            // onChange={(e) => handleCheck(ques.id, e.target.checked)}
-                                                            />
-                                                            <Text>{ques.question
-                                                            }</Text>
-                                                        </Flex>
-
-                                                        <Flex>
-                                                            {
-                                                                expandedIndex?.includes(i) && expanded1 && expanded1 === ques.type && expanded2 && expanded2 === ques.level ? (
-                                                                    <>
-                                                                        <Flex>
-                                                                            <Text>
-                                                                                {ques.answer}
-
-                                                                            </Text>
-                                                                        </Flex>
-                                                                        <Flex
-                                                                            row
-                                                                            center
-                                                                            onClick={() => handleToggleCollapse(i, '', '')}
-                                                                            style={{ cursor: "pointer" }}>
-
-                                                                            <Flex><Text color="theme" bold> View Less</Text></Flex>
-                                                                            <Flex width={5}></Flex>
+                                    {val.Question?.map((value, ind) => (
+                                        <Flex key={ind} className={styles.cardview}>
+                                            <Flex>
+                                                <Text style={{ textTransform: "capitalize" }} bold>
+                                                    {value.Category}
+                                                </Text>
+                                                {value?.Value?.map((label, idx) => (
+                                                    <Flex key={idx}>
+                                                        <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
+                                                        {label?.Map_question?.map((ques, i) => (
+                                                            <Flex key={i}>
+                                                                {console.log(expanded1 && expanded1 !== ques.type && expanded2 && expanded2 !== ques.level, '12345')}
+                                                                <Flex row>
+                                                                    <Flex style={{ margin: '0 5px 0 0' }} >
+                                                                        <InputCheckBox
+                                                                        // checked={isQuestionCheckedval(ques.id)}
+                                                                        // onChange={(e) => handleCheck(ques.id, e.target.checked)}
+                                                                        />
+                                                                    </Flex>
+                                                                    <Flex>
+                                                                        <Text>{ques.question}</Text>
+                                                                    </Flex>
+                                                                </Flex>
+                                                                <Flex>
+                                                                    {expandedIndex?.includes(i) && expanded1 && expanded1 === ques.type && expanded2 && expanded2 === ques.level ? (
+                                                                        <>
                                                                             <Flex>
-                                                                                <SvgUpArrow
-                                                                                    width={10}
-                                                                                    height={10}
-                                                                                    fill={"#581845"} />
+                                                                                <Text>{ques.answer}</Text>
+                                                                                <Flex
+                                                                                    row
+                                                                                    center
+                                                                                    onClick={() => handleToggleCollapse(i, '', '')}
+                                                                                    style={{ cursor: "pointer" }}>
+                                                                                    <Flex><Text color="theme" bold> View Less</Text></Flex>
+                                                                                    <Flex width={5}></Flex>
+                                                                                    <Flex>
+                                                                                        <SvgUpArrow
+                                                                                            width={10}
+                                                                                            height={10}
+                                                                                            fill={"#581845"} />
+                                                                                    </Flex>
+                                                                                </Flex>
                                                                             </Flex>
-                                                                        </Flex></>
-                                                                ) : (
-                                                                    <>
-                                                                        {/* {calculateLineCount(ques.answer, 5, 500) > 2  && */}
+
+                                                                        </>
+                                                                    ) : (
                                                                         <>
                                                                             <Flex
                                                                                 row
@@ -211,24 +210,80 @@ const InterviewQustioncard = ({
                                                                                         height={10}
                                                                                         fill={"581845"} />
                                                                                 </Flex>
-                                                                            </Flex></>
-
-
-                                                                    </>)
-                                                            }
-                                                        </Flex>
+                                                                            </Flex>
+                                                                        </>
+                                                                    )}
+                                                                </Flex>
+                                                            </Flex>
+                                                        ))}
                                                     </Flex>
                                                 ))}
                                             </Flex>
-                                        ))}
-                                    </Flex>
+                                        </Flex>
+                                    ))}
                                 </Flex>
-                            ))}
+                            );
+                        }
+                        else {
 
-                        </Flex>
-                    </Flex>
-                ))}
-            </Flex>
+                            const elsedata = no_of_interview.map((y) => (y.id))
+                            if (elsedata.includes(val.Id)) {
+                                const s_time = new Date(datas.s_time);
+                                const dateString = s_time.toDateString();
+                                console.log(dateString, datas, 'manoj')
+                                return (
+                                    <Flex key={indexva}>
+                                        <Flex row between marginTop={10}>
+                                        <Text color="theme">{`${datas?.event_type} / ${moment(
+                                            datas?.s_time
+                                        ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
+                                            datas?.e_time
+                                        ).format(' HH:mm a')} `}</Text> 
+                                        </Flex>
+
+                                        <Flex>
+                                            <Text
+                                                size={13}
+                                                style={{
+                                                    justifyContent: 'center',
+                                                    display: 'flex',
+                                                    margin: '10px 0px',
+                                                }}
+                                            >
+                                                You must add or generate questions to evaluate the scorecard
+                                            </Text>
+                                            <Flex row center middle marginBottom={10}>
+                                                <Flex>
+                                                    <Button
+                                                        types="secondary"
+                                                        onClick={() => toggleAddQuestion()}
+                                                        style={{ marginRight: '10px' }}
+                                                    >
+                                                        Add Question
+                                                    </Button>
+                                                </Flex>
+
+                                                <Button
+                                                    onClick={generateQuestions}
+                                                >Generate Questions</Button>
+                                            </Flex>
+                                            <Flex
+                                                style={{
+                                                    margin: '10px 0px',
+                                                    borderBottom: '1px solid #584518',
+                                                }}
+                                            ></Flex>
+                                        </Flex>
+                                    </Flex>
+                                );
+                            }
+
+                        }
+                    })}
+                </Flex>
+            ))}
+
+
         </Flex>
     )
 }

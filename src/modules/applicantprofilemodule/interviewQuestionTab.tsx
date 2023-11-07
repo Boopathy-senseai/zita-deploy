@@ -103,7 +103,7 @@ const ScreeningStatusTab = ({
 
   useEffect(() => {
     setgeneratedquestion(interviewData)
-  }, [interviewData])
+  }, [])
   const toggleStage = () => {
     setaddQuestion(!addQuestion);
     // formik.setFieldValue('title', '');
