@@ -37,7 +37,7 @@ interface Props {
   onCancel: () => void;
   recommend?: number;
   commands?: string;
-  isevaluatedata?:any;
+  isevaluatedata?: any;
 }
 
 interface IFormData {
@@ -66,6 +66,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [isloader, setloader] = useState(false);
+  const [valuelist, setvaluelist] = useState([])
   const parser = new DOMParser();
 
   const handleValidations = (values: IFormData) => {
@@ -97,31 +98,33 @@ const EvaluateModal: React.FC<Props> = (props) => {
 
     return errors;
   };
-console.log(isevaluatedata,'evaluatecheckisevaluatedata')
+
   useEffect(() => {
-    if (data && data.length > 0) {
-      setInitial((prev) => ({
-        ...prev,
-        recommend: recommend || 0,
-        commands: commands || '',
-        scorecard: data.reduce(
-          (o, v) => ({
-            ...o,
-            [v.id]: {
-              ...o[v.id],
-              id: v.id,
-              scorecard: parseInt(v.scorecard) || 0,
-              value: '',
-              active: true,
-              //   question: '',
-              //   priority: 0,
-            },
-          }),
-          {},
-        ),
-      }));
+
+    if (isevaluatedata.length > 0 && isevaluatedata !== null) {
+      const datas = Dataconvertion(isevaluatedata)
+
     }
-  }, [JSON.stringify(data)]);
+  }, []);
+
+  const Dataconvertion = (interviewQuestions: any) => {
+    const filteredQuestions = interviewQuestions.reduce((acc, question) => {
+      const category = `${question.type} ${question.level}`;
+      if (!acc[question.type]) {
+        acc[question.type] = []
+      }
+      if (!acc[question.type]) {
+        acc[question.type].push(question.level)
+      }
+      if (!acc[question.type][question.level]) {
+        acc[question.type][question.level] = [];
+      }
+      acc[question.type][question.level].push(question);
+      setvaluelist(acc)
+      return acc;
+    }, {});
+  }
+
 
   // const handleFormChange = (
   //   field: string,
@@ -209,7 +212,13 @@ console.log(isevaluatedata,'evaluatecheckisevaluatedata')
   //     },
   //   }));
   // };
+  // const groupedQuestionsArray = Object.entries(valuelist).map(([category, levels]) => ({
+  //   category,
+  //   levels,
+  // }));
 
+
+  const datalist = Object.values(valuelist)
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
@@ -226,34 +235,43 @@ console.log(isevaluatedata,'evaluatecheckisevaluatedata')
           <Text color="theme">
             {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidateDetails[0]?.first_name} based on the interview? *`}
           </Text>
-          {data.length > 0 &&
-            data.map((doc, index) => {
-              return (
-                <Flex row top marginTop={10} key={index}>
-                  <Flex flex={9}>
-                    <Text>{`${index + 1}. ${doc.question}`}</Text>
-                  </Flex>
+          {datalist.length > 0 && datalist.map((item, itemIndex) => (
+            <div key={itemIndex}>
+              <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
+              {Object.values(item).map((li, liIndex) => (
+                <div key={liIndex}>
+                  <Text bold size={12} style={{marginLeft : "10px"}}>{Object.keys(item)[liIndex]}</Text>
+                  {Object.values(li).map((doc, index) => (
+                    <div key={index}>
+                      <Flex row top marginTop={10}>
+                        <Flex flex={9}>
+                          <Text>{`${index + 1}. ${doc.question}`}</Text>
+                        </Flex>
+                        <Flex
+                          flex={2.5}
+                          className={styles.ratingStar}
+                          marginTop={-32}
+                          marginLeft={5}
+                        >
+                          <StarsRating
+                            count={5}
+                            value={formik.values.scorecard[doc.id]?.scorecard || 0}
+                            onChange={(value) => {
+                              formik.setFieldValue(
+                                `scorecard.${doc.id}.scorecard`,
+                                value,
+                              );
+                            }}
+                          />
+                        </Flex>
+                      </Flex>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
 
-                  <Flex
-                    flex={2.5}
-                    className={styles.ratingStar}
-                    marginTop={-32}
-                    marginLeft={5}
-                  >
-                    <StarsRating
-                      count={5}
-                      value={formik.values.scorecard[doc.id]?.scorecard || 0}
-                      onChange={(value) => {
-                        formik.setFieldValue(
-                          `scorecard.${doc.id}.scorecard`,
-                          value,
-                        );
-                      }}
-                    />
-                  </Flex>
-                </Flex>
-              );
-            })}
           <ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
