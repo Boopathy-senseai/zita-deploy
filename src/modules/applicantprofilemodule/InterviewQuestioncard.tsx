@@ -159,6 +159,7 @@ const InterviewQustioncard = ({
                                                 {value?.Value?.map((label, idx) => (
                                                     <Flex key={idx}>
                                                         <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
+                                                        <Text>{label?.Map_question[label?.Map_question?.length-1].level}</Text>
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 {console.log(expanded1 && expanded1 !== ques.type && expanded2 && expanded2 !== ques.level, '12345')}
