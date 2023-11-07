@@ -90,6 +90,7 @@
 .cardStyle {
   border-left: 6px solid #a5889c;
   margin-top: 10px;
+  margin-bottom: 5px;
   padding: 5px 10px 0px 10px;
 }
 .initialbuttons {
