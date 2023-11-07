@@ -59,8 +59,8 @@ const InterviewQustioncard = ({
     setAddquestion
 }: Props) => {
     const [expandedIndex, setExpandedIndex] = useState([]);
-    const [expanded1, setExpanded1] = useState<any>('');
-    const [expanded2, setExpanded2] = useState<any>('');
+    const [expanded1, setExpanded1] = useState<any>([]);
+    const [expanded2, setExpanded2] = useState<any>([]);
     //onclick function fo modal window open
     const toggleStage = () => {
         setAddquestion(true)
@@ -77,17 +77,15 @@ const InterviewQustioncard = ({
     const generateQuestions = () => {
         setgeneratequestion(true)
     }
-    const handleToggleCollapse = (i, type, level) => {
-        console.log(i, type, level, 'i,type,leveli,type,level')
+    const handleToggleCollapse = (i) => {
+        console.log(i)
         setExpandedIndex((prevIndexes) =>
             prevIndexes.includes(i)
                 ? prevIndexes.filter((prevIndex) => prevIndex !== i)
                 : [...prevIndexes, i]
         );
-        setExpanded1(type)
-        setExpanded2(level)
     };
-
+    console.log(expandedIndex, expanded1, expanded2, 'jklmnopqrstuvwxtz')
     function calculateLineCount(text, lineHeight, maxWidth) {
         // Create a temporary element to measure the text
         const tempElement = document.createElement("div");
@@ -162,10 +160,8 @@ const InterviewQustioncard = ({
                                                         <Text>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
-                                                                {console.log(expanded1 && expanded1 !== ques.type && expanded2 && expanded2 !== ques.level, '12345')}
-
                                                                 <Flex>
-                                                                    {expandedIndex?.includes(i) && expanded1 && expanded1 === ques.type && expanded2 && expanded2 === ques.level ? (
+                                                                    {expandedIndex?.includes(ques.id) ? (
                                                                         <>
                                                                             <Flex row>
                                                                                 <Flex style={{ margin: '0 5px 0 0' }} >
@@ -181,10 +177,10 @@ const InterviewQustioncard = ({
                                                                             <Flex row>
                                                                                 <Text>{ques.answer}
                                                                                     <Text
-                                                                                        onClick={() => handleToggleCollapse(i, ques.type, ques.level)}
+                                                                                        onClick={() => handleToggleCollapse(ques.id)}
                                                                                         style={{ cursor: "pointer" }}>
                                                                                         <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View less</Text>
-                                                                                        <SvgArrowDown1
+                                                                                        <SvgUpArrow
                                                                                             width={10}
                                                                                             height={10}
                                                                                             fill={"581845"} />
@@ -205,7 +201,7 @@ const InterviewQustioncard = ({
                                                                                 <Flex row>
                                                                                     <Text>{ques.question}
                                                                                         <Text
-                                                                                            onClick={() => handleToggleCollapse(i, ques.type, ques.level)}
+                                                                                            onClick={() => handleToggleCollapse(ques.id)}
                                                                                             style={{ cursor: "pointer" }}>
                                                                                             <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
                                                                                             <SvgArrowDown1
