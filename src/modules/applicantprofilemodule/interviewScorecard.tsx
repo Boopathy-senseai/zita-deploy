@@ -61,19 +61,19 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
         <Flex flex={1}>
           {cumulative?.map((doc, index) => {
             const scoredata = no_of_interview.map((id) => (id.id))
-            { console.log("docdocdocdocdoc", scoredata) }
             if (scoredata.includes(doc.interview_id)) {
               if (doc.total_score !== null && doc.total_score !== 0) {
+                const header = no_of_interview.find((d) => (d.id === doc.interview_id))
                 return (
                   <Card className={styles.cardStyle}>
                     <Flex row between center>
-                      {/* <Text color="theme" size={13}>
-                {`${interviews.data?.event_type} / ${moment(
-                  interviews.data?.s_time,
+                      <Text color="theme" size={13}>
+                {`${header.event_type} / ${moment(
+                  header?.s_time,
                 ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-                  interviews.data?.e_time,
+                  header?.e_time,
                 ).format(' HH:mm a')} `}
-              </Text> */}
+              </Text>
                       <Flex onClick={handleEdit} style={{ cursor: 'pointer' }}>
                         <Svgeditingnotes fill={'#581845'} />
                       </Flex>
@@ -111,7 +111,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           className={styles.recommended}
                         >
                           <Text>
-                            {handleRecommendation(firstCummulative?.avg_recommend)}
+                            {handleRecommendation(doc?.avg_recommend)}
                           </Text>
                           {firstCummulative?.avg_recommend && (
                             <Text color="theme">Recommended</Text>
@@ -178,11 +178,11 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                             </Flex>
                           </Flex>
 
-                          {isShowFeedback &&
+                          {/* {isShowFeedback &&
                             cumulative?.map((doc1, ind) => {
                               if (doc1.commands !== '' && doc1.commands !== null) {
-                                return (
-                                  <Flex key={ind} marginBottom={5}>
+                                return ( */}
+                                  <Flex marginBottom={5}>
                                     <Flex row center between>
                                       <Flex style={{ color: '#581845' }}>
                                         {doc.full_name}
@@ -199,9 +199,9 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                       />
                                     </Flex>
                                   </Flex>
-                                );
+                                {/* );
                               }
-                            })}
+                            })} */}
                         </Flex>
                       </Flex>
                     </Flex>
