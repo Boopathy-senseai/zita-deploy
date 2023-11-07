@@ -13,6 +13,7 @@ import {
   Loader,
   Modal,
   StarRating,
+  Toast,
 } from '../../uikit';
 import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
@@ -55,13 +56,14 @@ const ScreeningStatusTab = ({
   const [isaddqustion, setAddquestion] = useState(false);
   const [isgeneratequestion, setgeneratequestion] = useState(false);
   const [isregeneratequestion, setregeneratequestion] = useState(false);
-  const [generatedquestion, setgeneratedquestion] = useState<any>([])
+  const [generatedquestion, setgeneratedquestion] = useState<any>([]);
+  const [isinterviewid, setinterviewid] = useState<any>();
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
     interview_id: number;
   } | null>(null);
-  const [isevaluatedata,setevaluatedata]= useState<any>()
+  const [isevaluatedata, setevaluatedata] = useState<any>()
   const [isQuestionLoader, setQuestionLoader] = useState(false);
 
   useEffect(() => {
@@ -133,7 +135,7 @@ const ScreeningStatusTab = ({
       evaluateQuestionMiddleware({
         jd_id,
         can_id,
-        scorecard : JSON.stringify([]),
+        scorecard: JSON.stringify([]),
         interview_id,
         commands: '',
         recommend: 0,
@@ -146,22 +148,83 @@ const ScreeningStatusTab = ({
     return no_of_interview?.filter((interview) => interview.id === Number(key));
   };
 
-  function AddnewQuestion(formvalue){
-    setAddquestion(false)
+  function AddnewQuestion(formvalue) { 
     const addnewquestion = []
-    formvalue.levellist.map((value,index)=>{
-        const ques = {"id":"0","question":value.levelvalue.question,"type":value.levelvalue.questiontype,"level":value.levelvalue.difficulty}
-        addnewquestion.push(ques)
+    formvalue.levellist.map((value, index) => {
+      const questiondtasa = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
+      addnewquestion.push(questiondtasa)
     })
-    alert(interview_id)   
+
     dispatch(evaluateQuestionMiddleware({
-      jd_id:jd_id,
-      can_id:can_id,
-      scorecard : JSON.stringify(addnewquestion),
-      interview_id:interview_id,
+      jd_id: jd_id,
+      can_id: can_id,
+      scorecard: JSON.stringify(addnewquestion),
+      interview_id: isinterviewid, 
+    })).then((res)=>{
+      if(res.payload.success === true){
+        setAddquestion(false)
+        Toast(' Addquestion successfully', 'LONG', 'success');
+      }
+    })
+  }
+  function Regeneratequestion(formvalue) {
+    const result = formvalue.levellist.reduce((accumulator, item) => {
+      if (item.levelvalue.iseasycheck && item.levelvalue.easy !== "") {
+        accumulator.push({
+          level: "Easy",
+          type: item.levelvalue.name,
+          count: item.levelvalue.easy
+        });
+      }
+      if (item.levelvalue.ismediumcheck && item.levelvalue.medium !== "") {
+        accumulator.push({
+          level: "Medium",
+          type: item.levelvalue.name,
+          count: item.levelvalue.medium
+        });
+      }
+      if (item.levelvalue.ishardcheck && item.levelvalue.hard !== "") {
+        accumulator.push({
+          level: "Hard",
+          type: item.levelvalue.name,
+          count: item.levelvalue.hard
+        });
+      }
+      return accumulator;
+    }, []);
+    dispatch(evaluateQuestionMiddleware({
+      jd_id: jd_id,
+      can_id: can_id,
+      scorecard: JSON.stringify(result),
+      interview_id: isinterviewid,
       role: formvalue.role
-    }))   
-  } 
+    })).then((res)=>{
+      if(res.payload.success === true){
+        setregeneratequestion(false)
+        Toast('Regeneratequestion successfully', 'LONG', 'success');
+      }
+    })
+  }
+  function generatequestion(formvalue) { 
+    const Generatequestion = []
+    formvalue.levellist.map((value, index) => {
+      const  generatequestiondata = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
+      Generatequestion.push(generatequestiondata)
+    })
+
+    dispatch(evaluateQuestionMiddleware({
+      jd_id: jd_id,
+      can_id: can_id,
+      scorecard: JSON.stringify(Generatequestion),
+      interview_id: isinterviewid,
+      role: formvalue.role
+    })).then((res)=>{
+      if(res.payload.success === true){
+        setgeneratequestion(false)
+        Toast('generatequestion successfully', 'LONG', 'success');
+      }
+    })
+  }
   return (
     <Flex row flex={12}>
       <Interviewmodalpopup
@@ -171,7 +234,9 @@ const ScreeningStatusTab = ({
         setregeneratequestion={setregeneratequestion}
         setgeneratequestion={setgeneratequestion}
         setAddquestion={setAddquestion}
-        AddnewQuestion ={AddnewQuestion}
+        AddnewQuestion={AddnewQuestion}
+        Regeneratequestion={Regeneratequestion}
+        generatequestion={generatequestion}
       />
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold className={styles.screenText}>
@@ -215,6 +280,7 @@ const ScreeningStatusTab = ({
             setgeneratequestion={setgeneratequestion}
             setAddquestion={setAddquestion}
             setevaluatedata={setevaluatedata}
+            setinterviewid={setinterviewid}
             onEvaluate={(id, value) => {
               setEvaluatePopup({
                 open: true,

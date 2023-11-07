@@ -20,6 +20,8 @@ type Props = {
     setgeneratequestion?:(val:boolean) => void;
     setAddquestion?:(val:boolean) => void;
     AddnewQuestion?:(val: any) => void,
+    Regeneratequestion?:(val: any) => void,
+    generatequestion?:(val: any) => void,
 };
 
 const Interviewmodalpopup = ({ 
@@ -29,7 +31,9 @@ const Interviewmodalpopup = ({
     setregeneratequestion,
     setgeneratequestion,
     setAddquestion,
-    AddnewQuestion
+    AddnewQuestion,
+    Regeneratequestion,
+    generatequestion 
 }: Props) => {
     //Add Question Modal  state
 
@@ -68,15 +72,21 @@ const Interviewmodalpopup = ({
     };
 
     // add newquestion
-    const handleSubmit = () => {
-        if (!isEmptyArray(formik.values.levellist)){
+    const handleSubmit = (e) => { 
+        if (!isEmptyArray(formik.values.levellist) && e === 'add'){ 
             AddnewQuestion(formik.values)
+        }
+        if (!isEmptyArray(formik.values.levellist) && e === 'regenerate'){ 
+            Regeneratequestion(formik.values)
+        }
+        if (!isEmptyArray(formik.values.levellist) && e === 'genereate'){ 
+            generatequestion(formik.values)
         }
     }
 
     const formik = useFormik({
         initialValues: initialValues,
-        onSubmit: () => handleSubmit(),
+        onSubmit: (e) => handleSubmit(e),
     });
 
     //Add Question Modal  state
@@ -296,7 +306,7 @@ const Interviewmodalpopup = ({
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>
                             <Flex>
-                                <Button types='primary' width="75px"  onClick={() => handleSubmit()} >Add</Button>
+                                <Button types='primary' width="75px"  onClick={() => handleSubmit('add')} >Add</Button>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -429,7 +439,7 @@ const Interviewmodalpopup = ({
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
-                            <Button types='primary' width="75px" onClick={() => handleSubmit()}>Add</Button>
+                            <Button types='primary' width="75px" onClick={() => handleSubmit('regenerate')}>Add</Button>
                         </Flex>
                     </Flex>
 
@@ -583,7 +593,7 @@ const Interviewmodalpopup = ({
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
-                            <Button types='primary' width="75px" onClick={() => handleSubmit()}>Add</Button>
+                            <Button types='primary' width="75px" onClick={() => handleSubmit('genereate')}>Add</Button>
                         </Flex>
                     </Flex>
 
