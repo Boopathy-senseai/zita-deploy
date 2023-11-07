@@ -59,8 +59,9 @@ const InterviewQustioncard = ({
     setAddquestion
 }: Props) => {
     const [expandedIndex, setExpandedIndex] = useState([]);
-    const [expanded1, setExpanded1] = useState<any>([]);
-    const [expanded2, setExpanded2] = useState<any>([]);
+    const [expanded1, setExpanded1] = useState<any>('');
+    const [expanded2, setExpanded2] = useState<any>('');
+    const [questions, setQuestions] = useState<{ [key: string]: Question }>({});
     //onclick function fo modal window open
     const toggleStage = () => {
         setAddquestion(true)
@@ -85,7 +86,26 @@ const InterviewQustioncard = ({
                 : [...prevIndexes, i]
         );
     };
-    console.log(expandedIndex, expanded1, expanded2, 'jklmnopqrstuvwxtz')
+
+    const getCheckedQuestions = () =>
+       
+        Object.keys(questions)
+        .map((key) => questions[key])
+        .filter((doc) => doc.is_active || false) || [];
+        console.log("012345",Object.keys(questions))
+
+    const handleSelectedQuestion = (value) => {
+        console.log("valuemanojjjj",value,questions)
+        setQuestions((prev) => {
+            return {
+            ...prev,
+            [value.id]: { ...prev[value.id], is_active: !prev[value].is_active },
+            };
+        });
+        
+        };
+
+
     function calculateLineCount(text, lineHeight, maxWidth) {
         // Create a temporary element to measure the text
         const tempElement = document.createElement("div");
@@ -137,10 +157,20 @@ const InterviewQustioncard = ({
                                                 </Text>
                                             </Flex>
                                             <Flex>
+                                            {/* {getCheckedQuestions()?.length !== 0 && (
                                                 <Button
-                                                    // onClick={() => {
-                                                    //   onEvaluate(interviews?.data?.id, getCheckedQuestions());
-                                                    // }}
+                                                    onClick={() => {
+                                                    onEvaluate(interviews?.data?.id, getCheckedQuestions());
+                                                    }}
+                                                    types={'primary'}
+                                                >
+                                                    Evaluate
+                                                </Button>
+                                                )} */}
+                                                <Button
+                                                    onClick={() => {
+                                                      onEvaluate(interviews?.data?.id, getCheckedQuestions());
+                                                    }}
                                                     types={'primary'}
                                                 >
                                                     Evaluate
@@ -161,20 +191,21 @@ const InterviewQustioncard = ({
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 <Flex>
+                                                                    {console.log("expandedIndex",expandedIndex)}
                                                                     {expandedIndex?.includes(ques.id) ? (
                                                                         <>
                                                                             <Flex row>
                                                                                 <Flex style={{ margin: '0 5px 0 0' }} >
                                                                                     <InputCheckBox
-                                                                                    // checked={isQuestionCheckedval(ques.id)}
-                                                                                    // onChange={(e) => handleCheck(ques.id, e.target.checked)}
+                                                                                    checked={ques.is_active || false}
+                                                                                    onClick={handleSelectedQuestion(ques)}
                                                                                     />
                                                                                 </Flex>
-                                                                                <Flex>
+                                                                                <Flex style={{textAlign: "justify"}}>
                                                                                     <Text>{ques.question}</Text>
                                                                                 </Flex>
                                                                             </Flex>
-                                                                            <Flex row>
+                                                                            <Flex row style={{textAlign: "justify"}}>
                                                                                 <Text>{ques.answer}
                                                                                     <Text
                                                                                         onClick={() => handleToggleCollapse(ques.id)}
@@ -193,12 +224,12 @@ const InterviewQustioncard = ({
                                                                         <>
                                                                             <Flex row>
                                                                                 <Flex style={{ margin: '0 5px 0 0' }} >
-                                                                                    <InputCheckBox
-                                                                                    // checked={isQuestionCheckedval(ques.id)}
-                                                                                    // onChange={(e) => handleCheck(ques.id, e.target.checked)}
+                                                                                    <InputCheckBox 
+                                                                                    checked={ques.is_active || false} 
+                                                                                    onClick={()=>handleSelectedQuestion(ques)}
                                                                                     />
                                                                                 </Flex>
-                                                                                <Flex row>
+                                                                                <Flex row style={{textAlign: "justify"}}>
                                                                                     <Text>{ques.question}
                                                                                         <Text
                                                                                             onClick={() => handleToggleCollapse(ques.id)}
