@@ -61,6 +61,7 @@ const ScreeningStatusTab = ({
     data: Question[];
     interview_id: number;
   } | null>(null);
+  const [isevaluatedata,setevaluatedata]= useState<any>()
   const [isQuestionLoader, setQuestionLoader] = useState(false);
 
   useEffect(() => {
@@ -160,9 +161,7 @@ const ScreeningStatusTab = ({
       interview_id:interview_id,
       role: formvalue.role
     }))   
-  }
-
-  console.log(isaddqustion, 'isregeneratequestionisregeneratequestionisregeneratequestion')
+  } 
   return (
     <Flex row flex={12}>
       <Interviewmodalpopup
@@ -215,6 +214,7 @@ const ScreeningStatusTab = ({
             setregeneratequestion={setregeneratequestion}
             setgeneratequestion={setgeneratequestion}
             setAddquestion={setAddquestion}
+            setevaluatedata={setevaluatedata}
             onEvaluate={(id, value) => {
               setEvaluatePopup({
                 open: true,
@@ -230,6 +230,7 @@ const ScreeningStatusTab = ({
           {...{ ...evaluatePopup, jd_id, can_id }}
           user={user}
           candidateDetails={candidate_details}
+          isevaluatedata={isevaluatedata}
           onCancel={handleCancel}
         // commands={
         //   interviews[evaluatePopup.interview_id]?.cumulative?.find(

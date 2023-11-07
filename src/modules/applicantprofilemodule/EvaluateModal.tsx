@@ -37,6 +37,7 @@ interface Props {
   onCancel: () => void;
   recommend?: number;
   commands?: string;
+  isevaluatedata?:any;
 }
 
 interface IFormData {
@@ -54,6 +55,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     onCancel,
     recommend,
     commands,
+    isevaluatedata,
     ...rest
   } = props;
   const dispatch: AppDispatch = useDispatch();
@@ -95,7 +97,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
 
     return errors;
   };
-
+console.log(isevaluatedata,'evaluatecheckisevaluatedata')
   useEffect(() => {
     if (data && data.length > 0) {
       setInitial((prev) => ({

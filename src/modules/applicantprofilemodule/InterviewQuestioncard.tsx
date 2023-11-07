@@ -41,6 +41,7 @@ interface Props {
     setgeneratequestion?: (val: boolean) => void;
     setAddquestion?: (val: boolean) => void;
     interviewData?: any;
+    setevaluatedata?:(val:any) => void;
 
 }
 
@@ -56,12 +57,13 @@ const InterviewQustioncard = ({
     indexval,
     setregeneratequestion,
     setgeneratequestion,
-    setAddquestion
+    setAddquestion,
+    setevaluatedata
 }: Props) => {
     const [expandedIndex, setExpandedIndex] = useState([]);
-    const [expanded1, setExpanded1] = useState<any>('');
+    const [selecteddata, setselecteddata] = useState<any>([]);
     const [expanded2, setExpanded2] = useState<any>('');
-    const [questions, setQuestions] = useState<{ [key: string]: Question }>({});
+    const [questions, setQuestions] = useState<any>({});
     //onclick function fo modal window open
     const toggleStage = () => {
         setAddquestion(true)
@@ -78,8 +80,7 @@ const InterviewQustioncard = ({
     const generateQuestions = () => {
         setgeneratequestion(true)
     }
-    const handleToggleCollapse = (i) => {
-        console.log(i)
+    const handleToggleCollapse = (i) => { 
         setExpandedIndex((prevIndexes) =>
             prevIndexes.includes(i)
                 ? prevIndexes.filter((prevIndex) => prevIndex !== i)
@@ -91,42 +92,30 @@ const InterviewQustioncard = ({
        
         Object.keys(questions)
         .map((key) => questions[key])
-        .filter((doc) => doc.is_active || false) || [];
-        console.log("012345",Object.keys(questions))
+        .filter((doc) => doc.is_active || false) || []; 
 
-    const handleSelectedQuestion = (value) => {
-        console.log("valuemanojjjj",value,questions)
-        setQuestions((prev) => {
-            return {
-            ...prev,
-            [value.id]: { ...prev[value.id], is_active: !prev[value].is_active },
-            };
+    const handleSelectedQuestion = (value) => { 
+        setselecteddata((prevId) =>
+            prevId.includes(value.id)
+                ? prevId.filter((prevIds) => prevIds !== value.id)
+                : [...prevId, value.id]
+        );
+        setQuestions((prev) => { 
+            prev = Array.isArray(prev) ? prev : []; 
+            const existingIndex = prev.findIndex((item) => item.id === value.id); 
+            if (existingIndex !== -1) { 
+                return prev.filter((item) => item.id !== value.id);
+            } else { 
+                return [...prev, value];
+            }
         });
-        
         };
 
-
-    function calculateLineCount(text, lineHeight, maxWidth) {
-        // Create a temporary element to measure the text
-        const tempElement = document.createElement("div");
-        tempElement.style.position = "absolute";
-        tempElement.style.whiteSpace = "pre-wrap";
-        tempElement.style.wordWrap = "break-word";
-        tempElement.style.lineHeight = `${lineHeight}px`;
-        tempElement.style.width = `${maxWidth}px`;
-        tempElement.innerHTML = text;
-
-        // Append the temporary element to the document
-        document.body.appendChild(tempElement);
-
-        // Calculate the number of lines based on the height of the element
-        const lineCount = Math.ceil(tempElement.clientHeight / lineHeight);
-
-        // Remove the temporary element
-        document.body.removeChild(tempElement);
-
-        return lineCount;
-    }
+useEffect(()=>{
+    setevaluatedata(questions)
+},[questions])
+     
+    console.log(questions,'hooooooiiiiiii')
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => (
@@ -196,9 +185,9 @@ const InterviewQustioncard = ({
                                                                         <>
                                                                             <Flex row>
                                                                                 <Flex style={{ margin: '0 5px 0 0' }} >
-                                                                                    <InputCheckBox
-                                                                                    checked={ques.is_active || false}
-                                                                                    onClick={handleSelectedQuestion(ques)}
+                                                                                    <InputCheckBox 
+                                                                                    onClick={()=>handleSelectedQuestion(ques)}
+                                                                                    checked={selecteddata?.includes(ques.id)}
                                                                                     />
                                                                                 </Flex>
                                                                                 <Flex style={{textAlign: "justify"}}>
@@ -223,10 +212,10 @@ const InterviewQustioncard = ({
                                                                     ) : (
                                                                         <>
                                                                             <Flex row>
-                                                                                <Flex style={{ margin: '0 5px 0 0' }} >
-                                                                                    <InputCheckBox 
-                                                                                    checked={ques.is_active || false} 
+                                                                                <Flex style={{ margin: '0 5px 0 0' }} > 
+                                                                                    <InputCheckBox  
                                                                                     onClick={()=>handleSelectedQuestion(ques)}
+                                                                                    checked={selecteddata?.includes(ques.id)}
                                                                                     />
                                                                                 </Flex>
                                                                                 <Flex row style={{textAlign: "justify"}}>
@@ -262,8 +251,7 @@ const InterviewQustioncard = ({
                             const elsedata = no_of_interview.map((y) => (y.id))
                             if (elsedata.includes(val.Id)) {
                                 const s_time = new Date(datas.s_time);
-                                const dateString = s_time.toDateString();
-                                console.log(dateString, datas, 'manoj')
+                                const dateString = s_time.toDateString(); 
                                 return (
                                     <Flex key={indexva}>
                                         <Flex row between marginTop={10}>
