@@ -53,6 +53,7 @@ export interface Scorecard {
 }
 
 export interface InterviewerQuestions {
+  success : boolean;
   result: Result | undefined;
   data: Question[];
   cumulative: CumulativeData[];

@@ -109,25 +109,10 @@ const ScreeningStatusTab = ({
   );
 
 
-  // const findobj = cumulative.find((k)=>k.interview_id === isevaluatedata[0] )
-  console.log("cumulativecumulative",cumulative)
-
   useEffect(() => {
     setgeneratedquestion(interviewData)
   }, [])
 
-  useEffect(()=>{
-    console.log("isevaluatedataisevaluatedata",isevaluatedata,user)
-    // if(isevaluatedata !== null &&  isevaluatedata !== undefined && isevaluatedata.length > 0 ){
-    //   alert("enterrr")
-    //   isevaluatedata.forEach((ele) => {
-    //     const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
-    //     console.log("finddata",finddata)
-    //   });
-
-    // }
-
-  },[])
   const toggleStage = () => {
     setaddQuestion(!addQuestion);
     // formik.setFieldValue('title', '');
@@ -153,7 +138,6 @@ const ScreeningStatusTab = ({
 
 
   function UpdateEvaluate(data:any){
-    console.log("_-________",data)
     setevaluatedata(data)
   }
 
@@ -298,7 +282,7 @@ const ScreeningStatusTab = ({
       }
     })
   }
-  console.log("isevaluatedataisevaluatedataisevaluatedataisevaluatedataisevaluatedata",isevaluatedata)
+
   return (
     <Flex row flex={12}>
       <Interviewmodalpopup
@@ -377,7 +361,6 @@ const ScreeningStatusTab = ({
           commands={
             isevaluatedata.map((ele) => {
               const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
-              console.log("___)___)_)_)_)___",finddata)
               return finddata.commands;
           })}
           // recommend={

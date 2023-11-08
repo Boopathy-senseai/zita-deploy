@@ -124,7 +124,6 @@ const InterviewQustioncard = ({
         setevaluatedata(questions)
     }, [questions])
 
-    console.log("isevaluatedataisevaluatedataisevaluatedataisevaluatedata", isevaluatedata)
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => {

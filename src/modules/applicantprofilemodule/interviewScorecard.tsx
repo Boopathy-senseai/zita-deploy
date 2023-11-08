@@ -31,7 +31,6 @@ type Props = {
 }
 
 const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview,datas,UpdateEvaluate}: Props) => {
-  console.log(cumulative, no_of_interview, 'no_of_interviewno_of_interviewno_of_interviewno_of_interview')
   const [isShowFeedback, setFeedbackShow] = useState(false);
   const firstCummulative = cumulative[0] || undefined;
   
@@ -46,7 +45,6 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
       const filteredQuestions = allQuestions.filter((question) => question.scorecard !== null);
       UpdateEvaluate(filteredQuestions)
       onEvaluate(interview_id, filteredQuestions);
-      console.log("mydatamydatamydatamydata",filteredQuestions)
   };
 
   const handleRecommendation = (avg_recommend: number) => {
