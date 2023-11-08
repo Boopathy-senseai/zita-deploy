@@ -37,6 +37,7 @@ interface Props {
     no_of_interview?: any;
     lengthval?: any;
     indexval?: any;
+    isevaluatedata: [];
     setregeneratequestion?: (val: boolean) => void;
     setgeneratequestion?: (val: boolean) => void;
     setAddquestion?: (val: boolean) => void;
@@ -56,6 +57,7 @@ const InterviewQustioncard = ({
     no_of_interview,
     lengthval,
     indexval,
+    isevaluatedata,
     setregeneratequestion,
     setgeneratequestion,
     setAddquestion,
@@ -120,6 +122,8 @@ const InterviewQustioncard = ({
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
+
+    console.log("isevaluatedataisevaluatedataisevaluatedataisevaluatedata", isevaluatedata)
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => {
@@ -147,14 +151,24 @@ const InterviewQustioncard = ({
                                             </Text>
                                         </Flex>
                                         <Flex>
-                                            <Button
-                                                onClick={() => {
-                                                    onEvaluate(datas?.id, getCheckedQuestions());
-                                                }}
-                                                types={'primary'}
-                                            >
-                                                Evaluate
-                                            </Button>
+                                            {isevaluatedata.length > 0 ?
+                                                (
+                                                    <Button
+                                                        onClick={() => {
+                                                            onEvaluate(datas?.id, getCheckedQuestions());
+                                                        }}
+                                                        types={'primary'}
+                                                    >
+                                                        Evaluate
+                                                    </Button>
+                                                ) : (<Button
+                                                    // onClick={() => {
+                                                    //     onEvaluate(datas?.id, getCheckedQuestions());
+                                                    // }}
+                                                    types={'primary'}
+                                                >
+                                                    Evaluate
+                                                </Button>)}
                                         </Flex>
                                     </Flex>}
                             </Flex>

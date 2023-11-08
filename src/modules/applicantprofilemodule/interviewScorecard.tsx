@@ -26,18 +26,27 @@ type Props = {
   onEvaluate?: (id: number, value: Question[]) => void;
   cumulative?: any;
   no_of_interview?: any;
+  datas ?:any;
+  UpdateEvaluate :(val:any)=>void;
 }
 
-const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview }: Props) => {
+const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview,datas,UpdateEvaluate}: Props) => {
   console.log(cumulative, no_of_interview, 'no_of_interviewno_of_interviewno_of_interviewno_of_interview')
   const [isShowFeedback, setFeedbackShow] = useState(false);
   const firstCummulative = cumulative[0] || undefined;
+  
+  const getCheckedQuestions = (interview_id) =>
+    datas.filter((doc) => doc.interview_id === interview_id) || [];
 
-  const getCheckedQuestions = () =>
-    interviews.questions.filter((doc) => doc.is_active || false) || [];
-
-  const handleEdit = () => {
-    // onEvaluate(interviews?.data?.id, getCheckedQuestions());
+    const handleEdit = (interview_id) => {
+      const mydata = datas.find((id)=>(id.Id === interview_id))
+      const allQuestions = mydata.Question.flatMap((category) =>
+      category.Value.flatMap((level) => level["Map_question"])
+      );
+      const filteredQuestions = allQuestions.filter((question) => question.scorecard !== null);
+      UpdateEvaluate(filteredQuestions)
+      onEvaluate(interview_id, filteredQuestions);
+      console.log("mydatamydatamydatamydata",filteredQuestions)
   };
 
   const handleRecommendation = (avg_recommend: number) => {
@@ -74,7 +83,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                   header?.e_time,
                 ).format(' HH:mm a')} `}
               </Text>
-                      <Flex onClick={handleEdit} style={{ cursor: 'pointer' }}>
+                      <Flex onClick={()=>handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
                         <Svgeditingnotes fill={'#581845'} />
                       </Flex>
                     </Flex>
@@ -113,7 +122,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           <Text>
                             {handleRecommendation(doc?.avg_recommend)}
                           </Text>
-                          {firstCummulative?.avg_recommend && (
+                          {doc?.avg_recommend && (
                             <Text color="theme">Recommended</Text>
                           )}
                         </Flex>

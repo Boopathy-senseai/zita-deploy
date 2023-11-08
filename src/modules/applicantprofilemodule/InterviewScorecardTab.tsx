@@ -45,10 +45,11 @@ var querystring = require('querystring');
 
 interface Props {
   onEvaluate?: (id: number, value: Question[]) => void;
+  UpdateEvaluate?:(val: any) => void,
 }
 
 const InterviewScorecardTab: React.FC<Props> = (props) => {
-  const { onEvaluate } = props;
+  const { onEvaluate,UpdateEvaluate } = props;
 
   const dispatch: AppDispatch = useDispatch();
   const [isPostLoader, setPostLoader] = useState(false);
@@ -79,6 +80,7 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
     no_of_interview,
     cumulative,
     results,
+    dataset,
   } = useSelector(
     ({
       applicantProfileInitalReducers,
@@ -96,6 +98,7 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
         no_of_interview: interviewerQuestionReducers.no_of_interview,
         cumulative: interviewerQuestionReducers.cumulative,
         overall: applicantScoreReducers.overall,
+        dataset : interviewerQuestionReducers.data,
         interview:
           typeof applicantScoreReducers.interview !== 'undefined' &&
           applicantScoreReducers.interview.length === 0
@@ -367,8 +370,10 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
             > 
                   <InterviewScorecard 
                     onEvaluate={onEvaluate}
+                    UpdateEvaluate ={UpdateEvaluate}
                     cumulative={cumulative}
                     no_of_interview={no_of_interview}
+                    datas = {dataset}
                   /> 
             </Flex>
          

@@ -58,6 +58,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     isevaluatedata,
     ...rest
   } = props;
+  console.log("recommendrecommendrecommendrecommendrecommendrecommend",props)
   const dispatch: AppDispatch = useDispatch();
   const [initial, setInitial] = useState<IFormData>({
     scorecard: {},
@@ -103,9 +104,31 @@ const EvaluateModal: React.FC<Props> = (props) => {
 
     if (isevaluatedata.length > 0 && isevaluatedata !== null) {
       const datas = Dataconvertion(isevaluatedata)
+      console.log('formik.values formik.values formik.values ========+_+_+_',formik.values )
+      if(formik.values !== null){
+        alert("+=====")
+        const updatescore = {};
+        isevaluatedata.forEach((info) => {
+          // if(info.scorecard !== null){
+            console.log("infooooooo", info,recommend);
+            formik.values.commands = info.commands;
+            formik.values.recommend = recommend[0].total_recommend  ;
+          // }else{
+          //   alert('faill')
+          // }
+          // Assign the key-value pair to the 'updatescore' object
+          updatescore[info.id] = { scorecard: info.scorecard };
+        });
+        console.log("updatescoreupdatescoreupdatescore",updatescore)
+        formik.values.scorecard = updatescore
+      }
+      
+   
 
     }
   }, []);
+
+  console.log("recommendrecommendrecommendrecommend",recommend,commands)
 
   const Dataconvertion = (interviewQuestions: any) => {
     const filteredQuestions = interviewQuestions.reduce((acc, question) => {
@@ -167,7 +190,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
         scorecard: JSON.stringify(
           Object.values(form.scorecard).map((doc,index) => ({
             id: Object.keys(form.scorecard)[index],
-            scorecard: JSON.stringify(doc.scorecard),
+            scorecard: doc.scorecard,
             value: '',
             active: 'True',
           })),
@@ -220,6 +243,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
 
 
   const datalist = Object.values(valuelist)
+  console.log("formik.valuesformik.values",formik.values)
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
@@ -291,6 +315,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
           <Flex>
             <Flex row>
               {hireList.map((doc) => {
+                {console.log("hireListhireList",hireList)}
                 return (
                   <Flex key={doc.value} style={{ margin: '0  20px  10px 0 ' }}>
                     <InputRadio
@@ -359,7 +384,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
               onClick={formik.submitForm}
               style={{ marginTop: '10px' }}
             >
-              {recommend || commands ? 'Update' : 'Add'}
+              {recommend && commands ? 'Update' : 'Add'}
             </Button>
           )}
         </Flex>

@@ -58,12 +58,13 @@ const ScreeningStatusTab = ({
   const [isregeneratequestion, setregeneratequestion] = useState(false);
   const [generatedquestion, setgeneratedquestion] = useState<any>([]);
   const [isinterviewid, setinterviewid] = useState<any>();
+  const [isevaluateddata,setevaluateddata] = useState<any>([]);
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
     interview_id: number;
   } | null>(null);
-  const [isevaluatedata, setevaluatedata] = useState<any>()
+  const [isevaluatedata, setevaluatedata] = useState<any>([])
   const [isQuestionLoader, setQuestionLoader] = useState(false);
 
   useEffect(() => {
@@ -81,6 +82,7 @@ const ScreeningStatusTab = ({
     no_of_interview,
     interviewData,
     genearate,
+    cumulative
   } = useSelector(
     ({
       applicantStausReducers,
@@ -94,6 +96,7 @@ const ScreeningStatusTab = ({
         user: userProfileReducers.user,
         candidate_details: applicantProfileInitalReducers.candidate_details,
         questions: interviewerQuestionReducers.data,
+        cumulative: interviewerQuestionReducers.cumulative,
         interviews: interviewerQuestionReducers.interviews,
         no_of_interview: interviewerQuestionReducers.no_of_interview,
         question_loading: interviewerQuestionReducers.isLoading,
@@ -104,9 +107,26 @@ const ScreeningStatusTab = ({
     },
   );
 
+
+  // const findobj = cumulative.find((k)=>k.interview_id === isevaluatedata[0] )
+  console.log("cumulativecumulative",cumulative)
+
   useEffect(() => {
     setgeneratedquestion(interviewData)
   }, [])
+
+  useEffect(()=>{
+    console.log("isevaluatedataisevaluatedata",isevaluatedata,user)
+    // if(isevaluatedata !== null &&  isevaluatedata !== undefined && isevaluatedata.length > 0 ){
+    //   alert("enterrr")
+    //   isevaluatedata.forEach((ele) => {
+    //     const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
+    //     console.log("finddata",finddata)
+    //   });
+
+    // }
+
+  },[])
   const toggleStage = () => {
     setaddQuestion(!addQuestion);
     // formik.setFieldValue('title', '');
@@ -129,6 +149,12 @@ const ScreeningStatusTab = ({
   const handleCancel = () => {
     setEvaluatePopup(null);
   };
+
+
+  function UpdateEvaluate(data:any){
+    console.log("_-________",data)
+    setevaluatedata(data)
+  }
 
   const handleEvaluateInterview = () => {
     dispatch(
@@ -224,6 +250,7 @@ const ScreeningStatusTab = ({
       }
     })
   }
+  console.log("isevaluatedataisevaluatedataisevaluatedataisevaluatedataisevaluatedata",isevaluatedata)
   return (
     <Flex row flex={12}>
       <Interviewmodalpopup
@@ -275,6 +302,7 @@ const ScreeningStatusTab = ({
           <InterviewQustioncard
             interviewData={generatedquestion}
             no_of_interview={no_of_interview}
+            isevaluatedata ={isevaluatedata}
             setregeneratequestion={setregeneratequestion}
             setgeneratequestion={setgeneratequestion}
             setAddquestion={setAddquestion}
@@ -297,14 +325,19 @@ const ScreeningStatusTab = ({
           candidateDetails={candidate_details}
           isevaluatedata={isevaluatedata}
           onCancel={handleCancel}
-        // commands={
-        //   interviews[evaluatePopup.interview_id]?.cumulative?.find(
-        //     (doc) => doc.interview_id === evaluatePopup.interview_id,
-        //   )?.commands || null
-        // }
-        // recommend={
-        //   interviews[evaluatePopup.interview_id]?.scorecard?.recommend || null
-        // }
+          commands={
+            isevaluatedata.map((ele) => {
+              const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
+              console.log("___)___)_)_)_)___",finddata)
+              return finddata.commands;
+          })}
+          // recommend={
+          //   cumulative.find((id)[evaluatePopup.interview_id]?.scorecard?.recommend || null
+          // }
+          recommend={isevaluatedata.map((ele) => {
+            const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
+            return finddata;
+          })}
         />
       )}
 
@@ -326,6 +359,7 @@ const ScreeningStatusTab = ({
         !issingletab && (
           <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
             <InterviewScorecardTab
+            UpdateEvaluate={UpdateEvaluate}
               onEvaluate={(id, value) => {
                 setEvaluatePopup({
                   open: true,
