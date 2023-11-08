@@ -148,7 +148,7 @@ const ScreeningStatusTab = ({
     return no_of_interview?.filter((interview) => interview.id === Number(key));
   };
 
-  function AddnewQuestion(formvalue) { 
+  function AddnewQuestion(formvalue) {
     const addnewquestion = []
     formvalue.levellist.map((value, index) => {
       const questiondtasa = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
@@ -159,9 +159,9 @@ const ScreeningStatusTab = ({
       jd_id: jd_id,
       can_id: can_id,
       scorecard: JSON.stringify(addnewquestion),
-      interview_id: isinterviewid, 
-    })).then((res)=>{
-      if(res.payload.success === true){
+      interview_id: isinterviewid,
+    })).then((res) => {
+      if (res.payload.success === true) {
         setAddquestion(false)
         Toast(' Addquestion successfully', 'LONG', 'success');
       }
@@ -192,23 +192,22 @@ const ScreeningStatusTab = ({
       }
       return accumulator;
     }, []);
-    dispatch(evaluateQuestionMiddleware({
+    dispatch(interviewQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
-      scorecard: JSON.stringify(result),
+      re_generate: result,
       interview_id: isinterviewid,
-      role: formvalue.role
-    })).then((res)=>{
-      if(res.payload.success === true){
-        setregeneratequestion(false)
+    })).then((res) => { 
+      setregeneratequestion(false)
+      if (res?.payload === true) {
         Toast('Regeneratequestion successfully', 'LONG', 'success');
       }
     })
   }
-  function generatequestion(formvalue) { 
+  function generatequestion(formvalue) {
     const Generatequestion = []
     formvalue.levellist.map((value, index) => {
-      const  generatequestiondata = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
+      const generatequestiondata = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
       Generatequestion.push(generatequestiondata)
     })
 
@@ -218,8 +217,8 @@ const ScreeningStatusTab = ({
       scorecard: JSON.stringify(Generatequestion),
       interview_id: isinterviewid,
       role: formvalue.role
-    })).then((res)=>{
-      if(res.payload.success === true){
+    })).then((res) => {
+      if (res.payload.success === true) {
         setgeneratequestion(false)
         Toast('generatequestion successfully', 'LONG', 'success');
       }

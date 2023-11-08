@@ -16,15 +16,15 @@ type Props = {
     isregeneratequestion?: boolean;
     isgeneratequestion?: boolean;
     isaddqustion?: boolean;
-    setregeneratequestion?:(val:boolean) => void;
-    setgeneratequestion?:(val:boolean) => void;
-    setAddquestion?:(val:boolean) => void;
-    AddnewQuestion?:(val: any) => void,
-    Regeneratequestion?:(val: any) => void,
-    generatequestion?:(val: any) => void,
+    setregeneratequestion?: (val: boolean) => void;
+    setgeneratequestion?: (val: boolean) => void;
+    setAddquestion?: (val: boolean) => void;
+    AddnewQuestion?: (val: any) => void,
+    Regeneratequestion?: (val: any) => void,
+    generatequestion?: (val: any) => void,
 };
 
-const Interviewmodalpopup = ({ 
+const Interviewmodalpopup = ({
     isregeneratequestion,
     isgeneratequestion,
     isaddqustion,
@@ -33,7 +33,7 @@ const Interviewmodalpopup = ({
     setAddquestion,
     AddnewQuestion,
     Regeneratequestion,
-    generatequestion 
+    generatequestion
 }: Props) => {
     //Add Question Modal  state
 
@@ -42,6 +42,9 @@ const Interviewmodalpopup = ({
     const [isstoreaddData, setstoreaddData] = useState<any>([]);
     const [increasedata, setincreasedata] = useState<any>(0);
     const [overalldata, setoveralldata] = useState<any>('');
+    const [iserrorhandle, seterrorhandle] = useState<any>(false);
+    const [iserrorhandleadd, seterrorhandleadd] = useState<any>(false);
+    const [iserrorhandlerole, seterrorhandlerole] = useState<any>(false);
     const [role, setrole] = useState<any>([])
     interface LevelValue {
         levelvalue: any;
@@ -72,15 +75,34 @@ const Interviewmodalpopup = ({
     };
 
     // add newquestion
-    const handleSubmit = (e) => { 
-        if (!isEmptyArray(formik.values.levellist) && e === 'add'){ 
-            AddnewQuestion(formik.values)
+    const handleSubmit = (e) => {
+        if (isEmptyArray(formik.values.levellist)) {
+            seterrorhandle(true);
         }
-        if (!isEmptyArray(formik.values.levellist) && e === 'regenerate'){ 
+        if (!isEmptyArray(formik.values.levellist) && e === 'add') {
+            if (formik.values?.levellist[0]?.levelvalue?.difficulty !== '' && formik.values?.levellist[0]?.levelvalue.difficulty !== undefined &&
+                formik.values?.levellist[0]?.levelvalue?.question !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
+                formik.values?.levellist[0]?.levelvalue?.questiontype !== '' && formik.values?.levellist[0]?.levelvalue.questiontype !== undefined) {
+                AddnewQuestion(formik.values)
+                seterrorhandleadd(false);
+            }
+            else {
+                seterrorhandleadd(true);
+            }
+
+        }
+        if (!isEmptyArray(formik.values.levellist) && e === 'regenerate') {
             Regeneratequestion(formik.values)
         }
-        if (!isEmptyArray(formik.values.levellist) && e === 'genereate'){ 
-            generatequestion(formik.values)
+        if (!isEmptyArray(formik.values.levellist) && e === 'genereate') {
+            if (formik.values.role !== '' && formik.values.role !== undefined) {
+                generatequestion(formik.values)
+                seterrorhandlerole(false)
+            }
+            else {
+                seterrorhandlerole(true)
+            }
+
         }
     }
 
@@ -93,7 +115,7 @@ const Interviewmodalpopup = ({
     const handlequestion = (e) => {
         formik.setFieldValue('levellist[0].levelvalue.question', e.target.value)
     }
-
+    console.log(isEmptyArray(formik.values.levellist), isEmptyArray(formik.values?.levellist[0]?.levelvalue?.question), isEmptyArray(formik.values?.levellist[0]?.levelvalue?.difficulty), formik.values?.levellist[0]?.levelvalue.question === undefined, 'bbbbb')
     //generate Question by AI Modal  for role 
     const handlerole = (event) => {
         formik.setFieldValue("role", event.target.value);
@@ -201,6 +223,15 @@ const Interviewmodalpopup = ({
             formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
         }
     }
+    //Handlecloseforms
+    const closeforms = () => {
+        setstoreaddData([])
+        seterrorhandle(false);
+        formik.resetForm();
+        setregeneratequestion(false);
+        setgeneratequestion(false);
+        setAddquestion(false);
+    }
 
     //useEffect for both Re-generate Question and generate Question by AI Modal  
     useEffect(() => {
@@ -224,20 +255,34 @@ const Interviewmodalpopup = ({
         };
         const aggregatedValues = aggregateLevels(formik.values.levellist);
         console.warn("sum", aggregatedValues)
-
-
+        if (!isEmptyArray(formik.values.levellist) && iserrorhandle) {
+            seterrorhandle(false)
+        }
         if (aggregatedValues > 15) {
             setoveralldata('the have only 15')
+
         }
         else if (aggregatedValues < 1) {
             setoveralldata('the have only 15')
         }
         else if (aggregatedValues <= 15 && aggregatedValues >= 1) {
+            seterrorhandle(false)
             setoveralldata('')
         }
-    }, [formik.values.levellist])
+        if (formik.values?.levellist[0]?.levelvalue?.difficulty !== '' && formik.values?.levellist[0]?.levelvalue.difficulty !== undefined &&
+            formik.values?.levellist[0]?.levelvalue?.question !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
+            formik.values?.levellist[0]?.levelvalue?.questiontype !== '' && formik.values?.levellist[0]?.levelvalue.questiontype !== undefined) {
+            seterrorhandleadd(false);
+        }
+        if (formik.values.role !== '' && formik.values.role !== undefined) {
+            seterrorhandlerole(false)
+        }
 
+    }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
+    formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
+    formik.values.role])
 
+    console.log(iserrorhandle, 'puugscvv', iserrorhandleadd)
     useEffect(() => {
         dispatch(rolevaluemiddleware())
             .then(
@@ -301,12 +346,14 @@ const Interviewmodalpopup = ({
                                 onChange={(e) => handlequestion(e)}
                             />
                         </Flex>
+                        {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
+                        {iserrorhandleadd && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                         <Flex row marginTop={17} end>
-                            <Flex marginRight={20} onClick={()=>setAddquestion(false)}>
+                            <Flex marginRight={20} onClick={closeforms}>
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>
                             <Flex>
-                                <Button types='primary' width="75px"  onClick={() => handleSubmit('add')} >Add</Button>
+                                <Button types='primary' width="75px" onClick={() => handleSubmit('add')} >Add</Button>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -431,11 +478,13 @@ const Interviewmodalpopup = ({
                                 })}
                             </Flex>
                         }
-                        {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
-                    </Flex>
 
+
+                    </Flex>
+                    {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
+                    {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     <Flex row marginTop={17} end>
-                        <Flex marginRight={20} onClick={()=>setregeneratequestion(false)}>
+                        <Flex marginRight={20} onClick={closeforms}>
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
@@ -586,10 +635,13 @@ const Interviewmodalpopup = ({
                                 })}
                             </Flex>
                         }
-                        {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
+
                     </Flex>
+                    {iserrorhandlerole && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
+                    {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
+                    {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     <Flex row marginTop={17} end>
-                        <Flex marginRight={20} onClick={()=>setgeneratequestion(false)}>
+                        <Flex marginRight={20} onClick={closeforms} >
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
