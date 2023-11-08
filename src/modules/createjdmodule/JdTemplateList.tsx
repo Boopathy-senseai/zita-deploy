@@ -96,7 +96,7 @@ const JdTemplateList = ({
       </Flex>
     
       <div
-          className={cx('trimStyle')}
+          className={styles.trimStyle}
           dangerouslySetInnerHTML={{ __html: list.job_description }}
         />
         </Flex>
