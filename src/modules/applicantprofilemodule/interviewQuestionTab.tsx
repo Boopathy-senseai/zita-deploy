@@ -301,14 +301,14 @@ const ScreeningStatusTab = ({
         <Text bold className={styles.screenText}>
           Interview Questions
         </Text>
-        <Text>
+        <Text style={{marginBottom:'10px'}}>
           You can select, deselect, regenerate, and add questions for the
           applicant.
         </Text>
         <Flex
           columnFlex
           className={styles.overAllPopup}
-          height={window.innerHeight - 155}
+          height={window.innerHeight - 145}
         >
 
           {/* {Object.keys(interviews).map((key, i) => {

@@ -71,7 +71,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
 
     return (
       <Flex row between>
-        <Flex flex={1} height={window.innerHeight - 240} style={{overflowY:'scroll',display:'flex'}}>
+        <Flex flex={1} height={window.innerHeight - 220} style={{overflowY:'scroll',display:'flex'}}>
           {cumulative?.map((doc, index) => {
             const scoredata = no_of_interview.map((id) => (id.id))
             if (scoredata.includes(doc.interview_id)) {
@@ -133,13 +133,13 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                       </Flex>
                       <Flex width={'100%'}>
 
-                        <Flex key={index} row marginTop={10}>
+                        <Flex key={index} row marginTop={10} between>
                           <Flex row center>
                             <Text title="Interviewer">
                               <SvgInterviewer width={16} height={16} />
                             </Text>
 
-                            <Text style={{ marginLeft: '5px' }}>
+                            <Text style={{ marginLeft: '5px' }}  className={styles.changingtexts} title={doc?.full_name}>
                               {doc?.full_name}
                             </Text>
                           </Flex>
@@ -169,9 +169,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                               />
                             </Flex>
                           </Flex>
-                        </Flex>
-
-
+                        </Flex> 
                         <Flex>
                           <Flex row center>
                             <Text bold size={13} color="theme">

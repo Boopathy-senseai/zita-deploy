@@ -347,7 +347,6 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
           flex={6}
           columnFlex
           className={styles.overAll}
-          style={{ padding: '10px' }}
           // height={window.innerHeight - 120}
         >
           <Text bold style={{ fontSize: '14px' }}>
@@ -357,16 +356,15 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
             {"Interviewer's overall ratings for each interview"}.
           </Text>
 
-          <Flex center middle className={styles.starstylehead}>
+          <Flex center middle className={styles.starstylehead} marginTop={-9}>
             <StarsRating disabled count={5} value={results?.total_avg} />
-            <Flex center middle marginTop={10}>
+            <Flex center middle marginTop={20} marginBottom={5}>
               <Text  color= 'theme' style={{marginTop:"15px"}}>{reaction}</Text>
             </Flex>
-          </Flex>
-          {console.log(cumulative,'cumulativecumulativecumulativecumulative')}
+          </Flex> 
             <Flex
               style={{ overflow: 'scroll', paddingRight: '5px' }}
-              maxHeight={window.innerHeight - 140}
+              maxHeight={window.innerHeight - 135}
             > 
                   <InterviewScorecard 
                     onEvaluate={onEvaluate}

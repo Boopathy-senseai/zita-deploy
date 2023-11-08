@@ -139,6 +139,7 @@
 .ratingStar ul li {
   font-size: 16px;
   cursor: default;
+  margin-right: 7px;
 }
 /* .ratingStar ul{
     height: 10px;
@@ -176,4 +177,11 @@
   align-content: center;
 
   margin: 0 auto;
+}
+.changingtexts {
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 145px;
 }

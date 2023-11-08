@@ -14,6 +14,7 @@ import {
 } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import { UserEntity } from '../accountsettingsmodule/userprofilemodule/UserProfileTypes';
 import { AppDispatch } from '../../store';
 import { isEmpty } from '../../uikit/helper';
@@ -23,6 +24,7 @@ import { hireList } from './mock';
 import { Question, ScoreCardFormInputData } from './interviewerQuestionType';
 import { CandidateDetailsEntity } from './applicantProfileTypes';
 import { evaluateQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
+
 
 const cx = classNames.bind(styles);
 
@@ -103,20 +105,20 @@ const EvaluateModal: React.FC<Props> = (props) => {
 
     if (isevaluatedata.length > 0 && isevaluatedata !== null) {
       const datas = Dataconvertion(isevaluatedata)
-      if(formik.values !== null){
+      if (formik.values !== null) {
         const updatescore = {};
         isevaluatedata.forEach((info) => {
-          if(info.scorecard !== null){
+          if (info.scorecard !== null) {
             formik.values.commands = info.commands;
-            formik.values.recommend = recommend[0].total_recommend  ;
+            formik.values.recommend = recommend[0].total_recommend;
           }
           // Assign the key-value pair to the 'updatescore' object
           updatescore[info.id] = { scorecard: info.scorecard };
         });
         formik.values.scorecard = updatescore
       }
-      
-   
+
+
 
     }
   }, []);
@@ -178,7 +180,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
         ...form,
         interview_id: JSON.stringify(rest.interview_id),
         scorecard: JSON.stringify(
-          Object.values(form.scorecard).map((doc,index) => ({
+          Object.values(form.scorecard).map((doc, index) => ({
             id: Object.keys(form.scorecard)[index],
             scorecard: doc.scorecard,
             value: '',
@@ -216,20 +218,20 @@ const EvaluateModal: React.FC<Props> = (props) => {
     enableReinitialize: true,
     validate: handleValidations,
   });
-
-  // const handleScoreCardChange = (id: number, field: string, value: any) => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     scorecard: {
-  //       ...prev?.scorecard,
-  //       [id]: { ...prev?.scorecard[id], [field]: value },
-  //     },
-  //   }));
-  // };
-  // const groupedQuestionsArray = Object.entries(valuelist).map(([category, levels]) => ({
-  //   category,
-  //   levels,
-  // }));
+  const handlelevelradio = (val) => {
+    const value = val.toLowerCase();
+    console.log(value, 'easycheck')
+    if (value === 'easy') {
+      return <SvgRadioWithLine fill="#34CC65" width={16} height={16} />;
+    }
+    if (value === 'medium') {
+      return <SvgRadioWithLine fill="#F29111" width={16} height={16} />;
+    }
+    if (value === 'hard') {
+      return <SvgRadioWithLine fill="#ED4857" width={16} height={16} />;
+    }
+    return null;
+  };
   const datalist = Object.values(valuelist)
   return (
     <Modal open={open}>
@@ -241,7 +243,6 @@ const EvaluateModal: React.FC<Props> = (props) => {
           style={{
             overflow: 'scroll',
             maxHeight: '500px',
-            padding: '0px 5px',
           }}
         >
           <Text color="theme">
@@ -252,10 +253,18 @@ const EvaluateModal: React.FC<Props> = (props) => {
               <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
               {Object.values(item).map((li, liIndex) => (
                 <div key={liIndex}>
-                  <Text bold size={12} style={{marginLeft : "10px"}}>{Object.keys(item)[liIndex]}</Text>
+                  <Flex row>
+                    <Flex marginRight={7} marginTop={1}>
+                      {handlelevelradio(Object.keys(item)[liIndex])}
+                    </Flex>
+                    <Flex>
+                      <Text color='theme'>{Object.keys(item)[liIndex]}</Text>
+                    </Flex>
+                  </Flex>
+                  {/* <Text bold size={12} color='theme'>{Object.keys(item)[liIndex]}</Text> */}
                   {Object.values(li).map((doc, index) => (
                     <div key={index}>
-                      <Flex row top marginTop={10}>
+                      <Flex row top  marginLeft={2}>
                         <Flex flex={9}>
                           <Text>{`${index + 1}. ${doc.question}`}</Text>
                         </Flex>

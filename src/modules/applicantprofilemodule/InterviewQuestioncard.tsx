@@ -7,6 +7,7 @@ import SvgAdd from '../../icons/SvgAdd';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgArrowDown1 from '../../icons/SvgArrowDown1';
+import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import SvgUpArrow from '../../icons/SvgArrowUp';
 import { Button, Flex, InputCheckBox, Loader, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText';
@@ -24,6 +25,7 @@ import {
     evaluateQuestionMiddleware,
     interviewQuestionMiddleware,
 } from './store/middleware/interviewquestionMiddleware';
+
 
 
 const cx = classNames.bind(styles);
@@ -44,7 +46,7 @@ interface Props {
     interviewData?: any;
     setevaluatedata?: (val: any) => void;
     setinterviewid?: (val: any) => void;
-    
+
 
 }
 
@@ -119,7 +121,20 @@ const InterviewQustioncard = ({
             }
         });
     };
-
+    const handlelevelradio = (val) => {
+        const value = val.toLowerCase();
+        console.log(value,'easycheck')
+        if (value === 'easy') {
+            return  <SvgRadioWithLine fill="#34CC65" width={16} height={16}/>;
+        }
+        if (value === 'medium') {
+            return  <SvgRadioWithLine fill="#F29111" width={16} height={16}/>;
+        }
+        if (value ===  'hard') {
+            return  <SvgRadioWithLine fill="#ED4857" width={16} height={16}/>;
+        }
+        return null;
+    };
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
@@ -130,9 +145,9 @@ const InterviewQustioncard = ({
                 const matchingData = interviewData.find(val => val.Id === datas.id);
                 if (matchingData) {
                     return (
-                        <Flex key={indexva} style={{boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px',borderRadius:'4px'}} marginBottom={10} marginLeft={2}>
-                            <Flex row between center style={{backgroundColor:'#D7C7D2',borderRadius:'4px 4px 0px 0px',padding:'5px'}}>
-                                <Text color="theme">{`${datas?.event_type} / ${moment(
+                        <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
+                            <Flex row between center style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px 10px' }}>
+                                <Text >{`${datas?.event_type} / ${moment(
                                     datas?.s_time
                                 ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
                                     datas?.e_time
@@ -141,13 +156,13 @@ const InterviewQustioncard = ({
                                     <Flex row center between>
                                         <Flex marginRight={15}>
                                             <Text title="Regenerate Question" style={{ cursor: 'pointer' }} onClick={() => regenerateQuestions(datas.id)}>
-                                                <SvgRegenerateQuestion  />
+                                                <SvgRegenerateQuestion />
                                             </Text>
                                         </Flex>
 
                                         <Flex marginRight={15} >
                                             <Text title="Add Question" style={{ cursor: 'pointer' }} onClick={() => toggleStage(datas.id)}>
-                                            <SvgAdd width={14} height={14} fill="#581845"   />
+                                                <SvgAdd width={14} height={14} fill="#581845" />
                                             </Text>
                                         </Flex>
                                         <Flex>
@@ -173,7 +188,7 @@ const InterviewQustioncard = ({
                                     </Flex>}
                             </Flex>
                             {matchingData.Question?.map((value, ind) => (
-                                <Flex key={ind} className={styles.cardview} style={{padding:'0px 5px 0px 5px'}}>
+                                <Flex key={ind} className={styles.cardview} style={{ padding: '5px 10px' }}>
                                     <Flex>
                                         <Text style={{ textTransform: "capitalize" }} bold>
                                             {value.Category}
@@ -182,16 +197,23 @@ const InterviewQustioncard = ({
                                             <Flex key={idx}>
                                                 <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
                                                 <Flex>
-                                                    <Text color='theme'>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
-                                                    <Flex> 
+                                                    <Flex row>
+                                                        <Flex marginRight={7} marginTop={1}>
+                                                            {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
+                                                        </Flex>
+                                                        <Flex>
+                                                            <Text color='theme'>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
+                                                        </Flex>
+                                                    </Flex>
+                                                    <Flex>
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 <Flex>
                                                                     {expandedIndex?.includes(ques.id) ? (
                                                                         <>
-                                                                            <Flex row style={{ borderBottom: i !== label?.Map_question?.length - 1 ? '' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5}>
+                                                                            <Flex row style={{ borderBottom: i !== label?.Map_question?.length - 1 ? '' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
                                                                                 {datas.evaluate !== true &&
-                                                                                    <Flex style={{ margin: '0 5px 0 0' }} >
+                                                                                    <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
                                                                                             onClick={() => handleSelectedQuestion(ques)}
                                                                                             checked={selecteddata?.includes(ques.id)}
@@ -228,9 +250,9 @@ const InterviewQustioncard = ({
                                                                         </>
                                                                     ) : (
                                                                         <>
-                                                                            <Flex row style={{ borderBottom: i !== label?.Map_question?.length - 1 ? ' ' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5}>
+                                                                            <Flex row style={{ borderBottom: i !== label?.Map_question?.length - 1 ? ' ' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
                                                                                 {datas.evaluate !== true &&
-                                                                                    <Flex style={{ margin: '0 5px 0 0' }} >
+                                                                                    <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
                                                                                             onClick={() => handleSelectedQuestion(ques)}
                                                                                             checked={selecteddata?.includes(ques.id)}
@@ -274,9 +296,9 @@ const InterviewQustioncard = ({
                     const elsedata = no_of_interview.map(y => y.id);
                     if (elsedata.includes(datas.id)) {
                         return (
-                            <Flex key={indexva} style={{boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px',borderRadius:'4px'}} marginBottom={10} marginLeft={2}>
-                                <Flex row between style={{backgroundColor:'#D7C7D2',borderRadius:'4px 4px 0px 0px',padding:'5px'}}>
-                                    <Text color="theme">{`${datas?.event_type} / ${moment(
+                            <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
+                                <Flex row between style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px' }}>
+                                    <Text>{`${datas?.event_type} / ${moment(
                                         datas?.s_time
                                     ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
                                         datas?.e_time
@@ -306,7 +328,7 @@ const InterviewQustioncard = ({
                                         </Flex>
 
                                         <Button
-                                            onClick={()=>generateQuestions(datas.id)}
+                                            onClick={() => generateQuestions(datas.id)}
                                         >Generate Questions</Button>
                                     </Flex>
                                     <Flex
