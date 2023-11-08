@@ -26,27 +26,33 @@ type Props = {
   onEvaluate?: (id: number, value: Question[]) => void;
   cumulative?: any;
   no_of_interview?: any;
-  datas ?:any;
-  UpdateEvaluate :(val:any)=>void;
+  datas?: any;
+  UpdateEvaluate: (val: any) => void;
 }
 
-const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview,datas,UpdateEvaluate}: Props) => {
-  const [isShowFeedback, setFeedbackShow] = useState(false);
+const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview, datas, UpdateEvaluate }: Props) => {
+  const [isShowFeedback, setFeedbackShow] = useState<any>([]);
   const firstCummulative = cumulative[0] || undefined;
-  
+
   const getCheckedQuestions = (interview_id) =>
     datas.filter((doc) => doc.interview_id === interview_id) || [];
 
-    const handleEdit = (interview_id) => {
-      const mydata = datas.find((id)=>(id.Id === interview_id))
-      const allQuestions = mydata.Question.flatMap((category) =>
+  const handleEdit = (interview_id) => {
+    const mydata = datas.find((id) => (id.Id === interview_id))
+    const allQuestions = mydata.Question.flatMap((category) =>
       category.Value.flatMap((level) => level["Map_question"])
-      );
-      const filteredQuestions = allQuestions.filter((question) => question.scorecard !== null);
-      UpdateEvaluate(filteredQuestions)
-      onEvaluate(interview_id, filteredQuestions);
+    );
+    const filteredQuestions = allQuestions.filter((question) => question.scorecard !== null);
+    UpdateEvaluate(filteredQuestions)
+    onEvaluate(interview_id, filteredQuestions);
   };
-
+ const handlefeedback=(e)=>{
+  setFeedbackShow((prevId) =>
+  prevId.includes(e)
+      ? prevId.filter((prevIds) => prevIds !== e)
+      : [...prevId, e]
+);
+ }
   const handleRecommendation = (avg_recommend: number) => {
     const value =
       avg_recommend && avg_recommend !== 0 && Math.round(avg_recommend);
@@ -65,7 +71,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
 
     return (
       <Flex row between>
-        <Flex flex={1}>
+        <Flex flex={1} height={window.innerHeight - 240} style={{overflowY:'scroll',display:'flex'}}>
           {cumulative?.map((doc, index) => {
             const scoredata = no_of_interview.map((id) => (id.id))
             if (scoredata.includes(doc.interview_id)) {
@@ -75,13 +81,13 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                   <Card className={styles.cardStyle}>
                     <Flex row between center>
                       <Text color="theme" size={13}>
-                {`${header.event_type} / ${moment(
-                  header?.s_time,
-                ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-                  header?.e_time,
-                ).format(' HH:mm a')} `}
-              </Text>
-                      <Flex onClick={()=>handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
+                        {`${header.event_type} / ${moment(
+                          header?.s_time,
+                        ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
+                          header?.e_time,
+                        ).format(' HH:mm a')} `}
+                      </Text>
+                      <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
                         <Svgeditingnotes fill={'#581845'} />
                       </Flex>
                     </Flex>
@@ -90,7 +96,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                         style={{ display: 'flex', borderRight: '0.5px solid #c3c3c3' }}
                         marginRight={10}
                       >
-                        <Flex center>
+                        <Flex center middle marginRight={10} >
                           <Flex
                             marginLeft={15}
                             marginRight={10}
@@ -117,7 +123,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           marginRight={10}
                           className={styles.recommended}
                         >
-                          <Text>
+                          <Text style={{marginRight:'5px'}}>
                             {handleRecommendation(doc?.avg_recommend)}
                           </Text>
                           {doc?.avg_recommend && (
@@ -173,7 +179,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                             </Text>
                             <Flex
                               marginLeft={5}
-                              onClick={() => setFeedbackShow(!isShowFeedback)}
+                              onClick={() =>handlefeedback(doc.interview_id)}
                               style={{ cursor: 'pointer' }}
                             >
                               <SvgAngle
@@ -183,32 +189,26 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                 up={isShowFeedback}
                               />
                             </Flex>
-                          </Flex>
+                          </Flex> 
+                           {isShowFeedback?.includes(doc.interview_id) &&
+                             
+                          <Flex marginBottom={5}>
+                            <Flex row center between>
+                              <Flex style={{ color: '#581845' }}>
+                                {doc.full_name}
+                              </Flex>
+                              {/* <Svgeditingnotes fill="#581845" /> */}
+                            </Flex>
 
-                          {/* {isShowFeedback &&
-                            cumulative?.map((doc1, ind) => {
-                              if (doc1.commands !== '' && doc1.commands !== null) {
-                                return ( */}
-                                  <Flex marginBottom={5}>
-                                    <Flex row center between>
-                                      <Flex style={{ color: '#581845' }}>
-                                        {doc.full_name}
-                                      </Flex>
-                                      {/* <Svgeditingnotes fill="#581845" /> */}
-                                    </Flex>
-
-                                    <Flex>
-                                      <td
-                                        className={styles.commentTextStyle}
-                                        dangerouslySetInnerHTML={{
-                                          __html: doc?.commands,
-                                        }}
-                                      />
-                                    </Flex>
-                                  </Flex>
-                                {/* );
-                              }
-                            })} */}
+                            <Flex>
+                              <td
+                                className={styles.commentTextStyle}
+                                dangerouslySetInnerHTML={{
+                                  __html: doc?.commands,
+                                }}
+                              />
+                            </Flex>
+                          </Flex>} 
                         </Flex>
                       </Flex>
                     </Flex>

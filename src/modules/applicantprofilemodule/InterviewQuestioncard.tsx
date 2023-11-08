@@ -140,14 +140,14 @@ const InterviewQustioncard = ({
                                 {datas.evaluate !== true &&
                                     <Flex row center between>
                                         <Flex marginRight={15}>
-                                            <Text title="Regenerate Question" style={{ cursor: 'pointer' }}>
-                                                <SvgRegenerateQuestion onClick={() => regenerateQuestions(datas.id)} />
+                                            <Text title="Regenerate Question" style={{ cursor: 'pointer' }} onClick={() => regenerateQuestions(datas.id)}>
+                                                <SvgRegenerateQuestion  />
                                             </Text>
                                         </Flex>
 
-                                        <Flex marginRight={15}>
-                                            <Text title="Add Question" style={{ cursor: 'pointer' }}>
-                                                <SvgRegenerateQuestion onClick={() => toggleStage(datas.id)} />
+                                        <Flex marginRight={15} >
+                                            <Text title="Add Question" style={{ cursor: 'pointer' }} onClick={() => toggleStage(datas.id)}>
+                                            <SvgAdd width={14} height={14} fill="#581845"   />
                                             </Text>
                                         </Flex>
                                         <Flex>
@@ -274,8 +274,8 @@ const InterviewQustioncard = ({
                     const elsedata = no_of_interview.map(y => y.id);
                     if (elsedata.includes(datas.id)) {
                         return (
-                            <Flex key={indexva}>
-                                <Flex row between marginTop={10}>
+                            <Flex key={indexva} style={{boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px',borderRadius:'4px'}} marginBottom={10} marginLeft={2}>
+                                <Flex row between style={{backgroundColor:'#D7C7D2',borderRadius:'4px 4px 0px 0px',padding:'5px'}}>
                                     <Text color="theme">{`${datas?.event_type} / ${moment(
                                         datas?.s_time
                                     ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
@@ -312,7 +312,6 @@ const InterviewQustioncard = ({
                                     <Flex
                                         style={{
                                             margin: '10px 0px',
-                                            borderBottom: '1px solid #584518',
                                         }}
                                     ></Flex>
                                 </Flex>
