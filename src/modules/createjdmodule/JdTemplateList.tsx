@@ -48,7 +48,7 @@ const JdTemplateList = ({
   // template copy function
   const handleCopy = () => {
     console.log("zzzz",list)
-    const expSplit = list?.experience.split('-').toString();
+    const expSplit = list?.experience?.split('-').toString();
     if (expSplit?.length !== 0) {
       setFieldValue('minimumExperience', expSplit?.charAt(0));
     }
@@ -88,7 +88,7 @@ const JdTemplateList = ({
       ):( <SvgNotselected onClick={()=>select(list,index)} className={styles.pointer}></SvgNotselected>)}
     
     </Flex>
-    <Flex>
+    <Flex onClick={()=>select(list,index)} >
       <Flex row center between >
         <Text bold className={styles.listHeadingStyle}>
           <HighlightText value={list.job_title} higlight={searchTerm} />

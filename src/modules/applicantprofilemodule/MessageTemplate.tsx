@@ -121,7 +121,7 @@ const MessageTemplate = ({
             style={{ color: '#581845', fontsize: '13px' }}
           >
             <Flex>Total Search Count :</Flex>
-            <Flex>{messageTemplate.length}</Flex>
+            <Flex>{messageTemplate?.length}</Flex>
           </Flex>
         </Flex>
         {/* <InputText
@@ -137,10 +137,13 @@ const MessageTemplate = ({
         /> */}
         <Flex row marginTop={5}>
         <Flex
-          style={{ width: valuelist === null ? '100%' : '50%', height:"475px"}}
+          style={{ width: valuelist === null ? '100%' : '50%'}}
           columnFlex
+          height={window.innerHeight - 273}
+          marginTop={5}
           className={cx('scrollStyle')}
         >
+          <Flex>
           {messageTemplate && messageTemplate.length !== 0 ? (
             messageTemplate.map((list, index) => {
               return (
@@ -170,29 +173,32 @@ const MessageTemplate = ({
               </Text>
             </Flex>
           )}
+          </Flex>
         </Flex>
-
-      <Flex style={{borderLeft: "1px solid"}}/>
-
         {valuelist !== null &&
             <>
-              <Flex height={innerHeight - 232} className={styles.border}></Flex>
-              <Flex  style={{ width: '50%' }} marginTop={2} className={styles.descCardstyles}>
-              <Card >
-                <Flex style={{padding:"25px"}}>
-                <Flex marginBottom={10} className={styles.paddingtitle}>
-                  <Text bold>{applybtn.name}</Text>
+              <Flex height={innerHeight - 273} className={styles.border}></Flex>
+              <Flex  style={{ width: '50%' }} marginTop={5}>
+              <Flex>
+                <Flex className={styles.descCardstyles} height={innerHeight - 273}>
+                <Flex marginBottom={5}>
+                  <Text bold size={14}>{applybtn.name}</Text>
                 </Flex>
-                <Flex className={styles.scroll}>
-                  <div className={cx('normalStyle')} dangerouslySetInnerHTML={{ __html: valuelist }} />
+                <Flex style={{overflow:"scroll"}}>
+                <Flex marginBottom={5}>
+                  <Text bold>{applybtn.subject}</Text>
+                </Flex>
+                <Flex>
+                  <div className={styles.templatealignment} dangerouslySetInnerHTML={{ __html: valuelist }} />
                 </Flex>
                 </Flex>
-              </Card>
+                </Flex>
+              </Flex>
               </Flex>
             </>
           }
         </Flex>
-        <Flex columnFlex row center end marginTop={15}>
+        <Flex columnFlex row center end className={styles.botomBtncontainer}>
           <Flex row width={130} style={{justifyContent:"space-between"}}>
           <Button
             types="close"

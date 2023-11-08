@@ -209,7 +209,7 @@ function formatDate(dateString: string | number | Date) {
               </tbody>
               ))}
         </table>
-        {emailTemplates.length === 0 && 
+        {emailTemplates?.length === 0 && 
                     <Flex className={styles.nodataavailicon}>
                     <Flex flex={8} center middle style={{ display: 'flex' }}>
                       <SvgNoData width={16} height={16} fill={'#888888'} />

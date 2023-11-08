@@ -1,11 +1,15 @@
 .listOverAll {
   margin-right: 8px;
-  margin-top:7.5px;
-  margin-bottom: 1.5px;
+  /* margin-top:7.5px; */
+  /* margin-top:5px; */
+  /* margin-bottom: 1.5px; */
+  margin-bottom: 5px;
 }
 .listHeadingStyle {
-  margin-top: 6px;
-  margin-bottom: 4px;
+  /* margin-top: 6px;
+  margin-bottom: 4px; */
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 .overAll {
   background-color: var(--color-white, #ffffff);
@@ -32,7 +36,7 @@
   margin: 0;
   text-align: justify;
 }
-.trimStyle h6 {
+.trimStyle h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 .normalStyle {
@@ -50,13 +54,13 @@
     padding-left: 16px;
   }
 .padding{
-  padding: 9px 10px;
+  padding: 5px 10px 5px 10px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
 }
 .iconspace{
-  padding: 0px 10px 0px 0px;
+  padding: 5px 10px 0px 0px;
 }
 .pointer{
   cursor: pointer;

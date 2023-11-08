@@ -59,22 +59,31 @@ const MessageTemplateList = ({
           {indextick !==null?(
           <>
             {index===indextick?(  
-            <SvgSelected onClick={()=>select(list,index)} className={styles.pointer}/>
+            <SvgSelected
+              onClick={()=>select(list,index)}
+              className={styles.pointer}
+              />
             ) : ( 
-            <SvgNotselected onClick={()=>select(list,index)} className={styles.pointer}/>
+            <SvgNotselected
+              onClick={()=>select(list,index)}
+              className={styles.pointer}
+              />
             )}
         </>
           ) : ( 
-          <SvgNotselected onClick={()=>select(list,index)} className={styles.pointer}/>
+          <SvgNotselected
+            onClick={()=>select(list,index)}
+            className={styles.pointer}
+            />
           )}
         
         </Flex>
-      <Flex className={styles.listOverAll}>
+      <Flex onClick={()=>select(list,index)} className={styles.listOverAll}>
         <Flex row center between>
           <Text
             bold
             className={styles.listHeadingStyle}
-            style={{ fontSize: '14px' }}
+            style={{ fontSize: '13px' }}
           >
             <HighlightText
               value={list.name}
