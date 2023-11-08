@@ -9,20 +9,21 @@ import { convertJsonToForm, stringifyParams } from '../../../../uikit/helper';
 import { InterviewerQuestions } from '../../interviewerQuestionType';
 
 export const interviewQuestionMiddleware = createAsyncThunk<
-  InterviewerQuestions,
+   any,
   {
     jd_id: string;
     can_id: string;
     re_generate?: [];
     interview_id?: string;
     exclude?: string;
+    role?: string;
   }
 >(INTERVIEW_QUESTION, async (payload, { rejectWithValue }) => {
   try {
     const { data } = await axios.get(
       `${interviewQuestion}?${stringifyParams(payload)}`,
     );
-    return data as InterviewerQuestions;
+    return data;
     // return json as InterviewerQuestions;
   } catch (error) {
     const typedError = error as Error;

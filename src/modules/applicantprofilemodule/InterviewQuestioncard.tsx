@@ -44,6 +44,7 @@ interface Props {
     interviewData?: any;
     setevaluatedata?: (val: any) => void;
     setinterviewid?: (val: any) => void;
+    
 
 }
 
@@ -306,7 +307,7 @@ const InterviewQustioncard = ({
                                         </Flex>
 
                                         <Button
-                                            onClick={generateQuestions}
+                                            onClick={()=>generateQuestions(datas.id)}
                                         >Generate Questions</Button>
                                     </Flex>
                                     <Flex

@@ -58,6 +58,7 @@ const ScreeningStatusTab = ({
   const [isregeneratequestion, setregeneratequestion] = useState(false);
   const [generatedquestion, setgeneratedquestion] = useState<any>([]);
   const [isinterviewid, setinterviewid] = useState<any>();
+  const [isloader,setisloader] = useState<any>(false);
   const [isevaluateddata,setevaluateddata] = useState<any>([]);
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
@@ -180,7 +181,7 @@ const ScreeningStatusTab = ({
       const questiondtasa = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
       addnewquestion.push(questiondtasa)
     })
-
+    setisloader(true)
     dispatch(evaluateQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
@@ -188,8 +189,17 @@ const ScreeningStatusTab = ({
       interview_id: isinterviewid,
     })).then((res) => {
       if (res.payload.success === true) {
-        setAddquestion(false)
+        setAddquestion(false);
+        setisloader(false);
         Toast(' Addquestion successfully', 'LONG', 'success');
+      }
+      else{ 
+        setisloader(false);
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
       }
     })
   }
@@ -218,35 +228,73 @@ const ScreeningStatusTab = ({
       }
       return accumulator;
     }, []);
+    setisloader(true)
     dispatch(interviewQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
       re_generate: result,
       interview_id: isinterviewid,
     })).then((res) => { 
-      setregeneratequestion(false)
-      if (res?.payload === true) {
+      if (res?.payload.success === true) {
+        setisloader(false);
+        setregeneratequestion(false);
         Toast('Regeneratequestion successfully', 'LONG', 'success');
+      }
+       else{ 
+        setisloader(false);
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
       }
     })
   }
   function generatequestion(formvalue) {
-    const Generatequestion = []
-    formvalue.levellist.map((value, index) => {
-      const generatequestiondata = { "id": "0", "question": value.levelvalue.question, "type": value.levelvalue.questiontype, "level": value.levelvalue.difficulty }
-      Generatequestion.push(generatequestiondata)
-    })
-
-    dispatch(evaluateQuestionMiddleware({
+    const result = formvalue.levellist.reduce((accumulator, item) => {
+      if (item.levelvalue.iseasycheck && item.levelvalue.easy !== "") {
+        accumulator.push({
+          level: "Easy",
+          type: item.levelvalue.name,
+          count: item.levelvalue.easy
+        });
+      }
+      if (item.levelvalue.ismediumcheck && item.levelvalue.medium !== "") {
+        accumulator.push({
+          level: "Medium",
+          type: item.levelvalue.name,
+          count: item.levelvalue.medium
+        });
+      }
+      if (item.levelvalue.ishardcheck && item.levelvalue.hard !== "") {
+        accumulator.push({
+          level: "Hard",
+          type: item.levelvalue.name,
+          count: item.levelvalue.hard
+        });
+      }
+      return accumulator;
+    }, []);
+    setisloader(true)
+    dispatch(interviewQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
-      scorecard: JSON.stringify(Generatequestion),
+      re_generate: result,
       interview_id: isinterviewid,
       role: formvalue.role
     })).then((res) => {
       if (res.payload.success === true) {
-        setgeneratequestion(false)
+        setisloader(false);
+        setgeneratequestion(false);
         Toast('generatequestion successfully', 'LONG', 'success');
+      }
+      else{ 
+        setisloader(false);
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
       }
     })
   }
@@ -263,6 +311,7 @@ const ScreeningStatusTab = ({
         AddnewQuestion={AddnewQuestion}
         Regeneratequestion={Regeneratequestion}
         generatequestion={generatequestion}
+        isloader={isloader}
       />
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold className={styles.screenText}>
@@ -307,7 +356,7 @@ const ScreeningStatusTab = ({
             setgeneratequestion={setgeneratequestion}
             setAddquestion={setAddquestion}
             setevaluatedata={setevaluatedata}
-            setinterviewid={setinterviewid}
+            setinterviewid={setinterviewid} 
             onEvaluate={(id, value) => {
               setEvaluatePopup({
                 open: true,

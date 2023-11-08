@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { isEmptyArray, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
-import { Button, Card, ErrorMessage, InputCheckBox, InputSearch, InputText, Modal } from '../../uikit';
+import { Button, Card, ErrorMessage, InputCheckBox, InputSearch, InputText, Loader, Modal } from '../../uikit';
 import SvgClose from '../../icons/SvgClose';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -22,6 +22,7 @@ type Props = {
     AddnewQuestion?: (val: any) => void,
     Regeneratequestion?: (val: any) => void,
     generatequestion?: (val: any) => void,
+    isloader?: boolean;
 };
 
 const Interviewmodalpopup = ({
@@ -33,7 +34,8 @@ const Interviewmodalpopup = ({
     setAddquestion,
     AddnewQuestion,
     Regeneratequestion,
-    generatequestion
+    generatequestion,
+    isloader
 }: Props) => {
     //Add Question Modal  state
 
@@ -353,7 +355,9 @@ const Interviewmodalpopup = ({
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>
                             <Flex>
-                                <Button types='primary' width="75px" onClick={() => handleSubmit('add')} >Add</Button>
+                                {isloader ? <Flex middle center style={{ width: '75px' }}>
+                                    <Loader size="small" withOutOverlay />
+                                </Flex> : <Button types='primary' width="75px" onClick={() => handleSubmit('add')} >Add</Button>}
                             </Flex>
                         </Flex>
                     </Flex>
@@ -488,7 +492,10 @@ const Interviewmodalpopup = ({
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
-                            <Button types='primary' width="75px" onClick={() => handleSubmit('regenerate')}>Add</Button>
+                            {isloader ? <Flex middle center style={{ width: '75px' }}>
+                                <Loader size="small" withOutOverlay />
+                            </Flex> :
+                                <Button types='primary' width="75px" onClick={() => handleSubmit('regenerate')}>Add</Button>}
                         </Flex>
                     </Flex>
 
@@ -645,7 +652,10 @@ const Interviewmodalpopup = ({
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
-                            <Button types='primary' width="75px" onClick={() => handleSubmit('genereate')}>Add</Button>
+                            {isloader ? <Flex middle center style={{ width: '75px' }}>
+                                <Loader size="small" withOutOverlay />
+                            </Flex> :
+                                <Button types='primary' width="75px" onClick={() => handleSubmit('genereate')}>Add</Button>}
                         </Flex>
                     </Flex>
 
