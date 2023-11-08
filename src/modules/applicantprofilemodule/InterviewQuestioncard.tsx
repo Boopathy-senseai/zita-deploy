@@ -130,8 +130,8 @@ const InterviewQustioncard = ({
                 const matchingData = interviewData.find(val => val.Id === datas.id);
                 if (matchingData) {
                     return (
-                        <Flex key={indexva}>
-                            <Flex row between marginTop={10} center>
+                        <Flex key={indexva} style={{boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px',borderRadius:'4px'}} marginBottom={10} marginLeft={2}>
+                            <Flex row between center style={{backgroundColor:'#D7C7D2',borderRadius:'4px 4px 0px 0px',padding:'5px'}}>
                                 <Text color="theme">{`${datas?.event_type} / ${moment(
                                     datas?.s_time
                                 ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
@@ -173,7 +173,7 @@ const InterviewQustioncard = ({
                                     </Flex>}
                             </Flex>
                             {matchingData.Question?.map((value, ind) => (
-                                <Flex key={ind} className={styles.cardview}>
+                                <Flex key={ind} className={styles.cardview} style={{padding:'0px 5px 0px 5px'}}>
                                     <Flex>
                                         <Text style={{ textTransform: "capitalize" }} bold>
                                             {value.Category}
@@ -183,7 +183,7 @@ const InterviewQustioncard = ({
                                                 <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
                                                 <Flex>
                                                     <Text color='theme'>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
-                                                    <Flex>
+                                                    <Flex> 
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 <Flex>
