@@ -47,6 +47,7 @@ const Interviewmodalpopup = ({
     const [iserrorhandle, seterrorhandle] = useState<any>(false);
     const [iserrorhandleadd, seterrorhandleadd] = useState<any>(false);
     const [iserrorhandlerole, seterrorhandlerole] = useState<any>(false);
+    const [istringgerdata, settriggerdata] = useState<any>(false);
     const [role, setrole] = useState<any>([])
     interface LevelValue {
         levelvalue: any;
@@ -113,16 +114,20 @@ const Interviewmodalpopup = ({
         onSubmit: (e) => handleSubmit(e),
     });
 
+
     //Add Question Modal  state
     const handlequestion = (e) => {
         formik.setFieldValue('levellist[0].levelvalue.question', e.target.value)
-    }
-    console.log(isEmptyArray(formik.values.levellist), isEmptyArray(formik.values?.levellist[0]?.levelvalue?.question), isEmptyArray(formik.values?.levellist[0]?.levelvalue?.difficulty), formik.values?.levellist[0]?.levelvalue.question === undefined, 'bbbbb')
+    } 
+    
+
     //generate Question by AI Modal  for role 
     const handlerole = (event) => {
         formik.setFieldValue("role", event.target.value);
 
     }
+
+
     //onclick events both Re-generate Question and generate Question by AI Modal  
     const handledata = (e, index) => {
         const isValueExist = isstoreaddData && isstoreaddData.some((item) => item.value === e.value);
@@ -130,9 +135,7 @@ const Interviewmodalpopup = ({
             setstoreaddData([...isstoreaddData, e]);
         } else {
             const updatedData = isstoreaddData.filter((item) => item.value !== e.value);
-            const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label);
-
-            // Update the corresponding element in levellist at the matching index
+            const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label); 
             const newLevelValue = {
                 name: '',
                 easy: '',
@@ -143,8 +146,7 @@ const Interviewmodalpopup = ({
                 ishardcheck: false,
                 checked: false,
             };
-            if (levellistIndex !== -1) {
-                // Create a new array without the element at the matching index in levellist
+            if (levellistIndex !== -1) { 
                 const newLevellist = [...formik.values.levellist];
                 newLevellist.splice(levellistIndex, 1);
                 formik.setFieldValue('levellist', newLevellist);
@@ -157,42 +159,32 @@ const Interviewmodalpopup = ({
 
     //CHECK BOX ADDING for both Re-generate Question and generate Question by AI Modal  
     const handleCheckboxChange = (index: number, name: string, isChecked: boolean, values) => {
-        if (!isChecked) {
-            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked };
 
-            // Check the value of values.value and update the corresponding properties
+        if (!isChecked) {
+            settriggerdata(true);
+            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked }; 
             if (values === "1") {
                 updatedLevelValue.iseasycheck = false;
-                updatedLevelValue.easy = ''
             } else if (values === "2") {
                 updatedLevelValue.ismediumcheck = false;
-                updatedLevelValue.medium = ''
             } else if (values === "3") {
                 updatedLevelValue.ishardcheck = false;
-                updatedLevelValue.hard = ''
-            }
-
-            // Update the value
+            } 
             formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
         }
         else if (index >= 0 && index < formik.values.levellist.length) {
-            console.log(values, 'valuesvaluesvaluesvalues');
-
-            // The object at the specified index exists, update it
-            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked };
-
-            // Check the value of values.value and update the corresponding properties
+            settriggerdata(true); 
+            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked }; 
             if (values === "1") {
                 updatedLevelValue.iseasycheck = true;
             } else if (values === "2") {
                 updatedLevelValue.ismediumcheck = true;
             } else if (values === "3") {
                 updatedLevelValue.ishardcheck = true;
-            }
-
-            // Update the value
-            formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
+            } 
+            formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);  
         } else {
+            settriggerdata(true);
             const newLevelValue = {
                 name,
                 easy: '',
@@ -206,6 +198,7 @@ const Interviewmodalpopup = ({
             formik.setFieldValue(`levellist[${index}].levelvalue`, newLevelValue);
         }
     }
+
 
     //ADDING QUESTION both Re-generate Question and generate Question by AI Modal  
     const handlequestionno = (index, e, values, label) => {
@@ -225,29 +218,32 @@ const Interviewmodalpopup = ({
             formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
         }
     }
+
+
     //Handlecloseforms
     const closeforms = () => {
         setstoreaddData([])
         seterrorhandle(false);
+        seterrorhandleadd(false);
+        seterrorhandlerole(false);
         formik.resetForm();
         setregeneratequestion(false);
         setgeneratequestion(false);
         setAddquestion(false);
     }
 
+
     //useEffect for both Re-generate Question and generate Question by AI Modal  
     useEffect(() => {
-        const aggregateLevels = (levellist) => {
-            // Initialize variables to keep track of totals for each level
+        const aggregateLevels = (levellist) => { 
             let totalEasy = 0;
             let totalMedium = 0;
-            let totalHard = 0;
+            let totalHard = 0; 
 
-            // Iterate through the levellist array and accumulate values
             for (const item of levellist) {
-                totalEasy += parseInt(item.levelvalue.easy) || 0;
-                totalMedium += parseInt(item.levelvalue.medium) || 0;
-                totalHard += parseInt(item.levelvalue.hard) || 0;
+                totalEasy += parseInt(item.levelvalue.iseasycheck === true && item.levelvalue.easy) || 0;
+                totalMedium += parseInt(item.levelvalue.ismediumcheck === true &&item.levelvalue.medium) || 0;
+                totalHard += parseInt(item.levelvalue.ishardcheck === true &&item.levelvalue.hard) || 0;
             }
 
             // Create an object with the aggregated values
@@ -256,13 +252,11 @@ const Interviewmodalpopup = ({
             return aggregatedValues;
         };
         const aggregatedValues = aggregateLevels(formik.values.levellist);
-        console.warn("sum", aggregatedValues)
         if (!isEmptyArray(formik.values.levellist) && iserrorhandle) {
             seterrorhandle(false)
         }
         if (aggregatedValues > 15) {
             setoveralldata('the have only 15')
-
         }
         else if (aggregatedValues < 1) {
             setoveralldata('the have only 15')
@@ -282,7 +276,7 @@ const Interviewmodalpopup = ({
 
     }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
     formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
-    formik.values.role])
+    formik.values.role, istringgerdata])
 
     console.log(iserrorhandle, 'puugscvv', iserrorhandleadd)
     useEffect(() => {
@@ -310,8 +304,6 @@ const Interviewmodalpopup = ({
                             {Typeofinterviewquestion.map((data, index) => {
                                 return (<Flex key={index} row marginRight={15} marginTop={7} center>
                                     <Flex>
-                                        {console.log(formik.values?.levellist[0]?.levelvalue?.questiontype, 'ormik.values?.levellist[0]?.questiontype')}
-                                        {/* //formik.values?.levellist[0]?.questiontype */}
                                         <InputRadio
                                             checked={formik.values?.levellist[0]?.levelvalue?.questiontype === data.label}
                                             onClick={() => { formik.setFieldValue('levellist[0].levelvalue.questiontype', data.label) }}
@@ -641,12 +633,11 @@ const Interviewmodalpopup = ({
                                     )
                                 })}
                             </Flex>
-                        }
-
+                        } 
                     </Flex>
                     {iserrorhandlerole && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
-                    {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
+                    {!iserrorhandlerole && isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     <Flex row marginTop={17} end>
                         <Flex marginRight={20} onClick={closeforms} >
                             <Button types="close" width="75px">Cancel</Button>

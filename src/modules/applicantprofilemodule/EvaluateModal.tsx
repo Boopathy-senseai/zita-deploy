@@ -83,6 +83,10 @@ const EvaluateModal: React.FC<Props> = (props) => {
     const doc = parser.parseFromString(values?.commands, 'text/html');
     const textNodes = doc.querySelectorAll('body')[0].textContent;
     const texttrim = textNodes.trim();
+    const hasEmptyValues = Object.values(values).some((item) => {
+      const { scorecard } = item;
+      return scorecard === null || scorecard === undefined;
+    }); 
     if (isEmpty(texttrim)) {
       errors.commands = '';
     }
@@ -95,6 +99,9 @@ const EvaluateModal: React.FC<Props> = (props) => {
       errors.recommend = THIS_FIELD_REQUIRED;
     }
     if (questionRating.includes(0)) {
+      errors.scorecard = THIS_FIELD_REQUIRED;
+    }
+    if(hasEmptyValues){
       errors.scorecard = THIS_FIELD_REQUIRED;
     }
 
@@ -141,7 +148,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     }, {});
   }
 
-
+   
   // const handleFormChange = (
   //   field: string,
   //   value: any,
@@ -233,6 +240,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     return null;
   };
   const datalist = Object.values(valuelist)
+  console.log(formik.values.scorecard,'formik.values.scorecardformik.values.scorecardformik.values.scorecardformik.values.scorecard')
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
