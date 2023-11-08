@@ -123,15 +123,14 @@ const InterviewQustioncard = ({
     };
     const handlelevelradio = (val) => {
         const value = val.toLowerCase();
-        console.log(value,'easycheck')
         if (value === 'easy') {
-            return  <SvgRadioWithLine fill="#34CC65" width={16} height={16}/>;
+            return <SvgRadioWithLine fill="#34CC65" width={16} height={16} />;
         }
         if (value === 'medium') {
-            return  <SvgRadioWithLine fill="#F29111" width={16} height={16}/>;
+            return <SvgRadioWithLine fill="#F29111" width={16} height={16} />;
         }
-        if (value ===  'hard') {
-            return  <SvgRadioWithLine fill="#ED4857" width={16} height={16}/>;
+        if (value === 'hard') {
+            return <SvgRadioWithLine fill="#ED4857" width={16} height={16} />;
         }
         return null;
     };
@@ -143,6 +142,7 @@ const InterviewQustioncard = ({
         <Flex>
             {no_of_interview.map((datas, indexva) => {
                 const matchingData = interviewData.find(val => val.Id === datas.id);
+                const exitline = matchingData?.Question?.map((qu) => (qu.Category))
                 if (matchingData) {
                     return (
                         <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
@@ -250,7 +250,66 @@ const InterviewQustioncard = ({
                                                                         </>
                                                                     ) : (
                                                                         <>
-                                                                            <Flex row style={{ borderBottom: i !== label?.Map_question?.length - 1 ? ' ' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
+                                                                            { value.Category !== exitline[exitline.length-1] ? (
+
+                                                                                <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ? '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
+
+                                                                                    {datas.evaluate !== true &&
+                                                                                        <Flex style={{ margin: '1.5px 5px 0 0' }} >
+                                                                                            <InputCheckBox
+                                                                                                onClick={() => handleSelectedQuestion(ques)}
+                                                                                                checked={selecteddata?.includes(ques.id)}
+                                                                                            />
+                                                                                        </Flex>}
+                                                                                    <Flex row>
+                                                                                        <Flex>
+                                                                                            <Text>{i + 1}.</Text>
+                                                                                        </Flex>
+                                                                                        <Flex row style={{ textAlign: "justify" }}>
+                                                                                            <Text>{ques.question}
+                                                                                                {ques.answer !== null && <Text
+                                                                                                    onClick={() => handleToggleCollapse(ques.id)}
+                                                                                                    style={{ cursor: "pointer" }}>
+                                                                                                    <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
+                                                                                                    <SvgArrowDown1
+                                                                                                        width={10}
+                                                                                                        height={10}
+                                                                                                        fill={"581845"} />
+
+                                                                                                </Text>}</Text>
+                                                                                        </Flex>
+                                                                                    </Flex>
+                                                                                </Flex>
+                                                                            ) : (
+                                                                                <Flex row style={{ paddingBottom: '5px' }} marginBottom={5}>
+                                                                                    {datas.evaluate !== true &&
+                                                                                        <Flex style={{ margin: '1.5px 5px 0 0' }} >
+                                                                                            <InputCheckBox
+                                                                                                onClick={() => handleSelectedQuestion(ques)}
+                                                                                                checked={selecteddata?.includes(ques.id)}
+                                                                                            />
+                                                                                        </Flex>}
+                                                                                    <Flex row>
+                                                                                        <Flex>
+                                                                                            <Text>{i + 1}.</Text>
+                                                                                        </Flex>
+                                                                                        <Flex row style={{ textAlign: "justify" }}>
+                                                                                            <Text>{ques.question}
+                                                                                                {ques.answer !== null && <Text
+                                                                                                    onClick={() => handleToggleCollapse(ques.id)}
+                                                                                                    style={{ cursor: "pointer" }}>
+                                                                                                    <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
+                                                                                                    <SvgArrowDown1
+                                                                                                        width={10}
+                                                                                                        height={10}
+                                                                                                        fill={"581845"} />
+
+                                                                                                </Text>}</Text>
+                                                                                        </Flex>
+                                                                                    </Flex>
+                                                                                </Flex>
+                                                                            )}
+                                                                            {/* <Flex row style={{ borderBottom: label?.Map_question.length-1 === i ? '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
@@ -276,7 +335,7 @@ const InterviewQustioncard = ({
                                                                                             </Text>}</Text>
                                                                                     </Flex>
                                                                                 </Flex>
-                                                                            </Flex>
+                                                                            </Flex> */}
 
                                                                         </>
                                                                     )}
@@ -292,6 +351,7 @@ const InterviewQustioncard = ({
                             ))}
                         </Flex>
                     );
+
                 } else {
                     const elsedata = no_of_interview.map(y => y.id);
                     if (elsedata.includes(datas.id)) {
@@ -341,7 +401,10 @@ const InterviewQustioncard = ({
                         );
                     }
                 }
-            })}
+                // })}
+
+            })
+            }
         </Flex>
     )
 }
