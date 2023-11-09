@@ -15,6 +15,9 @@ type Props = {
   handleOpenEmailModal:()=>void
   itemvalue:any;
   setEmailTemplates:any;
+  emailTemplates:any;
+  isTitleAlreadyExists:any;
+  isSubjectAlreadyExists:any;
 }
 
 
@@ -23,6 +26,9 @@ const Emailopenmodal = ({
   handleOpenEmailModal,
   itemvalue,
   setEmailTemplates,
+  emailTemplates,
+  isTitleAlreadyExists, 
+  isSubjectAlreadyExists,
 }:Props) => {
 
   const dispatch: AppDispatch = useDispatch();
@@ -33,6 +39,23 @@ const Emailopenmodal = ({
   const [errordiscription,seterrordiscription]=useState(false)
   const [errortitle,seterrortitle]=useState(false)
   const [errorsubject, seterrorsubject]=useState(false)
+  const [TitleError, setTitleError]=useState(false)
+  const [SubjectError, setSubjectError]=useState(false)
+  const [DescError, setDescError]=useState(false)
+  const [TitleExist,setTitleExist]=useState(false)
+  const [SubjectExist,setSubjectExist]=useState(false)
+
+  const {
+    data,
+  } = useSelector(
+    ({
+      emailTemplateReducers,
+    }: RootState) => {
+      return {
+        data: emailTemplateReducers.data,
+      };
+    },
+  );
   
 
   const parser = new DOMParser();
@@ -74,26 +97,62 @@ const Emailopenmodal = ({
   //     seterrortitle(false);
   //   }
   // }
+  // const handletitle = (e: any) => {
+  //   const inputValue = e.target.value;
+  //   const title = inputValue.trimStart();
+  //   setTitle(title);
+  //   if (title.length > 35) {
+  //     seterrortitle(true);
+  //   } else {
+  //     seterrortitle(false);
+  //   }
+  // }
   const handletitle = (e: any) => {
+
     const inputValue = e.target.value;
-    const title = inputValue.trimStart();
+    const title = inputValue.trimStart();    
+    const titleAlreadyExists = data.some(template => template.name === title);
     setTitle(title);
     if (title.length > 35) {
       seterrortitle(true);
     } else {
       seterrortitle(false);
     }
-  }
-  const handleSubject = (e:any)=> {
-    setSubject(e.target.value)
-    const subject=e.target.value;
-    if(subject.length>250){
-      seterrorsubject(true)
+  
+    if (titleAlreadyExists) {
+      setTitleExist(true);
+    } else {
+      setTitleExist(false);
     }
-    else{
+  }
+
+  const handleSubject = (e: any) => {
+    const inputValue = e.target.value;
+    const subject = inputValue.trimStart();
+    const subjectAlreadyExists = data.some(template => template.subject === subject);
+    setSubject(subject);
+    if (subject.length>250) {
+      seterrorsubject(true)      
+    } else {
       seterrorsubject(false)
     }
+    if (subjectAlreadyExists) {
+      setSubjectExist(true)      
+    } else {
+      setSubjectError(false)
+    }
   }
+
+  // const handleSubject = (e:any)=> {
+  //   setSubject(e.target.value)
+  //   const subject=e.target.value;
+  //   if(subject.length>250){
+  //     seterrorsubject(true)
+  //   }
+  //   else{
+  //     seterrorsubject(false)
+  //   }
+  // }
 
   const handleDescription = (e: any) => {
     setDescription(e)
@@ -107,29 +166,62 @@ const Emailopenmodal = ({
   }
 
   const addfunction=()=>{
-    let formData = new FormData(); 
-    if(itemvalue!==null)
-    {
-      formData.append('id',itemvalue.id);
+    // if(isTitle==='')
+    // {
+    //   setTitleError(true)
+    // } else {
+    //   setTitleError(false)
+    // }
+    // if(isSubject===''){
+    //   setSubjectError(true)
+    // }
+    // else{
+    //   setSubjectError(false)
+    // }
+    // if(isDescription===''){
+    //   setDescError(true)
+    // }
+    // else{
+    //   setDescError(false)
+    // }
+    // const result=handlemessage(isDescription)
+    // if(result.trim()==='')
+    // {
+    //   setDescError(true)
+    // }
+    // else{
+    //   setDescError(false)
+    // }
+    if (isTitle.trim()==='' && isDescription.trim()==='' &&  isSubject.trim()==='') {
+      setTitleError(true)
+      setSubjectError(true) 
+      setDescError(true)     
     }
-    formData.append('title',isTitle);
-    formData.append('rich_text',isDescription)
-    formData.append('subject',isSubject)
-    formData.append('text',plainTextDescription)
-    dispatch(createemailtemplatepostMiddleWare({formData}))
-    .then((res)=>{
-      if(res.payload.success===true){
-      if(itemvalue!==null){
-        Toast('Template updated Successfully.', 'LONG', 'success');
-      }else{
-        Toast('Template added Successfully.', 'LONG', 'success');
-      }}
-      else{
-        Toast('Email template api failed', 'LONG', 'error');
-      } 
-      dispatch(emailtemplatesgetMiddleWare())
-      })
-      handleOpenEmailModal();   
+    if (isTitle.trim()!=='' && isDescription.trim()!=='' &&  isSubject.trim()!=='') {
+      let formData = new FormData(); 
+      if(itemvalue!==null)
+      {
+        formData.append('id',itemvalue.id);
+      }
+      formData.append('title',isTitle);
+      formData.append('rich_text',isDescription)
+      formData.append('subject',isSubject)
+      formData.append('text',plainTextDescription)
+      dispatch(createemailtemplatepostMiddleWare({formData}))
+      .then((res)=>{
+        if(res.payload.success===true){
+        if(itemvalue!==null){
+          Toast('Template updated Successfully.', 'LONG', 'success');
+        }else{
+          Toast('Template added Successfully.', 'LONG', 'success');
+        }}
+        else{
+          Toast('Email template api failed', 'LONG', 'error');
+        } 
+        dispatch(emailtemplatesgetMiddleWare())
+        })
+        handleOpenEmailModal();  
+    } 
   }
 
   useEffect (()=>{
@@ -145,6 +237,7 @@ const Emailopenmodal = ({
   return (
     <div>
         <Modal open={open}>
+          {console.log("isTitleisTitle", isTitle)}
             <Flex className={styles.addtemplatePopup}>
                 {itemvalue!==null?( 
                   <Text bold size={14} className={styles.titletext}>
@@ -169,8 +262,13 @@ const Emailopenmodal = ({
                   </Flex>
                 {errortitle&&(
                   <Text color='error'>Template title should not exceed 35 characters.</Text>
-                )
-                }
+                )}
+                {TitleError&& (
+                  <Text color='error'>This field is required</Text>
+                  )}
+                  {TitleExist&& (
+                    <Text color="error">Template name already exist</Text>
+                  )}
 
                   <Flex marginTop={5}>
                   <InputText
@@ -184,6 +282,12 @@ const Emailopenmodal = ({
                     {errorsubject && (
                       <Text color='error'>Subject content should not exceed 250 characters.</Text>
                     )}
+                    {SubjectError&& (
+                      <Text color='error'>This field is required</Text>
+                      )}
+                    {SubjectExist&& (
+                      <Text color='error'>Subject is already exist</Text>
+                      )}
                   </Flex>
                   <Flex>
                     <Text bold color="theme" size={13} style={{margin: "5px 0px 2px 0px"}}>
@@ -196,9 +300,11 @@ const Emailopenmodal = ({
                    />
                   </Flex>
                   {errordiscription&&(
-                  <Text color='error'>Email content should not exceed 250 characters.</Text>
-                )
-                }
+                    <Text color='error'>Email content should not exceed 250 characters.</Text>
+                  )}
+                  {DescError&& (
+                    <Text color='error'>This field is required</Text>
+                    )}
                 </Flex>
 
                 <Flex className={styles.btnContainer}>
@@ -210,12 +316,14 @@ const Emailopenmodal = ({
                     {itemvalue!==null?( 
                       <Button 
                       onClick={addfunction}
+                      disabled={!isTitle.trim() || !isSubject.trim() || !isDescription.trim() && isSubjectAlreadyExists && isTitleAlreadyExists} 
                       >
                         Update
                       </Button>
                       ):(
                       <Button 
                       onClick={addfunction}
+                      disabled={!isTitle.trim() || !isSubject.trim() || !isDescription.trim() && isSubjectAlreadyExists && isTitleAlreadyExists} 
                       >
                         Add
                       </Button>

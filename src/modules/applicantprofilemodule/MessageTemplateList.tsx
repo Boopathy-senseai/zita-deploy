@@ -78,7 +78,7 @@ const MessageTemplateList = ({
           )}
         
         </Flex>
-      <Flex onClick={()=>select(list,index)} className={styles.listOverAll}>
+      <Flex width={"100%"} onClick={()=>select(list,index)} className={styles.listOverAll}>
         <Flex row center between>
           <Text
             bold

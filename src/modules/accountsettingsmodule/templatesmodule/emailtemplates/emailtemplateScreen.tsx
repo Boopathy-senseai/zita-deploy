@@ -12,6 +12,7 @@ type props = {
   setDescription:any;
   setEmailTemplates:any;
   setSubject: any;
+  emailTemplates:any;
 };
 
 
@@ -21,6 +22,7 @@ const Emailtemplatescreen = ({
   setDescription,
   setEmailTemplates,
   setSubject,
+  emailTemplates,
  }: props) => {
   const [isOpenEmailModal, setOpenEmailModal]=useState(false)
   const [itemvalue,setitemvalue]=useState<any>(null)
@@ -38,6 +40,7 @@ const Emailtemplatescreen = ({
       className={styles.overflowContainer}
       style={{ padding: '0px 10px' }}
     >
+      
       <Flex row between className={styles.titleBar}>
         <Flex
           row
@@ -69,6 +72,9 @@ const Emailtemplatescreen = ({
             handleOpenEmailModal={handleOpenEmailModal} 
             itemvalue={itemvalue}
             setEmailTemplates={setEmailTemplates}
+            emailTemplates={emailTemplates}
+            isTitleAlreadyExists
+            isSubjectAlreadyExists
             />
           </>
         )}

@@ -192,7 +192,7 @@ const JobDescriptionTemplate = ({
           {valuelist !== null &&
             <>
               <Flex height={innerHeight - 277} className={styles.border}> </Flex>
-              <Flex  style={{ width: '50%' }} marginTop={2} >
+              <Flex  style={{ width: '50%' }} >
               <Flex className={styles.cardstyle} height={innerHeight - 279}>
                 <Flex>
                   <Text bold>{applybtn.job_title}</Text>

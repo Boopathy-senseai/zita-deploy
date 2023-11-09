@@ -77,6 +77,15 @@ const JdTemplateList = ({
     applyfun(val);
   };
 
+  const parser = new DOMParser();
+  const handlemessage = (values) => {
+    const doc = parser.parseFromString(values, 'text/html');
+    const secondTag = doc.querySelector('body > :nth-child(2)'); // Selecting the second tag
+    const textContent = secondTag ? secondTag.textContent.trim() : '';
+  //  console.log('Text content of the second tag:', textContent);
+    return textContent;
+  };
+
   return (
     <Flex className={styles.listOverAll}>
 <Flex className={indextick !==null?(index===indextick?(styles.cardstylehilight):(styles.cardstyle)):(styles.cardstyle)}>
@@ -88,7 +97,7 @@ const JdTemplateList = ({
       ):( <SvgNotselected onClick={()=>select(list,index)} className={styles.pointer}></SvgNotselected>)}
     
     </Flex>
-    <Flex onClick={()=>select(list,index)} >
+    <Flex width={"100%"}onClick={()=>select(list,index)} >
       <Flex row center between >
         <Text bold className={styles.listHeadingStyle}>
           <HighlightText value={list.job_title} higlight={searchTerm} />
@@ -97,8 +106,10 @@ const JdTemplateList = ({
     
       <div
           className={styles.trimStyle}
-          dangerouslySetInnerHTML={{ __html: list.job_description }}
-        />
+          //dangerouslySetInnerHTML={{ __html: list.job_description }}
+        >
+          <Text>{handlemessage(list.job_description)}</Text>
+        </div>
         </Flex>
       </Flex>
       </Flex>

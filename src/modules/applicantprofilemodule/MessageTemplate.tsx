@@ -89,7 +89,8 @@ const MessageTemplate = ({
     <Modal open={open}>
       <Flex columnFlex className={styles.overAll} width={valuelist ? (window.innerWidth / 1.35) : ('600px')}>
         <Text bold className={styles.insertStyles}>
-          Insert Message Template
+          {/* Insert Message Template */}
+          Email Template
         </Text>
         <Flex row center>
           <InputText
@@ -156,6 +157,8 @@ const MessageTemplate = ({
                   hanldeClose={() => {
                     hanldeClose();
                     setSearchTerm('');
+                    setindextick(null);
+                    setvaluelist(null)
                   } }
                   update={update}
                   applyfun={applyfun}
@@ -186,7 +189,7 @@ const MessageTemplate = ({
                 <Flex marginBottom={5}>
                   <Text bold size={14}>{applybtn.name}</Text>
                 </Flex>
-                <Flex style={{overflow:"scroll"}}>
+                <Flex style={{overflow:"scroll", padding: "0px 10px 10px 10px"}}>
                 <Flex marginBottom={5}>
                   <Text bold>{applybtn.subject}</Text>
                 </Flex>
@@ -208,6 +211,7 @@ const MessageTemplate = ({
               hanldeClose();
               setSearchTerm('');
               setvaluelist(null);
+              setindextick(null);
             }}
           >
             {CANCEL}

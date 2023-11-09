@@ -9,6 +9,7 @@ import { emailtemplatesdeleteMiddleWare, emailtemplatesgetMiddleWare } from '../
 import Modal from '../../../../uikit/v2/Modal/Modal';
 import SvgNoData from '../../../../icons/SvgNoData';
 import TemplateDescriptionmodal from './templatedescriptionModal';
+import Emailopenmodal from './emailopenModal';
 
 type props = {
   handleOpenEmailModal: () => void;
@@ -48,6 +49,17 @@ const Table = ({
       };
     },
   );
+
+  
+  const isTitleAlreadyExists = (title: string) => {
+    const titleExists = emailTemplates?.some(template => template.isTitle === title);
+    return titleExists;
+  };
+
+  const isSubjectAlreadyExists = (Subject: string) => {
+    const subjectExists = emailTemplates?.some(template => template.isSubject === Subject);
+    return subjectExists;
+  };
 
   const divStyle = {
     display: '-webkit-box',
@@ -135,7 +147,8 @@ function formatDate(dateString: string | number | Date) {
         height={emailTemplates?.length !== 0 && window.innerHeight - 220}
       >
         <Flex>
-
+          {console.log("emailTemplatesemailTemplates", emailTemplates)}
+          {console.log('datadatadata',data)}
           
         <table
           className="table"
@@ -230,7 +243,6 @@ function formatDate(dateString: string | number | Date) {
                     />
               </>
               )}
-        
         {DeletePopupOpen && (
                 <>
                   <Modal open={true}>
