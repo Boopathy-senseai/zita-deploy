@@ -46,13 +46,13 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
     UpdateEvaluate(filteredQuestions)
     onEvaluate(interview_id, filteredQuestions);
   };
- const handlefeedback=(e)=>{
-  setFeedbackShow((prevId) =>
-  prevId.includes(e)
-      ? prevId.filter((prevIds) => prevIds !== e)
-      : [...prevId, e]
-);
- }
+  const handlefeedback = (e) => {
+    setFeedbackShow((prevId) =>
+      prevId.includes(e)
+        ? prevId.filter((prevIds) => prevIds !== e)
+        : [...prevId, e]
+    );
+  }
   const handleRecommendation = (avg_recommend: number) => {
     const value =
       avg_recommend && avg_recommend !== 0 && Math.round(avg_recommend);
@@ -69,12 +69,58 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
   };
   if (cumulative.length !== 0) {
 
+
+    const transformedData = cumulative.reduce((result, item) => {
+      const existingInterview = result.find(interview => interview.interview_id === item.interview_id);
+
+      if (!existingInterview) {
+        result.push({
+          interview_id: item.interview_id,
+          overall_score: 0,
+          overall_recommend: item.avg_recommend,
+          attendees: [{
+            first_name: item.first_name,
+            last_name: item.last_name,
+            question_count: item.question_count,
+            total_score: item.total_score,
+            scored_question: item.scored_question,
+            full_name: item.full_name,
+            average_score: item.average_score,
+            avg_recommend: item.avg_recommend,
+          }],
+          commands: [{
+            full_name : item.full_name,
+            commenddd: item.commands,
+          }],
+        });
+      } else {
+        existingInterview.overall_score += item.total_score;
+        existingInterview.overall_recommend += item.avg_recommend;
+
+        existingInterview.attendees.push({
+          first_name: item.first_name,
+          last_name: item.last_name,
+          question_count: item.question_count,
+          total_score: item.total_score,
+          scored_question: item.scored_question,
+          full_name: item.full_name,
+          average_score: item.average_score,
+          avg_recommend: item.avg_recommend,
+        });
+
+        existingInterview.commands.push({
+          full_name : item.full_name,
+          commenddd: item.commands,
+        });
+      }
+      return result;
+    }, []);
     return (
       <Flex row between>
-        <Flex flex={1} height={window.innerHeight - 220} style={{overflowY:'scroll',display:'flex'}}>
-          {cumulative?.map((doc, index) => {
+        <Flex flex={1} height={window.innerHeight - 220} style={{ overflowY: 'scroll', display: 'flex' }}>
+          {transformedData?.map((doc, index) => {
             const scoredata = no_of_interview.map((id) => (id.id))
-            if (scoredata.includes(doc.interview_id)) {
+            if (scoredata.includes(doc.interview_id) && doc.overall_score !== null && doc.overall_score !== 0) {
               if (doc.total_score !== null && doc.total_score !== 0) {
                 const header = no_of_interview.find((d) => (d.id === doc.interview_id))
                 return (
@@ -111,7 +157,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                               <StarsRating disabled count={1} value={1} />
                             </Flex>
                             <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                              {`${Math.round(doc?.average_score) || 0}/5`}
+                              {`${Math.round(doc?.overall_score/doc?.attendees.length) || 0}/5`}
                             </Text>
                           </Flex>
                           <Text color="theme" style={{ marginTop: '3px' }}>
@@ -123,53 +169,58 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           marginRight={10}
                           className={styles.recommended}
                         >
-                          <Text style={{marginRight:'5px'}}>
-                            {handleRecommendation(doc?.avg_recommend)}
+                          <Text style={{ marginRight: '5px' }}>
+                            {handleRecommendation(doc?.overall_recommend)}
                           </Text>
-                          {doc?.avg_recommend && (
+                          {doc?.overall_recommend !== null && (
                             <Text color="theme">Recommended</Text>
                           )}
                         </Flex>
                       </Flex>
                       <Flex width={'100%'}>
+                        {doc.attendees?.map((info, ids) => {
+                          return (
+                            <>
+                              <Flex key={index} row marginTop={10} between>
+                                <Flex row center>
+                                  <Text title="Interviewer">
+                                    <SvgInterviewer width={16} height={16} />
+                                  </Text>
 
-                        <Flex key={index} row marginTop={10} between>
-                          <Flex row center>
-                            <Text title="Interviewer">
-                              <SvgInterviewer width={16} height={16} />
-                            </Text>
+                                  <Text style={{ marginLeft: '5px' }} className={styles.changingtexts} title={info?.full_name}>
+                                    {info?.full_name}
+                                  </Text>
+                                </Flex>
+                                <Flex row center marginLeft={15}>
+                                  <Text title="Question count">
+                                    <SvgQuestion width={16} height={16} />
+                                  </Text>
 
-                            <Text style={{ marginLeft: '5px' }}  className={styles.changingtexts} title={doc?.full_name}>
-                              {doc?.full_name}
-                            </Text>
-                          </Flex>
-                          <Flex row center marginLeft={15}>
-                            <Text title="Question count">
-                              <SvgQuestion width={16} height={16} />
-                            </Text>
+                                  <Text style={{ marginLeft: '5px' }}>
+                                    {`${info?.question_count} questions`}
+                                  </Text>
+                                </Flex>
+                                <Flex row marginLeft={15}>
+                                  <Text title="Average Rating">
+                                    <SvgUserRating width={16} height={16} />
+                                  </Text>
 
-                            <Text style={{ marginLeft: '5px' }}>
-                              {`${doc?.question_count} questions`}
-                            </Text>
-                          </Flex>
-                          <Flex row marginLeft={15}>
-                            <Text title="Average Rating">
-                              <SvgUserRating width={16} height={16} />
-                            </Text>
-
-                            <Flex
-                              className={styles.ratingStar}
-                              marginTop={-29}
-                              marginLeft={5}
-                            >
-                              <StarsRating
-                                disabled
-                                count={5}
-                                value={doc?.total_score}
-                              />
-                            </Flex>
-                          </Flex>
-                        </Flex> 
+                                  <Flex
+                                    className={styles.ratingStar}
+                                    marginTop={-29}
+                                    marginLeft={5}
+                                  >
+                                    <StarsRating
+                                      disabled
+                                      count={5}
+                                      value={info?.total_score}
+                                    />
+                                  </Flex>
+                                </Flex>
+                              </Flex>
+                            </>
+                          )
+                        })}
                         <Flex>
                           <Flex row center>
                             <Text bold size={13} color="theme">
@@ -177,7 +228,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                             </Text>
                             <Flex
                               marginLeft={5}
-                              onClick={() =>handlefeedback(doc.interview_id)}
+                              onClick={() => handlefeedback(doc.interview_id)}
                               style={{ cursor: 'pointer' }}
                             >
                               <SvgAngle
@@ -187,26 +238,33 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                 up={isShowFeedback?.includes(doc.interview_id)}
                               />
                             </Flex>
-                          </Flex> 
-                           {isShowFeedback?.includes(doc.interview_id) &&
-                             
-                          <Flex marginBottom={5}>
-                            <Flex row center between>
-                              <Flex style={{ color: '#581845' }}>
-                                {doc.full_name}
-                              </Flex>
-                              {/* <Svgeditingnotes fill="#581845" /> */}
-                            </Flex>
+                          </Flex>
+                          {isShowFeedback.includes(doc.interview_id) &&
+                            doc.commands?.map((val, ids) => {
+                              if(val?.commenddd !== null){
+                              return(
+                                <>
+                                  <Flex marginBottom={5}>
+                                    <Flex row center between>
+                                      <Flex style={{ color: '#581845' }}>
+                                        {val.full_name}
+                                      </Flex>
+                                      {/* <Svgeditingnotes fill="#581845" /> */}
+                                    </Flex>
 
-                            <Flex>
-                              <td
-                                className={styles.commentTextStyle}
-                                dangerouslySetInnerHTML={{
-                                  __html: doc?.commands,
-                                }}
-                              />
-                            </Flex>
-                          </Flex>} 
+                                    <Flex>
+                                      <td
+                                        className={styles.commentTextStyle}
+                                        dangerouslySetInnerHTML={{
+                                          __html: val?.commenddd,
+                                        }}
+                                      />
+                                    </Flex>
+                                  </Flex>
+                                </>
+                              )}
+                            })
+                          }
                         </Flex>
                       </Flex>
                     </Flex>

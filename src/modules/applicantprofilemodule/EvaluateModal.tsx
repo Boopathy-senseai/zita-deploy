@@ -232,7 +232,6 @@ const EvaluateModal: React.FC<Props> = (props) => {
   });
   const handlelevelradio = (val) => {
     const value = val.toLowerCase();
-    console.log(value, 'easycheck')
     if (value === 'easy') {
       return <SvgRadioWithLine fill="#34CC65" width={16} height={16} />;
     }
@@ -245,7 +244,6 @@ const EvaluateModal: React.FC<Props> = (props) => {
     return null;
   };
   const datalist = Object.values(valuelist)
-  console.log(formik.values.scorecard,'formik.values.scorecardformik.values.scorecardformik.values.scorecardformik.values.scorecard')
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
