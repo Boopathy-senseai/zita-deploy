@@ -191,6 +191,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                     {info?.full_name}
                                   </Text>
                                 </Flex>
+                                <Flex row>
                                 <Flex row center marginLeft={15}>
                                   <Text title="Question count">
                                     <SvgQuestion width={16} height={16} />
@@ -216,6 +217,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                       value={info?.total_score}
                                     />
                                   </Flex>
+                                </Flex>
                                 </Flex>
                               </Flex>
                             </>
