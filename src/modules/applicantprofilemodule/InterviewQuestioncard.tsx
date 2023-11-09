@@ -9,12 +9,13 @@ import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import SvgUpArrow from '../../icons/SvgArrowUp';
-import { Button, Flex, InputCheckBox, Loader, Toast } from '../../uikit';
+import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText';
 import Text from '../../uikit/Text/Text';
 import { AppDispatch, RootState } from '../../store';
 import { isEmpty } from '../../uikit/helper';
 import { formatTo12HrClock } from '../calendarModule/util';
+import SingleButton from '../common/SingleButton';
 import {
     GenerateQuestionsState,
     InterviewExtractData,
@@ -25,6 +26,7 @@ import {
     evaluateQuestionMiddleware,
     interviewQuestionMiddleware,
 } from './store/middleware/interviewquestionMiddleware';
+
 
 
 
@@ -69,7 +71,7 @@ const InterviewQustioncard = ({
 }: Props) => {
     const [expandedIndex, setExpandedIndex] = useState([]);
     const [selecteddata, setselecteddata] = useState<any>([]);
-    const [expanded2, setExpanded2] = useState<any>('');
+    const [isEvaluate, setEvaluate] = useState<any>(false);
     const [questions, setQuestions] = useState<any>({});
     //onclick function fo modal window open
     const toggleStage = (e) => {
@@ -177,9 +179,9 @@ const InterviewQustioncard = ({
                                                         Evaluate
                                                     </Button>
                                                 ) : (<Button
-                                                    // onClick={() => {
-                                                    //     onEvaluate(datas?.id, getCheckedQuestions());
-                                                    // }}
+                                                     onClick={() => {
+                                                        setEvaluate(true)
+                                                      }}
                                                     types={'primary'}
                                                 >
                                                     Evaluate
@@ -405,6 +407,18 @@ const InterviewQustioncard = ({
 
             })
             }
+           
+              <>
+                <SingleButton
+                  btnTitle="OK"
+                  title={
+                    'please select atleast one question to evaluate'
+                  }
+                  open={isEvaluate}
+                  btnOnclick={() =>setEvaluate(false)}
+                />
+              </>
+            
         </Flex>
     )
 }
