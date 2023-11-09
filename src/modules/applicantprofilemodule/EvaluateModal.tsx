@@ -83,7 +83,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     const doc = parser.parseFromString(values?.commands, 'text/html');
     const textNodes = doc.querySelectorAll('body')[0].textContent;
     const texttrim = textNodes.trim();
-    const hasEmptyValues = Object.values(values).some((item) => {
+    const hasEmptyValues = Object.values(values.scorecard).some((item) => {
       const { scorecard } = item;
       return scorecard === null || scorecard === undefined;
     }); 
@@ -203,6 +203,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
             'LONG',
             'error',
           );
+          setloader(false);
         } else {
           Toast(
             recommend || commands
