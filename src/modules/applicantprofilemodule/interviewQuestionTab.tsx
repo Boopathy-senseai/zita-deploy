@@ -60,6 +60,7 @@ const ScreeningStatusTab = ({
   const [isinterviewid, setinterviewid] = useState<any>();
   const [isloader,setisloader] = useState<any>(false);
   const [isevaluateddata,setevaluateddata] = useState<any>([]);
+  const [iscleardata,setcleardata] =  useState<any>(false);
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
@@ -176,6 +177,7 @@ const ScreeningStatusTab = ({
         
         setAddquestion(false);
         setisloader(false);
+        setcleardata(true);
         Toast(' Addquestion successfully', 'LONG', 'success');
       }
       else{ 
@@ -224,6 +226,7 @@ const ScreeningStatusTab = ({
     })).then((res) => { 
       if (res?.payload.success === true) {
         setisloader(false);
+        setcleardata(true);
         setregeneratequestion(false);
         Toast('Regeneratequestion successfully', 'LONG', 'success');
       }
@@ -272,6 +275,7 @@ const ScreeningStatusTab = ({
     })).then((res) => {
       if (res.payload.success === true) {
         setisloader(false);
+        setcleardata(true);
         setgeneratequestion(false);
         Toast('generatequestion successfully', 'LONG', 'success');
       }
@@ -299,6 +303,8 @@ const ScreeningStatusTab = ({
         Regeneratequestion={Regeneratequestion}
         generatequestion={generatequestion}
         isloader={isloader}
+        setcleardata={setcleardata}
+        iscleardata={iscleardata}
       />
       <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
         <Text bold className={styles.screenText}>

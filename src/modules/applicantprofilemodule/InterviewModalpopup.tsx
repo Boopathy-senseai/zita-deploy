@@ -23,6 +23,8 @@ type Props = {
     Regeneratequestion?: (val: any) => void,
     generatequestion?: (val: any) => void,
     isloader?: boolean;
+    setcleardata?: (val: any) => void,
+    iscleardata?: boolean
 };
 
 const Interviewmodalpopup = ({
@@ -35,7 +37,9 @@ const Interviewmodalpopup = ({
     AddnewQuestion,
     Regeneratequestion,
     generatequestion,
-    isloader
+    isloader,
+    setcleardata,
+    iscleardata
 }: Props) => {
     //Add Question Modal  state
 
@@ -231,7 +235,20 @@ const Interviewmodalpopup = ({
         setgeneratequestion(false);
         setAddquestion(false);
     }
-
+ //cleardata onclick for dispatch function 
+ useEffect(()=>{
+    if(iscleardata === true){
+        setstoreaddData([])
+        seterrorhandle(false);
+        seterrorhandleadd(false);
+        seterrorhandlerole(false);
+        formik.resetForm();
+        setregeneratequestion(false);
+        setgeneratequestion(false);
+        setAddquestion(false);
+        setcleardata(false);
+    }
+ },[iscleardata])
 
     //useEffect for both Re-generate Question and generate Question by AI Modal  
     useEffect(() => {
