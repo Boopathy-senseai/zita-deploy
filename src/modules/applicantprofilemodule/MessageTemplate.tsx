@@ -11,6 +11,7 @@ import Modal from '../../uikit/Modal/Modal';
 import { CANCEL } from '../constValue';
 import Card from '../../uikit/Card/Card';
 import { RootState } from '../../store';
+import { Toast } from '../../uikit';
 import { MessageTemplates } from './applicantProfileTypes';
 import styles from './messagetemplate.module.css';
 import MessageTemplateList from './MessageTemplateList';
@@ -69,6 +70,7 @@ const MessageTemplate = ({
     formik.setFieldValue('userSubject', subject);
     hanldeClose();
     setSubject(subject);
+    Toast('Email template added successfully.', 'LONG', 'success');
   }
 
 

@@ -53,14 +53,35 @@ const Emailopenmodal = ({
   // Convert HTML content to plain text
   const plainTextDescription = htmlToPlainText(isDescription);
 
-  const handletitle = (e:any)=> {
-    setTitle(e.target.value)
-    const title=e.target.value;
-    if(title.length>25){
-      seterrortitle(true)
-    }
-    else{
-      seterrortitle(false)
+  // const handletitle = (e:any)=> {
+  //   setTitle(e.target.value)
+  //   const title=e.target.value.trim();;
+  //   if(title.length>35){
+  //     seterrortitle(true)
+  //   }
+  //   else{
+  //     seterrortitle(false)
+  //   }
+  // }
+
+  // const handletitle = (e: any) => {
+  //   const title = e.target.value.trim(); // This trims leading and trailing spaces
+  //   setTitle(title);
+  
+  //   if (title.length > 35) {
+  //     seterrortitle(true);
+  //   } else {
+  //     seterrortitle(false);
+  //   }
+  // }
+  const handletitle = (e: any) => {
+    const inputValue = e.target.value;
+    const title = inputValue.trimStart();
+    setTitle(title);
+    if (title.length > 35) {
+      seterrortitle(true);
+    } else {
+      seterrortitle(false);
     }
   }
   const handleSubject = (e:any)=> {
@@ -99,9 +120,9 @@ const Emailopenmodal = ({
     .then((res)=>{
       if(res.payload.success===true){
       if(itemvalue!==null){
-        Toast('Template added Successfully.', 'LONG', 'success');
-      }else{
         Toast('Template updated Successfully.', 'LONG', 'success');
+      }else{
+        Toast('Template added Successfully.', 'LONG', 'success');
       }}
       else{
         Toast('Email template api failed', 'LONG', 'error');
@@ -143,11 +164,11 @@ const Emailopenmodal = ({
                     className={styles.templatetitleInput}
                     onChange={handletitle}
                     value={isTitle}
-                    maxLength={26}
+                    maxLength={36}
                     />
                   </Flex>
                 {errortitle&&(
-                  <Text color='error'>Maximum limit of title is 25</Text>
+                  <Text color='error'>Template title should not exceed 35 characters.</Text>
                 )
                 }
 
@@ -161,7 +182,7 @@ const Emailopenmodal = ({
                     maxLength={251}
                     />
                     {errorsubject && (
-                      <Text color='error'>Maximum limit of subject content is 250</Text>
+                      <Text color='error'>Subject content should not exceed 250 characters.</Text>
                     )}
                   </Flex>
                   <Flex>
@@ -175,7 +196,7 @@ const Emailopenmodal = ({
                    />
                   </Flex>
                   {errordiscription&&(
-                  <Text color='error'>Maximum limit of description is 2000</Text>
+                  <Text color='error'>Email content should not exceed 250 characters.</Text>
                 )
                 }
                 </Flex>

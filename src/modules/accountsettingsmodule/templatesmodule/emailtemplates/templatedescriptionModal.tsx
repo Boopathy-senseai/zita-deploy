@@ -41,7 +41,7 @@ const TemplateDescriptionmodal = ({
                                 />
                             </Flex>
                           </Flex>               
-                        <Flex>
+                        <Flex className={styles.tempContent}>
                           <Flex>
                             <Text bold>
                                 Subject Contant
