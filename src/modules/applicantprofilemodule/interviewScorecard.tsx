@@ -184,7 +184,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                 fill={'#581845'}
                                 height={12}
                                 width={12}
-                                up={isShowFeedback}
+                                up={isShowFeedback?.includes(doc.interview_id)}
                               />
                             </Flex>
                           </Flex> 
