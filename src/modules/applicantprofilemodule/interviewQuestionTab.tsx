@@ -219,6 +219,8 @@ const ScreeningStatusTab = ({
       can_id: can_id,
       re_generate: result,
       interview_id: isinterviewid,
+      exclude:isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)
+      
     })).then((res) => { 
       if (res?.payload.success === true) {
         setisloader(false);
