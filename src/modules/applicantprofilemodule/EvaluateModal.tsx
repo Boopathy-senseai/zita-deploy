@@ -33,7 +33,7 @@ interface Props {
   data: Question[];
   jd_id: string;
   can_id: string;
-  interview_id: number;
+  interview_ids: number;
   user: UserEntity;
   candidateDetails: CandidateDetailsEntity[];
   onCancel: () => void;
@@ -46,6 +46,7 @@ interface IFormData {
   scorecard: { [key: string]: ScoreCardFormInputData };
   commands: string;
   recommend: number;
+  
 }
 
 const EvaluateModal: React.FC<Props> = (props) => {
@@ -58,6 +59,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     recommend,
     commands,
     isevaluatedata,
+    interview_ids,
     ...rest
   } = props;
   const dispatch: AppDispatch = useDispatch();
@@ -70,6 +72,8 @@ const EvaluateModal: React.FC<Props> = (props) => {
   const [isloader, setloader] = useState(false);
   const [valuelist, setvaluelist] = useState([])
   const parser = new DOMParser();
+
+  console.log("interview_idsinterview_idsinterview_ids",interview_ids,isevaluatedata)
 
   const handleValidations = (values: IFormData) => {
     const errors: Partial<{
@@ -185,7 +189,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
       evaluateQuestionMiddleware({
         ...rest,
         ...form,
-        interview_id: JSON.stringify(rest.interview_id),
+        interview_id: JSON.stringify(interview_ids),
         scorecard: JSON.stringify(
           Object.values(form.scorecard).map((doc, index) => ({
             id: Object.keys(form.scorecard)[index],
@@ -257,12 +261,15 @@ const EvaluateModal: React.FC<Props> = (props) => {
           <Text color="theme">
             {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidateDetails[0]?.first_name} based on the interview? *`}
           </Text>
+          {console.log("Object.values(valuelist)",Object.keys(valuelist))}
           {datalist.length > 0 && datalist.map((item, itemIndex) => (
             <div key={itemIndex}>
               <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
+              {console.log("Object.values(item)",Object.keys(item))}
               {Object.values(item).map((li, liIndex) => (
                 <div key={liIndex}>
-                  <Flex row>
+                  <Flex row >
+                  {console.log("kkkdksfkkdsk",Object.keys(item).length - 1  === liIndex)} 
                     <Flex marginRight={7} marginTop={1}>
                       {handlelevelradio(Object.keys(item)[liIndex])}
                     </Flex>
@@ -271,9 +278,13 @@ const EvaluateModal: React.FC<Props> = (props) => {
                     </Flex>
                   </Flex>
                   {/* <Text bold size={12} color='theme'>{Object.keys(item)[liIndex]}</Text> */}
-                  {Object.values(li).map((doc, index) => (
+                  {Object.values(li).map((doc, index) => ( // need to be work line for evalutae model
                     <div key={index}>
-                      <Flex row top  marginLeft={2}>
+                    
+                      {console.log("handlelevelradio",Object.keys(item).length - 1 ,index,"000000000", Object.keys(item)[Object.keys(item).length-1] , Object.keys(item)[liIndex], Object.keys(item)[Object.keys(item).length-1] !== Object.keys(item)[liIndex] )}
+
+                      {Object.keys(valuelist)[Object.keys(valuelist).length -1] !== Object.keys(valuelist)[itemIndex]   ? (
+                      <Flex row top  marginLeft={2} style ={{ borderBottom: Object.keys(item).length - 1 === index ? '1px solid #C3C3C3': ''}}>
                         <Flex flex={9}>
                           <Text>{`${index + 1}. ${doc.question}`}</Text>
                         </Flex>
@@ -295,6 +306,30 @@ const EvaluateModal: React.FC<Props> = (props) => {
                           />
                         </Flex>
                       </Flex>
+                       ):(
+                        <Flex row top  marginLeft={2} style ={{ borderBottom: ''}}>
+                        <Flex flex={9}>
+                          <Text>{`${index + 1}. ${doc.question}`}</Text>
+                        </Flex>
+                        <Flex
+                          flex={2.5}
+                          className={styles.ratingStar}
+                          marginTop={-32}
+                          marginLeft={5}
+                        >
+                          <StarsRating
+                            count={5}
+                            value={formik.values.scorecard[doc.id]?.scorecard || 0}
+                            onChange={(value) => {
+                              formik.setFieldValue(
+                                `scorecard.${doc.id}.scorecard`,
+                                value,
+                              );
+                            }}
+                          />
+                        </Flex>
+                      </Flex>
+                       )}
                     </div>
                   ))}
                 </div>

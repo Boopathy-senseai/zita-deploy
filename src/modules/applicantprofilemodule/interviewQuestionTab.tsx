@@ -355,8 +355,12 @@ const ScreeningStatusTab = ({
         <EvaluateModal
           {...{ ...evaluatePopup, jd_id, can_id }}
           user={user}
+          interview_ids={evaluatePopup.interview_id}
           candidateDetails={candidate_details}
-          isevaluatedata={isevaluatedata}
+          isevaluatedata={(function() {
+            const filteredData = isevaluatedata.filter(is => is.interview_id === evaluatePopup.interview_id);
+            return filteredData;
+          })()}
           onCancel={handleCancel}
           commands={
             isevaluatedata.map((ele) => {

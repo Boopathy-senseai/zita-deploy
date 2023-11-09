@@ -111,7 +111,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                               <StarsRating disabled count={1} value={1} />
                             </Flex>
                             <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                              {`${Math.round(firstCummulative?.average_score) || 0}/5`}
+                              {`${Math.round(doc?.average_score) || 0}/5`}
                             </Text>
                           </Flex>
                           <Text color="theme" style={{ marginTop: '3px' }}>
