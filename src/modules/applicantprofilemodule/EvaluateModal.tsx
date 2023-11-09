@@ -46,7 +46,7 @@ interface IFormData {
   scorecard: { [key: string]: ScoreCardFormInputData };
   commands: string;
   recommend: number;
-  
+
 }
 
 const EvaluateModal: React.FC<Props> = (props) => {
@@ -73,8 +73,6 @@ const EvaluateModal: React.FC<Props> = (props) => {
   const [valuelist, setvaluelist] = useState([])
   const parser = new DOMParser();
 
-  console.log("interview_idsinterview_idsinterview_ids",interview_ids,isevaluatedata)
-
   const handleValidations = (values: IFormData) => {
     const errors: Partial<{
       scorecard: string;
@@ -90,7 +88,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     const hasEmptyValues = Object.values(values.scorecard).some((item) => {
       const { scorecard } = item;
       return scorecard === null || scorecard === undefined;
-    }); 
+    });
     if (isEmpty(texttrim)) {
       errors.commands = '';
     }
@@ -105,7 +103,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     if (questionRating.includes(0)) {
       errors.scorecard = THIS_FIELD_REQUIRED;
     }
-    if(hasEmptyValues){
+    if (hasEmptyValues) {
       errors.scorecard = THIS_FIELD_REQUIRED;
     }
 
@@ -152,7 +150,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     }, {});
   }
 
-   
+
   // const handleFormChange = (
   //   field: string,
   //   value: any,
@@ -256,18 +254,18 @@ const EvaluateModal: React.FC<Props> = (props) => {
             maxHeight: '500px',
           }}
         >
-          <Text color="theme">
+          <Text color="theme" style={{ marginBottom: '15px' }}>
             {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidateDetails[0]?.first_name} based on the interview? *`}
           </Text>
-          {console.log("Object.values(valuelist)",Object.keys(valuelist))}
           {datalist.length > 0 && datalist.map((item, itemIndex) => (
             <div key={itemIndex}>
               <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
-              {console.log("Object.values(item)",Object.keys(item))}
               {Object.values(item).map((li, liIndex) => (
-                <div key={liIndex}>
-                  <Flex row >
-                  {console.log("kkkdksfkkdsk",Object.keys(item).length - 1  === liIndex)} 
+                <div key={liIndex} style={{
+                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '5px',
+                  marginBottom: '5px'
+                }}>
+                  <Flex row  >
                     <Flex marginRight={7} marginTop={1}>
                       {handlelevelradio(Object.keys(item)[liIndex])}
                     </Flex>
@@ -277,57 +275,54 @@ const EvaluateModal: React.FC<Props> = (props) => {
                   </Flex>
                   {/* <Text bold size={12} color='theme'>{Object.keys(item)[liIndex]}</Text> */}
                   {Object.values(li).map((doc, index) => ( // need to be work line for evalutae model
-                    <div key={index}>
-                    
-                      {console.log("handlelevelradio",Object.keys(item).length - 1 ,index,"000000000", Object.keys(item)[Object.keys(item).length-1] , Object.keys(item)[liIndex], Object.keys(item)[Object.keys(item).length-1] !== Object.keys(item)[liIndex] )}
-
-                      {Object.keys(valuelist)[Object.keys(valuelist).length -1] !== Object.keys(valuelist)[itemIndex]   ? (
-                      <Flex row top  marginLeft={2} style ={{ borderBottom: Object.keys(item).length - 1 === index ? '1px solid #C3C3C3': ''}}>
-                        <Flex flex={9}>
-                          <Text>{`${index + 1}. ${doc.question}`}</Text>
+                    <div key={index} > 
+                      {Object.keys(valuelist)[Object.keys(valuelist).length - 1] !== Object.keys(valuelist)[itemIndex] ? (
+                        <Flex row top marginLeft={2}>
+                          <Flex flex={9}>
+                            <Text>{`${index + 1}. ${doc.question}`}</Text>
+                          </Flex>
+                          <Flex
+                            flex={2.5}
+                            className={styles.ratingStar}
+                            marginTop={-32}
+                            marginLeft={5}
+                          >
+                            <StarsRating
+                              count={5}
+                              value={formik.values.scorecard[doc.id]?.scorecard || 0}
+                              onChange={(value) => {
+                                formik.setFieldValue(
+                                  `scorecard.${doc.id}.scorecard`,
+                                  value,
+                                );
+                              }}
+                            />
+                          </Flex>
                         </Flex>
-                        <Flex
-                          flex={2.5}
-                          className={styles.ratingStar}
-                          marginTop={-32}
-                          marginLeft={5}
-                        >
-                          <StarsRating
-                            count={5}
-                            value={formik.values.scorecard[doc.id]?.scorecard || 0}
-                            onChange={(value) => {
-                              formik.setFieldValue(
-                                `scorecard.${doc.id}.scorecard`,
-                                value,
-                              );
-                            }}
-                          />
+                      ) : (
+                        <Flex row top marginLeft={2} style={{ borderBottom: '' }}>
+                          <Flex flex={9}>
+                            <Text>{`${index + 1}. ${doc.question}`}</Text>
+                          </Flex>
+                          <Flex
+                            flex={2.5}
+                            className={styles.ratingStar}
+                            marginTop={-32}
+                            marginLeft={5}
+                          >
+                            <StarsRating
+                              count={5}
+                              value={formik.values.scorecard[doc.id]?.scorecard || 0}
+                              onChange={(value) => {
+                                formik.setFieldValue(
+                                  `scorecard.${doc.id}.scorecard`,
+                                  value,
+                                );
+                              }}
+                            />
+                          </Flex>
                         </Flex>
-                      </Flex>
-                       ):(
-                        <Flex row top  marginLeft={2} style ={{ borderBottom: ''}}>
-                        <Flex flex={9}>
-                          <Text>{`${index + 1}. ${doc.question}`}</Text>
-                        </Flex>
-                        <Flex
-                          flex={2.5}
-                          className={styles.ratingStar}
-                          marginTop={-32}
-                          marginLeft={5}
-                        >
-                          <StarsRating
-                            count={5}
-                            value={formik.values.scorecard[doc.id]?.scorecard || 0}
-                            onChange={(value) => {
-                              formik.setFieldValue(
-                                `scorecard.${doc.id}.scorecard`,
-                                value,
-                              );
-                            }}
-                          />
-                        </Flex>
-                      </Flex>
-                       )}
+                      )}
                     </div>
                   ))}
                 </div>
@@ -341,7 +336,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
             name="scorecard"
           />
 
-          <Flex style={{ borderTop: '1px solid #c3c3c3', marginTop: '5px' }}>
+          <Flex style={{ marginTop: '5px' }}>
             <Text
               color="theme"
               style={{ marginBottom: '5px', marginTop: '10px' }}
