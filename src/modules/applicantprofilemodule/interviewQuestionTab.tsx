@@ -111,7 +111,7 @@ const ScreeningStatusTab = ({
 
   useEffect(() => {
     setgeneratedquestion(interviewData)
-  }, [])
+  }, [interviewData])
 
   const toggleStage = () => {
     setaddQuestion(!addQuestion);
@@ -173,6 +173,7 @@ const ScreeningStatusTab = ({
       interview_id: isinterviewid,
     })).then((res) => {
       if (res.payload.success === true) {
+        
         setAddquestion(false);
         setisloader(false);
         Toast(' Addquestion successfully', 'LONG', 'success');
