@@ -76,7 +76,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
       if (!existingInterview) {
         result.push({
           interview_id: item.interview_id,
-          overall_score: 0,
+          overall_score: item.total_score,
           overall_recommend: item.avg_recommend,
           attendees: [{
             first_name: item.first_name,
