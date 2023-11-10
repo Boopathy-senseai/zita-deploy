@@ -179,9 +179,9 @@ const InterviewQustioncard = ({
                                                         Evaluate
                                                     </Button>
                                                 ) : (<Button
-                                                     onClick={() => {
+                                                    onClick={() => {
                                                         setEvaluate(true)
-                                                      }}
+                                                    }}
                                                     types={'primary'}
                                                 >
                                                     Evaluate
@@ -212,9 +212,10 @@ const InterviewQustioncard = ({
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 <Flex>
+                                                                {console.log(label.Map_question[i],'klrklrklrklr',matchingData.Question[matchingData.Question.length-1].Value[matchingData.Question[matchingData.Question.length-1].Value.length -1].Map_question[i])}
                                                                     {expandedIndex?.includes(ques.id) ? (
                                                                         <>
-                                                                            <Flex row style={{ borderBottom:label?.Map_question?.length - 1 ? '' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
+                                                                            <Flex row style={{ borderBottom: i === label?.Map_question?.length - 1 ? label.Map_question[i] === matchingData.Question[matchingData.Question.length-1].Value[matchingData.Question[matchingData.Question.length-1].Value.length -1].Map_question[i] ?  '' : '1px solid #C3C3C3' :  '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
@@ -253,66 +254,36 @@ const InterviewQustioncard = ({
                                                                         </>
                                                                     ) : (
                                                                         <>
-                                                                            { value.Category !== exitline[exitline.length-1] ? (
 
-                                                                                <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ? '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
+                                                                            <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ?  label.Map_question[i] === matchingData.Question[matchingData.Question.length-1].Value[matchingData.Question[matchingData.Question.length-1].Value.length -1].Map_question[i]?  '' : '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
 
-                                                                                    {datas.evaluate !== true &&
-                                                                                        <Flex style={{ margin: '1.5px 5px 0 0' }} >
-                                                                                            <InputCheckBox
-                                                                                                onClick={() => handleSelectedQuestion(ques)}
-                                                                                                checked={selecteddata?.includes(ques.id)}
-                                                                                            />
-                                                                                        </Flex>}
-                                                                                    <Flex row>
-                                                                                        <Flex>
-                                                                                            <Text>{i + 1}.</Text>
-                                                                                        </Flex>
-                                                                                        <Flex row style={{ textAlign: "justify" }}>
-                                                                                            <Text>{ques.question}
-                                                                                                {ques.answer !== null && <Text
-                                                                                                    onClick={() => handleToggleCollapse(ques.id)}
-                                                                                                    style={{ cursor: "pointer" }}>
-                                                                                                    <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
-                                                                                                    <SvgArrowDown1
-                                                                                                        width={10}
-                                                                                                        height={10}
-                                                                                                        fill={"581845"} />
+                                                                                {datas.evaluate !== true &&
+                                                                                    <Flex style={{ margin: '1.5px 5px 0 0' }} >
+                                                                                        <InputCheckBox
+                                                                                            onClick={() => handleSelectedQuestion(ques)}
+                                                                                            checked={selecteddata?.includes(ques.id)}
+                                                                                        />
+                                                                                    </Flex>}
+                                                                                <Flex row>
+                                                                                    <Flex>
+                                                                                        <Text>{i + 1}.</Text>
+                                                                                    </Flex>
+                                                                                    <Flex row style={{ textAlign: "justify" }}>
+                                                                                        <Text>{ques.question}
+                                                                                            {ques.answer !== null && <Text
+                                                                                                onClick={() => handleToggleCollapse(ques.id)}
+                                                                                                style={{ cursor: "pointer" }}>
+                                                                                                <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
+                                                                                                <SvgArrowDown1
+                                                                                                    width={10}
+                                                                                                    height={10}
+                                                                                                    fill={"581845"} />
 
-                                                                                                </Text>}</Text>
-                                                                                        </Flex>
+                                                                                            </Text>}</Text>
                                                                                     </Flex>
                                                                                 </Flex>
-                                                                            ) : ( 
+                                                                            </Flex>
 
-                                                                                <Flex  row style={{  borderBottom:  value?.Value?.length - 1 ? '' : '1px solid #C3C3C3' ,paddingBottom: '5px' }} marginBottom={5}> 
-                                                                                    {datas.evaluate !== true &&
-                                                                                        <Flex style={{ margin: '1.5px 5px 0 0' }} >
-                                                                                            <InputCheckBox
-                                                                                                onClick={() => handleSelectedQuestion(ques)}
-                                                                                                checked={selecteddata?.includes(ques.id)}
-                                                                                            />
-                                                                                        </Flex>}
-                                                                                    <Flex row>
-                                                                                        <Flex>
-                                                                                            <Text>{i + 1}.</Text>
-                                                                                        </Flex>
-                                                                                        <Flex row style={{ textAlign: "justify" }}>
-                                                                                            <Text>{ques.question}
-                                                                                                {ques.answer !== null && <Text
-                                                                                                    onClick={() => handleToggleCollapse(ques.id)}
-                                                                                                    style={{ cursor: "pointer" }}>
-                                                                                                    <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
-                                                                                                    <SvgArrowDown1
-                                                                                                        width={10}
-                                                                                                        height={10}
-                                                                                                        fill={"581845"} />
-
-                                                                                                </Text>}</Text>
-                                                                                        </Flex>
-                                                                                    </Flex>
-                                                                                </Flex>
-                                                                            )}
                                                                             {/* <Flex row style={{ borderBottom: label?.Map_question.length-1 === i ? '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
@@ -409,18 +380,18 @@ const InterviewQustioncard = ({
 
             })
             }
-           
-              <>
+
+            <>
                 <SingleButton
-                  btnTitle="OK"
-                  title={
-                    'please select atleast one question to evaluate'
-                  }
-                  open={isEvaluate}
-                  btnOnclick={() =>setEvaluate(false)}
+                    btnTitle="OK"
+                    title={
+                        'please select atleast one question to evaluate'
+                    }
+                    open={isEvaluate}
+                    btnOnclick={() => setEvaluate(false)}
                 />
-              </>
-            
+            </>
+
         </Flex>
     )
 }
