@@ -498,13 +498,13 @@ const Interviewmodalpopup = ({
                     {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     <Flex row marginTop={17} end>
                         <Flex marginRight={20} onClick={closeforms}>
-                            <Button types="close" width="75px">Cancel</Button>
+                            <Button types="close" width="95px">Cancel</Button>
                         </Flex>
                         <Flex>
-                            {isloader ? <Flex middle center style={{ width: '75px' }}>
+                            {isloader ? <Flex middle center style={{ width: '100px' }}>
                                 <Loader size="small" withOutOverlay />
-                            </Flex> : overalldata.length === 0 ? <Button types='primary' width="75px" onClick={() => handleSubmit('regenerate')} >Add</Button> :
-                                <Button types='primary' width="75px" >Add</Button>}
+                            </Flex> : overalldata.length === 0 ? <Button types='primary' width="100px" onClick={() => handleSubmit('regenerate')} >Re-generate</Button> :
+                                <Button types='primary' width="100px" >Re-generate</Button>}
                         </Flex>
                     </Flex>
 
@@ -661,10 +661,10 @@ const Interviewmodalpopup = ({
                         </Flex>
                         <Flex>
                             {isloader ?
-                                <Flex middle center style={{ width: '75px' }}>
+                                <Flex middle center style={{ width: '85px' }}>
                                     <Loader size="small" withOutOverlay />
-                                </Flex> : overalldata.length === 0 ? <Button types='primary' width="75px" onClick={() => handleSubmit('genereate')} >Add</Button> :
-                                    <Button types='primary' width="75px" >Add</Button>
+                                </Flex> : overalldata.length === 0 ? <Button types='primary' width="85px" onClick={() => handleSubmit('genereate')} >Generate</Button> :
+                                    <Button types='primary' width="85px" >Generate</Button>
                             }
                         </Flex>
                     </Flex> 

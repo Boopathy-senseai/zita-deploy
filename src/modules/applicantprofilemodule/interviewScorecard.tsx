@@ -38,11 +38,11 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
     datas.filter((doc) => doc.interview_id === interview_id) || [];
 
   const handleEdit = (interview_id) => {
-    const mydata = datas.find((id) => (id.Id === interview_id))
-    const allQuestions = mydata.Question.flatMap((category) =>
-      category.Value.flatMap((level) => level["Map_question"])
+    const mydata = datas?.find((id) => (id?.Id === interview_id))
+    const allQuestions = mydata?.Question?.flatMap((category) =>
+      category?.Value?.flatMap((level) => level["Map_question"])
     );
-    const filteredQuestions = allQuestions.filter((question) => question.scorecard !== null);
+    const filteredQuestions = allQuestions?.filter((question) => question.scorecard !== null);
     UpdateEvaluate(filteredQuestions)
     onEvaluate(interview_id, filteredQuestions);
   };
