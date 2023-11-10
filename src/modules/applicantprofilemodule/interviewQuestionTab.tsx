@@ -18,6 +18,7 @@ import {
 import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import { isEmpty } from '../../uikit/helper';
 import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import InterviewQustioncard from './InterviewQuestioncard';
 import InterviewScorecardTab from './InterviewScorecardTab';
@@ -32,6 +33,7 @@ import QuestionCard from './questionsCard';
 import { EvaluateInterviewInput, Question } from './interviewerQuestionType';
 import EvaluateModal from './EvaluateModal';
 import Interviewmodalpopup from './InterviewModalpopup';
+
 
 const cx = classNames.bind(styles);
 
@@ -215,13 +217,13 @@ const ScreeningStatusTab = ({
       }
       return accumulator;
     }, []);
-    setisloader(true)
+    setisloader(true) 
     dispatch(interviewQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
       re_generate: result,
       interview_id: isinterviewid,
-      exclude:isevaluatedata?(isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)):''
+      exclude: isevaluatedata.length !== 0?(isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)):''
       
     })).then((res) => { 
       if (res?.payload.success === true) {

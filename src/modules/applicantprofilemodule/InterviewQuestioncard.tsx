@@ -41,7 +41,7 @@ interface Props {
     no_of_interview?: any;
     lengthval?: any;
     indexval?: any;
-    isevaluatedata: [];
+    isevaluatedata?:any;
     setregeneratequestion?: (val: boolean) => void;
     setgeneratequestion?: (val: boolean) => void;
     setAddquestion?: (val: boolean) => void;
@@ -207,13 +207,14 @@ const InterviewQustioncard = ({
                                                             <Text color='theme'>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
                                                         </Flex>
                                                     </Flex>
+                                                    {console.log(label,'klr')}
                                                     <Flex>
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 <Flex>
                                                                     {expandedIndex?.includes(ques.id) ? (
                                                                         <>
-                                                                            <Flex row style={{ borderBottom: i !== label?.Map_question?.length - 1 ? '' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
+                                                                            <Flex row style={{ borderBottom:label?.Map_question?.length - 1 ? '' : '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
@@ -282,8 +283,9 @@ const InterviewQustioncard = ({
                                                                                         </Flex>
                                                                                     </Flex>
                                                                                 </Flex>
-                                                                            ) : (
-                                                                                <Flex row style={{ paddingBottom: '5px' }} marginBottom={5}>
+                                                                            ) : ( 
+
+                                                                                <Flex  row style={{  borderBottom:  value?.Value?.length - 1 ? '' : '1px solid #C3C3C3' ,paddingBottom: '5px' }} marginBottom={5}> 
                                                                                     {datas.evaluate !== true &&
                                                                                         <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                             <InputCheckBox

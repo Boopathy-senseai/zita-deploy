@@ -122,8 +122,8 @@ const Interviewmodalpopup = ({
     //Add Question Modal  state
     const handlequestion = (e) => {
         formik.setFieldValue('levellist[0].levelvalue.question', e.target.value)
-    } 
-    
+    }
+
 
     //generate Question by AI Modal  for role 
     const handlerole = (event) => {
@@ -139,7 +139,7 @@ const Interviewmodalpopup = ({
             setstoreaddData([...isstoreaddData, e]);
         } else {
             const updatedData = isstoreaddData.filter((item) => item.value !== e.value);
-            const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label); 
+            const levellistIndex = formik.values.levellist.findIndex((item) => item.levelvalue.name === e.label);
             const newLevelValue = {
                 name: '',
                 easy: '',
@@ -150,7 +150,7 @@ const Interviewmodalpopup = ({
                 ishardcheck: false,
                 checked: false,
             };
-            if (levellistIndex !== -1) { 
+            if (levellistIndex !== -1) {
                 const newLevellist = [...formik.values.levellist];
                 newLevellist.splice(levellistIndex, 1);
                 formik.setFieldValue('levellist', newLevellist);
@@ -166,27 +166,27 @@ const Interviewmodalpopup = ({
 
         if (!isChecked) {
             settriggerdata(true);
-            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked }; 
+            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked };
             if (values === "1") {
                 updatedLevelValue.iseasycheck = false;
             } else if (values === "2") {
                 updatedLevelValue.ismediumcheck = false;
             } else if (values === "3") {
                 updatedLevelValue.ishardcheck = false;
-            } 
+            }
             formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
         }
         else if (index >= 0 && index < formik.values.levellist.length) {
-            settriggerdata(true); 
-            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked }; 
+            settriggerdata(true);
+            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked };
             if (values === "1") {
                 updatedLevelValue.iseasycheck = true;
             } else if (values === "2") {
                 updatedLevelValue.ismediumcheck = true;
             } else if (values === "3") {
                 updatedLevelValue.ishardcheck = true;
-            } 
-            formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);  
+            }
+            formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
         } else {
             settriggerdata(true);
             const newLevelValue = {
@@ -235,32 +235,32 @@ const Interviewmodalpopup = ({
         setgeneratequestion(false);
         setAddquestion(false);
     }
- //cleardata onclick for dispatch function 
- useEffect(()=>{
-    if(iscleardata === true){
-        setstoreaddData([])
-        seterrorhandle(false);
-        seterrorhandleadd(false);
-        seterrorhandlerole(false);
-        formik.resetForm();
-        setregeneratequestion(false);
-        setgeneratequestion(false);
-        setAddquestion(false);
-        setcleardata(false);
-    }
- },[iscleardata])
+    //cleardata onclick for dispatch function 
+    useEffect(() => {
+        if (iscleardata === true) {
+            setstoreaddData([])
+            seterrorhandle(false);
+            seterrorhandleadd(false);
+            seterrorhandlerole(false);
+            formik.resetForm();
+            setregeneratequestion(false);
+            setgeneratequestion(false);
+            setAddquestion(false);
+            setcleardata(false);
+        }
+    }, [iscleardata])
 
     //useEffect for both Re-generate Question and generate Question by AI Modal  
     useEffect(() => {
-        const aggregateLevels = (levellist) => { 
+        const aggregateLevels = (levellist) => {
             let totalEasy = 0;
             let totalMedium = 0;
-            let totalHard = 0; 
+            let totalHard = 0;
 
             for (const item of levellist) {
                 totalEasy += parseInt(item.levelvalue.iseasycheck === true && item.levelvalue.easy) || 0;
-                totalMedium += parseInt(item.levelvalue.ismediumcheck === true &&item.levelvalue.medium) || 0;
-                totalHard += parseInt(item.levelvalue.ishardcheck === true &&item.levelvalue.hard) || 0;
+                totalMedium += parseInt(item.levelvalue.ismediumcheck === true && item.levelvalue.medium) || 0;
+                totalHard += parseInt(item.levelvalue.ishardcheck === true && item.levelvalue.hard) || 0;
             }
 
             // Create an object with the aggregated values
@@ -503,8 +503,8 @@ const Interviewmodalpopup = ({
                         <Flex>
                             {isloader ? <Flex middle center style={{ width: '75px' }}>
                                 <Loader size="small" withOutOverlay />
-                            </Flex> :
-                                <Button types='primary' width="75px" onClick={() => handleSubmit('regenerate')}>Add</Button>}
+                            </Flex> : overalldata.length === 0 ? <Button types='primary' width="75px" onClick={() => handleSubmit('regenerate')} >Add</Button> :
+                                <Button types='primary' width="75px" >Add</Button>}
                         </Flex>
                     </Flex>
 
@@ -650,7 +650,7 @@ const Interviewmodalpopup = ({
                                     )
                                 })}
                             </Flex>
-                        } 
+                        }
                     </Flex>
                     {iserrorhandlerole && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
@@ -660,13 +660,14 @@ const Interviewmodalpopup = ({
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>
                         <Flex>
-                            {isloader ? <Flex middle center style={{ width: '75px' }}>
-                                <Loader size="small" withOutOverlay />
-                            </Flex> :
-                                <Button types='primary' width="75px" onClick={() => handleSubmit('genereate')}>Add</Button>}
+                            {isloader ?
+                                <Flex middle center style={{ width: '75px' }}>
+                                    <Loader size="small" withOutOverlay />
+                                </Flex> : overalldata.length === 0 ? <Button types='primary' width="75px" onClick={() => handleSubmit('genereate')} >Add</Button> :
+                                    <Button types='primary' width="75px" >Add</Button>
+                            }
                         </Flex>
-                    </Flex>
-
+                    </Flex> 
                 </Flex>
             </Modal>
         </>
