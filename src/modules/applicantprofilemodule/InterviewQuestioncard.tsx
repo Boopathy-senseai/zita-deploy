@@ -190,8 +190,8 @@ const InterviewQustioncard = ({
                                     </Flex>}
                             </Flex>
                             {matchingData.Question?.map((value, ind) => (
-                                <Flex key={ind} className={styles.cardview} style={{ padding: '5px 10px' }}>
-                                    <Flex>
+                                <Flex key={ind} className={styles.cardview} style={{ padding: '0px 10px' }}>
+                                    <Flex marginTop={5}>
                                         <Text style={{ textTransform: "capitalize" }} bold>
                                             {value.Category}
                                         </Text>
