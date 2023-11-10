@@ -217,13 +217,13 @@ const ScreeningStatusTab = ({
       }
       return accumulator;
     }, []);
-    setisloader(true) 
+    setisloader(true); 
     dispatch(interviewQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
       re_generate: result,
       interview_id: isinterviewid,
-      exclude: isevaluatedata.length !== 0?(isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)):''
+      exclude: Object.keys(isevaluatedata).length !== 0?(isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)):''
       
     })).then((res) => { 
       if (res?.payload.success === true) {

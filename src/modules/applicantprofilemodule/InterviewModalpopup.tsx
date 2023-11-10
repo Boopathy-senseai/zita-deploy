@@ -178,7 +178,7 @@ const Interviewmodalpopup = ({
         }
         else if (index >= 0 && index < formik.values.levellist.length) {
             settriggerdata(true);
-            const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked };
+            const updatedLevelValue = { ...formik.values?.levellist[index]?.levelvalue, name, checked: isChecked };
             if (values === "1") {
                 updatedLevelValue.iseasycheck = true;
             } else if (values === "2") {
@@ -258,9 +258,9 @@ const Interviewmodalpopup = ({
             let totalHard = 0;
 
             for (const item of levellist) {
-                totalEasy += parseInt(item.levelvalue.iseasycheck === true && item.levelvalue.easy) || 0;
-                totalMedium += parseInt(item.levelvalue.ismediumcheck === true && item.levelvalue.medium) || 0;
-                totalHard += parseInt(item.levelvalue.ishardcheck === true && item.levelvalue.hard) || 0;
+                totalEasy += parseInt(item?.levelvalue?.iseasycheck === true && item?.levelvalue?.easy) || 0;
+                totalMedium += parseInt(item?.levelvalue?.ismediumcheck === true && item?.levelvalue?.medium) || 0;
+                totalHard += parseInt(item?.levelvalue?.ishardcheck === true && item?.levelvalue?.hard) || 0;
             }
 
             // Create an object with the aggregated values
@@ -268,8 +268,8 @@ const Interviewmodalpopup = ({
 
             return aggregatedValues;
         };
-        const aggregatedValues = aggregateLevels(formik.values.levellist);
-        if (!isEmptyArray(formik.values.levellist) && iserrorhandle) {
+        const aggregatedValues = aggregateLevels(formik?.values?.levellist);
+        if (!isEmptyArray(formik?.values?.levellist) && iserrorhandle) {
             seterrorhandle(false)
         }
         if (aggregatedValues > 15) {
@@ -293,9 +293,7 @@ const Interviewmodalpopup = ({
 
     }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
     formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
-    formik.values.role, istringgerdata])
-
-    console.log(iserrorhandle, 'puugscvv', iserrorhandleadd)
+    formik.values.role, istringgerdata]) 
     useEffect(() => {
         dispatch(rolevaluemiddleware())
             .then(
