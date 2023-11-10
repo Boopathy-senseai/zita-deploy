@@ -187,7 +187,7 @@ function formatDate(dateString: string | number | Date) {
           {data !== undefined  && data.map((template) => (
                 <tbody key={template.id} style={{ paddingTop: 20 }} className={styles.tablebody}>
                   <tr>
-                    <td className={styles.padchang}>
+                    <td className={styles.padchang} style={{borderTop:"0"}}>
                       <Flex onClick={() => handleTempDescModal(template)}>
                         <Text bold color='theme'>
                           {template.name}
@@ -199,14 +199,14 @@ function formatDate(dateString: string | number | Date) {
                     >
                       {template.subject}
                     </td>
-                    <td className={styles.padchang}>
+                    <td className={styles.padchang} style={{borderTop:"0"}}>
                       {template.full_name}
                     </td>
-                    <td className={styles.padchang}>
+                    <td className={styles.padchang} style={{borderTop:"0"}}>
                       {formatDate(template.created_on)}
                     </td>
 
-                    <td className={styles.padchang}>
+                    <td className={styles.padchang} style={{borderTop:"0"}}>
                       <Flex row className={styles.actionBtnContainer}>
                         <Flex 
                         onClick={() => editfunction(template)} 

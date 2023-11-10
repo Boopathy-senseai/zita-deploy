@@ -73,45 +73,13 @@ const Emailopenmodal = ({
     return doc.body.textContent;
   };
 
-  // Convert HTML content to plain text
   const plainTextDescription = htmlToPlainText(isDescription);
 
-  // const handletitle = (e:any)=> {
-  //   setTitle(e.target.value)
-  //   const title=e.target.value.trim();;
-  //   if(title.length>35){
-  //     seterrortitle(true)
-  //   }
-  //   else{
-  //     seterrortitle(false)
-  //   }
-  // }
-
-  // const handletitle = (e: any) => {
-  //   const title = e.target.value.trim(); // This trims leading and trailing spaces
-  //   setTitle(title);
-  
-  //   if (title.length > 35) {
-  //     seterrortitle(true);
-  //   } else {
-  //     seterrortitle(false);
-  //   }
-  // }
-  // const handletitle = (e: any) => {
-  //   const inputValue = e.target.value;
-  //   const title = inputValue.trimStart();
-  //   setTitle(title);
-  //   if (title.length > 35) {
-  //     seterrortitle(true);
-  //   } else {
-  //     seterrortitle(false);
-  //   }
-  // }
   const handletitle = (e: any) => {
 
     const inputValue = e.target.value;
     const title = inputValue.trimStart();    
-    const titleAlreadyExists = data.some(template => template.name === title);
+    const titleAlreadyExists = data?.some(template => template.name === title);
     setTitle(title);
     if (title.length > 35) {
       seterrortitle(true);
@@ -128,21 +96,26 @@ const Emailopenmodal = ({
 
   const handleSubject = (e: any) => {
     const inputValue = e.target.value;
-    const subject = inputValue.trimStart();
-    const subjectAlreadyExists = data.some(template => template.subject === subject);
+    const subject = inputValue.trimStart()
+  
+    // Check if the new subject already exists in the data array
+    const subjectAlreadyExists = data?.some(template => template.subject === subject);
+  
     setSubject(subject);
-    if (subject.length>250) {
-      seterrorsubject(true)      
+  
+    if (subject.length > 250) {
+      seterrorsubject(true);
     } else {
-      seterrorsubject(false)
+      seterrorsubject(false);
     }
+  
     if (subjectAlreadyExists) {
-      setSubjectExist(true)      
+      setSubjectExist(true);
     } else {
-      setSubjectError(false)
+      setSubjectExist(false);
     }
   }
-
+  
   // const handleSubject = (e:any)=> {
   //   setSubject(e.target.value)
   //   const subject=e.target.value;

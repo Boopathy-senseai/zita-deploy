@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
 import { memo, useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap';
 import Totalcount from '../../globulization/TotalCount';
 import Button from '../../uikit/Button/Button';
 import SvgSearch from '../../icons/SvgSearch';
@@ -10,6 +9,7 @@ import InputText from '../../uikit/InputText/InputText';
 import Modal from '../../uikit/Modal/Modal';
 import Text from '../../uikit/Text/Text';
 import { CANCEL } from '../constValue';
+import { Toast } from '../../uikit';
 import { JDTemplates } from './createJdTypes';
 import JdTemplateList from './JdTemplateList';
 import styles from './jobdescriptiontemplate.module.css';
@@ -64,7 +64,7 @@ const JobDescriptionTemplate = ({
   }
   const handleCopy = (list: any) => {
     if (valuelist !== null) {
-      const expSplit = list?.experience.split('-').toString();
+      const expSplit = list?.experience?.split('-').toString();
       if (expSplit?.length !== 0) {
         setFieldValue('minimumExperience', expSplit?.charAt(0));
       }
@@ -75,7 +75,7 @@ const JobDescriptionTemplate = ({
       setFieldValue('jobDescription', list?.job_description);
       if (list?.skills !== null) {
         var d = []
-        var a = list?.skills.split(",")
+        var a = list?.skills?.split(",")
 
         a.map((val) => {
           var c = { "label": val, "value": val }
@@ -86,6 +86,7 @@ const JobDescriptionTemplate = ({
         setFieldValue('nonDsSkill', d);
       }
       hanldeClose();
+      Toast('Job description template added successfully.', 'LONG', 'success');
       //  setCollapse(false);
     }
   };
@@ -207,7 +208,7 @@ const JobDescriptionTemplate = ({
         </Flex>
         {/* </Flex> */}
         <Flex className={styles.bordertop}></Flex>
-        <Flex className={styles.btnstyle} marginTop={15}>
+        <Flex className={styles.btnstyle} marginTop={10}>
           <Button
             className={styles.addBtn}
             types="close"

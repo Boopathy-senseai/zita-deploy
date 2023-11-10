@@ -40,17 +40,18 @@ const TemplateDescriptionmodal = ({
                                 cursor={'pointer'}
                                 />
                             </Flex>
-                          </Flex>               
-                        <Flex className={styles.tempContent}>
+                          </Flex>    
+                          <Flex height={window.innerHeight - 240} style={{overflow: "scroll"}}>           
+                        <Flex>
                           <Flex>
                             <Text bold>
-                                Subject Contant
+                                Subject
                             </Text>
                             <Text>
                             {selectedTemplate.subject}
                             </Text>
                           </Flex>
-                        <Flex>
+                        {/* <Flex> */}
                         <Flex>
                             <Text bold size={13} style={{margin: "5px 0px 2px 0px"}}>
                               Email Content
@@ -59,6 +60,7 @@ const TemplateDescriptionmodal = ({
                               <div className={styles.listalignment} dangerouslySetInnerHTML={{ __html: selectedTemplate.templates }} />
                             </Text>
                           </Flex>
+                        {/* </Flex> */}
                         </Flex>
                         </Flex>
                     </Flex>

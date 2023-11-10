@@ -87,12 +87,12 @@ const MessageTemplate = ({
 
   return (
     <Modal open={open}>
-      <Flex columnFlex className={styles.overAll} width={valuelist ? (window.innerWidth / 1.35) : ('600px')}>
+      <Flex columnFlex className={styles.overAll} width={valuelist ? (window.innerWidth / 1.30) : ('600px')}>
         <Text bold className={styles.insertStyles}>
           {/* Insert Message Template */}
           Email Template
         </Text>
-        <Flex row center>
+        <Flex row center style={{padding: "10px 0px 10px 0px"}}>
           <InputText
             id="messsageTemplate_search_id"
             placeholder="Search by template name..."
@@ -123,8 +123,8 @@ const MessageTemplate = ({
             className={styles.totalcountchanges}
             style={{ color: '#581845', fontsize: '13px' }}
           >
-            <Flex>Total Search Count :</Flex>
-            <Flex>{messageTemplate?.length}</Flex>
+            <Flex><Text color='black'>Total Search Count :</Text></Flex>
+            <Flex><Text color='black'>{messageTemplate?.length}</Text></Flex>
           </Flex>
         </Flex>
         {/* <InputText
@@ -138,11 +138,11 @@ const MessageTemplate = ({
             </label>
           )}
         /> */}
-        <Flex row marginTop={5}>
+        <Flex row>
         <Flex
           style={{ width: valuelist === null ? '100%' : '50%'}}
           columnFlex
-          height={window.innerHeight - 273}
+          height={window.innerHeight - 277}
           marginTop={5}
           className={cx('scrollStyle')}
         >
@@ -182,18 +182,19 @@ const MessageTemplate = ({
         </Flex>
         {valuelist !== null &&
             <>
-              <Flex height={innerHeight - 273} className={styles.border}></Flex>
+              <Flex height={innerHeight - 277} className={styles.border}></Flex>
               <Flex  style={{ width: '50%' }} marginTop={5}>
               <Flex>
-                <Flex className={styles.descCardstyles} height={innerHeight - 273}>
+                <Flex className={styles.descCardstyles} height={innerHeight - 277}>
                 <Flex marginBottom={5}>
-                  <Text bold size={14}>{applybtn.name}</Text>
+                  <Text bold size={13}>{applybtn.name}</Text>
                 </Flex>
                 <Flex style={{overflow:"scroll", padding: "0px 10px 10px 10px"}}>
-                <Flex marginBottom={5}>
-                  <Text bold>{applybtn.subject}</Text>
+                <Flex row marginBottom={5}>
+                  <Text bold color='theme'>Subject: {applybtn.subject}</Text>
                 </Flex>
                 <Flex>
+                  <Text bold>Body:</Text>
                   <div className={styles.templatealignment} dangerouslySetInnerHTML={{ __html: valuelist }} />
                 </Flex>
                 </Flex>
