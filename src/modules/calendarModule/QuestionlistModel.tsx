@@ -71,6 +71,7 @@ export const QuestionListModel = ({
     const [openmodel,setopenmodel]=useState(false)
     const [isSubmitLoader, setSubmitLoader] = useState(false);
     const [isloader,setloder]=useState(false)
+    const [currentLetter,setcurrentLetter] = useState('A');
     const dispatch: AppDispatch = useDispatch();
     interface LevelValue {
         name: string;
@@ -366,42 +367,57 @@ export const QuestionListModel = ({
 
       
       const validatequestion = () => {
+        alert("entering")
         const index = sample.findIndex(q => q.id === formik.values.addquestion[0].quesid);
         console.warn(index)
         if (index !== -1) {
             const newQuestionArray = [...sample];
                     const newquestion= newQuestionArray[index].question
-                    const idx=newquestion?.Question.findIndex(val=>val.Category===  formik.values.addquestion[0].level)
-                    const arrayquestion=newquestion?.Question[idx]
+                    const idx= newquestion?.Question.findIndex(val=>val.Category===  formik.values.addquestion[0].level)
+                    console.log("arrayquestionarrayquestion",idx)
+                    if(idx !== -1){
+                    const arrayquestion = newquestion?.Question[idx]
+                    console.log("arrayquestionarrayquestion1111",arrayquestion)
                     const objquestion =  Object.values(arrayquestion.Value)
                     console.log("obj+++objjj",objquestion)
                     Object.values(objquestion).map((val,ids)=>{
                         const datalist = Object.values(val).map((obj1,ix)=>{
-                        
                             const appenddata =  obj1.find((x)=>x.level === formik.values.addquestion[0].difficultly)
                             console.log(appenddata,"980009090")
-                            if (appenddata !== undefined){
-                                obj1.push(formik.values.addquestion[0])
-                            }
+                            // if (appenddata !== undefined){
+                            obj1.push(formik.values.addquestion[0])
+                            const nextLetter = formik.values.addquestion[0].id
+                            setcurrentLetter(nextLetter)
+                            // }else{
+                            //     alert("success")
+                            // }
                             console.log("datalist",obj1,appenddata)
                         })
-                    })                   
+                    }) 
+                }else{
+                    alert("-1")
+                    const appending  =  newquestion?.Question.push({Category:formik.values.addquestion[0].level, Value: [{Map_question:[]}]})
+                    console.log("appending",appending,newquestion.Question.length - 1)
+                    const appending1 = newquestion.Question[newquestion.Question.length - 1].Value[newquestion.Question[newquestion.Question.length - 1].Value[newquestion.Question[newquestion.Question.length - 1].Value.length - 1].Map_question.push(formik.values.addquestion[0])];
+                    console.log("newquestion", newquestion);
+                    setcurrentLetter(nextLetter)
+                }                
         }
         setopenmodel(false) 
         // setnewquestion(...newquestion1,formik.values.addquestion)
         formik.resetForm()
         console.log("samplesamplesamplesample",sample)
       }
-      function getNextLetter(currentLetter) {
-        if (currentLetter.length === 1) {
-          if (currentLetter === 'Z') {
+      function getNextLetter(letter) {
+        if (letter.length === 1) {
+          if (letter === 'Z') {
             return 'AA';
           } else {
-            return String.fromCharCode(currentLetter.charCodeAt(0) + 1);
+            return String.fromCharCode(letter.charCodeAt(0) + 1);
           }
         } else {
-          const lastChar = currentLetter.slice(-1);
-          const remaining = currentLetter.slice(0, -1);
+          const lastChar = letter.slice(-1);
+          const remaining = letter.slice(0, -1);
           if (lastChar === 'Z') {
             return getNextLetter(remaining) + 'A';
           } else {
@@ -410,8 +426,9 @@ export const QuestionListModel = ({
         }
       }
       
-      const currentLetter = "A";
+    //   const currentLetter = "A";
       const nextLetter = getNextLetter(currentLetter);
+      console.log("nextLetternextLetternextLetter",nextLetter)
       
     return (
         <>
