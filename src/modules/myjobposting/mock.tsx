@@ -25,3 +25,16 @@ export const level = [
   { value: 'Behavioral', label: 'Behavioral',  paddingleft:50 },
  
 ];
+export const  Typeofinterviewquestion = [
+  { value: 'general', label: 'General' },
+  { value: 'iq based', label: 'IQ Based' },
+  { value: 'technical', label: 'Technical' },
+  { value: 'coding', label: 'Coding' },
+  { value: 'behavioral', label: 'Behavioral' },
+];
+export const  Difficultylevel = [
+  { value: 'Easy', label: 'Easy' },
+  { value: 'Medium', label: 'Medium' },
+  { value: 'Hard', label: 'Hard' },
+
+];
