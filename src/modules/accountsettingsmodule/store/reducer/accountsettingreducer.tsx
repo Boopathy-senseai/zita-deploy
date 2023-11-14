@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { companyPageInitalMiddleWare } from '../middleware/accountsettingmiddleware';
-import { companyPageReducerState } from '../../CompanyPageTypes';
+import { companyPageInitalMiddleWare, emailtemplatesgetMiddleWare } from '../middleware/accountsettingmiddleware';
+import { companyPageReducerState, emailTemplateReducerState } from '../../CompanyPageTypes';
 
 const companyPageState: companyPageReducerState = {
   isLoading: false,
@@ -61,3 +61,44 @@ const companyPageReducer = createSlice({
 });
 
 export const companyPageReducers = companyPageReducer.reducer;
+
+const emailTemplateState: emailTemplateReducerState = {
+  isLoading: false,
+  error: '',
+  data : [{
+    created_on: '',
+    full_name: '',
+    id: 0,
+    is_active: false,
+    name: '',
+    subject: '',
+    templates: '',
+    user_id: 0,
+  }],
+  role: '',
+}
+
+const emailTempalateReducer = createSlice({
+  name: 'emailTemplate',
+  initialState: emailTemplateState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(emailtemplatesgetMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(emailtemplatesgetMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload.data;
+      state.role= action.payload.role;   
+    });
+    builder.addCase(emailtemplatesgetMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+export const emailTemplateReducers = emailTempalateReducer.reducer;

@@ -22,8 +22,7 @@ import {
   candidatejdmatchReducers,
   googleConflictReducers,
   outlookConflictReducers,
-  calendarConfigurationReducers
-
+  calendarConfigurationReducers,
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
   bulkImportReducers,
@@ -50,6 +49,7 @@ import {
   questionnaireForJdReducers,
   selectDsorNonDsReducers,
   validateJobIDReducers,
+  weightageReducers,
 } from '../modules/createjdmodule/store/reducer/createjdreducer';
 import {
   jdViewReducers,
@@ -99,7 +99,7 @@ import {
 } from '../modules/accountsettingsmodule/buildyourcareerpage/store/reducer/buildcareerpagereducer';
 import { userProfileReducers } from '../modules/accountsettingsmodule/userprofilemodule/store/reducer/userprofilereducer';
 import { emailNotificationReducers } from '../modules/accountsettingsmodule/emailmodule/store/reducer/emailnotificationreducer';
-import { companyPageReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
+import { companyPageReducers, emailTemplateReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
 import {
   candidateProfileEditReducers,
   techSkillReducers,
@@ -123,9 +123,15 @@ import {
 } from '../modules/emailintegrationmodule/store/reducer/emailreducer';
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
 import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
-import { schedulerReducers, slotterReducers, timezoneReducers } from '../modules/meetingscheduler/events/store/reducer/eventreducer';
+import {
+  schedulerReducers,
+  slotterReducers,
+  timezoneReducers,
+} from '../modules/meetingscheduler/events/store/reducer/eventreducer';
 import { scheduledEventsReducers } from '../modules/meetingscheduler/scheduledevents/store/reducer/evetsreducer';
 import { calendarEventsReducers } from '../modules/meetingscheduler/calendarEvents/store/reducer/evetsreducer';
+import { interviewerQuestionReducers } from '../modules/applicantprofilemodule/store/reducer/interviewQuestionReducer';
+import { ComparativesearchingdataReducers } from '../modules/comparativeanalysis/store/reducer/comparativereducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -172,6 +178,7 @@ export const reducers = {
   applicantsSourceReducers,
   userProfileReducers,
   jdTemplatesReducers,
+  emailTemplateReducers,
   createJdReducers,
   locationReducers,
   jdProfileReducers,
@@ -224,5 +231,8 @@ export const reducers = {
   calendarEventsReducers,
   googleConflictReducers,
   outlookConflictReducers,
-  calendarConfigurationReducers
+  calendarConfigurationReducers,
+  weightageReducers,
+  interviewerQuestionReducers,
+  ComparativesearchingdataReducers
 };

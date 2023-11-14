@@ -369,19 +369,19 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           className={styles.title}
           style={{ position: 'sticky', bottom: 0, backgroundColor: 'white' }}
         >
-          <Flex row center onClick={handleBack} style={{ cursor: 'pointer' }}>
-            {/* <SvgBack height={14} width={14} /> */}
-            <Button types={'secondary'}>Back to Pipeline</Button>
-          </Flex>
           {buttondata === 1 ? (
             <Flex row end>
-              <Button
+              {/* <Button
                 className={styles.cancel}
                 onClick={handleBack}
                 types={'primary'}
               >
                 Cancel
-              </Button>
+              </Button> */}
+          <Flex row center onClick={handleBack} style={{ cursor: 'pointer', marginRight:"8px" }}>
+            {/* <SvgBack height={14} width={14} /> */}
+            <Button types={'secondary'}>Back</Button>
+          </Flex>
               <Button
                 onClick={formik.handleSubmit}
                 // disabled={!(isFormValid() && isFormDirty())}
@@ -391,13 +391,17 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Flex>
           ) : (
             <Flex row end>
-              <Button
+              {/* <Button
                 className={styles.cancel}
                 onClick={handleBack}
                 types={'primary'}
               >
                 Cancel
-              </Button>
+              </Button> */}
+              <Flex row center onClick={handleBack} style={{ cursor: 'pointer', marginRight:"8px" }}>
+            {/* <SvgBack height={14} width={14} /> */}
+            <Button types={'secondary'}>Back</Button>
+          </Flex>
               <Button
                 onClick={formik.handleSubmit}
                 disabled={!(isFormValid() && isFormDirty())}

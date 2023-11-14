@@ -568,11 +568,11 @@ dataList.invite,
                 </Flex>
                 <Flex>
                   {dataList.work_exp===null||undefined||""?(
-                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
+                    <Text size={11} textStyle="ellipsis"  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
                     | {notSpecified(workYear(dataList.work_exp))}
                   </Text>
                   ):(
-                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
+                    <Text size={11} textStyle="ellipsis"  style={{ marginLeft: 2 ,color:"#333333",width:"70px"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
                       | {notSpecified(workYear(dataList.work_exp))}
                     </Text>
                   )}
@@ -588,9 +588,9 @@ dataList.invite,
                   Skills:{' '}
                 </Text>
                  {dataList.skills===null||undefined||""?(<Text size={11} title={`Skills: Not Specified`}>
-                  {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
-                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
-                  { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
+                  {notSpecified(lowerCase(dataList.skills?.replace(/,/g, ', ')))}
+                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills?.replace(/,/g, ', ')}`}>
+                  { notSpecified(lowerCase(dataList.skills?.replace(/,/g, ', ')))}
                  </Text>)
               }
               </Text>

@@ -1,6 +1,7 @@
 import { useState, useEffect, SetStateAction } from 'react';
 import classNames from 'classnames/bind';
 import { FormikProps } from 'formik';
+import { useSelector } from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
@@ -8,6 +9,9 @@ import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
 import Modal from '../../uikit/Modal/Modal';
 import { CANCEL } from '../constValue';
+import Card from '../../uikit/Card/Card';
+import { RootState } from '../../store';
+import { Toast } from '../../uikit';
 import { MessageTemplates } from './applicantProfileTypes';
 import styles from './messagetemplate.module.css';
 import MessageTemplateList from './MessageTemplateList';
@@ -15,24 +19,60 @@ import MessageTemplateList from './MessageTemplateList';
 const cx = classNames.bind(styles);
 
 type Props = {
-  messageTemplate: MessageTemplates[];
+  // messageTemplate: MessageTemplates[];
   formik: FormikProps<any>;
   open: boolean;
   hanldeClose: () => void;
   user?: string;
+  setSubject:any,
+
 };
 const MessageTemplate = ({
-  messageTemplate,
+  // messageTemplate,
   formik,
   open,
   hanldeClose,
   user,
+  setSubject
 }: Props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<MessageTemplates[]>([]);
+  const [valuelist, setvaluelist] = useState(null)
+  const [applybtn, setapplybtn] = useState(null)
+  const [indextick, setindextick] = useState(null)
+
+  const { messageTemplate } = useSelector(
+    ({ messageTemplateReducers }: RootState) => {
+      return {
+        messageTemplate: messageTemplateReducers.messageTemplate,
+      };
+    },
+  );
+  console.log("messageTemplatemessageTemplate",messageTemplate)
+
+
+
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setSearchTerm(e.target.value);
   };
+
+  const update = (val, index) => {
+    setindextick(index)
+    setvaluelist(val)
+  }
+
+  const applyfun = (val) => {
+    setapplybtn(val)
+  }
+  
+  const handleCopy = (templates: string, subject: any) => {
+    formik.setFieldValue('userMessage', templates);
+    formik.setFieldValue('userSubject', subject);
+    hanldeClose();
+    setSubject(subject);
+    Toast('Email template added successfully.', 'LONG', 'success');
+  }
+
 
   useEffect(() => {
     const results = messageTemplate.filter(
@@ -40,17 +80,19 @@ const MessageTemplate = ({
         tempList.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tempList.templates.toLowerCase().includes(searchTerm.toLowerCase()),
     );
+    {console.log("Not a Function", messageTemplate)}
 
     setSearchResults(results);
-  }, [searchTerm, messageTemplate]);
+  }, [searchTerm]);
 
   return (
     <Modal open={open}>
-      <Flex columnFlex className={styles.overAll}>
+      <Flex columnFlex className={styles.overAll} width={valuelist ? (window.innerWidth / 1.30) : ('600px')}>
         <Text bold className={styles.insertStyles}>
-          Insert Message Template
+          {/* Insert Message Template */}
+          Email Template
         </Text>
-        <Flex row center>
+        <Flex row center style={{padding: "10px 0px 10px 0px"}}>
           <InputText
             id="messsageTemplate_search_id"
             placeholder="Search by template name..."
@@ -81,8 +123,8 @@ const MessageTemplate = ({
             className={styles.totalcountchanges}
             style={{ color: '#581845', fontsize: '13px' }}
           >
-            <Flex>Total Search Count :</Flex>
-            <Flex>{searchResults.length}</Flex>
+            <Flex><Text color='black'>Total Search Count :</Text></Flex>
+            <Flex><Text color='black'>{messageTemplate?.length}</Text></Flex>
           </Flex>
         </Flex>
         {/* <InputText
@@ -96,9 +138,17 @@ const MessageTemplate = ({
             </label>
           )}
         /> */}
-        <Flex columnFlex className={cx('scrollStyle')}>
-          {searchResults && searchResults.length !== 0 ? (
-            searchResults.map((list, index) => {
+        <Flex row>
+        <Flex
+          style={{ width: valuelist === null ? '100%' : '50%'}}
+          columnFlex
+          height={window.innerHeight - 277}
+          marginTop={5}
+          className={cx('scrollStyle')}
+        >
+          <Flex>
+          {messageTemplate && messageTemplate.length !== 0 ? (
+            messageTemplate.map((list, index) => {
               return (
                 <MessageTemplateList
                   key={list.name + index}
@@ -107,10 +157,18 @@ const MessageTemplate = ({
                   hanldeClose={() => {
                     hanldeClose();
                     setSearchTerm('');
-                  }}
+                    setindextick(null);
+                    setvaluelist(null)
+                  } }
+                  update={update}
+                  applyfun={applyfun}
+                  indextick={indextick}
+                  index={index}
                   searchTerm={searchTerm}
                   user={user !== '' ? user : ''}
-                />
+                  valuelist={valuelist} 
+                  messageTemplate={messageTemplate}
+                  />
               );
             })
           ) : (
@@ -120,17 +178,54 @@ const MessageTemplate = ({
               </Text>
             </Flex>
           )}
+          </Flex>
         </Flex>
-        <Flex columnFlex row center end marginTop={15}>
+        {valuelist !== null &&
+            <>
+              <Flex height={innerHeight - 277} className={styles.border}></Flex>
+              <Flex  style={{ width: '50%' }} marginTop={5}>
+              <Flex>
+                <Flex className={styles.descCardstyles} height={innerHeight - 277}>
+                <Flex marginBottom={5}>
+                  <Text bold size={13}>{applybtn.name}</Text>
+                </Flex>
+                <Flex style={{overflow:"scroll", padding: "0px 10px 10px 10px"}}>
+                <Flex row marginBottom={5}>
+                  <Text bold color='theme'>Subject: {applybtn.subject}</Text>
+                </Flex>
+                <Flex>
+                  <Text bold>Body:</Text>
+                  <div className={styles.templatealignment} dangerouslySetInnerHTML={{ __html: valuelist }} />
+                </Flex>
+                </Flex>
+                </Flex>
+              </Flex>
+              </Flex>
+            </>
+          }
+        </Flex>
+        <Flex columnFlex row center end className={styles.botomBtncontainer}>
+          <Flex row width={130} style={{justifyContent:"space-between"}}>
           <Button
             types="close"
             onClick={() => {
               hanldeClose();
               setSearchTerm('');
+              setvaluelist(null);
+              setindextick(null);
             }}
           >
             {CANCEL}
           </Button>
+          <Button
+            types="primary"
+            onClick={() => {
+              handleCopy(valuelist, applybtn.subject);
+            }}
+          >
+            Add
+          </Button>
+          </Flex>
         </Flex>
       </Flex>
     </Modal>

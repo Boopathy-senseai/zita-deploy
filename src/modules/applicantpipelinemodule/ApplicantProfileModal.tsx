@@ -36,25 +36,30 @@ type Props = {
   candidateId: string;
   inviteIconNone?: boolean;
   activeState?: number;
-  setjobtitle?:any; 
+  setjobtitle?: any;
 };
 const ApplicantProfileModal = ({
   jobId,
   candidateId,
   inviteIconNone,
   activeState,
-  setjobtitle, 
+  setjobtitle,
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
-  const [isNotesLoader, setNotesLoader]=useState(true);
-  const [isNotesMeeting, setNotesMeeting]=useState(true)
- 
+  const [isNotesLoader, setNotesLoader] = useState(true);
+  const [isNotesMeeting, setNotesMeeting] = useState(true)
+  const [isoverall, setisoverall] = useState<any>(0);
   const dispatch: AppDispatch = useDispatch();
+
+  //Updating overall percentage
+  const updatr_overall = (val) => {
+    setisoverall(val)
+  }
   // initial api call
   useEffect(() => {
-    if (jobId !== '0') { 
+    if (jobId !== '0') {
       setTab(true);
       dispatch(
         applicantProfileInitialMiddleWare({
@@ -68,8 +73,7 @@ const ApplicantProfileModal = ({
             can_id: res.payload.can_id,
           }),
         );
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>
-        {
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(() => {
           setNotesLoader(false);
         }
         )
@@ -81,11 +85,11 @@ const ApplicantProfileModal = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then((res1)=>{
-          if (res1.payload.even !== null){
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then((res1) => {
+          if (res1.payload.even !== null) {
             setNotesMeeting(false)
           }
-      })
+        })
         dispatch(
           applicantStatusMiddleWare({
             jd_id: res.payload.jd_id,
@@ -98,15 +102,14 @@ const ApplicantProfileModal = ({
       dispatch(
         applicantProfileInitialMiddleWare({ jd_id: 0, can_id: candidateId }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>
-        {
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(() => {
           setNotesLoader(false);
         }
         )
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>{
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(() => {
           setNotesMeeting(false)
-      })
+        })
       });
     }
   }, []);
@@ -142,7 +145,7 @@ const ApplicantProfileModal = ({
         jd_id: applicantProfileInitalReducers.jd_id,
         job_details: applicantPipeLineReducers.job_details,
         can_id: applicantProfileInitalReducers.can_id,
-        matchLoader:candidatejdmatchReducers.isLoading,
+        matchLoader: candidatejdmatchReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
@@ -150,10 +153,10 @@ const ApplicantProfileModal = ({
       };
     },
   );
-  if (initialLoader  ||  matchLoader) {
+  if (initialLoader || matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
-        <Loader  />
+        <Loader />
       </Flex>
     );
   }
@@ -198,9 +201,8 @@ const ApplicantProfileModal = ({
       {/* {isInviteLoader && <Loader />} */}
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup
-          title={`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }. Are you sure to proceed?`}
+          title={`Invite will be sent as an email to ${candidate_details && candidate_details[0].first_name
+            }. Are you sure to proceed?`}
           btnDelete={hanldeInvite}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -211,12 +213,11 @@ const ApplicantProfileModal = ({
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
-              <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } has already been invited for this job on ${getDateString(
-                invite[invite.length - 1].created_at,
-                'll',
-              )}.`}</Text>
+              <Text>{`The candidate ${candidate_details && candidate_details[0].first_name
+                } has already been invited for this job on ${getDateString(
+                  invite[invite.length - 1].created_at,
+                  'll',
+                )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
             </Flex>
           }
@@ -225,40 +226,42 @@ const ApplicantProfileModal = ({
           btnRight={YES}
           open={isInvitePopUp}
         />
-      )} 
+      )}
       <Flex row className={styles.tabContainer}>
-        <Flex height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}>
-        {candidate_details &&
-        candidate_details  ?.map((candiList, index) => {
-          return (
-            <ProfileNavBar
-              key={index + candiList.first_name}
-              candiList={candiList}
-              jdDetails={jd}
-              setjobtitle={setjobtitle} 
-              applieddatecheck ={isTab && stages.length === 0 ?true:false}
-              availableity ={isTab && stages.length !== 0 ?false:true}
-              profile_match={profileMatch}
-              nonMatch={checkMatch}
-              inviteCall={hanldeInvitePopUp} 
-              isResume
-              withOutJD={isTab}
-              source={source}
-              inviteIconNone={inviteIconNone}
-            />
-          );
-        })}
+        <Flex height={window.innerHeight} style={{ boxShadow: '2px 2px 2px #D7C7D2', marginRight: '5px' }}>
+          {candidate_details &&
+            candidate_details?.map((candiList, index) => {
+              return (
+                <ProfileNavBar
+                  key={index + candiList.first_name}
+                  candiList={candiList}
+                  jdDetails={jd}
+                  setjobtitle={setjobtitle}
+                  applieddatecheck={isTab && stages.length === 0 ? true : false}
+                  availableity={isTab && stages.length !== 0 ? false : true}
+                  profile_match={profileMatch}
+                  nonMatch={checkMatch}
+                  inviteCall={hanldeInvitePopUp}
+                  isResume
+                  withOutJD={isTab}
+                  source={source}
+                  inviteIconNone={inviteIconNone}
+                  isoverall={isoverall}
+                  updatr_overall={updatr_overall}
+                />
+              );
+            })}
         </Flex>
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex} marginTop={10}>
-            <ApplicantTabLeftOne activeState={activeState} />
+            <ApplicantTabLeftOne activeState={activeState} updatr_overall={updatr_overall} />
           </Flex>
         ) : (
           <Flex flex={7} className={styles.tabLeftFlex} marginTop={10}>
             {stages.length === 0 ? (
-              <ApplicantTabLeftTwo activeState={activeState} />
+              <ApplicantTabLeftTwo activeState={activeState} updatr_overall={updatr_overall} />
             ) : (
-              <ApplicantTabLeft activeState={activeState} />
+              <ApplicantTabLeft activeState={activeState} updatr_overall={updatr_overall} />
             )}
           </Flex>
         )}

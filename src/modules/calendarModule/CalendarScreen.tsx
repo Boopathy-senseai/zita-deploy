@@ -18,6 +18,7 @@ import {
   SelectTag,
   Loader,
   Toast,
+  Modal,
 } from '../../uikit';
 import { SvgCalendar } from '../../icons';
 import SvgOutlookcalendar from '../../icons/SvgOutlookcalendarname';
@@ -34,6 +35,7 @@ import {
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { TopLineLoader } from '../../uikit/v2/Loader';
 import { IntegrateEntity } from '../applicantpipelinemodule/applicantPipeLineTypes';
+import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import ColorEvent from './calendar-components/ColorEvent';
 import {
   CALENDAR,
@@ -50,6 +52,7 @@ import {
   CalendarEventType,
   CalendarOptions,
   ApplicantTypes,
+  meetingFormProps,
 } from './types';
 
 import {
@@ -65,6 +68,7 @@ import CalendarTypeMenu from './CalendarTypeMenu';
 import {
   formatEventTitle,
   getEventMeetingType,
+  meetingFormInitialState,
   SlotRangeInitialState,
 } from './util';
 import EventPopUpModal from './EventPopUpModal';
@@ -79,6 +83,7 @@ interface stateType {
   recurringEventId: string;
 }
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+
 
 const Calendar = () => {
   const { state: locationState, search } = useLocation<stateType>();
@@ -151,6 +156,15 @@ const Calendar = () => {
   });
   const [applicants, setApplicants] = useState<UserType[]>([]);
 
+
+  const [openmodel,setopenmodel]= useState(false);
+  const [meetingForm, setMeetingForm] = useState<meetingFormProps>(
+    meetingFormInitialState,
+  );
+  const [value,setvalue]=useState("")
+
+
+
   const [teamCalendarOptions, setTeamCalendarOptions] =
     useState<CalendarOptions>({
       personalEvents: true,
@@ -202,6 +216,12 @@ const Calendar = () => {
   );
   useEffect(() => {
     dispatch(IntergratemailMiddleWare());
+    dispatch(userProfileMiddleWare()).then(
+      (res)=>{
+        console.log('resource',res,res.payload.user.id)
+       setvalue(res.payload.user.id)
+      }
+    );
   }, []);
   useEffect(() => {
     if (currentUser.id) {
@@ -1020,6 +1040,7 @@ const Calendar = () => {
         });
     }
   };
+
   const handleCopyMeeting = (eventId: string) => {
     if (calendarProvider === CALENDAR.Google) {
       navigator.clipboard.writeText(eventPopUpDetails.link);
@@ -1248,6 +1269,7 @@ const Calendar = () => {
   // );
 
   return (
+    <>
     <div
       style={{
         display: 'flex',
@@ -1326,6 +1348,9 @@ const Calendar = () => {
 
             {openScheduleForm && (
               <MeetingSchedulingScreen
+              value={value}
+              meetingForm={meetingForm}
+              setMeetingForm={setMeetingForm}
                 username={currentUser.name}
                 applicants={applicants}
                 currentUser={currentUser}
@@ -1340,8 +1365,11 @@ const Calendar = () => {
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
                 teamMembers={teamMembers}
                 openScheduleForm={openScheduleForm}
+                setOpenScheduleForm={setOpenScheduleForm}
                 handleEventScheduleForm={handleEventScheduleForm}
                 slotRange={slotRange}
+                openmodel={openmodel}
+                setopenmodel={setopenmodel}
                 setIsTopLineLoading={setIsTopLineLoading}
                 {...selectedEvent}
               />
@@ -1367,7 +1395,9 @@ const Calendar = () => {
         </Flex>
       )}
     </div>
+    </>
   );
+
 };
 
 export default Calendar;

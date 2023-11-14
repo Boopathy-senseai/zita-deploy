@@ -312,6 +312,7 @@ const applicantProfileInitalReducer = createSlice({
 const applicantMatchState: MatchReducerState = {
   isLoading: false,
   overall_percentage: 0,
+  non_tech_percentage:0,
   skills_percent: 0,
   qualification_percent: 0,
   location_percent: 0,
@@ -346,8 +347,22 @@ const applicantMatchState: MatchReducerState = {
     title: '',
     percentage: 0,
     description: '',
-    overall_percentage:0
+    
   }], 
+  technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    jd_id: 0,
+    skill_percentage:0,
+  }], 
+  non_technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    jd_id: 0,
+    skill_percentage:0,
+  }],   
   ai_matching:false
 };
 
@@ -364,6 +379,7 @@ const applicantMatchReducer = createSlice({
       state.isLoading = false;
       state.match = action.payload?.match;
       state.overall_percentage = action.payload.overall_percentage;
+      state.non_tech_percentage = action.payload.non_tech_percentage;
       state.not_matched_data = action.payload.not_matched_data;
       state.matched_data = action.payload.matched_data;
       state.qualification_percent = action.payload.qualification_percent;
@@ -386,6 +402,7 @@ const applicantMatchReducer = createSlice({
 const candidatejobidMatchState: MatchReducerState = {
   isLoading: false,
   overall_percentage: 0,
+  non_tech_percentage:0,
   skills_percent: 0,
   qualification_percent: 0,
   location_percent: 0,
@@ -420,8 +437,24 @@ const candidatejobidMatchState: MatchReducerState = {
     title: '',
     percentage: 0,
     description: '',
-    overall_percentage:0
   }], 
+  technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    jd_id: 0,
+    skill_percentage:0,
+  
+  }], 
+  non_technical:[{
+    title: "",
+    percentage: 0,
+    description: "",
+    jd_id: 0,
+    
+    skill_percentage:0,
+  }],   
+
   ai_matching:false
 };
 
@@ -440,6 +473,7 @@ const candidatejobidMatchReducer = createSlice({
         state.isLoading = false;
         state.match = action.payload?.match;
         state.overall_percentage = action.payload.overall_percentage;
+        state.non_tech_percentage=action.payload.non_tech_percentage;
         state.not_matched_data = action.payload.not_matched_data;
         state.matched_data = action.payload.matched_data;
         state.qualification_percent = action.payload.qualification_percent;
@@ -447,6 +481,9 @@ const candidatejobidMatchReducer = createSlice({
         state.source = action.payload.source;
         state.location_percent = action.payload.location_percent;
         state.data = action.payload.data;
+        state.technical=action.payload.technical;
+        state.non_technical=action.payload.non_technical;
+        
         state.ai_matching= action.payload.ai_matching;
         // state.data = action.payload.matched_data;location_percent
       },
@@ -633,6 +670,7 @@ const messageTemplateState: MessageTemplateReducerState = {
       id: 0,
       name: '',
       templates: '',
+      templates_text:'',
     },
   ],
 };
@@ -648,7 +686,7 @@ const messageTemplateReducer = createSlice({
     });
     builder.addCase(messagesTemplatesMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.messageTemplate = action.payload;
+      state.messageTemplate = action.payload.data;
     });
     builder.addCase(messagesTemplatesMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

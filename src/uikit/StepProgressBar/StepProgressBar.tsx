@@ -9,38 +9,47 @@ const defaultProps = {
   title: 'Create Your Job',
   stepIndex: '1',
   roundFill: false,
+  className: "stepOneBar"
 };
 
 type Props = {
   barFilled?: boolean;
   titleclassName?: string;
 } & typeof defaultProps;
+
+
 const StepProgressBar = ({
   barFilled,
   title,
   stepIndex,
   titleclassName,
   roundFill,
-}: Props) => {
+}: Props) => 
+{
+  let clipPathStyle = "polygon(95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%)"
+  if (stepIndex === "1") {
+    clipPathStyle = "polygon(95% 0%, 100% 50%, 95% 100%, 0% 100%, 0% 50%, 0% 0%)"
+  }
   return (
     <Flex className={styles.overAll} columnFlex>
-      <Flex row center>
+      <Flex row center className={titleclassName}>
         <div
           className={cx('round', {
             roundeSelect: roundFill,
             roundeNonSelect: !roundFill,
           })}
+          style={{ clipPath: clipPathStyle }}
         >
           <Text  size={13} color={roundFill ? 'white' : 'black'}>
             {stepIndex}.{title}
           </Text>
         </div>
-        <div
+        {/* <div
           className={cx('bar', {
             roundeSelect: barFilled,
             roundeNonSelect: !barFilled,
           })}
-        />
+        /> */}
       </Flex>
       
     </Flex>

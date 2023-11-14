@@ -145,20 +145,7 @@ const ApplicantsTab = ({
     enableReinitialize: true,
   });
 
-  const {
   
-    Resume_parsing_count,
-  } = useSelector(
-    ({
-
-      dashboardEmpReducers
-    }: RootState) => {
-      return {
-
-        Resume_parsing_count:dashboardEmpReducers.Resume_parsing_count
-      };
-    },
-  );
 
   const handleCompletedWithJd = () => {
     dispatch(
@@ -375,15 +362,10 @@ const ApplicantsTab = ({
     );
   };
 
-  useEffect(() => {
-    dispatch(dashBoardMiddleWare()).then((res1) => {
-      setcount(res1.payload.Resume_parsing_count)
-    });
-   
-  }, []);
+  
 
  
-  const [count, setcount] = useState(Resume_parsing_count);
+  
   const hanldeMatch = () => {
     setCandiTableLoader(true);
     const formData = new FormData();
@@ -400,8 +382,8 @@ const ApplicantsTab = ({
 
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then((response) => {
-      setcount(response.payload.ai_resume_balance_count)
+    dispatch(bulkuploadedParsingMiddleWare({parser:'1'})).then((response) => {
+    
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -586,11 +568,22 @@ const ApplicantsTab = ({
               <Modal open={model}>
         <Flex
           className={verify === true ? styles.bulkmodel : styles.verifymodel}
-          style={{ height:formik.values.parser === '1'? '363px' : '' }}
+          style={{ height: '330px'}}
 
         >
+          <ApplicantDatabase
+            setmodel={setmodel}
+            verifymodel={update}
+            hanldeParsing={hanldeParsing}
+            isjdId={isJdId}
+            setParse={handleOpenParse}
+            isBulkLoader={localStorage.getItem('bulk_loader')}
+            setUpgrade={setUpgrade}
+            candidatesLimit={features_balance}
+            formik={formik.values.parser}
+          />
           
-          {verify === true ? (
+          {/* {verify === true ? (
             <ApplicantDatabase
             setmodel={setmodel}
             verifymodel={update}
@@ -672,7 +665,7 @@ const ApplicantsTab = ({
                 </Flex>
               </Flex>
             </Flex>
-          )}
+          )} */}
         </Flex>
       </Modal>
 

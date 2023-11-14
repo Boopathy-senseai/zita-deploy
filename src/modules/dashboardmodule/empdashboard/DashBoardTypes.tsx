@@ -24,7 +24,7 @@ export interface DashBoardEmp {
   invite_to_apply: number;
   jd_metrics: JdMetricsEntity[];
   career_page_url: string;
-  Resume_parsing_count:number;
+
 }
 export interface UserInfo {
   id: number;

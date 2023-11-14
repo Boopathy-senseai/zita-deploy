@@ -1,0 +1,20 @@
+.overflowContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+.titleBar {
+  padding: 10px 0;
+  align-items: center;
+  cursor: pointer;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+}

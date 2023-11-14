@@ -1,0 +1,39 @@
+.overAll {
+  overflow: scroll;
+  padding: 16px;
+}
+.statusStyle {
+  margin-left: 16px;
+}
+.statusListStyle {
+  margin-bottom: 30px;
+}
+.vrLine {
+  height: 31px;
+  border-right: 4px solid var(--color-primary, #581845);
+  position: absolute;
+  top: -31px;
+  left: 13px;
+}
+.vrLines {
+  height: 31px;
+  border-right: 4px solid var(--color-primary, #581845);
+  position: absolute;
+  top: -31px;
+  left: 13px;
+}
+.vrLin {
+  height: 31px;
+  border-left: 4px solid var(--color-primary, #581845);
+  /* position: absolute; */
+  margin-top: -30px;
+  margin-left: 13px;
+}
+.svgFlex {
+  position: relative;
+}
+.screenText {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333333;
+}

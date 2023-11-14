@@ -149,30 +149,38 @@ const JdPreviewScreen = () => {
     }
   };
   return (
+
+    <>
+          <Flex row center className={styles.step} >
+        <StepProgressBar roundFill barFilled />
+        <StepProgressBar
+          title="Weightage Matching"
+          titleclassName={styles.stepTwo}
+          stepIndex="2"
+          roundFill
+        />
+        <StepProgressBar
+          title="Applicant Questionnaire"
+          titleclassName={styles.stepThree}
+          stepIndex="3"
+          roundFill
+          barFilled
+        />
+        <StepProgressBar
+          title="Preview & Post Job"
+          titleclassName={styles.stepFour}
+          stepIndex="4"
+          roundFill
+        />
+
+      </Flex>
     <Flex
       columnFlex
       className={styles.overAll}
       height={window.innerHeight}
     >
       {postLoader && <Loader />}
-      <Flex row center className={styles.step} >
-        <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
-        <StepProgressBar
-          title="Applicant Questionnaire"
-          titleclassName={styles.stepTwo}
-          stepIndex="2"
-          roundFill
-          barFilled
-        />
-        <StepProgressBar
-          title="Preview & Post Job"
-          titleclassName={styles.stepTwo}
-          stepIndex="3"
-          roundFill
 
-        />
-
-      </Flex>
       <Modal open={isOpen}>
         <Flex columnFlex className={styles.modalOverAll}>
           <Flex row center middle>
@@ -229,6 +237,7 @@ const JdPreviewScreen = () => {
         postLoader={postLoader}
       />
     </Flex>
+    </>
   );
 };
 export default JdPreviewScreen;
