@@ -53,6 +53,7 @@ const Interviewmodalpopup = ({
     const [iserrorhandlerole, seterrorhandlerole] = useState<any>(false);
     const [istringgerdata, settriggerdata] = useState<any>(false);
     const [role, setrole] = useState<any>([])
+    console.log(overalldata,iserrorhandle,'manoj')
     interface LevelValue {
         levelvalue: any;
         Levelvalue: any;
@@ -82,10 +83,14 @@ const Interviewmodalpopup = ({
     };
 
     // add newquestion
-    const handleSubmit = (e) => {
-        if (isEmptyArray(formik.values.levellist)) {
-            seterrorhandle(true);
+    const handleSubmit = (e) => { 
+        if(overalldata.length === 0 && iserrorhandle !== false ||isEmptyArray(formik.values.levellist)){
+            seterrorhandle(true); 
         }
+        else if(overalldata.length !== 0){
+            seterrorhandle(false); 
+        }
+        else{ 
         if (!isEmptyArray(formik.values.levellist) && e === 'add') {
             if (formik.values?.levellist[0]?.levelvalue?.difficulty !== '' && formik.values?.levellist[0]?.levelvalue.difficulty !== undefined &&
                 formik.values?.levellist[0]?.levelvalue?.question !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
@@ -111,6 +116,7 @@ const Interviewmodalpopup = ({
             }
 
         }
+    }
     }
 
     const formik = useFormik({
@@ -293,7 +299,7 @@ const Interviewmodalpopup = ({
 
     }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
     formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
-    formik.values.role, istringgerdata]) 
+    formik.values.role])  
     useEffect(() => {
         dispatch(rolevaluemiddleware())
             .then(
@@ -302,7 +308,7 @@ const Interviewmodalpopup = ({
                 }
             )
     }, []);
-    console.log(formik.values)
+   
     return (
         < >
             {/* Add Question Modal popup */}
@@ -488,9 +494,7 @@ const Interviewmodalpopup = ({
                                     )
                                 })}
                             </Flex>
-                        }
-
-
+                        } 
                     </Flex>
                     {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
@@ -501,8 +505,7 @@ const Interviewmodalpopup = ({
                         <Flex>
                             {isloader ? <Flex middle center style={{ width: '100px' }}>
                                 <Loader size="small" withOutOverlay />
-                            </Flex> : overalldata.length === 0 ? <Button types='primary' width="100px" onClick={() => handleSubmit('regenerate')} >Re-generate</Button> :
-                                <Button types='primary' width="100px" >Re-generate</Button>}
+                            </Flex> : <Button types='primary' width="100px" onClick={() => handleSubmit('regenerate')} >Re-generate</Button>  }
                         </Flex>
                     </Flex>
 
@@ -661,8 +664,7 @@ const Interviewmodalpopup = ({
                             {isloader ?
                                 <Flex middle center style={{ width: '85px' }}>
                                     <Loader size="small" withOutOverlay />
-                                </Flex> : overalldata.length === 0 ? <Button types='primary' width="85px" onClick={() => handleSubmit('genereate')} >Generate</Button> :
-                                    <Button types='primary' width="85px" >Generate</Button>
+                                </Flex> :  <Button types='primary' width="85px" onClick={() => handleSubmit('genereate')} >Generate</Button>  
                             }
                         </Flex>
                     </Flex> 
