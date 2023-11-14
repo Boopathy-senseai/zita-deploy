@@ -92,7 +92,7 @@ const JDopenModal = ({
     setDescription(e)
     const description = e;
     const result=handlemessage(description)
-    if (result.length > 3000) {
+    if (result.length > 5000) {
       seterrordiscription(true)
     } else {
       seterrordiscription(false)
@@ -190,7 +190,7 @@ const JDopenModal = ({
               />
             </Flex>
             {errordiscription && (
-              <Text color='error'>Maximum limit of description is 3000</Text>
+              <Text color='error'>Maximum limit of description is 5000</Text>
             )
             }
             {errorrequireddescription&& (
