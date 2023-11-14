@@ -169,7 +169,7 @@ export const QuestionListModel = ({
 
           }
         });
-        console.warn("see",questionErrors,isValid)
+        // console.warn("see",questionErrors,isValid)
 
     }
 
@@ -250,7 +250,7 @@ export const QuestionListModel = ({
 
         if (errorItem && typeof errorItem !== 'string') {
             const errorForThisItem = errorItem.totalError;
-            console.warn("errorItem", errorItem, "index", listIndex, "error", errorForThisItem)
+   
             console.log("errorForThisItem==>errorForThisItem", errorForThisItem)
             if (errorForThisItem) {
                 return <Text color='error'>{errorForThisItem}</Text>;
@@ -366,48 +366,53 @@ export const QuestionListModel = ({
     // }
 
       
-      const validatequestion = () => {
-        alert("entering")
-        const index = sample.findIndex(q => q.id === formik.values.addquestion[0].quesid);
-        console.warn(index)
-        if (index !== -1) {
-            const newQuestionArray = [...sample];
-                    const newquestion= newQuestionArray[index].question
-                    const idx= newquestion?.Question.findIndex(val=>val.Category===  formik.values.addquestion[0].level)
-                    console.log("arrayquestionarrayquestion",idx)
-                    if(idx !== -1){
-                    const arrayquestion = newquestion?.Question[idx]
-                    console.log("arrayquestionarrayquestion1111",arrayquestion)
-                    const objquestion =  Object.values(arrayquestion.Value)
-                    console.log("obj+++objjj",objquestion)
-                    Object.values(objquestion).map((val,ids)=>{
-                        const datalist = Object.values(val).map((obj1,ix)=>{
-                            const appenddata =  obj1.find((x)=>x.level === formik.values.addquestion[0].difficultly)
-                            console.log(appenddata,"980009090")
-                            // if (appenddata !== undefined){
-                            obj1.push(formik.values.addquestion[0])
-                            const nextLetter = formik.values.addquestion[0].id
-                            setcurrentLetter(nextLetter)
-                            // }else{
-                            //     alert("success")
-                            // }
-                            console.log("datalist",obj1,appenddata)
-                        })
-                    }) 
-                }else{
-                    alert("-1")
-                    const appending  =  newquestion?.Question.push({Category:formik.values.addquestion[0].level, Value: [{Map_question:[]}]})
-                    console.log("appending",appending,newquestion.Question.length - 1)
-                    const appending1 = newquestion.Question[newquestion.Question.length - 1].Value[newquestion.Question[newquestion.Question.length - 1].Value[newquestion.Question[newquestion.Question.length - 1].Value.length - 1].Map_question.push(formik.values.addquestion[0])];
-                    console.log("newquestion", newquestion);
-                    setcurrentLetter(nextLetter)
-                }                
+    const validatequestion = () => {
+        const [{ addquestion }] = [formik.values];
+        const [newQuestion] = addquestion;
+    
+        const index = sample.findIndex(({ id }) => id === newQuestion.quesid);
+    
+        if (index === -1) {
+            alert("Question ID not found in the sample.");
+            setopenmodel(false);
+            formik.resetForm();
+            return;
         }
-        setopenmodel(false) 
-        // setnewquestion(...newquestion1,formik.values.addquestion)
-        formik.resetForm()
-        console.log("samplesamplesamplesample",sample)
-      }
+    
+        const [questionItem] = sample.splice(index, 1);
+    
+        let category = questionItem.question.Question.find(({ Category }) => Category === newQuestion.difficultly);
+    
+        if (!category) {
+            category = {
+                Category: newQuestion.difficultly,
+                Value: [{ Map_question: [newQuestion] }]
+            };
+            questionItem.question.Question.push(category);
+        } else {
+
+            let levelMap = category.Value.find(val => val.Map_question.some(({ level: mapLevel }) => mapLevel === newQuestion.level));
+    
+            if (!levelMap) {
+
+                levelMap = { Map_question: [newQuestion] };
+                category.Value.push(levelMap);
+            } else {
+               
+                levelMap.Map_question.push(newQuestion);
+            }
+        }
+    
+  
+        sample.splice(index, 0, questionItem);
+        setcurrentLetter(newQuestion.id);
+        setopenmodel(false);
+        formik.resetForm();
+        console.log("Updated sample:", sample);
+    };
+    
+    
+    
       function getNextLetter(letter) {
         if (letter.length === 1) {
           if (letter === 'Z') {
@@ -426,7 +431,7 @@ export const QuestionListModel = ({
         }
       }
       
-    //   const currentLetter = "A";
+
       const nextLetter = getNextLetter(currentLetter);
       console.log("nextLetternextLetternextLetter",nextLetter)
       
@@ -446,8 +451,8 @@ export const QuestionListModel = ({
                                 return (<Flex key={index} row marginRight={15} marginTop={7} center>
                                     <Flex>
                                         <InputRadio
-                                         checked={formik.values?.addquestion[0]?.level === data.value}
-                                          onClick={()=>{formik.setFieldValue('addquestion[0].level',data.value)
+                                         checked={formik.values?.addquestion[0]?.difficultly === data.value}
+                                          onClick={()=>{formik.setFieldValue('addquestion[0].difficultly',data.value)
                                           formik.setFieldValue('addquestion[0].id',nextLetter)
                                           formik.setFieldValue('addquestion[0].quesid',sample[interviewer].id)
                                         }
@@ -468,8 +473,8 @@ export const QuestionListModel = ({
                                 return (<Flex key={index} row marginRight={15} marginTop={7} center>
                                     <Flex>
                                         <InputRadio
-                                            checked={formik.values?.addquestion[0]?.difficultly === data.value}
-                                            onClick={()=>formik.setFieldValue('addquestion[0].difficultly',data.value)}
+                                            checked={formik.values?.addquestion[0]?.level === data.value}
+                                            onClick={()=>formik.setFieldValue('addquestion[0].level',data.value)}
                                         />
                                     </Flex>
                                     <Flex>

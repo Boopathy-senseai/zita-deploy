@@ -453,10 +453,11 @@ function extractQuestions(dataArray) {
   return allQuestions;
 }
 const allQuestions = extractQuestions(allids);
+const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
   return (
     <>
     {
-    console.warn("you can't see me",newquestion,allids,allQuestions,formik.values)
+    console.warn("you can't see me",newquestion,allids,allQuestions,formik.values,filteredQuestions)
     }
     {/* {isSubmitLoader && <Loader />} */}
     <Modal
@@ -530,7 +531,7 @@ const allQuestions = extractQuestions(allids);
             setOpenScheduleForm={setOpenScheduleForm}
             setopenmodel={setopenmodel}
             formik={formik}
-            question={allQuestions.toString()}
+            question={filteredQuestions.toString()}
           />
         ) : (
           <>
