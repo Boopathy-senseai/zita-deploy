@@ -44,7 +44,6 @@ const JDopenModal = ({
     //setTitle(e.target.value)
     const inputTitle = e.target.value.trim().toLowerCase();
     const jobTitlesLowercase = job_title.map(title => title.trim().toLowerCase());
-  console.log("jobtitlenew",jobTitlesLowercase)
     var test1 = e.target.value.trim();
     if (test1.length !== 0) {
       setTitle(e.target.value);
@@ -99,7 +98,6 @@ const JDopenModal = ({
     }
    
   }
-  {console.log(isDescription,'lll')}
   const addfunction=()=>{
     if(isTitle.trim()==='')
     {
