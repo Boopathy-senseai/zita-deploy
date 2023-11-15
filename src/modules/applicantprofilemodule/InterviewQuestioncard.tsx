@@ -1,14 +1,14 @@
 import classNames from 'classnames/bind';
 import React, { useEffect, useState } from 'react';
-import moment from 'moment'; 
+import moment from 'moment';
 import SvgAdd from '../../icons/SvgAdd';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import SvgUpArrow from '../../icons/SvgArrowUp';
-import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit'; 
-import Text from '../../uikit/Text/Text'; 
+import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit';
+import Text from '../../uikit/Text/Text';
 import SingleButton from '../common/SingleButton';
 import {
     GenerateQuestionsState,
@@ -16,7 +16,7 @@ import {
     Question,
 } from './interviewerQuestionType';
 import styles from './screeningstatustab.module.css';
- 
+
 
 
 
@@ -73,7 +73,7 @@ const InterviewQustioncard = ({
     };
     const toggleAddQuestion = (e) => {
         setAddquestion(true);
-        setinterviewid(e) 
+        setinterviewid(e)
     };
     const regenerateQuestions = (e) => {
         setregeneratequestion(true);
@@ -163,7 +163,7 @@ const InterviewQustioncard = ({
                                             </Text>
                                         </Flex>
                                         <Flex>
-                                            {isevaluatedata.length > 0 ?
+                                            {isevaluatedata && isevaluatedata.length > 0 && (Array.isArray(isevaluatedata) ? isevaluatedata.map(e => e.interview_id) : []).includes(matchingData.Id) ?
                                                 (
                                                     <Button
                                                         onClick={() => {
@@ -349,7 +349,7 @@ const InterviewQustioncard = ({
                 <SingleButton
                     btnTitle="OK"
                     title={
-                        'please select atleast one question to evaluate'
+                        'please select atleast one question to evaluate.'
                     }
                     open={isEvaluate}
                     btnOnclick={() => setEvaluate(false)}
