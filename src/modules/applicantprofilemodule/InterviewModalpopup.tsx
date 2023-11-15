@@ -262,9 +262,8 @@ const Interviewmodalpopup = ({
                 totalEasy += parseInt(item?.levelvalue?.iseasycheck === true && item?.levelvalue?.easy) || 0;
                 totalMedium += parseInt(item?.levelvalue?.ismediumcheck === true && item?.levelvalue?.medium) || 0;
                 totalHard += parseInt(item?.levelvalue?.ishardcheck === true && item?.levelvalue?.hard) || 0;
-            }
-
-            // Create an object with the aggregated values
+            } 
+            
             const aggregatedValues = totalEasy + totalMedium + totalHard;
 
             return aggregatedValues;
@@ -295,6 +294,8 @@ const Interviewmodalpopup = ({
     }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
     formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
     formik.values.role])
+
+    //dispatch for the data of role.
     useEffect(() => {
         dispatch(rolevaluemiddleware())
             .then(
