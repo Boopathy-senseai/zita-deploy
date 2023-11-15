@@ -84,7 +84,7 @@ const Interviewmodalpopup = ({
         else {
             if (!isEmptyArray(formik.values.levellist) && e === 'add') {
                 if (formik.values?.levellist[0]?.levelvalue?.difficulty !== '' && formik.values?.levellist[0]?.levelvalue.difficulty !== undefined &&
-                    formik.values?.levellist[0]?.levelvalue?.question !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
+                    formik.values?.levellist[0]?.levelvalue?.question?.trim() !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
                     formik.values?.levellist[0]?.levelvalue?.questiontype !== '' && formik.values?.levellist[0]?.levelvalue.questiontype !== undefined) {
                     AddnewQuestion(formik.values)
                     seterrorhandleadd(false);
@@ -280,11 +280,11 @@ const Interviewmodalpopup = ({
             setoveralldata('')
         }
         if (formik.values?.levellist[0]?.levelvalue?.difficulty !== '' && formik.values?.levellist[0]?.levelvalue.difficulty !== undefined &&
-            formik.values?.levellist[0]?.levelvalue?.question !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
+            formik.values?.levellist[0]?.levelvalue?.question?.trim() !== '' && formik.values?.levellist[0]?.levelvalue.question !== undefined &&
             formik.values?.levellist[0]?.levelvalue?.questiontype !== '' && formik.values?.levellist[0]?.levelvalue.questiontype !== undefined) {
             seterrorhandleadd(false);
         }
-        if (formik.values.role !== '' && formik.values.role !== undefined) {
+        if (formik.values.role.trim() !== '' && formik.values.role !== undefined) {
             seterrorhandlerole(false)
         }
 
