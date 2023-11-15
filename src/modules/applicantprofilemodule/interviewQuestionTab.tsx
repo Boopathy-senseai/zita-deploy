@@ -285,29 +285,39 @@ const ScreeningStatusTab = ({
           You can select, deselect, regenerate, and add questions for the
           applicant.
         </Text>
-        <Flex
-          columnFlex
-          className={styles.overAllPopup}
-          height={window.innerHeight - 145}
-        >
-          <InterviewQustioncard
-            interviewData={generatedquestion}
-            no_of_interview={no_of_interview}
-            isevaluatedata={isevaluatedata}
-            setregeneratequestion={setregeneratequestion}
-            setgeneratequestion={setgeneratequestion}
-            setAddquestion={setAddquestion}
-            setevaluatedata={setevaluatedata}
-            setinterviewid={setinterviewid}
-            onEvaluate={(id, value) => {
-              setEvaluatePopup({
-                open: true,
-                data: value,
-                interview_id: id,
-              });
-            }}
-          />
-        </Flex>
+
+        {Array.isArray(isevaluatedata) ?
+          <Flex
+            columnFlex
+            className={styles.overAllPopup}
+            height={window.innerHeight - 145}
+          >
+
+            <InterviewQustioncard
+              interviewData={generatedquestion}
+              no_of_interview={no_of_interview}
+              isevaluatedata={isevaluatedata}
+              setregeneratequestion={setregeneratequestion}
+              setgeneratequestion={setgeneratequestion}
+              setAddquestion={setAddquestion}
+              setevaluatedata={setevaluatedata}
+              setinterviewid={setinterviewid}
+              onEvaluate={(id, value) => {
+                setEvaluatePopup({
+                  open: true,
+                  data: value,
+                  interview_id: id,
+                });
+              }}
+            />
+          </Flex> :
+          <Flex
+            center
+            middle
+            height={window.innerHeight - 180}
+          >
+            <Text color='gray'>No interview found</Text>
+          </Flex>}
       </Flex >
       {evaluatePopup && (
         <EvaluateModal
