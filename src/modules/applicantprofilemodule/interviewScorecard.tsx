@@ -32,11 +32,8 @@ type Props = {
 
 const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview, datas, UpdateEvaluate }: Props) => {
   const [isShowFeedback, setFeedbackShow] = useState<any>([]);
-  const firstCummulative = cumulative[0] || undefined;
 
-  const getCheckedQuestions = (interview_id) =>
-    datas.filter((doc) => doc.interview_id === interview_id) || [];
-
+  //onclick the icon for  editing the interview question.
   const handleEdit = (interview_id) => {
     const mydata = datas?.find((id) => (id?.Id === interview_id))
     const allQuestions = mydata?.Question?.flatMap((category) =>
@@ -46,6 +43,8 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
     UpdateEvaluate(filteredQuestions)
     onEvaluate(interview_id, filteredQuestions);
   };
+
+  //handling the up and down arrow for viewing the feedback.
   const handlefeedback = (e) => {
     setFeedbackShow((prevId) =>
       prevId.includes(e)
@@ -53,6 +52,8 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
         : [...prevId, e]
     );
   }
+
+  //Handle thumbs based on the average value.
   const handleRecommendation = (avg_recommend: number) => {
     const value =
       avg_recommend && avg_recommend !== 0 && Math.round(avg_recommend);
@@ -89,7 +90,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
             avg_recommend: item.avg_recommend,
           }],
           commands: [{
-            full_name : item.full_name,
+            full_name: item.full_name,
             commenddd: item.commands,
           }],
         });
@@ -109,7 +110,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
         });
 
         existingInterview.commands.push({
-          full_name : item.full_name,
+          full_name: item.full_name,
           commenddd: item.commands,
         });
       }
@@ -157,7 +158,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                               <StarsRating disabled count={1} value={1} />
                             </Flex>
                             <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                              {`${Math.round(doc?.overall_score/doc?.attendees.length) || 0}/5`}
+                              {`${Math.round(doc?.overall_score / doc?.attendees.length) || 0}/5`}
                             </Text>
                           </Flex>
                           <Text color="theme" style={{ marginTop: '3px' }}>
@@ -192,32 +193,32 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                   </Text>
                                 </Flex>
                                 <Flex row>
-                                <Flex row center marginLeft={15}>
-                                  <Text title="Question count">
-                                    <SvgQuestion width={16} height={16} />
-                                  </Text>
+                                  <Flex row center marginLeft={15}>
+                                    <Text title="Question count">
+                                      <SvgQuestion width={16} height={16} />
+                                    </Text>
 
-                                  <Text style={{ marginLeft: '5px' }}>
-                                    {`${info?.question_count} questions`}
-                                  </Text>
-                                </Flex>
-                                <Flex row marginLeft={15}>
-                                  <Text title="Average Rating">
-                                    <SvgUserRating width={16} height={16} />
-                                  </Text>
-
-                                  <Flex
-                                    className={styles.ratingStar}
-                                    marginTop={-29}
-                                    marginLeft={5}
-                                  >
-                                    <StarsRating
-                                      disabled
-                                      count={5}
-                                      value={info?.total_score}
-                                    />
+                                    <Text style={{ marginLeft: '5px' }}>
+                                      {`${info?.question_count} questions`}
+                                    </Text>
                                   </Flex>
-                                </Flex>
+                                  <Flex row marginLeft={15}>
+                                    <Text title="Average Rating">
+                                      <SvgUserRating width={16} height={16} />
+                                    </Text>
+
+                                    <Flex
+                                      className={styles.ratingStar}
+                                      marginTop={-29}
+                                      marginLeft={5}
+                                    >
+                                      <StarsRating
+                                        disabled
+                                        count={5}
+                                        value={info?.total_score}
+                                      />
+                                    </Flex>
+                                  </Flex>
                                 </Flex>
                               </Flex>
                             </>
@@ -243,28 +244,29 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           </Flex>
                           {isShowFeedback.includes(doc.interview_id) &&
                             doc.commands?.map((val, ids) => {
-                              if(val?.commenddd !== null){
-                              return(
-                                <>
-                                  <Flex marginBottom={5}>
-                                    <Flex row center between>
-                                      <Flex style={{ color: '#581845' }}>
-                                        {val.full_name}
+                              if (val?.commenddd !== null) {
+                                return (
+                                  <>
+                                    <Flex marginBottom={5}>
+                                      <Flex row center between>
+                                        <Flex style={{ color: '#581845' }}>
+                                          {val.full_name}
+                                        </Flex>
+                                        {/* <Svgeditingnotes fill="#581845" /> */}
                                       </Flex>
-                                      {/* <Svgeditingnotes fill="#581845" /> */}
-                                    </Flex>
 
-                                    <Flex>
-                                      <td
-                                        className={styles.commentTextStyle}
-                                        dangerouslySetInnerHTML={{
-                                          __html: val?.commenddd,
-                                        }}
-                                      />
+                                      <Flex>
+                                        <td
+                                          className={styles.commentTextStyle}
+                                          dangerouslySetInnerHTML={{
+                                            __html: val?.commenddd,
+                                          }}
+                                        />
+                                      </Flex>
                                     </Flex>
-                                  </Flex>
-                                </>
-                              )}
+                                  </>
+                                )
+                              }
                             })
                           }
                         </Flex>

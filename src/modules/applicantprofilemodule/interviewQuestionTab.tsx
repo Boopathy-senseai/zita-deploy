@@ -60,9 +60,9 @@ const ScreeningStatusTab = ({
   const [isregeneratequestion, setregeneratequestion] = useState(false);
   const [generatedquestion, setgeneratedquestion] = useState<any>([]);
   const [isinterviewid, setinterviewid] = useState<any>();
-  const [isloader,setisloader] = useState<any>(false);
-  const [isevaluateddata,setevaluateddata] = useState<any>([]);
-  const [iscleardata,setcleardata] =  useState<any>(false);
+  const [isloader, setisloader] = useState<any>(false);
+  const [isevaluateddata, setevaluateddata] = useState<any>([]);
+  const [iscleardata, setcleardata] = useState<any>(false);
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
@@ -111,57 +111,22 @@ const ScreeningStatusTab = ({
     },
   );
 
-
+  //setting the overall data for every render 
   useEffect(() => {
     setgeneratedquestion(interviewData)
   }, [interviewData])
 
-  const toggleStage = () => {
-    setaddQuestion(!addQuestion);
-    // formik.setFieldValue('title', '');
-    // formik.resetForm();
-  };
-  // const formik = useForm<EvaluateInterviewInput>({
-  //   initialValues: { id: undefined,  },
-  //   // initialValidation: true,
-  //   // onSubmit: () => {
-  //   //   toggleStage();
-  //   //   formik.resetForm();
-  //   // },
-  // });
-
-  // const handleKeyPress = (event: { key: string }) => {
-  //   if (event.key === 'Enter') {
-  //     formik.handleSubmit();
-  //   }
-  // };
+  //close the evaluate modal
   const handleCancel = () => {
     setEvaluatePopup(null);
   };
 
-
-  function UpdateEvaluate(data:any){
+  //function for the evaluate update event
+  function UpdateEvaluate(data: any) {
     setevaluatedata(data)
   }
 
-  const handleEvaluateInterview = () => {
-    dispatch(
-      evaluateQuestionMiddleware({
-        jd_id,
-        can_id,
-        scorecard: JSON.stringify([]),
-        interview_id,
-        commands: '',
-        recommend: 0,
-      }),
-    ).then(() => {
-      setEvaluatePopup(null);
-    });
-  };
-  const getNumberOfInterviews = (key) => {
-    return no_of_interview?.filter((interview) => interview.id === Number(key));
-  };
-
+  //Add question functionality API trigger
   function AddnewQuestion(formvalue) {
     const addnewquestion = []
     formvalue.levellist.map((value, index) => {
@@ -176,13 +141,13 @@ const ScreeningStatusTab = ({
       interview_id: isinterviewid,
     })).then((res) => {
       if (res.payload.success === true) {
-        
+
         setAddquestion(false);
         setisloader(false);
         setcleardata(true);
         Toast(' Addquestion successfully', 'LONG', 'success');
       }
-      else{ 
+      else {
         setisloader(false);
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
@@ -192,6 +157,8 @@ const ScreeningStatusTab = ({
       }
     })
   }
+
+  //Regeneratequestion functionality API trigger
   function Regeneratequestion(formvalue) {
     const result = formvalue.levellist.reduce((accumulator, item) => {
       if (item.levelvalue.iseasycheck && item.levelvalue.easy !== "") {
@@ -217,22 +184,22 @@ const ScreeningStatusTab = ({
       }
       return accumulator;
     }, []);
-    setisloader(true); 
+    setisloader(true);
     dispatch(interviewQuestionMiddleware({
       jd_id: jd_id,
       can_id: can_id,
       re_generate: result,
       interview_id: isinterviewid,
-      exclude: Object.keys(isevaluatedata).length !== 0?(isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)):''
-      
-    })).then((res) => { 
+      exclude: Object.keys(isevaluatedata).length !== 0 ? (isevaluatedata?.filter(item => item?.interview_id === isinterviewid).map(item => item?.id)) : ''
+
+    })).then((res) => {
       if (res?.payload.success === true) {
         setisloader(false);
         setcleardata(true);
         setregeneratequestion(false);
         Toast('Regeneratequestion successfully', 'LONG', 'success');
       }
-       else{ 
+      else {
         setisloader(false);
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
@@ -242,6 +209,8 @@ const ScreeningStatusTab = ({
       }
     })
   }
+
+  //generatequestion functionality API trigger
   function generatequestion(formvalue) {
     const result = formvalue.levellist.reduce((accumulator, item) => {
       if (item.levelvalue.iseasycheck && item.levelvalue.easy !== "") {
@@ -281,7 +250,7 @@ const ScreeningStatusTab = ({
         setgeneratequestion(false);
         Toast('generatequestion successfully', 'LONG', 'success');
       }
-      else{ 
+      else {
         setisloader(false);
         Toast(
           'Sorry, there was a problem connecting to the API. Please try again later.',
@@ -312,7 +281,7 @@ const ScreeningStatusTab = ({
         <Text bold className={styles.screenText}>
           Interview Questions
         </Text>
-        <Text style={{marginBottom:'10px'}}>
+        <Text style={{ marginBottom: '10px' }}>
           You can select, deselect, regenerate, and add questions for the
           applicant.
         </Text>
@@ -321,37 +290,15 @@ const ScreeningStatusTab = ({
           className={styles.overAllPopup}
           height={window.innerHeight - 145}
         >
-
-          {/* {Object.keys(interviews).map((key, i) => {
-            return (
-              <QuestionCard
-                key={i}
-                jd_id={jd_id}
-                can_id={can_id}
-                interviews={interviews[key]}
-                genearate={genearate}
-                no_of_interview={getNumberOfInterviews(key)}
-                onEvaluate={(id, value) => {
-                  setEvaluatePopup({
-                    open: true,
-                    data: value,
-                    interview_id: id,
-                  });
-                }}
-                lengthval={Object?.keys(interviews)?.length}
-                indexval={i + 1}
-              />
-            );
-          })} */}
           <InterviewQustioncard
             interviewData={generatedquestion}
             no_of_interview={no_of_interview}
-            isevaluatedata ={isevaluatedata}
+            isevaluatedata={isevaluatedata}
             setregeneratequestion={setregeneratequestion}
             setgeneratequestion={setgeneratequestion}
             setAddquestion={setAddquestion}
             setevaluatedata={setevaluatedata}
-            setinterviewid={setinterviewid} 
+            setinterviewid={setinterviewid}
             onEvaluate={(id, value) => {
               setEvaluatePopup({
                 open: true,
@@ -368,7 +315,7 @@ const ScreeningStatusTab = ({
           user={user}
           interview_ids={evaluatePopup.interview_id}
           candidateDetails={candidate_details}
-          isevaluatedata={(function() {
+          isevaluatedata={(function () {
             const filteredData = isevaluatedata.filter(is => is.interview_id === evaluatePopup.interview_id);
             return filteredData;
           })()}
@@ -377,10 +324,7 @@ const ScreeningStatusTab = ({
             isevaluatedata.map((ele) => {
               const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
               return finddata.commands;
-          })}
-          // recommend={
-          //   cumulative.find((id)[evaluatePopup.interview_id]?.scorecard?.recommend || null
-          // }
+            })}
           recommend={isevaluatedata.map((ele) => {
             const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
             return finddata;
@@ -406,7 +350,7 @@ const ScreeningStatusTab = ({
         !issingletab && (
           <Flex flex={6} style={{ padding: '10px 0 10px 10px' }}>
             <InterviewScorecardTab
-            UpdateEvaluate={UpdateEvaluate}
+              UpdateEvaluate={UpdateEvaluate}
               onEvaluate={(id, value) => {
                 setEvaluatePopup({
                   open: true,

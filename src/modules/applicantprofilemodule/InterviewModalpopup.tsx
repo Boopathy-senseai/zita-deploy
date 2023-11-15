@@ -39,9 +39,6 @@ const Interviewmodalpopup = ({
     setcleardata,
     iscleardata
 }: Props) => {
-    //Add Question Modal  state
-
-    //Re-generate Question by AI Modal  state
     const dispatch: AppDispatch = useDispatch();
     const [isstoreaddData, setstoreaddData] = useState<any>([]);
     const [increasedata, setincreasedata] = useState<any>(0);
@@ -134,7 +131,7 @@ const Interviewmodalpopup = ({
 
 
     //onclick events both Re-generate Question and generate Question by AI Modal  
-    const handledata = (e, index) => {
+    const handledata = (e) => {
         const isValueExist = isstoreaddData && isstoreaddData.some((item) => item.value === e.value);
         if (!isValueExist) {
             setstoreaddData([...isstoreaddData, e]);
@@ -262,8 +259,8 @@ const Interviewmodalpopup = ({
                 totalEasy += parseInt(item?.levelvalue?.iseasycheck === true && item?.levelvalue?.easy) || 0;
                 totalMedium += parseInt(item?.levelvalue?.ismediumcheck === true && item?.levelvalue?.medium) || 0;
                 totalHard += parseInt(item?.levelvalue?.ishardcheck === true && item?.levelvalue?.hard) || 0;
-            } 
-            
+            }
+
             const aggregatedValues = totalEasy + totalMedium + totalHard;
 
             return aggregatedValues;
@@ -392,7 +389,7 @@ const Interviewmodalpopup = ({
                                 return (<Flex key={index} row marginRight={18} marginTop={7} center>
                                     <Flex>
                                         <InputCheckBox
-                                            onClick={() => handledata(data, index)}
+                                            onClick={() => handledata(data)}
                                         />
                                     </Flex>
                                     <Flex marginLeft={5}>
@@ -419,7 +416,6 @@ const Interviewmodalpopup = ({
                                                     <Flex row center marginLeft={10}>
                                                         <Flex marginRight={10}>
                                                             <InputCheckBox
-                                                                // checked={formik.values.levellist[index].levelvalue[data.label]}
                                                                 onChange={(e) => handleCheckboxChange(index, data.label, e.target.checked, '1')}
                                                             />
                                                         </Flex>
@@ -442,7 +438,6 @@ const Interviewmodalpopup = ({
                                                     <Flex row center marginLeft={10}>
                                                         <Flex marginRight={10}>
                                                             <InputCheckBox
-                                                                // checked={formik.values.levellist[index].levelvalue[data.label]}
                                                                 onChange={(e) => handleCheckboxChange(index, data.label, e.target.checked, '2')}
                                                             />
                                                         </Flex>
@@ -465,7 +460,6 @@ const Interviewmodalpopup = ({
                                                     <Flex row center marginLeft={10}>
                                                         <Flex marginRight={10}>
                                                             <InputCheckBox
-                                                                // checked={formik.values.levellist[index].levelvalue[data.label]}
                                                                 onChange={(e) => handleCheckboxChange(index, data.label, e.target.checked, '3')}
                                                             />
                                                         </Flex>
@@ -548,7 +542,7 @@ const Interviewmodalpopup = ({
                                 return (<Flex key={index} row marginRight={18} marginTop={7} center>
                                     <Flex>
                                         <InputCheckBox
-                                            onClick={() => handledata(data, index)}
+                                            onClick={() => handledata(data)}
                                         />
                                     </Flex>
                                     <Flex marginLeft={5}>
@@ -575,7 +569,6 @@ const Interviewmodalpopup = ({
                                                     <Flex row center marginLeft={10}>
                                                         <Flex marginRight={10}>
                                                             <InputCheckBox
-                                                                // checked={formik.values.levellist[index].levelvalue[data.label]}
                                                                 onChange={(e) => handleCheckboxChange(index, data.label, e.target.checked, '1')}
                                                             />
                                                         </Flex>
@@ -598,7 +591,6 @@ const Interviewmodalpopup = ({
                                                     <Flex row center marginLeft={10}>
                                                         <Flex marginRight={10}>
                                                             <InputCheckBox
-                                                                // checked={formik.values.levellist[index].levelvalue[data.label]}
                                                                 onChange={(e) => handleCheckboxChange(index, data.label, e.target.checked, '2')}
                                                             />
                                                         </Flex>
@@ -621,7 +613,6 @@ const Interviewmodalpopup = ({
                                                     <Flex row center marginLeft={10}>
                                                         <Flex marginRight={10}>
                                                             <InputCheckBox
-                                                                // checked={formik.values.levellist[index].levelvalue[data.label]}
                                                                 onChange={(e) => handleCheckboxChange(index, data.label, e.target.checked, '3')}
                                                             />
                                                         </Flex>
