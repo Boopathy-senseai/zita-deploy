@@ -137,7 +137,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           header?.e_time,
                         ).format(' HH:mm a')} `}
                       </Text>
-                      {doc.attendees.map((e) => (e.attendee)).includes(user.toString()) ?
+                      {doc.attendees?.filter(info => info?.total_score !== null)?.map((e) => (e.attendee)).includes(user.toString()) ?
                         <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
                           <Svgeditingnotes fill={'#581845'} />
                         </Flex> :
@@ -189,10 +189,10 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                       <Flex width={'100%'}>
                         {doc.attendees
                           ?.filter(info => info?.total_score !== null)
-                          .map((info, i ) => {
+                          .map((info, i) => {
                             return (
                               <>
-                              {console.log(info,'info')}
+                                {console.log(info, 'info')}
                                 <Flex key={i} row marginTop={10} between>
                                   <Flex row center>
                                     <Text title="Interviewer">
