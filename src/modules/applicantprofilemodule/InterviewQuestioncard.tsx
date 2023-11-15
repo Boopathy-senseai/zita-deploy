@@ -1,20 +1,14 @@
-import { useFormik } from 'formik';
 import classNames from 'classnames/bind';
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment'; 
 import SvgAdd from '../../icons/SvgAdd';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import SvgUpArrow from '../../icons/SvgArrowUp';
-import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit';
-import InputText from '../../uikit/InputText';
-import Text from '../../uikit/Text/Text';
-import { AppDispatch, RootState } from '../../store';
-import { isEmpty } from '../../uikit/helper';
-import { formatTo12HrClock } from '../calendarModule/util';
+import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit'; 
+import Text from '../../uikit/Text/Text'; 
 import SingleButton from '../common/SingleButton';
 import {
     GenerateQuestionsState,
@@ -22,10 +16,7 @@ import {
     Question,
 } from './interviewerQuestionType';
 import styles from './screeningstatustab.module.css';
-import {
-    evaluateQuestionMiddleware,
-    interviewQuestionMiddleware,
-} from './store/middleware/interviewquestionMiddleware';
+ 
 
 
 
@@ -41,7 +32,7 @@ interface Props {
     no_of_interview?: any;
     lengthval?: any;
     indexval?: any;
-    isevaluatedata?:any;
+    isevaluatedata?: any;
     setregeneratequestion?: (val: boolean) => void;
     setgeneratequestion?: (val: boolean) => void;
     setAddquestion?: (val: boolean) => void;
@@ -73,6 +64,8 @@ const InterviewQustioncard = ({
     const [selecteddata, setselecteddata] = useState<any>([]);
     const [isEvaluate, setEvaluate] = useState<any>(false);
     const [questions, setQuestions] = useState<any>({});
+
+
     //onclick function fo modal window open
     const toggleStage = (e) => {
         setAddquestion(true);
@@ -80,9 +73,7 @@ const InterviewQustioncard = ({
     };
     const toggleAddQuestion = (e) => {
         setAddquestion(true);
-        setinterviewid(e)
-        // setNewAddQuestion(!newAddQuestion); 
-        // formik.resetForm();
+        setinterviewid(e) 
     };
     const regenerateQuestions = (e) => {
         setregeneratequestion(true);
@@ -123,6 +114,8 @@ const InterviewQustioncard = ({
             }
         });
     };
+
+    //changing level radio thumb based on value
     const handlelevelradio = (val) => {
         const value = val.toLowerCase();
         if (value === 'easy') {
@@ -136,6 +129,8 @@ const InterviewQustioncard = ({
         }
         return null;
     };
+
+    //store the data of selected question
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
@@ -199,7 +194,7 @@ const InterviewQustioncard = ({
                                             <Flex key={idx}>
                                                 <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
                                                 <Flex>
-                                                    <Flex row>
+                                                    <Flex row marginTop={5}>
                                                         <Flex marginRight={7} marginTop={1}>
                                                             {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
                                                         </Flex>
@@ -207,15 +202,13 @@ const InterviewQustioncard = ({
                                                             <Text color='theme'>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
                                                         </Flex>
                                                     </Flex>
-                                                    {console.log(label,'klr')}
-                                                    <Flex>
+                                                    <Flex marginBottom={5}>
                                                         {label?.Map_question?.map((ques, i) => (
                                                             <Flex key={i}>
                                                                 <Flex>
-                                                                {console.log(label.Map_question[i],'klrklrklrklr',matchingData.Question[matchingData.Question.length-1].Value[matchingData.Question[matchingData.Question.length-1].Value.length -1].Map_question[i])}
                                                                     {expandedIndex?.includes(ques.id) ? (
                                                                         <>
-                                                                            <Flex row style={{ borderBottom: i === label?.Map_question?.length - 1 ? label.Map_question[i] === matchingData.Question[matchingData.Question.length-1].Value[matchingData.Question[matchingData.Question.length-1].Value.length -1].Map_question[i] ?  '' : '1px solid #C3C3C3' :  '1px solid #C3C3C3', paddingBottom: '5px' }} marginBottom={5} marginLeft={1}>
+                                                                            <Flex row style={{ borderBottom: i === label?.Map_question?.length - 1 ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '1px solid #C3C3C3', paddingBottom: '10px' }} marginLeft={1}>
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
@@ -255,7 +248,7 @@ const InterviewQustioncard = ({
                                                                     ) : (
                                                                         <>
 
-                                                                            <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ?  label.Map_question[i] === matchingData.Question[matchingData.Question.length-1].Value[matchingData.Question[matchingData.Question.length-1].Value.length -1].Map_question[i]?  '' : '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
+                                                                            <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '', paddingBottom: '10px' }}  >
 
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
@@ -283,35 +276,6 @@ const InterviewQustioncard = ({
                                                                                     </Flex>
                                                                                 </Flex>
                                                                             </Flex>
-
-                                                                            {/* <Flex row style={{ borderBottom: label?.Map_question.length-1 === i ? '1px solid #C3C3C3' : '', paddingBottom: '5px' }} marginBottom={5}>
-                                                                                {datas.evaluate !== true &&
-                                                                                    <Flex style={{ margin: '1.5px 5px 0 0' }} >
-                                                                                        <InputCheckBox
-                                                                                            onClick={() => handleSelectedQuestion(ques)}
-                                                                                            checked={selecteddata?.includes(ques.id)}
-                                                                                        />
-                                                                                    </Flex>}
-                                                                                <Flex row>
-                                                                                    <Flex>
-                                                                                        <Text>{i + 1}.</Text>
-                                                                                    </Flex>
-                                                                                    <Flex row style={{ textAlign: "justify" }}>
-                                                                                        <Text>{ques.question}
-                                                                                            {ques.answer !== null && <Text
-                                                                                                onClick={() => handleToggleCollapse(ques.id)}
-                                                                                                style={{ cursor: "pointer" }}>
-                                                                                                <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
-                                                                                                <SvgArrowDown1
-                                                                                                    width={10}
-                                                                                                    height={10}
-                                                                                                    fill={"581845"} />
-
-                                                                                            </Text>}</Text>
-                                                                                    </Flex>
-                                                                                </Flex>
-                                                                            </Flex> */}
-
                                                                         </>
                                                                     )}
                                                                 </Flex>

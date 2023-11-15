@@ -110,8 +110,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     return errors;
   };
 
-  useEffect(() => {
-
+  useEffect(() => { 
     if (isevaluatedata.length > 0 && isevaluatedata !== null) {
       const datas = Dataconvertion(isevaluatedata)
       if (formik.values !== null) {
@@ -120,8 +119,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
           if (info.scorecard !== null) {
             formik.values.commands = info.commands;
             formik.values.recommend = recommend[0].total_recommend;
-          }
-          // Assign the key-value pair to the 'updatescore' object
+          } 
           updatescore[info.id] = { scorecard: info.scorecard };
         });
         formik.values.scorecard = updatescore
@@ -149,37 +147,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
       return acc;
     }, {});
   }
-
-
-  // const handleFormChange = (
-  //   field: string,
-  //   value: any,
-  //   parentField?: string,
-  // ) => {
-  //   if (parentField) {
-  //     setForm((prev) => ({
-  //       ...prev,
-  //       [parentField]: { ...prev[parentField], [field]: value },
-  //     }));
-  //   } else {
-  //     setForm((prev) => ({
-  //       ...prev,
-  //       [field]: value,
-  //     }));
-  //   }
-  // };
-
-  // type FormProps = {
-  //   scorecard: { [key: string]: ScoreCardFormInputData };
-  //   commands: string;
-  //   recommend: number;
-  // };
-
-  // const initial: IFormData = {
-  //   scorecard: {},
-  //   commands: '',
-  //   recommend: 0,
-  // };
+ 
   const handleEvaluateInterview = (form: IFormData) => {
     setLoading(true);
     setloader(true);
@@ -228,6 +196,8 @@ const EvaluateModal: React.FC<Props> = (props) => {
     enableReinitialize: true,
     validate: handleValidations,
   });
+
+  //handle the radio button based on easy,hard and medium.
   const handlelevelradio = (val) => {
     const value = val.toLowerCase();
     if (value === 'easy') {
@@ -241,6 +211,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     }
     return null;
   };
+
   const datalist = Object.values(valuelist)
   return (
     <Modal open={open}>
@@ -273,8 +244,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
                       <Text color='theme'>{Object.keys(item)[liIndex]}</Text>
                     </Flex>
                   </Flex>
-                  {/* <Text bold size={12} color='theme'>{Object.keys(item)[liIndex]}</Text> */}
-                  {Object.values(li).map((doc, index) => ( // need to be work line for evalutae model
+                  {Object.values(li).map((doc, index) => (
                     <div key={index} >
                       <Flex row top marginLeft={2}>
                         <Flex flex={9}>

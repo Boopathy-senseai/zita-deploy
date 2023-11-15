@@ -53,6 +53,7 @@
 }
 .commentTextStyle {
   padding:0px 8px 0px 0px;
+  text-align: justify;
   font-size: 13px;
   flex-wrap: wrap;
   overflow: hidden;

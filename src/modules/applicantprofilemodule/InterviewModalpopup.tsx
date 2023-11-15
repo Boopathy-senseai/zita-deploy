@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { isEmptyArray, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
-import { Button, Card, ErrorMessage, InputCheckBox, InputSearch, InputText, Loader, Modal } from '../../uikit';
-import SvgClose from '../../icons/SvgClose';
+import { Button, InputCheckBox, InputSearch, InputText, Loader, Modal } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import InputRadio from '../../uikit/InputRadio/InputRadio';
-import SingleButton from '../common/SingleButton';
 import styles from '../applicantprofilemodule/InterviewModalpopup.module.css';
 import { rolevaluemiddleware } from '../calendarModule/store/middleware/calendarmiddleware';
 import { Typeofinterviewquestion, Difficultylevel, level } from './mock';
@@ -53,7 +51,6 @@ const Interviewmodalpopup = ({
     const [iserrorhandlerole, seterrorhandlerole] = useState<any>(false);
     const [istringgerdata, settriggerdata] = useState<any>(false);
     const [role, setrole] = useState<any>([])
-    console.log(overalldata, iserrorhandle, 'manoj')
     interface LevelValue {
         levelvalue: any;
         Levelvalue: any;
@@ -82,7 +79,7 @@ const Interviewmodalpopup = ({
         role: '',
     };
 
-    // add newquestion
+    // Handle submit for all the modal 
     const handleSubmit = (e) => {
         if (overalldata.length === 0 && iserrorhandle !== false || isEmptyArray(formik.values.levellist)) {
             seterrorhandle(true);
@@ -116,6 +113,7 @@ const Interviewmodalpopup = ({
         }
     }
 
+    //formik 
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: (e) => handleSubmit(e),
@@ -276,10 +274,10 @@ const Interviewmodalpopup = ({
             seterrorhandle(false)
         }
         if (aggregatedValues > 15) {
-            setoveralldata('the have only 15')
+            setoveralldata('Please limit questions count to a maximum of 15.')
         }
         else if (aggregatedValues < 1) {
-            setoveralldata('the have only 15')
+            setoveralldata('Please select a count for the question.')
         }
         else if (aggregatedValues <= 15 && aggregatedValues >= 1) {
             seterrorhandle(false)
@@ -361,9 +359,10 @@ const Interviewmodalpopup = ({
                         {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                         {iserrorhandleadd && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                         <Flex row marginTop={17} end>
-                            <Flex marginRight={20} onClick={closeforms}>
+
+                            {!isloader && <Flex marginRight={20} onClick={closeforms}>
                                 <Button types="close" width="75px">Cancel</Button>
-                            </Flex>
+                            </Flex>}
                             <Flex>
                                 {isloader ? <Flex middle center style={{ width: '75px' }}>
                                     <Loader size="small" withOutOverlay />
@@ -380,7 +379,7 @@ const Interviewmodalpopup = ({
             {/* Re-generate Question by AI Modal popup */}
             <Modal open={isregeneratequestion}>
                 <Flex className={styles.overalladd}>
-                    <Flex style={{ borderBottom: '1px solid #581845' }} >
+                    <Flex style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }} >
                         <Text size={14} bold>Re-generate Question by AI</Text>
                     </Flex>
                     <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: "15px" }}>
@@ -496,9 +495,9 @@ const Interviewmodalpopup = ({
                     {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     <Flex row marginTop={17} end>
-                        <Flex marginRight={20} onClick={closeforms}>
+                        {!isloader && <Flex marginRight={20} onClick={closeforms}>
                             <Button types="close" width="95px">Cancel</Button>
-                        </Flex>
+                        </Flex>}
                         <Flex>
                             {isloader ? <Flex middle center style={{ width: '100px' }}>
                                 <Loader size="small" withOutOverlay />
@@ -516,19 +515,18 @@ const Interviewmodalpopup = ({
             {/* Generate Question by AI */}
             <Modal open={isgeneratequestion}>
                 <Flex className={styles.overalladd}>
-                    <Flex  >
+                    <Flex style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }}>
                         <Text size={14} bold>Generate Question by AI</Text>
                     </Flex>
                     <Flex>
                         <Flex marginTop={9}>
                             <Text size={13} color='theme'>Select the role for the interview.</Text>
                         </Flex>
-                        <Flex>
+                        <Flex width={230}>
                             <InputSearch
                                 setFieldValue={formik.setFieldValue}
                                 options={role}
                                 name={`role`}
-                                placeholder='Type your interview question here'
                                 onChange={handlerole}
                                 initialValue={formik.values.role}
                                 onkeyPress={(event) => {
@@ -654,9 +652,9 @@ const Interviewmodalpopup = ({
                     {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     {!iserrorhandlerole && isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     <Flex row marginTop={17} end>
-                        <Flex marginRight={20} onClick={closeforms} >
+                        {!isloader && <Flex marginRight={20} onClick={closeforms} >
                             <Button types="close" width="75px">Cancel</Button>
-                        </Flex>
+                        </Flex>}
                         <Flex>
                             {isloader ?
                                 <Flex middle center style={{ width: '85px' }}>
