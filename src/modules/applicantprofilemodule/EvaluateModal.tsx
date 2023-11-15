@@ -338,14 +338,14 @@ const EvaluateModal: React.FC<Props> = (props) => {
           </Flex>
         </Flex>
         <Flex row end marginTop={5} style={{ borderTop: '1px solid #c3c3c3' }}>
-          <Button
+        {!isloader && <Button
             className={styles.cancel}
             types={'primary'}
             onClick={onCancel}
             style={{ marginTop: '10px' }}
           >
             Cancel
-          </Button>
+          </Button>}
 
           {isloader ? (
             <Flex

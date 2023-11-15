@@ -230,7 +230,7 @@ const InterviewQustioncard = ({
                                                                                                     <Text
                                                                                                         onClick={() => handleToggleCollapse(ques.id)}
                                                                                                         style={{ cursor: "pointer" }}>
-                                                                                                        <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View less</Text>
+                                                                                                        <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>Hide answer</Text>
                                                                                                         <SvgUpArrow
                                                                                                             width={10}
                                                                                                             height={10}
@@ -266,7 +266,7 @@ const InterviewQustioncard = ({
                                                                                             {ques.answer !== null && <Text
                                                                                                 onClick={() => handleToggleCollapse(ques.id)}
                                                                                                 style={{ cursor: "pointer" }}>
-                                                                                                <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>View More</Text>
+                                                                                                <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>Show answer</Text>
                                                                                                 <SvgArrowDown1
                                                                                                     width={10}
                                                                                                     height={10}
