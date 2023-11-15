@@ -275,54 +275,29 @@ const EvaluateModal: React.FC<Props> = (props) => {
                   </Flex>
                   {/* <Text bold size={12} color='theme'>{Object.keys(item)[liIndex]}</Text> */}
                   {Object.values(li).map((doc, index) => ( // need to be work line for evalutae model
-                    <div key={index} > 
-                      {Object.keys(valuelist)[Object.keys(valuelist).length - 1] !== Object.keys(valuelist)[itemIndex] ? (
-                        <Flex row top marginLeft={2}>
-                          <Flex flex={9}>
-                            <Text>{`${index + 1}. ${doc.question}`}</Text>
-                          </Flex>
-                          <Flex
-                            flex={2.5}
-                            className={styles.ratingStar}
-                            marginTop={-32}
-                            marginLeft={5}
-                          >
-                            <StarsRating
-                              count={5}
-                              value={formik.values.scorecard[doc.id]?.scorecard || 0}
-                              onChange={(value) => {
-                                formik.setFieldValue(
-                                  `scorecard.${doc.id}.scorecard`,
-                                  value,
-                                );
-                              }}
-                            />
-                          </Flex>
+                    <div key={index} >
+                      <Flex row top marginLeft={2}>
+                        <Flex flex={9}>
+                          <Text>{`${index + 1}. ${doc.question}`}</Text>
                         </Flex>
-                      ) : (
-                        <Flex row top marginLeft={2} style={{ borderBottom: '' }}>
-                          <Flex flex={9}>
-                            <Text>{`${index + 1}. ${doc.question}`}</Text>
-                          </Flex>
-                          <Flex
-                            flex={2.5}
-                            className={styles.ratingStar}
-                            marginTop={-32}
-                            marginLeft={5}
-                          >
-                            <StarsRating
-                              count={5}
-                              value={formik.values.scorecard[doc.id]?.scorecard || 0}
-                              onChange={(value) => {
-                                formik.setFieldValue(
-                                  `scorecard.${doc.id}.scorecard`,
-                                  value,
-                                );
-                              }}
-                            />
-                          </Flex>
+                        <Flex
+                          flex={2.5}
+                          className={styles.ratingStar}
+                          marginTop={-32}
+                          marginLeft={5}
+                        >
+                          <StarsRating
+                            count={5}
+                            value={Number(formik.values.scorecard[doc.id]?.scorecard)}
+                            onChange={(e) => {
+                              formik.setFieldValue(
+                                `scorecard.${doc.id}.scorecard`,
+                                e,
+                              );
+                            }}
+                          />
                         </Flex>
-                      )}
+                      </Flex>
                     </div>
                   ))}
                 </div>
