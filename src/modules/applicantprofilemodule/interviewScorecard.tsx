@@ -187,51 +187,54 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                         </Flex>
                       </Flex>
                       <Flex width={'100%'}>
-                        {doc.attendees?.map((info, ids) => {
-                          return (
-                            <>
-                              <Flex key={index} row marginTop={10} between>
-                                <Flex row center>
-                                  <Text title="Interviewer">
-                                    <SvgInterviewer width={16} height={16} />
-                                  </Text>
-
-                                  <Text style={{ marginLeft: '5px' }} className={styles.changingtexts} title={info?.full_name}>
-                                    {info?.full_name}
-                                  </Text>
-                                </Flex>
-                                <Flex row>
-                                  <Flex row center marginLeft={15}>
-                                    <Text title="Question count">
-                                      <SvgQuestion width={16} height={16} />
+                        {doc.attendees
+                          ?.filter(info => info?.total_score !== null)
+                          .map((info, i ) => {
+                            return (
+                              <>
+                              {console.log(info,'info')}
+                                <Flex key={i} row marginTop={10} between>
+                                  <Flex row center>
+                                    <Text title="Interviewer">
+                                      <SvgInterviewer width={16} height={16} />
                                     </Text>
 
-                                    <Text style={{ marginLeft: '5px' }}>
-                                      {`${info?.question_count} questions`}
+                                    <Text style={{ marginLeft: '5px' }} className={styles.changingtexts} title={info?.full_name}>
+                                      {info?.full_name}
                                     </Text>
                                   </Flex>
-                                  <Flex row marginLeft={15}>
-                                    <Text title="Average Rating">
-                                      <SvgUserRating width={16} height={16} />
-                                    </Text>
+                                  <Flex row>
+                                    <Flex row center marginLeft={15}>
+                                      <Text title="Question count">
+                                        <SvgQuestion width={16} height={16} />
+                                      </Text>
 
-                                    <Flex
-                                      className={styles.ratingStar}
-                                      marginTop={-29}
-                                      marginLeft={5}
-                                    >
-                                      <StarsRating
-                                        disabled
-                                        count={5}
-                                        value={info?.total_score}
-                                      />
+                                      <Text style={{ marginLeft: '5px' }}>
+                                        {`${info?.question_count} questions`}
+                                      </Text>
+                                    </Flex>
+                                    <Flex row marginLeft={15}>
+                                      <Text title="Average Rating">
+                                        <SvgUserRating width={16} height={16} />
+                                      </Text>
+
+                                      <Flex
+                                        className={styles.ratingStar}
+                                        marginTop={-29}
+                                        marginLeft={5}
+                                      >
+                                        <StarsRating
+                                          disabled
+                                          count={5}
+                                          value={info?.total_score}
+                                        />
+                                      </Flex>
                                     </Flex>
                                   </Flex>
                                 </Flex>
-                              </Flex>
-                            </>
-                          )
-                        })}
+                              </>
+                            )
+                          })}
                         <Flex>
                           <Flex row center>
                             <Text bold size={13} color="theme">
