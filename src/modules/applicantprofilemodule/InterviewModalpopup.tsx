@@ -98,7 +98,7 @@ const Interviewmodalpopup = ({
                 Regeneratequestion(formik.values)
             }
             if (overalldata.length === 0 && !isEmptyArray(formik.values.levellist) && e === 'genereate') {
-                if (formik.values.role !== '' && formik.values.role !== undefined) {
+                if (formik.values.role.trim() !== '' && formik.values.role !== undefined) {
                     generatequestion(formik.values)
                     seterrorhandlerole(false)
                 }
