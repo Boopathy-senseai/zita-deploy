@@ -36,8 +36,7 @@ type Props = {
   jobId: string;
   candidateId: string;
   inviteIconNone?: boolean;
-  activeState?: number;
-  setjobtitle?: any;
+  activeState?: number; 
   setjobtitle?: any;
 };
 const ApplicantProfileModal = ({

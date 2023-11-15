@@ -28,9 +28,10 @@ type Props = {
   no_of_interview?: any;
   datas?: any;
   UpdateEvaluate: (val: any) => void;
+  user?: any;
 }
 
-const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview, datas, UpdateEvaluate }: Props) => {
+const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_interview, datas, UpdateEvaluate, user }: Props) => {
   const [isShowFeedback, setFeedbackShow] = useState<any>([]);
 
   //onclick the icon for  editing the interview question.
@@ -88,6 +89,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
             full_name: item.full_name,
             average_score: item.average_score,
             avg_recommend: item.avg_recommend,
+            attendee: item.attendees
           }],
           commands: [{
             full_name: item.full_name,
@@ -107,6 +109,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
           full_name: item.full_name,
           average_score: item.average_score,
           avg_recommend: item.avg_recommend,
+          attendee: item.attendees,
         });
 
         existingInterview.commands.push({
@@ -134,9 +137,14 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           header?.e_time,
                         ).format(' HH:mm a')} `}
                       </Text>
-                      <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
-                        <Svgeditingnotes fill={'#581845'} />
-                      </Flex>
+                      {doc.attendees.map((e) => (e.attendee)).includes(user.toString()) ?
+                        <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
+                          <Svgeditingnotes fill={'#581845'} />
+                        </Flex> :
+                        <Flex >
+                          <Svgeditingnotes fill={'rgb(88 24 69/50%)'} />
+                        </Flex>
+                      }
                     </Flex>
                     <Flex row style={{ padding: '10px 0px' }}>
                       <Flex

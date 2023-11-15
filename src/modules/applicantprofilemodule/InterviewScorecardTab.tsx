@@ -372,6 +372,7 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
                     cumulative={cumulative}
                     no_of_interview={no_of_interview}
                     datas = {dataset}
+                    user={user}
                   /> 
             </Flex>
          
