@@ -285,8 +285,8 @@ const ScreeningStatusTab = ({
           You can select, deselect, regenerate, and add questions for the
           applicant.
         </Text>
-
-        {Array.isArray(isevaluatedata) ?
+ 
+        {Array.isArray(interviewData) ?
           <Flex
             columnFlex
             className={styles.overAllPopup}
