@@ -136,6 +136,9 @@ const MeetingSchedulingScreen = ({
   };
   const [isSubmitLoader,setSubmitLoader]=useState(false);
 
+  const [sample,setsample]=useState([])
+  const [allids,setallids]=useState([])
+
   useEffect(() => {
     if (editEventDetails) {
       setMeetingForm((form) => {
@@ -244,13 +247,13 @@ const MeetingSchedulingScreen = ({
     };
   }
   const [value1, setvalue1] = useState(value);
-  const [selectedIds, setSelectedIds] = useState([]); 
+  const [newquestion, setnewquestion] = useState([]); 
   const [error, seterror] = useState(false);
 
   useEffect(() => {
     const { firstName, lastName } = splitName(username);
     console.log('value1111', value1);
-    const newData = { firstName, lastName, role: '', userId: value1 };
+    const newData = { firstName, lastName, role: '', userId: value1 ,success:false};
     const updatedInterviewers = [...formik.values.interviewers, newData];
     formik.setFieldValue('interviewers', updatedInterviewers);
     sessionStorage.setItem('interviewer', '0');
@@ -313,6 +316,7 @@ const MeetingSchedulingScreen = ({
     firstName?: string;
     lastName?: string;
     role?: string;
+    success?:boolean;
   }
   interface questionid {
     id: any;
@@ -430,9 +434,31 @@ const MeetingSchedulingScreen = ({
   .filter(question => question.checked)
   .map(question => question.id);
 
+
+const update_state=(data)=>{
+const updatedArray = sample.map((item, index) => 
+  index === parseInt(interviewer) ? { ...item, success: true,question: data } : item
+);
+console.log("asasasas",updatedArray)
+console.log("interviewer",interviewer)
+console.log("interviewer11", typeof(interviewer))
+// Set the new array to state
+setsample(updatedArray);
+}
+function extractQuestions(dataArray) {
+  const allQuestions = dataArray.map(item => item.question).reduce((acc, current) => {
+    return acc.concat(current);
+  }, []);
+
+  return allQuestions;
+}
+const allQuestions = extractQuestions(allids);
+const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
   return (
     <>
-    {console.log('form::::+++form',formik.values,id_questions)}
+    {
+    console.warn("you can't see me",newquestion,allids,allQuestions,formik.values,filteredQuestions)
+    }
     {/* {isSubmitLoader && <Loader />} */}
     <Modal
       onClose={handleCloseSchedulingForm}
@@ -475,7 +501,15 @@ const MeetingSchedulingScreen = ({
                 handlecheck={handlecheck}
                 handlechange1={handlechange1}
                 handlefunction1={handlefunction1}
-                handlechange={handlechange}    
+                handlechange={handlechange}   
+                meetingForm={meetingForm} 
+                setShowPopup={setShowPopup}
+                setViewMeetingSummary={setViewMeetingSummary}
+                sample={sample}
+                update_state={update_state}
+                setnewquestion={setnewquestion}
+                newquestion1={newquestion}
+                setallids={setallids}
              />
           )
         ) : openmodel === false ? (
@@ -497,7 +531,7 @@ const MeetingSchedulingScreen = ({
             setOpenScheduleForm={setOpenScheduleForm}
             setopenmodel={setopenmodel}
             formik={formik}
-            question={id_questions.toString()}
+            question={filteredQuestions.toString()}
           />
         ) : (
           <>
@@ -539,12 +573,14 @@ const MeetingSchedulingScreen = ({
 
                   const handleCheckboxChange = () => {
                     const updatedValues = [...formik.values.checkedValues];
-
+                    const index = updatedValues.findIndex((cv) => cv.id === user.userId);
+                
                     if (isChecked) {
-                      const userIndex = updatedValues.findIndex(
-                        (cv) => cv.id === user.userId,
-                      );
-                      updatedValues.splice(userIndex, 1);
+                      if (index !== -1) {
+                        updatedValues.splice(index, 1);
+                      }
+                      const updatedSample = sample.filter((item) => item.id !== user.userId);
+                      setsample(updatedSample);
                     } else {
                       updatedValues.push({
                         id: user.userId,
@@ -553,6 +589,12 @@ const MeetingSchedulingScreen = ({
                         lastName: user.lastName,
                         role: user.role,
                       });
+                      const newSample = {
+                        id: user.userId,
+                        success: false,
+                        question: [],
+                      };
+                      setsample([...sample, newSample]);
                     }
 
                     formik.setFieldValue('checkedValues', updatedValues);
@@ -564,6 +606,8 @@ const MeetingSchedulingScreen = ({
                       key={user.userId}
                       style={{ margin: '0 0 10px 0', width: '50%' }}
                     >
+
+                      {console.log("sampleeeeeeee",sample)}
                       <InputCheckBox
                         checked={isChecked}
                         onChange={handleCheckboxChange}
