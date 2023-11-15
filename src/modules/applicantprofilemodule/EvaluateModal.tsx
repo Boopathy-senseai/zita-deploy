@@ -225,7 +225,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
             maxHeight: '500px',
           }}
         >
-          <Text color="theme" style={{ marginBottom: '15px' }}>
+          <Text color="theme" style={{ marginBottom: '7px' }}>
             {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidateDetails[0]?.first_name} based on the interview? *`}
           </Text>
           {datalist.length > 0 && datalist.map((item, itemIndex) => (
@@ -233,10 +233,9 @@ const EvaluateModal: React.FC<Props> = (props) => {
               <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
               {Object.values(item).map((li, liIndex) => (
                 <div key={liIndex} style={{
-                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '5px',
-                  marginBottom: '5px'
+                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '5px', 
                 }}>
-                  <Flex row  >
+                  <Flex row marginTop={5} >
                     <Flex marginRight={7} marginTop={1}>
                       {handlelevelradio(Object.keys(item)[liIndex])}
                     </Flex>
@@ -246,7 +245,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
                   </Flex>
                   {Object.values(li).map((doc, index) => (
                     <div key={index} >
-                      <Flex row top marginLeft={2}>
+                      <Flex row top marginLeft={2} marginBottom={2}>
                         <Flex flex={9}>
                           <Text>{`${index + 1}. ${doc.question}`}</Text>
                         </Flex>
