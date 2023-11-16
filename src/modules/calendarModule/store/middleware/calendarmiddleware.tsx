@@ -41,6 +41,7 @@ export const scheduleEventMiddleware = createAsyncThunk(
       location,
       interviewer_notes,
       questions,
+      new_questions
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
@@ -61,7 +62,8 @@ export const scheduleEventMiddleware = createAsyncThunk(
         notes,
         location,
         interviewer_notes,
-        questions
+        questions,
+        new_questions
       });
       return data;
     } catch (error) {

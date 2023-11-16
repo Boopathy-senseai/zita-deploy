@@ -51,6 +51,7 @@ interface Props {
   setopenmodel: any;
   formik:any;
   question:any;
+  addquestion:any;
 }
 
 const MeetingSummary = ({
@@ -72,6 +73,7 @@ const MeetingSummary = ({
   setopenmodel,
   formik,
   question,
+  addquestion,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
@@ -173,6 +175,7 @@ const MeetingSummary = ({
           notes: meetingForm.notes,
           location: meetingForm.location.value,
           questions: question,
+          new_questions:addquestion,
         }),
       )
         .then((res) => {
@@ -233,6 +236,8 @@ const MeetingSummary = ({
         notes: notes,
         privateNotes: meetingForm.privateNotes,
         questions: question,
+        new_questions:addquestion,
+        
       }),
     )
       .then((res) => {
