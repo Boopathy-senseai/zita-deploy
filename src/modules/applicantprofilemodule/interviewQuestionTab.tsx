@@ -261,6 +261,8 @@ const ScreeningStatusTab = ({
     })
   }
 
+  {console.log("interviewDatainterviewDatainterviewData",interviewData,no_of_interview)}
+
   return (
     <Flex row flex={12}>
       <Interviewmodalpopup
@@ -286,7 +288,7 @@ const ScreeningStatusTab = ({
           applicant.
         </Text>
  
-        {Array.isArray(interviewData) ?
+        {no_of_interview.length > 0  ?
           <Flex
             columnFlex
             className={styles.overAllPopup}

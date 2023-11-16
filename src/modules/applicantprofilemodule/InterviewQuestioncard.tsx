@@ -134,13 +134,15 @@ const InterviewQustioncard = ({
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
-
+    {console.log("no_of_interviewno_of_interviewno_of_interview",no_of_interview)}
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => {
-                const matchingData = interviewData.find(val => val.Id === datas.id);
-                const exitline = matchingData?.Question?.map((qu) => (qu.Category))
-                if (matchingData) {
+                {console.log("dataatatatattaa",datas)}
+                // const exitline = matchingData?.Question?.map((qu) => (qu.Category))
+                // {console.log("matchingDatamatchingData",matchingData)}
+                if (Object.keys(interviewData).length !== 0 && interviewData.find(val => val.Id === datas.id)) {
+                    const matchingData = interviewData.find(val => val.Id === datas.id);
                     return (
                         <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
                             <Flex row between center style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px 10px' }}>
