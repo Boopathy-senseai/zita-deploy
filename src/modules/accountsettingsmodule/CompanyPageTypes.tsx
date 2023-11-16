@@ -62,3 +62,18 @@ export interface CompanyPageload {
   logos:string;
 
 }
+export interface emailTemplateReducerState {
+  isLoading: boolean;
+  error: string;
+  role: string;
+  data:[{ 
+    created_on: string,
+    full_name: string,
+    id: number,
+    is_active: boolean,
+    name: string,
+    subject: string,
+    templates: string,
+    user_id: number,
+  }]
+}

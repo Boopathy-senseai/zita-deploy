@@ -5,7 +5,7 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgClose from '../../icons/SvgClose';
 import Matchingmodal from './matchingcriteriaModal';
-import Comparativeanalysismodal from './Comparativeanalysis';
+import Comparativeanalysismodal from './comparativeanalysis';
 
 import styles from './Recommendationscreen.module.css';
 

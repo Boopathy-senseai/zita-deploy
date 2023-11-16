@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import StarsRating from 'react-star-rate';
-import { Card, Modal, Button, LinkWrapper } from '../../uikit';
+import { Card, Modal, Button, LinkWrapper , Toast } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
-import { Toast } from '../../uikit';
 import SvgClose from '../../icons/SvgClose';
 import SvgshareIcon from '../../icons/SvgShareIconview';
 import SvgCSV from '../../icons/SvgCSV';
@@ -21,7 +20,7 @@ import SvgAdd from '../../icons/SvgAdd';
 import Avatar from '../../uikit/Avatar';
 import { isEmpty } from '../../uikit/helper';
 import { AppDispatch } from '../../store';
-import styles from './ComparativeAnalysis.module.css';
+import styles from './comparativeanalysis.module.css';
 import Addcandidatesmodal from './addcandidatesmodel';
 import Editcriteriamodal from './editmatchingcriteriaModal';
 import {
@@ -629,17 +628,15 @@ const ComparativeanalysisModal = ({
                                         marginBottom={1}
                                       ></Flex>
                                       <Flex
-                                        title={`${e?.first_name?.toUpperCase()} ${e?.last_name
-                                          ? e?.last_name?.toUpperCase()
-                                          : ''
-                                          }`}
+                                        title={`${e?.first_name?.toLowerCase()} ${e?.last_name? e?.last_name?.toLowerCase(): ''}`}
                                       >
                                         <Text
                                           className={styles.changingtexts}
+                                          style={{textTransform:'capitalize'}}
                                         >
-                                          {e?.first_name?.toUpperCase()}{' '}
+                                          {e?.first_name?.toLowerCase()}{' '}
                                           {e?.last_name
-                                            ? e?.last_name?.toUpperCase()
+                                            ? e?.last_name?.toLowerCase()
                                             : ''}
                                         </Text>
                                       </Flex>
@@ -889,17 +886,17 @@ const ComparativeanalysisModal = ({
                                                 width={110}
                                                 center
                                                 middle
-                                                title={val.first_name}
+                                                title={`${val.first_name} ${val.last_name?val.last_name:''}`}
                                               >
                                                 <Text
                                                   color="white"
                                                   className={
                                                     styles.textelipssisforname
                                                   }
+                                                  style={{textTransform:'capitalize'}}
                                                 >
-                                                  {val.first_name
-                                                    .toLowerCase()
-                                                    .toUpperCase()}
+                                                  {val.first_name.toLowerCase()
+                                                    }
                                                 </Text>
                                               </Flex>
                                             ))}

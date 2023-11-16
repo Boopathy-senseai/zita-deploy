@@ -670,6 +670,7 @@ const messageTemplateState: MessageTemplateReducerState = {
       id: 0,
       name: '',
       templates: '',
+      templates_text:'',
     },
   ],
 };
@@ -685,7 +686,7 @@ const messageTemplateReducer = createSlice({
     });
     builder.addCase(messagesTemplatesMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.messageTemplate = action.payload;
+      state.messageTemplate = action.payload.data;
     });
     builder.addCase(messagesTemplatesMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

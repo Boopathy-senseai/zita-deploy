@@ -220,7 +220,7 @@ useEffect(()=>{
 
 
 const nextfunction=()=>{
-  if( totaltechnical===100){
+  if(totaltechnical === 100 && (totalnontechnical === 100 || totalnontechnical === 0)){
   const list = [{
     'skills': rangeValueskill,  
     'roles':rangeValuerolles,
@@ -550,7 +550,7 @@ const saveasdraftfunction=()=>{
             </Flex>
           
           </Flex>
-<Flex marginRight={65} marginLeft={65}>
+<Flex marginRight={60} marginLeft={60}>
           <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
               <Text>Technical Skills</Text>
@@ -578,13 +578,16 @@ const saveasdraftfunction=()=>{
                 }}
               />
               {/* <Flex row className={styles.numberinputcontainer}> */}
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
               <input           
                   min="0"
                   max="100"
                   type="number"
                   value={rangeValueskill}
                   onChange={handleRangeChange}  
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   maxLength={3}
                   style={{width: rangeValueskill < 99 ? "40px" : "50px"}}
                   className={styles.scoreinputfield} 
@@ -640,13 +643,16 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input
                   type="number"
                   min="0"
                   max="100"          
                   value={rangeValuerolles}
-                  onChange={handleRangeChangerole}  
+                  onChange={handleRangeChangerole} 
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   maxLength={3} 
                   className={styles.scoreinputfield} 
                   style={{width: rangeValuerolles < 99 ? "40px" : "50px",
@@ -681,7 +687,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
              <input
               type="number"
               min="0"
@@ -691,7 +699,7 @@ const saveasdraftfunction=()=>{
               maxLength={3}
               className={styles.scoreinputfield}  
               style={{width: rangeValueexperience < 99 ? "40px" : "50px"}}
-
+              onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
               >
              </input>
              </Flex>
@@ -726,7 +734,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex
+              // style={{ marginLeft:"25px"}}
+              >
                 <input
                   type="number"
                   min="0"
@@ -736,6 +746,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3} 
                   className={styles.scoreinputfield}
                   style={{width: rangeValueTechnical < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
               >
              </input>
              </Flex>
@@ -768,7 +779,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{marginLeft:"25px"}}>
+              <Flex 
+              // style={{marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -778,6 +791,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}  
                   className={styles.scoreinputfield}   
                   style={{width: rangeValueSoft < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
                   </input>
                   </Flex>
@@ -809,7 +823,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -819,6 +835,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield}   
                   style={{width: rangeValueQualifications < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -893,7 +910,7 @@ const saveasdraftfunction=()=>{
             </Flex>
           </Flex>
 
-<Flex marginLeft={65} marginRight={65}>
+<Flex marginLeft={60} marginRight={60}>
           <Flex className={styles.sliderstyle} marginTop={20}>
             <Flex>
               <Text>Industry Specific Experience </Text>
@@ -917,7 +934,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -927,6 +946,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueIndustry < 99 ? "40px" : "50px"}}
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -957,7 +977,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -967,7 +989,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueDomain < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -998,7 +1020,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1008,7 +1032,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueCertifications < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1042,7 +1066,9 @@ const saveasdraftfunction=()=>{
                   borderRadius: '5px', // Add border radius
                 }}
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1052,7 +1078,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield} 
                   style={{width: rangeValueCultural < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1085,7 +1111,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1095,7 +1123,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield}   
                   style={{width: rangeValueReferences < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1126,7 +1154,9 @@ const saveasdraftfunction=()=>{
                 }}
 
               />
-              <Flex style={{ marginLeft:"25px"}}>
+              <Flex 
+              // style={{ marginLeft:"25px"}}
+              >
                 <input           
                   type="number"
                   min="0"
@@ -1136,7 +1166,7 @@ const saveasdraftfunction=()=>{
                   maxLength={3}    
                   className={styles.scoreinputfield}  
                   style={{width: rangeValueLocation < 99 ? "40px" : "50px"}}
-
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   >
              </input>
              </Flex>
@@ -1144,16 +1174,16 @@ const saveasdraftfunction=()=>{
           </Flex>
 
 
-          {/* <Flex className={styles.sliderstyle}>
-          {totalnontechnical!==100 &&
-            <Text style={{
-              display: "flex",
-              alignSelf: 'flex-between'
-            }} size={12} color="error">
-                Enhanced matching criteria must equal 100
-            </Text>
-          }
-         </Flex> */}
+          <Flex className={styles.sliderstyle}>
+          {totalnontechnical !== 0 && totalnontechnical !== 100 && (
+              <Text style={{
+                display: "flex",
+                alignSelf: 'flex-between'
+                }} size={12} color="error">
+                  Enhanced matching criteria must be equal to 0 or 100
+                </Text>
+               )}
+         </Flex>
 </Flex>
         </Flex>
       </Flex>

@@ -206,6 +206,8 @@ export const passwordSetRequest = `${process.env.REACT_APP_API_ENDPOINT}password
 export const permissionApi = 'permission';
 
 export const companyPageApi = `company_details`;
+export const createjdtemplateApi=`jd_templates`;
+export const createemailtemplateApi=`messages_templates`;
 export const userProfileApi = `user_profile`;
 export const intergrationApi = `intergration`;
 export const googleSyncApi = `google_cal_api`;

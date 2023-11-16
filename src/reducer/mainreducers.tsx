@@ -99,7 +99,7 @@ import {
 } from '../modules/accountsettingsmodule/buildyourcareerpage/store/reducer/buildcareerpagereducer';
 import { userProfileReducers } from '../modules/accountsettingsmodule/userprofilemodule/store/reducer/userprofilereducer';
 import { emailNotificationReducers } from '../modules/accountsettingsmodule/emailmodule/store/reducer/emailnotificationreducer';
-import { companyPageReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
+import { companyPageReducers, emailTemplateReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
 import {
   candidateProfileEditReducers,
   techSkillReducers,
@@ -131,7 +131,7 @@ import {
 import { scheduledEventsReducers } from '../modules/meetingscheduler/scheduledevents/store/reducer/evetsreducer';
 import { calendarEventsReducers } from '../modules/meetingscheduler/calendarEvents/store/reducer/evetsreducer';
 import { interviewerQuestionReducers } from '../modules/applicantprofilemodule/store/reducer/interviewQuestionReducer';
-import { ComparativesearchingdataReducers } from '../modules/Comparative Analysis /store/reducer/comparativereducer';
+import { ComparativesearchingdataReducers } from '../modules/comparativeanalysis/store/reducer/comparativereducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -178,6 +178,7 @@ export const reducers = {
   applicantsSourceReducers,
   userProfileReducers,
   jdTemplatesReducers,
+  emailTemplateReducers,
   createJdReducers,
   locationReducers,
   jdProfileReducers,
