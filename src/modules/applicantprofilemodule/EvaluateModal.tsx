@@ -147,6 +147,30 @@ const EvaluateModal: React.FC<Props> = (props) => {
       return acc;
     }, {});
   }
+  // const onCancelpopup = () => {
+  //   const questionRating = Object.values(formik.values.scorecard).map(
+  //     (doc) => doc.scorecard,
+  //   );
+  //   const doc = parser.parseFromString(formik.values?.commands, 'text/html');
+  //   const textNodes = doc.querySelectorAll('body')[0].textContent;
+  //   const texttrim = textNodes.trim();
+  //   const hasEmptyValues = Object.values(formik.values.scorecard).some((item) => {
+  //     const { scorecard } = item;
+  //     return scorecard === null || scorecard === undefined;
+  //   }); 
+  //   console.log(formik.values.recommend !== 0 , texttrim !== '' , !isEmpty(texttrim) , !hasEmptyValues)
+  //   if (formik.values.recommend !== 0 || texttrim !== '' || !isEmpty(texttrim) || !hasEmptyValues) {
+  //     const validate = window.confirm(
+  //       'You have unevaluate changes that will be lost, Are you sure to Proceed ?',
+  //     );
+  //     if(validate){
+  //       onCancel()
+  //     }
+  //   }
+  //   else{
+  //     onCancel()
+  //   } 
+  // }
  
   const handleEvaluateInterview = (form: IFormData) => {
     setLoading(true);
@@ -194,7 +218,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     initialValues: initial,
     onSubmit: handleEvaluateInterview,
     enableReinitialize: true,
-    validate: handleValidations,
+    validate: handleValidations, 
   });
 
   //handle the radio button based on easy,hard and medium.
@@ -213,6 +237,15 @@ const EvaluateModal: React.FC<Props> = (props) => {
   };
 
   const datalist = Object.values(valuelist)
+
+//   const onCancelpopup =()=>{
+// if{
+
+// }
+//   } 
+  // window.confirm(
+  //   'You have unsaved changes that will be lost, Are you sure to Proceed ?',
+  // );
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
