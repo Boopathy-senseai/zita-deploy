@@ -109,7 +109,7 @@ const MeetingSchedulingScreen = ({
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const { search } = useLocation();
-
+  const [addquestion,setaddquestion]=useState('')
   const dispatch: AppDispatch = useDispatch();
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
@@ -398,10 +398,10 @@ const MeetingSchedulingScreen = ({
     }
   };
   const handlechange = () => {
-    if(id_questions.length===0){
+    if(allQuestions.length===0){
      seterror(true)
     }
-    if(!(id_questions.length===0))
+    if(!(allQuestions.length===0))
     {
       seterror(false)
       setViewMeetingSummary(true);
@@ -510,6 +510,7 @@ const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
                 setnewquestion={setnewquestion}
                 newquestion1={newquestion}
                 setallids={setallids}
+                setaddquestion={setaddquestion}
              />
           )
         ) : openmodel === false ? (
@@ -532,6 +533,7 @@ const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
             setopenmodel={setopenmodel}
             formik={formik}
             question={filteredQuestions.toString()}
+            addquestion={JSON.stringify(addquestion)}
           />
         ) : (
           <>

@@ -44,7 +44,8 @@ interface Props {
     update_state: any;
     setnewquestion: any;
     newquestion1: any;
-    setallids: any
+    setallids: any;
+    setaddquestion: any;
 };
 
 export const QuestionListModel = ({
@@ -63,14 +64,16 @@ export const QuestionListModel = ({
     update_state,
     setnewquestion,
     newquestion1,
-    setallids
+    setallids,
+    setaddquestion,
 }: Props) => {
 
     const [showstate, setshowstate] = useState(false)
     const [questions, setquestions] = useState([])
+    const [questionerror,setquestionerror]=useState(false)
     const [openmodel, setopenmodel] = useState(false)
     const [isSubmitLoader, setSubmitLoader] = useState(false);
-    const [isloader, setloder] = useState(false)
+    const [error, seterror] = useState(false)
     const [currentLetter, setcurrentLetter] = useState('A');
     const dispatch: AppDispatch = useDispatch();
     interface LevelValue {
@@ -88,19 +91,22 @@ export const QuestionListModel = ({
         level: LevelValue[];
         role: string;
         sucess: boolean;
+        lastname:any;
+        firstname:any;
         totalError?: string;
     }
     interface questionid {
         id: any;
         question: string[];
+       
     }
     interface addquestion {
         id: any;
         question: any;
         level: any;
-        difficultly: any;
+        type: any;
         checked: boolean;
-        quesid: any;
+        attendees: any;
     }
     interface MyFormValues {
         levellist: levellist[];
@@ -116,19 +122,25 @@ export const QuestionListModel = ({
         addquestion: [],
     };
     const handleCompanyPageValid = (values: MyFormValues) => {
-        const errors: { levellist?: Partial<levellist>[] } = {}; // Use Partial to mark all properties as optional
-
+        const errors: { levellist?: Partial<levellist>[] } = {}; 
         const sumValues = (levels: LevelValue[]) => {
             let easySum = 0;
             let mediumSum = 0;
             let hardSum = 0;
 
             levels.forEach(item => {
-                easySum += parseInt(item.easy) || 0;
-                mediumSum += parseInt(item.medium) || 0;
-                hardSum += parseInt(item.hard) || 0;
+               
+                if (item.iseasycheck) {
+                    easySum += parseInt(item.easy) || 0;
+                }
+                if (item.ismediumcheck) {
+                    mediumSum += parseInt(item.medium) || 0;
+                }
+                if (item.ishardcheck) {
+                    hardSum += parseInt(item.hard) || 0;
+                }
             });
-
+    
             return { easySum, mediumSum, hardSum };
         };
 
@@ -143,13 +155,14 @@ export const QuestionListModel = ({
                     errors.levellist[index] = {
                         ...existingError,
                         totalError: "Total value exceeds 15 or is equal to zero",
-                        id: data.id // Ensure that id is always set
+                        id: data.id 
+
                     };
                 }
             }
         });
 
-        // Remove the `levellist` property if it's an empty array
+      
         if (errors.levellist && errors.levellist.length === 0) {
             delete errors.levellist;
         }
@@ -158,40 +171,56 @@ export const QuestionListModel = ({
     };
 
     const filterObj = (datas) => {
-        alert("124")
         const filteredData = datas.map(item => {
             const filteredA = [];
             const targetType = "string";
-            console.log("item.data.Question",item)
+            console.log("item.data.Question", item)
             item.question?.Question?.forEach(question => {
-              question.Value.forEach(value => {
-                value.Map_question.forEach(mapQuestion => {
-                    console.log("mapQuestion.id",mapQuestion.id,typeof mapQuestion.id)
-                  if (typeof mapQuestion.id === targetType) {
-                    filteredA.push(mapQuestion);
-                  }
+                question.Value.forEach(value => {
+                    value.Map_question.forEach(mapQuestion => {
+                        console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
+                        if (typeof mapQuestion.id === targetType) {
+                            filteredA.push(mapQuestion);
+                        }
+                    });
                 });
-              });
             });
             return filteredA;
-          }).flat();
-          return filteredData; // Add a return statement
+        }).flat();
+        return filteredData; 
     }
 
     const handleSubmit = () => {
-        alert("///////////////////////////////////////////////////////")
+
         const questionErrors = {};
         let isValid = true;
+        
         const filteredData = filterObj(sample)
-        console.log("filteredDatafilteredData",filteredData)
+
+        console.log("filteredDatafilteredData/////////", filteredData,isValid)
         formik.values.question.some((item, index) => {
             if (item.question.length === 0) {
-                // Use the index in the array to set the error
                 questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
                 isValid = false;
-
             }
+
         });
+        const arrayLengths = formik.values?.question?.map(obj => {
+            if (obj.question.length === 0) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+          console.log(arrayLengths,"///////;;;;;;;;;;;;;;;;");
+          const result = arrayLengths.includes(false) ? false : true;
+          console.log(result,"////////////;;;;;;;");
+          if(result){
+            handlechange()
+            setaddquestion(filteredData)
+          }else{
+            setquestionerror(true)
+          }
     }
 
     const formik = useFormik({
@@ -206,6 +235,8 @@ export const QuestionListModel = ({
             level: [],
             role: item.role,
             success: false,
+            lastname:item.lastName,
+            firstname:item.firstName
         }));
 
         formik.setFieldValue('levellist', mappedArray);
@@ -282,7 +313,6 @@ export const QuestionListModel = ({
         if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
 
         setSubmitLoader(true);
-
         const transformLevelListData = (levellist, targetId) => {
             return levellist
                 .filter(item => item.id === targetId)
@@ -297,6 +327,7 @@ export const QuestionListModel = ({
                         ];
 
                         return mappings.reduce((acc, map) => {
+                            console.warn(levelItem , levelItem,levelItem[map.key], levelItem[map.countKey],"vavavavavavavavavav//")
                             if (levelItem[map.key] && levelItem[map.countKey]) {
                                 acc.push({
                                     level: map.level,
@@ -386,50 +417,46 @@ export const QuestionListModel = ({
 
 
     const validatequestion = () => {
-        const [{ addquestion }] = [formik.values];
-        const [newQuestion] = addquestion;
-
-        const index = sample.findIndex(({ id }) => id === newQuestion.quesid);
-
-        if (index === -1) {
-            alert("Question ID not found in the sample.");
-            setopenmodel(false);
-            formik.resetForm();
-            return;
-        }
-
-        const [questionItem] = sample.splice(index, 1);
-
-        let category = questionItem.question.Question.find(({ Category }) => Category === newQuestion.difficultly);
-
-        if (!category) {
-            category = {
-                Category: newQuestion.difficultly,
-                Value: [{ Map_question: [newQuestion] }]
-            };
-            questionItem.question.Question.push(category);
-        } else {
-
-            let levelMap = category.Value.find(val => val.Map_question.some(({ level: mapLevel }) => mapLevel === newQuestion.level));
-
-            if (!levelMap) {
-
-                levelMap = { Map_question: [newQuestion] };
-                category.Value.push(levelMap);
-            } else {
-
-                levelMap.Map_question.push(newQuestion);
+        console.log("Formik values:///////", formik.values.addquestion[0]);
+        if (formik.values.addquestion[0] !== undefined && formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '') {
+            const [{ addquestion }] = [formik.values];
+            const [newQuestion] = addquestion;
+            const index = sample.findIndex(({ id }) => id === newQuestion.attendees);
+            if (index === -1) {
+                alert("Question ID not found in the sample.");
+                setopenmodel(false);
+                formik.resetForm();
+                return;
             }
+            const [questionItem] = sample.splice(index, 1);
+            let category = questionItem.question.Question.find(({ Category }) => Category === newQuestion.type);
+            if (!category) {
+                category = {
+                    Category: newQuestion.type,
+                    Value: [{ Map_question: [newQuestion] }]
+                };
+                questionItem.question.Question.push(category);
+            } else {
+                let levelMap = category.Value.find(val => val.Map_question.some(({ level: mapLevel }) => mapLevel === newQuestion.level));
+                if (!levelMap) {
+                    levelMap = { Map_question: [newQuestion] };
+                    category.Value.push(levelMap);
+                } else {
+                    levelMap.Map_question.push(newQuestion);
+                }
+            }
+
+            sample.splice(index, 0, questionItem);
+            setcurrentLetter(newQuestion.id);
+            setopenmodel(false);
+
         }
-
-
-        sample.splice(index, 0, questionItem);
-        setcurrentLetter(newQuestion.id);
-        setopenmodel(false);
+        else {
+            seterror(true)
+        }
         formik.resetForm();
         console.log("Updated sample:", sample);
     };
-
 
 
     function getNextLetter(letter) {
@@ -450,16 +477,23 @@ export const QuestionListModel = ({
         }
     }
 
-
+    const functioncall = () => {
+        setopenmodel(true)
+        formik.setFieldValue('addquestion[0].type', '')
+        formik.setFieldValue('addquestion[0].level', '')
+        formik.setFieldValue('addquestion[0].question', '')
+    }
 
     const nextLetter = getNextLetter(currentLetter);
     console.log("nextLetternextLetternextLetter", nextLetter)
-    
-    
+
+
     return (
         <>
             <Modal open={openmodel} >
+                {console.log(formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '')}
                 <Flex style={{ backgroundColor: '#FFF', width: '600px', height: 'auto', padding: '25px' }}>
+
                     <Flex>
                         <Text size={14} bold>Add Question</Text>
                     </Flex>
@@ -472,11 +506,11 @@ export const QuestionListModel = ({
                                 return (<Flex key={index} row marginRight={15} marginTop={7} center>
                                     <Flex>
                                         <InputRadio
-                                            checked={formik.values?.addquestion[0]?.difficultly === data.value}
+                                            checked={formik.values?.addquestion[0]?.type === data.value}
                                             onClick={() => {
-                                                formik.setFieldValue('addquestion[0].difficultly', data.value)
+                                                formik.setFieldValue('addquestion[0].type', data.value)
                                                 formik.setFieldValue('addquestion[0].id', nextLetter)
-                                                formik.setFieldValue('addquestion[0].quesid', sample[interviewer].id)
+                                                formik.setFieldValue('addquestion[0].attendees', sample[interviewer].id)
                                             }
                                             }
                                         />
@@ -512,7 +546,7 @@ export const QuestionListModel = ({
                                 onChange={(e) => formik.setFieldValue('addquestion[0].question', e.target.value)}
                             />
                         </Flex>
-
+                        {error && !(formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '') && <Text color='error'>Please fill all the above fields</Text>}
                         <Flex row marginTop={17} end>
                             <Flex marginRight={20} onClick={() => setopenmodel(false)}>
                                 <Button types="close" width="75px">Cancel</Button>
@@ -542,8 +576,8 @@ export const QuestionListModel = ({
                                             {`${user.role} - Interview Questions`}
                                         </Text>
                                         <Flex>
-                                            {sample[interviewer].success === true ? (
-                                                <Flex onClick={() => setopenmodel(true)} row style={{ alignItem: 'center' }}>
+                                            {sample[interviewer]?.success === true ? (
+                                                <Flex onClick={functioncall} row style={{ alignItem: 'center' }}>
                                                     <SvgAddquestion fill={PRIMARY} />
                                                     <Text color='link' bold style={{ padding: '0 0 0 3px' }}>Add Question</Text>
                                                 </Flex>
@@ -552,7 +586,10 @@ export const QuestionListModel = ({
                                                     <Loader size="small" withOutOverlay />
                                                 </Flex>
                                             ) :
-                                                (<Button onClick={() => generatequestion(index, user.id)}>Generate</Button>))}
+                                                (<Button
+                                                     onClick={() => generatequestion(index, user.id)
+
+                                                }>Generate</Button>))}
                                         </Flex>
                                     </Flex>
                                     {sample[index].success === false ? (
@@ -738,6 +775,7 @@ export const QuestionListModel = ({
                                                                                                     foundObject.question.push(ques.id);
                                                                                                 }
                                                                                             } else {
+
                                                                                                 formik.values.question.push({ id: sample[interviewer].id, question: [ques.id] });
                                                                                             }
 
@@ -754,10 +792,46 @@ export const QuestionListModel = ({
                                                         </Card>
                                                     ))}
                                                 </Flex>
+
                                             </Flex>
                                         ))
                                         )
 
+                                    }
+
+                                    {<Flex row>
+                                        {/* <Flex><Text color='error'></Text></Flex> */}
+                                        <Flex>
+                                        {sample?.map((value, i) => {
+                                                return (
+                                                    <Flex key={i}>
+                                                        {console.warn(value, i, user)}
+                                                       { value.success===false&&
+                                                        <Text color='error'>please generate question for {formik.values.levellist[i]?.firstname+' '+formik.values.levellist[i]?.lastname}</Text>
+                                                       
+                                                       }
+                                                    </Flex>
+                                                );
+                                            }) }
+                                        </Flex>
+                                     </Flex>
+                                    }
+                                    {
+                                        questionerror&&(
+                                            <Flex >
+                                                
+                                                <Flex >
+                                                {formik.values?.question?.map((obj, indexid) => (
+                                                            obj.question.length === 0 ? (
+                                                            <Flex key={indexid} >
+                                                                {console.warn("./.................",indexid,formik.values.levellist[indexid]?.firstname)}
+                                                                <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname+' '+formik.values.levellist[indexid]?.lastname}</Text>
+                                                            </Flex>
+                                                            ) : null
+                                                        ))}
+                                            </Flex>
+                                          </Flex>
+                                          )
                                     }
 
                                 </Flex>

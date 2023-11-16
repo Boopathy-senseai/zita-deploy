@@ -246,6 +246,7 @@ export interface ZitaEventSchedulerType {
   notes: string;
   location: string;
   questions:any;
+  new_questions:any;
 }
 
 export interface EventPopUpDetails {
