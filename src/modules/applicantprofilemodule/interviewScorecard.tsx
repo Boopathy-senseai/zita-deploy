@@ -192,7 +192,6 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           .map((info, i) => {
                             return (
                               <>
-                                {console.log(info, 'info')}
                                 <Flex key={i} row marginTop={10} between>
                                   <Flex row center>
                                     <Text title="Interviewer">

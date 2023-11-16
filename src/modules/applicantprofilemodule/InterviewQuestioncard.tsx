@@ -134,13 +134,9 @@ const InterviewQustioncard = ({
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
-    {console.log("no_of_interviewno_of_interviewno_of_interview",no_of_interview)}
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => {
-                {console.log("dataatatatattaa",datas)}
-                // const exitline = matchingData?.Question?.map((qu) => (qu.Category))
-                // {console.log("matchingDatamatchingData",matchingData)}
                 if (Object.keys(interviewData).length !== 0 && interviewData.find(val => val.Id === datas.id)) {
                     const matchingData = interviewData.find(val => val.Id === datas.id);
                     return (

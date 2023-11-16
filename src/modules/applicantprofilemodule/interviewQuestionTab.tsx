@@ -260,9 +260,6 @@ const ScreeningStatusTab = ({
       }
     })
   }
-
-  {console.log("interviewDatainterviewDatainterviewData",interviewData,no_of_interview)}
-
   return (
     <Flex row flex={12}>
       <Interviewmodalpopup
@@ -287,8 +284,8 @@ const ScreeningStatusTab = ({
           You can select, deselect, regenerate, and add questions for the
           applicant.
         </Text>
- 
-        {no_of_interview.length > 0  ?
+
+        {no_of_interview.length > 0 ?
           <Flex
             columnFlex
             className={styles.overAllPopup}
