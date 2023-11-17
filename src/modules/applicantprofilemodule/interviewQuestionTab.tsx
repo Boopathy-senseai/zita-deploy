@@ -289,7 +289,7 @@ const ScreeningStatusTab = ({
           <Flex
             columnFlex
             className={styles.overAllPopup}
-            height={window.innerHeight - 145}
+            height={window.innerHeight - 153}
           >
 
             <InterviewQustioncard
