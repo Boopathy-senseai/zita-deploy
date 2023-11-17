@@ -18,12 +18,12 @@ import {
 import { AppDispatch } from '../../store';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
+import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import { Difficultylevel, Typeofinterviewquestion, level } from '../myjobposting/mock';
 import SvgAddquestion from '../../icons/addquestion';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import styles from './styles/createScheduleForm.module.css';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
-import { LevelValue, MyFormValues1, levellist } from './Questiontype';
 interface Props {
     interviewer: any;
     setinterviewer: any;
@@ -71,7 +71,7 @@ export const QuestionListModel = ({
 }: Props) => {
 
     const [showstate, setshowstate] = useState(false)
-    const [questions, setquestions] = useState([]) 
+    const [questions, setquestions] = useState([])
     const [openmodel, setopenmodel] = useState(false)
     const [isSubmitLoader, setSubmitLoader] = useState(false);
     const [error, seterror] = useState(false)
@@ -199,7 +199,7 @@ export const QuestionListModel = ({
             const [{ addquestion }] = [formik.values];
             const [newQuestion] = addquestion;
             const index = sample.findIndex(({ id }) => id === newQuestion.attendees);
-            if (index === -1) { 
+            if (index === -1) {
                 setopenmodel(false);
 
                 return;
@@ -259,6 +259,20 @@ export const QuestionListModel = ({
     }
 
     const nextLetter = getNextLetter(currentLetter);
+    //changing level radio thumb based on value
+    const handlelevelradio = (val) => {
+        const value = val.toLowerCase();
+        if (value === 'easy') {
+            return <SvgRadioWithLine fill="#34CC65" width={16} height={16} />;
+        }
+        if (value === 'medium') {
+            return <SvgRadioWithLine fill="#F29111" width={16} height={16} />;
+        }
+        if (value === 'hard') {
+            return <SvgRadioWithLine fill="#ED4857" width={16} height={16} />;
+        }
+        return null;
+    };
     return (
         <>
             {/* Add  Question modal popup */}
@@ -343,9 +357,12 @@ export const QuestionListModel = ({
                             <Tab key={index} eventKey={JSON.stringify(index)} title={`${user.firstName} ${user.lastName}`}>
                                 <Flex style={{ overflowY: 'scroll', maxHeight: '400px', overflowX: 'hidden' }}>
                                     <Flex between row style={{ padding: '10px 0  ' }}>
-                                        <Text size={12} bold style={{ padding: '5px 0' }}>
-                                            {`${user.role} - Interview Questions`}
-                                        </Text>
+                                        <Flex>
+                                            <Text size={12} bold  >
+                                                {`${user.role} - Interview Questions`}
+                                            </Text>
+                                            <Text>Generate the interview question based on the type and difficulty level.</Text>
+                                        </Flex>
                                         <Flex>
                                             {sample[interviewer]?.success === true ? (
                                                 <Flex onClick={functioncall} row style={{ alignItem: 'center' }}>
@@ -365,14 +382,10 @@ export const QuestionListModel = ({
                                     </Flex>
                                     {sample[index].success === false ? (
                                         <Flex>
-                                            <Flex >
-                                                <Flex>
-                                                    <Text>Generate the interview question based on the type and difficulty level.</Text>
-                                                </Flex>
-
+                                            <Flex marginTop={8}>
+                                                <Text color='theme'> Choose the type(s) of interview questions.</Text>
                                             </Flex>
-                                            <Text> Choose the type(s) of interview questions.</Text>
-                                            <Flex row>
+                                            <Flex row style={{ borderBottom: '0.5px solid #C3C3C3' }}>
                                                 {level.map((jobList, idx) => {
 
                                                     const modifiedJobList = {
@@ -381,7 +394,7 @@ export const QuestionListModel = ({
                                                     };
 
                                                     return (
-                                                        <Flex key={modifiedJobList.name} style={{ margin: '0  20px  10px 0 ' }}>
+                                                        <Flex key={modifiedJobList.name} style={{ margin: '5px  20px  10px 0 ' }}>
                                                             <InputCheckBox
                                                                 label={modifiedJobList.name}
                                                                 checked={isCheckboxChecked(user.id, modifiedJobList.name)}
@@ -391,123 +404,126 @@ export const QuestionListModel = ({
                                                     );
                                                 })}
                                             </Flex>
-                                            <Flex>
-                                                <Text>Choose the difficulty level of the question and question count.</Text>
-                                                {
-                                                    formik.values.levellist
-                                                        .filter(item => item.id === user.id)
-                                                        .map((item, listIndex) => {
-                                                            return (
-                                                                <>
-                                                                    <Flex key={listIndex}>
-                                                                        {item.level.map((lvl, lvlIndex) => (
-                                                                            <Flex key={lvlIndex} row style={{ margin: "5px 0 5px 0" }}>
 
-                                                                                <Text style={{ width: '85px' }}>{lvl.name}:</Text>
-                                                                                <Flex row style={{ display: "flex", alignItems: "center" }}>
-                                                                                    <Flex style={{ padding: '0 5px' }}>
-                                                                                        <InputCheckBox
-                                                                                            onChange={() => {
-                                                                                                const updatedLevellist = [...formik.values.levellist];
-                                                                                                updatedLevellist[interviewer].level[lvlIndex].iseasycheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.iseasycheck;
-                                                                                                formik.setFieldValue('levellist', updatedLevellist);
+                                            {
+                                                formik.values.levellist
+                                                    .filter(item => item.id === user.id)
+                                                    .map((item, listIndex) => {
+                                                        return (
+                                                            <>
+                                                                {item.level.length !== 0 &&
+                                                                    <Flex marginTop={5} style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: '5px' }}>
+                                                                        <Text color='theme'>Choose the difficulty level of the question and question count.</Text>
+                                                                        <Flex key={listIndex}>
+                                                                            {item.level.map((lvl, lvlIndex) => (
+                                                                                <Flex key={lvlIndex} row style={{ margin: "5px 0 5px 0" }}>
 
-                                                                                            }}
-                                                                                            checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}
-                                                                                        />
+                                                                                    <Text style={{ width: '85px' }}>{lvl.name}:</Text>
+                                                                                    <Flex row style={{ display: "flex", alignItems: "center" }}>
+                                                                                        <Flex style={{ padding: '0 5px' }}>
+                                                                                            <InputCheckBox
+                                                                                                onChange={() => {
+                                                                                                    const updatedLevellist = [...formik.values.levellist];
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].iseasycheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.iseasycheck;
+                                                                                                    formik.setFieldValue('levellist', updatedLevellist);
+
+                                                                                                }}
+                                                                                                checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}
+                                                                                            />
+                                                                                        </Flex>
+                                                                                        <Flex style={{ padding: '0 5px' }}>
+                                                                                            <Text>Easy</Text>
+                                                                                        </Flex>
+                                                                                        <Flex style={{ padding: '0 5px' }} disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}>
+                                                                                            <input
+                                                                                                min="0"
+                                                                                                max="15"
+                                                                                                type="number"
+                                                                                                value={lvl.easy}
+                                                                                                onChange={(e) => {
+                                                                                                    const updatedLevellist = [...formik.values.levellist];
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].easy = e.target.value;
+                                                                                                    formik.setFieldValue('levellist', updatedLevellist);
+                                                                                                }}
+                                                                                                maxLength={1}
+                                                                                                className={styles.scoreinputfield}
+                                                                                            />
+                                                                                        </Flex>
                                                                                     </Flex>
-                                                                                    <Flex style={{ padding: '0 5px' }}>
-                                                                                        <Text>Easy</Text>
+                                                                                    <Flex row style={{ display: "flex", alignItems: "center" }} marginLeft={15}>
+                                                                                        <Flex style={{ padding: '0 5px' }}>
+                                                                                            <InputCheckBox
+                                                                                                onChange={() => {
+                                                                                                    const updatedLevellist = [...formik.values.levellist];
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].ismediumcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ismediumcheck;
+                                                                                                    formik.setFieldValue('levellist', updatedLevellist);
+                                                                                                }}
+                                                                                                checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}
+                                                                                            />
+                                                                                        </Flex>
+                                                                                        <Flex style={{ padding: '0 5px' }}>
+                                                                                            <Text>Medium </Text>
+                                                                                        </Flex>
+                                                                                        <Flex style={{ padding: '0 5px' }} disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}>
+                                                                                            <input
+                                                                                                min="0"
+                                                                                                max="15"
+                                                                                                type="number"
+                                                                                                value={lvl.medium}
+                                                                                                onChange={(e) => {
+                                                                                                    const updatedLevellist = [...formik.values.levellist];
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].medium = e.target.value;
+                                                                                                    formik.setFieldValue('levellist', updatedLevellist);
+                                                                                                }}
+                                                                                                maxLength={1}
+                                                                                                className={styles.scoreinputfield}
+                                                                                            />
+                                                                                        </Flex>
                                                                                     </Flex>
-                                                                                    <Flex style={{ padding: '0 5px' }} disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}>
-                                                                                        <input
-                                                                                            min="0"
-                                                                                            max="15"
-                                                                                            type="number"
-                                                                                            value={lvl.easy}
-                                                                                            onChange={(e) => {
-                                                                                                const updatedLevellist = [...formik.values.levellist];
-                                                                                                updatedLevellist[interviewer].level[lvlIndex].easy = e.target.value;
-                                                                                                formik.setFieldValue('levellist', updatedLevellist);
-                                                                                            }}
-                                                                                            maxLength={1}
-                                                                                            className={styles.scoreinputfield}
-                                                                                        />
+                                                                                    <Flex row style={{ display: "flex", alignItems: "center" }} marginLeft={15}>
+                                                                                        <Flex style={{ padding: '0 5px' }}>
+                                                                                            <InputCheckBox
+                                                                                                onChange={() => {
+                                                                                                    const updatedLevellist = [...formik.values.levellist];
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].ishardcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ishardcheck;
+                                                                                                    formik.setFieldValue('levellist', updatedLevellist);
+                                                                                                }}
+                                                                                                checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}
+                                                                                            />
+                                                                                        </Flex>
+                                                                                        <Flex style={{ padding: '0 5px' }}>
+                                                                                            <Text>Hard</Text>
+                                                                                        </Flex>
+                                                                                        <Flex style={{ padding: '0 5px' }} disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}>
+                                                                                            <input
+                                                                                                min="0"
+                                                                                                max="15"
+                                                                                                type="number"
+                                                                                                value={lvl.hard}
+                                                                                                onChange={(e) => {
+                                                                                                    const updatedLevellist = [...formik.values.levellist];
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].hard = e.target.value;
+                                                                                                    formik.setFieldValue('levellist', updatedLevellist);
+                                                                                                }}
+                                                                                                maxLength={1}
+                                                                                                className={styles.scoreinputfield}
+                                                                                            />
+                                                                                        </Flex>
                                                                                     </Flex>
                                                                                 </Flex>
-                                                                                <Flex row style={{ display: "flex", alignItems: "center" }}>
-                                                                                    <Flex style={{ padding: '0 5px' }}>
-                                                                                        <InputCheckBox
-                                                                                            onChange={() => {
-                                                                                                const updatedLevellist = [...formik.values.levellist];
-                                                                                                updatedLevellist[interviewer].level[lvlIndex].ismediumcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ismediumcheck;
-                                                                                                formik.setFieldValue('levellist', updatedLevellist);
-                                                                                            }}
-                                                                                            checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}
-                                                                                        />
-                                                                                    </Flex>
-                                                                                    <Flex style={{ padding: '0 5px' }}>
-                                                                                        <Text>Medium </Text>
-                                                                                    </Flex>
-                                                                                    <Flex style={{ padding: '0 5px' }} disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}>
-                                                                                        <input
-                                                                                            min="0"
-                                                                                            max="15"
-                                                                                            type="number"
-                                                                                            value={lvl.medium}
-                                                                                            onChange={(e) => {
-                                                                                                const updatedLevellist = [...formik.values.levellist];
-                                                                                                updatedLevellist[interviewer].level[lvlIndex].medium = e.target.value;
-                                                                                                formik.setFieldValue('levellist', updatedLevellist);
-                                                                                            }}
-                                                                                            maxLength={1}
-                                                                                            className={styles.scoreinputfield}
-                                                                                        />
-                                                                                    </Flex>
-                                                                                </Flex>
-                                                                                <Flex row style={{ display: "flex", alignItems: "center" }}>
-                                                                                    <Flex style={{ padding: '0 5px' }}>
-                                                                                        <InputCheckBox
-                                                                                            onChange={() => {
-                                                                                                const updatedLevellist = [...formik.values.levellist];
-                                                                                                updatedLevellist[interviewer].level[lvlIndex].ishardcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ishardcheck;
-                                                                                                formik.setFieldValue('levellist', updatedLevellist);
-                                                                                            }}
-                                                                                            checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}
-                                                                                        />
-                                                                                    </Flex>
-                                                                                    <Flex style={{ padding: '0 5px' }}>
-                                                                                        <Text>Hard</Text>
-                                                                                    </Flex>
-                                                                                    <Flex style={{ padding: '0 5px' }} disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}>
-                                                                                        <input
-                                                                                            min="0"
-                                                                                            max="15"
-                                                                                            type="number"
-                                                                                            value={lvl.hard}
-                                                                                            onChange={(e) => {
-                                                                                                const updatedLevellist = [...formik.values.levellist];
-                                                                                                updatedLevellist[interviewer].level[lvlIndex].hard = e.target.value;
-                                                                                                formik.setFieldValue('levellist', updatedLevellist);
-                                                                                            }}
-                                                                                            maxLength={1}
-                                                                                            className={styles.scoreinputfield}
-                                                                                        />
-                                                                                    </Flex>
+                                                                            ))}
+                                                                        </Flex>
+                                                                    </Flex>}
+                                                            </>
+                                                        );
+                                                    })
+                                            }
 
-                                                                                </Flex>
-                                                                            </Flex>
-                                                                        ))}
-                                                                    </Flex>
-                                                                    {validateError(interviewer)}
-                                                                </>
-                                                            );
-                                                        })
-                                                }
-                                            </Flex>
                                         </Flex>
-                                    ) :
-                                        (Array(sample[index].question)?.map((val, index1) => (
+                                    ) : (
+
+                                        //generated questions
+                                        Array(sample[index].question)?.map((val, index1) => (
                                             <Flex key={index1}>
                                                 <Flex>
                                                     {val?.Question?.map((value, ind) => (
@@ -518,7 +534,14 @@ export const QuestionListModel = ({
                                                                 </Text>
                                                                 {value?.Value?.map((label, idx) => (
                                                                     <Flex key={idx}>
-                                                                        <Text style={{ textTransform: "capitalize" }}>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
+                                                                        <Flex row marginTop={5}>
+                                                                            <Flex marginRight={7} marginTop={1}>
+                                                                                {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
+                                                                            </Flex>
+                                                                            <Flex>
+                                                                                <Text color='theme' style={{ textTransform: "capitalize" }}>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
+                                                                            </Flex>
+                                                                        </Flex>
                                                                         {label?.Map_question?.map((ques, i) => (
                                                                             <Flex row key={i}>
 
@@ -561,24 +584,28 @@ export const QuestionListModel = ({
 
                                             </Flex>
                                         ))
-                                        )
+                                    )
 
                                     }
 
                                     {<Flex row>
-                                        {/* <Flex><Text color='error'></Text></Flex> */}
-                                        <Flex>
-                                            {sample?.map((value, i) => {
-                                                return (
-                                                    <Flex key={i}>
-                                                        {value.success === false &&
-                                                            <Text color='error'>please generate question for {formik.values.levellist[i]?.firstname + ' ' + formik.values.levellist[i]?.lastname}</Text>
+                                        {validateError(interviewer)}
+                                        {console.log(formik.errors.levellist?.[interviewer].totalError.length, formik.errors.levellist?.[interviewer].totalError, interviewer, 'kisore')}
 
-                                                        }
-                                                    </Flex>
-                                                );
-                                            })}
-                                        </Flex>
+                                        {formik.errors.levellist?.[interviewer].totalError.length
+                                            === 0 || formik.errors.levellist?.[interviewer].totalError.length === undefined &&
+                                            <Flex>
+                                                {sample?.map((value, i) => {
+                                                    return (
+                                                        <Flex key={i}>
+                                                            {value.success === false &&
+                                                                <Text color='error'>please generate question for {`${formik.values.levellist[i]?.firstname} ${formik.values.levellist[i]?.lastname}`}</Text>
+
+                                                            }
+                                                        </Flex>
+                                                    );
+                                                })}
+                                            </Flex>}
                                     </Flex>
                                     }
                                     {
@@ -603,7 +630,7 @@ export const QuestionListModel = ({
                         ))}
                     </Tabs>
                 </Flex>
-                <Flex row between >
+                <Flex row between marginTop={15}>
                     <Flex>
                         <Button types="secondary" onClick={handlechange1} >
                             Back

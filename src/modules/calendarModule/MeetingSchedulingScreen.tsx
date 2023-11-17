@@ -535,14 +535,12 @@ const filterObj = (datas) => {
   return filteredData; 
 }
 
-const handleSubmitfunction = () => {
-alert("2222222")
+const handleSubmitfunction = () => { 
+  if(sample[interviewer]?.success === true){
   const questionErrors = {};
   let isValid = true;
   
-  const filteredData = filterObj(sample)
-
-  console.log("filteredDatafilteredData/////////", filteredData,isValid)
+  const filteredData = filterObj(sample) 
   formik1.values.question.some((item, index) => {
       if (item.question.length === 0) {
           questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
@@ -556,16 +554,14 @@ alert("2222222")
       } else {
         return true;
       }
-    });
-    console.log(arrayLengths,"///////;;;;;;;;;;;;;;;;");
-    const result = arrayLengths.includes(false) ? false : true;
-    console.log(result,"////////////;;;;;;;");
+    }); 
+    const result = arrayLengths.includes(false) ? false : true; 
     if(result){
       handlechange()
       setaddquestion(filteredData)
     }else{
       setquestionerror(true)
-    }
+    }}
 }
 
 useEffect(() => {
@@ -589,8 +585,7 @@ useEffect(() => {
       question: [],
   }));
 
-  formik1.setFieldValue('question', mappedArray);}
-  //formikval.setFieldValue('questionid', []);
+  formik1.setFieldValue('question', mappedArray);} 
 }, [formik.values.checkedValues]);
 
 const formik1 = useFormik({
@@ -600,11 +595,7 @@ const formik1 = useFormik({
 });
 
   return (
-    <>
-    {
-    console.warn("you can't see me",newquestion,allids,allQuestions,formik.values,formik1.values)
-    }
-    {/* {isSubmitLoader && <Loader />} */}
+    <> 
     <Modal
       onClose={handleCloseSchedulingForm}
       open={openScheduleForm}
