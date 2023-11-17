@@ -23,6 +23,7 @@ import SvgAddquestion from '../../icons/addquestion';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import styles from './styles/createScheduleForm.module.css';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
+import { LevelValue, MyFormValues1, levellist } from './Questiontype';
 
 
 
@@ -46,6 +47,9 @@ interface Props {
     newquestion1: any;
     setallids: any;
     setaddquestion: any;
+    formik:any;
+    setquestionerror:any;
+    questionerror:any;
 };
 
 export const QuestionListModel = ({
@@ -66,168 +70,167 @@ export const QuestionListModel = ({
     newquestion1,
     setallids,
     setaddquestion,
+    formik,
+    setquestionerror,
+    questionerror,
 }: Props) => {
 
     const [showstate, setshowstate] = useState(false)
     const [questions, setquestions] = useState([])
-    const [questionerror,setquestionerror]=useState(false)
+
     const [openmodel, setopenmodel] = useState(false)
     const [isSubmitLoader, setSubmitLoader] = useState(false);
     const [error, seterror] = useState(false)
     const [currentLetter, setcurrentLetter] = useState('A');
     const dispatch: AppDispatch = useDispatch();
-    interface LevelValue {
-        name: string;
-        easy: string;
-        iseasycheck: boolean;
-        medium: string;
-        ismediumcheck: boolean;
-        hard: string;
-        ishardcheck: boolean;
-        checked: boolean;
-    }
-    interface levellist {
-        id: any;
-        level: LevelValue[];
-        role: string;
-        sucess: boolean;
-        lastname:any;
-        firstname:any;
-        totalError?: string;
-    }
-    interface questionid {
-        id: any;
-        question: string[];
+    // interface LevelValue {
+    //     name: string;
+    //     easy: string;
+    //     iseasycheck: boolean;
+    //     medium: string;
+    //     ismediumcheck: boolean;
+    //     hard: string;
+    //     ishardcheck: boolean;
+    //     checked: boolean;
+    // }
+    // interface levellist {
+    //     id: any;
+    //     level: LevelValue[];
+    //     role: string;
+    //     sucess: boolean;
+    //     lastname:any;
+    //     firstname:any;
+    //     totalError?: string;
+    // }
+    // interface questionid {
+    //     id: any;
+    //     question: string[];
        
-    }
-    interface addquestion {
-        id: any;
-        question: any;
-        level: any;
-        type: any;
-        checked: boolean;
-        attendees: any;
-    }
-    interface MyFormValues {
-        levellist: levellist[];
-        question: questionid[];
-        questionid: string[];
-        addquestion: addquestion[];
-    }
+    // }
+    // interface addquestion {
+    //     id: any;
+    //     question: any;
+    //     level: any;
+    //     type: any;
+    //     checked: boolean;
+    //     attendees: any;
+    // }
+    // interface MyFormValues {
+    //     levellist: levellist[];
+    //     question: questionid[];
+    //     questionid: string[];
+    //     addquestion: addquestion[];
+    // }
 
-    const initialValues: MyFormValues = {
-        levellist: [],
-        question: [],
-        questionid: [],
-        addquestion: [],
-    };
-    const handleCompanyPageValid = (values: MyFormValues) => {
-        const errors: { levellist?: Partial<levellist>[] } = {}; 
-        const sumValues = (levels: LevelValue[]) => {
-            let easySum = 0;
-            let mediumSum = 0;
-            let hardSum = 0;
+    // const initialValues: MyFormValues = {
+    //     levellist: [],
+    //     question: [],
+    //     questionid: [],
+    //     addquestion: [],
+    // };
+    // const handleCompanyPageValid = (values: MyFormValues1) => {
+    //     const errors: { levellist?: Partial<levellist>[] } = {}; 
+    //     const sumValues = (levels: LevelValue[]) => {
+    //         let easySum = 0;
+    //         let mediumSum = 0;
+    //         let hardSum = 0;
 
-            levels.forEach(item => {
+    //         levels.forEach(item => {
                
-                if (item.iseasycheck) {
-                    easySum += parseInt(item.easy) || 0;
-                }
-                if (item.ismediumcheck) {
-                    mediumSum += parseInt(item.medium) || 0;
-                }
-                if (item.ishardcheck) {
-                    hardSum += parseInt(item.hard) || 0;
-                }
-            });
+    //             if (item.iseasycheck) {
+    //                 easySum += parseInt(item.easy) || 0;
+    //             }
+    //             if (item.ismediumcheck) {
+    //                 mediumSum += parseInt(item.medium) || 0;
+    //             }
+    //             if (item.ishardcheck) {
+    //                 hardSum += parseInt(item.hard) || 0;
+    //             }
+    //         });
     
-            return { easySum, mediumSum, hardSum };
-        };
+    //         return { easySum, mediumSum, hardSum };
+    //     };
 
-        values.levellist.forEach((data, index) => {
-            const sums = sumValues(data.level);
-            const total = sums.easySum + sums.mediumSum + sums.hardSum;
+    //     values.levellist.forEach((data, index) => {
+    //         const sums = sumValues(data.level);
+    //         const total = sums.easySum + sums.mediumSum + sums.hardSum;
 
-            if (total > 15 || total === 0) {
-                errors.levellist = errors.levellist || [];
-                const existingError: Partial<levellist> = errors.levellist[index] || {};
-                if (sample[index].success === false) {
-                    errors.levellist[index] = {
-                        ...existingError,
-                        totalError: "Total value exceeds 15 or is equal to zero",
-                        id: data.id 
+    //         if (total > 15 || total === 0) {
+    //             errors.levellist = errors.levellist || [];
+    //             const existingError: Partial<levellist> = errors.levellist[index] || {};
+    //             if (sample[index].success === false) {
+    //                 errors.levellist[index] = {
+    //                     ...existingError,
+    //                     totalError: "Total value exceeds 15 or is equal to zero",
+    //                     id: data.id 
 
-                    };
-                }
-            }
-        });
+    //                 };
+    //             }
+    //         }
+    //     });
 
       
-        if (errors.levellist && errors.levellist.length === 0) {
-            delete errors.levellist;
-        }
+    //     if (errors.levellist && errors.levellist.length === 0) {
+    //         delete errors.levellist;
+    //     }
 
-        return errors;
-    };
+    //     return errors;
+    // };
 
-    const filterObj = (datas) => {
-        const filteredData = datas.map(item => {
-            const filteredA = [];
-            const targetType = "string";
-            console.log("item.data.Question", item)
-            item.question?.Question?.forEach(question => {
-                question.Value.forEach(value => {
-                    value.Map_question.forEach(mapQuestion => {
-                        console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
-                        if (typeof mapQuestion.id === targetType) {
-                            filteredA.push(mapQuestion);
-                        }
-                    });
-                });
-            });
-            return filteredA;
-        }).flat();
-        return filteredData; 
-    }
+    // const filterObj = (datas) => {
+    //     const filteredData = datas.map(item => {
+    //         const filteredA = [];
+    //         const targetType = "string";
+    //         console.log("item.data.Question", item)
+    //         item.question?.Question?.forEach(question => {
+    //             question.Value.forEach(value => {
+    //                 value.Map_question.forEach(mapQuestion => {
+    //                     console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
+    //                     if (typeof mapQuestion.id === targetType) {
+    //                         filteredA.push(mapQuestion);
+    //                     }
+    //                 });
+    //             });
+    //         });
+    //         return filteredA;
+    //     }).flat();
+    //     return filteredData; 
+    // }
 
-    const handleSubmit = () => {
+    // const handleSubmit = () => {
 
-        const questionErrors = {};
-        let isValid = true;
+    //     const questionErrors = {};
+    //     let isValid = true;
         
-        const filteredData = filterObj(sample)
+    //     const filteredData = filterObj(sample)
 
-        console.log("filteredDatafilteredData/////////", filteredData,isValid)
-        formik.values.question.some((item, index) => {
-            if (item.question.length === 0) {
-                questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
-                isValid = false;
-            }
+    //     console.log("filteredDatafilteredData/////////", filteredData,isValid)
+    //     formik.values.question.some((item, index) => {
+    //         if (item.question.length === 0) {
+    //             questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
+    //             isValid = false;
+    //         }
 
-        });
-        const arrayLengths = formik.values?.question?.map(obj => {
-            if (obj.question.length === 0) {
-              return false;
-            } else {
-              return true;
-            }
-          });
-          console.log(arrayLengths,"///////;;;;;;;;;;;;;;;;");
-          const result = arrayLengths.includes(false) ? false : true;
-          console.log(result,"////////////;;;;;;;");
-          if(result){
-            handlechange()
-            setaddquestion(filteredData)
-          }else{
-            setquestionerror(true)
-          }
-    }
+    //     });
+    //     const arrayLengths = formik.values?.question?.map(obj => {
+    //         if (obj.question.length === 0) {
+    //           return false;
+    //         } else {
+    //           return true;
+    //         }
+    //       });
+    //       console.log(arrayLengths,"///////;;;;;;;;;;;;;;;;");
+    //       const result = arrayLengths.includes(false) ? false : true;
+    //       console.log(result,"////////////;;;;;;;");
+    //       if(result){
+    //         handlechange()
+    //         setaddquestion(filteredData)
+    //       }else{
+    //         setquestionerror(true)
+    //       }
+    // }
 
-    const formik = useFormik({
-        initialValues: initialValues,
-        onSubmit: () => handleSubmit(),
-        validate: handleCompanyPageValid,
-    });
+   
 
     useEffect(() => {
         const mappedArray = formikval.values.checkedValues.map(item => ({
@@ -313,8 +316,8 @@ export const QuestionListModel = ({
         if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
 
         setSubmitLoader(true);
-        const transformLevelListData = (levellist, targetId) => {
-            return levellist
+        const transformLevelListData = (levellist1, targetId) => {
+            return levellist1
                 .filter(item => item.id === targetId)
                 .map(item => {
                     const questionArray = item.level.flatMap(levelItem => {
@@ -425,7 +428,7 @@ export const QuestionListModel = ({
             if (index === -1) {
                 alert("Question ID not found in the sample.");
                 setopenmodel(false);
-                formik.resetForm();
+                
                 return;
             }
             const [questionItem] = sample.splice(index, 1);
@@ -454,7 +457,7 @@ export const QuestionListModel = ({
         else {
             seterror(true)
         }
-        formik.resetForm();
+      
         console.log("Updated sample:", sample);
     };
 
