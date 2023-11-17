@@ -40,13 +40,16 @@ const ParsingLoadingModal = ({
           <Flex className={styles.des}>{des}</Flex>
         </Flex>
         <Flex row center middle>
-        {loader ?(  
+        {/* {loader ?(  
         <Flex className={styles.updateBtnLoader}>
           <Loader withOutOverlay size={'small'} />
         </Flex>):(
           <Button onClick={close} className={styles.btn}>
             OK
-          </Button>)}
+          </Button>)} */}
+          <Button onClick={close} className={styles.btn}>
+            OK
+          </Button>
         </Flex>
       </Flex>
     </Modal>
