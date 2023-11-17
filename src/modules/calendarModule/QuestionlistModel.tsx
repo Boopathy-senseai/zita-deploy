@@ -232,28 +232,7 @@ export const QuestionListModel = ({
 
    
 
-    useEffect(() => {
-        const mappedArray = formikval.values.checkedValues.map(item => ({
-            id: item.id,
-            level: [],
-            role: item.role,
-            success: false,
-            lastname:item.lastName,
-            firstname:item.firstName
-        }));
 
-        formik.setFieldValue('levellist', mappedArray);
-        //formikval.setFieldValue('questionid', []);
-    }, []);
-    useEffect(() => {
-        const mappedArray = formikval.values.checkedValues.map(item => ({
-            id: item.id,
-            question: [],
-        }));
-
-        formik.setFieldValue('question', mappedArray);
-        //formikval.setFieldValue('questionid', []);
-    }, []);
 
     useEffect(() => {
         setallids(formik.values.question)

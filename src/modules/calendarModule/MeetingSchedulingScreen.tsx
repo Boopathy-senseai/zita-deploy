@@ -568,6 +568,31 @@ alert("2222222")
     }
 }
 
+useEffect(() => {
+  if(formik.values.checkedValues.length!==0)
+  {const mappedArray = formik.values.checkedValues.map(item => ({
+      id: item.id,
+      level: [],
+      role: item.role,
+      success: false,
+      lastname:item.lastName,
+      firstname:item.firstName
+  }));
+
+  formik1.setFieldValue('levellist', mappedArray);}
+  //formikval.setFieldValue('questionid', []);
+}, [formik.values.checkedValues]);
+useEffect(() => {
+  if(formik.values.checkedValues.length!==0)
+  {const mappedArray = formik.values.checkedValues.map(item => ({
+      id: item.id,
+      question: [],
+  }));
+
+  formik1.setFieldValue('question', mappedArray);}
+  //formikval.setFieldValue('questionid', []);
+}, [formik.values.checkedValues]);
+
 const formik1 = useFormik({
   initialValues: initialValues1,
   onSubmit: () => handleSubmitfunction(),
