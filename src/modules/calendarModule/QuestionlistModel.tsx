@@ -276,6 +276,53 @@ export const QuestionListModel = ({
         }
         return null;
     };
+    const filteredIds = sample?.filter(item => item.success === false)
+        .map(item => item.id);
+
+    const renderTextComponents = () => {
+        let textCount = 0; // Initialize textCount here 
+        return (
+            <Flex row>
+                <Flex>
+                    <Text color='error'>Please generate questions for the interviewer &emsp; </Text>
+                </Flex>
+                <Flex row>
+                    {sample?.map((value, i) => {
+                        if (value.success === false) {
+                            textCount++;
+                        }
+                        return (
+                            <Flex key={i}>
+                                {value.success === false && (
+                                    <Text color='error'>
+                                        {`${formik.values.levellist[i]?.firstname} ${formik.values.levellist[i]?.lastname}${(filteredIds.length) === textCount ? '.' : ','}`}
+                                    </Text>
+                                )}
+                            </Flex>
+                        );
+                    })}
+                </Flex>
+            </Flex>
+        );
+    };
+    const renderErrorComponents = () => {
+        const errorNames = formik.values?.question
+            .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
+            .filter(name => name !== null)
+            .join(', ');
+        console.log(errorNames, 'errorNames', formik.values)
+        if (errorNames.length > 0) {
+            return (
+                <Flex>
+                    <Text color='error'>Please select questions for the following interviewers {errorNames}.</Text>
+                </Flex>
+            );
+        } else {
+            // Render something else if there are no errors
+            return null;
+        }
+    };
+
     return (
         <>
             {/* Add  Question modal popup */}
@@ -387,7 +434,7 @@ export const QuestionListModel = ({
                                         </Flex>
                                         <Flex marginRight={4}>
                                             {sample[interviewer]?.success === true ? (
-                                                <Flex onClick={functioncall} row center style={{cursor:'pointer'}}>
+                                                <Flex onClick={functioncall} row center style={{ cursor: 'pointer' }}>
                                                     <Flex marginTop={3}>
                                                         <SvgAddquestion fill={PRIMARY} width={18} height={18} />
                                                     </Flex>
@@ -616,21 +663,15 @@ export const QuestionListModel = ({
 
                                     {<Flex row>
                                         {validateError(interviewer)}
-                                        {formik?.errors?.levellist?.[interviewer]?.totalError?.length
-                                            === 0 || formik?.errors?.levellist?.[interviewer]?.totalError?.length === undefined &&
-                                            <Flex>
-                                                {sample?.map((value, i) => {
-                                                    return (
-                                                        <Flex key={i}>
-                                                            {value?.success === false &&
-                                                                <Text color='error'>please generate question for {`${formik.values.levellist[i]?.firstname} ${formik.values.levellist[i]?.lastname}`}</Text>
-                                                            }
-                                                        </Flex>
-                                                    );
-                                                })}
-                                            </Flex>}
+
                                     </Flex>
                                     }
+                                    {formik?.errors?.levellist?.[interviewer]?.totalError?.length
+                                        === 0 || formik?.errors?.levellist?.[interviewer]?.totalError?.length === undefined &&
+                                        <>
+                                            {sample?.filter(item => item.success === false).length !== 0 ?
+                                                <Flex key={''}> {renderTextComponents()}</Flex>
+                                                : ''} </>}
                                 </Flex>
                             </Tab>
                         ))}

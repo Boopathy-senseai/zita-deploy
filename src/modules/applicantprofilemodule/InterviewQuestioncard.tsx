@@ -156,7 +156,7 @@ const InterviewQustioncard = ({
                                                 <SvgRegenerateQuestion />
                                             </Text>
                                         </Flex>
-                                        <Flex marginRight={5} marginTop={4} center>
+                                        <Flex marginRight={5} marginTop={6} center>
                                             <Text title="Add Question" style={{ cursor: 'pointer' }} onClick={() => toggleStage(datas.id)}>
                                                 <SvgAddquestion fill={"#581845"} width={24} height={24} />
                                             </Text>

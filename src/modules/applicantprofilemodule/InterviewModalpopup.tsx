@@ -270,10 +270,10 @@ const Interviewmodalpopup = ({
             seterrorhandle(false)
         }
         if (aggregatedValues > 15) {
-            setoveralldata('Please limit questions count to a maximum of 15.')
+            setoveralldata('Please limit the number of questions to a maximum of 15.')
         }
         else if (aggregatedValues < 1) {
-            setoveralldata('Please select a count for the question.')
+            setoveralldata('Please limit the number of questions to a maximum of 15.')
         }
         else if (aggregatedValues <= 15 && aggregatedValues >= 1) {
             seterrorhandle(false)

@@ -498,7 +498,7 @@ const childhandleCompanyPageValid= (values: MyFormValues1) => {
           if (sample[index].success === false) {
               errors.levellist[index] = {
                   ...existingError,
-                  totalError: "Total value exceeds 15 or is equal to zero",
+                  totalError: "Please limit the number of questions to a maximum of 15.",
                   id: data.id 
 
               };
@@ -517,8 +517,7 @@ const [questionerror,setquestionerror]=useState(false)
 const filterObj = (datas) => {
   const filteredData = datas.map(item => {
       const filteredA = [];
-      const targetType = "string";
-      console.log("item.data.Question", item)
+      const targetType = "string"; 
       item.question?.Question?.forEach(question => {
           question.Value.forEach(values1 => {
               values1.Map_question.forEach(mapQuestion => {
@@ -531,6 +530,7 @@ const filterObj = (datas) => {
       });
       return filteredA;
   }).flat();
+
   return filteredData; 
 }
 

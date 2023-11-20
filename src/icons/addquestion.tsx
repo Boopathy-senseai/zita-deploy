@@ -4,7 +4,7 @@ const SvgAddquestion = (props) => (
     width={16}
     height={16}
     fill="none"
-    viewBox="0 -3 24 24"
+    viewBox="0 -2 24 24"
     {...props}
   >
     <g fill="#581845" clipPath="url(#Group1_svg__a)">
