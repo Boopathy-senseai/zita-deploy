@@ -373,8 +373,7 @@ const MeetingSchedulingScreen = ({
     onSubmit: () => handleSubmit(),
     validate: handleCompanyPageValid,
   });
-  const handleSubmit=()=>{
-    alert("111111")
+  const handleSubmit=()=>{ 
     if(formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
     {
       setViewMeetingSummary(false)

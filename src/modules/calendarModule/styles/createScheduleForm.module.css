@@ -278,9 +278,11 @@ label > p {
   border-radius: 3px;
   height: 20px
 }
-.cardview{
-  margin-right: 4px;
-  margin: 1px;
+.cardview{ 
+  margin: 1px 4px 1px 1px;
   padding: 10px;
   margin-bottom: 10px;
+}
+.infocard{
+padding: 5px;
 }

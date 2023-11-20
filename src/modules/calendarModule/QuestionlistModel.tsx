@@ -19,11 +19,13 @@ import { AppDispatch } from '../../store';
 import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
 import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
+import SvgModuleicon from '../../icons/SvgModuleicon';
 import { Difficultylevel, Typeofinterviewquestion, level } from '../myjobposting/mock';
 import SvgAddquestion from '../../icons/addquestion';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import styles from './styles/createScheduleForm.module.css';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
+
 interface Props {
     interviewer: any;
     setinterviewer: any;
@@ -73,6 +75,7 @@ export const QuestionListModel = ({
     const [showstate, setshowstate] = useState(false)
     const [questions, setquestions] = useState([])
     const [openmodel, setopenmodel] = useState(false)
+    const [openpopup, setopenpopup] = useState(false);
     const [isSubmitLoader, setSubmitLoader] = useState(false);
     const [error, seterror] = useState(false)
     const [currentLetter, setcurrentLetter] = useState('A');
@@ -345,7 +348,26 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px', height: 'auto', padding: '25px' }}>
-                <Text size={14} bold >AI generated Interview Questions</Text>
+                <Flex center row >
+                    <Flex row>
+                        <Flex>
+                            <Text size={14} bold >AI generated Interview Questions</Text>
+                        </Flex>
+                        <Flex marginLeft={5}>
+                            <label
+                                onMouseEnter={() => setopenpopup(true)}
+                                onMouseLeave={() => setopenpopup(false)}
+                                className={styles.changeStyle11}
+                            >
+                                <SvgModuleicon />
+                            </label>
+                        </Flex>
+                    </Flex>
+                    <Flex marginLeft={5} >
+                        {openpopup === true && (
+                            <Card className={styles.infocard} key={''}><Flex>hi</Flex></Card>)}
+                    </Flex>
+                </Flex>
                 <Flex style={{ display: 'flex', width: '650px', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
                         onSelect={(keys: any) => {
@@ -363,7 +385,7 @@ export const QuestionListModel = ({
                                             </Text>
                                             <Text>Generate the interview question based on the type and difficulty level.</Text>
                                         </Flex>
-                                        <Flex>
+                                        <Flex marginRight={4}>
                                             {sample[interviewer]?.success === true ? (
                                                 <Flex onClick={functioncall} row style={{ alignItem: 'center' }}>
                                                     <SvgAddquestion fill={PRIMARY} />
@@ -528,13 +550,14 @@ export const QuestionListModel = ({
                                                 <Flex>
                                                     {val?.Question?.map((value, ind) => (
                                                         <Card key={ind} className={styles.cardview} >
-                                                            <Flex>
+                                                            {console.log(value.length - 1 === ind, value, 'manoj11')}
+                                                            <Flex >
                                                                 <Text style={{ textTransform: "capitalize" }} bold>
                                                                     {value.Category}
                                                                 </Text>
                                                                 {value?.Value?.map((label, idx) => (
-                                                                    <Flex key={idx}>
-                                                                        <Flex row marginTop={5}>
+                                                                    <Flex key={idx} style={{ borderBottom: value.Value.length - 1 === idx ? '' : '0.3px solid #C3C3C3', paddingBottom: '7px' }}>
+                                                                        <Flex row marginTop={7}>
                                                                             <Flex marginRight={7} marginTop={1}>
                                                                                 {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
                                                                             </Flex>
@@ -543,8 +566,7 @@ export const QuestionListModel = ({
                                                                             </Flex>
                                                                         </Flex>
                                                                         {label?.Map_question?.map((ques, i) => (
-                                                                            <Flex row key={i}>
-
+                                                                            <Flex row key={i} marginTop={2}>
                                                                                 <Flex style={{ margin: '0 5px 0 0' }}>
                                                                                     <InputCheckBox
                                                                                         checked={formik.values.question.some(obj => obj.id === sample[interviewer].id && obj.question.includes(ques.id))}
@@ -590,17 +612,14 @@ export const QuestionListModel = ({
 
                                     {<Flex row>
                                         {validateError(interviewer)}
-                                        {console.log(formik.errors.levellist?.[interviewer].totalError.length, formik.errors.levellist?.[interviewer].totalError, interviewer, 'kisore')}
-
-                                        {formik.errors.levellist?.[interviewer].totalError.length
-                                            === 0 || formik.errors.levellist?.[interviewer].totalError.length === undefined &&
+                                        {formik?.errors?.levellist?.[interviewer]?.totalError?.length
+                                            === 0 || formik?.errors?.levellist?.[interviewer]?.totalError?.length === undefined &&
                                             <Flex>
                                                 {sample?.map((value, i) => {
                                                     return (
                                                         <Flex key={i}>
-                                                            {value.success === false &&
+                                                            {value?.success === false &&
                                                                 <Text color='error'>please generate question for {`${formik.values.levellist[i]?.firstname} ${formik.values.levellist[i]?.lastname}`}</Text>
-
                                                             }
                                                         </Flex>
                                                     );
@@ -608,28 +627,26 @@ export const QuestionListModel = ({
                                             </Flex>}
                                     </Flex>
                                     }
-                                    {
-                                        questionerror && (
-                                            <Flex >
-
-                                                <Flex >
-                                                    {formik.values?.question?.map((obj, indexid) => (
-                                                        obj.question.length === 0 ? (
-                                                            <Flex key={indexid} >
-                                                                <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname}</Text>
-                                                            </Flex>
-                                                        ) : null
-                                                    ))}
-                                                </Flex>
-                                            </Flex>
-                                        )
-                                    }
-
                                 </Flex>
                             </Tab>
                         ))}
                     </Tabs>
                 </Flex>
+                {
+                    questionerror && (
+                        <Flex >
+                            <Flex >
+                                {formik.values?.question?.map((obj, indexid) => (
+                                    obj.question.length === 0 ? (
+                                        <Flex key={indexid} >
+                                            <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname}</Text>
+                                        </Flex>
+                                    ) : null
+                                ))}
+                            </Flex>
+                        </Flex>
+                    )
+                }
                 <Flex row between marginTop={15}>
                     <Flex>
                         <Button types="secondary" onClick={handlechange1} >
