@@ -680,17 +680,16 @@ export const QuestionListModel = ({
                 {
                     questionerror && (
                         <Flex >
-                            <Flex >
-                                {formik.values?.question?.map((obj, indexid) => (
+                             
+                            {formik.values?.question?.map((obj, indexid) => (
                                     obj.question.length === 0 ? (
                                         <Flex key={indexid} >
                                             <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname}</Text>
                                         </Flex>
                                     ) : null
-                                ))}
-                            </Flex>
-                        </Flex>
-                    )
+                                ))}  
+                        </Flex> 
+                )
                 }
                 <Flex row between marginTop={15}>
                     <Flex>
