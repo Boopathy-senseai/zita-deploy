@@ -45,6 +45,7 @@ import MeetingSummary from './MeetingSummary';
 import styles from './styles/createScheduleForm.module.css';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
+import { LevelValue, MyFormValues1, levellist } from './Questiontype';
 
 
 
@@ -372,7 +373,7 @@ const MeetingSchedulingScreen = ({
     onSubmit: () => handleSubmit(),
     validate: handleCompanyPageValid,
   });
-  const handleSubmit=()=>{
+  const handleSubmit=()=>{ 
     if(formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
     {
       setViewMeetingSummary(false)
@@ -454,12 +455,146 @@ function extractQuestions(dataArray) {
 }
 const allQuestions = extractQuestions(allids);
 const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
+
+
+
+const initialValues1: MyFormValues1 = {
+        levellist: [],
+        question: [],
+        questionid: [],
+        addquestion: [],
+};
+
+const childhandleCompanyPageValid= (values: MyFormValues1) => {
+  const errors: { levellist?: Partial<levellist>[] } = {}; 
+  const sumValues = (levels: LevelValue[]) => {
+      let easySum = 0;
+      let mediumSum = 0;
+      let hardSum = 0;
+
+      levels.forEach(item => {
+         
+          if (item.iseasycheck) {
+              easySum += parseInt(item.easy) || 0;
+          }
+          if (item.ismediumcheck) {
+              mediumSum += parseInt(item.medium) || 0;
+          }
+          if (item.ishardcheck) {
+              hardSum += parseInt(item.hard) || 0;
+          }
+      });
+
+      return { easySum, mediumSum, hardSum };
+  };
+
+  values.levellist.forEach((data, index) => {
+      const sums = sumValues(data.level);
+      const total = sums.easySum + sums.mediumSum + sums.hardSum;
+
+      if (total > 15 || total === 0) {
+          errors.levellist = errors.levellist || [];
+          const existingError: Partial<levellist> = errors.levellist[index] || {};
+          if (sample[index].success === false) {
+              errors.levellist[index] = {
+                  ...existingError,
+                  totalError: "Total value exceeds 15 or is equal to zero",
+                  id: data.id 
+
+              };
+          }
+      }
+  });
+
+
+  if (errors.levellist && errors.levellist.length === 0) {
+      delete errors.levellist;
+  }
+
+  return errors;
+};
+const [questionerror,setquestionerror]=useState(false)
+const filterObj = (datas) => {
+  const filteredData = datas.map(item => {
+      const filteredA = [];
+      const targetType = "string";
+      console.log("item.data.Question", item)
+      item.question?.Question?.forEach(question => {
+          question.Value.forEach(values1 => {
+              values1.Map_question.forEach(mapQuestion => {
+                  console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
+                  if (typeof mapQuestion.id === targetType) {
+                      filteredA.push(mapQuestion);
+                  }
+              });
+          });
+      });
+      return filteredA;
+  }).flat();
+  return filteredData; 
+}
+
+const handleSubmitfunction = () => { 
+  if(sample[interviewer]?.success === true){
+  const questionErrors = {};
+  let isValid = true;
+  
+  const filteredData = filterObj(sample) 
+  formik1.values.question.some((item, index) => {
+      if (item.question.length === 0) {
+          questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
+          isValid = false;
+      }
+
+  });
+  const arrayLengths = formik1.values?.question?.map(obj => {
+      if (obj.question.length === 0) {
+        return false;
+      } else {
+        return true;
+      }
+    }); 
+    const result = arrayLengths.includes(false) ? false : true; 
+    if(result){
+      handlechange()
+      setaddquestion(filteredData)
+    }else{
+      setquestionerror(true)
+    }}
+}
+
+useEffect(() => {
+  if(formik.values.checkedValues.length!==0)
+  {const mappedArray = formik.values.checkedValues.map(item => ({
+      id: item.id,
+      level: [],
+      role: item.role,
+      success: false,
+      lastname:item.lastName,
+      firstname:item.firstName
+  }));
+
+  formik1.setFieldValue('levellist', mappedArray);}
+  //formikval.setFieldValue('questionid', []);
+}, [formik.values.checkedValues]);
+useEffect(() => {
+  if(formik.values.checkedValues.length!==0)
+  {const mappedArray = formik.values.checkedValues.map(item => ({
+      id: item.id,
+      question: [],
+  }));
+
+  formik1.setFieldValue('question', mappedArray);} 
+}, [formik.values.checkedValues]);
+
+const formik1 = useFormik({
+  initialValues: initialValues1,
+  onSubmit: () => handleSubmitfunction(),
+  validate: childhandleCompanyPageValid,
+});
+
   return (
-    <>
-    {
-    console.warn("you can't see me",newquestion,allids,allQuestions,formik.values,filteredQuestions)
-    }
-    {/* {isSubmitLoader && <Loader />} */}
+    <> 
     <Modal
       onClose={handleCloseSchedulingForm}
       open={openScheduleForm}
@@ -511,6 +646,9 @@ const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
                 newquestion1={newquestion}
                 setallids={setallids}
                 setaddquestion={setaddquestion}
+                formik={formik1}
+                setquestionerror={setquestionerror}
+                questionerror={questionerror}
              />
           )
         ) : openmodel === false ? (
