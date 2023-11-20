@@ -387,9 +387,13 @@ export const QuestionListModel = ({
                                         </Flex>
                                         <Flex marginRight={4}>
                                             {sample[interviewer]?.success === true ? (
-                                                <Flex onClick={functioncall} row style={{ alignItem: 'center' }}>
-                                                    <SvgAddquestion fill={PRIMARY} />
-                                                    <Text color='link' bold style={{ padding: '0 0 0 3px' }}>Add Question</Text>
+                                                <Flex onClick={functioncall} row center style={{cursor:'pointer'}}>
+                                                    <Flex marginTop={3}>
+                                                        <SvgAddquestion fill={PRIMARY} width={18} height={18} />
+                                                    </Flex>
+                                                    <Flex marginLeft={5}>
+                                                        <Text color='link' bold >Add Question</Text>
+                                                    </Flex>
                                                 </Flex>
                                             ) : (isSubmitLoader ? (
                                                 <Flex style={{ margin: '3px 0 0 15px' }}>

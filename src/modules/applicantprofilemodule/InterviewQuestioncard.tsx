@@ -7,6 +7,7 @@ import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
 import SvgUpArrow from '../../icons/SvgArrowUp';
+import SvgAddquestion from '../../icons/addquestion';
 import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit';
 import Text from '../../uikit/Text/Text';
 import SingleButton from '../common/SingleButton';
@@ -16,6 +17,7 @@ import {
     Question,
 } from './interviewerQuestionType';
 import styles from './screeningstatustab.module.css';
+
 
 
 
@@ -154,10 +156,9 @@ const InterviewQustioncard = ({
                                                 <SvgRegenerateQuestion />
                                             </Text>
                                         </Flex>
-
-                                        <Flex marginRight={15} >
+                                        <Flex marginRight={5} marginTop={4} center>
                                             <Text title="Add Question" style={{ cursor: 'pointer' }} onClick={() => toggleStage(datas.id)}>
-                                                <SvgAdd width={14} height={14} fill="#581845" />
+                                                <SvgAddquestion fill={"#581845"} width={24} height={24} />
                                             </Text>
                                         </Flex>
                                         <Flex>
@@ -206,8 +207,8 @@ const InterviewQustioncard = ({
                                                                 <Flex>
                                                                     {expandedIndex?.includes(ques.id) ? (
                                                                         <>
-                                                                        {/* code for every index border btoom except last question => borderBottom: i === label?.Map_question?.length - 1 ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '1px solid #C3C3C3', paddingBottom: '10px'  */}
-                                                                            <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '', paddingBottom: '10px'}} marginLeft={1}>
+                                                                            {/* code for every index border btoom except last question => borderBottom: i === label?.Map_question?.length - 1 ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '1px solid #C3C3C3', paddingBottom: '10px'  */}
+                                                                            <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '', paddingBottom: '10px' }} marginLeft={1}>
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
@@ -241,14 +242,10 @@ const InterviewQustioncard = ({
                                                                                     </Flex>
                                                                                 </Flex>
                                                                             </Flex>
-
-
                                                                         </>
                                                                     ) : (
                                                                         <>
-
                                                                             <Flex row style={{ borderBottom: label?.Map_question.length - 1 === i ? label.Map_question[i] === matchingData.Question[matchingData.Question.length - 1].Value[matchingData.Question[matchingData.Question.length - 1].Value.length - 1].Map_question[i] ? '' : '1px solid #C3C3C3' : '', paddingBottom: '10px' }}  >
-
                                                                                 {datas.evaluate !== true &&
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
@@ -289,7 +286,6 @@ const InterviewQustioncard = ({
                             ))}
                         </Flex>
                     );
-
                 } else {
                     const elsedata = no_of_interview.map(y => y.id);
                     if (elsedata.includes(datas.id)) {
@@ -302,7 +298,6 @@ const InterviewQustioncard = ({
                                         datas?.e_time
                                     ).format(' HH:mm a')} `}</Text>
                                 </Flex>
-
                                 <Flex>
                                     <Text
                                         size={13}
@@ -324,7 +319,6 @@ const InterviewQustioncard = ({
                                                 Add Question
                                             </Button>
                                         </Flex>
-
                                         <Button
                                             onClick={() => generateQuestions(datas.id)}
                                         >Generate Questions</Button>
@@ -339,11 +333,8 @@ const InterviewQustioncard = ({
                         );
                     }
                 }
-                // })}
-
             })
             }
-
             <>
                 <SingleButton
                     btnTitle="OK"
@@ -354,7 +345,6 @@ const InterviewQustioncard = ({
                     btnOnclick={() => setEvaluate(false)}
                 />
             </>
-
         </Flex>
     )
 }
