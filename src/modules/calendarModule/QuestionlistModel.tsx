@@ -327,7 +327,7 @@ export const QuestionListModel = ({
         <>
             {/* Add  Question modal popup */}
             <Modal open={openmodel} >
-                <Flex style={{ backgroundColor: '#FFF', width: '600px', height: 'auto', padding: '25px',borderRadius:'4px' }}>
+                <Flex style={{ backgroundColor: '#FFF', width: '600px', height: 'auto', padding: '25px', borderRadius: '4px' }}>
                     <Flex>
                         <Text size={14} bold>Add Question</Text>
                     </Flex>
@@ -380,7 +380,7 @@ export const QuestionListModel = ({
                                 onChange={(e) => formik.setFieldValue('addquestion[0].question', e.target.value)}
                             />
                         </Flex>
-                        {error && !(formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '') && <Text color='error'>Please fill all the above fields</Text>}
+                        {error && !(formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'>Please fill all the above fields.</Text></Flex>}
                         <Flex row marginTop={17} end>
                             <Flex marginRight={20} onClick={() => setopenmodel(false)}>
                                 <Button types="close" width="75px">Cancel</Button>
@@ -448,7 +448,7 @@ export const QuestionListModel = ({
                                                 </Flex>
                                             ) :
                                                 (<Button
-                                                    onClick={() => generatequestion(index, user.id) 
+                                                    onClick={() => generatequestion(index, user.id)
 
                                                     } width='85px'>Generate</Button>))}
                                         </Flex>
@@ -630,9 +630,6 @@ export const QuestionListModel = ({
 
                                                                                                 if (questionIndex > -1) {
                                                                                                     foundObject.question.splice(questionIndex, 1);
-                                                                                                    if (foundObject.question.length === 0) {
-                                                                                                        formik.values.question.splice(existingIndex, 1);
-                                                                                                    }
                                                                                                 } else {
                                                                                                     foundObject.question.push(ques.id);
                                                                                                 }
@@ -680,14 +677,14 @@ export const QuestionListModel = ({
                 {
                     questionerror && (
                         <Flex >
-
-                            {formik.values?.question?.map((obj, indexid) => (
+                            {renderErrorComponents()}
+                            {/* {formik.values?.question?.map((obj, indexid) => (
                                 obj.question.length === 0 ? (
                                     <Flex key={indexid} >
                                         <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname}</Text>
                                     </Flex>
                                 ) : null
-                            ))}
+                            ))} */}
                         </Flex>
                     )
                 }
