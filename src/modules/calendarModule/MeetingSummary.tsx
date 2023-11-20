@@ -190,8 +190,7 @@ const MeetingSummary = ({
           // toast.error('Failed to Update Event', {
           //   duration: 3500,
           // });
-          Toast('Failed to Update Event');
-          console.error(err);
+          Toast('Failed to Update Event'); 
         })
         .finally(() => {
           setIsTopLineLoading(false);
@@ -248,8 +247,7 @@ const MeetingSummary = ({
         localStorage.setItem('Applicantsname', '');
         Toast(`Event Scheduled Successfully`, 'LONG', 'success');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((err) => { 
         // toast.error('Failed to Schedule Event', {
         //   duration: 3500,
         // });

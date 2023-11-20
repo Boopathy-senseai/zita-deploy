@@ -252,8 +252,7 @@ const MeetingSchedulingScreen = ({
   const [error, seterror] = useState(false);
 
   useEffect(() => {
-    const { firstName, lastName } = splitName(username);
-    console.log('value1111', value1);
+    const { firstName, lastName } = splitName(username); 
     const newData = { firstName, lastName, role: '', userId: value1, success: false };
     const updatedInterviewers = [...formik.values.interviewers, newData];
     formik.setFieldValue('interviewers', updatedInterviewers);
@@ -437,10 +436,7 @@ const MeetingSchedulingScreen = ({
   const update_state = (data) => {
     const updatedArray = sample.map((item, index) =>
       index === parseInt(interviewer) ? { ...item, success: true, question: data } : item
-    );
-    console.log("asasasas", updatedArray)
-    console.log("interviewer", interviewer)
-    console.log("interviewer11", typeof (interviewer))
+    ); 
     // Set the new array to state
     setsample(updatedArray);
   }
@@ -518,8 +514,7 @@ const MeetingSchedulingScreen = ({
       const targetType = "string";
       item.question?.Question?.forEach(question => {
         question.Value.forEach(values1 => {
-          values1.Map_question.forEach(mapQuestion => {
-            console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
+          values1.Map_question.forEach(mapQuestion => { 
             if (typeof mapQuestion.id === targetType) {
               filteredA.push(mapQuestion);
             }
@@ -746,9 +741,7 @@ const MeetingSchedulingScreen = ({
                       row
                       key={user.userId}
                       style={{ margin: '0 0 10px 0', width: '50%' }}
-                    >
-
-                      {console.log("sampleeeeeeee", sample)}
+                    > 
                       <InputCheckBox
                         checked={isChecked}
                         onChange={handleCheckboxChange}
