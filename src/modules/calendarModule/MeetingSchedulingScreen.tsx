@@ -110,7 +110,7 @@ const MeetingSchedulingScreen = ({
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const { search } = useLocation();
-  const [addquestion,setaddquestion]=useState('')
+  const [addquestion, setaddquestion] = useState('')
   const dispatch: AppDispatch = useDispatch();
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
@@ -135,10 +135,10 @@ const MeetingSchedulingScreen = ({
   const updateCurrentApplicantId = (applicantId: number) => {
     setCurrentApplicantId(applicantId);
   };
-  const [isSubmitLoader,setSubmitLoader]=useState(false);
+  const [isSubmitLoader, setSubmitLoader] = useState(false);
 
-  const [sample,setsample]=useState([])
-  const [allids,setallids]=useState([])
+  const [sample, setsample] = useState([])
+  const [allids, setallids] = useState([])
 
   useEffect(() => {
     if (editEventDetails) {
@@ -248,13 +248,13 @@ const MeetingSchedulingScreen = ({
     };
   }
   const [value1, setvalue1] = useState(value);
-  const [newquestion, setnewquestion] = useState([]); 
+  const [newquestion, setnewquestion] = useState([]);
   const [error, seterror] = useState(false);
 
   useEffect(() => {
     const { firstName, lastName } = splitName(username);
     console.log('value1111', value1);
-    const newData = { firstName, lastName, role: '', userId: value1 ,success:false};
+    const newData = { firstName, lastName, role: '', userId: value1, success: false };
     const updatedInterviewers = [...formik.values.interviewers, newData];
     formik.setFieldValue('interviewers', updatedInterviewers);
     sessionStorage.setItem('interviewer', '0');
@@ -317,19 +317,19 @@ const MeetingSchedulingScreen = ({
     firstName?: string;
     lastName?: string;
     role?: string;
-    success?:boolean;
+    success?: boolean;
   }
   interface questionid {
     id: any;
-    checked:any;
+    checked: any;
   }
   interface MyFormValues {
     interviewers: Interviewer[];
-    checkedValues:checkedValues[];
+    checkedValues: checkedValues[];
     // LevelType:string;
-    brieftext:string;
-    checkedValuesError?: string; 
-    questionid:questionid[];
+    brieftext: string;
+    checkedValuesError?: string;
+    questionid: questionid[];
     questionidError?: string;
   }
 
@@ -338,48 +338,47 @@ const MeetingSchedulingScreen = ({
     checkedValues: [],
     // LevelType: '',
     brieftext: '',
-    questionid:[],
+    questionid: [],
   };
- 
+
 
   const handleCompanyPageValid = (values: MyFormValues): Partial<MyFormValues> => {
     const errors: Partial<MyFormValues> = {};
     const allFieldsBlank = values.brieftext === '' && values.checkedValues.length === 0;
 
     if (!allFieldsBlank) {
-        if (values.brieftext === '') {
-            errors.brieftext = '';
-        }
-       
+      if (values.brieftext === '') {
+        errors.brieftext = '';
+      }
+
       if (values.checkedValues.length === 0) {
-        
+
         errors.checkedValuesError = '';
+      }
+
     }
-       
-    }
-    if(formik.values.brieftext.length>150){
+    if (formik.values.brieftext.length > 150) {
       errors.brieftext = 'Length should not exceed 150 charector';
     }
 
-  
+
 
     return errors;
-};
+  };
 
- 
+
 
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: () => handleSubmit(),
     validate: handleCompanyPageValid,
   });
-  const handleSubmit=()=>{ 
-    if(formik.values.brieftext!==''||formik.values.checkedValues.length!==0)
-    {
+  const handleSubmit = () => {
+    if (formik.values.brieftext !== '' || formik.values.checkedValues.length !== 0) {
       setViewMeetingSummary(false)
       setShowPopup(true)
     }
-    else{
+    else {
       setViewMeetingSummary(true)
       setopenmodel(false)
 
@@ -399,236 +398,238 @@ const MeetingSchedulingScreen = ({
     }
   };
   const handlechange = () => {
-    if(allQuestions.length===0){
-     seterror(true)
+    if (allQuestions.length === 0) {
+      seterror(true)
     }
-    if(!(allQuestions.length===0))
-    {
+    if (!(allQuestions.length === 0)) {
       seterror(false)
       setViewMeetingSummary(true);
-       setopenmodel(false);
+      setopenmodel(false);
     }
-    
+
   };
   const handlechange1 = () => {
     setViewMeetingSummary(true);
     setopenmodel(true);
   };
-  
+
   const isQuestionChecked = (id: any) => {
     return formik.values.questionid.some(item => item.id === id && item.checked);
   }
-  
+
   const handlecheck = (id: any, checked: boolean) => {
     const updatedQuestions = [...formik.values.questionid];
     const index = updatedQuestions.findIndex(item => item.id === id);
-  
+
     if (index !== -1) {
       updatedQuestions[index].checked = checked;
     } else {
       updatedQuestions.push({ id, checked });
     }
-  
+
     formik.setFieldValue('questionid', updatedQuestions);
   }
   const id_questions: any[] = formik.values.questionid
-  .filter(question => question.checked)
-  .map(question => question.id);
+    .filter(question => question.checked)
+    .map(question => question.id);
 
 
-const update_state=(data)=>{
-const updatedArray = sample.map((item, index) => 
-  index === parseInt(interviewer) ? { ...item, success: true,question: data } : item
-);
-console.log("asasasas",updatedArray)
-console.log("interviewer",interviewer)
-console.log("interviewer11", typeof(interviewer))
-// Set the new array to state
-setsample(updatedArray);
-}
-function extractQuestions(dataArray) {
-  const allQuestions = dataArray.map(item => item.question).reduce((acc, current) => {
-    return acc.concat(current);
-  }, []);
+  const update_state = (data) => {
+    const updatedArray = sample.map((item, index) =>
+      index === parseInt(interviewer) ? { ...item, success: true, question: data } : item
+    );
+    console.log("asasasas", updatedArray)
+    console.log("interviewer", interviewer)
+    console.log("interviewer11", typeof (interviewer))
+    // Set the new array to state
+    setsample(updatedArray);
+  }
+  function extractQuestions(dataArray) {
+    const allQuestions = dataArray.map(item => item.question).reduce((acc, current) => {
+      return acc.concat(current);
+    }, []);
 
-  return allQuestions;
-}
-const allQuestions = extractQuestions(allids);
-const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
+    return allQuestions;
+  }
+  const allQuestions = extractQuestions(allids);
+  const filteredQuestions = allQuestions.filter(item => typeof item === 'number');
 
 
 
-const initialValues1: MyFormValues1 = {
-        levellist: [],
-        question: [],
-        questionid: [],
-        addquestion: [],
-};
+  const initialValues1: MyFormValues1 = {
+    levellist: [],
+    question: [],
+    questionid: [],
+    addquestion: [],
+  };
 
-const childhandleCompanyPageValid= (values: MyFormValues1) => {
-  const errors: { levellist?: Partial<levellist>[] } = {}; 
-  const sumValues = (levels: LevelValue[]) => {
+  const childhandleCompanyPageValid = (values: MyFormValues1) => {
+    const errors: { levellist?: Partial<levellist>[] } = {};
+    const sumValues = (levels: LevelValue[]) => {
       let easySum = 0;
       let mediumSum = 0;
       let hardSum = 0;
 
       levels.forEach(item => {
-         
-          if (item.iseasycheck) {
-              easySum += parseInt(item.easy) || 0;
-          }
-          if (item.ismediumcheck) {
-              mediumSum += parseInt(item.medium) || 0;
-          }
-          if (item.ishardcheck) {
-              hardSum += parseInt(item.hard) || 0;
-          }
+
+        if (item.iseasycheck) {
+          easySum += parseInt(item.easy) || 0;
+        }
+        if (item.ismediumcheck) {
+          mediumSum += parseInt(item.medium) || 0;
+        }
+        if (item.ishardcheck) {
+          hardSum += parseInt(item.hard) || 0;
+        }
       });
 
       return { easySum, mediumSum, hardSum };
-  };
+    };
 
-  values.levellist.forEach((data, index) => {
+    values.levellist.forEach((data, index) => {
       const sums = sumValues(data.level);
       const total = sums.easySum + sums.mediumSum + sums.hardSum;
 
       if (total > 15 || total === 0) {
-          errors.levellist = errors.levellist || [];
-          const existingError: Partial<levellist> = errors.levellist[index] || {};
-          if (sample[index].success === false) {
-              errors.levellist[index] = {
-                  ...existingError,
-                  totalError: "Please limit the number of questions to a maximum of 15.",
-                  id: data.id 
+        errors.levellist = errors.levellist || [];
+        const existingError: Partial<levellist> = errors.levellist[index] || {};
+        if (sample[index].success === false) {
+          errors.levellist[index] = {
+            ...existingError,
+            totalError: "Please limit the number of questions to a maximum of 15.",
+            id: data.id
 
-              };
-          }
+          };
+        }
       }
-  });
+    });
 
 
-  if (errors.levellist && errors.levellist.length === 0) {
+    if (errors.levellist && errors.levellist.length === 0) {
       delete errors.levellist;
-  }
+    }
 
-  return errors;
-};
-const [questionerror,setquestionerror]=useState(false)
-const filterObj = (datas) => {
-  const filteredData = datas.map(item => {
+    return errors;
+  };
+  const [questionerror, setquestionerror] = useState(false)
+  const filterObj = (datas) => {
+    const filteredData = datas.map(item => {
       const filteredA = [];
-      const targetType = "string"; 
+      const targetType = "string";
       item.question?.Question?.forEach(question => {
-          question.Value.forEach(values1 => {
-              values1.Map_question.forEach(mapQuestion => {
-                  console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
-                  if (typeof mapQuestion.id === targetType) {
-                      filteredA.push(mapQuestion);
-                  }
-              });
+        question.Value.forEach(values1 => {
+          values1.Map_question.forEach(mapQuestion => {
+            console.log("mapQuestion.id", mapQuestion.id, typeof mapQuestion.id)
+            if (typeof mapQuestion.id === targetType) {
+              filteredA.push(mapQuestion);
+            }
           });
+        });
       });
       return filteredA;
-  }).flat();
+    }).flat();
 
-  return filteredData; 
-}
+    return filteredData;
+  }
 
-const handleSubmitfunction = () => { 
-  if(sample[interviewer]?.success === true){
-  const questionErrors = {};
-  let isValid = true;
-  
-  const filteredData = filterObj(sample) 
-  formik1.values.question.some((item, index) => {
-      if (item.question.length === 0) {
+  const handleSubmitfunction = () => {
+    if (sample[interviewer]?.success === true) {
+      const questionErrors = {};
+      let isValid = true;
+
+      const filteredData = filterObj(sample)
+      formik1.values.question.some((item, index) => {
+        if (item.question.length === 0) {
           questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
           isValid = false;
-      }
+        }
 
-  });
-  const arrayLengths = formik1.values?.question?.map(obj => {
-      if (obj.question.length === 0) {
-        return false;
+      });
+      const arrayLengths = formik1.values?.question?.map(obj => {
+        if (obj.question.length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      const result = arrayLengths.includes(false) ? false : true;
+      if (result) {
+        handlechange()
+        setaddquestion(filteredData)
       } else {
-        return true;
+        setquestionerror(true)
       }
-    }); 
-    const result = arrayLengths.includes(false) ? false : true; 
-    if(result){
-      handlechange()
-      setaddquestion(filteredData)
-    }else{
-      setquestionerror(true)
-    }}
-}
+    }
+  }
 
-useEffect(() => {
-  if(formik.values.checkedValues.length!==0)
-  {const mappedArray = formik.values.checkedValues.map(item => ({
-      id: item.id,
-      level: [],
-      role: item.role,
-      success: false,
-      lastname:item.lastName,
-      firstname:item.firstName
-  }));
+  useEffect(() => {
+    if (formik.values.checkedValues.length !== 0) {
+      const mappedArray = formik.values.checkedValues.map(item => ({
+        id: item.id,
+        level: [],
+        role: item.role,
+        success: false,
+        lastname: item.lastName,
+        firstname: item.firstName
+      }));
 
-  formik1.setFieldValue('levellist', mappedArray);}
-  //formikval.setFieldValue('questionid', []);
-}, [formik.values.checkedValues]);
-useEffect(() => {
-  if(formik.values.checkedValues.length!==0)
-  {const mappedArray = formik.values.checkedValues.map(item => ({
-      id: item.id,
-      question: [],
-  }));
+      formik1.setFieldValue('levellist', mappedArray);
+    }
+    //formikval.setFieldValue('questionid', []);
+  }, [formik.values.checkedValues]);
+  useEffect(() => {
+    if (formik.values.checkedValues.length !== 0) {
+      const mappedArray = formik.values.checkedValues.map(item => ({
+        id: item.id,
+        question: [],
+      }));
 
-  formik1.setFieldValue('question', mappedArray);} 
-}, [formik.values.checkedValues]);
+      formik1.setFieldValue('question', mappedArray);
+    }
+  }, [formik.values.checkedValues]);
 
-const formik1 = useFormik({
-  initialValues: initialValues1,
-  onSubmit: () => handleSubmitfunction(),
-  validate: childhandleCompanyPageValid,
-});
+  const formik1 = useFormik({
+    initialValues: initialValues1,
+    onSubmit: () => handleSubmitfunction(),
+    validate: childhandleCompanyPageValid,
+  });
 
   return (
-    <> 
-    <Modal
-      onClose={handleCloseSchedulingForm}
-      open={openScheduleForm}
-      closeModalOnOuterClick={false}
-    >
-      
-      {viewMeetingSummary === false ? (
-        showPopup===false?
-        (  <MeetingSchedulingForm
-          updateCurrentApplicantId={updateCurrentApplicantId}
-          applicants={applicants}
-          currentUser={currentUser}
-          currentUserEvents={currentUserEvents}
-          currentUserLabel={currentUserLabel}
-          setCurrentUserLabel={setCurrentUserLabel}
-          calendarProvider={calendarProvider}
-          handleCloseSchedulingForm={handleCloseSchedulingForm}
-          meetingForm={meetingForm}
-          setMeetingForm={setMeetingForm}
-          setViewMeetingSummary={setViewMeetingSummary}
-          teamMembers={teamMembers}
-          username={username}
-          cand_name={cand_name}
-          jd_name={jd_name}
-          editEventDetails={editEventDetails}
-          cand_email={cand_email}
-          cand_id={cand_id}
-          jd_id={jd_id}
-          setOpenScheduleForm={setOpenScheduleForm}
-          setopenmodel={setopenmodel}
-          openmodel={openmodel}
-          formik={formik}
-        />):(
-          <QuestionListModel
+    <>
+      <Modal
+        onClose={handleCloseSchedulingForm}
+        open={openScheduleForm}
+        closeModalOnOuterClick={false}
+      >
+
+        {viewMeetingSummary === false ? (
+          showPopup === false ?
+            (<MeetingSchedulingForm
+              updateCurrentApplicantId={updateCurrentApplicantId}
+              applicants={applicants}
+              currentUser={currentUser}
+              currentUserEvents={currentUserEvents}
+              currentUserLabel={currentUserLabel}
+              setCurrentUserLabel={setCurrentUserLabel}
+              calendarProvider={calendarProvider}
+              handleCloseSchedulingForm={handleCloseSchedulingForm}
+              meetingForm={meetingForm}
+              setMeetingForm={setMeetingForm}
+              setViewMeetingSummary={setViewMeetingSummary}
+              teamMembers={teamMembers}
+              username={username}
+              cand_name={cand_name}
+              jd_name={jd_name}
+              editEventDetails={editEventDetails}
+              cand_email={cand_email}
+              cand_id={cand_id}
+              jd_id={jd_id}
+              setOpenScheduleForm={setOpenScheduleForm}
+              setopenmodel={setopenmodel}
+              openmodel={openmodel}
+              formik={formik}
+            />) : (
+              <QuestionListModel
                 interviewer={interviewer}
                 setinterviewer={setinterviewer}
                 formikval={formik}
@@ -636,8 +637,8 @@ const formik1 = useFormik({
                 handlecheck={handlecheck}
                 handlechange1={handlechange1}
                 handlefunction1={handlefunction1}
-                handlechange={handlechange}   
-                meetingForm={meetingForm} 
+                handlechange={handlechange}
+                meetingForm={meetingForm}
                 setShowPopup={setShowPopup}
                 setViewMeetingSummary={setViewMeetingSummary}
                 sample={sample}
@@ -649,8 +650,8 @@ const formik1 = useFormik({
                 formik={formik1}
                 setquestionerror={setquestionerror}
                 questionerror={questionerror}
-             />
-          )
+              />
+            )
         ) : openmodel === false ? (
           <MeetingSummary
             currentUserLabel={currentUserLabel}
@@ -700,12 +701,12 @@ const formik1 = useFormik({
                 </Text>
               </Flex>
 
-             
+
               <Text color="theme" style={{ marginBottom: '4px' }}>
                 Pick the interviewer for question generation.
               </Text>
 
-              <Flex row style={{ display: 'flex', flexWrap: 'wrap',margin:'0 0 2px 0' }}>
+              <Flex row style={{ display: 'flex', flexWrap: 'wrap', margin: '0 0 2px 0' }}>
                 {formik.values.interviewers.map((user) => {
                   const isChecked = formik.values.checkedValues.some(
                     (cv) => cv.id === user.userId,
@@ -714,7 +715,7 @@ const formik1 = useFormik({
                   const handleCheckboxChange = () => {
                     const updatedValues = [...formik.values.checkedValues];
                     const index = updatedValues.findIndex((cv) => cv.id === user.userId);
-                
+
                     if (isChecked) {
                       if (index !== -1) {
                         updatedValues.splice(index, 1);
@@ -747,7 +748,7 @@ const formik1 = useFormik({
                       style={{ margin: '0 0 10px 0', width: '50%' }}
                     >
 
-                      {console.log("sampleeeeeeee",sample)}
+                      {console.log("sampleeeeeeee", sample)}
                       <InputCheckBox
                         checked={isChecked}
                         onChange={handleCheckboxChange}
@@ -783,39 +784,41 @@ const formik1 = useFormik({
                   }}
                 />
 
-               <ErrorMessage
-                          name={'brieftext'}
-                          errors={formik.errors}
-                          touched={formik.touched}
-                        />
-            </Flex>
+                <ErrorMessage
+                  name={'brieftext'}
+                  errors={formik.errors}
+                  touched={formik.touched}
+                />
+              </Flex>
 
-        {(formik.errors.brieftext===''||formik.errors.checkedValuesError==='')?(
-          <Text color='error'>All the above files are required</Text>
-        ):('')}
+              {(formik.errors.brieftext === '' || formik.errors.checkedValuesError === '') ? (
+                <Text color='error'>All the above files are required</Text>
+              ) : ('')}
               <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
                 <Flex row between marginTop={10}>
-                  <Button types="secondary" onClick={handlefunction}>
+                  <Button types="secondary" onClick={handlefunction} width='85px'>
                     Back
                   </Button>
 
                   <Flex row>
-                    <Button types="close" onClick={handlefunction1}>
+                    <Button types="close" onClick={handlefunction1} width='85px'>
                       Cancel
                     </Button>
-                    {isSubmitLoader?(
-                        <Flex style={{margin:'3px 0 0 15px'}}>
-                          <Loader size="small" withOutOverlay />
-                        </Flex>
-                      )     :<Button
+                    {isSubmitLoader ? (
+                      <Flex style={{ margin: '3px 0 0 15px' }} width={85} middle>
+                        <Loader size="small" withOutOverlay />
+                      </Flex>
+                    ) : <Button
                       style={{ margin: '0 0 0 10px' }}
                       onClick={formik.handleSubmit}
+                      width='85px'
+
                     >
                       {
-                      formik.values.brieftext !== '' ||
-                      formik.values.checkedValues.length !== 0
-                        ? 'Generate'
-                        : 'Skip'}
+                        formik.values.brieftext !== '' ||
+                          formik.values.checkedValues.length !== 0
+                          ? 'Generate'
+                          : 'Skip'}
                     </Button>}
                   </Flex>
                 </Flex>

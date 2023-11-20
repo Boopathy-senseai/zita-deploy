@@ -327,7 +327,7 @@ export const QuestionListModel = ({
         <>
             {/* Add  Question modal popup */}
             <Modal open={openmodel} >
-                <Flex style={{ backgroundColor: '#FFF', width: '600px', height: 'auto', padding: '25px' }}>
+                <Flex style={{ backgroundColor: '#FFF', width: '600px', height: 'auto', padding: '25px',borderRadius:'4px' }}>
                     <Flex>
                         <Text size={14} bold>Add Question</Text>
                     </Flex>
@@ -432,25 +432,25 @@ export const QuestionListModel = ({
                                             </Text>
                                             <Text>Generate the interview question based on the type and difficulty level.</Text>
                                         </Flex>
-                                        <Flex marginRight={4}>
+                                        <Flex >
                                             {sample[interviewer]?.success === true ? (
-                                                <Flex onClick={functioncall} row center style={{ cursor: 'pointer' }}>
-                                                    <Flex marginTop={3}>
+                                                <Flex onClick={functioncall} row center style={{ cursor: 'pointer' }} marginRight={4}>
+                                                    <Flex marginTop={3} style={{ cursor: 'pointer' }}>
                                                         <SvgAddquestion fill={PRIMARY} width={18} height={18} />
                                                     </Flex>
-                                                    <Flex marginLeft={5}>
+                                                    <Flex marginLeft={2} style={{ cursor: 'pointer' }}>
                                                         <Text color='link' bold >Add Question</Text>
                                                     </Flex>
                                                 </Flex>
                                             ) : (isSubmitLoader ? (
-                                                <Flex style={{ margin: '3px 0 0 15px' }}>
+                                                <Flex middle width={85}>
                                                     <Loader size="small" withOutOverlay />
                                                 </Flex>
                                             ) :
                                                 (<Button
-                                                    onClick={() => generatequestion(index, user.id)
+                                                    onClick={() => generatequestion(index, user.id) 
 
-                                                    }>Generate</Button>))}
+                                                    } width='85px'>Generate</Button>))}
                                         </Flex>
                                     </Flex>
                                     {sample[index].success === false ? (
@@ -680,28 +680,28 @@ export const QuestionListModel = ({
                 {
                     questionerror && (
                         <Flex >
-                             
+
                             {formik.values?.question?.map((obj, indexid) => (
-                                    obj.question.length === 0 ? (
-                                        <Flex key={indexid} >
-                                            <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname}</Text>
-                                        </Flex>
-                                    ) : null
-                                ))}  
-                        </Flex> 
-                )
+                                obj.question.length === 0 ? (
+                                    <Flex key={indexid} >
+                                        <Text color='error'>please select question for this interviewers  {formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname}</Text>
+                                    </Flex>
+                                ) : null
+                            ))}
+                        </Flex>
+                    )
                 }
                 <Flex row between marginTop={15}>
-                    <Flex>
-                        <Button types="secondary" onClick={handlechange1} >
+                    <Flex  >
+                        <Button types="secondary" onClick={handlechange1} width='85px'>
                             Back
                         </Button>
                     </Flex>
                     <Flex row>
-                        <Button types="close" onClick={handlefunction1}>
+                        <Button types="close" onClick={handlefunction1} width='85px'>
                             Cancel
                         </Button>
-                        <Button style={{ margin: '0 0 0 10px' }} onClick={formik.handleSubmit}>
+                        <Button style={{ margin: '0 0 0 10px' }} onClick={formik.handleSubmit} width='85px'>
                             Continue
                         </Button>
 
