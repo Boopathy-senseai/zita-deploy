@@ -41,8 +41,8 @@ interface Props {
     interviewData?: any;
     setevaluatedata?: (val: any) => void;
     setinterviewid?: (val: any) => void;
-
-
+    UpdateEvaluate?: (val: any) => void;
+    istriggerevaluate?: boolean;
 }
 
 const InterviewQustioncard = ({
@@ -60,13 +60,16 @@ const InterviewQustioncard = ({
     setgeneratequestion,
     setAddquestion,
     setevaluatedata,
-    setinterviewid
+    setinterviewid,
+    istriggerevaluate,
+    UpdateEvaluate
 }: Props) => {
     const [expandedIndex, setExpandedIndex] = useState([]);
     const [selecteddata, setselecteddata] = useState<any>([]);
     const [isEvaluate, setEvaluate] = useState<any>(false);
     const [questions, setQuestions] = useState<any>({});
-
+    const [interviewIds, setInterviewIds] = useState([]);
+    const [finaldata, setfinaldata] = useState<any>();
 
     //onclick function fo modal window open
     const toggleStage = (e) => {
@@ -100,22 +103,7 @@ const InterviewQustioncard = ({
             .map((key) => questions[key])
             .filter((doc) => doc.is_active || false) || [];
 
-    const handleSelectedQuestion = (value) => {
-        setselecteddata((prevId) =>
-            prevId.includes(value.id)
-                ? prevId.filter((prevIds) => prevIds !== value.id)
-                : [...prevId, value.id]
-        );
-        setQuestions((prev) => {
-            prev = Array.isArray(prev) ? prev : [];
-            const existingIndex = prev.findIndex((item) => item.id === value.id);
-            if (existingIndex !== -1) {
-                return prev.filter((item) => item.id !== value.id);
-            } else {
-                return [...prev, value];
-            }
-        });
-    };
+
 
     //changing level radio thumb based on value
     const handlelevelradio = (val) => {
@@ -132,10 +120,64 @@ const InterviewQustioncard = ({
         return null;
     };
 
+    //extract data from response for mapping the isactive true state
+    const extractIds = () => {
+        const interviewIdsArray = [];
+        interviewData.forEach((interview) => {
+            interview.Question.forEach((question) => {
+                question.Value.forEach((mapQuestion) => {
+                    mapQuestion.Map_question.forEach((mapQuestions) => {
+                        interviewIdsArray.push({
+                            interview_id: mapQuestions.interview_id,
+                            id: mapQuestions.id,
+                            question: mapQuestions.question,
+                            level: mapQuestions.level,
+                            type: mapQuestions.type,
+                            attendees: mapQuestions.attendees,
+                            commands: mapQuestions.commands
+                        })
+                    });
+                });
+            });
+        });
+        setQuestions(interviewIdsArray)
+    };
+
+
+    useEffect(() => {
+        extractIds();
+    }, [interviewData]);
+
+    //updatating the checked or unchecked value
+    const handleSelectedQuestion = (value) => {
+        setselecteddata((prevId) =>
+            prevId.includes(value.id)
+                ? prevId.filter((prevIds) => prevIds.id !== value.id)
+                : [...prevId, value.id]
+        );
+        setQuestions((prev) => {
+            prev = Array.isArray(prev) ? prev : [];
+            const existingIndex = prev.findIndex((item) => item.id === value.id);
+            if (existingIndex !== -1) {
+                return prev.filter((item) => item.id !== value.id);
+            } else {
+                return [...prev, value];
+            }
+        });
+    };
+
+
+
     //store the data of selected question
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
+
+    //update the value
+    useEffect(() => {
+        UpdateEvaluate(questions)
+    })
+
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => {
@@ -213,7 +255,8 @@ const InterviewQustioncard = ({
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
                                                                                             onClick={() => handleSelectedQuestion(ques)}
-                                                                                            checked={selecteddata?.includes(ques.id)}
+                                                                                            // selecteddata?.includes(ques.id) ||
+                                                                                            checked={questions?.map((id) => id.id)?.includes(ques.id)}
                                                                                         />
                                                                                     </Flex>}
                                                                                 <Flex >
@@ -250,7 +293,7 @@ const InterviewQustioncard = ({
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
                                                                                             onClick={() => handleSelectedQuestion(ques)}
-                                                                                            checked={selecteddata?.includes(ques.id)}
+                                                                                            checked={questions?.map((id) => id.id)?.includes(ques.id)}
                                                                                         />
                                                                                     </Flex>}
                                                                                 <Flex row>

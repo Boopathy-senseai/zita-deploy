@@ -63,6 +63,7 @@ const ScreeningStatusTab = ({
   const [isloader, setisloader] = useState<any>(false);
   const [isevaluateddata, setevaluateddata] = useState<any>([]);
   const [iscleardata, setcleardata] = useState<any>(false);
+  const [istriggerevaluate, settriggerevaluate] = useState<any>(false);
   const [evaluatePopup, setEvaluatePopup] = useState<{
     open: boolean;
     data: Question[];
@@ -119,6 +120,7 @@ const ScreeningStatusTab = ({
   //close the evaluate modal
   const handleCancel = () => {
     setEvaluatePopup(null);
+    settriggerevaluate(true);
   };
 
   //function for the evaluate update event
@@ -295,11 +297,13 @@ const ScreeningStatusTab = ({
             <InterviewQustioncard
               interviewData={generatedquestion}
               no_of_interview={no_of_interview}
+              istriggerevaluate={istriggerevaluate}
               isevaluatedata={isevaluatedata}
               setregeneratequestion={setregeneratequestion}
               setgeneratequestion={setgeneratequestion}
               setAddquestion={setAddquestion}
               setevaluatedata={setevaluatedata}
+              UpdateEvaluate={UpdateEvaluate}
               setinterviewid={setinterviewid}
               onEvaluate={(id, value) => {
                 setEvaluatePopup({
@@ -331,11 +335,11 @@ const ScreeningStatusTab = ({
           onCancel={handleCancel}
           commands={
             isevaluatedata.map((ele) => {
-              const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
+              const finddata = cumulative.find((obj2) => obj2.interview_id === evaluatePopup.interview_id && obj2.attendees === user.id.toString());
               return finddata.commands;
             })}
           recommend={isevaluatedata.map((ele) => {
-            const finddata = cumulative.find((obj2) => obj2.interview_id === ele.interview_id && obj2.attendees === user.id.toString());
+            const finddata = cumulative.find((obj2) => obj2.interview_id === evaluatePopup.interview_id && obj2.attendees === user.id.toString());
             return finddata;
           })}
         />
