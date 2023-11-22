@@ -335,7 +335,8 @@ const ScreeningStatusTab = ({
           commands={
             isevaluatedata.map((ele) => {
               const finddata = cumulative.find((obj2) => obj2.interview_id === evaluatePopup.interview_id && obj2.attendees === user.id.toString());
-              return finddata !== undefined ? finddata.commands : '';
+              
+              return finddata !== undefined ? finddata.commands : "";
             })}
           recommend={isevaluatedata.map((ele) => {
             const finddata = cumulative.find((obj2) => obj2.interview_id === evaluatePopup.interview_id && obj2.attendees === user.id.toString());

@@ -392,7 +392,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
               onClick={formik.submitForm}
               style={{ marginTop: '10px' }}
             >
-              {commands[0] !== null ? 'Update' : 'Add'}
+              {commands[0] !== null && commands[0] !== ""  ? 'Update' : 'Add'}
             </Button>
           )}
         </Flex>
