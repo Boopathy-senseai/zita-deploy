@@ -152,7 +152,7 @@ export const QuestionListModel = ({
                             if (levelItem[map.key] && levelItem[map.countKey]) {
                                 acc.push({
                                     level: map.level,
-                                    type: levelItem.name.toLowerCase(),
+                                    type: levelItem.name,
                                     count: levelItem[map.countKey]
                                 });
                             }
