@@ -73,7 +73,8 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
     },
     {
       title: 'Remote Work Allowed:',
-      value: jdDetails.work_remote ? 'Yes' : 'No',
+      // value: jdDetails.work_remote ? 'Yes' : 'No',
+      value: jdDetails.work_space_type === "3" ? 'Yes': 'No',
       check: true,
     },
     {

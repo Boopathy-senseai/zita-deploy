@@ -150,7 +150,27 @@ const BannerCardView = ({
                 width={16}
                 fill={career_page_setting.button_color}
               />
-              <Text
+              {/* <Text
+                className={styles.labelStyle}
+                style={{
+                  fontFamily,
+                  fontSize,
+                }}
+              >
+                {list.job_location}
+              </Text> */}
+              {list.job_location === ", , ." ? (
+                <Text
+                  className={styles.labelStyle}
+                  style={{
+                    fontFamily,
+                    fontSize,
+                  }}
+                >
+                  Remote
+                </Text>
+              ) : (
+                <Text
                 className={styles.labelStyle}
                 style={{
                   fontFamily,
@@ -159,6 +179,7 @@ const BannerCardView = ({
               >
                 {list.job_location}
               </Text>
+              )}
             </Flex>
           </Flex>
         </Flex>

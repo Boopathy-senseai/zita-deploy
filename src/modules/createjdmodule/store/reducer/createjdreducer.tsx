@@ -490,7 +490,8 @@ const jdPreviewState: JdPreviewState = {
     min_exp: 0,
     max_exp: 0,
     is_eeo_comp: false,
-    salary_curr_type__value: ''
+    salary_curr_type__value: '',
+    work_space_type:''
   },
   has_external_posting: false,
   career_page_url: '',

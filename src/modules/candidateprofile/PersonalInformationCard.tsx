@@ -1,3 +1,4 @@
+import { useMediaQuery } from 'react-responsive';
 import { useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
@@ -32,6 +33,7 @@ const PersonalInformationCard = ({
   isProfileView,
 }: Props) => {
   const [isPersonalEdit, setPersonalEdit] = useState(false); 
+
   const address =
     !isEmpty(personal?.city__name) &&
     !isEmpty(personal?.state__name) &&
@@ -57,7 +59,7 @@ const PersonalInformationCard = ({
     ? '1 Month'
     : `${additional_detail?.total_exp_month} Months`;
 
-  const data = [
+    const data = [
     {
       title: 'Contact Number:',
       value: personal?.contact_no,
@@ -77,12 +79,18 @@ const PersonalInformationCard = ({
     { title: 'Address:', value: notSpecified(address), right: 186 },
     {
       title: 'LinkedIn:',
-      value: notSpecified(personal?.linkedin_url),
+      value: notSpecified(personal?.linkedin_url?.replace('https://','')),
       right: 185,
     },
     {
       title: 'Your Personal Code Repository:',
-      value: notSpecified(personal?.code_repo),
+      value: notSpecified(
+        (personal?.code_repo || '')
+          .replace(/[\[\]']+/g, '')
+          .split(', ')
+          .sort((a, b) => (a.includes('github.com') ? -1 : 1))
+          .join(', ')
+      ),
       right: 44,
     },
     {
@@ -134,6 +142,7 @@ const PersonalInformationCard = ({
               </div>
             )}
 
+            <Flex width={"98%"}>
             {data.map((list) => (
               <Flex key={list.title} row top className={styles.insideFlex}>
                 <Text
@@ -152,14 +161,23 @@ const PersonalInformationCard = ({
                         value={list.value?.toString()}
                       /></div>
                     ) : (
-                      <Text>{notSpecified(list.value)}</Text>
+                        <Text>{notSpecified(list.value)}</Text>
                     )}
                   </>
                 ) : (
-                  <Text>{list.value}</Text>
+                    <Text
+                      className={styles.valuetext}
+                      title={
+                        list.title === 'Your Personal Code Repository:' 
+                        ? `${list.value}`: ""
+                      }
+                    >
+                      {list.value}
+                      </Text>
                 )}
               </Flex>
             ))}
+            </Flex>
           </Card>
         </div>
         <div style={{ width: '50%', marginLeft: 10 }}>
