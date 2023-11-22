@@ -75,48 +75,51 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
 
     const transformedData = cumulative.reduce((result, item) => {
       const existingInterview = result.find(interview => interview.interview_id === item.interview_id);
-
-      if (!existingInterview) {
-        result.push({
-          interview_id: item.interview_id,
-          overall_score: item.total_score,
-          overall_recommend: item.avg_recommend,
-          attendees: [{
-            first_name: item.first_name,
-            last_name: item.last_name,
-            question_count: item.question_count,
-            total_score: item.total_score,
-            scored_question: item.scored_question,
-            full_name: item.full_name,
-            average_score: item.average_score,
-            avg_recommend: item.avg_recommend,
-            attendee: item.attendees
-          }],
-          commands: [{
+    
+      if (item.total_score !== null) {
+        if (!existingInterview) {
+          result.push({
+            interview_id: item.interview_id,
+            overall_score: item.total_score,
+            overall_recommend: item.avg_recommend,
+            attendees: [{
+              first_name: item.first_name,
+              last_name: item.last_name,
+              question_count: item.question_count,
+              total_score: item.total_score,
+              scored_question: item.scored_question,
+              full_name: item.full_name,
+              average_score: item.average_score,
+              avg_recommend: item.avg_recommend,
+              attendee: item.attendees
+            }],
+            commands: [{
+              full_name: item.full_name,
+              commenddd: item.commands,
+            }],
+          });
+        } else {
+          existingInterview.overall_score += item.total_score;
+          existingInterview.overall_recommend += item.avg_recommend;
+          
+          if (item.total_score !== null) {
+            existingInterview.attendees.push({
+              first_name: item.first_name,
+              last_name: item.last_name,
+              question_count: item.question_count,
+              total_score: item.total_score,
+              scored_question: item.scored_question,
+              full_name: item.full_name,
+              average_score: item.average_score,
+              avg_recommend: item.avg_recommend,
+              attendee: item.attendees,
+            });
+          }
+          existingInterview.commands.push({
             full_name: item.full_name,
             commenddd: item.commands,
-          }],
-        });
-      } else {
-        existingInterview.overall_score += item.total_score;
-        existingInterview.overall_recommend += item.avg_recommend;
-
-        existingInterview.attendees.push({
-          first_name: item.first_name,
-          last_name: item.last_name,
-          question_count: item.question_count,
-          total_score: item.total_score,
-          scored_question: item.scored_question,
-          full_name: item.full_name,
-          average_score: item.average_score,
-          avg_recommend: item.avg_recommend,
-          attendee: item.attendees,
-        });
-
-        existingInterview.commands.push({
-          full_name: item.full_name,
-          commenddd: item.commands,
-        });
+          });
+        }
       }
       return result;
     }, []);
@@ -163,8 +166,9 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                             >
                               <StarsRating disabled count={1} value={1} />
                             </Flex>
+                            {console.log("docdocdoc",doc)}
                             <Text style={{ marginTop: '2px' }} size={12} color="theme">
-                              {`${Math.round(doc?.overall_score / doc?.attendees.length) || 0}/5`}
+                              {`${Math.round(doc?.overall_score / doc?.attendees?.length) || 0}/5`}
                             </Text>
                           </Flex>
                           <Text color="theme" style={{ marginTop: '3px' }}>
