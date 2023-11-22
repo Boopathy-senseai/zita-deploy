@@ -81,7 +81,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     }> = {};
     const questionRating = Object.values(values.scorecard).map(
       (doc) => doc.scorecard,
-    );
+    ); 
     const doc = parser.parseFromString(values?.commands, 'text/html');
     const textNodes = doc.querySelectorAll('body')[0].textContent;
     const texttrim = textNodes.trim();
@@ -92,12 +92,15 @@ const EvaluateModal: React.FC<Props> = (props) => {
     if (isEmpty(texttrim)) {
       errors.commands = '';
     }
-    if (texttrim === '') {
+    if(values.commands === null){
+      errors.commands = THIS_FIELD_REQUIRED;
+    }
+    if (texttrim === '' ) {
       errors.commands = 'Enter valid notes.';
     } else if (!mentionnotes.test(textNodes)) {
       errors.commands = 'Message length should not exceed 2000 characters.';
     }
-    if (values.recommend === 0) {
+    if (values.recommend === 0 ||values.recommend === undefined) {
       errors.recommend = THIS_FIELD_REQUIRED;
     }
     if (questionRating.includes(0)) {
@@ -251,23 +254,23 @@ const EvaluateModal: React.FC<Props> = (props) => {
         <Text size={14} bold className={styles.insertStyles}>
           Evaluate Scorecard
         </Text>
+        <Text color="theme" >
+            {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidateDetails[0]?.first_name} based on the interview? *`}
+          </Text>
         <Flex
           style={{
             overflow: 'scroll',
             maxHeight: '500px',
           }}
-        >
-          <Text color="theme" style={{ marginBottom: '7px' }}>
-            {`Hey ${user?.first_name} ${user?.last_name}, can you evaluate ${candidateDetails[0]?.first_name} based on the interview? *`}
-          </Text>
+        > 
           {datalist.length > 0 && datalist.map((item, itemIndex) => (
             <div key={itemIndex}>
-              <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
+              <Flex marginTop={7}><Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text></Flex> 
               {Object.values(item).map((li, liIndex) => (
                 <div key={liIndex} style={{
-                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '5px',
+                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '7px',
                 }}>
-                  <Flex row marginTop={5} >
+                  <Flex row marginTop={5} marginBottom={3} >
                     <Flex marginRight={7} marginTop={1}>
                       {handlelevelradio(Object.keys(item)[liIndex])}
                     </Flex>
@@ -277,15 +280,17 @@ const EvaluateModal: React.FC<Props> = (props) => {
                   </Flex>
                   {Object.values(li).map((doc, index) => (
                     <div key={index} >
-                      <Flex row top marginLeft={2} marginBottom={2}>
-                        <Flex flex={9}>
-                          <Text>{`${index + 1}. ${doc.question}`}</Text>
+                      <Flex row top marginLeft={2} marginBottom={4}>
+                        <Flex flex={9} row>
+                          <Text>{`${index + 1}.`}</Text>
+                          <Text style={{textAlign:'justify'}}>{`${doc.question}`}</Text>
                         </Flex>
                         <Flex
                           flex={2.5}
                           className={styles.ratingStar}
                           marginTop={-32}
                           marginLeft={5}
+                          height={10}
                         >
                           <StarsRating
                             count={5}
@@ -383,6 +388,8 @@ const EvaluateModal: React.FC<Props> = (props) => {
             <Flex
               className={styles.svgTick}
               style={{ margin: '10px 0 0 10px' }}
+              width='75px'
+              middle
             >
               <Loader withOutOverlay size={'small'} />
             </Flex>
@@ -391,6 +398,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
               className={styles.addBtn}
               onClick={formik.submitForm}
               style={{ marginTop: '10px' }}
+              width='75px'
             >
               {commands[0] !== null && commands[0] !== ""  ? 'Update' : 'Add'}
             </Button>
