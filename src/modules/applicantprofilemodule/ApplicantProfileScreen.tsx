@@ -173,7 +173,15 @@ const ApplicantProfileScreen = () => {
   );
   useEffect(() => {
     if (jd_id && can_id) {
-      dispatch(interviewQuestionMiddleware({ jd_id, can_id }));
+      dispatch(interviewQuestionMiddleware({ jd_id, can_id })).then((res)=>{
+        if(res.payload.success === true){
+           Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          ) 
+        }
+      })
     }
   }, [jd_id, can_id]);
   useEffect(() => {
