@@ -13,6 +13,7 @@ import SvgThumbsup from '../../icons/Svgthumbsup';
 import SvgThumbsdown from '../../icons/Svgthumbsdown';
 import SvgThumbsneutral from '../../icons/SvgthumbsNeutral';
 import SvgAngle from '../../icons/SvgAngle';
+import { formatTo12HrClock } from '../calendarModule/util';
 import {
   CumulativeData,
   InterviewExtractData,
@@ -130,13 +131,10 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                 return (
                   <Card className={styles.cardStyle}>
                     <Flex row between center>
-                      <Text color="theme" size={13}>
-                        {`${header.event_type} / ${moment(
+                      <Text color="theme" size={13}>{`${header.event_type
+                        } / ${formatTo12HrClock(
                           header?.s_time,
-                        ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-                          header?.e_time,
-                        ).format(' HH:mm a')} `}
-                      </Text>
+                        )} - ${formatTo12HrClock(header?.e_time)}`}</Text>
                       {doc.attendees?.filter(info => info?.total_score !== null)?.map((e) => (e.attendee)).includes(user.toString()) ?
                         <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
                           <Svgeditingnotes fill={'#581845'} />
@@ -193,16 +191,16 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                             return (
                               <>
                                 <Flex key={i} row marginTop={10} between>
-                                  <Flex row center>
-                                    <Text title="Interviewer">
-                                      <SvgInterviewer width={16} height={16} />
-                                    </Text>
-
-                                    <Text style={{ marginLeft: '5px' }} className={styles.changingtexts} title={info?.full_name}>
-                                      {info?.full_name}
-                                    </Text>
-                                  </Flex>
                                   <Flex row>
+                                    <Flex row center>
+                                      <Text title="Interviewer">
+                                        <SvgInterviewer width={16} height={16} />
+                                      </Text>
+
+                                      <Text style={{ marginLeft: '5px' }} className={styles.changingtexts} title={info?.full_name}>
+                                        {info?.full_name}
+                                      </Text>
+                                    </Flex>
                                     <Flex row center marginLeft={15}>
                                       <Text title="Question count">
                                         <SvgQuestion width={16} height={16} />
@@ -212,22 +210,21 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                                         {`${info?.question_count} questions`}
                                       </Text>
                                     </Flex>
-                                    <Flex row marginLeft={15}>
-                                      <Text title="Average Rating">
-                                        <SvgUserRating width={16} height={16} />
-                                      </Text>
-
-                                      <Flex
-                                        className={styles.ratingStar}
-                                        marginTop={-29}
-                                        marginLeft={5}
-                                      >
-                                        <StarsRating
-                                          disabled
-                                          count={5}
-                                          value={info?.total_score}
-                                        />
-                                      </Flex>
+                                  </Flex>
+                                  <Flex row marginLeft={15}>
+                                    <Text title="Average Rating">
+                                      <SvgUserRating width={16} height={16} />
+                                    </Text>
+                                    <Flex
+                                      className={styles.ratingStar}
+                                      marginTop={-29}
+                                      marginLeft={5}
+                                    >
+                                      <StarsRating
+                                        disabled
+                                        count={5}
+                                        value={info?.total_score}
+                                      />
                                     </Flex>
                                   </Flex>
                                 </Flex>

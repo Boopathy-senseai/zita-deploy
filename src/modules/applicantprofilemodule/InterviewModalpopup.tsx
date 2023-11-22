@@ -392,7 +392,10 @@ const Interviewmodalpopup = ({
             {/* Add Question Modal popup */}
             <Modal open={isaddqustion}>
                 <Flex className={styles.overalladd}>
-                    <Flex>
+                    <Flex style={{
+                       borderBottom: '1px solid #581845',
+                        paddingBottom: '5px'
+                    }}>
                         <Text size={14} bold>Add Question</Text>
                     </Flex>
                     <Flex>
@@ -538,6 +541,7 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                disabled={!formik.values.levellist[index]?.levelvalue?.iseasycheck}
                                                                 onChange={(e) => handlequestionno(index, e, '1', 'Easy')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
@@ -560,6 +564,7 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                disabled={!formik.values.levellist[index]?.levelvalue?.ismediumcheck}
                                                                 onChange={(e) => handlequestionno(index, e, '2', 'Medium')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
@@ -582,6 +587,7 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                disabled={!formik.values.levellist[index]?.levelvalue?.ishardcheck}
                                                                 onChange={(e) => handlequestionno(index, e, '3', 'Hard')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}

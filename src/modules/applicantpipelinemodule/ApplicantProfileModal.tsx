@@ -157,7 +157,7 @@ const ApplicantProfileModal = ({
   useEffect(() => {
     if (jd_id && can_id) {
       dispatch(interviewQuestionMiddleware({ jd_id, can_id })).then((res) => {
-        if (res.payload.success === true) {
+        if (res.payload.success === false) {
           Toast(
             'Sorry, there was a problem connecting to the API. Please try again later.',
             'LONG',
