@@ -42,6 +42,8 @@ type ParamsType = {
   candiId: string;
 };
 const ApplicantProfileScreen = () => {
+  const searchParams = new URLSearchParams(useLocation().search);
+  const queryParam = searchParams.get('can_id');
   const [jobtitle, setjobtitle] = useState<string>();
   const { jdId, candiId } = useParams<ParamsType>();
   const history = useHistory();
@@ -68,13 +70,17 @@ const ApplicantProfileScreen = () => {
       setTabValue(5);
     }
   }, []);
-  useEffect(() => {
-    const url = window.location.href;
-    const applicantpipelineUrl = url.includes('/?2');
-    if (applicantpipelineUrl) {
-      setTabValue(1)
-    }
-  }, [])
+  useEffect(()=>{
+  const url = window.location.href;
+  const applicantpipelineUrl = url.includes('/?2'); 
+  if(applicantpipelineUrl){ 
+    setTabValue(1)
+  }
+  const interviewurl = url.includes('?question'); 
+  if(interviewurl){
+    setTabValue(6)
+  }
+},[])
   // initial api call
   useEffect(() => {
     dispatch(permissionMiddleWare());

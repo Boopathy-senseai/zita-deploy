@@ -334,10 +334,13 @@ const InterviewScorecardTab: React.FC<Props> = (props) => {
     setroundedValue(roundedValue);
   }, [rating1, rating2, rating3, rating4, rating5]);
   useEffect(() => {
-    if (interview && interview.map((inter) => inter.user_id === user)) {
-      setuser(true);
-    } else {
-      setuser(false);
+    console.log("interview ",interview,user)
+    if(interview !== undefined && user !== undefined){
+      if (interview.map((inter) => inter.user_id === user)) {
+        setuser(true);
+      } else {
+        setuser(false);
+      }
     }
   }, [user]);
   return (
