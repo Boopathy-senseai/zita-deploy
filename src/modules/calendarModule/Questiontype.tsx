@@ -34,10 +34,15 @@ export  interface LevelValue {
         id:any;
         active:boolean;
     }
+    export interface loader{
+        id:any;
+        loader:boolean;
+    }
     export    interface MyFormValues1 {
         levellist: levellist[];
         question: questionid[];
         questionid: string[];
         addquestion: addquestion[];
         Errorshow:Errorshow[];
+        loader:loader[]
     }

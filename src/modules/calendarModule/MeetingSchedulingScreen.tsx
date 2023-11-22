@@ -458,7 +458,8 @@ const MeetingSchedulingScreen = ({
     question: [],
     questionid: [],
     addquestion: [],
-    Errorshow: []
+    Errorshow: [],
+    loader:[]
   };
 
   const childhandleCompanyPageValid = (values: MyFormValues1) => {

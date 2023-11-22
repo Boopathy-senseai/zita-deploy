@@ -109,7 +109,9 @@ export const QuestionListModel = ({
         }
     }, [formikval.values.checkedValues, formik.values.levellist]); 
     
-    
+    useEffect(()=>{
+        setinterviewer(0)
+    },[])
     
 
     // level selecting checkbox
@@ -343,6 +345,7 @@ export const QuestionListModel = ({
             .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
             .filter(name => name !== null)
             .join(', '); 
+            
         if (errorNames.length > 0) {
             return (
                 <Flex>
@@ -406,6 +409,17 @@ export const QuestionListModel = ({
             }
           }
     }
+    const validshow = sample?.map((obj, indexid) => {
+        if (obj.success === true) {
+            const firstname = formik.values.levellist[indexid]?.firstname;
+            const lastname = formik.values.levellist[indexid]?.lastname;
+            return firstname && lastname ? firstname + ' ' + lastname : null;
+        }
+        return null;
+    }).some(element => element === null);
+    
+
+    
 
     return (
         <>
@@ -503,11 +517,13 @@ export const QuestionListModel = ({
                             <Card className={styles.infocard} key={''}><Flex>hi</Flex></Card>)}
                     </Flex>
                 </Flex>
-                <Flex style={{ display: 'flex', width: '650px', flexWrap: 'nowrap', overflowX: 'scroll' }} >
+                {console.log(";;;;;;;",interviewer)}
+                <Flex style={{ display: 'flex', width: '650px', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
                         onSelect={(keys: any) => {
                             setinterviewer(keys);
                             sessionStorage.setItem('interviewer', keys);
+                            
                         }}
                     >
                         {formikval.values.checkedValues.map((user, index) => (
@@ -762,7 +778,7 @@ export const QuestionListModel = ({
                     </Tabs>
                 </Flex>
                 {
-                    questionerror && (
+                   !validshow&&questionerror && (
                         <Flex >
                             {renderErrorComponents()}
                             {/* {formik.values?.question?.map((obj, indexid) => (
