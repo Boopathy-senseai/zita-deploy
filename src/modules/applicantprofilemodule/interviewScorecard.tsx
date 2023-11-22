@@ -139,7 +139,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                           header?.s_time,
                         )} - ${formatTo12HrClock(header?.e_time)}`}</Text>
                       {doc.attendees?.filter(info => info?.total_score !== null)?.map((e) => (e.attendee)).includes(user.toString()) ?
-                        <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }}>
+                        <Flex onClick={() => handleEdit(doc.interview_id)} style={{ cursor: 'pointer' }} title='Edit scorecard'>
                           <Svgeditingnotes fill={'#581845'} />
                         </Flex> :
                         <Flex >

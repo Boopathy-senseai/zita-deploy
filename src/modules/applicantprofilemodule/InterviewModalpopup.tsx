@@ -52,6 +52,7 @@ const Interviewmodalpopup = ({
     const [ishandleadderroradd, sethandleadderroradd] = useState<any>(false);
     const [iserrorhandlerole, seterrorhandlerole] = useState<any>(false);
     const [istringgerdata, settriggerdata] = useState<any>(false);
+    const [isgenerateadd, setgenerateadd] = useState<any>(false);
     const [role, setrole] = useState<any>([])
     interface LevelValue {
         levelvalue: any;
@@ -84,6 +85,7 @@ const Interviewmodalpopup = ({
     // Handle submit for all the modal 
     const handleSubmit = (e) => {
         sethandleadderroradd(true);
+        setgenerateadd(true);
         if (overalldata.length === 0 && iserrorhandle !== false || isEmptyArray(formik.values.levellist)) {
             seterrorhandle(true);
         }
@@ -312,7 +314,6 @@ const Interviewmodalpopup = ({
         if (formik.values.role.trim() !== '' && formik.values.role !== undefined) {
             seterrorhandlerole(false)
         }
-
     }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
     formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
     formik.values.role])
@@ -393,7 +394,7 @@ const Interviewmodalpopup = ({
             <Modal open={isaddqustion}>
                 <Flex className={styles.overalladd}>
                     <Flex style={{
-                       borderBottom: '1px solid #581845',
+                        borderBottom: '1px solid #581845',
                         paddingBottom: '5px'
                     }}>
                         <Text size={14} bold>Add Question</Text>
@@ -493,7 +494,7 @@ const Interviewmodalpopup = ({
                     <Flex style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }} >
                         <Text size={14} bold>Re-generate Question by AI</Text>
                     </Flex>
-                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: "15px" }}>
+                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: "10px" }}>
                         <Flex marginTop={9}>
                             <Text size={13} color='theme'>Choose the type(s) of interview questions.*</Text>
                         </Flex>
@@ -511,8 +512,9 @@ const Interviewmodalpopup = ({
                                 </Flex>)
                             })}
                         </Flex>
+                        {isstoreaddData.length === 0 && iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
                     </Flex>
-                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '15px' }}>
+                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '10px' }}>
                         {isstoreaddData.length !== 0 &&
                             <Flex >
                                 <Flex marginTop={5}>
@@ -520,7 +522,7 @@ const Interviewmodalpopup = ({
                                 </Flex>
                                 {isstoreaddData.map((data, index) => {
                                     return (
-                                        <Flex row key={index} marginTop={10} marginBottom={10}>
+                                        <Flex row key={index} marginTop={10} marginBottom={5}>
                                             <Flex width={72}>
                                                 <Text size={13}>{data.label}:</Text>
                                             </Flex>
@@ -602,10 +604,11 @@ const Interviewmodalpopup = ({
                                 })}
                             </Flex>
                         }
+                        {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex marginBottom={5}>{iscountcheck.length !== 0 ? <Text color='error' size={12} >{iscountcheck}</Text> :
+                            <Text color='error' size={12}>{overalldata}</Text>}</Flex>}
+                        {isstoreaddData.length !== 0 && iserrorhandle && <Flex marginBottom={5}><Text color='error' size={12}>This field is required</Text></Flex>}
+
                     </Flex>
-                    {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex>{iscountcheck.length !== 0 ? <Text color='error' size={12} style={{ marginBottom: '5px' }}>{iscountcheck}</Text> :
-                        <Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text>}</Flex>}
-                    {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     <Flex row marginTop={17} end>
                         {!isloader && <Flex marginRight={10} onClick={closeforms}>
                             <Button types="close" width="95px">Cancel</Button>
@@ -649,6 +652,7 @@ const Interviewmodalpopup = ({
                                 required
                             />
                         </Flex>
+                        {formik.values.role.trim() === '' && isgenerateadd && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     </Flex>
                     <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: '10px' }}>
                         <Flex marginTop={9}>
@@ -668,6 +672,8 @@ const Interviewmodalpopup = ({
                                 </Flex>)
                             })}
                         </Flex>
+                        {isstoreaddData.length === 0 && iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
+                        {isstoreaddData.length === 0 && isgenerateadd && !iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
                     </Flex>
                     <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '15px' }}>
                         {isstoreaddData.length !== 0 &&
@@ -756,10 +762,10 @@ const Interviewmodalpopup = ({
                                 })}
                             </Flex>
                         }
+                        {isstoreaddData.length !== 0 && iserrorhandle && <Flex marginBottom={5}><Text color='error' size={12}>This field is required</Text></Flex>}
+                        {!iserrorhandlerole && isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex>{iscountcheck.length !== 0 ? <Text color='error' size={12} >{iscountcheck}</Text> :
+                            <Text color='error' size={12}>{overalldata}</Text>}</Flex>}
                     </Flex>
-                    {iserrorhandlerole && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
-                    {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
-                    {!iserrorhandlerole && isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     <Flex row marginTop={17} end>
                         {!isloader && <Flex marginRight={10} onClick={closeforms} >
                             <Button types="close" width="75px">Cancel</Button>
