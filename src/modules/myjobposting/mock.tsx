@@ -26,11 +26,11 @@ export const level = [
  
 ];
 export const  Typeofinterviewquestion = [
-  { value: 'general', label: 'General' },
-  { value: 'iq based', label: 'IQ Based' },
-  { value: 'technical', label: 'Technical' },
-  { value: 'coding', label: 'Coding' },
-  { value: 'behavioral', label: 'Behavioral' },
+  { value: 'General', label: 'General' },
+  { value: 'IQ Based', label: 'IQ Based' },
+  { value: 'Technical', label: 'Technical' },
+  { value: 'Coding', label: 'Coding' },
+  { value: 'Behavioral', label: 'Behavioral' },
 ];
 export const  Difficultylevel = [
   { value: 'Easy', label: 'Easy' },

@@ -152,7 +152,7 @@ export const QuestionListModel = ({
                             if (levelItem[map.key] && levelItem[map.countKey]) {
                                 acc.push({
                                     level: map.level,
-                                    type: levelItem.name.toLowerCase(),
+                                    type: levelItem.name,
                                     count: levelItem[map.countKey]
                                 });
                             }
@@ -309,8 +309,7 @@ export const QuestionListModel = ({
         const errorNames = formik.values?.question
             .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
             .filter(name => name !== null)
-            .join(', ');
-        console.log(errorNames, 'errorNames', formik.values)
+            .join(', '); 
         if (errorNames.length > 0) {
             return (
                 <Flex>
@@ -600,8 +599,7 @@ export const QuestionListModel = ({
                                             <Flex key={index1}>
                                                 <Flex>
                                                     {val?.Question?.map((value, ind) => (
-                                                        <Card key={ind} className={styles.cardview} >
-                                                            {console.log(value.length - 1 === ind, value, 'manoj11')}
+                                                        <Card key={ind} className={styles.cardview} > 
                                                             <Flex >
                                                                 <Text style={{ textTransform: "capitalize" }} bold>
                                                                     {value.Category}

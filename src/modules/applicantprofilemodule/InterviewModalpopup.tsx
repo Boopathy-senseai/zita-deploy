@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { isEmptyArray, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
@@ -43,10 +43,16 @@ const Interviewmodalpopup = ({
     const [isstoreaddData, setstoreaddData] = useState<any>([]);
     const [increasedata, setincreasedata] = useState<any>(0);
     const [overalldata, setoveralldata] = useState<any>('');
+    const [iscountcheck, setcountcheck] = useState<any>('');
     const [iserrorhandle, seterrorhandle] = useState<any>(false);
     const [iserrorhandleadd, seterrorhandleadd] = useState<any>(false);
+    const [iserrorquestion, seterrorquestion] = useState<any>(false);
+    const [iserrordifficulty, seterrordifficulty] = useState<any>(false);
+    const [iserrorquestionlevel, seterrorquestionlevel] = useState<any>(false);
+    const [ishandleadderroradd, sethandleadderroradd] = useState<any>(false);
     const [iserrorhandlerole, seterrorhandlerole] = useState<any>(false);
     const [istringgerdata, settriggerdata] = useState<any>(false);
+    const [isgenerateadd, setgenerateadd] = useState<any>(false);
     const [role, setrole] = useState<any>([])
     interface LevelValue {
         levelvalue: any;
@@ -78,6 +84,8 @@ const Interviewmodalpopup = ({
 
     // Handle submit for all the modal 
     const handleSubmit = (e) => {
+        sethandleadderroradd(true);
+        setgenerateadd(true);
         if (overalldata.length === 0 && iserrorhandle !== false || isEmptyArray(formik.values.levellist)) {
             seterrorhandle(true);
         }
@@ -88,16 +96,18 @@ const Interviewmodalpopup = ({
                     formik.values?.levellist[0]?.levelvalue?.questiontype !== '' && formik.values?.levellist[0]?.levelvalue.questiontype !== undefined) {
                     AddnewQuestion(formik.values)
                     seterrorhandleadd(false);
+                    sethandleadderroradd(false);
                 }
                 else {
+                    sethandleadderroradd(true);
                     seterrorhandleadd(true);
                 }
 
             }
-            if (overalldata.length === 0 && !isEmptyArray(formik.values.levellist) && e === 'regenerate') {
+            if (iscountcheck.length === 0 && overalldata.length === 0 && !isEmptyArray(formik.values.levellist) && e === 'regenerate') {
                 Regeneratequestion(formik.values)
             }
-            if (overalldata.length === 0 && !isEmptyArray(formik.values.levellist) && e === 'genereate') {
+            if (iscountcheck.length === 0 && overalldata.length === 0 && !isEmptyArray(formik.values.levellist) && e === 'genereate') {
                 if (formik.values.role.trim() !== '' && formik.values.role !== undefined) {
                     generatequestion(formik.values)
                     seterrorhandlerole(false)
@@ -232,6 +242,8 @@ const Interviewmodalpopup = ({
         setregeneratequestion(false);
         setgeneratequestion(false);
         setAddquestion(false);
+        sethandleadderroradd(false);
+        setgenerateadd(false);
     }
     //cleardata onclick for dispatch function 
     useEffect(() => {
@@ -245,6 +257,8 @@ const Interviewmodalpopup = ({
             setgeneratequestion(false);
             setAddquestion(false);
             setcleardata(false);
+            sethandleadderroradd(false);
+            setgenerateadd(false);
         }
     }, [iscleardata])
 
@@ -256,9 +270,24 @@ const Interviewmodalpopup = ({
             let totalHard = 0;
 
             for (const item of levellist) {
-                totalEasy += parseInt(item?.levelvalue?.iseasycheck === true && item?.levelvalue?.easy) || 0;
-                totalMedium += parseInt(item?.levelvalue?.ismediumcheck === true && item?.levelvalue?.medium) || 0;
-                totalHard += parseInt(item?.levelvalue?.ishardcheck === true && item?.levelvalue?.hard) || 0;
+                const isEasyCheck = item?.levelvalue?.iseasycheck === true;
+                const isMediumCheck = item?.levelvalue?.ismediumcheck === true;
+                const isHardCheck = item?.levelvalue?.ishardcheck === true;
+
+                totalEasy += isEasyCheck ? parseInt(item?.levelvalue?.easy) || 0 : 0;
+                totalMedium += isMediumCheck ? parseInt(item?.levelvalue?.medium) || 0 : 0;
+                totalHard += isHardCheck ? parseInt(item?.levelvalue?.hard) || 0 : 0;
+
+                // Check if any of the conditions is true and the count is zero
+                if (
+                    (isEasyCheck && (parseInt(item?.levelvalue?.easy) || 0) === 0) ||
+                    (isMediumCheck && (parseInt(item?.levelvalue?.medium) || 0) === 0) ||
+                    (isHardCheck && (parseInt(item?.levelvalue?.hard) || 0) === 0)
+                ) {
+                    setcountcheck('Fill the count');
+                } else {
+                    setcountcheck('');
+                }
             }
 
             const aggregatedValues = totalEasy + totalMedium + totalHard;
@@ -287,10 +316,70 @@ const Interviewmodalpopup = ({
         if (formik.values.role.trim() !== '' && formik.values.role !== undefined) {
             seterrorhandlerole(false)
         }
-
     }, [formik.values.levellist, iserrorhandle, formik.values?.levellist[0]?.levelvalue?.question,
     formik.values?.levellist[0]?.levelvalue?.difficulty, formik.values?.levellist[0]?.levelvalue?.questiontype,
     formik.values.role])
+
+    //Add question error handling
+    useEffect(() => {
+        // Check questiontype
+        if (formik.values?.levellist[0]?.levelvalue?.questiontype === '' || formik.values?.levellist[0]?.levelvalue?.questiontype === undefined) {
+            seterrorquestionlevel(true);
+        } else {
+            seterrorquestionlevel(false);
+        }
+
+        // Check question
+        if (formik.values?.levellist[0]?.levelvalue?.question?.trim() === '' || formik.values?.levellist[0]?.levelvalue?.question?.trim() === undefined) {
+            seterrorquestion(true);
+        } else {
+            seterrorquestion(false);
+        }
+
+        // Check difficulty
+        if (formik.values?.levellist[0]?.levelvalue?.difficulty === '' || formik.values?.levellist[0]?.levelvalue?.difficulty === undefined) {
+            seterrordifficulty(true);
+        } else {
+            seterrordifficulty(false);
+        }
+
+    }, [
+        formik.values?.levellist[0]?.levelvalue?.question,
+        formik.values?.levellist[0]?.levelvalue?.difficulty,
+        formik.values?.levellist[0]?.levelvalue?.questiontype
+    ]);
+
+    //error handling for checked but zero count.
+    useEffect(() => {
+        if (!formik || !formik.values || !formik.values.levellist) {
+            return;
+        }
+
+        let totalEasy = 0;
+        let totalMedium = 0;
+        let totalHard = 0;
+
+        for (const item of formik.values.levellist) {
+            if (!item || !item.levelvalue) {
+                continue;
+            }
+
+            const isEasyCheck = item.levelvalue.iseasycheck === true;
+            const isMediumCheck = item.levelvalue.ismediumcheck === true;
+            const isHardCheck = item.levelvalue.ishardcheck === true;
+
+            if (
+                (isEasyCheck && (parseInt(item?.levelvalue?.easy) || 0) === 0) ||
+                (isMediumCheck && (parseInt(item?.levelvalue?.medium) || 0) === 0) ||
+                (isHardCheck && (parseInt(item?.levelvalue?.hard) || 0) === 0)
+            ) {
+                setcountcheck('please specify the count of questions required.');
+            } else {
+                setcountcheck('');
+            }
+        }
+    }, [formik]);
+
 
     //dispatch for the data of role.
     useEffect(() => {
@@ -301,18 +390,20 @@ const Interviewmodalpopup = ({
                 }
             )
     }, []);
-
     return (
         < >
             {/* Add Question Modal popup */}
             <Modal open={isaddqustion}>
                 <Flex className={styles.overalladd}>
-                    <Flex>
+                    <Flex style={{
+                        borderBottom: '1px solid #581845',
+                        paddingBottom: '5px'
+                    }}>
                         <Text size={14} bold>Add Question</Text>
                     </Flex>
                     <Flex>
-                        <Flex marginTop={9}>
-                            <Text size={13} color='theme'>Choose the type of interview questions.</Text>
+                        <Flex marginTop={9} style={{ color: '#581845', fontSize: '13px' }} >
+                            Choose the type of interview questions.*
                         </Flex>
                         <Flex row>
                             {Typeofinterviewquestion.map((data, index) => {
@@ -324,13 +415,22 @@ const Interviewmodalpopup = ({
                                         />
                                     </Flex>
                                     <Flex>
-                                        {data.label}
+                                        <Text size={13}>{data.label}</Text>
                                     </Flex>
                                 </Flex>)
                             })}
                         </Flex>
-                        <Flex marginTop={9}>
-                            <Text size={13} color='theme'>Choose the difficulty level of the question and question count.</Text>
+                        {!ishandleadderroradd && iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required 1</Text></Flex>}
+                        {ishandleadderroradd && iserrorquestionlevel && (
+                            <Flex>
+                                <Text color='error' size={12} style={{ marginTop: '5px' }}>
+                                    This field is required
+                                </Text>
+                            </Flex>
+                        )
+                        }
+                        <Flex marginTop={9} style={{ color: '#581845', fontSize: '13px' }}>
+                            Choose the difficulty level of the question and question count.*
                         </Flex>
                         <Flex row>
                             {Difficultylevel.map((data, index) => {
@@ -342,11 +442,20 @@ const Interviewmodalpopup = ({
                                         />
                                     </Flex>
                                     <Flex>
-                                        {data.label}
+                                        <Text size={13}>{data.label}</Text>
                                     </Flex>
                                 </Flex>)
                             })}
                         </Flex>
+                        {!ishandleadderroradd && iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required 1</Text></Flex>}
+                        {ishandleadderroradd && iserrordifficulty && (
+                            <Flex>
+                                <Text color='error' size={12} style={{ marginTop: '5px' }}>
+                                    This field is required
+                                </Text>
+                            </Flex>
+                        )
+                        }
                         <Flex marginTop={10}>
                             <InputText
                                 className={styles.addinput}
@@ -354,11 +463,18 @@ const Interviewmodalpopup = ({
                                 onChange={(e) => handlequestion(e)}
                             />
                         </Flex>
-                        {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
-                        {iserrorhandleadd && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
+                        {!ishandleadderroradd && iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required 1</Text></Flex>}
+                        {ishandleadderroradd && iserrorquestion && (
+                            <Flex>
+                                <Text color='error' size={12} style={{ marginTop: '5px' }}>
+                                    This field is required
+                                </Text>
+                            </Flex>
+                        )
+                        }
                         <Flex row marginTop={17} end>
 
-                            {!isloader && <Flex marginRight={20} onClick={closeforms}>
+                            {!isloader && <Flex marginRight={10} onClick={closeforms}>
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>}
                             <Flex>
@@ -380,9 +496,9 @@ const Interviewmodalpopup = ({
                     <Flex style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }} >
                         <Text size={14} bold>Re-generate Question by AI</Text>
                     </Flex>
-                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: "15px" }}>
+                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: "10px" }}>
                         <Flex marginTop={9}>
-                            <Text size={13} color='theme'>Choose the type(s) of interview questions.</Text>
+                            <Text size={13} color='theme'>Choose the type(s) of interview questions.*</Text>
                         </Flex>
                         <Flex row>
                             {Typeofinterviewquestion.map((data, index) => {
@@ -393,23 +509,24 @@ const Interviewmodalpopup = ({
                                         />
                                     </Flex>
                                     <Flex marginLeft={5}>
-                                        {data.label}
+                                        <Text size={13}>{data.label}</Text>
                                     </Flex>
                                 </Flex>)
                             })}
                         </Flex>
+                        {isstoreaddData.length === 0 && iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
                     </Flex>
-                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '15px' }}>
+                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '10px' }}>
                         {isstoreaddData.length !== 0 &&
                             <Flex >
                                 <Flex marginTop={5}>
-                                    <Text size={13} color='theme'>Choose the difficulty level of the question and question count.</Text>
+                                    <Text size={13} color='theme'>Choose the difficulty level of the question and question count.*</Text>
                                 </Flex>
                                 {isstoreaddData.map((data, index) => {
                                     return (
-                                        <Flex row key={index} marginTop={10} marginBottom={10}>
+                                        <Flex row key={index} marginTop={10} marginBottom={5}>
                                             <Flex width={72}>
-                                                {data.label}:
+                                                <Text size={13}>{data.label}:</Text>
                                             </Flex>
                                             <Flex row start>
                                                 <Flex row center marginLeft={25} >
@@ -420,7 +537,7 @@ const Interviewmodalpopup = ({
                                                             />
                                                         </Flex>
                                                         <Flex marginRight={10}>
-                                                            Easy
+                                                            <Text size={13}>Easy</Text>
                                                         </Flex>
                                                         <Flex disabled={!formik.values.levellist[index]?.levelvalue?.iseasycheck} marginRight={15}>
 
@@ -428,6 +545,7 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                disabled={!formik.values.levellist[index]?.levelvalue?.iseasycheck}
                                                                 onChange={(e) => handlequestionno(index, e, '1', 'Easy')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
@@ -442,7 +560,7 @@ const Interviewmodalpopup = ({
                                                             />
                                                         </Flex>
                                                         <Flex marginRight={10}>
-                                                            Medium
+                                                            <Text size={13}>Medium</Text>
                                                         </Flex>
                                                         <Flex disabled={!formik.values.levellist[index]?.levelvalue?.ismediumcheck} marginRight={15}>
 
@@ -450,6 +568,7 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                disabled={!formik.values.levellist[index]?.levelvalue?.ismediumcheck}
                                                                 onChange={(e) => handlequestionno(index, e, '2', 'Medium')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
@@ -464,7 +583,7 @@ const Interviewmodalpopup = ({
                                                             />
                                                         </Flex>
                                                         <Flex marginRight={10}>
-                                                            Hard
+                                                            <Text size={13}>Hard</Text>
                                                         </Flex>
                                                         <Flex disabled={!formik.values.levellist[index]?.levelvalue?.ishardcheck} marginRight={15}>
 
@@ -472,6 +591,7 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                disabled={!formik.values.levellist[index]?.levelvalue?.ishardcheck}
                                                                 onChange={(e) => handlequestionno(index, e, '3', 'Hard')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
@@ -486,11 +606,13 @@ const Interviewmodalpopup = ({
                                 })}
                             </Flex>
                         }
+                        {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex marginBottom={5}>{iscountcheck.length !== 0 ? <Text color='error' size={12} >{iscountcheck}</Text> :
+                            <Text color='error' size={12}>{overalldata}</Text>}</Flex>}
+                        {isstoreaddData.length !== 0 && iserrorhandle && <Flex marginBottom={5}><Text color='error' size={12}>This field is required</Text></Flex>}
+
                     </Flex>
-                    {isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
-                    {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     <Flex row marginTop={17} end>
-                        {!isloader && <Flex marginRight={20} onClick={closeforms}>
+                        {!isloader && <Flex marginRight={10} onClick={closeforms}>
                             <Button types="close" width="95px">Cancel</Button>
                         </Flex>}
                         <Flex>
@@ -515,7 +637,7 @@ const Interviewmodalpopup = ({
                     </Flex>
                     <Flex>
                         <Flex marginTop={9}>
-                            <Text size={13} color='theme'>Select the role for the interview.</Text>
+                            <Text size={13} color='theme'>Select the role for the interview.*</Text>
                         </Flex>
                         <Flex width={230}>
                             <InputSearch
@@ -532,10 +654,11 @@ const Interviewmodalpopup = ({
                                 required
                             />
                         </Flex>
+                        {formik.values.role.trim() === '' && isgenerateadd && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
                     </Flex>
                     <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: '10px' }}>
                         <Flex marginTop={9}>
-                            <Text size={13} color='theme'>Choose the type(s) of interview questions.</Text>
+                            <Text size={13} color='theme'>Choose the type(s) of interview questions.*</Text>
                         </Flex>
                         <Flex row>
                             {Typeofinterviewquestion.map((data, index) => {
@@ -546,23 +669,25 @@ const Interviewmodalpopup = ({
                                         />
                                     </Flex>
                                     <Flex marginLeft={5}>
-                                        {data.label}
+                                        <Text size={13}>{data.label}</Text>
                                     </Flex>
                                 </Flex>)
                             })}
                         </Flex>
+                        {isstoreaddData.length === 0 && iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
+                        {isstoreaddData.length === 0 && isgenerateadd && !iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
                     </Flex>
                     <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '15px' }}>
                         {isstoreaddData.length !== 0 &&
                             <Flex >
                                 <Flex marginTop={5}>
-                                    <Text size={13} color='theme'>Choose the difficulty level of the question and question count.</Text>
+                                    <Text size={13} color='theme'>Choose the difficulty level of the question and question count.*</Text>
                                 </Flex>
                                 {isstoreaddData.map((data, index) => {
                                     return (
                                         <Flex row key={index} marginTop={10} marginBottom={10}>
                                             <Flex width={72}>
-                                                {data.label}:
+                                                <Text size={13}>{data.label}:</Text>
                                             </Flex>
                                             <Flex row start>
                                                 <Flex row center marginLeft={25} >
@@ -573,7 +698,7 @@ const Interviewmodalpopup = ({
                                                             />
                                                         </Flex>
                                                         <Flex marginRight={10}>
-                                                            Easy
+                                                            <Text size={13}>Easy</Text>
                                                         </Flex>
                                                         <Flex disabled={!formik.values.levellist[index]?.levelvalue?.iseasycheck} marginRight={15}>
 
@@ -595,7 +720,7 @@ const Interviewmodalpopup = ({
                                                             />
                                                         </Flex>
                                                         <Flex marginRight={10}>
-                                                            Medium
+                                                            <Text size={13}>Medium</Text>
                                                         </Flex>
                                                         <Flex disabled={!formik.values.levellist[index]?.levelvalue?.ismediumcheck} marginRight={15}>
 
@@ -617,7 +742,7 @@ const Interviewmodalpopup = ({
                                                             />
                                                         </Flex>
                                                         <Flex marginRight={10}>
-                                                            Hard
+                                                            <Text size={13}>Hard</Text>
                                                         </Flex>
                                                         <Flex disabled={!formik.values.levellist[index]?.levelvalue?.ishardcheck} marginRight={15}>
 
@@ -639,12 +764,12 @@ const Interviewmodalpopup = ({
                                 })}
                             </Flex>
                         }
+                        {isstoreaddData.length !== 0 && iserrorhandle && <Flex marginBottom={5}><Text color='error' size={12}>This field is required</Text></Flex>}
+                        {!iserrorhandlerole && isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex>{iscountcheck.length !== 0 ? <Text color='error' size={12} >{iscountcheck}</Text> :
+                            <Text color='error' size={12}>{overalldata}</Text>}</Flex>}
                     </Flex>
-                    {iserrorhandlerole && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
-                    {iserrorhandle && <Flex><Text color='error' size={12} style={{ marginTop: '5px' }}>This field is required</Text></Flex>}
-                    {!iserrorhandlerole && isstoreaddData.length !== 0 && formik.values.levellist.length !== 0 && <Flex><Text color='error' size={12} style={{ marginBottom: '5px' }}>{overalldata}</Text></Flex>}
                     <Flex row marginTop={17} end>
-                        {!isloader && <Flex marginRight={20} onClick={closeforms} >
+                        {!isloader && <Flex marginRight={10} onClick={closeforms} >
                             <Button types="close" width="75px">Cancel</Button>
                         </Flex>}
                         <Flex>

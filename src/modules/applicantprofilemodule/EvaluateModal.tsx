@@ -110,7 +110,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     return errors;
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     if (isevaluatedata.length > 0 && isevaluatedata !== null) {
       const datas = Dataconvertion(isevaluatedata)
       if (formik.values !== null) {
@@ -119,7 +119,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
           if (info.scorecard !== null) {
             formik.values.commands = info.commands;
             formik.values.recommend = recommend[0].total_recommend;
-          } 
+          }
           updatescore[info.id] = { scorecard: info.scorecard };
         });
         formik.values.scorecard = updatescore
@@ -157,8 +157,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
   //   const hasEmptyValues = Object.values(formik.values.scorecard).some((item) => {
   //     const { scorecard } = item;
   //     return scorecard === null || scorecard === undefined;
-  //   }); 
-  //   console.log(formik.values.recommend !== 0 , texttrim !== '' , !isEmpty(texttrim) , !hasEmptyValues)
+  //   });  
   //   if (formik.values.recommend !== 0 || texttrim !== '' || !isEmpty(texttrim) || !hasEmptyValues) {
   //     const validate = window.confirm(
   //       'You have unevaluate changes that will be lost, Are you sure to Proceed ?',
@@ -171,7 +170,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
   //     onCancel()
   //   } 
   // }
- 
+
   const handleEvaluateInterview = (form: IFormData) => {
     setLoading(true);
     setloader(true);
@@ -218,7 +217,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
     initialValues: initial,
     onSubmit: handleEvaluateInterview,
     enableReinitialize: true,
-    validate: handleValidations, 
+    validate: handleValidations,
   });
 
   //handle the radio button based on easy,hard and medium.
@@ -238,11 +237,11 @@ const EvaluateModal: React.FC<Props> = (props) => {
 
   const datalist = Object.values(valuelist)
 
-//   const onCancelpopup =()=>{
-// if{
+  //   const onCancelpopup =()=>{
+  // if{
 
-// }
-//   } 
+  // }
+  //   } 
   // window.confirm(
   //   'You have unsaved changes that will be lost, Are you sure to Proceed ?',
   // );
@@ -266,7 +265,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
               <Text bold size={13}>{Object.keys(valuelist)[itemIndex]}</Text>
               {Object.values(item).map((li, liIndex) => (
                 <div key={liIndex} style={{
-                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '5px', 
+                  borderBottom: (Object.keys(item).findIndex).toString() !== '1' ? '1px solid #C3C3C3' : '', paddingBottom: '5px',
                 }}>
                   <Flex row marginTop={5} >
                     <Flex marginRight={7} marginTop={1}>
@@ -371,7 +370,7 @@ const EvaluateModal: React.FC<Props> = (props) => {
           </Flex>
         </Flex>
         <Flex row end marginTop={5} style={{ borderTop: '1px solid #c3c3c3' }}>
-        {!isloader && <Button
+          {!isloader && <Button
             className={styles.cancel}
             types={'primary'}
             onClick={onCancel}

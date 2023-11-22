@@ -6,9 +6,10 @@ import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgRegenerateQuestion from '../../icons/SvgRegenerate';
 import SvgArrowDown1 from '../../icons/SvgArrowDown1';
 import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
-import SvgUpArrow from '../../icons/SvgArrowUp';
+import SvgAngle from '../../icons/SvgAngle';
 import SvgAddquestion from '../../icons/addquestion';
 import { Button, Flex, InputCheckBox, Loader, Modal, Toast } from '../../uikit';
+import { formatTo12HrClock } from '../calendarModule/util';
 import Text from '../../uikit/Text/Text';
 import SingleButton from '../common/SingleButton';
 import {
@@ -16,13 +17,7 @@ import {
     InterviewExtractData,
     Question,
 } from './interviewerQuestionType';
-import styles from './screeningstatustab.module.css';
-
-
-
-
-
-
+import styles from './screeningstatustab.module.css'; 
 const cx = classNames.bind(styles);
 
 interface Props {
@@ -41,8 +36,8 @@ interface Props {
     interviewData?: any;
     setevaluatedata?: (val: any) => void;
     setinterviewid?: (val: any) => void;
-
-
+    UpdateEvaluate?: (val: any) => void;
+    istriggerevaluate?: boolean;
 }
 
 const InterviewQustioncard = ({
@@ -60,13 +55,16 @@ const InterviewQustioncard = ({
     setgeneratequestion,
     setAddquestion,
     setevaluatedata,
-    setinterviewid
+    setinterviewid,
+    istriggerevaluate,
+    UpdateEvaluate
 }: Props) => {
     const [expandedIndex, setExpandedIndex] = useState([]);
     const [selecteddata, setselecteddata] = useState<any>([]);
     const [isEvaluate, setEvaluate] = useState<any>(false);
     const [questions, setQuestions] = useState<any>({});
-
+    const [interviewIds, setInterviewIds] = useState([]);
+    const [finaldata, setfinaldata] = useState<any>();
 
     //onclick function fo modal window open
     const toggleStage = (e) => {
@@ -100,22 +98,7 @@ const InterviewQustioncard = ({
             .map((key) => questions[key])
             .filter((doc) => doc.is_active || false) || [];
 
-    const handleSelectedQuestion = (value) => {
-        setselecteddata((prevId) =>
-            prevId.includes(value.id)
-                ? prevId.filter((prevIds) => prevIds !== value.id)
-                : [...prevId, value.id]
-        );
-        setQuestions((prev) => {
-            prev = Array.isArray(prev) ? prev : [];
-            const existingIndex = prev.findIndex((item) => item.id === value.id);
-            if (existingIndex !== -1) {
-                return prev.filter((item) => item.id !== value.id);
-            } else {
-                return [...prev, value];
-            }
-        });
-    };
+
 
     //changing level radio thumb based on value
     const handlelevelradio = (val) => {
@@ -132,10 +115,64 @@ const InterviewQustioncard = ({
         return null;
     };
 
+    //extract data from response for mapping the isactive true state
+    const extractIds = () => {
+        const interviewIdsArray = [];
+        interviewData.forEach((interview) => {
+            interview.Question.forEach((question) => {
+                question.Value.forEach((mapQuestion) => {
+                    mapQuestion.Map_question.forEach((mapQuestions) => {
+                        interviewIdsArray.push({
+                            interview_id: mapQuestions.interview_id,
+                            id: mapQuestions.id,
+                            question: mapQuestions.question,
+                            level: mapQuestions.level,
+                            type: mapQuestions.type,
+                            attendees: mapQuestions.attendees,
+                            commands: mapQuestions.commands
+                        })
+                    });
+                });
+            });
+        });
+        setQuestions(interviewIdsArray)
+    };
+
+
+    useEffect(() => {
+        extractIds();
+    }, [interviewData]);
+
+    //updatating the checked or unchecked value
+    const handleSelectedQuestion = (value) => {
+        setselecteddata((prevId) =>
+            prevId.includes(value.id)
+                ? prevId.filter((prevIds) => prevIds.id !== value.id)
+                : [...prevId, value.id]
+        );
+        setQuestions((prev) => {
+            prev = Array.isArray(prev) ? prev : [];
+            const existingIndex = prev.findIndex((item) => item.id === value.id);
+            if (existingIndex !== -1) {
+                return prev.filter((item) => item.id !== value.id);
+            } else {
+                return [...prev, value];
+            }
+        });
+    };
+
+
+
     //store the data of selected question
     useEffect(() => {
         setevaluatedata(questions)
     }, [questions])
+
+    //update the value
+    useEffect(() => {
+        UpdateEvaluate(questions)
+    })
+
     return (
         <Flex>
             {no_of_interview.map((datas, indexva) => {
@@ -144,11 +181,11 @@ const InterviewQustioncard = ({
                     return (
                         <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
                             <Flex row between center style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px 10px' }}>
-                                <Text >{`${datas?.event_type} / ${moment(
-                                    datas?.s_time
-                                ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-                                    datas?.e_time
-                                ).format(' HH:mm a')} `}</Text>
+
+                                <Text >{`${datas?.event_type
+                                    } / ${formatTo12HrClock(
+                                        datas?.s_time,
+                                    )} - ${formatTo12HrClock(datas?.e_time)}`}</Text>
                                 {datas.evaluate !== true &&
                                     <Flex row center between>
                                         <Flex marginRight={15}>
@@ -193,7 +230,7 @@ const InterviewQustioncard = ({
                                             <Flex key={idx}>
                                                 <Text style={{ textTransform: "capitalize" }}>{label.Name}</Text>
                                                 <Flex>
-                                                    <Flex row marginTop={5}>
+                                                    <Flex row marginTop={5} marginBottom={5}>
                                                         <Flex marginRight={7} marginTop={1}>
                                                             {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
                                                         </Flex>
@@ -213,7 +250,8 @@ const InterviewQustioncard = ({
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
                                                                                             onClick={() => handleSelectedQuestion(ques)}
-                                                                                            checked={selecteddata?.includes(ques.id)}
+                                                                                            // selecteddata?.includes(ques.id) ||
+                                                                                            checked={questions?.map((id) => id.id)?.includes(ques.id)}
                                                                                         />
                                                                                     </Flex>}
                                                                                 <Flex >
@@ -231,10 +269,11 @@ const InterviewQustioncard = ({
                                                                                                         onClick={() => handleToggleCollapse(ques.id)}
                                                                                                         style={{ cursor: "pointer" }}>
                                                                                                         <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>Hide answer</Text>
-                                                                                                        <SvgUpArrow
-                                                                                                            width={10}
-                                                                                                            height={10}
-                                                                                                            fill={"581845"} />
+                                                                                                        <SvgAngle
+                                                                                                            width={12}
+                                                                                                            height={12}
+                                                                                                            fill={"#581845"}
+                                                                                                            up={true} />
 
                                                                                                     </Text></Text>
                                                                                             </Flex>}
@@ -250,7 +289,7 @@ const InterviewQustioncard = ({
                                                                                     <Flex style={{ margin: '1.5px 5px 0 0' }} >
                                                                                         <InputCheckBox
                                                                                             onClick={() => handleSelectedQuestion(ques)}
-                                                                                            checked={selecteddata?.includes(ques.id)}
+                                                                                            checked={questions?.map((id) => id.id)?.includes(ques.id)}
                                                                                         />
                                                                                     </Flex>}
                                                                                 <Flex row>
@@ -263,10 +302,11 @@ const InterviewQustioncard = ({
                                                                                                 onClick={() => handleToggleCollapse(ques.id)}
                                                                                                 style={{ cursor: "pointer" }}>
                                                                                                 <Text color="theme" bold style={{ marginLeft: '5px', marginRight: '5px' }}>Show answer</Text>
-                                                                                                <SvgArrowDown1
-                                                                                                    width={10}
-                                                                                                    height={10}
-                                                                                                    fill={"581845"} />
+                                                                                                <SvgAngle
+                                                                                                            width={12}
+                                                                                                            height={12}
+                                                                                                            fill={"#581845"}
+                                                                                                            up={false} />
 
                                                                                             </Text>}</Text>
                                                                                     </Flex>
@@ -292,11 +332,10 @@ const InterviewQustioncard = ({
                         return (
                             <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
                                 <Flex row between style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px' }}>
-                                    <Text>{`${datas?.event_type} / ${moment(
-                                        datas?.s_time
-                                    ).format('MMM DD yyyy / HH:mm a - ')} ${moment(
-                                        datas?.e_time
-                                    ).format(' HH:mm a')} `}</Text>
+                                    <Text >{`${datas?.event_type
+                                        } / ${formatTo12HrClock(
+                                            datas?.s_time,
+                                        )} - ${formatTo12HrClock(datas?.e_time)}`}</Text>
                                 </Flex>
                                 <Flex>
                                     <Text
