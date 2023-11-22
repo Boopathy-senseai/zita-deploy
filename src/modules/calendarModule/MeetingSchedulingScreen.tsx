@@ -45,7 +45,7 @@ import MeetingSummary from './MeetingSummary';
 import styles from './styles/createScheduleForm.module.css';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
-import { LevelValue, MyFormValues1, levellist,Errorshow } from './Questiontype';
+import { LevelValue, MyFormValues1, levellist, Errorshow } from './Questiontype';
 
 
 
@@ -139,8 +139,8 @@ const MeetingSchedulingScreen = ({
 
   const [sample, setsample] = useState([])
   const [allids, setallids] = useState([])
-  const [errorstate,seterrorstate]=useState(false)
-  const [validateerror,setvalidateerror]=useState(false)
+  const [errorstate, seterrorstate] = useState(false)
+  const [validateerror, setvalidateerror] = useState(false)
   useEffect(() => {
     if (editEventDetails) {
       setMeetingForm((form) => {
@@ -253,7 +253,7 @@ const MeetingSchedulingScreen = ({
   const [error, seterror] = useState(false);
 
   useEffect(() => {
-    const { firstName, lastName } = splitName(username); 
+    const { firstName, lastName } = splitName(username);
     const newData = { firstName, lastName, role: '', userId: value1, success: false };
     const updatedInterviewers = [...formik.values.interviewers, newData];
     formik.setFieldValue('interviewers', updatedInterviewers);
@@ -437,7 +437,7 @@ const MeetingSchedulingScreen = ({
   const update_state = (data) => {
     const updatedArray = sample.map((item, index) =>
       index === parseInt(interviewer) ? { ...item, success: true, question: data } : item
-    ); 
+    );
     // Set the new array to state
     setsample(updatedArray);
   }
@@ -458,11 +458,11 @@ const MeetingSchedulingScreen = ({
     question: [],
     questionid: [],
     addquestion: [],
-    Errorshow:[]
+    Errorshow: []
   };
 
   const childhandleCompanyPageValid = (values: MyFormValues1) => {
-    let empty=false
+    let empty = false
     const errors: { levellist?: Partial<levellist>[] } = {};
     const sumValues = (levels: LevelValue[]) => {
       let easySum = 0;
@@ -475,13 +475,13 @@ const MeetingSchedulingScreen = ({
           easySum += easyValue;
           if (easyValue === 0) empty = true;
         }
-  
+
         if (item.ismediumcheck) {
           const mediumValue = parseInt(item.medium) || 0;
           mediumSum += mediumValue;
           if (mediumValue === 0) empty = true;
         }
-  
+
         if (item.ishardcheck) {
           const hardValue = parseInt(item.hard) || 0;
           hardSum += hardValue;
@@ -511,7 +511,7 @@ const MeetingSchedulingScreen = ({
 
       data.level.forEach((level1) => {
         const existingError: Partial<levellist> = errors.levellist?.[index] || {};
-  
+
         if (level1.iseasycheck && (!level1.easy || parseInt(level1.easy) === 0)) {
           errors.levellist = errors.levellist || [];
           errors.levellist[index] = {
@@ -520,7 +520,7 @@ const MeetingSchedulingScreen = ({
             id: data.id
           };
         }
-  
+
         if (level1.ismediumcheck && (!level1.medium || parseInt(level1.medium) === 0)) {
           errors.levellist = errors.levellist || [];
           errors.levellist[index] = {
@@ -529,7 +529,7 @@ const MeetingSchedulingScreen = ({
             id: data.id
           };
         }
-  
+
         if (level1.ishardcheck && (!level1.hard || parseInt(level1.hard) === 0)) {
           errors.levellist = errors.levellist || [];
           errors.levellist[index] = {
@@ -541,8 +541,8 @@ const MeetingSchedulingScreen = ({
       });
     });
 
- 
-    
+
+
 
     if (errors.levellist && errors.levellist.length === 0) {
       delete errors.levellist;
@@ -550,7 +550,7 @@ const MeetingSchedulingScreen = ({
 
     return errors;
   };
-  
+
   const [questionerror, setquestionerror] = useState(false)
   // const filterObj = (datas) => {
   //   const filteredData = datas.map(item => {
@@ -572,7 +572,7 @@ const MeetingSchedulingScreen = ({
   // }
 
   // const handleSubmitfunction = () => {
-   
+
   //   if (sample[interviewer]?.success === true) {
   //     const questionErrors = {};
   //     let isValid = true;
@@ -609,14 +609,14 @@ const MeetingSchedulingScreen = ({
         id: item.id,
         question: [],
       }));
-   
+
       formik1.setFieldValue('question', mappedArray);
     }
   }, [formik.values.checkedValues]);
 
   const formik1 = useFormik({
     initialValues: initialValues1,
-    onSubmit: () => {},
+    onSubmit: () => { },
     validate: childhandleCompanyPageValid,
   });
 
@@ -638,7 +638,7 @@ const MeetingSchedulingScreen = ({
 
   return (
     <>
-    {console.log(formik.values,formik1.values,formik1.errors)}
+      {console.log(formik.values, formik1.values, formik1.errors)}
       <Modal
         onClose={handleCloseSchedulingForm}
         open={openScheduleForm}
@@ -697,7 +697,7 @@ const MeetingSchedulingScreen = ({
                 seterrorstate={seterrorstate}
                 setvalidateerror={setvalidateerror}
                 validateerror={validateerror}
-               
+
               />
             )
         ) : openmodel === false ? (
@@ -786,7 +786,7 @@ const MeetingSchedulingScreen = ({
                       row
                       key={user.userId}
                       style={{ margin: '0 0 10px 0', width: '50%' }}
-                    > 
+                    >
                       <InputCheckBox
                         checked={isChecked}
                         onChange={handleCheckboxChange}
@@ -830,7 +830,10 @@ const MeetingSchedulingScreen = ({
               </Flex>
 
               {(formik.errors.brieftext === '' || formik.errors.checkedValuesError === '') ? (
-                <Text color='error'>All the above files are required</Text>
+                <Flex style={{
+                  marginTop: '-10px',
+                  marginBottom: '2px'
+                }}><Text color='error'>All the above files are required</Text></Flex>
               ) : ('')}
               <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
                 <Flex row between marginTop={10}>
