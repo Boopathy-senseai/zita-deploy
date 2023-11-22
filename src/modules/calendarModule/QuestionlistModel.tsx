@@ -47,6 +47,10 @@ interface Props {
     formik: any;
     setquestionerror: any;
     questionerror: any;
+    errorstate:any;
+    setvalidateerror:any;
+    validateerror:any;
+    seterrorstate:any;
 };
 
 export const QuestionListModel = ({
@@ -70,6 +74,10 @@ export const QuestionListModel = ({
     formik,
     setquestionerror,
     questionerror,
+    errorstate,
+    setvalidateerror,
+    validateerror,
+    seterrorstate
 }: Props) => {
 
     const [showstate, setshowstate] = useState(false)
@@ -81,10 +89,28 @@ export const QuestionListModel = ({
     const [currentLetter, setcurrentLetter] = useState('A');
     const dispatch: AppDispatch = useDispatch();
 
+
     //useEffects for  set formik question value
     useEffect(() => {
         setallids(formik.values.question)
     }, [formik.values])
+    useEffect(() => {
+        if (formikval.values.checkedValues && formik.values.levellist) {
+            const showlist = formikval.values.checkedValues.map(checkedItem => {
+                const levelItem = formik.values.levellist.find(levItem => levItem.id === checkedItem.id);
+                const isLevelActive = levelItem && levelItem.level.some(levelDetail => levelDetail.checked);
+                return {
+                    id: checkedItem.id,
+                    active: isLevelActive,
+                };
+            });
+            
+            formik.setFieldValue('Errorshow', showlist);
+        }
+    }, [formikval.values.checkedValues, formik.values.levellist]); 
+    
+    
+    
 
     // level selecting checkbox
     const handleCheckboxChange = (index: number, event: React.ChangeEvent<HTMLInputElement>, ids: number) => {
@@ -123,9 +149,15 @@ export const QuestionListModel = ({
         const errorItem = formik.errors.levellist?.[listIndex];
         if (errorItem && typeof errorItem !== 'string') {
             const errorForThisItem = errorItem.totalError;
+            const errorForThisItem1=errorItem.showError;
             if (errorForThisItem) {
                 return <Text color='error'>{errorForThisItem}</Text>;
+            }else{
+                if(errorForThisItem1){
+                    return <Text color='error'>{errorForThisItem1}</Text>;
+                }
             }
+
         }
         return null;
     }
@@ -227,6 +259,7 @@ export const QuestionListModel = ({
             sample.splice(index, 0, questionItem);
             setcurrentLetter(newQuestion.id);
             setopenmodel(false);
+            seterror(false)
 
         }
         else {
@@ -280,7 +313,7 @@ export const QuestionListModel = ({
         .map(item => item.id);
 
     const renderTextComponents = () => {
-        let textCount = 0; // Initialize textCount here 
+        let textCount = 0; 
         return (
             <Flex row>
                 <Flex>
@@ -317,10 +350,62 @@ export const QuestionListModel = ({
                 </Flex>
             );
         } else {
-            // Render something else if there are no errors
+           
             return null;
         }
     };
+    const handlemodel=()=>{
+        setopenmodel(false)
+        seterror(false)
+    }
+    const filterObj = (datas) => {
+        const filteredData = datas.map(item => {
+          const filteredA = [];
+          const targetType = "string";
+          item.question?.Question?.forEach(question => {
+            question.Value.forEach(values1 => {
+              values1.Map_question.forEach(mapQuestion => { 
+                if (typeof mapQuestion.id === targetType) {
+                  filteredA.push(mapQuestion);
+                }
+              });
+            });
+          });
+          return filteredA;
+        }).flat();
+    
+        return filteredData;
+      }
+    const submit=()=>{
+        seterrorstate(true)
+        if (sample[interviewer]?.success === true) {
+            const questionErrors = {};
+            let isValid = true;
+      
+            const filteredData = filterObj(sample)
+            formik.values.question.some((item, index) => {
+              if (item.question.length === 0) {
+                questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
+                isValid = false;
+              }
+      
+            });
+            const arrayLengths = formik.values?.question?.map(obj => {
+              if (obj.question.length === 0) {
+                return false;
+              } else {
+                return true;
+              }
+            });
+            const result = arrayLengths.includes(false) ? false : true;
+            if (result) {
+              handlechange()
+              setaddquestion(filteredData)
+            } else {
+              setquestionerror(true)
+            }
+          }
+    }
 
     return (
         <>
@@ -354,6 +439,7 @@ export const QuestionListModel = ({
                                 </Flex>)
                             })}
                         </Flex>
+                        {error && !(formik.values.addquestion[0]?.type !== '') && <Flex marginTop={5}><Text color='error'>This Field is required.</Text></Flex>}
                         <Flex marginTop={9}>
                             <Text size={13} color='theme'>Choose the difficulty level of the question and question count.</Text>
                         </Flex>
@@ -372,6 +458,8 @@ export const QuestionListModel = ({
                                 </Flex>)
                             })}
                         </Flex>
+                       
+                        {error && !( formik.values.addquestion[0]?.level !== '' ) && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
                         <Flex marginTop={10}>
                             <InputText
                                 className={styles.addinput}
@@ -379,9 +467,9 @@ export const QuestionListModel = ({
                                 onChange={(e) => formik.setFieldValue('addquestion[0].question', e.target.value)}
                             />
                         </Flex>
-                        {error && !(formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'>Please fill all the above fields.</Text></Flex>}
+                        {error && !( formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
                         <Flex row marginTop={17} end>
-                            <Flex marginRight={20} onClick={() => setopenmodel(false)}>
+                            <Flex marginRight={20} onClick={() => handlemodel()}>
                                 <Button types="close" width="75px">Cancel</Button>
                             </Flex>
                             <Flex>
@@ -394,6 +482,7 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px', height: 'auto', padding: '25px' }}>
+                
                 <Flex center row >
                     <Flex row>
                         <Flex>
@@ -423,7 +512,7 @@ export const QuestionListModel = ({
                     >
                         {formikval.values.checkedValues.map((user, index) => (
                             <Tab key={index} eventKey={JSON.stringify(index)} title={`${user.firstName} ${user.lastName}`}>
-                                <Flex style={{ overflowY: 'scroll', maxHeight: '400px', overflowX: 'hidden' }}>
+                                <Flex >
                                     <Flex between row style={{ padding: '10px 0  ' }}>
                                         <Flex>
                                             <Text size={12} bold  >
@@ -466,7 +555,7 @@ export const QuestionListModel = ({
                                                     };
 
                                                     return (
-                                                        <Flex key={modifiedJobList.name} style={{ margin: '5px  20px  10px 0 ' }}>
+                                                        <Flex key={idx} style={{ margin: '5px  20px  10px 0 ' }}>
                                                             <InputCheckBox
                                                                 label={modifiedJobList.name}
                                                                 checked={isCheckboxChecked(user.id, modifiedJobList.name)}
@@ -585,22 +674,23 @@ export const QuestionListModel = ({
                                                                                 </Flex>
                                                                             ))}
                                                                         </Flex>
+                                                                        {formik.values?.Errorshow[interviewer]?.active===true&&validateError(interviewer)}
                                                                     </Flex>}
                                                             </>
                                                         );
                                                     })
                                             }
-
+                                           
                                         </Flex>
                                     ) : (
 
                                         //generated questions
                                         Array(sample[index].question)?.map((val, index1) => (
-                                            <Flex key={index1}>
+                                            <Flex key={index1}  style={{ overflowY: 'scroll', maxHeight: '400px', overflowX: 'hidden' }} >
                                                 <Flex>
                                                     {val?.Question?.map((value, ind) => (
                                                         <Card key={ind} className={styles.cardview} > 
-                                                            <Flex >
+                                                            <Flex>
                                                                 <Text style={{ textTransform: "capitalize" }} bold>
                                                                     {value.Category}
                                                                 </Text>
@@ -656,17 +746,15 @@ export const QuestionListModel = ({
 
                                     }
 
-                                    {<Flex row>
-                                        {validateError(interviewer)}
+                                    {/* {<Flex row>
+                                        {formik.values?.Errorshow[interviewer]?.active===true&&validateError(interviewer)}
 
                                     </Flex>
-                                    }
-                                    {formik?.errors?.levellist?.[interviewer]?.totalError?.length
-                                        === 0 || formik?.errors?.levellist?.[interviewer]?.totalError?.length === undefined &&
-                                        <>
-                                            {sample?.filter(item => item.success === false).length !== 0 ?
+                                    } */}
+                                    
+                                            {errorstate&&sample?.filter(item => item.success === false).length !== 0 ?
                                                 <Flex key={''}> {renderTextComponents()}</Flex>
-                                                : ''} </>}
+                                                : ''} 
                                 </Flex>
                             </Tab>
                         ))}
@@ -686,7 +774,7 @@ export const QuestionListModel = ({
                         </Flex>
                     )
                 }
-                <Flex row between marginTop={15}>
+                <Flex row between marginTop={7}>
                     <Flex  >
                         <Button types="secondary" onClick={handlechange1} width='85px'>
                             Back
@@ -696,7 +784,7 @@ export const QuestionListModel = ({
                         <Button types="close" onClick={handlefunction1} width='85px'>
                             Cancel
                         </Button>
-                        <Button style={{ margin: '0 0 0 10px' }} onClick={formik.handleSubmit} width='85px'>
+                        <Button style={{ margin: '0 0 0 10px' }} onClick={submit} width='85px'>
                             Continue
                         </Button>
 

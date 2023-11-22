@@ -802,69 +802,7 @@ const updatestate = (val) => {
       </div>
     </div>
   );
-  const data = [
-    'Software Developer',
-    'System Administrator',
-    'Database Administrator',
-    'Network Engineer',
-    'IT Support Specialist',
-    'Security Analyst',
-    'Cloud Architect',
-    'DevOps Engineer',
-    'Front-end Developer',
-    'Back-end Developer',
-    'Full-stack Developer',
-    'QA Engineer',
-    'Mobile App Developer',
-    'Web Developer',
-    'Data Scientist',
-    'Machine Learning Engineer',
-    'IT Project Manager',
-    'Business Analyst',
-    'UI/UX Designer',
-    'Application Support Analyst',
-    'Technical Writer',
-    'IT Manager',
-    'CTO',
-    'CIO',
-    'Help Desk Technician',
-    'System Architect',
-    'Network Administrator',
-    'IT Consultant',
-    'SEO Specialist',
-    'Data Analyst',
-    'ERP Specialist',
-    'CRM Developer',
-    'Embedded Systems Engineer',
-    'Cybersecurity Specialist',
-    'Game Developer',
-    'Hardware Engineer',
-    'IT Auditor',
-    'Infrastructure Engineer',
-    'IT Coordinator',
-    'IT Sales Representative',
-    'IT Trainer',
-    'Java Developer',
-    'JavaScript Developer',
-    'PHP Developer',
-    'Python Developer',
-    'Ruby Developer',
-    'Solutions Architect',
-    'Technical Support Engineer',
-    'Virtualization Engineer',
-    'Web Designer',
-    'Wireless Communication Engineer',
-    'IoT Developer',
-    'AI Specialist',
-    'Blockchain Developer',
-    'Cloud Solutions Developer',
-    'Digital Transformation Consultant',
-    'E-commerce Specialist',
-    'Network Security Specialist',
-    'RPA Developer',
-    'SaaS Developer',
-    'Virtual Reality Developer',
-  ];
+
 
   const handleChange = (ind, e) => {
     const updatedRole = e.target.value;
@@ -934,6 +872,7 @@ const updatestate = (val) => {
                 setFieldValue={formik.setFieldValue}
                 name={`interviewers[${index}].role`}
                 label="Role"
+                placeholder='Add a role'
                 options={role}
                 initialValue={formik.values.interviewers[index]?.role}
                 onChange={(e) => handleChange(index, e)}

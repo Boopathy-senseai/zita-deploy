@@ -16,11 +16,11 @@ export  interface LevelValue {
         lastname:any;
         firstname:any;
         totalError?: string;
+        showError?:string;
     }
     export    interface questionid {
         id: any;
         question: string[];
-       
     }
     export   interface addquestion {
         id: any;
@@ -30,9 +30,14 @@ export  interface LevelValue {
         checked: boolean;
         attendees: any;
     }
+    export interface Errorshow{
+        id:any;
+        active:boolean;
+    }
     export    interface MyFormValues1 {
         levellist: levellist[];
         question: questionid[];
         questionid: string[];
         addquestion: addquestion[];
+        Errorshow:Errorshow[];
     }

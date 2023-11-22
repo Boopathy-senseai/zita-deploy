@@ -45,7 +45,7 @@ import MeetingSummary from './MeetingSummary';
 import styles from './styles/createScheduleForm.module.css';
 import { getDateFromDateTime, meetingFormInitialState } from './util';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
-import { LevelValue, MyFormValues1, levellist } from './Questiontype';
+import { LevelValue, MyFormValues1, levellist,Errorshow } from './Questiontype';
 
 
 
@@ -139,7 +139,8 @@ const MeetingSchedulingScreen = ({
 
   const [sample, setsample] = useState([])
   const [allids, setallids] = useState([])
-
+  const [errorstate,seterrorstate]=useState(false)
+  const [validateerror,setvalidateerror]=useState(false)
   useEffect(() => {
     if (editEventDetails) {
       setMeetingForm((form) => {
@@ -457,25 +458,34 @@ const MeetingSchedulingScreen = ({
     question: [],
     questionid: [],
     addquestion: [],
+    Errorshow:[]
   };
 
   const childhandleCompanyPageValid = (values: MyFormValues1) => {
+    let empty=false
     const errors: { levellist?: Partial<levellist>[] } = {};
     const sumValues = (levels: LevelValue[]) => {
       let easySum = 0;
       let mediumSum = 0;
       let hardSum = 0;
 
-      levels.forEach(item => {
-
+      levels.forEach((item) => {
         if (item.iseasycheck) {
-          easySum += parseInt(item.easy) || 0;
+          const easyValue = parseInt(item.easy) || 0;
+          easySum += easyValue;
+          if (easyValue === 0) empty = true;
         }
+  
         if (item.ismediumcheck) {
-          mediumSum += parseInt(item.medium) || 0;
+          const mediumValue = parseInt(item.medium) || 0;
+          mediumSum += mediumValue;
+          if (mediumValue === 0) empty = true;
         }
+  
         if (item.ishardcheck) {
-          hardSum += parseInt(item.hard) || 0;
+          const hardValue = parseInt(item.hard) || 0;
+          hardSum += hardValue;
+          if (hardValue === 0) empty = true;
         }
       });
 
@@ -489,7 +499,7 @@ const MeetingSchedulingScreen = ({
       if (total > 15 || total === 0) {
         errors.levellist = errors.levellist || [];
         const existingError: Partial<levellist> = errors.levellist[index] || {};
-        if (sample[index].success === false) {
+        if (sample[index]?.success === false) {
           errors.levellist[index] = {
             ...existingError,
             totalError: "Please limit the number of questions to a maximum of 15.",
@@ -498,8 +508,41 @@ const MeetingSchedulingScreen = ({
           };
         }
       }
+
+      data.level.forEach((level1) => {
+        const existingError: Partial<levellist> = errors.levellist?.[index] || {};
+  
+        if (level1.iseasycheck && (!level1.easy || parseInt(level1.easy) === 0)) {
+          errors.levellist = errors.levellist || [];
+          errors.levellist[index] = {
+            ...existingError,
+            showError: "please specify the count of questions required.",
+            id: data.id
+          };
+        }
+  
+        if (level1.ismediumcheck && (!level1.medium || parseInt(level1.medium) === 0)) {
+          errors.levellist = errors.levellist || [];
+          errors.levellist[index] = {
+            ...existingError,
+            showError: "please specify the count of questions required.",
+            id: data.id
+          };
+        }
+  
+        if (level1.ishardcheck && (!level1.hard || parseInt(level1.hard) === 0)) {
+          errors.levellist = errors.levellist || [];
+          errors.levellist[index] = {
+            ...existingError,
+            showError: "please specify the count of questions required.",
+            id: data.id
+          };
+        }
+      });
     });
 
+ 
+    
 
     if (errors.levellist && errors.levellist.length === 0) {
       delete errors.levellist;
@@ -507,55 +550,75 @@ const MeetingSchedulingScreen = ({
 
     return errors;
   };
+  
   const [questionerror, setquestionerror] = useState(false)
-  const filterObj = (datas) => {
-    const filteredData = datas.map(item => {
-      const filteredA = [];
-      const targetType = "string";
-      item.question?.Question?.forEach(question => {
-        question.Value.forEach(values1 => {
-          values1.Map_question.forEach(mapQuestion => { 
-            if (typeof mapQuestion.id === targetType) {
-              filteredA.push(mapQuestion);
-            }
-          });
-        });
-      });
-      return filteredA;
-    }).flat();
+  // const filterObj = (datas) => {
+  //   const filteredData = datas.map(item => {
+  //     const filteredA = [];
+  //     const targetType = "string";
+  //     item.question?.Question?.forEach(question => {
+  //       question.Value.forEach(values1 => {
+  //         values1.Map_question.forEach(mapQuestion => { 
+  //           if (typeof mapQuestion.id === targetType) {
+  //             filteredA.push(mapQuestion);
+  //           }
+  //         });
+  //       });
+  //     });
+  //     return filteredA;
+  //   }).flat();
 
-    return filteredData;
-  }
+  //   return filteredData;
+  // }
 
-  const handleSubmitfunction = () => {
-    if (sample[interviewer]?.success === true) {
-      const questionErrors = {};
-      let isValid = true;
+  // const handleSubmitfunction = () => {
+   
+  //   if (sample[interviewer]?.success === true) {
+  //     const questionErrors = {};
+  //     let isValid = true;
 
-      const filteredData = filterObj(sample)
-      formik1.values.question.some((item, index) => {
-        if (item.question.length === 0) {
-          questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
-          isValid = false;
-        }
+  //     const filteredData = filterObj(sample)
+  //     formik1.values.question.some((item, index) => {
+  //       if (item.question.length === 0) {
+  //         questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
+  //         isValid = false;
+  //       }
 
-      });
-      const arrayLengths = formik1.values?.question?.map(obj => {
-        if (obj.question.length === 0) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-      const result = arrayLengths.includes(false) ? false : true;
-      if (result) {
-        handlechange()
-        setaddquestion(filteredData)
-      } else {
-        setquestionerror(true)
-      }
+  //     });
+  //     const arrayLengths = formik1.values?.question?.map(obj => {
+  //       if (obj.question.length === 0) {
+  //         return false;
+  //       } else {
+  //         return true;
+  //       }
+  //     });
+  //     const result = arrayLengths.includes(false) ? false : true;
+  //     if (result) {
+  //       handlechange()
+  //       setaddquestion(filteredData)
+  //     } else {
+  //       setquestionerror(true)
+  //     }
+  //   }
+  // }
+
+
+  useEffect(() => {
+    if (formik.values.checkedValues.length !== 0) {
+      const mappedArray = formik.values.checkedValues.map(item => ({
+        id: item.id,
+        question: [],
+      }));
+   
+      formik1.setFieldValue('question', mappedArray);
     }
-  }
+  }, [formik.values.checkedValues]);
+
+  const formik1 = useFormik({
+    initialValues: initialValues1,
+    onSubmit: () => {},
+    validate: childhandleCompanyPageValid,
+  });
 
   useEffect(() => {
     if (formik.values.checkedValues.length !== 0) {
@@ -567,30 +630,15 @@ const MeetingSchedulingScreen = ({
         lastname: item.lastName,
         firstname: item.firstName
       }));
-
+      childhandleCompanyPageValid(formik1.values)
       formik1.setFieldValue('levellist', mappedArray);
     }
     //formikval.setFieldValue('questionid', []);
   }, [formik.values.checkedValues]);
-  useEffect(() => {
-    if (formik.values.checkedValues.length !== 0) {
-      const mappedArray = formik.values.checkedValues.map(item => ({
-        id: item.id,
-        question: [],
-      }));
-
-      formik1.setFieldValue('question', mappedArray);
-    }
-  }, [formik.values.checkedValues]);
-
-  const formik1 = useFormik({
-    initialValues: initialValues1,
-    onSubmit: () => handleSubmitfunction(),
-    validate: childhandleCompanyPageValid,
-  });
 
   return (
     <>
+    {console.log(formik.values,formik1.values,formik1.errors)}
       <Modal
         onClose={handleCloseSchedulingForm}
         open={openScheduleForm}
@@ -645,6 +693,11 @@ const MeetingSchedulingScreen = ({
                 formik={formik1}
                 setquestionerror={setquestionerror}
                 questionerror={questionerror}
+                errorstate={errorstate}
+                seterrorstate={seterrorstate}
+                setvalidateerror={setvalidateerror}
+                validateerror={validateerror}
+               
               />
             )
         ) : openmodel === false ? (
@@ -671,14 +724,6 @@ const MeetingSchedulingScreen = ({
           />
         ) : (
           <>
-            {/* <Flex>
-              <CrossButton
-                onClick={handlefunction1}
-                size={10}
-                style={{ position: 'absolute', top: '12px', right: '15px' }}
-                fill={'#333'}
-              />
-            </Flex> */}
             <Flex
               style={{
                 backgroundColor: '#FFF',
