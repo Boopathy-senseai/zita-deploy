@@ -497,12 +497,12 @@ export const QuestionListModel = ({
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' , padding: '25px'}}>
                 
-                <Flex center row style={{borderBottom:'1px solid #581845',paddingBottom:'5px'}}>
-                    <Flex row >
+                <Flex center row >
+                    <Flex row center>
                         <Flex>
                             <Text size={14} bold >AI generated Interview Questions</Text>
                         </Flex>
-                        <Flex marginLeft={5}>
+                        <Flex marginLeft={5} marginTop={7}>
                             <label
                                 onMouseEnter={() => setopenpopup(true)}
                                 onMouseLeave={() => setopenpopup(false)}
@@ -516,8 +516,7 @@ export const QuestionListModel = ({
                         {openpopup === true && (
                             <Card className={styles.infocard} key={''}><Flex>hi</Flex></Card>)}
                     </Flex>
-                </Flex>
-                {console.log(";;;;;;;",interviewer)}
+                </Flex> 
                 <Flex style={{ display: 'flex', width: '650px', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
                         onSelect={(keys: any) => {
@@ -558,7 +557,7 @@ export const QuestionListModel = ({
                                         </Flex>
                                     </Flex>
                                     {sample[index].success === false ? (
-                                        <Flex>
+                                        <Flex >
                                             <Flex marginTop={8}>
                                                 <Text color='theme'> Choose the type(s) of interview questions.</Text>
                                             </Flex>
@@ -705,7 +704,7 @@ export const QuestionListModel = ({
 
                                         //generated questions
                                         Array(sample[index].question)?.map((val, index1) => (
-                                            <Flex key={index1}  style={{ overflowY: 'scroll', height: '400px', overflowX: 'hidden' }} >
+                                            <Flex key={index1}  style={{ overflowY: 'scroll', maxHeight: '400px', overflowX: 'hidden' }} >
                                                 <Flex>
                                                     {val?.Question?.map((value, ind) => (
                                                         <Card key={ind} className={styles.cardview} > 
