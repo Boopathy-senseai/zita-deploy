@@ -243,6 +243,7 @@ const Interviewmodalpopup = ({
         setgeneratequestion(false);
         setAddquestion(false);
         sethandleadderroradd(false);
+        setgenerateadd(false);
     }
     //cleardata onclick for dispatch function 
     useEffect(() => {
@@ -257,6 +258,7 @@ const Interviewmodalpopup = ({
             setAddquestion(false);
             setcleardata(false);
             sethandleadderroradd(false);
+            setgenerateadd(false);
         }
     }, [iscleardata])
 
