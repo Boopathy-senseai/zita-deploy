@@ -174,7 +174,7 @@ const MeetingSummary = ({
           endTime: meetingForm.endDateTime,
           notes: meetingForm.notes,
           location: meetingForm.location.value,
-          questions: question,
+          questions: question.tostringfy(),
           new_questions:addquestion,
         }),
       )
@@ -234,7 +234,7 @@ const MeetingSummary = ({
         location: location.value,
         notes: notes,
         privateNotes: meetingForm.privateNotes,
-        questions: question,
+        questions: JSON.stringify(question),
         new_questions:addquestion,
         
       }),

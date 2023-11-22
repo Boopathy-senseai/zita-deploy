@@ -719,7 +719,7 @@ const MeetingSchedulingScreen = ({
             setOpenScheduleForm={setOpenScheduleForm}
             setopenmodel={setopenmodel}
             formik={formik}
-            question={filteredQuestions.toString()}
+            question={filteredQuestions}
             addquestion={JSON.stringify(addquestion)}
           />
         ) : (
