@@ -180,10 +180,11 @@ const InterviewQustioncard = ({
                     const matchingData = interviewData.find(val => val.Id === datas.id);
                     return (
                         <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
-                            <Flex row between center style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px 10px' }}>
-
+                            <Flex row between center style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px 10px' }}> 
                                 <Text >{`${datas?.event_type
-                                    } / ${formatTo12HrClock(
+                                    } / ${moment(
+                                        datas?.s_time,
+                                      ).format('MMM DD yyyy')} / ${formatTo12HrClock(
                                         datas?.s_time,
                                     )} - ${formatTo12HrClock(datas?.e_time)}`}</Text>
                                 {datas.evaluate !== true &&
@@ -332,10 +333,12 @@ const InterviewQustioncard = ({
                         return (
                             <Flex key={indexva} style={{ boxShadow: 'rgba(0, 0, 0, 0.47) 0px 1px 4px 0px', borderRadius: '4px' }} marginBottom={10} marginLeft={2}>
                                 <Flex row between style={{ backgroundColor: '#D7C7D2', borderRadius: '4px 4px 0px 0px', padding: '5px' }}>
-                                    <Text >{`${datas?.event_type
-                                        } / ${formatTo12HrClock(
-                                            datas?.s_time,
-                                        )} - ${formatTo12HrClock(datas?.e_time)}`}</Text>
+                                <Text >{`${datas?.event_type
+                                    } / ${moment(
+                                        datas?.s_time,
+                                      ).format('MMM DD yyyy')} / ${formatTo12HrClock(
+                                        datas?.s_time,
+                                    )} - ${formatTo12HrClock(datas?.e_time)}`}</Text>
                                 </Flex>
                                 <Flex>
                                     <Text

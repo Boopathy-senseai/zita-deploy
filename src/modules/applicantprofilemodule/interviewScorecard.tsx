@@ -135,7 +135,9 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
                   <Card className={styles.cardStyle}>
                     <Flex row between center>
                       <Text color="theme" size={13}>{`${header.event_type
-                        } / ${formatTo12HrClock(
+                        } / ${moment(
+                          header?.s_time,
+                        ).format('MMM DD yyyy')} / ${formatTo12HrClock(
                           header?.s_time,
                         )} - ${formatTo12HrClock(header?.e_time)}`}</Text>
                       {doc.attendees?.filter(info => info?.total_score !== null)?.map((e) => (e.attendee)).includes(user.toString()) ?
