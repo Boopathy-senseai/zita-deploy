@@ -834,7 +834,7 @@ const MeetingSchedulingScreen = ({
                 <Flex style={{
                   marginTop: '-10px',
                   marginBottom: '2px'
-                }}><Text color='error'>All the above files are required</Text></Flex>
+                }}><Text color='error'>All the above fields are required</Text></Flex>
               ) : ('')}
               <Flex style={{ borderTop: '0.5px solid #c3c3c3' }} >
                 <Flex row between marginTop={10}>
