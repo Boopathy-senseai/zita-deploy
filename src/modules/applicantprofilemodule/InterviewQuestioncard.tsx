@@ -117,8 +117,9 @@ const InterviewQustioncard = ({
 
     //extract data from response for mapping the isactive true state
     const extractIds = () => {
-        const interviewIdsArray = [];
-        interviewData.forEach((interview) => {
+        const interviewIdsArray = []; 
+        if(Array.isArray(interviewData)){
+         interviewData?.forEach((interview) => {
             interview.Question.forEach((question) => {
                 question.Value.forEach((mapQuestion) => {
                     mapQuestion.Map_question.forEach((mapQuestions) => {
@@ -135,7 +136,7 @@ const InterviewQustioncard = ({
                 });
             });
         });
-        setQuestions(interviewIdsArray)
+        setQuestions(interviewIdsArray)}
     };
 
 

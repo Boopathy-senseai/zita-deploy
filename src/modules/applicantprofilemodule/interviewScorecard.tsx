@@ -70,9 +70,7 @@ const InterviewScorecard = ({ interviews, onEvaluate, cumulative, no_of_intervie
     }
     return null;
   };
-  if (cumulative.length !== 0) {
-
-
+  if (cumulative && cumulative?.length !== 0) {
     const transformedData = cumulative.reduce((result, item) => {
       const existingInterview = result.find(interview => interview.interview_id === item.interview_id);
     

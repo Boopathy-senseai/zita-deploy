@@ -286,7 +286,7 @@ const ScreeningStatusTab = ({
           applicant.
         </Text>
 
-        {no_of_interview.length > 0 ?
+        {no_of_interview && no_of_interview?.length > 0 ?
           <Flex
             columnFlex
             className={styles.overAllPopup}
