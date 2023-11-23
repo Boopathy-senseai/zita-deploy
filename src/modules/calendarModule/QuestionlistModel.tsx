@@ -131,11 +131,11 @@ export const QuestionListModel = ({
         } else if (isChecked) {
             listItem.level.push({
                 name: level[index].value,
-                easy: '',
+                easy: 0,
                 iseasycheck: false,
-                medium: '',
+                medium: 0,
                 ismediumcheck: false,
-                hard: '',
+                hard: 0,
                 ishardcheck: false,
                 checked: isChecked
             });
@@ -374,15 +374,15 @@ export const QuestionListModel = ({
     const renderErrorComponents = () => {
         const errorNames = formik.values?.question
             .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
-            .filter(name => name !== null); 
+            .filter(name => name !== null);
         if (errorNames.length > 0) {
-            const joinedNames = errorNames.join(', '); 
+            const joinedNames = errorNames.join(', ');
             // Find the index of the last comma in the joined string
-            const lastCommaIndex = joinedNames.lastIndexOf(','); 
+            const lastCommaIndex = joinedNames.lastIndexOf(',');
             // If there is a comma, replace it with "and"
             const formattedNames = lastCommaIndex !== -1
                 ? joinedNames.substring(0, lastCommaIndex) + ' and' + joinedNames.substring(lastCommaIndex + 1)
-                : joinedNames; 
+                : joinedNames;
             return (
                 <Flex>
                     <Text color='error'>Please select questions for the following interviewers {formattedNames}.</Text>
@@ -649,6 +649,7 @@ export const QuestionListModel = ({
                                                                                                 onChange={() => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].iseasycheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.iseasycheck;
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].easy = updatedLevellist[interviewer]?.level[lvlIndex]?.iseasycheck === false && 0;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
 
                                                                                                 }}
@@ -664,6 +665,7 @@ export const QuestionListModel = ({
                                                                                                 max="15"
                                                                                                 type="number"
                                                                                                 value={lvl.easy}
+                                                                                                disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}
                                                                                                 onChange={(e) => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].easy = e.target.value;
@@ -680,6 +682,7 @@ export const QuestionListModel = ({
                                                                                                 onChange={() => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].ismediumcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ismediumcheck;
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].medium = updatedLevellist[interviewer]?.level[lvlIndex]?.ismediumcheck === false && 0;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}
@@ -694,6 +697,7 @@ export const QuestionListModel = ({
                                                                                                 max="15"
                                                                                                 type="number"
                                                                                                 value={lvl.medium}
+                                                                                                disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}
                                                                                                 onChange={(e) => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].medium = e.target.value;
@@ -710,6 +714,7 @@ export const QuestionListModel = ({
                                                                                                 onChange={() => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].ishardcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ishardcheck;
+                                                                                                    updatedLevellist[interviewer].level[lvlIndex].hard = updatedLevellist[interviewer]?.level[lvlIndex]?.ishardcheck === false && 0;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}
@@ -724,6 +729,7 @@ export const QuestionListModel = ({
                                                                                                 max="15"
                                                                                                 type="number"
                                                                                                 value={lvl.hard}
+                                                                                                disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}
                                                                                                 onChange={(e) => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].hard = e.target.value;
