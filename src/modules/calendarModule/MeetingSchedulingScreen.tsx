@@ -496,20 +496,6 @@ const MeetingSchedulingScreen = ({
     values.levellist.forEach((data, index) => {
       const sums = sumValues(data.level);
       const total = sums.easySum + sums.mediumSum + sums.hardSum;
-
-      if (total > 15 || total === 0) {
-        errors.levellist = errors.levellist || [];
-        const existingError: Partial<levellist> = errors.levellist[index] || {};
-        if (sample[index]?.success === false) {
-          errors.levellist[index] = {
-            ...existingError,
-            totalError: "Please limit the number of questions to a maximum of 15.",
-            id: data.id
-
-          };
-        }
-      }
-
       data.level.forEach((level1) => {
         const existingError: Partial<levellist> = errors.levellist?.[index] || {};
 
@@ -540,6 +526,18 @@ const MeetingSchedulingScreen = ({
           };
         }
       });
+      if (total > 15 ) {
+        errors.levellist = errors.levellist || [];
+        const existingError: Partial<levellist> = errors.levellist[index] || {};
+        if (sample[index]?.success === false) {
+          errors.levellist[index] = {
+            ...existingError,
+            totalError: "Please limit the number of questions to a maximum of 15.",
+            id: data.id
+
+          };
+        }
+      }
     });
 
 
@@ -612,6 +610,11 @@ const MeetingSchedulingScreen = ({
       }));
 
       formik1.setFieldValue('question', mappedArray);
+      const mappedArray1 = formik.values.checkedValues.map(item => ({
+        id: item.id,
+        loader: false,
+      }));
+      formik1.setFieldValue('loader', mappedArray1);
     }
   }, [formik.values.checkedValues]);
 
@@ -639,7 +642,7 @@ const MeetingSchedulingScreen = ({
 
   return (
     <>
-      {console.log(formik.values, formik1.values, formik1.errors)}
+      {console.log(formik.values, formik1.values, formik1.errors,Object.keys(formik1.errors).length)}
       <Modal
         onClose={handleCloseSchedulingForm}
         open={openScheduleForm}
