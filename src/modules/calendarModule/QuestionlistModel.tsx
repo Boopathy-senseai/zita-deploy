@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     Flex,
@@ -47,10 +47,10 @@ interface Props {
     formik: any;
     setquestionerror: any;
     questionerror: any;
-    errorstate:any;
-    setvalidateerror:any;
-    validateerror:any;
-    seterrorstate:any;
+    errorstate: any;
+    setvalidateerror: any;
+    validateerror: any;
+    seterrorstate: any;
 };
 
 export const QuestionListModel = ({
@@ -88,7 +88,7 @@ export const QuestionListModel = ({
     const [error, seterror] = useState(false)
     const [currentLetter, setcurrentLetter] = useState('A');
     const dispatch: AppDispatch = useDispatch();
-    const [showerror,setshowerror]=useState(false)
+    const [showerror, setshowerror] = useState(false)
 
     //useEffects for  set formik question value
     useEffect(() => {
@@ -104,15 +104,15 @@ export const QuestionListModel = ({
                     active: isLevelActive,
                 };
             });
-            
+
             formik.setFieldValue('Errorshow', showlist);
         }
-    }, [formikval.values.checkedValues, formik.values.levellist]); 
-    
-    useEffect(()=>{
+    }, [formikval.values.checkedValues, formik.values.levellist]);
+
+    useEffect(() => {
         setinterviewer(0)
-    },[])
-    
+    }, [])
+
 
     // level selecting checkbox
     const handleCheckboxChange = (index: number, event: React.ChangeEvent<HTMLInputElement>, ids: number) => {
@@ -151,11 +151,11 @@ export const QuestionListModel = ({
         const errorItem = formik.errors.levellist?.[listIndex];
         if (errorItem && typeof errorItem !== 'string') {
             const errorForThisItem = errorItem.totalError;
-            const errorForThisItem1=errorItem.showError;
+            const errorForThisItem1 = errorItem.showError;
             if (errorForThisItem) {
                 return <Text color='error'>{errorForThisItem}</Text>;
-            }else{
-                if(errorForThisItem1){
+            } else {
+                if (errorForThisItem1) {
                     return <Text color='error'>{errorForThisItem1}</Text>;
                 }
             }
@@ -167,71 +167,71 @@ export const QuestionListModel = ({
     // dispatch for generating question
     const generatequestion = (listIndex, id) => {
         setshowerror(true)
-        if(formik.errors,Object.keys(formik.errors).length===0)
-      {  const errorItem = formik.errors.levellist?.[listIndex];
-        if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
-        formik.setFieldValue(`loader[${interviewer}].loader`, true)
-        // setSubmitLoader(true);
-        const transformLevelListData = (levellist1, targetId) => {
-            return levellist1
-                .filter(item => item.id === targetId)
-                .map(item => {
-                    const questionArray = item.level.flatMap(levelItem => {
-                        if (!levelItem.checked) return [];
+        if (formik.errors, Object.keys(formik.errors).length === 0) {
+            const errorItem = formik.errors.levellist?.[listIndex];
+            if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
+            formik.setFieldValue(`loader[${interviewer}].loader`, true)
+            // setSubmitLoader(true);
+            const transformLevelListData = (levellist1, targetId) => {
+                return levellist1
+                    .filter(item => item.id === targetId)
+                    .map(item => {
+                        const questionArray = item.level.flatMap(levelItem => {
+                            if (!levelItem.checked) return [];
 
-                        const mappings = [
-                            { key: 'iseasycheck', countKey: 'easy', level: 'Easy' },
-                            { key: 'ismediumcheck', countKey: 'medium', level: 'Medium' },
-                            { key: 'ishardcheck', countKey: 'hard', level: 'Hard' },
-                        ];
+                            const mappings = [
+                                { key: 'iseasycheck', countKey: 'easy', level: 'Easy' },
+                                { key: 'ismediumcheck', countKey: 'medium', level: 'Medium' },
+                                { key: 'ishardcheck', countKey: 'hard', level: 'Hard' },
+                            ];
 
-                        return mappings.reduce((acc, map) => {
-                            if (levelItem[map.key] && levelItem[map.countKey]) {
-                                acc.push({
-                                    level: map.level,
-                                    type: levelItem.name,
-                                    count: levelItem[map.countKey]
-                                });
-                            }
-                            return acc;
-                        }, []);
+                            return mappings.reduce((acc, map) => {
+                                if (levelItem[map.key] && levelItem[map.countKey]) {
+                                    acc.push({
+                                        level: map.level,
+                                        type: levelItem.name,
+                                        count: levelItem[map.countKey]
+                                    });
+                                }
+                                return acc;
+                            }, []);
+                        });
+                        return {
+                            id: item.id,
+                            role: item.role,
+                            question: questionArray
+                        };
                     });
-                    return {
-                        id: item.id,
-                        role: item.role,
-                        question: questionArray
-                    };
-                });
-        };
-        const combinedData = transformLevelListData(formik.values.levellist, id);
-        const formData = new FormData();
-        formData.append('role', JSON.stringify(combinedData));
-        formData.append('summary', formikval.values.brieftext);
-        formData.append('can_id', meetingForm.applicant.id);
-        formData.append('jd_id', meetingForm.job.value);
+            };
+            const combinedData = transformLevelListData(formik.values.levellist, id);
+            const formData = new FormData();
+            formData.append('role', JSON.stringify(combinedData));
+            formData.append('summary', formikval.values.brieftext);
+            formData.append('can_id', meetingForm.applicant.id);
+            formData.append('jd_id', meetingForm.job.value);
 
-        dispatch(Interview_question_middleware({ formData }))
-            .then((response) => {
-                if (response?.payload?.success === true) {
-                    formik.setFieldValue(`loader[${interviewer}].loader`, false)
-                    // setSubmitLoader(false);
-                    setshowstate(true);
-                    update_state(response.payload.data);
-                    const addQuestion = response.payload.data;
-                    if (!Array.isArray(addQuestion)) {
-                        setquestions(prevQuestions => [...prevQuestions, addQuestion]);
+            dispatch(Interview_question_middleware({ formData }))
+                .then((response) => {
+                    if (response?.payload?.success === true) {
+                        formik.setFieldValue(`loader[${interviewer}].loader`, false)
+                        // setSubmitLoader(false);
+                        setshowstate(true);
+                        update_state(response.payload.data);
+                        const addQuestion = response.payload.data;
+                        if (!Array.isArray(addQuestion)) {
+                            setquestions(prevQuestions => [...prevQuestions, addQuestion]);
+                        } else {
+                            setquestions(prevQuestions => [...prevQuestions, ...addQuestion]);
+                        }
+                        setViewMeetingSummary(false);
+                        setShowPopup(true);
                     } else {
-                        setquestions(prevQuestions => [...prevQuestions, ...addQuestion]);
+                        formik.setFieldValue(`loader[${interviewer}].loader`, false)
+                        // setSubmitLoader(false);
+                        Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG', 'error');
                     }
-                    setViewMeetingSummary(false);
-                    setShowPopup(true);
-                } else {
-                    formik.setFieldValue(`loader[${interviewer}].loader`, false)
-                    // setSubmitLoader(false);
-                    Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG', 'error');
-                }
-            });
-}
+                });
+        }
         return null;
     };
 
@@ -320,119 +320,129 @@ export const QuestionListModel = ({
         .map(item => item.id);
 
     const renderTextComponents = () => {
-        let textCount = 0; 
+        let textCount = 0;
+        // Check if there's any item with success === false 
+        const hasError = sample?.some(value => value.success === false);
+
         return (
-            <Flex row>
-                <Flex>
-                    <Text color='error'>Please generate questions for the interviewer &emsp; </Text>
-                </Flex>
-                <Flex row>
-                    {sample?.map((value, i) => {
-                        if (value.success === false) {
-                            textCount++;
-                        }
-                        return (
-                            <Flex key={i}>
-                                {value.success === false && (
-                                    <Text color='error'>
-                                        {`${formik.values.levellist[i]?.firstname} ${formik.values.levellist[i]?.lastname}${(filteredIds.length) === textCount ? '.' : ','}`}
+            <Flex row style={{ textAlign: 'justify' }}>
+                {hasError && (
+                    <Text color='error'>
+                        Please generate questions for the interviewer{
+                            sample?.map((value, i) => {
+                                if (value.success === false) {
+                                    textCount++;
+                                }
+                                const isLastItem = filteredIds.length === textCount;
+                                const isSecondToLastItem = filteredIds.length - 1 === textCount;
+                                const separator = isLastItem ? '.' : (isSecondToLastItem ? ' and ' : ', ');
+                                console.log(isLastItem, isSecondToLastItem, 'ggg', textCount, filteredIds.length, filteredIds.length - 1, filteredIds)
+                                return (
+
+                                    <Text color='error' key={i}>
+                                        {value.success === false && ` ${formik.values.levellist[i]?.firstname} ${formik.values.levellist[i]?.lastname}${separator} `}
                                     </Text>
-                                )}
-                            </Flex>
-                        );
-                    })}
-                </Flex>
+                                );
+                            })
+                        }
+                    </Text>
+                )}
+
             </Flex>
         );
     };
 
-    const emherror =()=>{
-        let val=false
-      return(
-        <Flex>
-        {formik.values?.levellist[interviewer]?.level?.map((datas,i)=>{
-       
-            if(datas?.iseasycheck===true||datas?.ishardcheck===true||datas?.ismediumcheck===true){
-                val=true
-            }
-        })
-        }
-        {val?(
-        formik.values?.Errorshow[interviewer]?.active===true&&validateError(interviewer)
-        ):(<Text color='error'>This field is required.</Text>)}
-       
-        </Flex>
-      )
-    }
 
+    const emherror = () => {
+        let val = false
+        return (
+            <Flex>
+                {formik.values?.levellist[interviewer]?.level?.map((datas, i) => {
+
+                    if (datas?.iseasycheck === true || datas?.ishardcheck === true || datas?.ismediumcheck === true) {
+                        val = true
+                    }
+                })
+                }
+                {val ? (
+                    formik.values?.Errorshow[interviewer]?.active === true && validateError(interviewer)
+                ) : (<Text color='error'>This field is required.</Text>)}
+
+            </Flex>
+        )
+    }
     const renderErrorComponents = () => {
         const errorNames = formik.values?.question
             .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
-            .filter(name => name !== null)
-            .join(', '); 
-            
+            .filter(name => name !== null); 
         if (errorNames.length > 0) {
+            const joinedNames = errorNames.join(', '); 
+            // Find the index of the last comma in the joined string
+            const lastCommaIndex = joinedNames.lastIndexOf(','); 
+            // If there is a comma, replace it with "and"
+            const formattedNames = lastCommaIndex !== -1
+                ? joinedNames.substring(0, lastCommaIndex) + ' and' + joinedNames.substring(lastCommaIndex + 1)
+                : joinedNames; 
             return (
                 <Flex>
-                    <Text color='error'>Please select questions for the following interviewers {errorNames}.</Text>
+                    <Text color='error'>Please select questions for the following interviewers {formattedNames}.</Text>
                 </Flex>
             );
         } else {
-           
             return null;
         }
     };
-    const handlemodel=()=>{
+    const handlemodel = () => {
         setopenmodel(false)
         seterror(false)
     }
     const filterObj = (datas) => {
         const filteredData = datas.map(item => {
-          const filteredA = [];
-          const targetType = "string";
-          item.question?.Question?.forEach(question => {
-            question.Value.forEach(values1 => {
-              values1.Map_question.forEach(mapQuestion => { 
-                if (typeof mapQuestion.id === targetType) {
-                  filteredA.push(mapQuestion);
-                }
-              });
+            const filteredA = [];
+            const targetType = "string";
+            item.question?.Question?.forEach(question => {
+                question.Value.forEach(values1 => {
+                    values1.Map_question.forEach(mapQuestion => {
+                        if (typeof mapQuestion.id === targetType) {
+                            filteredA.push(mapQuestion);
+                        }
+                    });
+                });
             });
-          });
-          return filteredA;
+            return filteredA;
         }).flat();
-    
+
         return filteredData;
-      }
-    const submit=()=>{
+    }
+    const submit = () => {
         seterrorstate(true)
         if (sample[interviewer]?.success === true) {
             const questionErrors = {};
             let isValid = true;
-      
+
             const filteredData = filterObj(sample)
             formik.values.question.some((item, index) => {
-              if (item.question.length === 0) {
-                questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
-                isValid = false;
-              }
-      
+                if (item.question.length === 0) {
+                    questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
+                    isValid = false;
+                }
+
             });
             const arrayLengths = formik.values?.question?.map(obj => {
-              if (obj.question.length === 0) {
-                return false;
-              } else {
-                return true;
-              }
+                if (obj.question.length === 0) {
+                    return false;
+                } else {
+                    return true;
+                }
             });
             const result = arrayLengths.includes(false) ? false : true;
             if (result) {
-              handlechange()
-              setaddquestion(filteredData)
+                handlechange()
+                setaddquestion(filteredData)
             } else {
-              setquestionerror(true)
+                setquestionerror(true)
             }
-          }
+        }
     }
     const validshow = sample?.map((obj, indexid) => {
         if (obj.success === true) {
@@ -442,27 +452,27 @@ export const QuestionListModel = ({
         }
         return null;
     }).some(element => element === null);
-//     const divRef = useRef(null);
+    //     const divRef = useRef(null);
 
-//   // State to store the height
-//   const [height, setHeight] = useState(0);
+    //   // State to store the height
+    //   const [height, setHeight] = useState(0);
 
-//   useEffect(() => {
-//     // Check if the div is rendered and has a size
-//     if (divRef.current) {
-//       // Get the height of the div and update the state
-//       setHeight(divRef.current.clientHeight);
-//     }
-//   },[]);
+    //   useEffect(() => {
+    //     // Check if the div is rendered and has a size
+    //     if (divRef.current) {
+    //       // Get the height of the div and update the state
+    //       setHeight(divRef.current.clientHeight);
+    //     }
+    //   },[]);
 
-    
+
 
     return (
         <>
             {/* Add  Question modal popup */}
             <Modal open={openmodel} >
                 <Flex style={{ backgroundColor: '#FFF', width: '600px', height: 'auto', padding: '25px', borderRadius: '4px' }}>
-                    <Flex style={{borderBottom:'1px solid #581845',paddingBottom:'5px'}}>
+                    <Flex style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }}>
                         <Text size={14} bold>Add Question</Text>
                     </Flex>
                     <Flex>
@@ -508,8 +518,8 @@ export const QuestionListModel = ({
                                 </Flex>)
                             })}
                         </Flex>
-                       
-                        {error && !( formik.values.addquestion[0]?.level !== '' ) && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
+
+                        {error && !(formik.values.addquestion[0]?.level !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
                         <Flex marginTop={10}>
                             <InputText
                                 className={styles.addinput}
@@ -517,7 +527,7 @@ export const QuestionListModel = ({
                                 onChange={(e) => formik.setFieldValue('addquestion[0].question', e.target.value)}
                             />
                         </Flex>
-                        {error && !( formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
+                        {error && !(formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
                         <Flex row marginTop={17} end>
                             <Flex marginRight={20} onClick={() => handlemodel()}>
                                 <Button types="close" width="75px">Cancel</Button>
@@ -531,8 +541,8 @@ export const QuestionListModel = ({
             </Modal>
 
             {/* Both generate and selection of levels modal popup*/}
-            <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' , padding: '25px'}}>
-                <Flex center row style={{borderBottom:'1px solid #581845',paddingBottom:'5px'}}>
+            <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px', padding: '25px' }}>
+                <Flex center row style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }}>
                     <Flex row >
                         <Flex>
                             <Text size={14} bold >AI generated Interview Questions</Text>
@@ -557,7 +567,7 @@ export const QuestionListModel = ({
                         onSelect={(keys: any) => {
                             setinterviewer(keys);
                             sessionStorage.setItem('interviewer', keys);
-                            
+
                         }}
                     >
                         {formikval.values.checkedValues.map((user, index) => (
@@ -615,11 +625,11 @@ export const QuestionListModel = ({
                                                             </Flex>
                                                         );
                                                     })}
-                                                    
+
                                                 </Flex>
-                                                { showerror&&formik.values?.levellist[interviewer]?.level.length===0&&(<Text color='error'>This field is required.</Text>)}
+                                                {showerror && formik.values?.levellist[interviewer]?.level.length === 0 && (<Text color='error'>This field is required.</Text>)}
                                             </Flex>
-                                                                  {
+                                            {
                                                 formik.values.levellist
                                                     .filter(item => item.id === user.id)
                                                     .map((item, listIndex) => {
@@ -727,82 +737,82 @@ export const QuestionListModel = ({
                                                                                 </Flex>
                                                                             ))}
                                                                         </Flex>
-                                                                        
-        
-                                                                        {showerror&&(emherror())}
-                                                                      
+
+
+                                                                        {showerror && (emherror())}
+
                                                                     </Flex>}
                                                             </>
                                                         );
                                                     })
                                             }
-                                           
+
                                         </Flex>
                                     ) : (
 
                                         <Flex >
-                                        {Array(sample[index].question)?.map((val, index1) => (
-                                            <Flex key={index1}  style={{ overflowY:'scroll', height: '400px', overflowX: 'hidden' }} >
-                                                
-                                                <Flex>
-                                                    {val?.Question?.map((value, ind) => (
-                                                        <Card key={ind} className={styles.cardview} > 
-                                                            <Flex>
-                                                                <Text style={{ textTransform: "capitalize" }} bold>
-                                                                    {value.Category}
-                                                                </Text>
-                                                                {value?.Value?.map((label, idx) => (
-                                                                    <Flex key={idx} style={{ borderBottom: value.Value.length - 1 === idx ? '' : '0.3px solid #C3C3C3', paddingBottom: '7px' }}>
-                                                                        <Flex row marginTop={7}>
-                                                                            <Flex marginRight={7} marginTop={1}>
-                                                                                {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
-                                                                            </Flex>
-                                                                            <Flex>
-                                                                                <Text color='theme' style={{ textTransform: "capitalize" }}>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
-                                                                            </Flex>
-                                                                        </Flex>
-                                                                        {label?.Map_question?.map((ques, i) => (
-                                                                            <Flex row key={i} marginTop={5}>
-                                                                                <Flex style={{ margin: '1.2px 5px 0 0' }}>
-                                                                                    <InputCheckBox
-                                                                                        checked={formik.values.question.some(obj => obj.id === sample[interviewer].id && obj.question.includes(ques.id))}
-                                                                                        onChange={() => {
-                                                                                            const existingIndex = formik.values.question.findIndex(obj => obj.id === sample[interviewer].id);
+                                            {Array(sample[index].question)?.map((val, index1) => (
+                                                <Flex key={index1} style={{ overflowY: 'scroll', height: '400px', overflowX: 'hidden' }} >
 
-                                                                                            if (existingIndex > -1) {
-                                                                                                const foundObject = formik.values.question[existingIndex];
-                                                                                                const questionIndex = foundObject.question.indexOf(ques.id);
-
-                                                                                                if (questionIndex > -1) {
-                                                                                                    foundObject.question.splice(questionIndex, 1);
-                                                                                                } else {
-                                                                                                    foundObject.question.push(ques.id);
-                                                                                                }
-                                                                                            } else {
-
-                                                                                                formik.values.question.push({ id: sample[interviewer].id, question: [ques.id] });
-                                                                                            }
-
-                                                                                            formik.setFieldValue('question', [...formik.values.question]);
-                                                                                        }}
-                                                                                    />
+                                                    <Flex>
+                                                        {val?.Question?.map((value, ind) => (
+                                                            <Card key={ind} className={styles.cardview} >
+                                                                <Flex>
+                                                                    <Text style={{ textTransform: "capitalize" }} bold>
+                                                                        {value.Category}
+                                                                    </Text>
+                                                                    {value?.Value?.map((label, idx) => (
+                                                                        <Flex key={idx} style={{ borderBottom: value.Value.length - 1 === idx ? '' : '0.3px solid #C3C3C3', paddingBottom: '7px' }}>
+                                                                            <Flex row marginTop={7}>
+                                                                                <Flex marginRight={7} marginTop={1}>
+                                                                                    {handlelevelradio(label?.Map_question[label?.Map_question?.length - 1].level)}
                                                                                 </Flex>
-                                                                                <Text>{i +1}.</Text>
-                                                                                <Text style={{textAlign:'justify'}}>{ques.question}</Text>
+                                                                                <Flex>
+                                                                                    <Text color='theme' style={{ textTransform: "capitalize" }}>{label?.Map_question[label?.Map_question?.length - 1].level}</Text>
+                                                                                </Flex>
                                                                             </Flex>
-                                                                        ))}
-                                                                    </Flex>
-                                                                ))}
-                                                            </Flex>
-                                                        </Card>
-                                                    ))}
+                                                                            {label?.Map_question?.map((ques, i) => (
+                                                                                <Flex row key={i} marginTop={5}>
+                                                                                    <Flex style={{ margin: '1.2px 5px 0 0' }}>
+                                                                                        <InputCheckBox
+                                                                                            checked={formik.values.question.some(obj => obj.id === sample[interviewer].id && obj.question.includes(ques.id))}
+                                                                                            onChange={() => {
+                                                                                                const existingIndex = formik.values.question.findIndex(obj => obj.id === sample[interviewer].id);
+
+                                                                                                if (existingIndex > -1) {
+                                                                                                    const foundObject = formik.values.question[existingIndex];
+                                                                                                    const questionIndex = foundObject.question.indexOf(ques.id);
+
+                                                                                                    if (questionIndex > -1) {
+                                                                                                        foundObject.question.splice(questionIndex, 1);
+                                                                                                    } else {
+                                                                                                        foundObject.question.push(ques.id);
+                                                                                                    }
+                                                                                                } else {
+
+                                                                                                    formik.values.question.push({ id: sample[interviewer].id, question: [ques.id] });
+                                                                                                }
+
+                                                                                                formik.setFieldValue('question', [...formik.values.question]);
+                                                                                            }}
+                                                                                        />
+                                                                                    </Flex>
+                                                                                    <Text>{i + 1}.</Text>
+                                                                                    <Text style={{ textAlign: 'justify' }}>{ques.question}</Text>
+                                                                                </Flex>
+                                                                            ))}
+                                                                        </Flex>
+                                                                    ))}
+                                                                </Flex>
+                                                            </Card>
+                                                        ))}
+                                                    </Flex>
+
                                                 </Flex>
-                                            
-                                            </Flex>
-                                        ))}
+                                            ))}
                                         </Flex>
                                     )
-                                   
+
                                     }
 
                                     {/* {<Flex row>
@@ -810,18 +820,18 @@ export const QuestionListModel = ({
 
                                     </Flex>
                                     } */}
-                                    
-                                            {errorstate&&sample?.filter(item => item.success === false).length !== 0 ?
-                                                <Flex key={''}> {renderTextComponents()}</Flex>
-                                                : ''} 
+
+                                    {errorstate && sample?.filter(item => item.success === false).length !== 0 ?
+                                        <Flex key={''}> {renderTextComponents()}</Flex>
+                                        : ''}
                                 </Flex>
-                               
+
                             </Tab>
                         ))}
                     </Tabs>
                 </Flex>
                 {
-                   !validshow&&questionerror && (
+                    !validshow && questionerror && (
                         <Flex >
                             {renderErrorComponents()}
                             {/* {formik.values?.question?.map((obj, indexid) => (
