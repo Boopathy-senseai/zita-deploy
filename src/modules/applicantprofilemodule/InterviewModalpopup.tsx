@@ -177,10 +177,13 @@ const Interviewmodalpopup = ({
             const updatedLevelValue = { ...formik.values.levellist[index].levelvalue, name, checked: isChecked };
             if (values === "1") {
                 updatedLevelValue.iseasycheck = false;
+                updatedLevelValue.easy=0;
             } else if (values === "2") {
                 updatedLevelValue.ismediumcheck = false;
+                updatedLevelValue.medium=0;
             } else if (values === "3") {
                 updatedLevelValue.ishardcheck = false;
+                updatedLevelValue.hard=0;
             }
             formik.setFieldValue(`levellist[${index}].levelvalue`, updatedLevelValue);
         }
@@ -199,11 +202,11 @@ const Interviewmodalpopup = ({
             settriggerdata(true);
             const newLevelValue = {
                 name,
-                easy: '',
+                easy: 0,
                 iseasycheck: values === "1" ? true : false,
-                medium: '',
+                medium: 0,
                 ismediumcheck: values === "2" ? true : false,
-                hard: '',
+                hard: 0,
                 ishardcheck: values === "3" ? true : false,
                 checked: isChecked,
             };
@@ -516,7 +519,7 @@ const Interviewmodalpopup = ({
                         </Flex>
                         {isstoreaddData.length === 0 && iserrorhandle && <Flex marginBottom={-8} marginTop={4}><Text color='error' size={12}>This field is required</Text></Flex>}
                     </Flex>
-                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3', paddingbottom: '10px' }}>
+                    <Flex style={{ borderBottom: '0.5px solid #C3C3C3'}}>
                         {isstoreaddData.length !== 0 &&
                             <Flex >
                                 <Flex marginTop={5}>
@@ -524,7 +527,7 @@ const Interviewmodalpopup = ({
                                 </Flex>
                                 {isstoreaddData.map((data, index) => {
                                     return (
-                                        <Flex row key={index} marginTop={10} marginBottom={5}>
+                                        <Flex row key={index} marginTop={10} marginBottom={10}>
                                             <Flex width={72}>
                                                 <Text size={13}>{data.label}:</Text>
                                             </Flex>
@@ -545,10 +548,12 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                value={!formik.values.levellist[index]?.levelvalue?.iseasycheck ? 0 : formik.values.levellist[index]?.levelvalue?.easy}
                                                                 disabled={!formik.values.levellist[index]?.levelvalue?.iseasycheck}
                                                                 onChange={(e) => handlequestionno(index, e, '1', 'Easy')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
+                                                                className={styles.scoreinputfield} 
                                                             >
                                                             </input>
                                                         </Flex>
@@ -568,10 +573,12 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                value={!formik.values.levellist[index]?.levelvalue?.ismediumcheck? 0 : formik.values.levellist[index]?.levelvalue?.medium}
                                                                 disabled={!formik.values.levellist[index]?.levelvalue?.ismediumcheck}
                                                                 onChange={(e) => handlequestionno(index, e, '2', 'Medium')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
+                                                                className={styles.scoreinputfield} 
                                                             >
                                                             </input>
                                                         </Flex>
@@ -591,10 +598,12 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                value={!formik.values.levellist[index]?.levelvalue?.ishardcheck ? 0 : formik.values.levellist[index]?.levelvalue?.hard}
                                                                 disabled={!formik.values.levellist[index]?.levelvalue?.ishardcheck}
                                                                 onChange={(e) => handlequestionno(index, e, '3', 'Hard')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
+                                                                className={styles.scoreinputfield} 
                                                             >
                                                             </input>
                                                         </Flex>
@@ -706,9 +715,11 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                value={!formik.values.levellist[index]?.levelvalue?.iseasycheck ? 0 : formik.values.levellist[index]?.levelvalue?.easy}
                                                                 onChange={(e) => handlequestionno(index, e, '1', 'Easy')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
+                                                                className={styles.scoreinputfield} 
                                                             >
                                                             </input>
                                                         </Flex>
@@ -728,9 +739,11 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                value={!formik.values.levellist[index]?.levelvalue?.ismediumcheck? 0 : formik.values.levellist[index]?.levelvalue?.medium}
                                                                 onChange={(e) => handlequestionno(index, e, '2', 'Medium')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
+                                                                className={styles.scoreinputfield} 
                                                             >
                                                             </input>
                                                         </Flex>
@@ -750,9 +763,11 @@ const Interviewmodalpopup = ({
                                                                 min="0"
                                                                 max="15"
                                                                 type="number"
+                                                                value={!formik.values.levellist[index]?.levelvalue?.ishardcheck ? 0 : formik.values.levellist[index]?.levelvalue?.hard}
                                                                 onChange={(e) => handlequestionno(index, e, '3', 'Hard')}
                                                                 maxLength={3}
                                                                 style={{ height: "20px", border: '1px solid #A5889C', borderRadius: '4px' }}
+                                                                className={styles.scoreinputfield} 
                                                             >
                                                             </input>
                                                         </Flex>
