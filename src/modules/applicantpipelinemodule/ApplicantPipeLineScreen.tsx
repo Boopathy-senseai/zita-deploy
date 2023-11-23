@@ -1289,9 +1289,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const handleNewPipeline = () => {
     sessionStorage.setItem('superUserTab', '7');
-    sessionStorage.setItem('template', '2');
-    sessionStorage.setItem('pipeline', '2');
-    sessionStorage.setItem('wk_id', 'undefined');
+    sessionStorage.setItem('template', '1');
+    sessionStorage.setItem('pipeline', '0');
+    sessionStorage.setItem('wk_id', 'undefined'); 
     sessionStorage.setItem('button', '1');
     history.push('/account_setting/settings');
   };

@@ -94,7 +94,7 @@ const JobViewCard = ({
     },
     {
       title: 'Remote Work Allowed:',
-      value: jd_form?.work_remote ? 'Yes' : 'No',
+      value: jd_form?.work_space_type === "3" ? 'Yes' : 'No',
       check: true,
     },
 
