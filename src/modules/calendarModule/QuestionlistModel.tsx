@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     Flex,
@@ -84,11 +84,11 @@ export const QuestionListModel = ({
     const [questions, setquestions] = useState([])
     const [openmodel, setopenmodel] = useState(false)
     const [openpopup, setopenpopup] = useState(false);
-    const [isSubmitLoader, setSubmitLoader] = useState(false);
+    // const [isSubmitLoader, setSubmitLoader] = useState(false);
     const [error, seterror] = useState(false)
     const [currentLetter, setcurrentLetter] = useState('A');
     const dispatch: AppDispatch = useDispatch();
-
+    const [showerror,setshowerror]=useState(false)
 
     //useEffects for  set formik question value
     useEffect(() => {
@@ -166,9 +166,12 @@ export const QuestionListModel = ({
 
     // dispatch for generating question
     const generatequestion = (listIndex, id) => {
-        const errorItem = formik.errors.levellist?.[listIndex];
+        setshowerror(true)
+        if(formik.errors,Object.keys(formik.errors).length===0)
+      {  const errorItem = formik.errors.levellist?.[listIndex];
         if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
-        setSubmitLoader(true);
+        formik.setFieldValue(`loader[${interviewer}].loader`, true)
+        // setSubmitLoader(true);
         const transformLevelListData = (levellist1, targetId) => {
             return levellist1
                 .filter(item => item.id === targetId)
@@ -210,7 +213,8 @@ export const QuestionListModel = ({
         dispatch(Interview_question_middleware({ formData }))
             .then((response) => {
                 if (response?.payload?.success === true) {
-                    setSubmitLoader(false);
+                    formik.setFieldValue(`loader[${interviewer}].loader`, false)
+                    // setSubmitLoader(false);
                     setshowstate(true);
                     update_state(response.payload.data);
                     const addQuestion = response.payload.data;
@@ -222,11 +226,12 @@ export const QuestionListModel = ({
                     setViewMeetingSummary(false);
                     setShowPopup(true);
                 } else {
-                    setSubmitLoader(false);
+                    formik.setFieldValue(`loader[${interviewer}].loader`, false)
+                    // setSubmitLoader(false);
                     Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG', 'error');
                 }
             });
-
+}
         return null;
     };
 
@@ -340,6 +345,26 @@ export const QuestionListModel = ({
             </Flex>
         );
     };
+
+    const emherror =()=>{
+        let val=false
+      return(
+        <Flex>
+        {formik.values?.levellist[interviewer]?.level?.map((datas,i)=>{
+       
+            if(datas?.iseasycheck===true||datas?.ishardcheck===true||datas?.ismediumcheck===true){
+                val=true
+            }
+        })
+        }
+        {val?(
+        formik.values?.Errorshow[interviewer]?.active===true&&validateError(interviewer)
+        ):(<Text color='error'>This field is required.</Text>)}
+       
+        </Flex>
+      )
+    }
+
     const renderErrorComponents = () => {
         const errorNames = formik.values?.question
             .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
@@ -417,7 +442,18 @@ export const QuestionListModel = ({
         }
         return null;
     }).some(element => element === null);
-    
+//     const divRef = useRef(null);
+
+//   // State to store the height
+//   const [height, setHeight] = useState(0);
+
+//   useEffect(() => {
+//     // Check if the div is rendered and has a size
+//     if (divRef.current) {
+//       // Get the height of the div and update the state
+//       setHeight(divRef.current.clientHeight);
+//     }
+//   },[]);
 
     
 
@@ -448,7 +484,7 @@ export const QuestionListModel = ({
                                         />
                                     </Flex>
                                     <Flex>
-                                        <Text size={13}>{data.label}</Text>
+                                        {data.label}
                                     </Flex>
                                 </Flex>)
                             })}
@@ -467,7 +503,7 @@ export const QuestionListModel = ({
                                         />
                                     </Flex>
                                     <Flex>
-                                    <Text size={13}>{data.label}</Text>
+                                        {data.label}
                                     </Flex>
                                 </Flex>)
                             })}
@@ -496,13 +532,12 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' , padding: '25px'}}>
-                
-                <Flex center row >
-                    <Flex row center>
+                <Flex center row style={{borderBottom:'1px solid #581845',paddingBottom:'5px'}}>
+                    <Flex row >
                         <Flex>
                             <Text size={14} bold >AI generated Interview Questions</Text>
                         </Flex>
-                        <Flex marginLeft={5} marginTop={7}>
+                        <Flex marginLeft={5}>
                             <label
                                 onMouseEnter={() => setopenpopup(true)}
                                 onMouseLeave={() => setopenpopup(false)}
@@ -516,7 +551,7 @@ export const QuestionListModel = ({
                         {openpopup === true && (
                             <Card className={styles.infocard} key={''}><Flex>hi</Flex></Card>)}
                     </Flex>
-                </Flex> 
+                </Flex>
                 <Flex style={{ display: 'flex', width: '650px', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
                         onSelect={(keys: any) => {
@@ -545,7 +580,7 @@ export const QuestionListModel = ({
                                                         <Text color='link' bold >Add Question</Text>
                                                     </Flex>
                                                 </Flex>
-                                            ) : (isSubmitLoader ? (
+                                            ) : (formik.values?.loader[interviewer]?.loader ? (
                                                 <Flex middle width={85}>
                                                     <Loader size="small" withOutOverlay />
                                                 </Flex>
@@ -557,31 +592,34 @@ export const QuestionListModel = ({
                                         </Flex>
                                     </Flex>
                                     {sample[index].success === false ? (
-                                        <Flex >
+                                        <Flex>
                                             <Flex marginTop={8}>
                                                 <Text color='theme'> Choose the type(s) of interview questions.</Text>
                                             </Flex>
-                                            <Flex row style={{ borderBottom: '0.5px solid #C3C3C3' }}>
-                                                {level.map((jobList, idx) => {
+                                            <Flex style={{ borderBottom: '0.5px solid #C3C3C3' }}>
+                                                <Flex row >
+                                                    {level.map((jobList, idx) => {
 
-                                                    const modifiedJobList = {
-                                                        ...jobList,
-                                                        name: jobList.value,
-                                                    };
+                                                        const modifiedJobList = {
+                                                            ...jobList,
+                                                            name: jobList.value,
+                                                        };
 
-                                                    return (
-                                                        <Flex key={idx} style={{ margin: '5px  20px  10px 0 ' }}>
-                                                            <InputCheckBox
-                                                                label={modifiedJobList.name}
-                                                                checked={isCheckboxChecked(user.id, modifiedJobList.name)}
-                                                                onChange={(event) => handleCheckboxChange(idx, event, user.id)}
-                                                            />
-                                                        </Flex>
-                                                    );
-                                                })}
+                                                        return (
+                                                            <Flex key={idx} style={{ margin: '5px  20px  10px 0 ' }}>
+                                                                <InputCheckBox
+                                                                    label={modifiedJobList.name}
+                                                                    checked={isCheckboxChecked(user.id, modifiedJobList.name)}
+                                                                    onChange={(event) => handleCheckboxChange(idx, event, user.id)}
+                                                                />
+                                                            </Flex>
+                                                        );
+                                                    })}
+                                                    
+                                                </Flex>
+                                                { showerror&&formik.values?.levellist[interviewer]?.level.length===0&&(<Text color='error'>This field is required.</Text>)}
                                             </Flex>
-
-                                            {
+                                                                  {
                                                 formik.values.levellist
                                                     .filter(item => item.id === user.id)
                                                     .map((item, listIndex) => {
@@ -616,7 +654,6 @@ export const QuestionListModel = ({
                                                                                                 max="15"
                                                                                                 type="number"
                                                                                                 value={lvl.easy}
-                                                                                                disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}
                                                                                                 onChange={(e) => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].easy = e.target.value;
@@ -647,7 +684,6 @@ export const QuestionListModel = ({
                                                                                                 max="15"
                                                                                                 type="number"
                                                                                                 value={lvl.medium}
-                                                                                                disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}
                                                                                                 onChange={(e) => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].medium = e.target.value;
@@ -677,7 +713,6 @@ export const QuestionListModel = ({
                                                                                                 min="0"
                                                                                                 max="15"
                                                                                                 type="number"
-                                                                                                disabled={!formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}
                                                                                                 value={lvl.hard}
                                                                                                 onChange={(e) => {
                                                                                                     const updatedLevellist = [...formik.values.levellist];
@@ -692,7 +727,10 @@ export const QuestionListModel = ({
                                                                                 </Flex>
                                                                             ))}
                                                                         </Flex>
-                                                                        {formik.values?.Errorshow[interviewer]?.active===true&&validateError(interviewer)}
+                                                                        
+        
+                                                                        {showerror&&(emherror())}
+                                                                      
                                                                     </Flex>}
                                                             </>
                                                         );
@@ -702,9 +740,10 @@ export const QuestionListModel = ({
                                         </Flex>
                                     ) : (
 
-                                        //generated questions
-                                        Array(sample[index].question)?.map((val, index1) => (
-                                            <Flex key={index1}  style={{ overflowY: 'scroll', maxHeight: '400px', overflowX: 'hidden' }} >
+                                        <Flex >
+                                        {Array(sample[index].question)?.map((val, index1) => (
+                                            <Flex key={index1}  style={{ overflowY:'scroll', height: '400px', overflowX: 'hidden' }} >
+                                                
                                                 <Flex>
                                                     {val?.Question?.map((value, ind) => (
                                                         <Card key={ind} className={styles.cardview} > 
@@ -758,11 +797,12 @@ export const QuestionListModel = ({
                                                         </Card>
                                                     ))}
                                                 </Flex>
-
+                                            
                                             </Flex>
-                                        ))
+                                        ))}
+                                        </Flex>
                                     )
-
+                                   
                                     }
 
                                     {/* {<Flex row>
@@ -775,6 +815,7 @@ export const QuestionListModel = ({
                                                 <Flex key={''}> {renderTextComponents()}</Flex>
                                                 : ''} 
                                 </Flex>
+                               
                             </Tab>
                         ))}
                     </Tabs>
