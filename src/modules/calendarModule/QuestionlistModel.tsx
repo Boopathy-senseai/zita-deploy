@@ -518,7 +518,6 @@ export const QuestionListModel = ({
                                 </Flex>)
                             })}
                         </Flex>
-
                         {error && !(formik.values.addquestion[0]?.level !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
                         <Flex marginTop={10}>
                             <InputText
@@ -542,7 +541,7 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px', padding: '25px' }}>
-                <Flex center row style={{ borderBottom: '1px solid #581845', paddingBottom: '5px' }}>
+                <Flex center row style={{ paddingBottom: '5px' }}>
                     <Flex row >
                         <Flex>
                             <Text size={14} bold >AI generated Interview Questions</Text>
@@ -672,6 +671,7 @@ export const QuestionListModel = ({
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 maxLength={1}
+                                                                                                style={{border:'1px solid #A5889C'}}
                                                                                                 className={styles.scoreinputfield}
                                                                                             />
                                                                                         </Flex>
@@ -704,6 +704,7 @@ export const QuestionListModel = ({
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 maxLength={1}
+                                                                                                style={{border:'1px solid #A5889C'}}
                                                                                                 className={styles.scoreinputfield}
                                                                                             />
                                                                                         </Flex>
@@ -736,6 +737,7 @@ export const QuestionListModel = ({
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 maxLength={1}
+                                                                                                style={{border:'1px solid #A5889C'}}
                                                                                                 className={styles.scoreinputfield}
                                                                                             />
                                                                                         </Flex>
