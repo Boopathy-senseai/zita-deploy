@@ -266,9 +266,10 @@ label > p {
   width: 650px;
   flex-wrap: nowrap;
   overflow-x: scroll;
+  margin: 0px 25px 0px 25px;
 }
 .scrollfornav a {
-  text-wrap: nowrap;
+  text-wrap: nowrap; 
 }
  
 .cardview{ 

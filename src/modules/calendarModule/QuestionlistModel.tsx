@@ -325,7 +325,7 @@ export const QuestionListModel = ({
         const hasError = sample?.some(value => value.success === false);
 
         return (
-            <Flex row style={{ textAlign: 'justify' }}>
+            <Flex row style={{ textAlign: 'justify',padding: '0px 25px 25px 25px'}}>
                 {hasError && (
                     <Text color='error'>
                         Please generate questions for the interviewer{
@@ -540,8 +540,8 @@ export const QuestionListModel = ({
             </Modal>
 
             {/* Both generate and selection of levels modal popup*/}
-            <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px', padding: '25px' }}>
-                <Flex center row style={{ paddingBottom: '5px' }}>
+            <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' }}>
+                <Flex center row style={{ paddingBottom: '5px', padding: '25px 25px  0px 25px' }}>
                     <Flex row >
                         <Flex>
                             <Text size={14} bold >AI generated Interview Questions</Text>
@@ -561,7 +561,7 @@ export const QuestionListModel = ({
                             <Card className={styles.infocard} key={''}><Flex>hi</Flex></Card>)}
                     </Flex>
                 </Flex>
-                <Flex style={{ display: 'flex', width: '650px', flexWrap: 'nowrap', overflowX: 'scroll' }}>
+                <Flex style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
                         onSelect={(keys: any) => {
                             setinterviewer(keys);
@@ -572,7 +572,7 @@ export const QuestionListModel = ({
                         {formikval.values.checkedValues.map((user, index) => (
                             <Tab key={index} eventKey={JSON.stringify(index)} title={`${user.firstName} ${user.lastName}`}>
                                 <Flex >
-                                    <Flex between row style={{ padding: '10px 0  ' }}>
+                                    <Flex between row style={{ padding: '5px 25px  5px 25px' }}>
                                         <Flex>
                                             <Text size={12} bold  >
                                                 {`${user.role} - Interview Questions`}
@@ -581,7 +581,7 @@ export const QuestionListModel = ({
                                         </Flex>
                                         <Flex >
                                             {sample[interviewer]?.success === true ? (
-                                                <Flex onClick={functioncall} row center style={{ cursor: 'pointer' }} marginRight={11}>
+                                                <Flex onClick={functioncall} row center style={{ cursor: 'pointer' }}>
                                                     <Flex marginTop={3} style={{ cursor: 'pointer' }}>
                                                         <SvgAddquestion fill={PRIMARY} width={18} height={18} />
                                                     </Flex>
@@ -601,7 +601,7 @@ export const QuestionListModel = ({
                                         </Flex>
                                     </Flex>
                                     {sample[index].success === false ? (
-                                        <Flex>
+                                        <Flex style={{ padding: '0px 25px  0px 25px' }}>
                                             <Flex marginTop={8}>
                                                 <Text color='theme'> Choose the type(s) of interview questions.</Text>
                                             </Flex>
@@ -635,7 +635,7 @@ export const QuestionListModel = ({
                                                         return (
                                                             <>
                                                                 {item.level.length !== 0 &&
-                                                                    <Flex marginTop={5} style={{ borderBottom: '0.5px solid #C3C3C3', paddingBottom: '5px' }}>
+                                                                    <Flex marginTop={5} style={{ borderBottom: '0.5px solid #C3C3C3', marginBottom: '5px' }}>
                                                                         <Text color='theme'>Choose the difficulty level of the question and question count.</Text>
                                                                         <Flex key={listIndex}>
                                                                             {item.level.map((lvl, lvlIndex) => (
@@ -671,7 +671,7 @@ export const QuestionListModel = ({
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 maxLength={1}
-                                                                                                style={{border:'1px solid #A5889C'}}
+                                                                                                style={{ border: '1px solid #A5889C' }}
                                                                                                 className={styles.scoreinputfield}
                                                                                             />
                                                                                         </Flex>
@@ -704,7 +704,7 @@ export const QuestionListModel = ({
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 maxLength={1}
-                                                                                                style={{border:'1px solid #A5889C'}}
+                                                                                                style={{ border: '1px solid #A5889C' }}
                                                                                                 className={styles.scoreinputfield}
                                                                                             />
                                                                                         </Flex>
@@ -737,7 +737,7 @@ export const QuestionListModel = ({
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
                                                                                                 }}
                                                                                                 maxLength={1}
-                                                                                                style={{border:'1px solid #A5889C'}}
+                                                                                                style={{ border: '1px solid #A5889C' }}
                                                                                                 className={styles.scoreinputfield}
                                                                                             />
                                                                                         </Flex>
@@ -760,7 +760,7 @@ export const QuestionListModel = ({
 
                                         <Flex >
                                             {Array(sample[index].question)?.map((val, index1) => (
-                                                <Flex key={index1} style={{ overflowY: 'scroll', height: '400px', overflowX: 'hidden' }} >
+                                                <Flex key={index1} style={{ overflowY: 'scroll', height: '400px', overflowX: 'hidden', padding: '0px 8px 0px 25px' }} marginRight={5}>
 
                                                     <Flex>
                                                         {val?.Question?.map((value, ind) => (
@@ -852,7 +852,7 @@ export const QuestionListModel = ({
                         </Flex>
                     )
                 }
-                <Flex row between marginTop={7}>
+                <Flex row between marginTop={7} style={{ padding: '0px 25px 25px 25px' }}>
                     <Flex  >
                         <Button types="secondary" onClick={handlechange1} width='85px'>
                             Back
