@@ -6,6 +6,7 @@ import SvgUpload from '../../icons/SvgUpload';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import { WHITE } from '../../uikit/Colors/colors';
+import {Toast} from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -20,6 +21,7 @@ import {
   imgGetMiddleWare,
   resumeUploadMiddleWare,
 } from './store/middleware/candidateprofilemiddleware';
+ 
 
 type ParamsType = {
   empId: string;
@@ -98,6 +100,14 @@ const CandidateProfileUpload = () => {
               }, 100);
             }
           });
+        }
+        else{
+          Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          );
+          setLoader(false);
         }
       });
     }
