@@ -27,6 +27,7 @@ import styles from './styles/createScheduleForm.module.css';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
 import { LevelValue } from './Questiontype';
 
+
 interface Props {
     interviewer: any;
     setinterviewer: any;
@@ -439,7 +440,7 @@ export const QuestionListModel = ({
                 : joinedNames;
             return (
                 <Flex>
-                    <Text color='error'>Please select questions for the following interviewers {formattedNames}.</Text>
+                    <Text style={{padding:' 0 25px'}} color='error'>Please select questions for the following interviewers {formattedNames}.</Text>
                 </Flex>
             );
         } else {
@@ -569,7 +570,7 @@ export const QuestionListModel = ({
                                 </Flex>)
                             })}
                         </Flex>
-                        {error && !(formik.values.addquestion[0]?.type !== '') && <Flex marginTop={5}><Text color='error'>This Field is required.</Text></Flex>}
+                        {error && !(formik.values.addquestion[0]?.type !== '') && <Flex marginTop={5}><Text color='error'>This field is required.</Text></Flex>}
                         <Flex marginTop={9}>
                             <Text size={13} color='theme'>Choose the difficulty level of the question and question count.</Text>
                         </Flex>
@@ -588,7 +589,7 @@ export const QuestionListModel = ({
                                 </Flex>)
                             })}
                         </Flex>
-                        {error && !(formik.values.addquestion[0]?.level !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
+                        {error && !(formik.values.addquestion[0]?.level !== '') && <Flex marginTop={5}><Text color='error'> This field is required.</Text></Flex>}
                         <Flex marginTop={10}>
                             <InputText
                                 className={styles.addinput}
@@ -596,7 +597,7 @@ export const QuestionListModel = ({
                                 onChange={(e) => formik.setFieldValue('addquestion[0].question', e.target.value)}
                             />
                         </Flex>
-                        {error && !(formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'> This Field is required.</Text></Flex>}
+                        {error && !(formik.values.addquestion[0]?.question !== '') && <Flex marginTop={5}><Text color='error'> This field is required.</Text></Flex>}
                         <Flex row marginTop={17} end>
                             <Flex marginRight={20} onClick={() => handlemodel()}>
                                 <Button types="close" width="75px">Cancel</Button>
@@ -611,10 +612,10 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' }}>
-                {console.log("123123123123",field)}
+                {console.log("123123123123",field,formik.errors.levellist?.[interviewer])}
                 <Flex center row style={{ paddingBottom: '5px', padding: '25px 25px  0px 25px' }}>
                     <Flex row >
-                        <Flex>
+                        <Flex >
                             <Text size={14} bold >AI generated Interview Questions</Text>
                         </Flex>
                         <Flex marginLeft={5}>
@@ -627,10 +628,17 @@ export const QuestionListModel = ({
                             </label>
                         </Flex>
                     </Flex>
-                    <Flex marginLeft={5} >
-                        {openpopup === true && (
-                            <Card className={styles.infocard} key={''}><Flex>hi</Flex></Card>)}
-                    </Flex>
+                  
+                        {/* {openpopup === true && (
+                            <Flex marginLeft={5} data-container="body" data-toggle="popover" data-placement="top" 
+                            data-content="Customize and generate interview questions based on type, difficulty, and number of questions." >
+                            <Card className={styles.infocard} key={''}><Flex>
+                            <Text color="gray" size={13}> Customize and generate interview questions based on type,</Text> 
+                            <Text color="gray" size={13}>  difficulty, and number of the questions, with an emphasis </Text> 
+                            <Text color="gray" size={13}>  on ease of setup and personalization for each interviewer.</Text> 
+                            </Flex></Card>
+                            </Flex>)} */}
+                    
                 </Flex>
                 <Flex style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
@@ -830,7 +838,8 @@ export const QuestionListModel = ({
      
                                                                        <Flex> { formik.values?.showstate[interviewer]?.showstate===true&& (emherror())}</Flex>
                                                                         {formik.values?.required[interviewer]?.required===true&&!(counterror())&&(<Text color='error'>This field is required.</Text>)}
-
+                                                                        {console.warn(sample,counterror(),formik.values?.showstate[interviewer]?.showstate===true,sample[interviewer]?.success===false,formik.errors.levellist?.[interviewer]===undefined)}
+                                                                        {counterror()&&formik.values?.showstate[interviewer]?.showstate===true&&sample[interviewer]?.success===false&&formik.errors.levellist?.[interviewer]===undefined&&(<Text color='error'>Please click generate to proceed.</Text>)}
                                                                     </Flex>}
                                                             </>
                                                         );
