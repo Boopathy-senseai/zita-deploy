@@ -2672,4 +2672,5 @@ fieldset {
 
 .bs-popover-right  {
   max-width: 400px;
+  text-align: justify;
 }
