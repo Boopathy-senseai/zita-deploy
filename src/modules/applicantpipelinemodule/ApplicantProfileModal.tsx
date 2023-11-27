@@ -28,6 +28,7 @@ import ApplicantTabLeftTwo from '../applicantprofilemodule/ApplicantTabLeftTwo';
 import ApplicantTabRightOne from '../applicantprofilemodule/ApplicantTabRightOne';
 import styles from '../applicantprofilemodule/applicantprofilescreen.module.css';
 import Text from '../../uikit/Text/Text';
+import { interviewQuestionMiddleware } from '../applicantprofilemodule/store/middleware/interviewquestionMiddleware';
 
 var querystring = require('querystring');
 
@@ -127,14 +128,14 @@ const ApplicantProfileModal = ({
     job_details,
     source,
     stages,
-    matchLoader
+    matchLoader,
   } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantStausReducers,
       candidatejdmatchReducers,
-      applicantPipeLineReducers
+      applicantPipeLineReducers,
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
@@ -153,6 +154,19 @@ const ApplicantProfileModal = ({
       };
     },
   );
+  useEffect(() => {
+    if (jd_id && can_id) {
+      dispatch(interviewQuestionMiddleware({ jd_id, can_id })).then((res) => {
+        if (res.payload.success === false) {
+          Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          )
+        }
+      })
+    }
+  }, [jd_id, can_id]);
   if (initialLoader || matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>

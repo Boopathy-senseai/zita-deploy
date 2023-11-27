@@ -1,0 +1,14 @@
+.overalladd{
+    background-color: var(--color-white, #ffffff);
+    width: 650px;
+    padding: 25px;
+    border-radius: 4px;
+} 
+.scoreinputfield{ 
+    text-align: center;
+    border: none;
+    outline: none;
+    text-align: center;
+    box-shadow: 1px 2px 2px 2px rgb(238, 232, 236);
+    border-radius: 5px
+  }

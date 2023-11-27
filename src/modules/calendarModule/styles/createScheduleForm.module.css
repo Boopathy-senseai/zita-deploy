@@ -52,7 +52,8 @@
   white-space: nowrap;
 }
 .notes2{
-    color: rgba(26, 26, 26, 0.5);
+    /* color: rgba(26, 26, 26, 0.5); */
+    color: #333333 !important;
     grid-column: 1 / span 2;
     white-space: nowrap;
     display: grid;
@@ -259,4 +260,31 @@ label > p {
 .buttonContainer {
   display: flex;
   align-items: center;
+}
+.scrollfornav nav{
+  display: flex;
+  width: 650px;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  margin: 0px 25px 0px 25px;
+}
+.scrollfornav a {
+  text-wrap: nowrap; 
+}
+ 
+.cardview{ 
+  margin: 1px 10px 1px 1px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.infocard{
+padding: 5px;
+}
+.scoreinputfield{ 
+  text-align: center;  
+  text-align: center;
+  box-shadow: 1px 2px 2px 2px rgb(238, 232, 236);
+  border:1px solid #A5889C !important;
+  border-radius: 5px ;
+  height: 20px;
 }

@@ -49,6 +49,9 @@ interface Props {
   handleCloseSchedulingForm: () => void;
   setOpenScheduleForm: any;
   setopenmodel: any;
+  formik:any;
+  question:any;
+  addquestion:any;
 }
 
 const MeetingSummary = ({
@@ -68,6 +71,9 @@ const MeetingSummary = ({
   setIsTopLineLoading,
   setOpenScheduleForm,
   setopenmodel,
+  formik,
+  question,
+  addquestion,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
@@ -168,6 +174,8 @@ const MeetingSummary = ({
           endTime: meetingForm.endDateTime,
           notes: meetingForm.notes,
           location: meetingForm.location.value,
+          questions: question.tostringfy(),
+          new_questions:addquestion,
         }),
       )
         .then((res) => {
@@ -182,8 +190,7 @@ const MeetingSummary = ({
           // toast.error('Failed to Update Event', {
           //   duration: 3500,
           // });
-          Toast('Failed to Update Event');
-          console.error(err);
+          Toast('Failed to Update Event'); 
         })
         .finally(() => {
           setIsTopLineLoading(false);
@@ -208,9 +215,7 @@ const MeetingSummary = ({
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
-        applicantId: currentApplicantId
-          ? currentApplicantId
-          : Number(localStorage.getItem('can_id')),
+        applicantId: meetingForm.applicant.id,
         myJd: job.label,
         // (localStorage.getItem('jd_id')),
         reminder: getReminder(),
@@ -229,6 +234,9 @@ const MeetingSummary = ({
         location: location.value,
         notes: notes,
         privateNotes: meetingForm.privateNotes,
+        questions: JSON.stringify(question),
+        new_questions:addquestion,
+        
       }),
     )
       .then((res) => {
@@ -239,8 +247,7 @@ const MeetingSummary = ({
         localStorage.setItem('Applicantsname', '');
         Toast(`Event Scheduled Successfully`, 'LONG', 'success');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((err) => { 
         // toast.error('Failed to Schedule Event', {
         //   duration: 3500,
         // });
@@ -456,7 +463,7 @@ const MeetingSummary = ({
                     </Button>
                   )
                 ) : isloading ? (
-                  <Flex middle center style={{ width: '70px' }} marginTop={15}>
+                  <Flex middle center style={{ width: '70px' }} marginTop={5}>
                     <Loader size="small" withOutOverlay />
                   </Flex>
                 ) : (

@@ -67,7 +67,7 @@ export const comparativecsvdownloadmiddleware = createAsyncThunk(
         a.click();
         document.body.removeChild(a);
         Toast('CSV downloaded successfully', 'LONG', 'success');
-      } 
+      }
       return data;
     } catch (error) {
       const typedError = error as Error;

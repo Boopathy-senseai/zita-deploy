@@ -32,6 +32,7 @@ import ApplicantTabRightOne from './ApplicantTabRightOne';
 import ApplicantTabLeftOne from './ApplicantTabLeftOne';
 import ApplicantTabLeftTwo from './ApplicantTabLeftTwo';
 import styles from './applicantprofilescreen.module.css';
+import { interviewQuestionMiddleware } from './store/middleware/interviewquestionMiddleware';
 
 // import { LinkWrapper } from '../../uikit';
 
@@ -41,6 +42,8 @@ type ParamsType = {
   candiId: string;
 };
 const ApplicantProfileScreen = () => {
+  const searchParams = new URLSearchParams(useLocation().search);
+  const queryParam = searchParams.get('can_id');
   const [jobtitle, setjobtitle] = useState<string>();
   const { jdId, candiId } = useParams<ParamsType>();
   const history = useHistory();
@@ -67,13 +70,17 @@ const ApplicantProfileScreen = () => {
       setTabValue(5);
     }
   }, []);
-  useEffect(() => {
-    const url = window.location.href;
-    const applicantpipelineUrl = url.includes('/?2');
-    if (applicantpipelineUrl) {
-      setTabValue(1)
-    }
-  }, [])
+  useEffect(()=>{
+  const url = window.location.href;
+  const applicantpipelineUrl = url.includes('/?2'); 
+  if(applicantpipelineUrl){ 
+    setTabValue(1)
+  }
+  const interviewurl = url.includes('?question'); 
+  if(interviewurl){
+    setTabValue(6)
+  }
+},[])
   // initial api call
   useEffect(() => {
     dispatch(permissionMiddleWare());
@@ -170,6 +177,19 @@ const ApplicantProfileScreen = () => {
       };
     },
   );
+  useEffect(() => {
+    if (jd_id && can_id) {
+      dispatch(interviewQuestionMiddleware({ jd_id, can_id })).then((res)=>{
+        if(res.payload.success === false){
+           Toast(
+            'Sorry, there was a problem connecting to the API. Please try again later.',
+            'LONG',
+            'error',
+          ) 
+        }
+      })
+    }
+  }, [jd_id, can_id]);
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');

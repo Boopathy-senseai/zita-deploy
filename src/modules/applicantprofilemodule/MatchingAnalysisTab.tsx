@@ -526,7 +526,7 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
                                             <>
                                               {calculateLineCount(skill.description,5,500) > 2 ? (
                                                 <>
-                                                {console.log("line",calculateLineCount(skill.description,5,500))}
+                                                
                                                   <Flex  >
                                                     <Text className={styles.textellipces}>{skill.description}</Text>
                                                   </Flex>

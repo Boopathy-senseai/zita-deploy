@@ -202,3 +202,4 @@ export const CALENDAR_EVENTS_DELETE = 'calendar-events/delete';
 // interview question
 
 export const INTERVIEW_QUESTION = 'interviewer/questions';
+export const EVALUATE_QUESTION = 'interviewer/evaluate_question_input';

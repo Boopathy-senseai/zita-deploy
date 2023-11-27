@@ -99,7 +99,7 @@ const ApplicantTabLeftOne: React.FC<typeof defaultProps & Props> = ({
             <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} can_id={can_id} jd_id={jd_id} />
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
           </Tab>
         </Tabs>
       )}

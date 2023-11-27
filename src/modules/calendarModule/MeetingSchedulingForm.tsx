@@ -21,10 +21,12 @@ import {
   Text,
 } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+
 import { CrossButton } from '../../uikit/v2';
 import { isEmpty } from '../../uikit/helper';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { rolevaluemiddleware } from './store/middleware/calendarmiddleware';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -104,36 +106,33 @@ const MeetingSchedulingForm = ({
   const [list, setlist] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const [names, setname] = useState<any>([]);
+  const  [role,setrole]=useState<any>([])
 
-  const updatestate = (val) => {
-    const interviewerExists = formik.values.interviewers.some(
-      (item) => item.userId === val.userId,
-    );
-    if (!interviewerExists) {
-      const newInterviewer = {
-        firstName: val.firstName,
-        lastName: val.lastName,
-        role: '',
-        userId: val.userId,
-      };
-      formik.setFieldValue('interviewers', [
-        ...formik.values.interviewers,
-        newInterviewer,
-      ]);
-      console.log('add');
-    } else {
-      const updatedInterviewers = formik.values.interviewers.filter(
-        (item) => item.userId !== val.userId,
-      );
-      formik.setFieldValue('interviewers', updatedInterviewers);
-      console.log('sub');
-    }
-  };
+const updatestate = (val) => {
+  const interviewerExists = formik.values.interviewers.some(item => item.userId === val.userId);
+  if (!interviewerExists) {
+    const newInterviewer = {
+      firstName: val.firstName,
+      lastName: val.lastName,
+      role: '',
+      userId: val.userId
+    };
+    formik.setFieldValue('interviewers', [...formik.values.interviewers, newInterviewer]);
+    console.log("add");
+  } else {
+    const updatedInterviewers = formik.values.interviewers.filter(item => item.userId !== val.userId);
+    formik.setFieldValue('interviewers', updatedInterviewers);
+    console.log("sub");
+  }
+};
 
-  useEffect(() => {
-    localStorage.setItem('role', JSON.stringify(formik.values.interviewers));
-  }, [formik.values]);
+
+
+
+  useEffect(()=>{
+    localStorage.setItem('role',JSON.stringify(formik.values.interviewers))
+  },[formik.values])
+
 
   const eventMeetingTypes: {
     value: EventMeetingType;
@@ -164,6 +163,13 @@ const MeetingSchedulingForm = ({
   useEffect(() => {
     updateCurrentApplicantId(currentApplicantId);
   }, [currentApplicantId]);
+  useEffect(() => {
+  dispatch(rolevaluemiddleware()).then(
+    (res)=>{
+      setrole(res.payload)
+    }
+  )
+  },[]);
 
   useEffect(() => {
     const timezones = moment.tz.names();
@@ -796,69 +802,7 @@ const MeetingSchedulingForm = ({
       </div>
     </div>
   );
-  const data = [
-    'Software Developer',
-    'System Administrator',
-    'Database Administrator',
-    'Network Engineer',
-    'IT Support Specialist',
-    'Security Analyst',
-    'Cloud Architect',
-    'DevOps Engineer',
-    'Front-end Developer',
-    'Back-end Developer',
-    'Full-stack Developer',
-    'QA Engineer',
-    'Mobile App Developer',
-    'Web Developer',
-    'Data Scientist',
-    'Machine Learning Engineer',
-    'IT Project Manager',
-    'Business Analyst',
-    'UI/UX Designer',
-    'Application Support Analyst',
-    'Technical Writer',
-    'IT Manager',
-    'CTO',
-    'CIO',
-    'Help Desk Technician',
-    'System Architect',
-    'Network Administrator',
-    'IT Consultant',
-    'SEO Specialist',
-    'Data Analyst',
-    'ERP Specialist',
-    'CRM Developer',
-    'Embedded Systems Engineer',
-    'Cybersecurity Specialist',
-    'Game Developer',
-    'Hardware Engineer',
-    'IT Auditor',
-    'Infrastructure Engineer',
-    'IT Coordinator',
-    'IT Sales Representative',
-    'IT Trainer',
-    'Java Developer',
-    'JavaScript Developer',
-    'PHP Developer',
-    'Python Developer',
-    'Ruby Developer',
-    'Solutions Architect',
-    'Technical Support Engineer',
-    'Virtualization Engineer',
-    'Web Designer',
-    'Wireless Communication Engineer',
-    'IoT Developer',
-    'AI Specialist',
-    'Blockchain Developer',
-    'Cloud Solutions Developer',
-    'Digital Transformation Consultant',
-    'E-commerce Specialist',
-    'Network Security Specialist',
-    'RPA Developer',
-    'SaaS Developer',
-    'Virtual Reality Developer',
-  ];
+
 
   const handleChange = (ind, e) => {
     const updatedRole = e.target.value;
@@ -925,13 +869,14 @@ const MeetingSchedulingForm = ({
             />
             <Flex>
               <InputSearch
-                options={data}
                 setFieldValue={formik.setFieldValue}
-                required
                 name={`interviewers[${index}].role`}
                 label="Role"
+                placeholder='Add a role'
+                options={role}
                 initialValue={formik.values.interviewers[index]?.role}
                 onChange={(e) => handleChange(index, e)}
+                required
               />
               {local[index] && local[index].role === '' && errors[index] && (
                 <div className={styles.warn}>{errors[index]}</div>
@@ -1161,8 +1106,8 @@ const MeetingSchedulingForm = ({
         {<TimeZoneView />}
         {EventTypeView}
         {RemindarView}
-        {AddInterviewerView}
         {LocationView}
+        {AddInterviewerView}
         {NotesView}
         {PrivateNotesView}
       </div>

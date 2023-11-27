@@ -15,6 +15,7 @@ export interface Question {
   level: string;
   priority: string;
   total_score: number | null;
+  is_active?: boolean;
 }
 
 export interface CumulativeData {
@@ -27,6 +28,9 @@ export interface CumulativeData {
   scored_question: number;
   full_name: string;
   average_score: number | null;
+  total_recommend: number | null;
+  avg_recommend: number | null;
+  commands: string | null;
 }
 
 export interface NoOfInterview {
@@ -36,8 +40,8 @@ export interface NoOfInterview {
   jd_id: string;
   location: string;
   event_type: string;
-  s_time: string;
-  e_time: string;
+  s_time: null | Date;
+  e_time: null | Date;
   org_id: string;
 }
 
@@ -49,18 +53,50 @@ export interface Scorecard {
 }
 
 export interface InterviewerQuestions {
-  success: boolean;
-  result: Result;
+  success : boolean;
+  result: Result | undefined;
   data: Question[];
   cumulative: CumulativeData[];
   no_of_interview: NoOfInterview[];
   scorecard: Scorecard[];
 }
 
+export interface InterviewExtractData {
+  questions: Question[];
+  data: NoOfInterview | undefined;
+  cumulative: CumulativeData[];
+  scorecard: Scorecard;
+}
+
+export interface GenerateQuestionsState {
+  interviewId?: number;
+  isLoading: boolean;
+  error: string;
+}
+
+export interface ScoreCardFormInputData {
+  id?: number;
+  scorecard: number;
+  question?: string;
+  value: string;
+  active: boolean;
+  priority?: number;
+}
+
 export interface InterviewerQuestionReducer extends InterviewerQuestions {
   isLoading: boolean;
   error: string;
   interviews: {
-    [key: number]: Question[];
+    [key: number]: InterviewExtractData;
   };
+  generateQuestionsState: GenerateQuestionsState;
+}
+
+export interface EvaluateInterviewInput {
+  id: number;
+  scorecard: number;
+  question: string;
+  value: string;
+  active: string;
+  priority: string;
 }
