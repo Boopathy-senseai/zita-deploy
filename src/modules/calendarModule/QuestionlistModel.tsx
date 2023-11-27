@@ -1,6 +1,8 @@
 import { useFormik } from 'formik';
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import OverlayTrigger from 'react-bootstrap/esm/OverlayTrigger';
+import { Popover } from 'react-bootstrap';
 import {
     Flex,
     Text,
@@ -53,8 +55,8 @@ interface Props {
     setvalidateerror: any;
     validateerror: any;
     seterrorstate: any;
-    field:any;
-    setfield:any;
+    field: any;
+    setfield: any;
 };
 
 export const QuestionListModel = ({
@@ -375,7 +377,7 @@ export const QuestionListModel = ({
     //         </Flex>
     //     )
     // }
-   
+
 
     // const setfielderror = () => {
     //     console.log("welcome",interviewer)
@@ -393,7 +395,7 @@ export const QuestionListModel = ({
         }
         return null;
     }
-    
+
     const emherror = () => {
         let isChecked = false;
         const levels = formik.values?.levellist[interviewer]?.level || [];
@@ -402,9 +404,9 @@ export const QuestionListModel = ({
                 isChecked = true;
             }
         });
-    
+
         console.log(isChecked, "valavakacalaval;acvalavca");
-    
+
         if (isChecked) {
             if (formik.values?.Errorshow[interviewer]?.active) {
                 return validateError(interviewer);
@@ -413,18 +415,18 @@ export const QuestionListModel = ({
             setfielderror();
         }
     };
-    
-    
+
+
     const setfielderror = () => {
         console.log("welcome", interviewer);
         const fieldPath = `required[${interviewer}].required`;
         const currentValue = formik.values.required[interviewer]?.required;
-    
+
         if (!currentValue) {
             formik.setFieldValue(fieldPath, true);
         }
     };
-    
+
 
     const renderErrorComponents = () => {
         const errorNames = formik.values?.question
@@ -440,7 +442,7 @@ export const QuestionListModel = ({
                 : joinedNames;
             return (
                 <Flex>
-                    <Text style={{padding:' 0 25px'}} color='error'>Please select questions for the following interviewers {formattedNames}.</Text>
+                    <Text style={{ padding: ' 0 25px' }} color='error'>Please select questions for the following interviewers {formattedNames}.</Text>
                 </Flex>
             );
         } else {
@@ -536,7 +538,6 @@ export const QuestionListModel = ({
         const levels = formik.values?.levellist[interviewer]?.level || [];
         return levels.some(data => data?.iseasycheck || data?.ishardcheck || data?.ismediumcheck);
     };
-    
 
     return (
         <>
@@ -612,33 +613,35 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' }}>
-                {console.log("123123123123",field,formik.errors.levellist?.[interviewer])}
                 <Flex center row style={{ paddingBottom: '5px', padding: '25px 25px  0px 25px' }}>
                     <Flex row >
                         <Flex >
                             <Text size={14} bold >AI generated Interview Questions</Text>
                         </Flex>
                         <Flex marginLeft={5}>
-                            <label
-                                onMouseEnter={() => setopenpopup(true)}
-                                onMouseLeave={() => setopenpopup(false)}
-                                className={styles.changeStyle11}
+                            <OverlayTrigger
+                                trigger="hover"
+                                placement="right"
+                                show={openpopup}
+                                overlay={
+                                    <Popover id="popover" >
+                                        <Popover.Content>
+                                            Customize and generate interview questions based on type, difficulty
+                                            and number of the questions, with an emphasis on ease of setup and
+                                            personalization for each interviewer.
+                                        </Popover.Content>
+                                    </Popover>
+                                }
                             >
-                                <SvgModuleicon />
-                            </label>
+                                <div
+                                    onMouseEnter={() => setopenpopup(true)}
+                                    onMouseLeave={() => setopenpopup(false)}
+                                >
+                                    <SvgModuleicon />
+                                </div>
+                            </OverlayTrigger>
                         </Flex>
                     </Flex>
-                  
-                        {/* {openpopup === true && (
-                            <Flex marginLeft={5} data-container="body" data-toggle="popover" data-placement="top" 
-                            data-content="Customize and generate interview questions based on type, difficulty, and number of questions." >
-                            <Card className={styles.infocard} key={''}><Flex>
-                            <Text color="gray" size={13}> Customize and generate interview questions based on type,</Text> 
-                            <Text color="gray" size={13}>  difficulty, and number of the questions, with an emphasis </Text> 
-                            <Text color="gray" size={13}>  on ease of setup and personalization for each interviewer.</Text> 
-                            </Flex></Card>
-                            </Flex>)} */}
-                    
                 </Flex>
                 <Flex style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
@@ -834,12 +837,9 @@ export const QuestionListModel = ({
                                                                                 </Flex>
                                                                             ))}
                                                                         </Flex>
+                                                                        <Flex> {formik.values?.showstate[interviewer]?.showstate === true && (emherror())}</Flex>
+                                                                        {formik.values?.required[interviewer]?.required === true && !(counterror()) && (<Text color='error'>This field is required.</Text>)}
 
-     
-                                                                       <Flex> { formik.values?.showstate[interviewer]?.showstate===true&& (emherror())}</Flex>
-                                                                        {formik.values?.required[interviewer]?.required===true&&!(counterror())&&(<Text color='error'>This field is required.</Text>)}
-                                                                        {console.warn(sample,counterror(),formik.values?.showstate[interviewer]?.showstate===true,sample[interviewer]?.success===false,formik.errors.levellist?.[interviewer]===undefined)}
-                                                                        {counterror()&&formik.values?.showstate[interviewer]?.showstate===true&&sample[interviewer]?.success===false&&formik.errors.levellist?.[interviewer]===undefined&&(<Text color='error'>Please click generate to proceed.</Text>)}
                                                                     </Flex>}
                                                             </>
                                                         );
