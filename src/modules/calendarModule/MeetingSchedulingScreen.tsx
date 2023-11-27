@@ -251,6 +251,7 @@ const MeetingSchedulingScreen = ({
   const [value1, setvalue1] = useState(value);
   const [newquestion, setnewquestion] = useState([]);
   const [error, seterror] = useState(false);
+  const [field,setfield]=useState([])
 
   useEffect(() => {
     const { firstName, lastName } = splitName(username);
@@ -459,7 +460,10 @@ const MeetingSchedulingScreen = ({
     questionid: [],
     addquestion: [],
     Errorshow: [],
-    loader:[]
+    loader:[],
+    errorfield:[],
+    required:[],
+    showstate:[]
   };
 
   const childhandleCompanyPageValid = (values: MyFormValues1) => {
@@ -615,6 +619,18 @@ const MeetingSchedulingScreen = ({
         loader: false,
       }));
       formik1.setFieldValue('loader', mappedArray1);
+      const mappedArray2 = formik.values.checkedValues.map(item => ({
+        errorfield: false,
+      }));
+      formik1.setFieldValue('errorfield', mappedArray2);
+      const mappedArray3 = formik.values.checkedValues.map(item => ({
+        required: false,
+      }));
+      formik1.setFieldValue("required",mappedArray3);
+      const mappedArray4 = formik.values.checkedValues.map(item => ({
+        showstate: false,
+      }));
+      formik1.setFieldValue("showstate",mappedArray4);
     }
   }, [formik.values.checkedValues]);
 
@@ -701,6 +717,8 @@ const MeetingSchedulingScreen = ({
                 seterrorstate={seterrorstate}
                 setvalidateerror={setvalidateerror}
                 validateerror={validateerror}
+                field={field}
+                setfield={setfield}
 
               />
             )

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     Flex,
@@ -25,6 +25,7 @@ import SvgAddquestion from '../../icons/addquestion';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import styles from './styles/createScheduleForm.module.css';
 import { Interview_question_middleware } from './store/middleware/calendarmiddleware';
+import { LevelValue } from './Questiontype';
 
 interface Props {
     interviewer: any;
@@ -51,6 +52,8 @@ interface Props {
     setvalidateerror: any;
     validateerror: any;
     seterrorstate: any;
+    field:any;
+    setfield:any;
 };
 
 export const QuestionListModel = ({
@@ -77,7 +80,9 @@ export const QuestionListModel = ({
     errorstate,
     setvalidateerror,
     validateerror,
-    seterrorstate
+    seterrorstate,
+    field,
+    setfield,
 }: Props) => {
 
     const [showstate, setshowstate] = useState(false)
@@ -147,94 +152,99 @@ export const QuestionListModel = ({
         return userItem?.level.some(lvl => lvl.name === jobName && lvl.checked) || false;
     };
     // Error validartion for question count
-    const validateError = (listIndex) => {
-        const errorItem = formik.errors.levellist?.[listIndex];
-        if (errorItem && typeof errorItem !== 'string') {
-            const errorForThisItem = errorItem.totalError;
-            const errorForThisItem1 = errorItem.showError;
-            if (errorForThisItem) {
-                return <Text color='error'>{errorForThisItem}</Text>;
-            } else {
-                if (errorForThisItem1) {
-                    return <Text color='error'>{errorForThisItem1}</Text>;
-                }
+
+    const validateFunctionCall = () => {
+        let val = false;
+
+        formik.values?.levellist[interviewer]?.level?.forEach(data => {
+            if (data?.iseasycheck === true || data?.ishardcheck === true || data?.ismediumcheck === true) {
+                val = true;
             }
+        });
 
-        }
-        return null;
-    }
-
+        return val;
+    };
     // dispatch for generating question
     const generatequestion = (listIndex, id) => {
-        setshowerror(true)
-        if (formik.errors, Object.keys(formik.errors).length === 0) {
-            const errorItem = formik.errors.levellist?.[listIndex];
-            if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
-            formik.setFieldValue(`loader[${interviewer}].loader`, true)
-            // setSubmitLoader(true);
-            const transformLevelListData = (levellist1, targetId) => {
-                return levellist1
-                    .filter(item => item.id === targetId)
-                    .map(item => {
-                        const questionArray = item.level.flatMap(levelItem => {
-                            if (!levelItem.checked) return [];
+        formik.setFieldValue(`showstate[${interviewer}].showstate`, true)
+        formik.setFieldValue(`errorfield[${interviewer}].errorfield`, true)
+        if (formik.values?.levellist[interviewer]?.level.length !== 0) {
+            const answer = validateFunctionCall()
+            console.warn(!answer, formik.errors?.levellist)
+            const isInterviewerPresent = formik.errors?.levellist?.some((item, i) => i === listIndex);
 
-                            const mappings = [
-                                { key: 'iseasycheck', countKey: 'easy', level: 'Easy' },
-                                { key: 'ismediumcheck', countKey: 'medium', level: 'Medium' },
-                                { key: 'ishardcheck', countKey: 'hard', level: 'Hard' },
-                            ];
+            console.log(formik.errors, isInterviewerPresent, "vavavavavavavavavavavavavav")
+            if (answer) {
+                if (!isInterviewerPresent || formik.errors?.levellist === undefined) {
+                    const errorItem = formik.errors.levellist?.[listIndex];
+                    if (typeof errorItem !== 'string' && errorItem?.totalError) return null;
+                    formik.setFieldValue(`loader[${interviewer}].loader`, true)
+                    // setSubmitLoader(true);
+                    const transformLevelListData = (levellist1, targetId) => {
+                        return levellist1
+                            .filter(item => item.id === targetId)
+                            .map(item => {
+                                const questionArray = item.level.flatMap(levelItem => {
+                                    if (!levelItem.checked) return [];
 
-                            return mappings.reduce((acc, map) => {
-                                if (levelItem[map.key] && levelItem[map.countKey]) {
-                                    acc.push({
-                                        level: map.level,
-                                        type: levelItem.name,
-                                        count: levelItem[map.countKey]
-                                    });
+                                    const mappings = [
+                                        { key: 'iseasycheck', countKey: 'easy', level: 'Easy' },
+                                        { key: 'ismediumcheck', countKey: 'medium', level: 'Medium' },
+                                        { key: 'ishardcheck', countKey: 'hard', level: 'Hard' },
+                                    ];
+
+                                    return mappings.reduce((acc, map) => {
+                                        if (levelItem[map.key] && levelItem[map.countKey]) {
+                                            acc.push({
+                                                level: map.level,
+                                                type: levelItem.name,
+                                                count: levelItem[map.countKey]
+                                            });
+                                        }
+                                        return acc;
+                                    }, []);
+                                });
+                                return {
+                                    id: item.id,
+                                    role: item.role,
+                                    question: questionArray
+                                };
+                            });
+                    };
+                    const combinedData = transformLevelListData(formik.values.levellist, id);
+                    const formData = new FormData();
+                    formData.append('role', JSON.stringify(combinedData));
+                    formData.append('summary', formikval.values.brieftext);
+                    formData.append('can_id', meetingForm.applicant.id);
+                    formData.append('jd_id', meetingForm.job.value);
+
+                    dispatch(Interview_question_middleware({ formData }))
+                        .then((response) => {
+                            if (response?.payload?.success === true) {
+                                formik.setFieldValue(`loader[${interviewer}].loader`, false)
+                                // setSubmitLoader(false);
+                                setshowstate(true);
+                                update_state(response.payload.data);
+                                const addQuestion = response.payload.data;
+                                if (!Array.isArray(addQuestion)) {
+                                    setquestions(prevQuestions => [...prevQuestions, addQuestion]);
+                                } else {
+                                    setquestions(prevQuestions => [...prevQuestions, ...addQuestion]);
                                 }
-                                return acc;
-                            }, []);
+                                setViewMeetingSummary(false);
+                                setShowPopup(true);
+                            } else {
+                                formik.setFieldValue(`loader[${interviewer}].loader`, false)
+                                // setSubmitLoader(false);
+                                Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG', 'error');
+                            }
                         });
-                        return {
-                            id: item.id,
-                            role: item.role,
-                            question: questionArray
-                        };
-                    });
-            };
-            const combinedData = transformLevelListData(formik.values.levellist, id);
-            const formData = new FormData();
-            formData.append('role', JSON.stringify(combinedData));
-            formData.append('summary', formikval.values.brieftext);
-            formData.append('can_id', meetingForm.applicant.id);
-            formData.append('jd_id', meetingForm.job.value);
+                }
+                return null;
+            }
+        };
 
-            dispatch(Interview_question_middleware({ formData }))
-                .then((response) => {
-                    if (response?.payload?.success === true) {
-                        formik.setFieldValue(`loader[${interviewer}].loader`, false)
-                        // setSubmitLoader(false);
-                        setshowstate(true);
-                        update_state(response.payload.data);
-                        const addQuestion = response.payload.data;
-                        if (!Array.isArray(addQuestion)) {
-                            setquestions(prevQuestions => [...prevQuestions, addQuestion]);
-                        } else {
-                            setquestions(prevQuestions => [...prevQuestions, ...addQuestion]);
-                        }
-                        setViewMeetingSummary(false);
-                        setShowPopup(true);
-                    } else {
-                        formik.setFieldValue(`loader[${interviewer}].loader`, false)
-                        // setSubmitLoader(false);
-                        Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG', 'error');
-                    }
-                });
-        }
-        return null;
-    };
-
+    }
     // validating the question while appending
     const validatequestion = () => {
         if (formik.values.addquestion[0] !== undefined && formik.values.addquestion[0]?.type !== '' && formik.values.addquestion[0]?.level !== '' && formik.values.addquestion[0]?.question !== '') {
@@ -243,7 +253,6 @@ export const QuestionListModel = ({
             const index = sample.findIndex(({ id }) => id === newQuestion.attendees);
             if (index === -1) {
                 setopenmodel(false);
-
                 return;
             }
             const [questionItem] = sample.splice(index, 1);
@@ -273,7 +282,6 @@ export const QuestionListModel = ({
             seterror(true)
         }
     };
-
     // id generation for question
     function getNextLetter(letter) {
         if (letter.length === 1) {
@@ -292,15 +300,12 @@ export const QuestionListModel = ({
             }
         }
     }
-
-
     const functioncall = () => {
         setopenmodel(true)
         formik.setFieldValue('addquestion[0].type', '')
         formik.setFieldValue('addquestion[0].level', '')
         formik.setFieldValue('addquestion[0].question', '')
     }
-
     const nextLetter = getNextLetter(currentLetter);
     //changing level radio thumb based on value
     const handlelevelradio = (val) => {
@@ -318,14 +323,13 @@ export const QuestionListModel = ({
     };
     const filteredIds = sample?.filter(item => item.success === false)
         .map(item => item.id);
-
     const renderTextComponents = () => {
         let textCount = 0;
         // Check if there's any item with success === false 
         const hasError = sample?.some(value => value.success === false);
 
         return (
-            <Flex row style={{ textAlign: 'justify',padding: '0px 25px 25px 25px'}}>
+            <Flex row style={{ textAlign: 'justify', padding: '0px 25px 25px 25px' }}>
                 {hasError && (
                     <Text color='error'>
                         Please generate questions for the interviewer{
@@ -336,7 +340,6 @@ export const QuestionListModel = ({
                                 const isLastItem = filteredIds.length === textCount;
                                 const isSecondToLastItem = filteredIds.length - 1 === textCount;
                                 const separator = isLastItem ? '.' : (isSecondToLastItem ? ' and ' : ', ');
-                                console.log(isLastItem, isSecondToLastItem, 'ggg', textCount, filteredIds.length, filteredIds.length - 1, filteredIds)
                                 return (
 
                                     <Text color='error' key={i}>
@@ -352,25 +355,76 @@ export const QuestionListModel = ({
         );
     };
 
+    // const emherror = (id) => {
+    //     let val = false
+    //     return (
+    //         <Flex>
+    //             {formik.values?.levellist[interviewer]?.level?.map((datas, i) => {
+    //                 console.log(datas, "oeugytewdctqdtqwwfdiwehfenwegdewbdewhiuewfewhfuewewdhouew")
+    //                 if (datas?.iseasycheck === true || datas?.ishardcheck === true || datas?.ismediumcheck === true) {
+    //                     val = true
+    //                 }
+    //             })
+    //             }
+    //             {console.log(";;;;;;;;;;;;;vallllllll", val)}
+    //             {val ? (
+    //                 formik.values?.Errorshow[interviewer]?.active === true && validateError(interviewer)
+    //             ) : (setfielderror())}
 
-    const emherror = () => {
-        let val = false
-        return (
-            <Flex>
-                {formik.values?.levellist[interviewer]?.level?.map((datas, i) => {
+    //         </Flex>
+    //     )
+    // }
+   
 
-                    if (datas?.iseasycheck === true || datas?.ishardcheck === true || datas?.ismediumcheck === true) {
-                        val = true
-                    }
-                })
-                }
-                {val ? (
-                    formik.values?.Errorshow[interviewer]?.active === true && validateError(interviewer)
-                ) : (<Text color='error'>This field is required.</Text>)}
-
-            </Flex>
-        )
+    // const setfielderror = () => {
+    //     console.log("welcome",interviewer)
+    //     setfield((prevState) => {       const newState = [...prevState];  
+    //            newState[interviewer] = { required: true }; 
+    //                return newState;     });
+    //     // setfield(...field,field[interviewer].required=true)
+    // //     formik.setFieldValue(`required[${interviewer}].required`, true);
+    // }
+    const validateError = (listIndex) => {
+        const errorItem = formik.errors.levellist?.[listIndex];
+        if (errorItem && typeof errorItem !== 'string') {
+            const errorForThisItem = errorItem.totalError || errorItem.showError;
+            return errorForThisItem ? <Text color='error'>{errorForThisItem}</Text> : null;
+        }
+        return null;
     }
+    
+    const emherror = () => {
+        let isChecked = false;
+        const levels = formik.values?.levellist[interviewer]?.level || [];
+        levels.forEach((data) => {
+            if (data?.iseasycheck || data?.ishardcheck || data?.ismediumcheck) {
+                isChecked = true;
+            }
+        });
+    
+        console.log(isChecked, "valavakacalaval;acvalavca");
+    
+        if (isChecked) {
+            if (formik.values?.Errorshow[interviewer]?.active) {
+                return validateError(interviewer);
+            }
+        } else {
+            setfielderror();
+        }
+    };
+    
+    
+    const setfielderror = () => {
+        console.log("welcome", interviewer);
+        const fieldPath = `required[${interviewer}].required`;
+        const currentValue = formik.values.required[interviewer]?.required;
+    
+        if (!currentValue) {
+            formik.setFieldValue(fieldPath, true);
+        }
+    };
+    
+
     const renderErrorComponents = () => {
         const errorNames = formik.values?.question
             .map((obj, indexid) => (obj.question.length === 0 ? formik.values.levellist[indexid]?.firstname + ' ' + formik.values.levellist[indexid]?.lastname : null))
@@ -415,34 +469,49 @@ export const QuestionListModel = ({
         return filteredData;
     }
     const submit = () => {
-        seterrorstate(true)
-        if (sample[interviewer]?.success === true) {
-            const questionErrors = {};
-            let isValid = true;
-
-            const filteredData = filterObj(sample)
-            formik.values.question.some((item, index) => {
-                if (item.question.length === 0) {
-                    questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
-                    isValid = false;
-                }
-
-            });
-            const arrayLengths = formik.values?.question?.map(obj => {
-                if (obj.question.length === 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-            });
-            const result = arrayLengths.includes(false) ? false : true;
-            if (result) {
-                handlechange()
-                setaddquestion(filteredData)
+        formik.setFieldValue(`showstate[${interviewer}].showstate`, true)
+        var a = list_of_interviewer()
+        console.log(a)
+        if (a.length !== 0) {
+            tabupdate(a[0])
+            if (formik.values?.levellist[interviewer]?.level.length === 0) {
+                formik.setFieldValue(`errorfield[${a[0]}].errorfield`, true)
             } else {
-                setquestionerror(true)
+                formik.setFieldValue(`required[${a[0]}].required`, true)
+            }
+
+        } else {
+            seterrorstate(true)
+            if (sample[interviewer]?.success === true) {
+                const questionErrors = {};
+                let isValid = true;
+
+                const filteredData = filterObj(sample)
+                formik.values.question.some((item, index) => {
+                    if (item.question.length === 0) {
+                        questionErrors[`questions[${index}].question`] = 'This question must not be empty.';
+                        isValid = false;
+                    }
+
+                });
+                const arrayLengths = formik.values?.question?.map(obj => {
+                    if (obj.question.length === 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+                const result = arrayLengths.includes(false) ? false : true;
+                if (result) {
+                    handlechange()
+                    setaddquestion(filteredData)
+                } else {
+                    setquestionerror(true)
+                }
             }
         }
+
+
     }
     const validshow = sample?.map((obj, indexid) => {
         if (obj.success === true) {
@@ -452,20 +521,21 @@ export const QuestionListModel = ({
         }
         return null;
     }).some(element => element === null);
-    //     const divRef = useRef(null);
+    const tabupdate = (val) => {
+        setinterviewer(val);
+        sessionStorage.setItem('interviewer', val);
 
-    //   // State to store the height
-    //   const [height, setHeight] = useState(0);
+    }
+    const list_of_interviewer = () => {
+        const successIndices = sample?.map((item, index) => item.success ? null : index).filter(index => index !== null);
+        return successIndices;
+    };
 
-    //   useEffect(() => {
-    //     // Check if the div is rendered and has a size
-    //     if (divRef.current) {
-    //       // Get the height of the div and update the state
-    //       setHeight(divRef.current.clientHeight);
-    //     }
-    //   },[]);
-
-
+    const counterror = () => {
+        const levels = formik.values?.levellist[interviewer]?.level || [];
+        return levels.some(data => data?.iseasycheck || data?.ishardcheck || data?.ismediumcheck);
+    };
+    
 
     return (
         <>
@@ -541,6 +611,7 @@ export const QuestionListModel = ({
 
             {/* Both generate and selection of levels modal popup*/}
             <Flex className={styles.scrollfornav} style={{ backgroundColor: '#FFF', width: '700px' }}>
+                {console.log("123123123123",field)}
                 <Flex center row style={{ paddingBottom: '5px', padding: '25px 25px  0px 25px' }}>
                     <Flex row >
                         <Flex>
@@ -564,8 +635,7 @@ export const QuestionListModel = ({
                 <Flex style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}>
                     <Tabs activeKey={interviewer}
                         onSelect={(keys: any) => {
-                            setinterviewer(keys);
-                            sessionStorage.setItem('interviewer', keys);
+                            tabupdate(keys);
 
                         }}
                     >
@@ -619,14 +689,19 @@ export const QuestionListModel = ({
                                                                 <InputCheckBox
                                                                     label={modifiedJobList.name}
                                                                     checked={isCheckboxChecked(user.id, modifiedJobList.name)}
-                                                                    onChange={(event) => handleCheckboxChange(idx, event, user.id)}
+                                                                    onChange={(event) => {
+                                                                        handleCheckboxChange(idx, event, user.id)
+
+                                                                    }
+
+                                                                    }
                                                                 />
                                                             </Flex>
                                                         );
                                                     })}
 
                                                 </Flex>
-                                                {showerror && formik.values?.levellist[interviewer]?.level.length === 0 && (<Text color='error'>This field is required.</Text>)}
+                                                {formik.values?.errorfield[interviewer]?.errorfield && formik.values?.levellist[interviewer]?.level.length === 0 && (<Text color='error'>This field is required.</Text>)}
                                             </Flex>
                                             {
                                                 formik.values.levellist
@@ -651,6 +726,7 @@ export const QuestionListModel = ({
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].easy = updatedLevellist[interviewer]?.level[lvlIndex]?.iseasycheck === false && 0;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
 
+
                                                                                                 }}
                                                                                                 checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.iseasycheck}
                                                                                             />
@@ -669,6 +745,7 @@ export const QuestionListModel = ({
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].easy = e.target.value;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
+
                                                                                                 }}
                                                                                                 maxLength={1}
                                                                                                 style={{ border: '1px solid #A5889C' }}
@@ -684,6 +761,7 @@ export const QuestionListModel = ({
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].ismediumcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ismediumcheck;
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].medium = updatedLevellist[interviewer]?.level[lvlIndex]?.ismediumcheck === false && 0;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
+
                                                                                                 }}
                                                                                                 checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ismediumcheck}
                                                                                             />
@@ -702,6 +780,7 @@ export const QuestionListModel = ({
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].medium = e.target.value;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
+
                                                                                                 }}
                                                                                                 maxLength={1}
                                                                                                 style={{ border: '1px solid #A5889C' }}
@@ -717,6 +796,7 @@ export const QuestionListModel = ({
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].ishardcheck = !updatedLevellist[interviewer]?.level[lvlIndex]?.ishardcheck;
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].hard = updatedLevellist[interviewer]?.level[lvlIndex]?.ishardcheck === false && 0;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
+
                                                                                                 }}
                                                                                                 checked={formik.values?.levellist[interviewer]?.level[lvlIndex]?.ishardcheck}
                                                                                             />
@@ -735,6 +815,7 @@ export const QuestionListModel = ({
                                                                                                     const updatedLevellist = [...formik.values.levellist];
                                                                                                     updatedLevellist[interviewer].level[lvlIndex].hard = e.target.value;
                                                                                                     formik.setFieldValue('levellist', updatedLevellist);
+
                                                                                                 }}
                                                                                                 maxLength={1}
                                                                                                 style={{ border: '1px solid #A5889C' }}
@@ -746,8 +827,9 @@ export const QuestionListModel = ({
                                                                             ))}
                                                                         </Flex>
 
-
-                                                                        {showerror && (emherror())}
+     
+                                                                       <Flex> { formik.values?.showstate[interviewer]?.showstate===true&& (emherror())}</Flex>
+                                                                        {formik.values?.required[interviewer]?.required===true&&!(counterror())&&(<Text color='error'>This field is required.</Text>)}
 
                                                                     </Flex>}
                                                             </>
@@ -829,9 +911,9 @@ export const QuestionListModel = ({
                                     </Flex>
                                     } */}
 
-                                    {errorstate && sample?.filter(item => item.success === false).length !== 0 ?
-                                        <Flex key={''}> {renderTextComponents()}</Flex>
-                                        : ''}
+                                    {/* {errorstate&&sample?.filter(item => item.success === false).length !== 0 ?
+                                                <Flex key={''}> {renderTextComponents()}</Flex>
+                                                : ''}  */}
                                 </Flex>
 
                             </Tab>
@@ -871,5 +953,6 @@ export const QuestionListModel = ({
                 </Flex>
             </Flex>
         </>
-    );
+    )
 };
+
