@@ -146,7 +146,7 @@ const ScreeningStatusTab = ({
         setAddquestion(false);
         setisloader(false);
         setcleardata(true);
-        Toast(' Addquestion successfully', 'LONG', 'success');
+        Toast(' Add question successfully', 'LONG', 'success');
       }
       else {
         setisloader(false);
@@ -198,7 +198,7 @@ const ScreeningStatusTab = ({
         setisloader(false);
         setcleardata(true);
         setregeneratequestion(false);
-        Toast('Regeneratequestion successfully', 'LONG', 'success');
+        Toast('Regenerate question successfully', 'LONG', 'success');
       }
       else {
         setisloader(false);
@@ -249,7 +249,7 @@ const ScreeningStatusTab = ({
         setisloader(false);
         setcleardata(true);
         setgeneratequestion(false);
-        Toast('generatequestion successfully', 'LONG', 'success');
+        Toast('generate question successfully', 'LONG', 'success');
       }
       else {
         setisloader(false);
