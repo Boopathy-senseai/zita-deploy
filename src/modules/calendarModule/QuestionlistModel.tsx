@@ -621,7 +621,7 @@ export const QuestionListModel = ({
                         <Flex marginLeft={5}>
                             <OverlayTrigger
                                 trigger="hover"
-                                placement="right"
+                                placement="bottom"
                                 show={openpopup}
                                 overlay={
                                     <Popover id="popover" >

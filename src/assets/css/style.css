@@ -2662,15 +2662,16 @@ fieldset {
   display: none !important;
 }
 
-.bs-popover-right .arrow::after {
+.bs-popover-bottom .arrow::after {
   display: none;
 }
 
-.bs-popover-right .arrow::before {
+.bs-popover-bottom .arrow::before {
   display: none;
 }
 
-.bs-popover-right  {
+.bs-popover-bottom  {
   max-width: 400px;
-  text-align: justify;
+  text-align: justify; 
+  transform: translate3d(446.5px, 216px, 0px) !important;
 }
