@@ -26,6 +26,7 @@ import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import SvgCollapse from '../../../icons/Svgcollapse';
+import SvgCircle from '../../../icons/SvgCircle';
 import styles from './notification.module.css';
 
 const cx = classNames.bind(styles);
@@ -188,7 +189,6 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
     sessionStorage.setItem('CommunicationDropdown', '0');
     sessionStorage.setItem('BrandingDropdown', '0');
     sessionStorage.setItem('MyAccountDropdown', '0');
-
     setOverviewPopupDropdownOpen(false);
     setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
@@ -217,7 +217,19 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
     }
   }, [plan_id]);
   
+  // Dropdownmenu Line styling for Hiring User
+    let hiringclassName;
+    if (permission.includes('bulkImport_candidates') && permission.includes('talent_sourcing')) {
+      hiringclassName = styles.candidatesdropdownlinehire3
+    } else if (permission.includes('bulkImport_candidates')) {
+      hiringclassName = styles.candidatesdropdownlinehire2
+    } else if (permission.includes('talent_sourcing')) {
+      hiringclassName = styles.candidatesdropdownlinehire2
+    } else {
+      hiringclassName = styles.candidatesdropdownlinehire
+    }
 
+// Paths for tab navigations
   let integrationnavpath = '/account_setting/settings'
 
   if (super_user === true && roles === "Admin") {
@@ -260,7 +272,6 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
   const communicationdropdownRef = useRef(null);
   const brandingdropdownRef = useRef(null);
   const myaccountdropdownRef = useRef(null);
-
 
   const handleClickOutside = (event) => {
     if (overviewdropdownRef.current && !overviewdropdownRef.current.contains(event.target)) {
@@ -467,7 +478,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                 </Flex>
                 )}
               <Flex 
-              style={{ width: "166px",}}
+              style={{ width: "166px" }}
               className={Expent === "0" ? "" : styles.classpan}
               >
                 <div style={{marginLeft:"14px"}}>
@@ -545,7 +556,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   </li>
                 )}  
               {/* Reports */}
-              {permission.includes('reports') ? (
+              {permission.includes("reports") ? (
                 <>
                   {is_plan ? (
                     changes ? (
@@ -760,7 +771,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               )}
               {roles === "Hiring" && (
                 <Flex 
-                className={styles.jobsdropdownlinehire}
+                className={permission.includes('create_post') ? styles.jobsdropdownlinehire : styles.jobsdropdownlinehire1}
                 style={{display: isJobsDropdownOpen ? "" : "none" }}
                   ></Flex>       
               )}
@@ -1327,11 +1338,20 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               style={{display: isCandiDropdownOpen ? "" : "none" }}
                 ></Flex>
             )}
-              {roles === "Hiring" && (
+            {/* {roles === "Hiring" && (              
               <Flex 
-              className={styles.candidatesdropdownlinehire}
+              className={candidatesdropdownlinehire}
               style={{display: isCandiDropdownOpen ? "" : "none" }}
-                ></Flex>
+                >
+                </Flex>
+            )} */}
+
+            {roles === "Hiring" && (              
+              <Flex 
+              className={hiringclassName}
+              style={{display: isCandiDropdownOpen ? "" : "none" }}
+                >
+                </Flex>
             )}
               {roles === "HR" && (
               <Flex 
@@ -2494,35 +2514,68 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             </li>
             {isMyaccDropdownOpen && (
               <Flex className={styles.liflex}>
+              
               {super_user === true && roles === "Admin" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
                 className={styles.myaccountdropdownlinesuperadmin}
-                style={{display: isMyaccDropdownOpen ? "" : "none" }}
-                  ></Flex>
+                style={{display: isMyaccDropdownOpen ? "" : "none" }}>
+                  </Flex>
+                  <Flex style={{marginLeft: "4px"}}>
+                    <SvgCircle width={10} height={10}/>
+                  </Flex>
+                </Flex>
+                  </>
                   )}
               {super_user === false && roles === "Admin" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
-                className={styles.myaccountdropdownlineadmin}
-                style={{display: isMyaccDropdownOpen ? "" : "none" }}
-                  ></Flex>
-          )}
+                  className={styles.myaccountdropdownlineadmin}
+                  style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                    ></Flex>
+                    <Flex style={{marginLeft: "4px"}}>
+                      <SvgCircle width={10} height={10}/>
+                      </Flex>
+
+                </Flex>
+                </>
+                  )}
               {roles === "Hiring" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
                 className={styles.myaccountdropdownlinehire}
                 style={{display: isMyaccDropdownOpen ? "" : "none" }}
                   ></Flex>
+                  <Flex style={{marginLeft: "4px"}}>
+                  <SvgCircle width={10} height={10}/>
+                </Flex>
+                  </Flex>
+                  </>
                   )}
               {roles === "HR" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
                 className={styles.myaccountdropdownlinehr}
                 style={{display: isMyaccDropdownOpen ? "" : "none" }}
                   ></Flex>
-                )}
+                  <Flex style={{marginLeft: "4px"}}>
+                  <SvgCircle width={10} height={10}/>
+                </Flex>
+                </Flex>
+                </>
+                  )}
                 <Flex 
                 style={{ width: "166px"}}
                   className={Expent === "0" ? "" : styles.classpan}>
                     
-                  <div style={{marginLeft: "14px"}}>
+                  <div style={{
+                    // marginLeft: "14px"
+                       marginLeft: "10px"
+                              }}>
                 {/* Profile */}
                 {super_user === true && roles === "Admin" && (
                 <>

@@ -388,7 +388,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
     > 
       {isMeeting && (
         <Flex flex={6} columnFlex style={{ padding: '5px' }}>
-          <Flex row between center marginTop={25} className={styles.borderbellow}>
+          <Flex row between marginTop={8} className={styles.borderbellow}>
             <Flex>
               <Flex>
                 <Text color="theme" bold className={styles.meetingFlex}>
@@ -460,7 +460,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                 </Button>
               </Flex>
             ) : (
-              <Flex row end center middle>
+              <Flex row end center middle style={{paddingTop: "4px"}}>
                 <Flex end marginRight={10} height={30}>
                 <Button
                 

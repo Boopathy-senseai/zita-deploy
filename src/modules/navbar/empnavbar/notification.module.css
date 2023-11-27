@@ -153,7 +153,8 @@
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
-  height:85%
+  /* height:85% */
+  height:87%
 }
 ::-webkit-scrollbar-thumb {
   background-color: #888;
@@ -317,7 +318,8 @@
 .sidebar .setting {
   /* position: absolute; */
   /* bottom: 0; */
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  margin-bottom: 7px ! important;
 }
 
 .sidebarmini .setting {
@@ -562,8 +564,11 @@ font-family: 'Courier New', Courier, monospace;
   border-left: 2px solid rgb(238, 232, 236);
   height: 104px;
 }
-
 .jobsdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+.jobsdropdownlinehire1{
   border-left: 2px solid rgb(238, 232, 236);
   height: 68px;
 }
@@ -589,7 +594,18 @@ font-family: 'Courier New', Courier, monospace;
   border-left: 2px solid rgb(238, 232, 236);
   height: 35px;
 }
-
+.candidatesdropdownlinehire2{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
+}
+.candidatesdropdownlinehire3{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 104px;
+}
+.candidatesdropdownlinehire4{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 140px;
+}
 .candidatesdropdownlinehr{
   border-left: 2px solid rgb(238, 232, 236);
   height: 104px;
@@ -632,16 +648,22 @@ font-family: 'Courier New', Courier, monospace;
 .myaccountdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 104px;
+  margin-left: 8px;
 }
 .myaccountdropdownlineadmin{
   border-left: 2px solid rgb(238, 232, 236);
   height: 35px;
+  margin-left: 8px;
+
 }
 .myaccountdropdownlinehire{
   border-left: 2px solid rgb(238, 232, 236);
   height: 35px;
+  margin-left: 8px;
 }
 .myaccountdropdownlinehr{
   border-left: 2px solid rgb(238, 232, 236);
   height: 35px;
+  margin-left: 8px;
+
 }
