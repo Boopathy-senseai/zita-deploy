@@ -837,9 +837,11 @@ export const QuestionListModel = ({
                                                                                 </Flex>
                                                                             ))}
                                                                         </Flex>
+
+
                                                                         <Flex> {formik.values?.showstate[interviewer]?.showstate === true && (emherror())}</Flex>
                                                                         {formik.values?.required[interviewer]?.required === true && !(counterror()) && (<Text color='error'>This field is required.</Text>)}
-
+                                                                        {counterror() && formik.values?.showstate[interviewer]?.showstate === true && sample[interviewer]?.success === false && formik.errors.levellist?.[interviewer] === undefined && (<Text color='error'>Please click generate to proceed.</Text>)}
                                                                     </Flex>}
                                                             </>
                                                         );
