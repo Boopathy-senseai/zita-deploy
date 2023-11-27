@@ -55,11 +55,19 @@ export const comparativecsvdownloadmiddleware = createAsyncThunk(
         params: { response_json, jd_id },
       });
       if (
-         data.success === true 
-      ) {
-        handleDownload(data?.FilePath);
+        data.success === true
+      ) {  
+        const csvData = '"JD!##_Front End Developer_Comparision Analysis_Nov 23 2023.csv"';
+        const blob = new Blob([csvData], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'JD!##_Front End Developer_Comparision Analysis_Nov 23 2023.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
         Toast('CSV downloaded successfully', 'LONG', 'success');
-      } 
+      }
       return data;
     } catch (error) {
       const typedError = error as Error;
