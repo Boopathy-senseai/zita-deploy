@@ -3,9 +3,12 @@ import SvgRoundTick from '../../icons/SvgRoundTick';
 import { RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import { getDateString } from '../../uikit/helper';
 import { userProfileMiddleWare } from '../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
-
+import styles from './screeningstatustab.module.css';
 import InterviewScorecardTab from './InterviewScorecardTab';
+import { Question } from './interviewerQuestionType';
+
 
 type Props = {
   title: string;
@@ -109,7 +112,7 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
             paddingTop: '10px',
             paddingBottom: '10px',
           }}
-        ></Flex>
+        ></Flex>   
       )}
       {!issingletab && (
         <Flex flex={6.4}>
