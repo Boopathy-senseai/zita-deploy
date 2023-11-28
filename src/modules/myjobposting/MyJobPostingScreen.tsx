@@ -15,7 +15,7 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { jobCreateNonDs } from '../../appRoutesPath'
 import { AppDispatch, RootState } from '../../store';
 import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
-import SvgSearch from '../../icons/SvgSearch';
+import SvgInfo from '../../icons/SvgInfo';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { SubsriptionMiddleWare } from '../navbar/empnavbar/store/navbarmiddleware';
 import SubscriptionModal from '../subscriptionmodule/subscriptionmoduleScreen';
@@ -40,12 +40,12 @@ const initial: MyJobFormProps = {
 const MyJobPostingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isPage, setPage] = useState(0);
-  const [isLoad, setIsLoad] = useState(true); 
+  const [isLoad, setIsLoad] = useState(true);
   const history = useHistory();
   const [change, setchange] = useState(false);
   const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
   const [isReload, setReload] = useState(false);
-  const [isopensubcription,setopensubcription] = useState(false);
+  const [isopensubcription, setopensubcription] = useState(false);
 
   useEffect(() => {
     setIsLoad(true);
@@ -182,6 +182,30 @@ const MyJobPostingScreen = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </div>
+      {current_jd_count === 0 &&
+        <Flex row center className={styles.warningFlex}>
+          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+          <Text
+            style={{ color: '#333333' }}
+            className={styles.warningText}
+          >
+            <Text
+              style={{
+                color: '#2E6ADD',
+                marginRight: '3px',
+                fontSize: '13px',
+              }}
+              bold
+            >
+              Heads Up!{' '}
+            </Text>
+            <Text>To post a job, you have the option to either </Text>
+            <Text bold color='theme' onClick={() => setopensubcription(true)} style={{ cursor: 'pointer' }}>Upgrade</Text>
+            <Text> your subscription or explore our </Text>
+            <Text color='theme' bold onClick={() => setopensubcription(true)} style={{ cursor: 'pointer' }}>Add-on </Text>
+            <Text>features.</Text>
+          </Text>
+        </Flex>}
       {Jobs_List === 2 && (
         <Flex>
           <div className={cx('tabsContainer')}>
@@ -199,12 +223,12 @@ const MyJobPostingScreen = () => {
                         </Button>
 
                       </LinkWrapper> :
-                      <Button style={{cursor:'pointer'}} className={styles.style1} types="primary" onClick={()=>setopensubcription(true)}>
+                      <Button style={{ cursor: 'pointer' }} className={styles.style1} types="primary" onClick={() => setopensubcription(true)}>
                         <Flex row>
-                          <Flex style={{cursor:'pointer'}}>
+                          <Flex style={{ cursor: 'pointer' }}>
                             <Text color='white'>Post Jobs</Text>
                           </Flex >
-                          <Flex marginLeft={5} marginTop={1} style={{cursor:'pointer'}}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
+                          <Flex marginLeft={5} marginTop={1} style={{ cursor: 'pointer' }}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                         </Flex>
                       </Button>}
                   </>
@@ -293,8 +317,8 @@ const MyJobPostingScreen = () => {
           </Flex>{' '}
         </Flex>
       )}
-      {isopensubcription  &&
-      <SubscriptionModal currentplan={current_plan} nextplan={current_plan + 1} openmodel={isopensubcription} setopensubcription={setopensubcription} />}
+      {isopensubcription &&
+        <SubscriptionModal currentplan={current_plan} nextplan={current_plan + 1} openmodel={isopensubcription} setopensubcription={setopensubcription} />}
       {isLoad && <Loader />}
     </Flex>
   );

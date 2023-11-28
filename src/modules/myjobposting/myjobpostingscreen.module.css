@@ -153,10 +153,7 @@
   height: auto;
   background-color: #F0EBED;
   /*min-width: 1300px;*/
-}
-.pagination {
-  /* margin: 24px 0px; */
-}
+} 
 .overAllCard {
   overflow: scroll;
   color: #666666;
@@ -525,4 +522,20 @@ overflow-y:scroll;
   top: 0;
   background-color: white;
   z-index: 2;
+}
+.warningText {
+  margin-left: 8px;
+  font-size: 13px;
+}
+.warningFlex {
+  padding: 6px 8px;
+  border: 1px solid #2E6ADD;
+  background-color: #2E6ADD20;
+  border-left: 8px solid #2E6ADD !important;
+  border-radius: 8px;
+  width: fit-content; 
+  margin-top: 5px;
+  font-size: 13px;
+  
+  
 }
