@@ -577,7 +577,7 @@ const CandidateDatabaseTab = ({
       
 
       <Flex row center className={styles.filterStyle}>
-        <Flex row center className={styles.marginLeft}>
+        <Flex row center className={styles.marginLeft} title='Filter Total Candidates'>
          
           {total_count === 0 ? (
             <Text bold={isTab === 'total'} className={styles.linkSpaceDefault}>
@@ -609,7 +609,7 @@ const CandidateDatabaseTab = ({
         </Flex>
         {total_count !== 0 && (
           <>
-            <Flex row center className={styles.marginLeft}>
+            <Flex row center className={styles.marginLeft} title='Filter Completed Profiles'>
               {completed === 0 ? (
                 <Text
                   bold={isTab === 'completed'}
@@ -644,7 +644,7 @@ const CandidateDatabaseTab = ({
               )}
             </Flex>
 
-            <Flex row center className={styles.inComplete}>
+            <Flex row center className={styles.inComplete} title='Filter Incomplete Profiles'>
             
               {incompleted === 0 ? (
                 <Text

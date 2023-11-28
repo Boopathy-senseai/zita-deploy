@@ -28,6 +28,7 @@ export const SCREEN_APPLICANT_STATUS_TITLE =
   'Screening Status of the Applicant';
 export const SCREEN_CANDIDATE_STATUS_TITLE =
   'Invitation Status of the Candidate';
+export const INTERVIEW_QUESTION = 'Interview question'
 export const ADD_FAV = 'Add to Favourites';
 export const REMOVE_FAV = 'Remove from Favourites';
 

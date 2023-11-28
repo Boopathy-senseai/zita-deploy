@@ -38,7 +38,7 @@ const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
-        can_id: applicantProfileInitalReducers.can_id
+        can_id: applicantProfileInitalReducers.can_id,
       };
     },
   );
@@ -125,7 +125,10 @@ const ApplicantTabLeftTwo: React.FC<typeof defaultProps & Props> = ({
             <EmailScreen isprofileview={true} can_id={can_id} />
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
+            <ScreeningStatusTab
+              title={SCREEN_APPLICANT_STATUS_TITLE}
+              issingletab={false}
+            />
           </Tab>
         </Tabs>
       )}

@@ -1,6 +1,5 @@
-import { ErrorMessage, FieldArray } from 'formik';
+import { ErrorMessage, FieldArray , useFormik } from 'formik';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
-import { useFormik } from 'formik';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
@@ -125,9 +124,9 @@ const CreateNewQuestion = ({
 
   return (
     <Flex className={styles.overAll}>
-      <Flex style={{display:'flex',alignItems:'flex-end',padding:'10px 0 0 0'}}>
+      {/* <Flex style={{display:'flex',alignItems:'flex-end',padding:'10px 0 0 0'}}>
       <Button>Generating Interview Questions</Button>
-      </Flex>
+      </Flex> */}
       <div className={styles.questionStyle}>
         <InputText
           label="Question"

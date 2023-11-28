@@ -86,6 +86,11 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
               </Flex>
             )}
           </>
+          {console.log(techSkill &&techSkill?.skills?.soft_skill
+              ?.replace(',,', ',')
+              .split(',')
+              .length,techSkill.skills
+               ,'klr')}
            {techSkill &&techSkill?.skills?.soft_skill?.length !== 0 && ( 
           <>
             <Text bold className={styles.softText}>
