@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { notificationApi } from '../../../../routes/apiRoutes';
+import { notificationApi, subscriptionApi } from '../../../../routes/apiRoutes';
 var qs = require('qs');
 export const notificationMiddleWare = createAsyncThunk(
   'notification',
@@ -34,6 +34,18 @@ export const notificationPostMiddleWare = createAsyncThunk(
         notificationApi,
         qs.stringify({ id }, { arrayFormat: 'comma' }),
       );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const SubsriptionMiddleWare = createAsyncThunk(
+  'subscriptionApi',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(subscriptionApi);
       return data;
     } catch (error) {
       const typedError = error as Error;

@@ -31,3 +31,28 @@ export interface NotificationReducerState extends Notification {
   isLoading: boolean;
   error: string;
 }
+
+export interface SubsriptionReducerState {
+  isLoading: boolean;
+  error: string;
+  success: boolean;
+  current_plan: number;
+  current_jd_count: number;
+  current_resume_count: number;
+  total_plan: Subscription[];
+}
+
+export interface Subscription {
+  plan_id?: number;
+  plan_name?: any;
+  subscription_value_days?: number;
+  price?: number;
+  currency?: any;
+  stripe_id?: any;
+  is_active?: true,
+  created_at?: any;
+  inactived_date?: any;
+  updated_by?: any;
+  jd_count?: any;
+  resume_count?: any;
+}
