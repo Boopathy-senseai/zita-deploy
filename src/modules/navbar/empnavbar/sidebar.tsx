@@ -957,7 +957,7 @@ if (super_user === true && roles === "Admin") {
                                     marginBottom={5}
                                     center
                                   >
-                                    <Flex><Text>Post Jobs</Text></Flex>
+                                    <Flex><Text color='theme'>Post Jobs</Text></Flex>
                                     <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                                   </Flex>
                                 </LinkWrapper>}
@@ -999,7 +999,7 @@ if (super_user === true && roles === "Admin") {
                                     marginBottom={5}
                                     center
                                   >
-                                    <Flex><Text>Post Jobs</Text></Flex>
+                                    <Flex><Text color='theme'>Post Jobs</Text></Flex>
                                     <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                                   </Flex>
                                 </LinkWrapper>
@@ -1030,7 +1030,7 @@ if (super_user === true && roles === "Admin") {
                                   color="primary"
                                   style={{ color: '#581845', marginLeft: '3px' }}
                                 >
-                                  Post Jobs2
+                                  Post Jobs
                                 </Text>
                               </a> :
                               <a
@@ -1048,7 +1048,7 @@ if (super_user === true && roles === "Admin") {
                                   marginBottom={5}
                                   center
                                 >
-                                  <Flex><Text>Post Jobs</Text></Flex>
+                                  <Flex><Text color='theme'>Post Jobs</Text></Flex>
                                   <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                                 </Flex>
                               </a>
