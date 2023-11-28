@@ -26,6 +26,7 @@ import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import SvgCollapse from '../../../icons/Svgcollapse';
+import SvgCircle from '../../../icons/SvgCircle';
 import styles from './notification.module.css';
 
 const cx = classNames.bind(styles);
@@ -188,7 +189,6 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
     sessionStorage.setItem('CommunicationDropdown', '0');
     sessionStorage.setItem('BrandingDropdown', '0');
     sessionStorage.setItem('MyAccountDropdown', '0');
-
     setOverviewPopupDropdownOpen(false);
     setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
@@ -217,42 +217,91 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
     }
   }, [plan_id]);
   
+  // Dropdownmenu Line styling for Hiring User
+    let hiringclassName;
+    if (permission.includes('bulkImport_candidates') && permission.includes('talent_sourcing')) {
+      hiringclassName = styles.candidatesdropdownlinehire3
+    } else if (permission.includes('bulkImport_candidates')) {
+      hiringclassName = styles.candidatesdropdownlinehire2
+    } else if (permission.includes('talent_sourcing')) {
+      hiringclassName = styles.candidatesdropdownlinehire2
+    } else {
+      hiringclassName = styles.candidatesdropdownlinehire
+    }
+// Tab Value declaration for Styling
+    let integratetab;
+    if (super_user === true && roles === "Admin") {
+      integratetab= sessionStorage.getItem('superUserTab') === '4'
+    } else if (super_user === false && roles === "Admin") {
+      integratetab= sessionStorage.getItem('superUserTab') === '2'
+    } else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
+      integratetab= sessionStorage.getItem('superUserTab') === '1'
+    } else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
+      integratetab= sessionStorage.getItem('superUserTab') === '2'
+    } else if (roles === "HR" && !permission.includes('manage_account_settings')) {
+      integratetab= sessionStorage.getItem('superUserTabTwo') === '1'
+    } else if (roles === "HR" && permission.includes('manage_account_settings')) {
+      integratetab= sessionStorage.getItem('superUserTab') === '2'
+    }
+    let workflowtab;
+    if (super_user === true && roles === "Admin") {
+      workflowtab= sessionStorage.getItem('superUserTab') === '7'
+    } else if (super_user === false && roles === "Admin") {
+      workflowtab= sessionStorage.getItem('superUserTab') === '3'
+    } else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
+      workflowtab= sessionStorage.getItem('superUserTab') === '2'
+    } else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
+      workflowtab= sessionStorage.getItem('superUserTab') === '3'
+    } else if (roles === "HR" && !permission.includes('manage_account_settings')) {
+      workflowtab= sessionStorage.getItem('superUserTabTwo') === '2'
+    } else if (roles === "HR" && permission.includes('manage_account_settings')) {
+      workflowtab= sessionStorage.getItem('superUserTab') === '3'
+    }
+    
+// Paths for tab navigations
+let integrationnavpath = '/account_setting/settings'
 
-  let integrationnavpath = '/account_setting/settings'
+if (super_user === true && roles === "Admin") {
+  integrationnavpath='/account_setting/settings?tab=4' 
+} else if (super_user === false && roles === "Admin") {
+  integrationnavpath='/account_setting/settings?tab=2'
+} else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
+  integrationnavpath='/account_setting/settings?tab=1'
+} else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
+  integrationnavpath='/account_setting/settings?tab=2'
+} else if (roles === "HR" && !permission.includes('manage_account_settings')) {
+  integrationnavpath='/account_setting/settings?tab=1'
+} else if (roles === "HR" && permission.includes('manage_account_settings')) {
+  integrationnavpath='/account_setting/settings?tab=2'
+}
 
-  if (super_user === true && roles === "Admin") {
-    integrationnavpath='/account_setting/settings?tab=4' 
-  } else if (super_user === false && roles === "Admin") {
-    integrationnavpath='/account_setting/settings?tab=2'
-  } else if (roles === "Hiring") {
-    integrationnavpath='/account_setting/settings?tab=2'
-  } else if (roles === "HR") {
-    integrationnavpath='/account_setting/settings?tab=1'
-  }
+let profilenavpath = '/account_setting/settings'
 
-  let profilenavpath = '/account_setting/settings'
+if (super_user === true && roles === "Admin") {
+  profilenavpath='/account_setting/settings?tab=0' 
+} else if (super_user === false && roles === "Admin") {
+  profilenavpath='/account_setting/settings?tab=0'
+} else if (roles === "Hiring") {
+  profilenavpath='/account_setting/settings?tab=0'
+} else if (roles === "HR") {
+  profilenavpath='/account_setting/settings?tab=0'
+}
 
-  if (super_user === true && roles === "Admin") {
-    profilenavpath='/account_setting/settings?tab=0' 
-  } else if (super_user === false && roles === "Admin") {
-    profilenavpath='/account_setting/settings?tab=0'
-  } else if (roles === "Hiring") {
-    profilenavpath='/account_setting/settings?tab=0'
-  } else if (roles === "HR") {
-    profilenavpath='/account_setting/settings?tab=0'
-  }
+let workflownavpath = '/account_setting/settings'
 
-  let workflownavpath = '/account_setting/settings'
-
-  if (super_user === true && roles === "Admin") {
-    workflownavpath='/account_setting/settings?tab=7' 
-  } else if (super_user === false && roles === "Admin") {
-    workflownavpath='/account_setting/settings?tab=3'
-  } else if (roles === "Hiring") {
-    workflownavpath='/account_setting/settings?tab=3'
-  } else if (roles === "HR") {
-    workflownavpath='/account_setting/settings?tab=2'
-  }
+if (super_user === true && roles === "Admin") {
+  workflownavpath='/account_setting/settings?tab=7' 
+} else if (super_user === false && roles === "Admin") {
+  workflownavpath='/account_setting/settings?tab=3'
+} else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
+  workflownavpath='/account_setting/settings?tab=2'
+} else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
+  workflownavpath='/account_setting/settings?tab=3'
+} else if (roles === "HR" && !permission.includes('manage_account_settings')) {
+  workflownavpath='/account_setting/settings?tab=2'
+} else if (roles === "HR" && permission.includes('manage_account_settings')) {
+  workflownavpath='/account_setting/settings?tab=3'
+}
   
   const overviewdropdownRef = useRef(null);
   const jobsdropdownRef = useRef(null);
@@ -260,7 +309,6 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
   const communicationdropdownRef = useRef(null);
   const brandingdropdownRef = useRef(null);
   const myaccountdropdownRef = useRef(null);
-
 
   const handleClickOutside = (event) => {
     if (overviewdropdownRef.current && !overviewdropdownRef.current.contains(event.target)) {
@@ -364,6 +412,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
     sessionStorage.removeItem('superUserFalseTab');
+    sessionStorage.removeItem('superUserTabTwo');
     sessionStorage.removeItem('template');
     sessionStorage.removeItem('pipeline');
     sessionStorage.removeItem('button');
@@ -467,7 +516,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                 </Flex>
                 )}
               <Flex 
-              style={{ width: "166px",}}
+              style={{ width: "166px" }}
               className={Expent === "0" ? "" : styles.classpan}
               >
                 <div style={{marginLeft:"14px"}}>
@@ -545,7 +594,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   </li>
                 )}  
               {/* Reports */}
-              {permission.includes('reports') ? (
+              {permission.includes("reports") ? (
                 <>
                   {is_plan ? (
                     changes ? (
@@ -760,7 +809,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               )}
               {roles === "Hiring" && (
                 <Flex 
-                className={styles.jobsdropdownlinehire}
+                className={permission.includes('create_post') ? styles.jobsdropdownlinehire : styles.jobsdropdownlinehire1}
                 style={{display: isJobsDropdownOpen ? "" : "none" }}
                   ></Flex>       
               )}
@@ -1100,14 +1149,14 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                 )}
               </> 
                 )} 
-                {roles === "Hiring" && (
+                {roles === "Hiring" && !permission.includes('manage_account_settings') && (
                 <>
                 {is_plan ? (
                   changes ? (
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('superUserTab') === '2'
                           ? styles.select_row
                           : ''}
                     >
@@ -1126,90 +1175,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '3'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={() => {
-                          clearTab();
-                        }}
-                        to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
-
-                      >
-
-                        <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginLeft: '3px' }}
-                        >
-                          Tailor Workflow
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Tailor Workflow"
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '7'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginLeft: '3px' }}
-                      >
-                        Tailor Workflow
-                      </Text>
-                    </a>
-                  </li>
-                )}
-              </> 
-                )}
-                {roles === "HR" && (
-                <>
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Tailor Workflow"
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-
-                        <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginLeft: '3px' }}
-                        >
-                          Tailor Workflow
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Tailor Workflow"
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
+                        sessionStorage.getItem('superUserTabTwo') === '2'
                           ? styles.select_row
                           : ''}
                     >
@@ -1236,9 +1202,238 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '7'
+                      sessionStorage.getItem('superUserTabTwo') === '2' 
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845', marginLeft: '3px' }}
+                      >
+                        Tailor Workflow
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </> 
+                )}
+                {roles === "Hiring" && permission.includes('manage_account_settings') && (
+                <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Tailor Workflow"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '3'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Tailor Workflow
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Tailor Workflow"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '3'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={() => {
+                          clearTab();
+                        }}
+                        to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
+
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Tailor Workflow
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Tailor Workflow"
+                    className={
+                      sessionStorage.getItem('superUserTab') === '3' 
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845', marginLeft: '3px' }}
+                      >
+                        Tailor Workflow
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </> 
+                )}
+                {roles === "HR" && permission.includes('manage_account_settings') && (
+                <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Tailor Workflow"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '3'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Tailor Workflow
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Tailor Workflow"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '3'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={() => {
+                          clearTab();
+                        }}
+                        to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
+
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Tailor Workflow
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Tailor Workflow"
+                    className={
+                      sessionStorage.getItem('superUserTab') === '3'
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845', marginLeft: '3px' }}
+                      >
+                        Tailor Workflow
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </> 
+                )}
+                {roles === "HR" && !permission.includes('manage_account_settings') && (
+                <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Tailor Workflow"
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '2'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Tailor Workflow
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Tailor Workflow"
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '2'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={() => {
+                          clearTab();
+                        }}
+                        to={is_plan ? "/account_setting/settings?tab=2" : accountPath}
+
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Tailor Workflow
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Tailor Workflow"
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '2'
                         ? styles.select_row
                         : ''}
                   >
@@ -1327,11 +1522,20 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               style={{display: isCandiDropdownOpen ? "" : "none" }}
                 ></Flex>
             )}
-              {roles === "Hiring" && (
+            {/* {roles === "Hiring" && (              
               <Flex 
-              className={styles.candidatesdropdownlinehire}
+              className={candidatesdropdownlinehire}
               style={{display: isCandiDropdownOpen ? "" : "none" }}
-                ></Flex>
+                >
+                </Flex>
+            )} */}
+
+            {roles === "Hiring" && (              
+              <Flex 
+              className={hiringclassName}
+              style={{display: isCandiDropdownOpen ? "" : "none" }}
+                >
+                </Flex>
             )}
               {roles === "HR" && (
               <Flex 
@@ -1836,7 +2040,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   <li
                     title="Integrations"
                     className={
-                      sessionStorage.getItem('superUserFalseTab') === '2'
+                      sessionStorage.getItem('superUserTab') === '2'
                         ? styles.select_row
                         : ''}
                   >
@@ -1855,7 +2059,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   <li
                     title="Integrations"
                     className={
-                      sessionStorage.getItem('superUserFalseTab') === '1'
+                      sessionStorage.getItem('superUserTab') === '2'
                         ? styles.select_row
                         : ''}
                   >
@@ -1910,7 +2114,85 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               )}
                 </>
             )} 
-            {roles === "Hiring" && (
+            {roles === "Hiring" && !permission.includes('manage_account_settings') && (
+            <>
+            {is_plan ? (
+              changes ? (
+                <li
+                  title="Integrations"
+                  className={
+                    sessionStorage.getItem('superUserTab') === '1'
+                      ? styles.select_row
+                      : ''}
+                >
+                  <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                    <Text
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845',marginLeft: "3px" }}
+                    >
+                      Integrations
+                    </Text> 
+                  </LinkWrapper>
+                </li>
+              ) : (
+                <li
+                  title="Integrations"
+                  className={
+                    sessionStorage.getItem('superUserTab') === '1'
+                      ? styles.select_row
+                      : ''}
+                >
+                  <LinkWrapper
+                    className={styles.hoverview}
+                    onClick={()=>{
+                      clearTab()}
+                    }
+                    to={'/account_setting/settings?tab=1'}
+                  >
+                    <Text
+                      // onClick={() => handleNavigate(1)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845',marginLeft: "3px"}}
+                    >
+                      Integrations
+                    </Text>
+                  </LinkWrapper>
+                </li>
+              )
+            ) : (
+              <li
+                title="Integrations"
+                // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
+                className={
+                  sessionStorage.getItem('superUserTab') === '1'
+                    ? styles.select_row
+                    : ''}
+              >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                  <Text
+                    // onClick={() => handleNavigate(1)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845',marginLeft: "3px"}}
+                  >
+                    Integrations
+                  </Text>
+                </a>
+              </li>
+            )}
+              </>
+            )}
+            {roles === "Hiring" && permission.includes('manage_account_settings') && (
             <>
             {is_plan ? (
               changes ? (
@@ -1943,8 +2225,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   <LinkWrapper
                     className={styles.hoverview}
                     onClick={()=>{
-                      clearTab()
-                      sessionStorage.setItem('superUserTab', '2')}
+                      clearTab()}
                     }
                     to={'/account_setting/settings?tab=2'}
                   >
@@ -1988,8 +2269,8 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
               </li>
             )}
               </>
-            )}
-            {roles === "HR" && (
+            )}       
+            {roles === "HR" && !permission.includes('manage_account_settings') && (
             <>
             {is_plan ? (
               changes ? (
@@ -2015,7 +2296,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                 <li
                   title="Integrations"
                   className={
-                    sessionStorage.getItem('superUserTabTwo') === '2'
+                    sessionStorage.getItem('superUserTabTwo') === '1'
                       ? styles.select_row
                       : ''}
                 >
@@ -2024,7 +2305,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                     onClick={()=>{
                       clearTab()
                      
-                      // sessionStorage.setItem('superUserFalseTab', '2')
+                      sessionStorage.setItem('superUserTabTwo', '1')
                     }
                     }
                     to={'/account_setting/settings?tab=1'}
@@ -2070,6 +2351,89 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             )}
               </>
             )}
+
+            {roles === "HR" && permission.includes('manage_account_settings') && (
+            <>
+            {is_plan ? (
+              changes ? (
+                <li
+                  title="Integrations"
+                  className={
+                    sessionStorage.getItem('superUserTab') === '2'
+                      ? styles.select_row
+                      : ''}
+                >
+                  <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                    <Text
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845',marginLeft: "3px" }}
+                    >
+                      Integrations
+                    </Text> 
+                  </LinkWrapper>
+                </li>
+              ) : (
+                <li
+                  title="Integrations"
+                  className={
+                    sessionStorage.getItem('superUserTab') === '2'
+                      ? styles.select_row
+                      : ''}
+                >
+                  <LinkWrapper
+                    className={styles.hoverview}
+                    onClick={()=>{
+                      clearTab()
+                     
+                      // sessionStorage.setItem('superUserTabTwo', '1')
+                    }
+                    }
+                    to={'/account_setting/settings?tab=2'}
+                  >
+                    <Text
+                      // onClick={() => handleNavigate(1)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845',marginLeft: "3px"}}
+                    >
+                      Integrations
+                    </Text>
+                  </LinkWrapper>
+                </li>
+              )
+            ) : (
+              <li
+                title="Integrations"
+                // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
+                className={
+                  sessionStorage.getItem('superUserTab') === '2'
+                    ? styles.select_row
+                    : ''}
+              >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                  <Text
+                    // onClick={() => handleNavigate(1)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845',marginLeft: "3px"}}
+                  >
+                    Integrations
+                  </Text>
+                </a>
+              </li>
+            )}
+              </>
+            )}
+
             {/* Interview Scheduler */}
                 {(
                   <>
@@ -2280,15 +2644,27 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                 style={{display: isBrandDropdownOpen ? "" : "none" }}
                   ></Flex>
           )}
-              {roles === "Hiring" && (
+              {roles === "Hiring" && !permission.includes('manage_account_settings') && (
                 <Flex 
                 className={styles.brandingdropdownlinehire}
                 style={{display: isBrandDropdownOpen ? "" : "none" }}
                   ></Flex>
                   )}
-              {roles === "HR" && (
+                {roles === "Hiring" && permission.includes('manage_account_settings') && (
+                <Flex 
+                className={styles.brandingdropdownlinehr2}
+                style={{display: isBrandDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                  )}
+              {roles === "HR" && !permission.includes('manage_account_settings') && (
                 <Flex 
                 className={styles.brandingdropdownlinehr}
+                style={{display: isBrandDropdownOpen ? "" : "none" }}
+                  ></Flex>
+                )}
+                {roles === "HR" && permission.includes('manage_account_settings') && (
+                <Flex 
+                className={styles.brandingdropdownlinehr2}
                 style={{display: isBrandDropdownOpen ? "" : "none" }}
                   ></Flex>
                 )}
@@ -2366,7 +2742,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   </li>
                 )} 
               {/* Build Your Careers Page */}
-              {roles !== "HR" &&
+              {super_user === true && roles === "Admin" &&
               <>
                 {is_plan ? (
                   changes ? (
@@ -2446,6 +2822,234 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                 )}
               </>
               }
+              {super_user === false && roles === "Admin" &&
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Setup Careers Page"
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Setup Careers Page
+                        </Text> 
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Setup Careers Page"
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={clearTab}
+                        to={is_plan ? "/account_setting/settings?tab=1" : accountPath}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845' , marginLeft: '3px'}}
+                        >
+                          Setup Careers Page
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Setup Careers Page"
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '1' &&
+                      sessionStorage.getItem('superUserFalseTab') === '1' &&
+                      sessionStorage.getItem('superUserTab') === '1'
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845' , marginLeft: '3px'}}
+                      >
+                        Setup Careers Page
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+              }
+              {roles === "HR" && permission.includes('manage_account_settings') &&
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Setup Careers Page"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Setup Careers Page
+                        </Text> 
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Setup Careers Page"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={clearTab}
+                        to={is_plan ? "/account_setting/settings?tab=1" : accountPath}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845' , marginLeft: '3px'}}
+                        >
+                          Setup Careers Page
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Setup Careers Page"
+                    className={
+                      sessionStorage.getItem('superUserTab') === '1'
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845' , marginLeft: '3px'}}
+                      >
+                        Setup Careers Page
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+              }
+              {roles === "Hiring" && permission.includes('manage_account_settings') &&
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Setup Careers Page"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845', marginLeft: '3px' }}
+                        >
+                          Setup Careers Page
+                        </Text> 
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Setup Careers Page"
+                      className={
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.select_row
+                          : ''}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={clearTab}
+                        to={is_plan ? "/account_setting/settings?tab=1" : accountPath}
+                      >
+
+                        <Text
+                          className={Expent === '0' ? styles.text : styles.classpan}
+                          color="primary"
+                          style={{ color: '#581845' , marginLeft: '3px'}}
+                        >
+                          Setup Careers Page
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Setup Careers Page"
+                    className={
+                      sessionStorage.getItem('superUserTab') === '1'
+                        ? styles.select_row
+                        : ''}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        className={Expent === '0' ? styles.text : styles.classpan}
+                        color="primary"
+                        style={{ color: '#581845' , marginLeft: '3px'}}
+                      >
+                        Setup Careers Page
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+              }
               </div>
                 </Flex>
               </Flex>
@@ -2494,35 +3098,68 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
             </li>
             {isMyaccDropdownOpen && (
               <Flex className={styles.liflex}>
+              
               {super_user === true && roles === "Admin" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
                 className={styles.myaccountdropdownlinesuperadmin}
-                style={{display: isMyaccDropdownOpen ? "" : "none" }}
-                  ></Flex>
+                style={{display: isMyaccDropdownOpen ? "" : "none" }}>
+                  </Flex>
+                  <Flex style={{marginLeft: "4px"}}>
+                    <SvgCircle width={10} height={10}/>
+                  </Flex>
+                </Flex>
+                  </>
                   )}
               {super_user === false && roles === "Admin" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
-                className={styles.myaccountdropdownlineadmin}
-                style={{display: isMyaccDropdownOpen ? "" : "none" }}
-                  ></Flex>
-          )}
+                  className={styles.myaccountdropdownlineadmin}
+                  style={{display: isMyaccDropdownOpen ? "" : "none" }}
+                    ></Flex>
+                    <Flex style={{marginLeft: "4px"}}>
+                      <SvgCircle width={10} height={10}/>
+                      </Flex>
+
+                </Flex>
+                </>
+                  )}
               {roles === "Hiring" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
                 className={styles.myaccountdropdownlinehire}
                 style={{display: isMyaccDropdownOpen ? "" : "none" }}
                   ></Flex>
+                  <Flex style={{marginLeft: "4px"}}>
+                  <SvgCircle width={10} height={10}/>
+                </Flex>
+                  </Flex>
+                  </>
                   )}
               {roles === "HR" && (
+                <>
+                <Flex column style={{marginLeft:"17px"}}>
                 <Flex 
                 className={styles.myaccountdropdownlinehr}
                 style={{display: isMyaccDropdownOpen ? "" : "none" }}
                   ></Flex>
-                )}
+                  <Flex style={{marginLeft: "4px"}}>
+                  <SvgCircle width={10} height={10}/>
+                </Flex>
+                </Flex>
+                </>
+                  )}
                 <Flex 
                 style={{ width: "166px"}}
                   className={Expent === "0" ? "" : styles.classpan}>
                     
-                  <div style={{marginLeft: "14px"}}>
+                  <div style={{
+                    // marginLeft: "14px"
+                       marginLeft: "10px"
+                              }}>
                 {/* Profile */}
                 {super_user === true && roles === "Admin" && (
                 <>
@@ -3491,9 +4128,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
+                        workflowtab
                           ? styles.selectpopup_row
                           : ''}
                     style={{textIndent:"10px"}}
@@ -3515,9 +4150,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
+                        workflowtab
                           ? styles.selectpopup_row
                           : ''}
                     style={{textIndent:"10px"}}
@@ -3526,9 +4159,6 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                       <LinkWrapper
                         onClick={() => {
                           clearTab();
-                          sessionStorage.setItem('superUserTabTwo','3')
-                          sessionStorage.setItem('superUserFalseTab', '2');
-                          sessionStorage.setItem('superUserTab', '7'); 
                         }}
                         to={is_plan ? workflownavpath :accountPath}
                       >
@@ -3550,9 +4180,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '7'
+                      workflowtab
                         ? styles.selectpopup_row
                         : ''}
                     style={{ textIndent:"10px"}}
@@ -3960,9 +4588,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                       title="Integrations"
                       // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '4'
+                        integratetab
                           ? styles.selectpopup_row
                           : ''}
                     style={{textIndent:"10px"}}
@@ -3986,9 +4612,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                       title="Integrations"
                       // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '4'
+                        integratetab
                           ? styles.selectpopup_row
                           : ''}
                     style={{ textIndent:"10px"}}
@@ -4017,9 +4641,7 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                     title="Integrations"
                     // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '2' &&
-                      sessionStorage.getItem('superUserFalseTab') === '1' &&
-                      sessionStorage.getItem('superUserTab') === '4'
+                      integratetab
                         ? styles.selectpopup_row
                         : ''}
                     style={{ textIndent:"10px"}}
@@ -4293,7 +4915,298 @@ const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(fal
                   </li>
                 )} 
               {/* Build Your Careers Page */}
-              {roles !== "HR" &&
+              {super_user === true && roles === "Admin" &&
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.selectpopup_row
+                          : ''}
+                    style={{textIndent:"10px"}}
+
+                    >
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Setup Careers Page
+                        </Text> 
+                        </div>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.selectpopup_row
+                          : ''}
+                    style={{ textIndent:"10px"}}
+
+                    >
+                      <LinkWrapper
+                        onClick={clearTab}
+                        // onClick={changeurlss}
+                        to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
+                      >
+                        <div
+                        className={styles.hoverview}
+                        >
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Setup Careers Page
+                        </Text>
+                        </div>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Setup Careers Page"
+                    // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '1' &&
+                      sessionStorage.getItem('superUserFalseTab') === '1' &&
+                      sessionStorage.getItem('superUserTab') === '1'
+                        ? styles.selectpopup_row
+                        : ''}
+                    style={{textIndent:"10px"}}
+
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        // onClick={() => handleNavigate(1)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Setup Careers Page
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+               }
+              {super_user === false && roles === "Admin" &&
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.selectpopup_row
+                          : ''}
+                    style={{textIndent:"10px"}}
+
+                    >
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Setup Careers Page
+                        </Text> 
+                        </div>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.selectpopup_row
+                          : ''}
+                    style={{ textIndent:"10px"}}
+
+                    >
+                      <LinkWrapper
+                        onClick={clearTab}
+                        // onClick={changeurlss}
+                        to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
+                      >
+                        <div
+                        className={styles.hoverview}
+                        >
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Setup Careers Page
+                        </Text>
+                        </div>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Setup Careers Page"
+                    // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '1' &&
+                      sessionStorage.getItem('superUserFalseTab') === '1' &&
+                      sessionStorage.getItem('superUserTab') === '1'
+                        ? styles.selectpopup_row
+                        : ''}
+                    style={{textIndent:"10px"}}
+
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        // onClick={() => handleNavigate(1)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Setup Careers Page
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+               }
+              {roles === "HR" && permission.includes('manage_account_settings') &&
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.selectpopup_row
+                          : ''}
+                    style={{textIndent:"10px"}}
+
+                    >
+                      <LinkWrapper  onClick={clearTabs}>
+                        <div
+                        className={styles.hoverview}>
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Setup Careers Page
+                        </Text> 
+                        </div>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
+                          ? styles.selectpopup_row
+                          : ''}
+                    style={{ textIndent:"10px"}}
+
+                    >
+                      <LinkWrapper
+                        onClick={clearTab}
+                        // onClick={changeurlss}
+                        to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
+                      >
+                        <div
+                        className={styles.hoverview}
+                        >
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Setup Careers Page
+                        </Text>
+                        </div>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Setup Careers Page"
+                    // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '1' &&
+                      sessionStorage.getItem('superUserFalseTab') === '1' &&
+                      sessionStorage.getItem('superUserTab') === '1'
+                        ? styles.selectpopup_row
+                        : ''}
+                    style={{textIndent:"10px"}}
+
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+
+                      <Text
+                        // onClick={() => handleNavigate(1)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Setup Careers Page
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+               }
+              {roles === "Hiring" && permission.includes('manage_account_settings') &&
               <>
                 {is_plan ? (
                   changes ? (

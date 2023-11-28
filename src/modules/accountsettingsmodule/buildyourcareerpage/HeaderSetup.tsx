@@ -22,7 +22,7 @@ import {
   THIS_FIELD_REQUIRED,
 } from '../../constValue';
 import { LabelWrapper, Loader, Toast } from '../../../uikit';
-import { companyPagePostMiddleWare } from '../store/middleware/accountsettingmiddleware';
+import { companyPagePostMiddleWare, logoMiddleWare } from '../store/middleware/accountsettingmiddleware';
 import { dashBoardMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import SvgUpload from '../../../icons/SvgUpload';
 import SvgCloseSmall from '../../../icons/SvgCloseSmall';
@@ -109,7 +109,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       }
       
       dispatch(
-        companyPagePostMiddleWare({
+        logoMiddleWare({
           formData,
         }),
       )
@@ -142,7 +142,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
     // formData.append('zipcode', company_detail.zipcode);
     // formData.append('email', company_detail.email);
     dispatch(
-      companyPagePostMiddleWare({
+      logoMiddleWare({
         formData,
       }),
     ).then((res: any) => {

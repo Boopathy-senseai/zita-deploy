@@ -310,13 +310,23 @@ const JobView = () => {
                     <Flex className={styles.centerStyle} row={!isMobile} center ={!isMobile}>
                       <Flex row center ={!isMobile}>
                         <SvgLocation height={20} width={20} fill={WHITE}/>
-                        <Text
-                          size={isTablet ? 14 : 16}
-                          color="white"
-                          style={{ marginLeft: 5, marginRight: 10 }}
-                        >
-                          {jd_form?.job_location}
-                        </Text>
+                        {jd_form.work_space_type === "3" ? (
+                          <Text
+                            size={isTablet ? 14 : 16}
+                            color="white"
+                            style={{ marginLeft: 5, marginRight: 10 }}
+                           >
+                            Remote
+                             </Text>
+                        ) : (
+                          <Text
+                           size={isTablet ? 14 : 16}
+                           color="white"
+                           style={{ marginLeft: 5, marginRight: 10 }}
+                          >
+                            {jd_form?.job_location}
+                          </Text>
+                        )}
                       </Flex>
                       <Flex marginTop={isMobile ? 4:0} row center ={!isMobile}>
                         <SvgBag fill={WHITE} height={20} width={20} />
