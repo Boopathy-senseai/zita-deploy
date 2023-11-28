@@ -1,3 +1,7 @@
+//Supscription API
+export const subscriptionApi ='subs_details_api';
+
+
 export const sourcingApi = `zita_talent_sourcing_api`;
 export const sessionIdApi = `zita_talent_sourcing_api`;
 export const paymentSourcingApi = `zita_talent_sourcing_api`;

@@ -6,43 +6,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import Totalcount from '../../globulization/TotalCount';
 import SvgJobPost from '../../icons/SvgJobPost';
 import SvgNoData from '../../icons/SvgNoData';
-import {
-  ErrorMessage,
-  InputCheckBox,
-  InputSearch,
-  SelectTag,
-} from '../../uikit';
-// import SvgAccountCircle from '../../icons/SvgAccountCircle';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-// import Card from '../../uikit/Card/Card';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import { getBlur, getFocus, copyToClipboard, isEmpty } from '../../uikit/helper';
-import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
-import { jobCreateNonDs } from '../../appRoutesPath';
-// import SvgCopy from '../../icons/SvgCopy';
-// import { WHITE } from '../../uikit/Colors/colors';
-
-import SvgLocation from '../../icons/SvgLocation';
-// import SvgExternal from '../../icons/SvgExternal';
+import { jobCreateNonDs } from '../../appRoutesPath'
 import { AppDispatch, RootState } from '../../store';
+import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
 import SvgSearch from '../../icons/SvgSearch';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
-import { jobTypeData, postedOn } from './mock';
+import { SubsriptionMiddleWare } from '../navbar/empnavbar/store/navbarmiddleware';
+import { postedOn } from './mock';
 import {
   myJobPostingInitalMiddleWare,
   myJobPostingDataMiddleWare,
 } from './store/middleware/myjobpostingmiddleware';
 import styles from './myjobpostingscreen.module.css';
-// import MyJobsPostingMetrics from './MyJobsPostingMetrics';
-// import MyJobsPostingData from './MyJobsPostingData';
-// import MyJobPostingScreenStatus from './MyJobPostingScreenStatus';
 import Table from './Table';
 import MyJobsPostingFilter, { MyJobFormProps } from './MyJobsPostingFilter';
-// import SvgExternal from "../../icons/SvgExternal";
-
 const cx = classNames.bind(styles);
 
 const initial: MyJobFormProps = {
@@ -56,9 +39,9 @@ const initial: MyJobFormProps = {
 const MyJobPostingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isPage, setPage] = useState(0);
-  const [isLoad, setIsLoad] = useState(true);
+  const [isLoad, setIsLoad] = useState(true); 
   const history = useHistory();
-  const [change,setchange]=useState(false);
+  const [change, setchange] = useState(false);
   const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
   const [isReload, setReload] = useState(false);
 
@@ -69,6 +52,9 @@ const MyJobPostingScreen = () => {
       setIsLoad(false);
     });
   }, []);
+  useEffect(() => {
+    dispatch(SubsriptionMiddleWare())
+  }, [])
 
   const {
     location_list,
@@ -83,11 +69,14 @@ const MyJobPostingScreen = () => {
     career_page_url,
     Permission,
     is_plan,
+    current_plan,
+    current_jd_count,
   } = useSelector(
     ({
       myJobPosingReducers,
       myJobPostingDataReducers,
       permissionReducers,
+      SubscriptionReducers
     }: RootState) => ({
       // Jobs_List:0,
       Jobs_List: myJobPostingDataReducers.Jobs_List,
@@ -103,9 +92,12 @@ const MyJobPostingScreen = () => {
       domain: myJobPostingDataReducers.domain,
       Permission: permissionReducers.Permission,
       is_plan: permissionReducers.is_plan,
+      current_plan: SubscriptionReducers.current_plan,
+      current_jd_count: SubscriptionReducers.current_jd_count,
     }),
   );
 
+  console.log(current_plan, current_jd_count, 'hi_maple')
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -115,7 +107,7 @@ const MyJobPostingScreen = () => {
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
 
@@ -146,19 +138,19 @@ const MyJobPostingScreen = () => {
     });
   }, [isPage]);
   useEffect(() => {
-  if(change===false)
-    dispatch(
-      myJobPostingDataMiddleWare({
-        jobTitle: formik.values.jobTitle,
-        jobId: formik.values.jobId,
-        postedOn: formik.values.postedOn.value,
-        jobType: formik.values.jobType,
-        location: formik.values.location,
-        page: isPage + 1,
-      }),
-    );
-    
-  }, [isPage,change,formik.values]);
+    if (change === false)
+      dispatch(
+        myJobPostingDataMiddleWare({
+          jobTitle: formik.values.jobTitle,
+          jobId: formik.values.jobId,
+          postedOn: formik.values.postedOn.value,
+          jobType: formik.values.jobType,
+          location: formik.values.location,
+          page: isPage + 1,
+        }),
+      );
+
+  }, [isPage, change, formik.values]);
 
   useEffect(() => {
     if (isReload) {
@@ -167,6 +159,10 @@ const MyJobPostingScreen = () => {
       onPristine();
     }
   }, [isReload]);
+
+
+
+
 
   return (
     <Flex className={styles.overFlowContainer}>
@@ -184,8 +180,6 @@ const MyJobPostingScreen = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </div>
-      {/* {(is_loading || is_loadingone) && <Loader />} */}
-     
       {Jobs_List === 2 && (
         <Flex>
           <div className={cx('tabsContainer')}>
@@ -195,19 +189,31 @@ const MyJobPostingScreen = () => {
               <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
-                  <LinkWrapper to={jobCreateNonDs}>
-                    <Button className={styles.style1} types="primary">
-                      Post Jobs
-                    </Button>
-                  </LinkWrapper>
+                  <>
+                    {current_jd_count !== 0 ?
+                      <LinkWrapper to={jobCreateNonDs}>
+                        <Button className={styles.style1} types="primary">
+                          <Text color='white'>Post Jobs</Text>
+                        </Button>
+
+                      </LinkWrapper> :
+                      <Button className={styles.style1} types="primary">
+                        <Flex row>
+                          <Flex>
+                            <Text color='white'>Post Jobs</Text>
+                          </Flex>
+                          <Flex marginLeft={5} marginTop={1}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
+                        </Flex>
+                      </Button>}
+                  </>
                 )}
-                <LinkWrapper 
+                <LinkWrapper
                   target={isEmpty(career_page_url) ? '_parent' : '_blank'}
                   to={
                     isEmpty(career_page_url)
                       ? `/account_setting/settings?tab=1`
                       : `/${career_page_url}/careers`
-                  } 
+                  }
                 >
                   <Button className={styles.style2} types="primary">
                     View Careers Page
@@ -217,21 +223,6 @@ const MyJobPostingScreen = () => {
             </Flex>
             <Flex>
               <div className={cx('filterOverAll')}>
-                {/* <Text className={styles.quickfil2}>
-              
-              Quick Filters: */}
-
-                {/* <Flex row>
-                
-                    
-                  <Text className={styles.quickfil}> </Text>
-                  
-                    
-                    <SvgIntomark  className={styles.stylesvg}/>
-              
-             </Flex> */}
-                {/* </Text> */}
-
                 <MyJobsPostingFilter
                   formik={formik}
                   job_ids={job_ids}
@@ -246,52 +237,34 @@ const MyJobPostingScreen = () => {
                   currentPage={isPage}
                   setCurrentPage={handleSetPagination}
                 />
-                
+
               </Flex>
             </Flex>
           </div>
         </Flex>
       )}
-      {console.log(len_list,'len_listlen_list')}
-      {/* {len_list === 0 && (
-                  <Flex
-                    className="container"
-                    flex={1}
-                    center
-                    middle
-                    width={window.innerWidth - 570} 
-                  >
-                    <Text
-                      style={{ 
-                        color: 'gray',
-                        fontSize: 13,
-                      }}
-                    >
-                      No Job Found
-                    </Text>
-                  </Flex>
-                )} */}
+      {console.log(len_list, 'len_listlen_list')}
       {len_list === 0 && Jobs_List !== 1 && (
-                  <Flex center style={{height:"100%"}}>
-                  <Flex
-                    className="container"
-                    flex={1}
-                    center
-                    middle
-                    width={window.innerWidth - 570} 
-                  >
-          <Flex center middle><SvgNoData width={16} height={16} fill={'#888888'} /></Flex>
-                    <Text
-                      style={{ 
-                        color: 'gray',
-                        fontSize: 13,
-                      }}
-                    >
-                      No job found
-                    </Text>
-                  </Flex>
-                  </Flex>
-                )}
+        <Flex center style={{ height: "100%" }}>
+          <Flex
+            className="container"
+            flex={1}
+            center
+            middle
+            width={window.innerWidth - 570}
+          >
+            <Flex center middle><SvgNoData width={16} height={16} fill={'#888888'} /></Flex>
+            <Text
+              style={{
+                color: 'gray',
+                fontSize: 13,
+              }}
+            >
+              No job found
+            </Text>
+          </Flex>
+        </Flex>
+      )}
       {Jobs_List === 1 && (
         <Flex middle className={styles.overAll2}>
           <Flex center>
@@ -319,15 +292,6 @@ const MyJobPostingScreen = () => {
         </Flex>
       )}
       {isLoad && <Loader />}
-      {/* {len_list > 10 && (
-              <Flex middle className={styles.pagination}>
-                <Pangination
-                  maxPages={pageCount - 1}
-                  currentPage={isPage}
-                  setCurrentPage={handleSetPagination}
-                />
-              </Flex>
-            )} */}
     </Flex>
   );
 };

@@ -115,7 +115,7 @@ import {
 import { manageSubscriptionReducers } from '../modules/accountsettingsmodule/managesubscription/store/managesubscriptionreducer';
 import { integrationReducers } from '../modules/accountsettingsmodule/integrationmodule/store/reducer/integrationreducer';
 import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard/store/reducer/candidatedashboardreducer';
-import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
+import { SubscriptionReducers, notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
 
 import {
   useremail,
@@ -216,6 +216,7 @@ export const reducers = {
   dashboardJobMetricsReducers,
   dashboardCalenderStateReducers,
   notificationReducers,
+  SubscriptionReducers,
   sourcingPerformanceReducers,
   sourcingPerformanceDataReducers,
   useremail,
