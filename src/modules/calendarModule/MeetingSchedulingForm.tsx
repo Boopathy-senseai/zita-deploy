@@ -68,6 +68,7 @@ interface Props {
   setopenmodel: any;
   openmodel: any;
   formik: any;
+  plan: any;
 }
 
 const MeetingSchedulingForm = ({
@@ -94,6 +95,7 @@ const MeetingSchedulingForm = ({
   setopenmodel,
   openmodel,
   formik,
+  plan,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [applicantJDList, setApplicantJDList] = useState([]);
@@ -106,47 +108,47 @@ const MeetingSchedulingForm = ({
   const [list, setlist] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const  [role,setrole]=useState<any>([])
+  const [role, setrole] = useState<any>([])
 
-const updatestate = (val) => {
-  const interviewerExists = formik.values.interviewers.some(item => item.userId === val.userId);
-  if (!interviewerExists) {
-    const newInterviewer = {
-      firstName: val.firstName,
-      lastName: val.lastName,
-      role: '',
-      userId: val.userId
-    };
-    formik.setFieldValue('interviewers', [...formik.values.interviewers, newInterviewer]);
-    console.log("add");
-  } else {
-    const updatedInterviewers = formik.values.interviewers.filter(item => item.userId !== val.userId);
-    formik.setFieldValue('interviewers', updatedInterviewers);
-    console.log("sub");
-  }
-};
-
-
+  const updatestate = (val) => {
+    const interviewerExists = formik.values.interviewers.some(item => item.userId === val.userId);
+    if (!interviewerExists) {
+      const newInterviewer = {
+        firstName: val.firstName,
+        lastName: val.lastName,
+        role: '',
+        userId: val.userId
+      };
+      formik.setFieldValue('interviewers', [...formik.values.interviewers, newInterviewer]);
+      console.log("add");
+    } else {
+      const updatedInterviewers = formik.values.interviewers.filter(item => item.userId !== val.userId);
+      formik.setFieldValue('interviewers', updatedInterviewers);
+      console.log("sub");
+    }
+  };
 
 
-  useEffect(()=>{
-    localStorage.setItem('role',JSON.stringify(formik.values.interviewers))
-  },[formik.values])
+
+
+  useEffect(() => {
+    localStorage.setItem('role', JSON.stringify(formik.values.interviewers))
+  }, [formik.values])
 
 
   const eventMeetingTypes: {
     value: EventMeetingType;
     label: EventMeetingType;
   }[] = [
-    {
-      value: 'Onsite interview',
-      label: 'Onsite interview',
-    },
-    {
-      value: 'Phone interview',
-      label: 'Phone interview',
-    },
-  ];
+      {
+        value: 'Onsite interview',
+        label: 'Onsite interview',
+      },
+      {
+        value: 'Phone interview',
+        label: 'Phone interview',
+      },
+    ];
 
   if (calendarProvider === CALENDAR.Google) {
     eventMeetingTypes.push({
@@ -164,12 +166,12 @@ const updatestate = (val) => {
     updateCurrentApplicantId(currentApplicantId);
   }, [currentApplicantId]);
   useEffect(() => {
-  dispatch(rolevaluemiddleware()).then(
-    (res)=>{
-      setrole(res.payload)
-    }
-  )
-  },[]);
+    dispatch(rolevaluemiddleware()).then(
+      (res) => {
+        setrole(res.payload)
+      }
+    )
+  }, []);
 
   useEffect(() => {
     const timezones = moment.tz.names();
@@ -249,7 +251,7 @@ const updatestate = (val) => {
       let dateError = form.date.value === null ? true : false;
       let locationError =
         form.eventType.value === 'Onsite interview' &&
-        isEmpty(form.location.value)
+          isEmpty(form.location.value)
           ? true
           : false;
       return {
@@ -278,7 +280,7 @@ const updatestate = (val) => {
           meetingForm.date.value !== null &&
           meetingForm.endTime.value &&
           new Date(meetingForm.startTime.value) <
-            new Date(meetingForm.endTime.value)
+          new Date(meetingForm.endTime.value)
         ) {
           setMeetingForm((form) => {
             const { startDateTime, endDateTime } = getNewDateTimes(
@@ -307,7 +309,7 @@ const updatestate = (val) => {
             meetingForm.startTime.value &&
             meetingForm.endTime.value &&
             new Date(meetingForm.startTime.value) <
-              new Date(meetingForm.endTime.value)
+            new Date(meetingForm.endTime.value)
           ) {
             setMeetingForm((form) => {
               const { startDateTime, endDateTime } = getNewDateTimes(
@@ -335,7 +337,7 @@ const updatestate = (val) => {
             meetingForm.startTime.value &&
             meetingForm.endTime.value &&
             new Date(meetingForm.startTime.value) <
-              new Date(meetingForm.endTime.value)
+            new Date(meetingForm.endTime.value)
           ) {
             setMeetingForm((form) => {
               const { startDateTime, endDateTime } = getNewDateTimes(
@@ -349,9 +351,20 @@ const updatestate = (val) => {
                 endDateTime,
               };
             });
-            console.log('openform2222', openmodel);
+            if(plan===6){
+            setopenmodel(false);
+            setViewMeetingSummary(true);
+            }
+            else if(plan===7){
+
+            }
+            else if(plan===8){
+            
+          }
+          else{
             setopenmodel(true);
             setViewMeetingSummary(true);
+          }
           }
         }
       }
@@ -661,12 +674,12 @@ const updatestate = (val) => {
               </LocalizationProvider>
               {meetingForm.startTime.errorMessage !==
                 'Start time must be less then end time' && (
-                <>
-                  <p className={styles.warn} style={{ marginTop: '3px' }}>
-                    {meetingForm.startTime.errorMessage}
-                  </p>
-                </>
-              )}
+                  <>
+                    <p className={styles.warn} style={{ marginTop: '3px' }}>
+                      {meetingForm.startTime.errorMessage}
+                    </p>
+                  </>
+                )}
             </div>
             <p
               className={styles.to}
@@ -674,7 +687,7 @@ const updatestate = (val) => {
                 fontSize: '13px',
                 marginBottom:
                   meetingForm.startTime.errorMessage ||
-                  meetingForm.endTime.errorMessage
+                    meetingForm.endTime.errorMessage
                     ? '10px'
                     : 0,
               }}
@@ -692,32 +705,32 @@ const updatestate = (val) => {
               </LocalizationProvider>
               {meetingForm.endTime.errorMessage !==
                 'End time must be greated than start time' && (
-                <>
-                  <p className={styles.warn} style={{ marginTop: '3px' }}>
-                    {meetingForm.endTime.errorMessage}
-                  </p>
-                </>
-              )}
+                  <>
+                    <p className={styles.warn} style={{ marginTop: '3px' }}>
+                      {meetingForm.endTime.errorMessage}
+                    </p>
+                  </>
+                )}
             </div>
           </div>
         </Flex>
         <Flex>
           {meetingForm.startTime.errorMessage ===
             'Start time must be less then end time' && (
-            <>
-              <p className={styles.warn} style={{ marginTop: '12px' }}>
-                {meetingForm.startTime.errorMessage}
-              </p>
-            </>
-          )}
+              <>
+                <p className={styles.warn} style={{ marginTop: '12px' }}>
+                  {meetingForm.startTime.errorMessage}
+                </p>
+              </>
+            )}
           {meetingForm.endTime.errorMessage ===
             'End time must be greated than start time' && (
-            <>
-              <p className={styles.warn} style={{ marginTop: '12px' }}>
-                {meetingForm.endTime.errorMessage}
-              </p>
-            </>
-          )}
+              <>
+                <p className={styles.warn} style={{ marginTop: '12px' }}>
+                  {meetingForm.endTime.errorMessage}
+                </p>
+              </>
+            )}
         </Flex>
       </Flex>
     </div>
@@ -910,12 +923,12 @@ const updatestate = (val) => {
   const LocationView = (
     <>
       {meetingForm.location.isHave ||
-      (editEventDetails &&
-        editEventDetails?.eventType === 'Onsite interview') ? (
+        (editEventDetails &&
+          editEventDetails?.eventType === 'Onsite interview') ? (
         <div className={styles.location}>
           <label className={styles.label}>Location*</label>
           {editEventDetails &&
-          editEventDetails?.eventType === 'Onsite interview' ? (
+            editEventDetails?.eventType === 'Onsite interview' ? (
             <InputText
               value={editEventDetails?.location}
               textarea={true}
@@ -1021,7 +1034,7 @@ const updatestate = (val) => {
       const timeDifference = Math.round(
         (meetingForm.endTime.value.getTime() -
           meetingForm.startTime.value.getTime()) /
-          60000,
+        60000,
       );
 
       return (

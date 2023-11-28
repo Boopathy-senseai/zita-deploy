@@ -387,17 +387,28 @@ const MeetingSchedulingScreen = ({
 
   }
   const nextEvent = () => {
-    if (
-      formik.values.brieftext !== '' ||
-      formik.values.checkedValues.length !== 0
-    ) {
+    const numericPlan = Number(plan);
+    if (numericPlan === 6) {
       setViewMeetingSummary(false);
-      setShowPopup(true);
+      setShowPopup(false);
+    } else if (numericPlan === 7) {
+      // Logic for plan 2
+    } else if (numericPlan === 8) {
+      // Logic for plan 3
     } else {
-      setViewMeetingSummary(true);
-      setopenmodel(true);
+      if (
+        formik.values.brieftext !== '' ||
+        formik.values.checkedValues.length !== 0
+      ) {
+        setViewMeetingSummary(false);
+        setShowPopup(true);
+      } else {
+        setViewMeetingSummary(true);
+        setopenmodel(true);
+      }
     }
   };
+  
   const handlechange = () => {
     if (allQuestions.length === 0) {
       seterror(true)
@@ -655,7 +666,7 @@ const MeetingSchedulingScreen = ({
     }
     //formikval.setFieldValue('questionid', []);
   }, [formik.values.checkedValues]);
-
+  const plan=6;
   return (
     <>
       {console.log(formik.values, formik1.values, formik1.errors,Object.keys(formik1.errors).length)}
@@ -691,6 +702,7 @@ const MeetingSchedulingScreen = ({
               setopenmodel={setopenmodel}
               openmodel={openmodel}
               formik={formik}
+              plan={plan}
             />) : (
               <QuestionListModel
                 interviewer={interviewer}
