@@ -177,6 +177,49 @@ const Calendar = () => {
     };
   });
 
+  const { permission, super_user, roles } = useSelector(
+    ({ permissionReducers, userProfileReducers,dashboardEmpReducers }: RootState) => {
+      return {
+        permission: permissionReducers.Permission,
+        super_user: permissionReducers.super_user,
+        roles: permissionReducers.roles,
+        
+      };
+    },
+  );
+
+  const handleIntegrateTab = () => {
+    if (super_user === true && roles === "Admin") {
+      sessionStorage.setItem('superUserTab','4')
+    } else if (super_user === false && roles === "Admin") {
+      sessionStorage.setItem('superUserTab', '2')
+    } else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
+      sessionStorage.setItem('superUserTab', '1')
+    } else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
+      sessionStorage.setItem('superUserTab', '2')
+    } else if (roles === "HR" && !permission.includes('manage_account_settings')) {
+      sessionStorage.setItem('superUserTabTwo', '1')
+    } else if (roles === "HR" && permission.includes('manage_account_settings')) {
+      sessionStorage.setItem('superUserTab','2')
+    }
+  }
+
+  let integrationnavpath = '/account_setting/settings'
+
+  if (super_user === true && roles === "Admin") {
+    integrationnavpath='/account_setting/settings?tab=4' 
+  } else if (super_user === false && roles === "Admin") {
+    integrationnavpath='/account_setting/settings?tab=2'
+  } else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
+    integrationnavpath='/account_setting/settings?tab=1'
+  } else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
+    integrationnavpath='/account_setting/settings?tab=2'
+  } else if (roles === "HR" && !permission.includes('manage_account_settings')) {
+    integrationnavpath='/account_setting/settings?tab=1'
+  } else if (roles === "HR" && permission.includes('manage_account_settings')) {
+    integrationnavpath='/account_setting/settings?tab=2'
+  }
+
   useEffect(() => {
     const action = param.get('action');
     if (param && action && action === 'open-scheduler-form') {
@@ -1169,11 +1212,9 @@ const Calendar = () => {
           onClick={() => {
             // sessionStorage.setItem('superUserTab', '4');
             // sessionStorage.setItem('superUserFalseTab', '3');
-            sessionStorage.setItem('superUserTabTwo', '2');
-            sessionStorage.setItem('superUserFalseTab', '1');
-            sessionStorage.setItem('superUserTab', '4');
+            handleIntegrateTab()
           }}
-          to="/account_setting/settings"
+          to={integrationnavpath}
         >
           <Button>Integrate</Button>
         </LinkWrapper>

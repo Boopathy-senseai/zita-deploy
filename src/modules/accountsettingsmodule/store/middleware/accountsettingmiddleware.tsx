@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { COMPANYPAGE } from '../../../../actions/actions';
-import { companyPageApi, createemailtemplateApi, createjdtemplateApi } from '../../../../routes/apiRoutes';
+import { companyPageApi, createemailtemplateApi, createjdtemplateApi, logoApi } from '../../../../routes/apiRoutes';
 
 export const companyPageInitalMiddleWare = createAsyncThunk(
   COMPANYPAGE,
@@ -102,6 +102,24 @@ export const emailtemplatesdeleteMiddleWare = createAsyncThunk(
     try {
       const url = id ? `${createemailtemplateApi}?id=${id}` : createemailtemplateApi
       const { data } = await axios.delete(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const logoMiddleWare = createAsyncThunk(
+  'company_logo',
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      const data = await axios.post(
+        logoApi,
+
+        formData,
+      );
       return data;
     } catch (error) {
       const typedError = error as Error;

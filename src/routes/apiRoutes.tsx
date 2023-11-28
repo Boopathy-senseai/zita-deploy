@@ -208,7 +208,7 @@ export const passwordSetRequest = `${process.env.REACT_APP_API_ENDPOINT}password
 
 // permission APi
 export const permissionApi = 'permission';
-
+export const logoApi='company_logo';
 export const companyPageApi = `company_details`;
 export const createjdtemplateApi=`jd_templates`;
 export const createemailtemplateApi=`messages_templates`;

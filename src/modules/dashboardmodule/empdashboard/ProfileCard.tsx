@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from '../../../store';
 import {
   companyPageInitalMiddleWare,
   companyPagePostMiddleWare,
+  logoMiddleWare,
 } from '../../accountsettingsmodule/store/middleware/accountsettingmiddleware';
 import SvgSubscription from '../../../icons/SvgSubscription';
 
@@ -259,6 +260,8 @@ const ProfileCard = () => {
       if (e.target.files[0] !== undefined) {
         //alert("append")
         formData.append('logo', e.target.files[0]);
+
+        console.log('image',e.target.files[0])
         // formData.append('company_name', company_name);
         // formData.append('company_website', weburl);
         // formData.append('contact', mobile_no);
@@ -276,7 +279,7 @@ const ProfileCard = () => {
       }
       //alert("00000")
       dispatch(
-        companyPagePostMiddleWare({
+        logoMiddleWare({
           formData,
         }),
       ).then((res: any) => {
@@ -315,7 +318,7 @@ const ProfileCard = () => {
     // formData.append('zipcode', zipcode);
     // formData.append('email', user_info.email);
     dispatch(
-      companyPagePostMiddleWare({
+      logoMiddleWare({
         formData,
       }),
     ).then((res: any) => {

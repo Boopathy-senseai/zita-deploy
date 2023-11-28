@@ -344,6 +344,7 @@ export interface JdPreview {
   company_detail: CompanyDetail;
 }
 export interface Jd {
+  work_space_type: any;
   industry_type__label_name: string;
   is_ds_role: boolean;
   jd_status__label_name: string;

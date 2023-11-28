@@ -172,7 +172,8 @@ export interface JdForm {
   job_type__label_name: string;
   job_role__label_name:string;
   industry_type__label_name:string;
-  salary_curr_type__value:string
+  salary_curr_type__value:string;
+  work_space_type: string;
 }
 export interface EducationEntity {
   id: number;

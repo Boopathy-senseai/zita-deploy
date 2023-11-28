@@ -765,8 +765,11 @@ dataList.invite,
                  
 
               {(dataList.applicant!==null)?(
+                <Flex >
+                  <Flex center className={styles.makecenter}>
+                 <SvgAppliedIcon fill={SUCCESS} width={22} height={22} /> </Flex>
                 <Flex row center>
-                   <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 
+                  
                   <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
                     <Text
                       color="link"
@@ -780,7 +783,7 @@ dataList.invite,
                   <div title="View the profile in Applicants Pipeline page.">
                     <SvgHelp width={16} height={16} fill={GARY_4} />
                   </div>
-                </Flex>
+                </Flex></Flex>
               ):(
                 (dataList.interested!==null) ?(
                   <Flex center className={styles.flexproperty}>
@@ -797,10 +800,10 @@ dataList.invite,
                           <SvgInvite width={28} height={28} color="theme" /> 
                         </div>
                         <Flex row>
-                    <SvgInterested 
+                    {/* <SvgInterested 
                       width={20}
                       height={20}
-                    />
+                    /> */}
                         <Text  style={{ color:"#1976d2" }} size={13} >Interested</Text></Flex>
                     </Flex>
                 ):(
