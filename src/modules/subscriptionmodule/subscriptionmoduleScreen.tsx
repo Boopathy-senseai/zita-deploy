@@ -10,8 +10,9 @@ type Props = {
   currentplan: any;
   nextplan: any;
   openmodel: boolean;
+  setopensubcription:(a:any)=>void;
 };
-const SubscriptionModal = ({ currentplan, nextplan, openmodel }: Props) => {
+const SubscriptionModal = ({ currentplan, nextplan, openmodel,setopensubcription }: Props) => {
   const [isShowPass, setShowPass] = useState(true);
 
   return (
@@ -22,12 +23,12 @@ const SubscriptionModal = ({ currentplan, nextplan, openmodel }: Props) => {
             <Flex marginBottom={5}>
               <Text bold>Upgrade your plan</Text>
             </Flex>
-            <Flex onClick={null}>
+            <Flex onClick={()=>setopensubcription(false)}>
               <SvgClose
                 width={10}
                 height={10}
                 fill={'#888888'}
-                cursor={'pointer'}
+                cursor={'pointer'} 
               />
             </Flex>
           </Flex>

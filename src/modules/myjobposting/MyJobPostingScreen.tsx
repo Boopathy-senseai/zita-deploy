@@ -18,6 +18,7 @@ import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
 import SvgSearch from '../../icons/SvgSearch';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { SubsriptionMiddleWare } from '../navbar/empnavbar/store/navbarmiddleware';
+import SubscriptionModal from '../subscriptionmodule/subscriptionmoduleScreen';
 import { postedOn } from './mock';
 import {
   myJobPostingInitalMiddleWare,
@@ -44,6 +45,7 @@ const MyJobPostingScreen = () => {
   const [change, setchange] = useState(false);
   const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
   const [isReload, setReload] = useState(false);
+  const [isopensubcription,setopensubcription] = useState(false);
 
   useEffect(() => {
     setIsLoad(true);
@@ -197,12 +199,12 @@ const MyJobPostingScreen = () => {
                         </Button>
 
                       </LinkWrapper> :
-                      <Button className={styles.style1} types="primary">
+                      <Button style={{cursor:'pointer'}} className={styles.style1} types="primary" onClick={()=>setopensubcription(true)}>
                         <Flex row>
-                          <Flex>
+                          <Flex style={{cursor:'pointer'}}>
                             <Text color='white'>Post Jobs</Text>
-                          </Flex>
-                          <Flex marginLeft={5} marginTop={1}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
+                          </Flex >
+                          <Flex marginLeft={5} marginTop={1} style={{cursor:'pointer'}}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                         </Flex>
                       </Button>}
                   </>
@@ -291,6 +293,8 @@ const MyJobPostingScreen = () => {
           </Flex>{' '}
         </Flex>
       )}
+      {isopensubcription  &&
+      <SubscriptionModal currentplan={current_plan} nextplan={current_plan + 1} openmodel={isopensubcription} setopensubcription={setopensubcription} />}
       {isLoad && <Loader />}
     </Flex>
   );
