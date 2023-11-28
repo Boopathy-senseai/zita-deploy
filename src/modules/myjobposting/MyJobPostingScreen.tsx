@@ -210,8 +210,10 @@ const MyJobPostingScreen = () => {
         <Flex>
           <div className={cx('tabsContainer')}>
             <Flex row between className={styles.searchbox}>
-              <Totalcount name="Total Jobs Found " numbers={len_list} />
-
+              <Flex row>
+                <Flex><Totalcount name="Total Jobs Found " numbers={len_list} /></Flex>
+                <Flex marginLeft={25}><Totalcount name="Available Job Posting" numbers={current_jd_count} /></Flex>
+              </Flex>
               <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
