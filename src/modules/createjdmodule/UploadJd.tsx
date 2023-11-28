@@ -6,7 +6,16 @@ import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
 import SvgClose from '../../icons/SvgClose';
-import { ErrorMessage, InputSearch, InputText, Loader, Modal, SelectTag, Toast } from '../../uikit';
+import Subscription from '../subscriptionmodule/subscriptionmoduleScreen';
+import {
+  ErrorMessage,
+  InputSearch,
+  InputText,
+  Loader,
+  Modal,
+  SelectTag,
+  Toast,
+} from '../../uikit';
 import { getFocus, isEmpty } from '../../uikit/helper';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -55,13 +64,12 @@ const UploadJd = ({
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isSubmitLoader, setSubmitLoader] = useState(false);
   const [uploaderror, setuploaderror] = useState('');
-  const [popup,setpopup] = useState(false);
+  const [popup, setpopup] = useState(false);
   const handleSubmit1 = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (file.length !== 0) {
       uploadFile(file);
       setopenmodel(false);
- 
     } else {
       setuploaderror(' This field is required.');
     }
@@ -81,7 +89,7 @@ const UploadJd = ({
     formData.append('jd_file', files);
     return dispatch(jdParserMiddleWare({ upload: formData })).then(() => {
       handleClear();
-      setpopup(true)
+      setpopup(true);
     });
   };
 
@@ -146,7 +154,7 @@ const UploadJd = ({
   const initialValues: MyFormValues = {
     work_space_type1: '',
     jobTitle1: '',
-    industryType1:'',
+    industryType1: '',
     country1: '',
     city1: '',
     state1: '',
@@ -251,14 +259,21 @@ const UploadJd = ({
           typeof res.payload?.skills,
         );
       }
-      console.log('ress:;::;',res)
-      if(res.payload.error===true){
-      Toast('Sorry, there was a problem connecting to the API. Please try again later.', 'LONG','error');
-       }else{
+      console.log('ress:;::;', res);
+      if (res.payload.error === true) {
+        Toast(
+          'Sorry, there was a problem connecting to the API. Please try again later.',
+          'LONG',
+          'error',
+        );
+      } else {
         // Toast('Request Completed Successfully', 'LONG','success');
-        setpopup(true)
+        setpopup(true);
       }
-      setFieldValue('work_space_type', res?.payload?.work_space_type?.toString());
+      setFieldValue(
+        'work_space_type',
+        res?.payload?.work_space_type?.toString(),
+      );
       setFieldValue('country', res?.payload?.country?.toString());
       setFieldValue('city', res?.payload?.city?.toString());
       setFieldValue('state', res?.payload?.state?.toString());
@@ -272,9 +287,6 @@ const UploadJd = ({
       setFieldValue('Overview', '');
       setFieldValue('Department_and_reporting', '');
       setSubmitLoader(false);
-      
-      
-      
     });
 
     setopenmodel(false);
@@ -322,15 +334,15 @@ const UploadJd = ({
     setFile([]);
     setuploaderror('');
   };
- const close=()=>{
-  setpopup(false)
- }
-
- const { data } = useSelector(({ getindustery }: RootState) => {
-  return {
-    data: getindustery.data,
+  const close = () => {
+    setpopup(false);
   };
-});
+
+  const { data } = useSelector(({ getindustery }: RootState) => {
+    return {
+      data: getindustery.data,
+    };
+  });
 
   const upload_hide =
     formik.values.jobTitle1 !== '' ||
@@ -345,6 +357,7 @@ const UploadJd = ({
       : false;
   return (
     <Flex row style={{ justifyContent: 'space-between', marginTop: '6px' }}>
+      <Subscription />
       {isSubmitLoader && <Loader />}
       <ParsingLoadingModal
         info
@@ -354,11 +367,13 @@ const UploadJd = ({
         close={close}
         des={
           <Text>
-           We&lsquo;ve auto-populated the job information using your provided JD. Please take a moment to review and confirm before publishing the post.
+            We&lsquo;ve auto-populated the job information using your provided
+            JD. Please take a moment to review and confirm before publishing the
+            post.
           </Text>
         }
       />
-      
+
       <Flex>
         {/* <Text bold size={14} className={styles.title}>
         Create Your Job
@@ -559,7 +574,7 @@ const UploadJd = ({
                         )}
                       </Flex>
                       <Flex flex={2} style={{ marginRight: '15px' }}>
-                      <InputSearch
+                        <InputSearch
                           placeholder="e.g. Industry Type"
                           options={data}
                           setFieldValue={formik.setFieldValue}
@@ -568,9 +583,11 @@ const UploadJd = ({
                           label="Industry Type"
                           initialValue={formik.values.industryType1}
                           onChange={(e) => {
-                            
-                            formik.setFieldValue('industryType1', e.target.value);
-                          
+                            formik.setFieldValue(
+                              'industryType1',
+                              e.target.value,
+                            );
+
                             onDirty();
                           }}
                         />
