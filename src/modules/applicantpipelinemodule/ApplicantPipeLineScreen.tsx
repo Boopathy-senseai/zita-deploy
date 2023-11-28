@@ -296,100 +296,151 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   };
 
   const handleRangeChange = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueskill('');
-    } else {
-      setRangeValueskill(parseInt(e.target.value));
-      updateTechnicalPercent();
+    const skillinputValue = e.target.value;
+    if (/^\d*$/.test(skillinputValue)) {
+      const numericValue = parseInt(skillinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueskill(numericValue);
+        updateTechnicalPercent();
+      } else if (skillinputValue === '') {
+        setRangeValueskill('');
+      }
     }
   };
   const handleRangeChangerole = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValuerolles('');
-    } else {
-      setRangeValuerolles(parseInt(e.target.value));
-      updateTechnicalPercent();
+    const rolesinputValue = e.target.value;
+    if (/^\d*$/.test(rolesinputValue)) {
+      const numericValue = parseInt(rolesinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValuerolles(numericValue);
+        updateTechnicalPercent();
+      } else if (rolesinputValue === '') {
+        setRangeValuerolles('');
+      }
     }
   };
   const handleRangeChangeexperience = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueexperience('');
-    } else {
-      setRangeValueexperience(parseInt(e.target.value));
-      updateTechnicalPercent();
+    const experinputValue = e.target.value;
+    if (/^\d*$/.test(experinputValue)) {
+      const numericValue = parseInt(experinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueexperience(numericValue);
+        updateTechnicalPercent();
+      } else if (experinputValue === '') {
+        setRangeValueexperience('');
+      }
     }
   };
   const handleRangeChangequalifications = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueQualifications('');
-    } else {
-      setRangeValueQualifications(parseInt(e.target.value));
-      updateTechnicalPercent();
+    const qualifinputValue = e.target.value;
+    if (/^\d*$/.test(qualifinputValue)) {
+      const numericValue = parseInt(qualifinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueQualifications(numericValue);
+        updateTechnicalPercent();
+      } else if (qualifinputValue === '') {
+        setRangeValueQualifications('');
+      }
     }
   };
   const handleRangeChangetechnical = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueTechnical('');
-    } else {
-      setRangeValueTechnical(parseInt(e.target.value));
-      updateTechnicalPercent();
+    const techinputValue = e.target.value;
+    if (/^\d*$/.test(techinputValue)) {
+      const numericValue = parseInt(techinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueTechnical(numericValue);
+        updateTechnicalPercent();
+      } else if (techinputValue === '') {
+        setRangeValueTechnical('');
+      }
     }
   };
   const handleRangeChangesoft = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueSoft('');
-    } else {
-      setRangeValueSoft(parseInt(e.target.value));
-      updateTechnicalPercent();
+    const softinputValue = e.target.value;
+    if (/^\d*$/.test(softinputValue)) {
+      const numericValue = parseInt(softinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueSoft(numericValue);
+        updateTechnicalPercent();
+      } else if (softinputValue === '') {
+        setRangeValueSoft('');
+      }
     }
   };
 
+
+
+
   const handleRangeChangeindustry = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueIndustry('');
-    } else {
-      setRangeValueIndustry(parseInt(e.target.value));
-      updateNonTechnicalPercent();
+    const industryinputValue = e.target.value;
+    if (/^\d*$/.test(industryinputValue)) {
+      const numericValue = parseInt(industryinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueIndustry(numericValue);
+        updateNonTechnicalPercent();
+      } else if (industryinputValue === '') {
+        setRangeValueIndustry('');
+      }
     }
   };
   const handleRangeChangedomain = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueDomain('');
-    } else {
-      setRangeValueDomain(parseInt(e.target.value));
-      updateNonTechnicalPercent();
+    const domaininputValue = e.target.value;
+    if (/^\d*$/.test(domaininputValue)) {
+      const numericValue = parseInt(domaininputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueDomain(numericValue);
+        updateNonTechnicalPercent();
+      } else if (domaininputValue === '') {
+        setRangeValueDomain('');
+      }
     }
   };
   const handleRangeChangecertification = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueCertifications('');
-    } else {
-      setRangeValueCertifications(parseInt(e.target.value));
-      updateNonTechnicalPercent();
+    const certifiinputValue = e.target.value;
+    if (/^\d*$/.test(certifiinputValue)) {
+      const numericValue = parseInt(certifiinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueCertifications(numericValue);
+        updateNonTechnicalPercent();
+      } else if (certifiinputValue === '') {
+        setRangeValueCertifications('');
+      }
     }
   };
   const handleRangeChangelocation = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueLocation('');
-    } else {
-      setRangeValueLocation(parseInt(e.target.value));
-      updateNonTechnicalPercent();
+    const locationinputValue = e.target.value;
+    if (/^\d*$/.test(locationinputValue)) {
+      const numericValue = parseInt(locationinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueLocation(numericValue);
+        updateNonTechnicalPercent();
+      } else if (locationinputValue === '') {
+        setRangeValueLocation('');
+      }
     }
   };
   const handleRangeChangecultural = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueCultural('');
-    } else {
-      setRangeValueCultural(parseInt(e.target.value));
-      updateNonTechnicalPercent();
+    const culturalinputValue = e.target.value;
+    if (/^\d*$/.test(culturalinputValue)) {
+      const numericValue = parseInt(culturalinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueCultural(numericValue);
+        updateNonTechnicalPercent();
+      } else if (culturalinputValue === '') {
+        setRangeValueCultural('');
+      }
     }
   };
   const handleRangeChangereferences = (e: any) => {
-    if (e.target.value === '') {
-      setRangeValueReferences('');
-    } else {
-      setRangeValueReferences(parseInt(e.target.value));
-      updateNonTechnicalPercent();
+    const refinputValue = e.target.value;
+    if (/^\d*$/.test(refinputValue)) {
+      const numericValue = parseInt(refinputValue, 10);
+      if (numericValue >= 0 && numericValue <= 100) {
+        setRangeValueReferences(numericValue);
+        updateNonTechnicalPercent();
+      } else if (refinputValue === '') {
+        setRangeValueReferences('');
+      }
     }
   };
 

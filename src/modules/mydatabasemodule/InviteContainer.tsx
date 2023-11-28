@@ -139,10 +139,11 @@ const InviteContainer = ({
         </>
           )}
           {!isEmpty(dataList.applicant) ? (
-            <Flex row center className={styles.applied}>
-              <div className={styles.svgapplied}>
-                <SvgAppliedIcon fill={SUCCESS} width={17} height={17} />
-                </div>
+            <Flex center className={styles.applied}>
+              <Flex center middle marginLeft={20} className={styles.svgapplied}>
+                <SvgAppliedIcon fill={SUCCESS} width={22} height={22} />
+                </Flex>
+                <Flex row>
               <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
                 <div>
                 <Text
@@ -159,15 +160,16 @@ const InviteContainer = ({
               <div title="View the profile in Applicants Pipeline page." style={{marginRight:"-20px"}}>
                 <SvgHelp width={16} height={16} fill={GARY_4} />
               </div>
+              </Flex>
             </Flex>
           ):(
             dataList.interested === true ? (
               <Flex row center
               className={styles.interestedrow}>
-              <SvgInterested
-                width={18}
-                height={18}
-              />
+              {/* <SvgInterested
+                width={20}
+                height={20}
+              /> */}
               <Text
                 title={`Last Invited: ${dataList?.invite && getDateString(dataList.invite, 'll')}`}
                 className={styles.interestedtext}>

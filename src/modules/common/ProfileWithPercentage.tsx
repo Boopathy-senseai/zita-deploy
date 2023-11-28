@@ -39,8 +39,9 @@ const ProfileWithPercentage = ({ index, dataList, isPercentage }: Props) => {
             align="center"
             style={{ textTransform: 'uppercase' }}
           >
-            {`${dataList.first_name[0][0]}${
-              dataList.last_name ? dataList.last_name[0][0] : ''
+            {dataList?.first_name &&
+            `${dataList?.first_name[0][0]}${
+              dataList?.last_name ? dataList?.last_name[0][0] : ''
             }`}
 
             {/* {firstNameChar(dataList.first_name)}{dataList.last_name?.charAt(0)} */}
@@ -62,6 +63,7 @@ const ProfileWithPercentage = ({ index, dataList, isPercentage }: Props) => {
             percentageStyle: !isEmpty(dataList.match),
           })}
         >
+          {console.log('match',dataList.match)}
           <Text
             className={styles.percentagefont}
             bold
