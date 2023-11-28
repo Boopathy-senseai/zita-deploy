@@ -68,21 +68,47 @@ const AddedApplicantQuestionnaire = ({
         )}
 
         <Flex row center>
-        {isCancelLoader ? (
+        {isCancelLoader||isBtnLoader||isPreviewLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
           ) : (
+          <>
           <LinkWrapper 
-          
           onClick = {setDraftSave}
-
           to={routesPath.MY_JOB_POSTING}>
             <Button types="close" onClick={()=>{setCancelLoader(true)}}>{CANCEL}</Button>
-          </LinkWrapper>)}
+          </LinkWrapper>
+          <LinkWrapper   
+            to={routesPath.MY_JOB_POSTING}
+            onClick={()=>{
+              setBtnLoader(true);
+            }}
+          >
+            <Button 
+          // onClick={() => {onPristine()
+          //   setDraftSave(true);
+          // }}
+       
+            types="secondary" className={styles.saveBtn}>
+              Save as draft
+            </Button>
+          </LinkWrapper>
+
+          <LinkWrapper
+            onClick={() =>{ onPristine();
+            setPreviewLoader(true);}
+            }
+            
+            to={`/jobs/preview/${jdId}`}
+          >
+            <Button>Preview</Button>
+          </LinkWrapper>
+          </>
+          )}
 
       
-                 {isBtnLoader ? (
+                 {/* {isBtnLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
@@ -101,9 +127,9 @@ const AddedApplicantQuestionnaire = ({
             types="secondary" className={styles.saveBtn}>
               Save as draft
             </Button>
-          </LinkWrapper>)}
+          </LinkWrapper>)} */}
 
-          {isPreviewLoader ? (
+          {/* {isPreviewLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
@@ -116,7 +142,7 @@ const AddedApplicantQuestionnaire = ({
             to={`/jobs/preview/${jdId}`}
           >
             <Button>Preview</Button>
-          </LinkWrapper>)}
+          </LinkWrapper>)} */}
         </Flex>
       </Flex>
     </Flex>

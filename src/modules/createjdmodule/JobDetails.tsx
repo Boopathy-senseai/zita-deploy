@@ -618,11 +618,12 @@ const JobDetails = ({
       </Flex>
       <Flex>
         <Flex row center end className={styles.btnContainer}>
-          {isCancelLoader ? (
+          {isCancelLoader||isDrftLoader||isNextLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
           ) : (
+            <>
             <LinkWrapper
               onClick={() => {
                 onPristine();
@@ -634,9 +635,45 @@ const JobDetails = ({
                 {CANCEL}
               </Button>
             </LinkWrapper>
+            <Button
+              onClick={() => {
+                loaderfunction();
+                // setDrftLoader(true)
+                setDraftSave(true);
+                //setDrftLoader(false);
+                onPristine();
+                setVacancies(false);
+                hanldeErrorFocus();
+                setTimeout(() => {
+                  handleSubmit();
+                }, 200);
+              }}
+              types="secondary"
+              className={styles.draftBtn}
+            >
+              Save as draft
+            </Button>
+            <Button
+              onClick={() => {
+                onPristine();
+                loaderfunctionnext();
+                setDraftSave(false);
+                setVacancies(true);
+                hanldeErrorFocus();
+                setTimeout(() => {
+                  handleSubmit();
+                }, 200);
+                // setNextLoader(true);
+
+                //  setDrftLoader(true);
+              }}
+            >
+              Next
+            </Button>
+            </>
           )}
 
-          {isDrftLoader ? (
+          {/* {isDrftLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
@@ -659,8 +696,11 @@ const JobDetails = ({
             >
               Save as draft
             </Button>
-          )}
-          {isNextLoader ? (
+          )} */}
+
+          {/* {
+          
+          isNextLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
@@ -682,7 +722,7 @@ const JobDetails = ({
             >
               Next
             </Button>
-          )}
+          )} */}
         </Flex>
       </Flex>
     </Flex>
