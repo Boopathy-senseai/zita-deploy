@@ -1,0 +1,61 @@
+.subscriptionmodule {
+  width: 700px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 5px;
+}
+
+.bottomborder {
+  margin-top: 3px;
+  border-bottom: 0.5px solid #000000;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 25px;
+}
+
+.section1 {
+  flex-basis: 48%;
+}
+.section2 {
+  flex-basis: 4%;
+}
+
+.section3 {
+  flex-basis: 48%;
+}
+
+.line {
+  width: 0.5px;
+  height: 205px;
+  background-color: #c3c3c3;
+  margin-left: 13px;
+}
+
+.buttoncenter {
+  margin-top: 25px;
+  justify-content: center;
+}
+
+.creditflex1 {
+  flex-basis: 50%;
+}
+.creditflex2 {
+  flex-basis: 15%;
+}
+.creditflex3 {
+  flex-basis: 35%;
+  justify-content: center;
+}
+.creditcontainer {
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+}
+.cards {
+  border: 1px solid #d7c7d2;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
