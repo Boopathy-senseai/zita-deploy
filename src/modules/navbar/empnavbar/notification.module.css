@@ -641,9 +641,17 @@ font-family: 'Courier New', Courier, monospace;
   border-left: 2px solid rgb(238, 232, 236);
   height: 68px;
 }
+.brandingdropdownlinehire{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 35px;
+}
 .brandingdropdownlinehr{
   border-left: 2px solid rgb(238, 232, 236);
   height: 35px;
+}
+.brandingdropdownlinehr2{
+  border-left: 2px solid rgb(238, 232, 236);
+  height: 68px;
 }
 .myaccountdropdownlinesuperadmin{
   border-left: 2px solid rgb(238, 232, 236);
