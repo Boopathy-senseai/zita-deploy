@@ -121,11 +121,11 @@ const JobTitleDescription = ({
             initialValue={values.jobDescription}
             height={500}
             placeholder="Enter the job description here including the candidate job duties and requirements"
-            // onChange={() => {
+            onChange={() => {
 
-            //   // onDirty();
-            //   console.log('desssss')
-            // }}
+               onDirty();
+              console.log('desssss')
+            }}
           />
         </LabelWrapper>
 

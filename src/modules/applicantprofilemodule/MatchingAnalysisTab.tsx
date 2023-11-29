@@ -321,17 +321,9 @@ const MatchingAnalysisTab = ({ updatr_overall }: Props) => {
               <Flex row className={styles.btnwithContent}>
                 <Flex row className={styles.aligncenter}>
                   <Flex>
-                    <Text>Adjust the weightage for job-candidate matching criteria</Text>
+                    <Text>Detailed Candidate Score Analysis Aligned with Job Requirements</Text>
                   </Flex>
-                  <Flex marginLeft={7}>
-                    <label
-                      onMouseEnter={() => setInfoPopupOpen(true)}
-                      onMouseLeave={() => setInfoPopupOpen(false)}
-                      className={styles.InfoiconchangeStyle}
-                    >
-                      <SvgModuleicon />
-                    </label>
-                  </Flex>
+                  
                 </Flex>
                 <Flex >
                   {isInfoPopupOpen && (
