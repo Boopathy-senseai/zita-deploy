@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store';
 import SvgAngle from '../../../icons/SvgAngle';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
@@ -8,11 +10,15 @@ import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty } from '../../../uikit/helper';
 import InputSwitch from '../../../uikit/Switch/InputSwitch';
 import Text from '../../../uikit/Text/Text';
+import { SubsriptionMiddleWare } from '../../navbar/empnavbar/store/navbarmiddleware';
 import DetailedFeaturesComparison from './DetailedFeaturesComparison';
 import { Subscription } from './manageSubscriptionTypes';
-import { basicData, freeData, proData } from './mock';
+import { standard,freeData, premium,enterprise } from './mock';
 import styles from './plansandfeatures.module.css';
 import PriceCard from './PriceCard';
+
+
+
 
 type Props = {
   subscription?: Subscription;
@@ -26,6 +32,7 @@ const PlansandFeatures = ({
   setTab,
   downgrade,
 }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
   const [isPlan, setPlan] = useState(true);
   const [isShowPrice, setPriceShow] = useState(true);
   const [isCompare, setCompare] = useState(false);
@@ -132,8 +139,10 @@ const PlansandFeatures = ({
 
   useEffect(() => {
     if (
-      (subscription && subscription.plan_id_id === 2) ||
-      (subscription && subscription.plan_id_id === 4)
+      (current_plan === 6) ||
+      (current_plan === 7)||
+      (current_plan === 8)||
+      (current_plan === 9)
     ) {
       setPlan(false);
       setDefaultPlan(false);
@@ -148,8 +157,30 @@ const PlansandFeatures = ({
     subscription?.is_active === true &&
     Number(subscription.subscription_changed_to) === -1;
 
+    useEffect(() => {
+      dispatch(SubsriptionMiddleWare())
+    }, [])
+  
+    const {
+      total_plan,
+      current_plan,
+      current_jd_count,
+      current_resume_count,
+    } = useSelector(
+      ({
+        SubscriptionReducers
+      }: RootState) => ({
+        current_plan: SubscriptionReducers.current_plan,
+        current_jd_count: SubscriptionReducers.current_jd_count,
+        total_plan:SubscriptionReducers.total_plan,
+        current_resume_count:SubscriptionReducers.current_resume_count,
+      }),
+    );
+        
+
   return (
     <Card className={styles.overAll} id="plans_and_features__plan">
+      {console.log(isPlan,"+====+",current_jd_count,current_plan,total_plan,current_resume_count,subscription,freeData,totalUserManger)}
       <Flex>
         <Flex row center between>
           <Flex>
@@ -172,7 +203,7 @@ const PlansandFeatures = ({
 
         {isShowPrice && (
           <>
-            <Flex
+           <Flex
               row
               center
               className={styles.switchFlex}
@@ -188,6 +219,7 @@ const PlansandFeatures = ({
               </div>
               <Text>Billed Annually</Text>
             </Flex>
+  
             <Flex columnFlex style={{ display: 'flex', alignItems: 'center' }}>
               <Flex row>
                 <PriceCard
@@ -197,9 +229,9 @@ const PlansandFeatures = ({
                   setTotalUser={setTotalUser}
                   btnTitle={freePlanBtn}
                   data={freeData}
-                  headerTitle="FREE"
+                  headerTitle="FREE TRAIL"
                   price="FREE"
-                  days="14 Days Trial"
+                  days="for 14 Days"
                   disabled={subscription && subscription.plan_id_id !== 1}
                   freeTotalUser={
                     subscription && subscription.plan_id_id === 1
@@ -212,7 +244,7 @@ const PlansandFeatures = ({
                   btnDisabled
                   inputNone
                 />
-                <div style={{ margin: '0 10px' }}>
+                <div style={{ margin: '0 0 0 10px' }}>
                   <PriceCard
                     subscription={subscription}
                     downgrade={downgrade}
@@ -222,11 +254,11 @@ const PlansandFeatures = ({
                     isDefalutPlan={isDefalutPlan}
                     setTotalUser={setTotalUserBasic}
                     btnTitle={basicPlanBtn}
-                    data={basicData}
-                    headerTitle="BASIC"
-                    price={isPlan ? '$ 25' : '$ 35'}
+                    data={standard}
+                    headerTitle="Standard"
+                    price={isPlan ? '$99' : '$35'}
                     userPrice
-                    days="Per Month"
+                    days={!isPlan ? "Month" : 'Year'}
                     btnDisabled={
                       basicPlanBtn === 'Current Plan' || cancelPlanCheck
                     }
@@ -242,6 +274,34 @@ const PlansandFeatures = ({
                     planId={isPlan ? 3 : 2}
                   />
                 </div>
+                <div style={{ margin: '0 0 0 10px' }}>
+                  <PriceCard
+                    subscription={subscription}
+                    setTab={setTab}
+                    totalUserManger={totalUserManger}
+                    isPlan={isPlan}
+                    isDefalutPlan={isDefalutPlan}
+                    setTotalUser={setTotalUserPro}
+                    btnTitle={proPlanBtn}
+                    data={premium}
+                    headerTitle="Premium"
+                    price={isPlan ? '$55' : '$65'}
+                    days={!isPlan ? "Month" : 'Year'}
+                    userPrice
+                    btnDisabled={proPlanBtn === 'Current Plan' || cancelPlanCheck}
+                    basicTotalUser={
+                      subscription && subscription.plan_id_id !== 1
+                        ? (Number(isCount.key) === 5 ||
+                            Number(isCount.key) === 4) &&
+                          !isEmpty(isCount.count)
+                          ? Number(isCount.count)
+                          : subscription?.no_of_users
+                        : 0
+                    }
+                    planId={isPlan ? 5 : 4}
+                  />
+                </div>
+                <div style={{ margin: '0 0 0 10px' }}>
                 <PriceCard
                   subscription={subscription}
                   setTab={setTab}
@@ -250,10 +310,10 @@ const PlansandFeatures = ({
                   isDefalutPlan={isDefalutPlan}
                   setTotalUser={setTotalUserPro}
                   btnTitle={proPlanBtn}
-                  data={proData}
-                  headerTitle="PRO"
-                  price={isPlan ? '$ 55' : '$ 65'}
-                  days="Per Month"
+                  data={enterprise}
+                  headerTitle="Enterprise"
+                  price={isPlan ? '$55' : '$65'}
+                  days={!isPlan ? "Month" : 'Year'}
                   userPrice
                   btnDisabled={proPlanBtn === 'Current Plan' || cancelPlanCheck}
                   basicTotalUser={
@@ -267,6 +327,7 @@ const PlansandFeatures = ({
                   }
                   planId={isPlan ? 5 : 4}
                 />
+              </div>
               </Flex>
               <Button
                 onClick={() => setCompare(!isCompare)}

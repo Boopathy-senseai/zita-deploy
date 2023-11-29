@@ -6,8 +6,12 @@
   margin-bottom: 16px;
 }
 .overAll {
-  width: 260px;
+  width: 285px;
   position: relative;
+  height: 526px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .priceList {
   align-self: center;
@@ -63,8 +67,12 @@
   border: 3px solid #dee2e6;
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
   -webkit-box-shadow: 0px 1px 7px 0 rgb(0 0 0 / 47%); */
-  width: 260px;
+  width: 285px;
+  height: 526px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #ffffff;
   transform: scale(1.06);
   z-index: 5;

@@ -30,8 +30,7 @@ type Props = {
   price: string;
   days: string;
   data: {
-    value: string;
-    normalVlaue: string;
+    value: any;
   }[];
   btnTitle: string;
   userPrice?: boolean;
@@ -220,102 +219,58 @@ const PriceCard = ({
         >
           <Flex
             style={{
-              margin: '25px 30px 0px 30px',
+              margin: '25px 25px 0px 25px',
               borderBottom: '2px solid #C3C3C3',
             }}
           >
             <Flex row between center>
-              <Text bold color="theme" size={18}>
+              <Text bold  size={18}>
                 {headerTitle}
               </Text>
-              <Flex>
+              {/* <Flex>
                 {subscription && subscription.plan_id_id === planId ? (
                   <SvgTick fill={SUCCESS} />
                 ) : (
                   ''
                 )}
-              </Flex>
-            </Flex>
-            <Flex row style={{ display: 'flex', alignItems: 'baseline' }}>
-              {price !== 'FREE' ? (
-                <Text color="theme" size={16} bold style={{ marginBottom: 4 }}>
-                  {price}
-                </Text>
-              ) : null}
-
-              {userPrice && (
-                <Text size={14} color="theme">
-                  &nbsp;/User -&nbsp;
+              </Flex> */}
+                  <Flex row style={{ display: 'flex', alignItems: 'baseline' }}>
+                  {price !== 'FREE' ? (
+                    <Text  size={16} bold style={{ marginBottom: 4 }}>
+                      {price}
+                      {console.warn(price)}
+                    </Text>
+                  ) :
+                  <Text size={14} bold >
+                    Free&emsp;
+                  </Text>
+                  }
+                  {userPrice && (
+                <Text size={14} >
+                  /
                 </Text>
               )}
-              <Text
-                align="center"
-                size={14}
-                color="theme"
-                style={{ marginBottom: 4 }}
-              >
-                {days}
-              </Text>
+                  <Text
+                    align="center"
+                    size={14}
+                    style={{ marginBottom: 4 }}
+                  >
+                    {days}
+                  </Text>
+                </Flex>
             </Flex>
+            
           </Flex>
-          <Flex columnFlex className={styles.priceList} marginTop={24}>
+          <Flex columnFlex className={styles.priceList} style={{margin: '20px 20px 0 20px'}}>
             {data.map((list, index) => (
               <Flex row center key={list.value + index} marginBottom={12}>
                 <div style={{ marginRight: 8 }}>
                   <SvgTickOne />
                 </div>
-                {!isEmpty(list.value) && (
-                  <Text bold style={{ marginRight: 3 }}>
-                    {list.value}
-                  </Text>
-                )}
-                <Text>{list.normalVlaue}</Text>
+                <div key={index} style={{fontSize:'13px'}} dangerouslySetInnerHTML={{ __html: list.value }} />
+                {/* <Text>{list.value}</Text> */}
               </Flex>
             ))}
-          </Flex>
-          <Flex row center marginLeft={8} marginTop={30}>
-            <Text bold style={{ marginRight: 16 }}>
-              Total Users:
-            </Text>
-            <Flex row center className={cx({ pointerNone: inputNone })}>
-              <div
-                onClick={handleDecrement}
-                tabIndex={-1}
-                role="button"
-                onKeyDown={() => {}}
-                className={styles.decrementStyles}
-              >
-                <Text align="center" size={20}>
-                  -
-                </Text>
-              </div>
-              <InputText
-                id="plans_and_features__focus"
-                align="center"
-                value={formik.values.value}
-                onChange={(e) => {
-                  if (
-                    e.target.value === '' ||
-                    (onlyNumber.test(e.target.value) &&
-                      Number(e.target.value) >= 1)
-                  ) {
-                    formik.setFieldValue(`value`, e.target.value);
-                  }
-                }}
-                className={styles.inputStyle}
-              />
-              <div
-                onClick={handleIncrement}
-                tabIndex={-1}
-                role="button"
-                onKeyDown={() => {}}
-                className={styles.incrementStyles}
-              >
-                <Text align="center" size={20}>
-                  +
-                </Text>
-              </div>
-            </Flex>
           </Flex>
           {subscription === null ||
           (subscription && subscription.plan_id_id === 1) ? (

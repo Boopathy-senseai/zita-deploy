@@ -1,29 +1,45 @@
 export const freeData = [
-  { value: '1 Active Job', normalVlaue: 'Per Account' },
-  { value: 'Up to 100', normalVlaue: 'Candidates Storage' },
-  { value: '7M + Resume', normalVlaue: 'Access' },
-  { value: 'Careers Page', normalVlaue: 'with Candidate Portal' },
-  { value: 'Human-like AI', normalVlaue: 'Matching' },
-  { value: '', normalVlaue: 'Plus the features below' },
+  { value: "<div><strong>1 Active Job</strong> Per Account.</div>" },
+  { value: "<div><strong>AI Resume Parsing</strong> Up to <strong>10</strong> per month.</div>" },
+  { value: "<div><strong>AI Matching and Descriptive Analysis</strong> Up to <strong>10</strong> per month.</div>" },
+  { value: "<div><strong>All Other features</strong> available in Premium.</div>" },
+  { value: "<div><strong>Sourcing contact</strong> unlock credit <strong>2</strong> for the free trail.</div>" },
 ];
 
-export const basicData = [
-  { value: '3 Active Jobs', normalVlaue: 'Per Account' },
-  { value: 'Up to 15,000', normalVlaue: 'Candidates Storage' },
-  { value: '7M + Resume', normalVlaue: 'Access' },
-  { value: 'Careers Page', normalVlaue: 'with Candidate Portal' },
-  { value: 'Human-like AI', normalVlaue: 'Matching' },
-  { value: '', normalVlaue: 'Plus the features below' },
+export const standard = [
+  { value: "<div><strong>Job Postings</strong> Up to <strong>20</strong> per month</div>" },
+  { value: "<div><strong>AI Resume Parsing</strong> Up to <strong>200</strong> per month</div>" },
+  { value: "<div><strong>Advanced AI Matching</strong> and Filtering</div>" },
+  { value: "<div>Import Applicants & Passive Candidates</div>" },
+  { value: "<div><strong>7M+</strong> resume Database</div>" },
+  { value: "<div><strong>Interview and Assessment Tools</strong></div>" },
+  { value: "<div>Access to Advanced reporting tools</div>" },
+  { value: "<div>Additional <strong>Add-Ons</strong></div>" },
 ];
 
-export const proData = [
-  { value: 'Unlimited Jobs', normalVlaue: 'Per Account' },
-  { value: 'Unlimited', normalVlaue: 'Candidates Storage' },
-  { value: '7M + Resume', normalVlaue: 'Access' },
-  { value: 'Careers Page', normalVlaue: 'with Candidate Portal' },
-  { value: 'Human-like AI', normalVlaue: 'Matching' },
-  { value: '', normalVlaue: 'Plus the features below' },
+export const premium = [
+  { value: "<div><strong>Job Postings</strong> Up to <strong>60</strong> per month</div>" },
+  { value: "<div><strong>AI Resume Parsing</strong> Up to <strong>600</strong> per month</div>" },
+  { value: "<div><strong>Advanced AI Matching</strong> and Filtering</div>" },
+  { value: "<div>Import Applicants & Passive Candidates</div>" },
+  { value: "<div><strong>7M+</strong> resume Database</div>" },
+  { value: "<div><strong>Interview and Assessment Tools</strong></div>" },
+  { value: "<div>Access to<strong> Advanced reporting tools</strong></div>" },
+  { value: "<div>Additional <strong>Add-Ons</strong></div>" },
 ];
+
+export const enterprise = [
+  { value: "<div><strong>Job Postings</strong> Up to <strong>120</strong> per month</div>" },
+  { value: "<div><strong>AI Resume Parsing</strong> Up to <strong>1200</strong> per month</div>" },
+  { value: "<div><strong>Advanced AI Matching</strong> and Filtering</div>" },
+  { value: "<div>Import Applicants & Passive Candidates</div>" },
+  { value: "<div><strong>7M+</strong> resume Database</div>" },
+  { value: "<div><strong>Interview and Assessment Tools</strong></div>" },
+  { value: "<div>Access to <strong>Advanced reporting tools</strong></div>" },
+  { value: "<div>Additional <strong>Add-Ons</strong></div>" },
+  { value: "<div>Application <strong>Customization</strong></div>" },
+];
+
 
 export const feedbackData = [
   {
