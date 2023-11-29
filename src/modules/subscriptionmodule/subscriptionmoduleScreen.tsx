@@ -25,15 +25,16 @@ const SubscriptionModal = ({
   const [oldplan, setoldplan] = useState(null);
   const [Nextplan, setnextplan] = useState(null);
 
-  const { current_plan, current_jd_count, total_plan, isLoading } = useSelector(
+  const { current_plan, current_jd_count, total_plan, isLoading,add_on_plans} = useSelector(
     ({ SubscriptionReducers }: RootState) => ({
       current_plan: SubscriptionReducers.current_plan,
       current_jd_count: SubscriptionReducers.current_jd_count,
       total_plan: SubscriptionReducers.total_plan,
       isLoading: SubscriptionReducers.isLoading,
-    }),
-  );
+      add_on_plans:SubscriptionReducers.add_on_plans,
 
+    }),
+  );  
   useEffect(() => {
     get_currentplan();
     get_nextplan();
