@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import Totalcount from '../../globulization/TotalCount';
 import SvgSearch from '../../icons/SvgSearch';
+import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
 import { getBlur, getFocus, unlimitedHelper } from '../../uikit/helper';
 import { Card, Modal } from '../../uikit';
 import Loader from '../../uikit/Loader/Loader';
@@ -13,13 +14,12 @@ import Tabel from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import SvgRefresh from '../../icons/SvgRefresh';
-import SvgClose from '../../icons/SvgClose';
-import Pangination from '../../uikit/Pagination/Pangination';
 // import ProfileView from '../applicantpipelinemodule/ProfileView';
 import ZitaMatchCandidateDrawer from '../zitamatchcandidatemodule/ZitaMatchCandidateDrawer';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import YesOrNoModal from '../common/YesOrNoModal';
 import { dashBoardMiddleWare } from '../dashboardmodule/empdashboard/store/dashboardmiddleware';
+import SubscriptionModal from '../subscriptionmodule/subscriptionmoduleScreen';
 import styles from './candidatedatabasetab.module.css';
 import CandidateDatabase from './CandidateDatabase';
 import { title } from './uploadedCandidateTable';
@@ -27,7 +27,7 @@ import { title } from './uploadedCandidateTable';
 import {
   bulkImportMiddleWare,
   bulkuploadedCandidatesMiddleWare,
-  bulkuploadedParsingMiddleWare,uploadedProfileViewMiddleWare
+  bulkuploadedParsingMiddleWare, uploadedProfileViewMiddleWare
 } from './store/middleware/bulkImportMiddleware';
 
 import ParsingLoadingModal from './ParsingLoadingModal';
@@ -55,7 +55,7 @@ type Props = {
 };
 
 const CandidateDatabaseTab = ({
-  
+
   handleTotal,
   handleSubmit,
   handleCompleted,
@@ -71,25 +71,29 @@ const CandidateDatabaseTab = ({
   pageNumber,
 
 }: Props) => {
+  //subcription setstate
+  const [isopensubcription, setopensubcription] = useState(false);
+
+
   const [isParse, setParse] = useState(false);
   const [isTableLoader, setTableLoader] = useState(false);
   const [isImport, setImport] = useState<any>('');
   const [isFile, setFile] = useState<string>('');
   // const [isPersonal, setPersonal] = useState<any>([]);
-   // const [isAddDetail, setAddDetail] = useState<any>([]);
+  // const [isAddDetail, setAddDetail] = useState<any>([]);
   const [isProfileView, setProfileView] = useState(false);
   const [isOpenProfile, setOpenProfile] = useState(false);
   const [isUpgrade, setUpgrade] = useState(false);
   const [isTab, setTab] = useState<Tabs>('total');
   const [isCandiTableLoader, setCandiTableLoader] = useState(false);
   const [isCanId, setCanId] = useState<any>([]);
- 
+
   const dispatch: AppDispatch = useDispatch();
   const [model, setmodel] = useState(false);
   const [Relocate, setRelocate] = useState(false);
   const [verify, setverify] = useState(false);
 
-// const history=useHistory()
+  // const history=useHistory()
   // Profile View Function
 
   //  const hanldeEditProfileView = (id: number) => {
@@ -110,21 +114,21 @@ const CandidateDatabaseTab = ({
     });
   };
 
-  
+
 
   useEffect(() => {
-    if(searchValue === '' ){
+    if (searchValue === '') {
       dispatch(bulkuploadedCandidatesMiddleWare({}));
     }
   }, [searchValue]);
 
 
-  const handlechange=()=>{
+  const handlechange = () => {
     setmodel(true)
     dispatch(dashBoardMiddleWare())
-    
+
   }
-  
+
 
   const {
     emp_pool,
@@ -133,12 +137,14 @@ const CandidateDatabaseTab = ({
     incompleted,
     features_balance,
     upDateloader,
-   
+    current_plan,
+    current_resume_count
   } = useSelector(
     ({
       bulkUploadedCandidatesReducers,
       bulkImportReducers,
-      dashboardEmpReducers
+      dashboardEmpReducers,
+      SubscriptionReducers
     }: RootState) => {
       return {
         emp_pool: bulkUploadedCandidatesReducers.emp_pool,
@@ -147,19 +153,21 @@ const CandidateDatabaseTab = ({
         incompleted: bulkUploadedCandidatesReducers.incompleted,
         features_balance: bulkImportReducers.features_balance,
         upDateloader: bulkUploadedCandidatesReducers.isLoading,
-       
+        current_plan: SubscriptionReducers.current_plan,
+        current_resume_count: SubscriptionReducers.current_resume_count,
+
       };
     },
   );
-  
- 
- const [isPageTab, setPageTab] = useState(total_count);
+
+  console.log(current_resume_count, 'kilo')
+  const [isPageTab, setPageTab] = useState(total_count);
 
 
   const columns = useMemo(
     () =>
       title(
-          hanldeEditProfileView,
+        hanldeEditProfileView,
         setFeaturesBalance,
         searchValue,
         isTab,
@@ -191,7 +199,7 @@ const CandidateDatabaseTab = ({
     localStorage.setItem('bulk_loader', 'true');
   };
 
-  
+
   const handleOpenParse = () => setParse(true);
 
   // Pagination Function
@@ -303,8 +311,8 @@ const CandidateDatabaseTab = ({
   };
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:"1"})).then((response) => {
-      
+    dispatch(bulkuploadedParsingMiddleWare({ parser: "1" })).then((response) => {
+
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then(() => {
         setPageNumber(0);
       });
@@ -314,7 +322,7 @@ const CandidateDatabaseTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    }).then(()=>{
+    }).then(() => {
       dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 }))
     })
   };
@@ -336,7 +344,7 @@ const CandidateDatabaseTab = ({
     setImport(localStorage.getItem('isImport'));
   });
 
-  
+
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === 'Enter') {
       handleSubmit();
@@ -349,21 +357,21 @@ const CandidateDatabaseTab = ({
     setverify(false);
     setmodel(false);
   };
-  const handlefunction=()=>{
+  const handlefunction = () => {
     setverify(true);
     formik.setFieldValue('parser', '0')
   }
-  const handlefunction1=()=>{
+  const handlefunction1 = () => {
     setverify(true);
     formik.setFieldValue('parser', '1')
   }
-  
-  const value=emp_pool.length;
-  const value1=value>4;
-  const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
+
+  const value = emp_pool.length;
+  const value1 = value > 4;
+  const isBulkLoaderprocess = localStorage.getItem('bulk_loader');
   return (
     <Flex className={styles.candidatedatabase}>
-    
+
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -380,20 +388,20 @@ const CandidateDatabaseTab = ({
         open={isUpgrade}
       />
       <ZitaMatchCandidateDrawer
-            activeState={0}
-            open={isProfileView}
-            cancel={() => setProfileView(false)}
-            jobId={'0'}
-            candidateId={isCanId.toString()}
-          />
- 
+        activeState={0}
+        open={isProfileView}
+        cancel={() => setProfileView(false)}
+        jobId={'0'}
+        candidateId={isCanId.toString()}
+      />
+
       {isOpenProfile &&
-      <ProfileViewModal
+        <ProfileViewModal
           filePath={isFile}
           open={isOpenProfile}
           canId={isCanId}
           // cancel={() => setOpenProfile(false)}
-          refreshOnUpdate={(e:any) => hanldeSvgRefreshOnUpdate(e)}
+          refreshOnUpdate={(e: any) => hanldeSvgRefreshOnUpdate(e)}
         />
       }
       <ParsingLoadingModal
@@ -439,15 +447,16 @@ const CandidateDatabaseTab = ({
           style={{ height: '330px' }}
         >
           <CandidateDatabase
-              setmodel={setmodel}
-              verifymodel={update}
-              hanldeParsing={hanldeParsing}
-              setParse={handleOpenParse}
-              isBulkLoader={localStorage.getItem('bulk_loader')}
-              setUpgrade={setUpgrade}
-              candidatesLimit={features_balance}
-              formik={formik.values.parser}
-            />
+            setmodel={setmodel}
+            verifymodel={update}
+            hanldeParsing={hanldeParsing}
+            setParse={handleOpenParse}
+            isBulkLoader={localStorage.getItem('bulk_loader')}
+            setUpgrade={setUpgrade}
+            candidatesLimit={features_balance}
+            formik={formik.values.parser}
+            current_resume_count={current_resume_count}
+          />
           {/* {verify === true ? (
             <CandidateDatabase
               setmodel={setmodel}
@@ -532,61 +541,85 @@ const CandidateDatabaseTab = ({
           )} */}
         </Flex>
       </Modal>
-      
+
       <Flex row between>
-      <Flex row center className={styles.inputConatiner}>
-        <InputText
-          className={styles.inputWidth}
-          inputConatinerClass={styles.inputStyle}
-          placeholder={'Search candidates by name or email'}
-          value={searchValue}
-          onChange={searchHandleChange}
-          id={'candidates__input'}
-          actionRight={() => (
-            <label style={{ margin: 0,marginTop:"3px" }}>
-              <SvgSearch width={14} height={14}/>
-            </label>
+        <Flex row center className={styles.inputConatiner}>
+          <InputText
+            className={styles.inputWidth}
+            inputConatinerClass={styles.inputStyle}
+            placeholder={'Search candidates by name or email'}
+            value={searchValue}
+            onChange={searchHandleChange}
+            id={'candidates__input'}
+            actionRight={() => (
+              <label style={{ margin: 0, marginTop: "3px" }}>
+                <SvgSearch width={14} height={14} />
+              </label>
+            )}
+            onKeyPress={handleKeyPress}
+          />
+          <Button
+
+            disabled={searchValue === '' ? true : false}
+            onClick={handleSubmit}
+          >
+            Find Candidates
+          </Button>
+        </Flex>
+        <Flex className={styles.inputConatiner}>
+          {isBulkLoaderprocess === 'true' ? (
+            <Flex row  >
+              <Loader size="medium" withOutOverlay />
+              <Text color="gray" style={{ marginLeft: 16 }}>
+                Processing...
+              </Text>
+            </Flex>
+          ) : (
+            <>
+              {current_resume_count !== 0 ?
+                <Button
+                  onClick={handlechange}
+                >
+                  Bulk Import
+                </Button> :
+                <Button
+                  onClick={()=>setopensubcription(true)}
+                >
+                  <Flex row>
+                    <Flex style={{ cursor: 'pointer' }}>
+                      <Text color="white"> Bulk Import</Text>
+                    </Flex>
+                    <Flex
+                      marginLeft={5}
+                      marginTop={1}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <SvgSubcriptioncrown
+                        height={14}
+                        width={14}
+                        fill=""
+                      />
+                    </Flex>
+                  </Flex>
+
+                </Button>}
+            </>
           )}
-          onKeyPress={handleKeyPress}
-        />
-        <Button
-         
-          disabled={searchValue === '' ? true : false}
-          onClick={handleSubmit}
-        >
-          Find Candidates
-        </Button>
+        </Flex>
       </Flex>
-      <Flex className={styles.inputConatiner}>
-      {isBulkLoaderprocess === 'true' ? (
-        <Flex row  >
-        <Loader size="medium" withOutOverlay />
-        <Text color="gray" style={{ marginLeft: 16 }}>
-          Processing...
-        </Text>
-      </Flex>
-      ):(
-      <Button
-      onClick={handlechange}
-      >
-      Bulk Import
-     </Button>
-     )}
-      </Flex>
-      </Flex>
-      
+
 
       <Flex row center className={styles.filterStyle}>
         <Flex row center className={styles.marginLeft} title='Filter Total Candidates'>
-         
+
           {total_count === 0 ? (
             <Text bold={isTab === 'total'} className={styles.linkSpaceDefault}>
-            <Totalcount
-            name="Total Candidates"
-            numbers={total_count}
-            click={total_count===0?false:true}
-            />
-            
+              <Totalcount
+                name="Total Candidates"
+                numbers={total_count}
+                click={total_count === 0 ? false : true}
+              />
+
             </Text>
           ) : (
             <Text
@@ -597,13 +630,13 @@ const CandidateDatabaseTab = ({
               bold={isTab === 'total'}
               className={styles.linkSpace}
               color={'link'}
-              style={{cursor: 'pointer'}}
+              style={{ cursor: 'pointer' }}
             >
-            <Totalcount
-            name="Total Candidates"
-            numbers={total_count}
-            click={total_count===0?false:true}
-            />
+              <Totalcount
+                name="Total Candidates"
+                numbers={total_count}
+                click={total_count === 0 ? false : true}
+              />
             </Text>
           )}
         </Flex>
@@ -614,50 +647,50 @@ const CandidateDatabaseTab = ({
                 <Text
                   bold={isTab === 'completed'}
                   className={styles.linkSpaceDefault}
-                  style={{cursor: 'pointer'}}
+                  style={{ cursor: 'pointer' }}
                 >
-                <Totalcount
-                name="Completed Profiles"
-                numbers={completed}
-                click
-                />
-                  
+                  <Totalcount
+                    name="Completed Profiles"
+                    numbers={completed}
+                    click
+                  />
+
                 </Text>
               ) : (
                 <Text
                   onClick={() => {
                     handleCompleted();
                     setTab('completed');
-                   
+
                   }}
                   bold={isTab === 'completed'}
                   color={'link'}
                   className={styles.linkSpace}
-                  style={{cursor: 'pointer'}}
+                  style={{ cursor: 'pointer' }}
                 >
-                <Totalcount
-                name="Completed Profiles"
-                numbers={completed}
-                click
-                />
+                  <Totalcount
+                    name="Completed Profiles"
+                    numbers={completed}
+                    click
+                  />
                 </Text>
               )}
             </Flex>
 
             <Flex row center className={styles.inComplete} title='Filter Incomplete Profiles'>
-            
+
               {incompleted === 0 ? (
                 <Text
                   bold={isTab === 'inCompleted'}
                   className={styles.linkSpaceDefault}
-                  style={{cursor: 'pointer'}}
+                  style={{ cursor: 'pointer' }}
                 >
-                <Totalcount
-                name="Incomplete Profiles"
-                numbers={incompleted}
-                click={incompleted===0?false:true}
-                />
-                
+                  <Totalcount
+                    name="Incomplete Profiles"
+                    numbers={incompleted}
+                    click={incompleted === 0 ? false : true}
+                  />
+
                 </Text>
               ) : (
                 <Text
@@ -668,58 +701,63 @@ const CandidateDatabaseTab = ({
                   }}
                   bold={isTab === 'inCompleted'}
                   className={styles.linkSpace}
-                  style={{cursor: 'pointer'}}
+                  style={{ cursor: 'pointer' }}
                 >
-                <Totalcount
-                name="Incomplete Profiles"
-                numbers={incompleted}
-                click
-                />
-                
+                  <Totalcount
+                    name="Incomplete Profiles"
+                    numbers={incompleted}
+                    click
+                  />
+
                 </Text>
               )}
             </Flex>
           </>
         )}
-        {total_count> 0 &&(
-        <div
-          tabIndex={-1}
-          role={'button'}
-          onKeyPress={() => {}}
-          className={styles.svgRefresh}
-          onClick={(e) => {
-            hanldeSvgRefresh(e);
-          }}
-          title={'Refresh table'}
-        >
-          <SvgRefresh />
-        </div>
+        {total_count > 0 && (
+          <div
+            tabIndex={-1}
+            role={'button'}
+            onKeyPress={() => { }}
+            className={styles.svgRefresh}
+            onClick={(e) => {
+              hanldeSvgRefresh(e);
+            }}
+            title={'Refresh table'}
+          >
+            <SvgRefresh />
+          </div>
         )}
       </Flex>
-      { isCandiTableLoader? (
+      {isCandiTableLoader ? (
         <Flex center middle  >
-        <Loader   size={'medium'} />
-      </Flex>
+          <Loader size={'medium'} />
+        </Flex>
       ) : (
         <Flex flex={1} >
-        <Tabel
-          empty={
-            isSearch === 1 ? 'No candidates imported yet' : 'No candidate found'
-          }
-          dataSource={emp_pool}
-          columns={columns}
-          isLoader={isTableLoader}
-          pageCount={pageCount}
-          pageNumber={pageNumber}
-          handleSetPagination={handleSetPagination}
-          isCandiTableLoader={isCandiTableLoader}
-          isPageTab ={isPageTab}
-        />
-          
+          <Tabel
+            empty={
+              isSearch === 1 ? 'No candidates imported yet' : 'No candidate found'
+            }
+            dataSource={emp_pool}
+            columns={columns}
+            isLoader={isTableLoader}
+            pageCount={pageCount}
+            pageNumber={pageNumber}
+            handleSetPagination={handleSetPagination}
+            isCandiTableLoader={isCandiTableLoader}
+            isPageTab={isPageTab}
+          />
+
         </Flex>
       )}
+      {isopensubcription && (
+        <SubscriptionModal 
+          openmodel={isopensubcription}
+          setopensubcription={setopensubcription}
+        />
+      )}
 
-   
     </Flex>
   );
 };

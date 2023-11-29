@@ -18,7 +18,7 @@ import SvgNewTab from '../../icons/SvgNewTab';
 import SvgRefresh from '../../icons/SvgRefresh';
 import SvgClose from '../../icons/SvgClose';
 import Pangination from '../../uikit/Pagination/Pangination';
-import { AppDispatch,RootState  } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import ProfileView from '../applicantpipelinemodule/ProfileView';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import { LINK } from '../../uikit/Colors/colors';
@@ -47,12 +47,12 @@ type Tabs = 'total' | 'completed' | 'inCompleted';
 export type FormProps = {
   searchValue: string;
   jd_id: string;
-  parser:string;
+  parser: string;
 };
 const initial: FormProps = {
   searchValue: '',
   jd_id: '',
-  parser:'',
+  parser: '',
 };
 
 type Props = {
@@ -105,9 +105,25 @@ const ApplicantsTab = ({
   const [isPageTab, setPageTab] = useState(total_count);
   const dispatch: AppDispatch = useDispatch();
   const [model, setmodel] = useState(false);
-  const [withoutjderror,setwithoutjderror] = useState(false);
+  const [withoutjderror, setwithoutjderror] = useState(false);
   const [verify, setverify] = useState(false);
 
+
+  const {
+    current_plan,
+    current_resume_count
+  } = useSelector(
+    ({
+      SubscriptionReducers
+    }: RootState) => {
+      return {
+        current_plan: SubscriptionReducers.current_plan,
+        current_resume_count: SubscriptionReducers.current_resume_count,
+
+      };
+    },
+  );
+  
   // Profile View Function
   const hanldeEditProfileView = (id: number) => {
     setCanId(id);
@@ -145,7 +161,7 @@ const ApplicantsTab = ({
     enableReinitialize: true,
   });
 
-  
+
 
   const handleCompletedWithJd = () => {
     dispatch(
@@ -362,15 +378,15 @@ const ApplicantsTab = ({
     );
   };
 
-  
 
- 
-  
+
+
+
   const hanldeMatch = () => {
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
-    dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then(() => { 
+    dispatch(jdMatchMiddleWare({ jd_id: isJdId })).then(() => {
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -382,13 +398,13 @@ const ApplicantsTab = ({
 
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare({parser:'1'})).then((response) => {
-    
+    dispatch(bulkuploadedParsingMiddleWare({ parser: '1' })).then((response) => {
+
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
         setPageNumber(0);
-        dispatch(jdMatchMiddleWare({ jd_id:isJdId }))
+        dispatch(jdMatchMiddleWare({ jd_id: isJdId }))
       });
       dispatch(bulkImportMiddleWare()).then((res) => {
         setFeaturesBalance(res.payload.features_balance);
@@ -396,8 +412,8 @@ const ApplicantsTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    }).then(()=>{
-      dispatch(jdMatchMiddleWare({ jd_id:isJdId }))
+    }).then(() => {
+      dispatch(jdMatchMiddleWare({ jd_id: isJdId }))
     })
   };
 
@@ -447,18 +463,19 @@ const ApplicantsTab = ({
       },
     );
   };
-  const handleopenmodal =()=>{ 
-    if(Number(isJdId) !==0 ){
-    setmodel(true)}
-    if(Number(isJdId) ===0 ){ 
-    setwithoutjderror(true)
+  const handleopenmodal = () => {
+    if (Number(isJdId) !== 0) {
+      setmodel(true)
+    }
+    if (Number(isJdId) === 0) {
+      setwithoutjderror(true)
     }
   }
-  useEffect(()=>{
-    if(isJdId){
+  useEffect(() => {
+    if (isJdId) {
       setwithoutjderror(false)
     }
-  },[isJdId])
+  }, [isJdId])
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === 'Enter') {
       formik.handleSubmit();
@@ -469,15 +486,15 @@ const ApplicantsTab = ({
   };
 
 
-  const handlefunction=()=>{
+  const handlefunction = () => {
     setverify(true)
     formik.setFieldValue('parser', '0')
-   }
-   const handlefunction1=()=>{
+  }
+  const handlefunction1 = () => {
     setverify(true)
     formik.setFieldValue('parser', '1')
-   }
-   const closemodel = () => {
+  }
+  const closemodel = () => {
     setverify(false);
     setmodel(false);
   };
@@ -486,10 +503,10 @@ const ApplicantsTab = ({
   const value1 = value > 4;
   return (
     <Flex
-     
+
       className={styles.Applicantdatabase}
-    > 
-    {console.log("applicant formik:::::",formik.values)}
+    >
+      {console.log("applicant formik:::::", formik.values)}
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -524,7 +541,7 @@ const ApplicantsTab = ({
         // bulkId={isCanId}
         candidateId={isCanId.toString()}
         inviteIconNone={true}
-        // hanldeEditProfileView={hanldeEditProfileView}
+      // hanldeEditProfileView={hanldeEditProfileView}
       />
       <ParsingLoadingModal
         loader
@@ -565,10 +582,10 @@ const ApplicantsTab = ({
         }
       />
 
-              <Modal open={model}>
+      <Modal open={model}>
         <Flex
           className={verify === true ? styles.bulkmodel : styles.verifymodel}
-          style={{ height: '330px'}}
+          style={{ height: '330px' }}
 
         >
           <ApplicantDatabase
@@ -581,8 +598,9 @@ const ApplicantsTab = ({
             setUpgrade={setUpgrade}
             candidatesLimit={features_balance}
             formik={formik.values.parser}
+            current_resume_count={current_resume_count}
           />
-          
+
           {/* {verify === true ? (
             <ApplicantDatabase
             setmodel={setmodel}
@@ -675,22 +693,22 @@ const ApplicantsTab = ({
           <Text className={styles.importText}>Import applicants for*</Text>
           <Flex row>
             <Flex>
-            <Flex className={styles.skillContainer}>
-              <SelectTag
-                labelBold
-                options={jd_id}
-                noOptionsMessage={({}) => 'No active jobs'}
-                placeholder="Select a job to import applicants"
-                getOptionValue={(option: { id: number }) => `${option.id}`}
-                getOptionLabel={(option: { job_title: string }) =>
-                  option.job_title
-                }
-                onChange={(option) => {
-                  setJdId(option.id.toString());
-                  hanldeApplicant(option.id.toString());
-                }}
-              />
-            </Flex>  {withoutjderror && <Text color='error'>Select a job to import applicants</Text>}
+              <Flex className={styles.skillContainer}>
+                <SelectTag
+                  labelBold
+                  options={jd_id}
+                  noOptionsMessage={({ }) => 'No active jobs'}
+                  placeholder="Select a job to import applicants"
+                  getOptionValue={(option: { id: number }) => `${option.id}`}
+                  getOptionLabel={(option: { job_title: string }) =>
+                    option.job_title
+                  }
+                  onChange={(option) => {
+                    setJdId(option.id.toString());
+                    hanldeApplicant(option.id.toString());
+                  }}
+                />
+              </Flex>  {withoutjderror && <Text color='error'>Select a job to import applicants</Text>}
             </Flex>
             <InputText
               className={styles.inputWidth}
@@ -700,8 +718,8 @@ const ApplicantsTab = ({
               onChange={searchHandleChange}
               id={'applicant__input'}
               actionRight={() => (
-                <label style={{ margin: 0,marginTop:"3px" }}>
-                  <SvgSearch width={14} height={14}/>
+                <label style={{ margin: 0, marginTop: "3px" }}>
+                  <SvgSearch width={14} height={14} />
                 </label>
               )}
               onKeyPress={handleKeyPress}
@@ -852,7 +870,7 @@ const ApplicantsTab = ({
               <div
                 tabIndex={-1}
                 role={'button'}
-                onKeyPress={() => {}}
+                onKeyPress={() => { }}
                 className={styles.svgRefresh}
                 onClick={(e) => {
                   hanldeSvgRefresh(e);
@@ -873,30 +891,30 @@ const ApplicantsTab = ({
           </Flex>
           {/* <SvgSearch/> */}
           {isCandiTableLoader ? (
-            <Flex center middle height={100}> 
+            <Flex center middle height={100}>
               <Loader withOutOverlay size={'medium'} />
             </Flex>
           ) : (
-            <Flex  flex={1} >
+            <Flex flex={1} >
               <Tabel
-              empty={
-                isSearch === 1
-                  ? 'No applicants imported yet'
-                  : 'No applicants found'
-              }
-              dataSource={emp_pool}
-              columns={columns}
-              isLoader={isTableLoader}
-              pageCount={pageCount}
-              pageNumber={pageNumber}
-              handleSetPagination={handleSetPagination}
-              isCandiTableLoader={isCandiTableLoader}
-              isPageTab ={isPageTab}
-            />
+                empty={
+                  isSearch === 1
+                    ? 'No applicants imported yet'
+                    : 'No applicants found'
+                }
+                dataSource={emp_pool}
+                columns={columns}
+                isLoader={isTableLoader}
+                pageCount={pageCount}
+                pageNumber={pageNumber}
+                handleSetPagination={handleSetPagination}
+                isCandiTableLoader={isCandiTableLoader}
+                isPageTab={isPageTab}
+              />
             </Flex>
-            
+
           )}
-          
+
         </>
       ) : (
         <Flex center middle height={100}>

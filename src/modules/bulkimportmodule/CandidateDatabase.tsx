@@ -9,6 +9,8 @@ import Loader from '../../uikit/Loader/Loader';
 import Flex from '../../uikit/Flex/Flex';
 import SvgRoundClose from '../../icons/SvgRoundClose';
 import SvgTickmanage from '../../icons/SvgTickmanage';
+import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
+import SubscriptionModal from '../subscriptionmodule/subscriptionmoduleScreen';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Text from '../../uikit/Text/Text';
 import { fileAccept, FILE_2MB } from '../constValue';
@@ -29,8 +31,8 @@ type MyProps = {
   isjdId?: number;
   setmodel?: any;
   verifymodel?: any;
-
-  formik:any;
+  formik: any;
+  current_resume_count?: any;
 };
 
 type MyState = {
@@ -41,15 +43,17 @@ type MyState = {
   isMb: boolean;
   setmodel?: any;
   verifymodel?: any;
-  popups:boolean;
-  value:string;
+  popups: boolean;
+  value: string;
+  isopensubcription: boolean;
+
 
 
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
   fileUploaderRef: any;
- 
+
 
   constructor(props: any) {
     super(props);
@@ -59,9 +63,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       bulkDelete: false,
       setListName: [],
       isMb: false,
-      popups:false,
+      popups: false,
       value: '',
-    
+      isopensubcription: false,
+
 
     };
     this.fileUploaderRef = createRef();
@@ -92,11 +97,14 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
   handleChange = (event) => {
     if (!isNaN(event.target.value) || event.target.valuee === "") {
-    this.setState({
-      value: event.target.value
-    });
+      this.setState({
+        value: event.target.value
+      });
+    }
   }
-  }
+
+  // Function to update the state
+
 
   render() {
     const unique: any = [];
@@ -106,6 +114,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
         : unique.push(x),
     );
 
+
+    ;
     // file upload function
     const fileUpload = (e: any) => {
       const newSelectedFiles = Array.from(this.fileUploaderRef.current.files);
@@ -137,8 +147,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       if (filterFileName.length !== 0) {
         alert(
           'Invalid file selected, valid files are of ' +
-            fileAccept.toString() +
-            ' types.',
+          fileAccept.toString() +
+          ' types.',
         );
       }
       if (filterFileSize.length !== 0) {
@@ -201,8 +211,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       if (filterFileName.length !== 0) {
         alert(
           'Invalid file selected, valid files are of ' +
-            fileAccept.toString() +
-            ' types.',
+          fileAccept.toString() +
+          ' types.',
         );
       }
       if (filterFileSize.length !== 0) {
@@ -249,8 +259,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
-     
-     
+
+
 
       if (
         this.props.candidatesLimit !== null &&
@@ -259,23 +269,23 @@ class CandidateDatabase extends Component<MyProps, MyState> {
         this.props.setUpgrade(true);
       } else {
         console.log("false")
-       
+
         this.props.setParse();
-        
-          console.log("truuuuuuuuuuuuue")
+
+        console.log("truuuuuuuuuuuuue")
         axios
           .post(bulkImportApi, formData)
           .then((res) => {
-            console.log("res::::::res",res)
+            console.log("res::::::res", res)
             handleClear();
             this.props.hanldeParsing();
-            this.setState({ isMb: false});
+            this.setState({ isMb: false });
             this.props.setmodel(false);
             this.props.verifymodel();
           })
-          .catch(() => {});
-        
-       
+          .catch(() => { });
+
+
       }
     };
 
@@ -296,11 +306,11 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
       this.props.verifymodel();
     };
-    const handlechange=()=>{
+    const handlechange = () => {
       this.setState({ popups: true });
     }
-    const handlechange1=()=>{
-      this.setState({ popups: false  });
+    const handlechange1 = () => {
+      this.setState({ popups: false });
     }
     // File drag and drop Function
     type FormProps = {
@@ -308,87 +318,84 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     };
     const initial: FormProps = {
       value: '5',
-    };  
+    };
 
-  //   const handleValidation = (values: FormProps) => {
-  //     const errors: Partial<FormProps> = {};
-     
-  //     return errors;
-  //   };
-  // // conatct credits form submit
-  //   const handleSubmit = async (values: FormProps) => {
-      
-  //   };
-  
-  //   const formik = useFormik({
-  //     initialValues: initial,
-  //     validate: handleValidation,
-  //     onSubmit: handleSubmit,
-  //     enableReinitialize: true,
-  //   });
- 
+    //   const handleValidation = (values: FormProps) => {
+    //     const errors: Partial<FormProps> = {};
+
+    //     return errors;
+    //   };
+    // // conatct credits form submit
+    //   const handleSubmit = async (values: FormProps) => {
+
+    //   };
+
+    //   const formik = useFormik({
+    //     initialValues: initial,
+    //     validate: handleValidation,
+    //     onSubmit: handleSubmit,
+    //     enableReinitialize: true,
+    //   });
+
     const checkSelectLength = this.state.files.length === 0 ? false : true;
     const checkSelectLength500 = this.state.files.length < 501 ? true : false;
     return (
       <>
-      {console.log("new:::new",this.state.value,this.state.files,unique.length)}
-      <Modal open={this.state.popups} >
-        <Flex className={styles.verifymodel1}>
-          <Text type="titleMedium" align="center">
-          Parsing Credits
-          </Text>
-          <Flex>
-            <Flex row>
-            <SvgTickmanage />
-            <Text style={{padding:'0 0 10px 10px'}}>Powered by cutting-edge artificial intelligence.</Text>
-            </Flex>
-            <Flex row>
-            <SvgTickmanage />
-            <Text style={{padding:'0 0 10px 10px'}}>Offers superior accuracy and can understand complex structures.</Text>
-            </Flex>
-            <Flex row>
-            <SvgTickmanage />
-            <Text style={{padding:'0 0 10px 10px'}}>Recommended for precision and comprehensive data extraction.</Text>
-            </Flex>
-          </Flex>
-          <Flex row center between className={styles.candiDateContainer}>
-            <Flex row center>
-              <Text bold>Candidate:</Text>
-              <Flex>
-              <InputText
-                  id="contactCreditsModal__inputId"
-                  name="value"
-                  value={this.state.value}
-                  onChange={(event)=>this.handleChange(event)}
-                />
+        {console.log("new:::new", this.state.value, this.state.files, unique.length)}
+        <Modal open={this.state.popups} >
+          <Flex className={styles.verifymodel1}>
+            <Text type="titleMedium" align="center">
+              Parsing Credits
+            </Text>
+            <Flex>
+              <Flex row>
+                <SvgTickmanage />
+                <Text style={{ padding: '0 0 10px 10px' }}>Powered by cutting-edge artificial intelligence.</Text>
+              </Flex>
+              <Flex row>
+                <SvgTickmanage />
+                <Text style={{ padding: '0 0 10px 10px' }}>Offers superior accuracy and can understand complex structures.</Text>
+              </Flex>
+              <Flex row>
+                <SvgTickmanage />
+                <Text style={{ padding: '0 0 10px 10px' }}>Recommended for precision and comprehensive data extraction.</Text>
               </Flex>
             </Flex>
-            <Text bold>Total: $ {Number(this.state.value)*2}</Text>
+            <Flex row center between className={styles.candiDateContainer}>
+              <Flex row center>
+                <Text bold>Candidate:</Text>
+                <Flex>
+                  <InputText
+                    id="contactCreditsModal__inputId"
+                    name="value"
+                    value={this.state.value}
+                    onChange={(event) => this.handleChange(event)}
+                  />
                 </Flex>
-                <Flex row end  style={{padding:'0 5px 0 0'}} className={styles.btnConatiner}>
-                <Button
+              </Flex>
+              <Text bold>Total: $ {Number(this.state.value) * 2}</Text>
+            </Flex>
+            <Flex row end style={{ padding: '0 5px 0 0' }} className={styles.btnConatiner}>
+              <Button
                 className={styles.btnCancelStyle}
                 types="close"
-                  onClick={handlechange1}
-                >
-                  Cancel
-                </Button>
-                <Button
-                 style={{marginLeft:'10px'}}
-                >
-                  Buy
-                </Button>
-              </Flex>
-        </Flex>
-      </Modal>
+                onClick={handlechange1}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ marginLeft: '10px' }}
+              >
+                Buy
+              </Button>
+            </Flex>
+          </Flex>
+        </Modal>
         <Flex center>
-          {console.log('verify', this.props.verifymodel)}
-          <Text bold size={14}>
-            Add Attachment
-          </Text>
-        
-          
-          
+          <Flex between row center>
+            <Flex><Text bold size={14}> Add Attachment </Text></Flex>
+            <Flex marginRight={15}><Text>Resume Parsing Credits : {this.props.current_resume_count}</Text></Flex>
+          </Flex>
           <CancelAndDeletePopup
             title={'Are you sure want to delete the files?'}
             btnCancel={() => this.setState({ bulkDelete: false })}
@@ -451,7 +458,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                                 <div
                                   tabIndex={-1}
                                   role={'button'}
-                                  onKeyPress={() => {}}
+                                  onKeyPress={() => { }}
                                   className={styles.svgClose}
                                   onClick={() => this.Delete(list.name)}
                                 >
@@ -517,8 +524,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </div>
             </Flex>
 
-            
-            
+
+
             {this.props.isBulkLoader === 'true' ? (
               <Flex row between className={styles.loaderStyle}>
                 <Flex row>
@@ -533,7 +540,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </Flex>
             ) : (
               <Fragment>
-                <Flex row between style={{marginTop:'20px'}}>
+                <Flex row between style={{ marginTop: '20px' }}>
                   <Flex
                     className={styles.btnContainer1}
                     style={{ justifyContent: 'none' }}
@@ -551,24 +558,53 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     <Button types="close" onClick={() => cancel()}>
                       Cancel
                     </Button>
+                    {this.state.files.length > this.props.current_resume_count ?
+                      <Button
+                        onClick={() => this.setState({ isopensubcription: true })}
+                        className={styles.btnStyle}
+                      >
+                        <Flex row>
+                          <Flex style={{ cursor: 'pointer' }}>
+                            <Text color="white"> Bulk Import</Text>
+                          </Flex>
+                          <Flex
+                            marginLeft={5}
+                            marginTop={1}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <SvgSubcriptioncrown
+                              height={14}
+                              width={14}
+                              fill=""
+                            />
+                          </Flex>
+                        </Flex>
 
-                    <Button
-                      disabled={!checkSelectLength || !checkSelectLength500}
-                      className={styles.btnStyle}
-                      onClick={hanldeBulkSubmit}
-                    >
-                      Bulk Import
-                    </Button>
+                      </Button> :
+                      <Button
+                        disabled={!checkSelectLength || !checkSelectLength500}
+                        className={styles.btnStyle}
+                        onClick={hanldeBulkSubmit}
+                      >
+                        Bulk Import
+                      </Button>}
                   </Flex>
                 </Flex>
               </Fragment>
             )}
           </Flex>
         </Flex>
+        {console.log(checkSelectLength, 'checkSelectLength')}
         {checkSelectLength && !checkSelectLength500 && (
           <Text size={12} style={{ color: 'red', paddingTop: 4 }}>
             You can import only up to 500 resumes at a time.
           </Text>
+        )}
+        {this.state.isopensubcription && (
+          <SubscriptionModal
+            openmodel={this.state.isopensubcription}
+            setopensubcription={() => this.setState({ isopensubcription: !this.state.isopensubcription })}
+          />
         )}
       </>
     );

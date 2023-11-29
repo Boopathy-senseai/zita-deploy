@@ -223,7 +223,7 @@ const Sidebar = ({ changes, data }: props) => {
           super_user: permissionReducers.super_user,
           roles: permissionReducers.roles,
           current_plan: SubscriptionReducers.current_plan,
-          current_jd_count: permissionReducers.current_jd_count,
+          current_jd_count: SubscriptionReducers.current_jd_count,
           datas: permissionReducers.data,
 
         };
@@ -233,12 +233,9 @@ const Sidebar = ({ changes, data }: props) => {
 
   //dispatching subcription middleware
   useEffect(() => {
-    dispatch(SubsriptionMiddleWare()).then((res) => {
-      setjdavailablecount(res.payload.current_jd_count)
-    })
-  }, [current_plan, current_jd_count])
-
-
+    dispatch(SubsriptionMiddleWare())  
+  }, [current_plan, current_jd_count]) 
+  
   const accountPath = '/account_setting/settings';
   useEffect(() => {
     if (plan_id !== 1 && plan_id !== 0) {
