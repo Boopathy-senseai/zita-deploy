@@ -7,8 +7,8 @@ import SvgTick from '../../icons/SvgTick';
 import { SUCCESS } from '../../uikit/Colors/colors';
 
 type Props = {
-  currentplan: any;
-  nextplan: any;
+  currentplan?: any;
+  nextplan?: any;
   openmodel: boolean;
   setopensubcription:(a:any)=>void;
 };

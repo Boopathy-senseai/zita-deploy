@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { calendarRoute } from '../../appRoutesPath';
-import SvgInfo from '../../icons/SvgInfo';
-import SvgNotes from '../../icons/SvgNotes';
+import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
 import SvgRefresh from '../../icons/SvgRefresh';
 import SvgMeetingicon from '../../icons/SvgMeetingicon';
 import { AppDispatch, RootState } from '../../store';
@@ -18,26 +17,12 @@ import { firstNameChar, isEmpty } from '../../uikit/helper';
 import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
-import {
-  clientSecret,
-  googleClientId,
-} from '../accountsettingsmodule/integrationmodule/IntegrationScreen';
-import {
-  calenderTokenGetMiddleWare,
-  calenderTokenMiddleWare,
-} from '../accountsettingsmodule/integrationmodule/store/middleware/integrationmiddleware';
-import RichText from '../common/RichText';
-import Loader from '../../uikit/Loader/Loader';
 import { CANCEL, config, mediaPath } from '../constValue';
-import { outlookTimeZone } from '../dashboardmodule/empdashboard/mock';
+import SubscriptionModal from '../subscriptionmodule/subscriptionmoduleScreen';
 import { meetingTitle } from './MeetingTable';
-import NotesDropDown from './NotesDropDown';
 import styles from './notestab.module.css';
 import {
   applicantNotesMiddleWare,
-  calenderMiddleWare,
-  syncGoogleMiddleWare,
-  syncOutlookMiddleWare,
   checkAuthMiddleware,
   eventsApplicantsMiddleware,
   IntergratemailMiddleWare,
@@ -58,6 +43,9 @@ type Props = {
   eventchang?: boolean;
 };
 const Notesmeet = ({ isMeeting, eventchang }: Props) => {
+  //subcription setstate
+  const [isopensubcription, setopensubcription] = useState(false);
+
   const [isCollapse, setCollapse] = useState(false);
   const [isColor, setColor] = useState<string[]>([]);
   const [buttonName, setButtonName] = useState('Add');
@@ -67,7 +55,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
   const [isGoogle, setIsGoogle] = useState(2);
   const [isLoad, setIsLoad] = useState(true);
   const [myevents, setMyevents] = useState<any[]>([]);
-  const history = useHistory(); 
+  const history = useHistory();
   useEffect(() => {
     dispatch(IntergratemailMiddleWare());
   }, []);
@@ -87,7 +75,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
               if (response.payload.status === true) {
                 setMyevents(
                   response.payload.data.map((items: any, index) => {
-                    const Time = Math.floor(items.duration/60)  
+                    const Time = Math.floor(items.duration / 60)
 
                     return {
                       title: items.event_type + ' ' + items.applicant,
@@ -101,9 +89,9 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                       ).format('hh:mm a')}`,
                       web_url: items.eventId,
                       data: mail,
-                      join_url:items.join_url,
+                      join_url: items.join_url,
                       index: index,
-                     Time: Time,
+                      Time: Time,
                     };
                   }),
                 );
@@ -151,12 +139,14 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
     google,
     outlook,
     calenderLoader,
+    permission
   } = useSelector(
     ({
       applicantNotesReducers,
       applicantProfileInitalReducers,
       calenderReducers,
       applicantIntegratemailReducers,
+      permissionReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
@@ -165,16 +155,17 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
         // calenderEvent: calenderReducers.event,
         google: calenderReducers.google,
         outlook: calenderReducers.outlook,
-        jd:applicantProfileInitalReducers.jd?.job_title,
+        jd: applicantProfileInitalReducers.jd?.job_title,
         jd_id: applicantProfileInitalReducers.jd_id,
         calenderLoader: calenderReducers.isLoading,
         email:
           applicantIntegratemailReducers.email !== undefined ?
-          applicantIntegratemailReducers.email[0]?.email:'',
+            applicantIntegratemailReducers.email[0]?.email : '',
         mail: applicantIntegratemailReducers?.mail,
+        permission: permissionReducers.data,
       };
     },
-  ); 
+  );
   const [utcDate, setUTCDate] = useState(new Date());
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   useEffect(() => {
@@ -268,27 +259,27 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
           dispatch(eventsApplicantsMiddleware({ can_id }))
             .then((response) => {
               // if (response.payload.status === true) {
-                setMyevents(
-                  response.payload.data.map((items: any, index) => {
-                    const Time = Math.floor(items.duration/60)  
-                    return {
-                      title: items.event_type + ' ' + items.applicant,
-                      organizer: response.payload.user,
-                      date: items.s_time,
-                      time: `${moment(items.s_time.slice(11, 16), [
-                        'HH.mm',
-                      ]).format('hh:mm a')}  - ${moment(
-                        items.e_time.slice(11, 16),
-                        ['HH.mm'],
-                      ).format('hh:mm a')}`,
-                      web_url: items.eventId,
-                      data: mail,
-                      join_url:items.join_url,
-                      index: index,
-                     Time: Time,
-                    };
-                  })
-                )
+              setMyevents(
+                response.payload.data.map((items: any, index) => {
+                  const Time = Math.floor(items.duration / 60)
+                  return {
+                    title: items.event_type + ' ' + items.applicant,
+                    organizer: response.payload.user,
+                    date: items.s_time,
+                    time: `${moment(items.s_time.slice(11, 16), [
+                      'HH.mm',
+                    ]).format('hh:mm a')}  - ${moment(
+                      items.e_time.slice(11, 16),
+                      ['HH.mm'],
+                    ).format('hh:mm a')}`,
+                    web_url: items.eventId,
+                    data: mail,
+                    join_url: items.join_url,
+                    index: index,
+                    Time: Time,
+                  };
+                })
+              )
               // }
             })
             .catch((error) => {
@@ -301,7 +292,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
       })
       .catch(() => {
         console.log('Error');
-      }); 
+      });
     // dispatch(calenderTokenGetMiddleWare()).then((res) => {
     //   if (!isEmpty(res.payload.google)) {
     //     axios
@@ -338,7 +329,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
     //   if (!isEmpty(res.payload.outlook)) {
     //     dispatch(syncOutlookMiddleWare()).then(() => {
     //       dispatch(calenderMiddleWare({ can_id }));
-          
+
     //     });
     //   }
     // });
@@ -366,15 +357,15 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
   const formattedUtcTime = currentUtcDate.toLocaleString('en-US', utcOptions);
   const offsetInMinutes = new Date().getTimezoneOffset();
   const schedulehandleClick = () => {
-    
-    window.open(calendarRoute);
-    localStorage.setItem('Applicantname',`${candidate_details[0].first_name} ${candidate_details[0].last_name !==''&&candidate_details[0].last_name!== null?candidate_details[0].last_name:''}`)
-    localStorage.setItem('Jdname',jd)
-    localStorage.setItem('can_id',can_id) 
-    localStorage.setItem('jd_id',jd_id)
-    localStorage.setItem('emailnote',candidate_details[0].email) 
 
-  } 
+    window.open(calendarRoute);
+    localStorage.setItem('Applicantname', `${candidate_details[0].first_name} ${candidate_details[0].last_name !== '' && candidate_details[0].last_name !== null ? candidate_details[0].last_name : ''}`)
+    localStorage.setItem('Jdname', jd)
+    localStorage.setItem('can_id', can_id)
+    localStorage.setItem('jd_id', jd_id)
+    localStorage.setItem('emailnote', candidate_details[0].email)
+
+  }
   const now = new Date();
   const utcOffsetMinutes = now.getTimezoneOffset();
   const hours = Math.floor(Math.abs(utcOffsetMinutes) / 60);
@@ -385,7 +376,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
       columnFlex
       className={styles.overAll}
       height={window.innerHeight - 120}
-    > 
+    >
       {isMeeting && (
         <Flex flex={6} columnFlex style={{ padding: '5px' }}>
           <Flex row between marginTop={8} className={styles.borderbellow}>
@@ -460,35 +451,45 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                 </Button>
               </Flex>
             ) : (
-              <Flex row end center middle style={{paddingTop: "4px"}}>
+              <Flex row end center middle style={{ paddingTop: "4px" }}>
                 <Flex end marginRight={10} height={30}>
-                <Button
-                
-                  types="secondary"
-                  className={styles.syncBtn}
-                  onClick={hanldeRefresh}
-                >
-                  <Flex row center>
-                    <Text
-                      bold
-                      style={{
-                        marginRight: 4,
-                        marginLeft: 4,
-                        cursor: 'pointer',
-                        color: '#333333',
-                      }}
-                    >
-                      Sync
-                    </Text>
-                    <SvgRefresh height={14} width={14} fill={'#333333'} />
-                  </Flex>
-                </Button>
-                </Flex>
-                <Flex height={30} >
-                  <Button  onClick={schedulehandleClick}  types="primary">
-                  Schedule event
+                  <Button
+
+                    types="secondary"
+                    className={styles.syncBtn}
+                    onClick={hanldeRefresh}
+                  >
+                    <Flex row center>
+                      <Text
+                        bold
+                        style={{
+                          marginRight: 4,
+                          marginLeft: 4,
+                          cursor: 'pointer',
+                          color: '#333333',
+                        }}
+                      >
+                        Sync
+                      </Text>
+                      <SvgRefresh height={14} width={14} fill={'#333333'} />
+                    </Flex>
                   </Button>
-                  </Flex>
+                </Flex>
+                {console.log(permission.includes("Interview Scheduler"), 'lokal')}
+                {permission.includes("Interview Scheduler") ?
+                  <Flex height={30} >
+                    <Button onClick={schedulehandleClick} types="primary">
+                      Schedule event
+                    </Button>
+                  </Flex> :
+                  <Flex height={30} >
+                    <Button onClick={() => setopensubcription(true)} types="primary" >
+                      <Flex row>
+                        <Flex><Text color='white'>Schedule event</Text></Flex>
+                        <Flex marginLeft={5} marginTop={1} style={{ cursor: 'pointer' }}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
+                      </Flex>
+                    </Button>
+                  </Flex>}
               </Flex>
             )}
           </Flex>
@@ -511,14 +512,14 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                 <SvgMeetingicon />
               </Flex>
               <Flex center middle marginTop={10}>
-                <Text style={{ fontSize: '13px',color:'#979797' }} color='gray'>
+                <Text style={{ fontSize: '13px', color: '#979797' }} color='gray'>
                   Meetings not yet scheduled
                 </Text>
               </Flex>
             </Flex>
           )}
           {active !== 0 && myevents.length !== 0 && (
-            <Flex style={{ margin:' 0 -8px'}} flex={1}>
+            <Flex style={{ margin: ' 0 -8px' }} flex={1}>
               <Table
                 border={'outline'}
                 columns={meetingMemo}
@@ -530,6 +531,9 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
           )}
         </Flex>
       )}
+      {isopensubcription &&
+        <SubscriptionModal openmodel={isopensubcription} setopensubcription={setopensubcription} />}
+
     </Flex>
   );
 };
