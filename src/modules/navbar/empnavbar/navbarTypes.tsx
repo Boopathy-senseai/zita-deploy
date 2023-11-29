@@ -40,7 +40,7 @@ export interface SubsriptionReducerState {
   current_jd_count: number;
   current_resume_count: number;
   total_plan:Subscription[];
-  add_on_plans:[]; 
+  add_on_plans:addon[]; 
 }
 
 export interface Subscription {
@@ -56,4 +56,14 @@ export interface Subscription {
   updated_by?: any;
   jd_count?: any;
   resume_count?: any;
+}
+
+export interface addon{
+  addon_id__id?: number,
+  addon_id__name?: string,
+  addon_id__currency?: string,
+  price?: number,
+  value?: number,
+  carry_forward?: boolean,
+  plan_id?: number
 }

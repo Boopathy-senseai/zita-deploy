@@ -56,7 +56,15 @@ const SubscriptionState: SubsriptionReducerState = {
     jd_count: 0,
     resume_count: 0,
   }],
-  add_on_plans:[]
+  add_on_plans: [{
+    addon_id__id: 0,
+    addon_id__name: '',
+    addon_id__currency: '',
+    price: 0,
+    value: 0,
+    carry_forward: false,
+    plan_id: 0
+  }]
 };
 
 const SubscriptionReducer = createSlice({
@@ -75,8 +83,8 @@ const SubscriptionReducer = createSlice({
       state.current_jd_count = action.payload.current_jd_count;
       state.current_resume_count = action.payload.current_resume_count;
       state.total_plan = action.payload.total_plan;
-      state.add_on_plans = action.payload.add_on_plans; 
-     });
+      state.add_on_plans = action.payload.add_on_plans;
+    });
     builder.addCase(SubsriptionMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
       if (typeof action.payload === 'string') {

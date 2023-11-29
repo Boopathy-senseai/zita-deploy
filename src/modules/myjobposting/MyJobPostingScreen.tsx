@@ -221,7 +221,7 @@ const MyJobPostingScreen = () => {
         <Flex>
           <div className={cx('tabsContainer')}>
             <Flex row between className={styles.searchbox}>
-              <Flex row>
+              <Flex row center>
                 <Flex>
                   <Totalcount name="Total Jobs Found " numbers={len_list} />
                 </Flex>
@@ -230,6 +230,9 @@ const MyJobPostingScreen = () => {
                     name="Available Job Posting"
                     numbers={current_jd_count}
                   />
+                </Flex>
+                <Flex marginLeft={5}> 
+                <SvgInfo height={12} width={12} fill={'#FFC203'} />
                 </Flex>
               </Flex>
               <Flex row className={styles.twobutton} marginRight={10}>
