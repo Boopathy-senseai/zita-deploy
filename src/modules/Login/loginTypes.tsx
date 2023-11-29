@@ -43,6 +43,9 @@ export interface Permission {
   is_plan: boolean;
   plan_id: number;
   roles: string;
+  current_jd_count:number;
+  current_resume_count:number;
+  data:[]
 }
 
 export interface PermissionState extends Permission {

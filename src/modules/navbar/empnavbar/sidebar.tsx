@@ -30,6 +30,7 @@ import SvgCollapse from '../../../icons/Svgcollapse';
 import SvgCircle from '../../../icons/SvgCircle';
 import SubscriptionModal from '../../subscriptionmodule/subscriptionmoduleScreen';
 import styles from './notification.module.css';
+import { SubsriptionMiddleWare } from './store/navbarmiddleware';
 
 const cx = classNames.bind(styles);
 type props = {
@@ -42,6 +43,7 @@ const Sidebar = ({ changes, data }: props) => {
 
   //subcription setstate
   const [isopensubcription, setopensubcription] = useState(false);
+  const [isjdavailablecount, setjdavailablecount] = useState(2);
 
 
   //const [Select, setSelect] = useState('/');
@@ -203,11 +205,17 @@ const Sidebar = ({ changes, data }: props) => {
     setBrandPopupDropdownOpen(false);
     setMyaccPopupDropdownOpen(false);
   };
+
+  useEffect(() => {
+    dispatch(SubsriptionMiddleWare())
+  }, [])
+
   const { permission, is_plan, isProfile, plan_id, career_page_url, super_user, roles, current_plan,
-    current_jd_count } = useSelector(
+    current_jd_count, datas } = useSelector(
       ({ permissionReducers, userProfileReducers, dashboardEmpReducers, SubscriptionReducers }: RootState) => {
         return {
           permission: permissionReducers.Permission,
+
           is_plan: permissionReducers.is_plan,
           isProfile: userProfileReducers.profile,
           plan_id: permissionReducers.plan_id,
@@ -215,11 +223,22 @@ const Sidebar = ({ changes, data }: props) => {
           super_user: permissionReducers.super_user,
           roles: permissionReducers.roles,
           current_plan: SubscriptionReducers.current_plan,
-          current_jd_count: SubscriptionReducers.current_jd_count,
+          current_jd_count: permissionReducers.current_jd_count,
+          datas: permissionReducers.data,
 
         };
       },
     );
+
+
+  //dispatching subcription middleware
+  useEffect(() => {
+    dispatch(SubsriptionMiddleWare()).then((res) => {
+      setjdavailablecount(res.payload.current_jd_count)
+    })
+  }, [current_plan, current_jd_count])
+
+
   const accountPath = '/account_setting/settings';
   useEffect(() => {
     if (plan_id !== 1 && plan_id !== 0) {
@@ -941,7 +960,27 @@ const Sidebar = ({ changes, data }: props) => {
                                   : ''
                               }
                             >
-                              {current_jd_count !== 0 ?
+                              {current_jd_count === 0 && current_jd_count !== null ?
+                                <LinkWrapper
+                                  className={styles.hoverview}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                  }}
+                                >
+                                  <Flex
+                                    onClick={() => setopensubcription(true)}
+                                    className={Expent === '0' ? styles.text : styles.classpan}
+                                    style={{ color: '#581845', marginLeft: '3px', marginRight: '5px', fontSize: '13px' }}
+                                    row
+                                    marginTop={5}
+                                    marginBottom={5}
+                                    center
+                                  >
+                                    <Flex><Text color='theme'>Post Jobs</Text></Flex>
+                                    <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
+                                  </Flex>
+                                </LinkWrapper>
+                                :
                                 <LinkWrapper
                                   className={styles.hoverview}
                                   onClick={clearTabs}
@@ -955,27 +994,8 @@ const Sidebar = ({ changes, data }: props) => {
                                   >
                                     Post Jobs
                                   </Text>
-                                </LinkWrapper> :
-                                <LinkWrapper
-                                  className={styles.hoverview}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                  }}
-
-                                >
-                                  <Flex
-                                    onClick={() => setopensubcription(true)}
-                                    className={Expent === '0' ? styles.text : styles.classpan}
-                                    style={{ color: '#581845', marginLeft: '3px', marginRight: '5px', fontSize: '13px' }}
-                                    row
-                                    marginTop={5}
-                                    marginBottom={5}
-                                    center
-                                  >
-                                    <Flex><Text color='theme'>Post Jobs 1</Text></Flex>
-                                    <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
-                                  </Flex>
-                                </LinkWrapper>}
+                                </LinkWrapper>
+                              }
                             </li>
                           ) : (
                             <li
@@ -986,21 +1006,7 @@ const Sidebar = ({ changes, data }: props) => {
                                   : ''
                               }
                             >
-                              {current_jd_count !== 0 ?
-                                <LinkWrapper
-                                  className={styles.hoverview}
-                                  onClick={clearTab}
-                                  to={is_plan ? jobCreateNonDs : accountPath}
-                                >
-
-                                  <Text
-                                    className={Expent === '0' ? styles.text : styles.classpan}
-                                    color="primary"
-                                    style={{ color: '#581845', marginLeft: '3px' }}
-                                  >
-                                    Post Jobs
-                                  </Text>
-                                </LinkWrapper> :
+                              {current_jd_count === 0 && current_jd_count !== null ?
                                 <LinkWrapper
                                   className={styles.hoverview}
                                   onClick={(e) => {
@@ -1020,6 +1026,22 @@ const Sidebar = ({ changes, data }: props) => {
                                     <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                                   </Flex>
                                 </LinkWrapper>
+                                :
+                                <LinkWrapper
+                                  className={styles.hoverview}
+                                  onClick={clearTab}
+                                  to={is_plan ? jobCreateNonDs : accountPath}
+                                >
+
+                                  <Text
+                                    className={Expent === '0' ? styles.text : styles.classpan}
+                                    color="primary"
+                                    style={{ color: '#581845', marginLeft: '3px' }}
+                                  >
+                                    Post Jobs
+                                  </Text>
+                                </LinkWrapper>
+
                               }
 
                             </li>
@@ -1033,23 +1055,7 @@ const Sidebar = ({ changes, data }: props) => {
                                 : ''
                             }
                           >
-                            {current_jd_count !== 0 ?
-                              <a
-                                className={styles.hoverview}
-                                href={' '}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                }}
-                              >
-
-                                <Text
-                                  className={Expent === '0' ? styles.text : styles.classpan}
-                                  color="primary"
-                                  style={{ color: '#581845', marginLeft: '3px' }}
-                                >
-                                  Post Jobs
-                                </Text>
-                              </a> :
+                            {current_jd_count === 0 && current_jd_count !== null ?
                               <a
                                 className={styles.hoverview}
                                 href={' '}
@@ -1070,6 +1076,24 @@ const Sidebar = ({ changes, data }: props) => {
                                   <Flex marginLeft={5} marginBottom={4}> <SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
                                 </Flex>
                               </a>
+                              :
+                              <a
+                                className={styles.hoverview}
+                                href={' '}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                }}
+                              >
+
+                                <Text
+                                  className={Expent === '0' ? styles.text : styles.classpan}
+                                  color="primary"
+                                  style={{ color: '#581845', marginLeft: '3px' }}
+                                >
+                                  Post Jobs
+                                </Text>
+                              </a>
+
                             }
                           </li>
                         )}

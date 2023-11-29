@@ -23,7 +23,7 @@ const SubscriptionModal = ({ currentplan, nextplan, openmodel,setopensubcription
             <Flex marginBottom={5}>
               <Text bold>Upgrade your plan</Text>
             </Flex>
-            <Flex onClick={()=>setopensubcription(false)}>
+            <Flex onClick={()=>setopensubcription(false)} style={{cursor:'pointer'}}> 
               <SvgClose
                 width={10}
                 height={10}

@@ -112,6 +112,9 @@ const permissionState: PermissionState = {
   is_plan: true,
   plan_id: 0,
   roles: "",
+  current_jd_count:null,
+  current_resume_count:null,
+  data:[]
 };
 
 const permissionReducer = createSlice({
@@ -130,6 +133,10 @@ const permissionReducer = createSlice({
       state.is_plan = action.payload.is_plan;
       state.plan_id = action.payload.plan_id;
       state.roles = action.payload.roles;
+      state.data = action.payload.data;
+      state.current_jd_count = action.payload.current_jd_count; 
+      state.current_resume_count = action.payload.current_resume_count;
+
     });
     builder.addCase(permissionMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
