@@ -58,15 +58,21 @@ const ProfileWithPercentage = ({ index, dataList, isPercentage }: Props) => {
       </div>
       {isPercentage && (
         <div
+          // className={cx({
+          //   percentageStyleError: isEmpty(dataList.match),
+          //   percentageStyle: !isEmpty(dataList.match), 
+          // })}
           className={cx({
-            percentageStyleError: isEmpty(dataList.match),
-            percentageStyle: !isEmpty(dataList.match),
+            percentageStyleError: dataList.match < 40,
+            percentageStyleAvg: dataList.match >= 40 && dataList.match < 69, 
+            percentageStyle: dataList.match > 69, 
           })}
         >
           <Text
             className={styles.percentagefont}
             bold
-            color={isEmpty(dataList.match) ? 'white' : 'black'}
+            // color={isEmpty(dataList.match) ? 'white' : 'black'}
+            color='white'
           >
             {!isEmpty(dataList.match) ? dataList.match : '0'}%
           </Text>

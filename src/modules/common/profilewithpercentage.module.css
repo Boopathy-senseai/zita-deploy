@@ -13,7 +13,20 @@
   margin-top:2px;
 }
 .percentageStyle {
-  background-color: var(--color-secondary, #ffc203);
+  background-color:#00BE4B;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+  padding-bottom: 1px;
+  width: 36px;
+  position: absolute;
+  top: 38px;
+  left: 2.5px;
+}
+.percentageStyleAvg {
+  background-color:#EEAC17;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -26,7 +39,7 @@
   left: 2.5px;
 }
 .percentageStyleError {
-  background-color: var(--color-erro, #f94949);
+  background-color: #f94949;
   border-radius: 20px;
   display: flex;
   align-items: center;

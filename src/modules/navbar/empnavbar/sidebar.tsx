@@ -46,7 +46,7 @@ const Sidebar = ({ changes, data }: props) => {
 
 // PopupDropdown Set State
 
-const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(false);
+  const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(false);
   const [isJobsPopupDropdownOpen, setJobsPopupDropdownOpen] = useState(false);
   const [isCandiPopupDropdownOpen, setCandiPopupDropdownOpen] = useState(false);
   const [isCommPopupDropdownOpen, setCommPopupDropdownOpen] = useState(false);
@@ -827,7 +827,7 @@ if (super_user === true && roles === "Admin") {
               {is_plan ? (
                 changes ? (
                   <li
-                    title="Job Postings"
+                    title="Job Posting"
                     className={
                       pathname === '/job_list' ||
                       pathname.includes('/job_view') ||
@@ -848,13 +848,13 @@ if (super_user === true && roles === "Admin") {
                         color="primary"
                         style={{ color: '#581845', marginLeft: '3px' }}
                       >
-                        Job Postings
+                        Job Posting
                       </Text>
                     </LinkWrapper>
                   </li>
                 ) : (
                   <li
-                    title="Job Postings"
+                    title="Job Posting"
                     className={
                       pathname === '/job_list' ||
                       pathname.includes('/job_view') ||
@@ -883,7 +883,7 @@ if (super_user === true && roles === "Admin") {
                 )
               ) : (
                 <li
-                  title="Job Postings"
+                  title="Job Posting"
                   className={
                     pathname === '/job_list' ||
                     pathname.includes('/job_view') ||
@@ -907,7 +907,7 @@ if (super_user === true && roles === "Admin") {
                       color="primary"
                       style={{ color: '#581845', marginLeft: '3px' }}
                     >
-                      Job Postings
+                      Job Posting
                     </Text>
                   </a>
                 </li>
@@ -1002,7 +1002,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '7'
+                        // sessionStorage.getItem('superUserTab') === '7'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1021,7 +1022,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '7'
+                        // sessionStorage.getItem('superUserTab') === '7'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1029,6 +1031,7 @@ if (super_user === true && roles === "Admin") {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
+                          sessionStorage.setItem('template', '1')
                         }}
                         to={is_plan ? "/account_setting/settings?tab=7" : accountPath}
 
@@ -1048,7 +1051,8 @@ if (super_user === true && roles === "Admin") {
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTab') === '7'
+                      // sessionStorage.getItem('superUserTab') === '7'
+                      sessionStorage.getItem('template') === '1'
                         ? styles.select_row
                         : ''}
                   >
@@ -1079,7 +1083,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        // sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1098,7 +1103,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        // sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1106,6 +1112,7 @@ if (super_user === true && roles === "Admin") {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
+                        sessionStorage.setItem('template','1')
                         }}
                         to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
 
@@ -1125,7 +1132,8 @@ if (super_user === true && roles === "Admin") {
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTab') === '3'
+                      // sessionStorage.getItem('superUserTab') === '3'
+                      sessionStorage.getItem('template') === '1'
                         ? styles.select_row
                         : ''}
                   >
@@ -1156,7 +1164,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '2'
+                        // sessionStorage.getItem('superUserTab') === '2'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1175,7 +1184,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2'
+                        // sessionStorage.getItem('superUserTabTwo') === '2'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1183,6 +1193,7 @@ if (super_user === true && roles === "Admin") {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
+                        sessionStorage.setItem('template','1')
                         }}
                         to={is_plan ? "/account_setting/settings?tab=2" : accountPath}
 
@@ -1202,7 +1213,8 @@ if (super_user === true && roles === "Admin") {
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '2' 
+                      // sessionStorage.getItem('superUserTabTwo') === '2' 
+                      sessionStorage.getItem('template') === '1'
                         ? styles.select_row
                         : ''}
                   >
@@ -1233,7 +1245,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        // sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1252,7 +1265,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        // sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1260,6 +1274,7 @@ if (super_user === true && roles === "Admin") {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
+                        sessionStorage.setItem('template','1')
                         }}
                         to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
 
@@ -1279,7 +1294,8 @@ if (super_user === true && roles === "Admin") {
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTab') === '3' 
+                      // sessionStorage.getItem('superUserTab') === '3' 
+                      sessionStorage.getItem('template') === '1'
                         ? styles.select_row
                         : ''}
                   >
@@ -1310,7 +1326,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        // sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1329,7 +1346,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTab') === '3'
+                        // sessionStorage.getItem('superUserTab') === '3'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1337,6 +1355,7 @@ if (super_user === true && roles === "Admin") {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
+                        sessionStorage.setItem('template','1')
                         }}
                         to={is_plan ? "/account_setting/settings?tab=3" : accountPath}
 
@@ -1356,7 +1375,8 @@ if (super_user === true && roles === "Admin") {
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTab') === '3'
+                      // sessionStorage.getItem('superUserTab') === '3'
+                      sessionStorage.getItem('template') === '1'
                         ? styles.select_row
                         : ''}
                   >
@@ -1387,7 +1407,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2'
+                        // sessionStorage.getItem('superUserTabTwo') === '2'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1406,7 +1427,8 @@ if (super_user === true && roles === "Admin") {
                     <li
                       title="Tailor Workflow"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2'
+                        // sessionStorage.getItem('superUserTabTwo') === '2'
+                        sessionStorage.getItem('template') === '1'
                           ? styles.select_row
                           : ''}
                     >
@@ -1414,6 +1436,7 @@ if (super_user === true && roles === "Admin") {
                         className={styles.hoverview}
                         onClick={() => {
                           clearTab();
+                        sessionStorage.setItem('template','1')
                         }}
                         to={is_plan ? "/account_setting/settings?tab=2" : accountPath}
 
@@ -1433,7 +1456,8 @@ if (super_user === true && roles === "Admin") {
                   <li
                     title="Tailor Workflow"
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '2'
+                      // sessionStorage.getItem('superUserTabTwo') === '2'
+                      sessionStorage.getItem('template') === '1'
                         ? styles.select_row
                         : ''}
                   >
@@ -3944,7 +3968,7 @@ if (super_user === true && roles === "Admin") {
               {is_plan ? (
                 changes ? (
                   <li
-                    title="Job Postings"
+                    title="Job Posting"
                     className={
                       pathname === '/job_list' ||
                       pathname.includes('/job_view') ||
@@ -3967,14 +3991,14 @@ if (super_user === true && roles === "Admin") {
                         color="primary"
                         style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        Job Postings
+                        Job Posting
                       </Text>
                       </div>
                     </LinkWrapper>
                   </li>
                 ) : (
                   <li
-                    title="Job Postings"
+                    title="Job Posting"
                     className={
                       pathname === '/job_list' ||
                       pathname.includes('/job_view') ||
@@ -4005,7 +4029,7 @@ if (super_user === true && roles === "Admin") {
                 )
               ) : (
                 <li
-                  title="Job Postings"
+                  title="Job Posting"
                   className={
                     pathname === '/job_list' ||
                     pathname.includes('/job_view') ||
@@ -4029,7 +4053,7 @@ if (super_user === true && roles === "Admin") {
                       color="primary"
                       style={{ color: '#581845', marginRight: '10px' }}
                     >
-                      Job Postings
+                      Job Posting
                     </Text>
                   </a>
                 </li>

@@ -76,16 +76,22 @@ const CalenderCard = ({
   const handleIntegrateTab = () => {
     if (super_user === true && roles === "Admin") {
       sessionStorage.setItem('superUserTab','4')
+      sessionStorage.setItem('CommunicationDropdown','1')
     } else if (super_user === false && roles === "Admin") {
       sessionStorage.setItem('superUserTab', '2')
+      sessionStorage.setItem('CommunicationDropdown','1')
     } else if (roles === "Hiring" && !permission.includes('manage_account_settings') ) {
       sessionStorage.setItem('superUserTab', '1')
+      sessionStorage.setItem('CommunicationDropdown','1')
     } else if (roles === "Hiring" && permission.includes('manage_account_settings')) {
       sessionStorage.setItem('superUserTab', '2')
+      sessionStorage.setItem('CommunicationDropdown','1')
     } else if (roles === "HR" && !permission.includes('manage_account_settings')) {
       sessionStorage.setItem('superUserTabTwo', '1')
+      sessionStorage.setItem('CommunicationDropdown','1')
     } else if (roles === "HR" && permission.includes('manage_account_settings')) {
       sessionStorage.setItem('superUserTab','2')
+      sessionStorage.setItem('CommunicationDropdown','1')
     }
   }
 

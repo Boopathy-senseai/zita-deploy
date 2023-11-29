@@ -104,6 +104,11 @@ const Notification = () => {
     });
     setOpen(false);
   };
+  const handlecleartab = () => {
+    sessionStorage.removeItem('superUserTab');
+    sessionStorage.removeItem('superUserFalseTab');
+    sessionStorage.removeItem('superUserTabTwo');
+  }
   const myfunction = () => {
     {
       setOpen(true);
@@ -207,6 +212,9 @@ const Notification = () => {
                                         to={getPath}
                                         onClick={() => {
                                           handleReadNotification(list.id);
+                                          handlecleartab();
+                                          alert('hello')
+                                          sessionStorage.setItem('CandidateDropdown', '1');
                                         }}
                                       >
                                         <Flex
@@ -430,6 +438,8 @@ const Notification = () => {
                                         to={getPath}
                                         onClick={() => {
                                           handleReadNotification(list.id);
+                                          handlecleartab();
+                                          sessionStorage.setItem('CandidateDropdown', '1');
                                         }}
                                       >
                                         <Flex
@@ -649,6 +659,8 @@ const Notification = () => {
                                       to={getPath}
                                       onClick={() => {
                                         handleReadNotification(list.id);
+                                        handlecleartab();
+                                        sessionStorage.setItem('CandidateDropdown', '1');
                                       }}
                                     >
                                       <Flex
