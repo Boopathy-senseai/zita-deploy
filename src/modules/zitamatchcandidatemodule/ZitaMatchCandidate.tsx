@@ -1007,6 +1007,7 @@ const ZitaMatchCandidate = () => {
           display: 'flex',
           flexWrap: 'wrap',
           alignContent: 'flex-start',
+      
         }}
       >
         {total_applicants === 0 && (
@@ -1049,7 +1050,8 @@ const ZitaMatchCandidate = () => {
             );
           })}
         {total_applicants > 15 && (
-          <Flex middle className={styles.pagination}>
+          <Flex center middle className={styles.pagination}>
+            
             <Pangination
               maxPages={pageCount - 1}
               currentPage={isPage}

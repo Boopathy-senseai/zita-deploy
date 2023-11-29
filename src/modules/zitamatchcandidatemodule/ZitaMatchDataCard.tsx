@@ -809,7 +809,8 @@ dataList.invite,
                 ):(
                    (dataList.not_interested===false)&&
                   <Flex className={styles.flexproperty}>
-                     <SvgNotInterested></SvgNotInterested>
+                    <Flex marginLeft={6}>
+                     <SvgNotInterested></SvgNotInterested></Flex>
                      <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={13} title=' You can’t send Invite'>Not Interested</Text>
                 
                     </Flex>
