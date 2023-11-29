@@ -1232,6 +1232,12 @@ const saveasdraftfunction=()=>{
           </LinkWrapper>
         </Flex>
         <Flex row center>
+        {isBtnLoader||isnextLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <>
           <LinkWrapper
             to={routesPath.MY_JOB_POSTING}
           >
@@ -1239,13 +1245,29 @@ const saveasdraftfunction=()=>{
               {CANCEL}
             </Button>
           </LinkWrapper>
-          {/* <Button
-            types="secondary"
-            className={styles.draftBtn}
+          <LinkWrapper   
+            to={routesPath.MY_JOB_POSTING}
+            onClick={()=>{
+              setBtnLoader(true);
+              saveasdraftfunction();
+            }}
           >
-            Save as draft
-          </Button> */}
-             {isBtnLoader ? (
+            <Button 
+            types="secondary" className={styles.draftBtn}>
+              Save as draft
+            </Button>
+          </LinkWrapper>
+          <Button
+             onClick={() => {
+              nextfunction()
+             
+             }}
+          >
+            Next
+          </Button>
+          </>)}
+    
+             {/* {isBtnLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
@@ -1261,9 +1283,9 @@ const saveasdraftfunction=()=>{
             types="secondary" className={styles.draftBtn}>
               Save as draft
             </Button>
-          </LinkWrapper>)}
+          </LinkWrapper>)} */}
        
-          {isnextLoader ? (
+          {/* {isnextLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
@@ -1276,7 +1298,7 @@ const saveasdraftfunction=()=>{
              }}
           >
             Next
-          </Button>)}
+          </Button>)} */}
         </Flex>
       </Flex>
     </div>

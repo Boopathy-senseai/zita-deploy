@@ -105,14 +105,15 @@ const StandardJobPosting = ({
           </LinkWrapper>
 
           <Flex row center>
-            {isBtnLoader ? (
+            {isBtnLoader ||isEditLoader||isUpgradeLoader||postLoader? (
               <Flex className={styles.updateBtnLoader}>
                 <Loader size="small" withOutOverlay />
               </Flex>
-            ) : (
+            ) : (<>
               <LinkWrapper target={'_parent'} to={routesPath.MY_JOB_POSTING} onClick={() => { setBtnLoader(true) }}>
                 <Button types="secondary">Save as draft</Button>
-              </LinkWrapper>)}
+              </LinkWrapper>
+
             {ds_role === true && (
 
 
@@ -121,10 +122,10 @@ const StandardJobPosting = ({
                 to={`/jobs/create_ds_edit/${jdId}`}
                 onClick={() => setEditLoader(true)}
               >
-                {isEditLoader ? (
-                  <Flex className={styles.updateBtnLoader}>
-                    <Loader size="small" withOutOverlay />
-                  </Flex>
+                {isEditLoader ? (''
+                  // <Flex className={styles.updateBtnLoader}>
+                  //   <Loader size="small" withOutOverlay />
+                  // </Flex>
                 ) : (
                   <Button types="secondary" className={styles.editBtn}>
                     Edit
@@ -137,10 +138,10 @@ const StandardJobPosting = ({
                 to={`/jobs/create_non_ds_edit/${jdId}`}
                 onClick={() => setEditLoader(true)}
               >
-                {isEditLoader ? (
-                  <Flex className={styles.updateBtnLoader}>
-                    <Loader size="small" withOutOverlay />
-                  </Flex>
+                {isEditLoader ? (''
+                  // <Flex className={styles.updateBtnLoader}>
+                  //   <Loader size="small" withOutOverlay />
+                  // </Flex>
                 ) : (
                   <Button types="secondary" className={styles.editBtn}>
                     Edit
@@ -150,10 +151,10 @@ const StandardJobPosting = ({
             {feature === 0 ? (
               super_user === false ?
                 <Flex>
-                  {isUpgradeLoader ? (
-                    <Flex className={styles.updateBtnLoader}>
-                      <Loader size="small" withOutOverlay />
-                    </Flex>
+                  {isUpgradeLoader ? (''
+                    // <Flex className={styles.updateBtnLoader}>
+                    //   <Loader size="small" withOutOverlay />
+                    // </Flex>
                   ) : (
                     <Button
                       onClick={() => {
@@ -170,10 +171,10 @@ const StandardJobPosting = ({
                 <LinkWrapper
                   to="/account_setting/settings?planFocus=focus"
                 >
-                  {isUpgradeLoader ? (
-                    <Flex className={styles.updateBtnLoader}>
-                      <Loader size="small" withOutOverlay />
-                    </Flex>
+                  {isUpgradeLoader ? (''
+                    // <Flex className={styles.updateBtnLoader}>
+                    //   <Loader size="small" withOutOverlay />
+                    // </Flex>
                   ) : (
                     <Button
                       onClick={() => {
@@ -185,10 +186,10 @@ const StandardJobPosting = ({
 
             ) : (
               <>
-                {postLoader ? (
-                  <Flex className={styles.updateBtnLoader}>
-                    <Loader size="small" withOutOverlay />
-                  </Flex>
+                {postLoader ? (''
+                  // <Flex className={styles.updateBtnLoader}>
+                  //   <Loader size="small" withOutOverlay />
+                  // </Flex>
                 ) : (
                   <Button onClick={() => {
                     hanldePulish();
@@ -203,7 +204,7 @@ const StandardJobPosting = ({
               }
               open={isOpenPlanDetails}
               btnOnclick={() => setOpenPlanDetails(false)}
-            />
+            /></>)}
           </Flex>
         </Flex>
       </Flex>
