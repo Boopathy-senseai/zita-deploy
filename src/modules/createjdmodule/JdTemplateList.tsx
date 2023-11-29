@@ -80,10 +80,17 @@ const JdTemplateList = ({
   const parser = new DOMParser();
   const handlemessage = (values) => {
     const doc = parser.parseFromString(values, 'text/html');
-    const secondTag = doc.querySelector('body > :nth-child(2)'); // Selecting the second tag
-    const textContent = secondTag ? secondTag.textContent.trim() : '';
-  //  console.log('Text content of the second tag:', textContent);
-    return textContent;
+    const { children } = doc.body;
+    for (let i = 0; i < children.length; i++) {
+      const { textContent } = children[i];
+      const trimmedContent = textContent.trim();
+  
+      // Check if the text content has more than 10 words
+      if (trimmedContent.split(/\s+/).length > 6) {
+        return trimmedContent;
+      }
+    }
+    return '';
   };
 
   return (
