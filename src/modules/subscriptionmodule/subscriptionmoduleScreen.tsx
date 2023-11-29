@@ -1,43 +1,87 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import { Flex, Text, Modal, Button, Card } from '../../uikit';
 import SvgClose from '../../icons/SvgClose';
-import styles from '../subscriptionmodule/subscriptionscreen.module.css';
 import SvgTick from '../../icons/SvgTick';
 import { SUCCESS } from '../../uikit/Colors/colors';
-
+import { SubsriptionMiddleWare } from '../navbar/empnavbar/store/navbarmiddleware';
+import styles from '../subscriptionmodule/subscriptionscreen.module.css';
 type Props = {
   currentplan?: any;
   nextplan?: any;
   openmodel: boolean;
-  setopensubcription:(a:any)=>void;
+  setopensubcription: (a: any) => void;
 };
-const SubscriptionModal = ({ currentplan, nextplan, openmodel,setopensubcription }: Props) => {
+const SubscriptionModal = ({
+  currentplan,
+  nextplan,
+  openmodel,
+  setopensubcription,
+}: Props) => {
+  const dispatch: AppDispatch = useDispatch();
   const [isShowPass, setShowPass] = useState(true);
+  const [oldplan, setoldplan] = useState(null);
+  const [Nextplan, setnextplan] = useState(null);
+
+  const { current_plan, current_jd_count, total_plan, isLoading } = useSelector(
+    ({ SubscriptionReducers }: RootState) => ({
+      current_plan: SubscriptionReducers.current_plan,
+      current_jd_count: SubscriptionReducers.current_jd_count,
+      total_plan: SubscriptionReducers.total_plan,
+      isLoading: SubscriptionReducers.isLoading,
+    }),
+  );
+
+  useEffect(() => {
+    get_currentplan();
+    get_nextplan();
+  }, [current_plan]);
+
+  const get_currentplan = () => {
+    const foundPlan = total_plan.find((plan) => plan.plan_id === current_plan);
+    setoldplan(foundPlan);
+  };
+
+  const get_nextplan = () => {
+    const foundPlan = total_plan.find(
+      (plan) => plan.plan_id === current_plan + 1,
+    );
+    setnextplan(foundPlan);
+  };
+
+  console.log('aaaa', current_plan, current_jd_count, total_plan, isLoading);
 
   return (
     <>
+      {console.log('11111', oldplan)}
+      {console.log('222222', Nextplan)}
       <Modal open={openmodel}>
         <Flex className={styles.subscriptionmodule}>
           <Flex row between className={styles.bottomborder}>
             <Flex marginBottom={5}>
               <Text bold>Upgrade your plan</Text>
             </Flex>
-            <Flex onClick={()=>setopensubcription(false)} style={{cursor:'pointer'}}> 
+            <Flex
+              onClick={() => setopensubcription(false)}
+              style={{ cursor: 'pointer' }}
+            >
               <SvgClose
                 width={10}
                 height={10}
                 fill={'#888888'}
-                cursor={'pointer'} 
+                cursor={'pointer'}
               />
             </Flex>
           </Flex>
           <Flex className={styles.container}>
             <Flex className={styles.section1}>
               <Flex row between>
-                <Text bold>Basic</Text>
+                <Text bold>{oldplan.plan_name}</Text>
                 <Text>
-                  <span style={{ fontWeight: 'bold' }}>$39</span>/month
+                  <span style={{ fontWeight: 'bold' }}>${oldplan.price}</span>
+                  /month
                 </Text>
               </Flex>
 
@@ -69,9 +113,10 @@ const SubscriptionModal = ({ currentplan, nextplan, openmodel,setopensubcription
             </Flex>
             <Flex className={styles.section3}>
               <Flex row between>
-                <Text bold>Professional</Text>
+                <Text bold>{Nextplan.plan_name}</Text>
                 <Text>
-                  <span style={{ fontWeight: 'bold' }}>$99</span>/month
+                  <span style={{ fontWeight: 'bold' }}>${Nextplan.price}</span>
+                  /month
                 </Text>
               </Flex>
 

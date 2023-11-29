@@ -10,9 +10,14 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
-import { getBlur, getFocus, copyToClipboard, isEmpty } from '../../uikit/helper';
+import {
+  getBlur,
+  getFocus,
+  copyToClipboard,
+  isEmpty,
+} from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
-import { jobCreateNonDs } from '../../appRoutesPath'
+import { jobCreateNonDs } from '../../appRoutesPath';
 import { AppDispatch, RootState } from '../../store';
 import SvgSubcriptioncrown from '../../icons/Subscriptioncrown';
 import SvgInfo from '../../icons/SvgInfo';
@@ -55,8 +60,8 @@ const MyJobPostingScreen = () => {
     });
   }, []);
   useEffect(() => {
-    dispatch(SubsriptionMiddleWare())
-  }, [])
+    dispatch(SubsriptionMiddleWare());
+  }, []);
 
   const {
     location_list,
@@ -78,7 +83,7 @@ const MyJobPostingScreen = () => {
       myJobPosingReducers,
       myJobPostingDataReducers,
       permissionReducers,
-      SubscriptionReducers
+      SubscriptionReducers,
     }: RootState) => ({
       // Jobs_List:0,
       Jobs_List: myJobPostingDataReducers.Jobs_List,
@@ -99,7 +104,7 @@ const MyJobPostingScreen = () => {
     }),
   );
 
-  console.log(current_plan, current_jd_count, 'hi_maple')
+  console.log(current_plan, current_jd_count, 'hi_maple');
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -109,9 +114,8 @@ const MyJobPostingScreen = () => {
 
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
-
 
   const usersPerPage = 10;
   const pageCount = Math.ceil(len_list / usersPerPage);
@@ -151,7 +155,6 @@ const MyJobPostingScreen = () => {
           page: isPage + 1,
         }),
       );
-
   }, [isPage, change, formik.values]);
 
   useEffect(() => {
@@ -161,10 +164,6 @@ const MyJobPostingScreen = () => {
       onPristine();
     }
   }, [isReload]);
-
-
-
-
 
   return (
     <Flex className={styles.overFlowContainer}>
@@ -182,13 +181,10 @@ const MyJobPostingScreen = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </div>
-      {current_jd_count === 0 &&
+      {current_jd_count === 0 && (
         <Flex row center className={styles.warningFlex}>
           <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-          <Text
-            style={{ color: '#333333' }}
-            className={styles.warningText}
-          >
+          <Text style={{ color: '#333333' }} className={styles.warningText}>
             <Text
               style={{
                 color: '#2E6ADD',
@@ -200,39 +196,77 @@ const MyJobPostingScreen = () => {
               Heads Up!{' '}
             </Text>
             <Text>To post a job, you have the option to either </Text>
-            <Text bold color='theme' onClick={() => setopensubcription(true)} style={{ cursor: 'pointer' }}>Upgrade</Text>
+            <Text
+              bold
+              color="theme"
+              onClick={() => setopensubcription(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              Upgrade
+            </Text>
             <Text> your subscription or explore our </Text>
-            <Text color='theme' bold onClick={() => setopensubcription(true)} style={{ cursor: 'pointer' }}>Add-on </Text>
+            <Text
+              color="theme"
+              bold
+              onClick={() => setopensubcription(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              Add-on{' '}
+            </Text>
             <Text>features.</Text>
           </Text>
-        </Flex>}
+        </Flex>
+      )}
       {Jobs_List === 2 && (
         <Flex>
           <div className={cx('tabsContainer')}>
             <Flex row between className={styles.searchbox}>
               <Flex row>
-                <Flex><Totalcount name="Total Jobs Found " numbers={len_list} /></Flex>
-                <Flex marginLeft={25}><Totalcount name="Available Job Posting" numbers={current_jd_count} /></Flex>
+                <Flex>
+                  <Totalcount name="Total Jobs Found " numbers={len_list} />
+                </Flex>
+                <Flex marginLeft={25}>
+                  <Totalcount
+                    name="Available Job Posting"
+                    numbers={current_jd_count}
+                  />
+                </Flex>
               </Flex>
               <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
                   <>
-                    {current_jd_count !== 0 ?
+                    {current_jd_count !== 0 ? (
                       <LinkWrapper to={jobCreateNonDs}>
                         <Button className={styles.style1} types="primary">
-                          <Text color='white'>Post Jobs</Text>
+                          <Text color="white">Post Jobs</Text>
                         </Button>
-
-                      </LinkWrapper> :
-                      <Button style={{ cursor: 'pointer' }} className={styles.style1} types="primary" onClick={() => setopensubcription(true)}>
+                      </LinkWrapper>
+                    ) : (
+                      <Button
+                        style={{ cursor: 'pointer' }}
+                        className={styles.style1}
+                        types="primary"
+                        onClick={() => setopensubcription(true)}
+                      >
                         <Flex row>
                           <Flex style={{ cursor: 'pointer' }}>
-                            <Text color='white'>Post Jobs</Text>
-                          </Flex >
-                          <Flex marginLeft={5} marginTop={1} style={{ cursor: 'pointer' }}><SvgSubcriptioncrown height={14} width={14} fill='' /></Flex>
+                            <Text color="white">Post Jobs</Text>
+                          </Flex>
+                          <Flex
+                            marginLeft={5}
+                            marginTop={1}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <SvgSubcriptioncrown
+                              height={14}
+                              width={14}
+                              fill=""
+                            />
+                          </Flex>
                         </Flex>
-                      </Button>}
+                      </Button>
+                    )}
                   </>
                 )}
                 <LinkWrapper
@@ -265,7 +299,6 @@ const MyJobPostingScreen = () => {
                   currentPage={isPage}
                   setCurrentPage={handleSetPagination}
                 />
-
               </Flex>
             </Flex>
           </div>
@@ -273,7 +306,7 @@ const MyJobPostingScreen = () => {
       )}
       {console.log(len_list, 'len_listlen_list')}
       {len_list === 0 && Jobs_List !== 1 && (
-        <Flex center style={{ height: "100%" }}>
+        <Flex center style={{ height: '100%' }}>
           <Flex
             className="container"
             flex={1}
@@ -281,7 +314,9 @@ const MyJobPostingScreen = () => {
             middle
             width={window.innerWidth - 570}
           >
-            <Flex center middle><SvgNoData width={16} height={16} fill={'#888888'} /></Flex>
+            <Flex center middle>
+              <SvgNoData width={16} height={16} fill={'#888888'} />
+            </Flex>
             <Text
               style={{
                 color: 'gray',
@@ -297,7 +332,9 @@ const MyJobPostingScreen = () => {
         <Flex middle className={styles.overAll2}>
           <Flex center>
             <Flex center>
-              <Text className={styles.postyet1} size={13}>No Job Posts - Yet !</Text>
+              <Text className={styles.postyet1} size={13}>
+                No Job Posts - Yet !
+              </Text>
             </Flex>
             <Flex center>
               <Text className={styles.postyet2} size={13}>
@@ -319,8 +356,14 @@ const MyJobPostingScreen = () => {
           </Flex>{' '}
         </Flex>
       )}
-      {isopensubcription &&
-        <SubscriptionModal currentplan={current_plan} nextplan={current_plan + 1} openmodel={isopensubcription} setopensubcription={setopensubcription} />}
+      {isopensubcription && (
+        <SubscriptionModal
+          currentplan={current_plan}
+          nextplan={current_plan + 1}
+          openmodel={isopensubcription}
+          setopensubcription={setopensubcription}
+        />
+      )}
       {isLoad && <Loader />}
     </Flex>
   );
