@@ -458,8 +458,7 @@ const Sidebar = ({ changes, data }: props) => {
     <>
       {isopensubcription &&
         <SubscriptionModal
-          currentplan={current_plan}
-          nextplan={current_plan + 1}
+        addon_name={['Job Posting Credits']}
           openmodel={isopensubcription}
           setopensubcription={setopensubcription} />}
       <div

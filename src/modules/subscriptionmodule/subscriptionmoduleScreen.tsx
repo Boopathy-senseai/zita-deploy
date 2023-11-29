@@ -13,18 +13,20 @@ type Props = {
   nextplan?: any;
   openmodel: boolean;
   setopensubcription: (a: any) => void;
+  addon_name?: any;
 };
 const SubscriptionModal = ({
   currentplan,
   nextplan,
   openmodel,
   setopensubcription,
+  addon_name
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isShowPass, setShowPass] = useState(true);
   const [oldplan, setoldplan] = useState(null);
   const [Nextplan, setnextplan] = useState(null);
-
+  console.log(addon_name, 'addon_idaddon_id')
   const {
     current_plan,
     current_jd_count,
@@ -62,7 +64,7 @@ const SubscriptionModal = ({
 
   return (
     <>
-      {console.log('11111', oldplan)}
+      {console.log('11111', oldplan,)}
       {console.log('222222', add_on_plans)}
       <Modal open={openmodel}>
         <Flex className={styles.subscriptionmodule}>
@@ -165,10 +167,10 @@ const SubscriptionModal = ({
               Available Add-on feature.
             </Text>
 
-            <Flex marginTop={20}>
-              <Button>Job Credits</Button>
 
-              {add_on_plans.map((val, index) => (
+            {add_on_plans && add_on_plans?.filter(item => addon_name?.includes(item?.addon_id__name)).map((val, index) => (
+              <Flex marginTop={20} key={index}>
+                <Button>{val.addon_id__name}</Button> 
                 <>
                   <Card className={styles.cards}>
                     <Flex className={styles.creditcontainer}>
@@ -193,8 +195,8 @@ const SubscriptionModal = ({
                     </Flex>
                   </Card>
                 </>
-              ))}
-            </Flex>
+              </Flex>
+            ))}
           </Flex>
         </Flex>
       </Modal>

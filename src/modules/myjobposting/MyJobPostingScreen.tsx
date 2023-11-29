@@ -365,6 +365,7 @@ const MyJobPostingScreen = () => {
           nextplan={current_plan + 1}
           openmodel={isopensubcription}
           setopensubcription={setopensubcription}
+          addon_name={['Job Posting Credits']}
         />
       )}
       {isLoad && <Loader />}
