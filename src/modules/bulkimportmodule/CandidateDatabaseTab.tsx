@@ -755,6 +755,7 @@ const CandidateDatabaseTab = ({
         <SubscriptionModal 
           openmodel={isopensubcription}
           setopensubcription={setopensubcription}
+          addon_name={['AI Resume Parsing Credits']}
         />
       )}
 

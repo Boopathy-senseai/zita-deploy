@@ -45,27 +45,20 @@ const SubscriptionModal = ({
     get_nextplan();
   }, [current_plan]);
 
-  const get_currentplan = () => {
-    const foundPlan = total_plan.find((plan) => plan.plan_id === current_plan);
-    console.log('?', total_plan);
-    console.log('/', foundPlan);
+  const get_currentplan = () => { 
+    const foundPlan = total_plan.find((plan) => plan.plan_id === current_plan); 
     setoldplan(foundPlan);
   };
 
   const get_nextplan = () => {
     const foundPlan = total_plan.find(
       (plan) => plan.plan_id === current_plan + 1,
-    );
-    console.log('//', foundPlan);
+    ); 
     setnextplan(foundPlan);
-  };
-
-  console.log('aaaa', current_plan, current_jd_count, total_plan, isLoading);
+  }; 
 
   return (
-    <>
-      {console.log('11111', oldplan,)}
-      {console.log('222222', add_on_plans)}
+    <> 
       <Modal open={openmodel}>
         <Flex className={styles.subscriptionmodule}>
           <Flex row between className={styles.bottomborder}>
@@ -160,44 +153,42 @@ const SubscriptionModal = ({
           ) : (
             ''
           )}
+          {add_on_plans && add_on_plans?.filter(item => addon_name?.includes(item?.addon_id__name)).length !== 0 && (<>
+            <Flex marginTop={10} style={{ border: '0.5px solid #C3C3C3' }}></Flex>
 
-          <Flex marginTop={10} style={{ border: '0.5px solid #C3C3C3' }}></Flex>
-          <Flex>
             <Text bold style={{ marginTop: '20px' }}>
               Available Add-on feature.
             </Text>
-
-
-            {add_on_plans && add_on_plans?.filter(item => addon_name?.includes(item?.addon_id__name)).map((val, index) => (
-              <Flex marginTop={20} key={index}>
-                <Button>{val.addon_id__name}</Button> 
-                <>
-                  <Card className={styles.cards}>
-                    <Flex className={styles.creditcontainer}>
-                      <Flex className={styles.creditflex1}>
-                        Includes CV Parsing & AI Matching, Unlock Candidate
-                        Contact, Complete Zita Profile View,Candidate Portal
-                      </Flex>
-                      <Flex className={styles.creditflex2}>
-                        <Text style={{ marginTop: '10px' }}>
-                          <span style={{ fontWeight: 'bold' }}>
-                            {' '}
-                            $ {val.price}
-                          </span>
-                          / {val.value} Job post
-                        </Text>
-                      </Flex>
-                      <Flex className={styles.creditflex3}>
-                        <Flex marginTop={15}>
-                          <Button>Discover</Button>
-                        </Flex>
-                      </Flex>
+          </>
+          )}
+          {add_on_plans && add_on_plans?.filter(item => addon_name?.includes(item?.addon_id__name)).map((val, index) => (
+            <Flex marginTop={20} key={index}>
+              <Button>{val.addon_id__name}</Button>
+              <>
+                <Card className={styles.cards}>
+                  <Flex className={styles.creditcontainer} flex={12} center >
+                    <Flex flex={7}>
+                      Includes CV Parsing & AI Matching, Unlock Candidate
+                      Contact, Complete Zita Profile View,Candidate Portal
                     </Flex>
-                  </Card>
-                </>
-              </Flex>
-            ))}
-          </Flex>
+                    <Flex flex={3} marginLeft={15}>
+                      <Text>
+                        <span style={{ fontWeight: 'bold' }}>
+                          {' '}
+                          $ {val.price}
+                        </span>
+                        /{' '} {val.value} Job post
+                      </Text>
+                    </Flex>
+                    <Flex flex={2} end marginRight={10}> 
+                        <Button>Discover</Button> 
+                    </Flex>
+                  </Flex>
+                </Card>
+              </>
+            </Flex>
+          ))}
+
         </Flex>
       </Modal>
     </>

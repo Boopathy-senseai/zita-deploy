@@ -41,6 +41,7 @@ export interface SubsriptionReducerState {
   current_resume_count: number;
   total_plan:Subscription[];
   add_on_plans:addon[]; 
+  differences:[];
 }
 
 export interface Subscription {
@@ -66,4 +67,5 @@ export interface addon{
   value?: number,
   carry_forward?: boolean,
   plan_id?: number
-}
+} 
+ 

@@ -64,7 +64,8 @@ const SubscriptionState: SubsriptionReducerState = {
     value: 0,
     carry_forward: false,
     plan_id: 0
-  }]
+  }],
+  differences:[]
 };
 
 const SubscriptionReducer = createSlice({
@@ -84,6 +85,7 @@ const SubscriptionReducer = createSlice({
       state.current_resume_count = action.payload.current_resume_count;
       state.total_plan = action.payload.total_plan;
       state.add_on_plans = action.payload.add_on_plans;
+      state.differences = action.payload.differences;
     });
     builder.addCase(SubsriptionMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

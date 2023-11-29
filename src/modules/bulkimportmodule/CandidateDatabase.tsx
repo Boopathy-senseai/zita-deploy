@@ -604,6 +604,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           <SubscriptionModal
             openmodel={this.state.isopensubcription}
             setopensubcription={() => this.setState({ isopensubcription: !this.state.isopensubcription })}
+            addon_name={['AI Resume Parsing Credits']}
           />
         )}
       </>
